@@ -11,21 +11,44 @@ export class GameAudio {
   private baseUrl: string;
   private musicSource: AudioBufferSourceNode | null = null;
   private musicGain: GainNode | null = null;
-  private currentMusic: string | null = null;
-  private unlocked = false;
+  /** the track we want playing (retried once audio unlocks) */
+  private wantMusic: string | null = null;
+  private wantMusicVol = 0.3;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
   }
 
+  /**
+   * Must be called from a user gesture. Mobile browsers (esp. iOS Safari)
+   * keep the AudioContext suspended until a gesture resumes it AND a buffer
+   * is played; resume() can also lapse, so this is safe to call on every
+   * gesture, not just the first.
+   */
   unlock(): void {
-    if (this.unlocked) return;
+    if (!this.ctx) {
+      try {
+        const Ctor = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+        this.ctx = new Ctor();
+      } catch {
+        this.ctx = null;
+        return;
+      }
+    }
+    if (this.ctx.state === 'suspended') void this.ctx.resume();
+    // iOS: a near-silent buffer played in the gesture actually unlocks output
     try {
-      this.ctx = new AudioContext();
-      void this.ctx.resume();
-      this.unlocked = true;
+      const buf = this.ctx.createBuffer(1, 1, 22050);
+      const src = this.ctx.createBufferSource();
+      src.buffer = buf;
+      src.connect(this.ctx.destination);
+      src.start(0);
     } catch {
-      this.ctx = null;
+      // ignore
+    }
+    // start (or resume) the music we wanted before audio was available
+    if (this.wantMusic && !this.musicSource && this.musicOn) {
+      this.startMusic(this.wantMusic, this.wantMusicVol);
     }
   }
 
@@ -73,12 +96,18 @@ export class GameAudio {
   }
 
   playMusic(name: string, volume = 0.3): void {
-    if (this.currentMusic === name) return;
-    this.currentMusic = name;
+    if (this.wantMusic === name && this.musicSource) return; // already playing
+    this.wantMusic = name;
+    this.wantMusicVol = volume;
     this.stopMusicFade();
-    if (!this.musicOn || !this.ctx) return;
+    this.startMusic(name, volume);
+  }
+
+  /** Begin a track if audio is ready; otherwise it's retried on unlock. */
+  private startMusic(name: string, volume: number): void {
+    if (!this.musicOn || !this.ctx || this.ctx.state !== 'running') return;
     void this.getBuffer(`music/${name}`).then((buf) => {
-      if (!buf || !this.ctx || this.currentMusic !== name || !this.musicOn) return;
+      if (!buf || !this.ctx || this.wantMusic !== name || !this.musicOn || this.musicSource) return;
       const src = this.ctx.createBufferSource();
       src.buffer = buf;
       src.loop = true;
@@ -92,7 +121,7 @@ export class GameAudio {
   }
 
   stopMusic(): void {
-    this.currentMusic = null;
+    this.wantMusic = null;
     this.stopMusicFade();
   }
 
@@ -116,13 +145,10 @@ export class GameAudio {
   setMusicOn(on: boolean): void {
     this.musicOn = on;
     if (!on) {
-      const name = this.currentMusic;
-      this.stopMusic();
-      this.currentMusic = name; // remember to resume on re-enable
-    } else if (this.currentMusic) {
-      const name = this.currentMusic;
-      this.currentMusic = null;
-      this.playMusic(name);
+      // keep wantMusic so it resumes when re-enabled; just stop playback
+      this.stopMusicFade();
+    } else if (this.wantMusic && !this.musicSource) {
+      this.startMusic(this.wantMusic, this.wantMusicVol);
     }
   }
 }

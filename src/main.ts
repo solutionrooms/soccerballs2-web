@@ -54,9 +54,14 @@ function activate(scene: Scene): void {
 }
 
 window.addEventListener('resize', () => renderer.resize());
+// Resume audio on every gesture (mobile contexts re-suspend), not just once.
 const unlock = (): void => audio.unlock();
-window.addEventListener('pointerdown', unlock, { once: true });
-window.addEventListener('keydown', unlock, { once: true });
+window.addEventListener('pointerdown', unlock);
+window.addEventListener('touchend', unlock);
+window.addEventListener('keydown', unlock);
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') audio.unlock();
+});
 // the debug viewer uses Tab; don't let it move focus
 window.addEventListener('keydown', (e) => {
   if (e.code === 'Tab') e.preventDefault();

@@ -131,9 +131,11 @@ export class LevelSelectScene implements Scene {
     g.fill();
     for (let t = 1; t <= 10; t++) {
       const got = ctx.save.trophies.includes(t);
-      if (!got) g.filter = 'grayscale(1) brightness(0.55)';
-      ctx.atlas.draw(g, 'Pickups_Trophies', t - 1, 390 + (t - 1) * 26, 505, { scale: 0.55 });
-      g.filter = 'none';
+      // dim uncollected via alpha (canvas `filter` is unsupported on older iOS)
+      ctx.atlas.draw(g, 'Pickups_Trophies', t - 1, 390 + (t - 1) * 26, 505, {
+        scale: 0.55,
+        alpha: got ? 1 : 0.22,
+      });
     }
     g.fillStyle = '#f7f546';
     fillTextSafe(g, `${ctx.save.trophies.length}/10`, 652, 496);
@@ -158,12 +160,26 @@ export class LevelSelectScene implements Scene {
         offsetY: pos.y,
         scale: ICON_SCALE,
         hidden: iconHidden,
-        filter: p.available ? undefined : 'grayscale(1) brightness(0.6)',
         textOverrides: {
           levelNumber: String(level + 1),
           coinpercent: `${coinPC}%`,
         },
       });
+      // locked levels: dim with a dark overlay + padlock (canvas `filter`
+      // grayscale is unsupported on older iOS, so it can't be relied on)
+      if (!p.available) {
+        g.save();
+        g.fillStyle = 'rgba(0,0,0,0.62)';
+        g.beginPath();
+        g.arc(pos.x + 12, pos.y + 8, 46, 0, Math.PI * 2);
+        g.fill();
+        g.fillStyle = 'rgba(255,255,255,0.9)';
+        g.font = uiFont(26);
+        g.textAlign = 'center';
+        g.textBaseline = 'middle';
+        g.fillText('\u{1F512}', pos.x + 12, pos.y + 10);
+        g.restore();
+      }
     }
 
     r.endFrame();

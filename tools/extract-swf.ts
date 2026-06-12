@@ -64,7 +64,13 @@ const sprites = new Map<number, Sprite>();
       spriteEndDepth = elemDepth;
     }
     // track element nesting via opens/closes (machine-generated, one tag per line)
-    if (t.startsWith('<') && !t.startsWith('</') && !t.endsWith('/>') && !t.startsWith('<?')) {
+    if (
+      t.startsWith('<') &&
+      !t.startsWith('</') &&
+      !t.endsWith('/>') &&
+      !t.startsWith('<?') &&
+      !t.includes('</') // single-line <item>text</item> opens AND closes
+    ) {
       elemDepth++;
     } else if (t.startsWith('</')) {
       elemDepth--;

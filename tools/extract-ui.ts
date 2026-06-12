@@ -45,7 +45,7 @@ function decode(s: string): string {
 const lines = readFileSync(XML_PATH, 'utf8').split('\n');
 
 // ---- pass 1: character kinds + text defs ----
-type Kind = 'sprite' | 'button' | 'text' | 'statictext' | 'shape' | 'image' | 'font' | 'other';
+type Kind = 'sprite' | 'button' | 'text' | 'statictext' | 'shape' | 'morph' | 'image' | 'font' | 'other';
 const kindById = new Map<number, Kind>();
 interface TextDef {
   html: string;
@@ -60,6 +60,8 @@ const textById = new Map<number, TextDef>();
 let pendingTextId = -1;
 const staticTextBounds = new Map<number, { x0: number; y0: number; x1: number; y1: number }>();
 let pendingStaticTextId = -1;
+const morphBounds = new Map<number, { x0: number; y0: number; x1: number; y1: number }>();
+let pendingMorphId = -1;
 
 for (const raw of lines) {
   const t = raw.trim();
@@ -98,6 +100,17 @@ for (const raw of lines) {
       y1: Number(attr(t, 'Ymax')) / 20,
     });
     pendingStaticTextId = -1;
+  } else if (t.startsWith('<item type="DefineMorphShape')) {
+    kindById.set(Number(attr(t, 'characterId')), 'morph');
+    pendingMorphId = Number(attr(t, 'characterId'));
+  } else if (pendingMorphId >= 0 && t.startsWith('<startBounds type="RECT"')) {
+    morphBounds.set(pendingMorphId, {
+      x0: Number(attr(t, 'Xmin')) / 20,
+      y0: Number(attr(t, 'Ymin')) / 20,
+      x1: Number(attr(t, 'Xmax')) / 20,
+      y1: Number(attr(t, 'Ymax')) / 20,
+    });
+    pendingMorphId = -1;
   } else if (t.startsWith('<item type="DefineShape')) {
     kindById.set(Number(attr(t, 'shapeId')), 'shape');
   } else if (t.startsWith('<item type="DefineBitsLossless') || t.startsWith('<item type="DefineBitsJPEG')) {
@@ -193,7 +206,13 @@ const sprites = new Map<number, SpriteFrames>();
       pendingLabel = null;
       spriteEndDepth = elemDepth;
     }
-    if (t.startsWith('<') && !t.startsWith('</') && !t.endsWith('/>') && !t.startsWith('<?')) {
+    if (
+      t.startsWith('<') &&
+      !t.startsWith('</') &&
+      !t.endsWith('/>') &&
+      !t.startsWith('<?') &&
+      !t.includes('</') // single-line <item>text</item> opens AND closes
+    ) {
       elemDepth++;
     } else if (t.startsWith('</')) {
       elemDepth--;
@@ -359,6 +378,7 @@ function boundsOf(charId: number, visited = new Set<number>()): Rect | null {
   const kind = kindById.get(charId);
   if (kind === 'shape') return shapeBounds.get(charId) ?? null;
   if (kind === 'statictext') return staticTextBounds.get(charId) ?? null;
+  if (kind === 'morph') return morphBounds.get(charId) ?? null;
   if (kind === 'text') {
     const td = textById.get(charId);
     return td ? { x0: td.x, y0: td.y, x1: td.x + td.w, y1: td.y + td.h } : null;
@@ -382,6 +402,18 @@ function boundsOf(charId: number, visited = new Set<number>()): Rect | null {
     return r;
   }
   return null;
+}
+
+// debug: trace bounds resolution for a specific id via DEBUG_ART env
+if (process.env.DEBUG_ART) {
+  const dbgId = Number(process.env.DEBUG_ART);
+  const sprite = sprites.get(dbgId);
+  console.error(`DEBUG ${dbgId}: kind=${kindById.get(dbgId)}, frames=${sprite?.frames.length}`);
+  for (const p of sprite?.frames[0]?.placements ?? []) {
+    console.error(
+      `  child ${p.charId} kind=${kindById.get(p.charId)} shapeBounds=${JSON.stringify(shapeBounds.get(p.charId))} bounds=${JSON.stringify(boundsOf(p.charId))}`,
+    );
+  }
 }
 
 const art: Record<string, { ox: number; oy: number; w: number; h: number }> = {};

@@ -9,6 +9,7 @@ import { newSave } from '../game/save-data';
 const SCREEN = 'screen_mainMenu';
 // portal-era buttons that don't apply to the web port
 const HIDDEN = new Set([
+  'mainLogo', // portal (Hooda) branding slot
   'btn_y8',
   'btn_moregames',
   'btn_facebook',

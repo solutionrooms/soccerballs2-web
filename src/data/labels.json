@@ -1,4 +1,130 @@
 {
+ "preloader_fla.buttonAnimationSquare_30": [
+  {
+   "frame": 0,
+   "label": "stopped"
+  },
+  {
+   "frame": 1,
+   "label": "over"
+  },
+  {
+   "frame": 7,
+   "label": "out"
+  },
+  {
+   "frame": 14,
+   "label": "clicked"
+  }
+ ],
+ "ui_fla.buttonAnimation_small1_23": [
+  {
+   "frame": 0,
+   "label": "stopped"
+  },
+  {
+   "frame": 1,
+   "label": "over"
+  },
+  {
+   "frame": 7,
+   "label": "out"
+  },
+  {
+   "frame": 14,
+   "label": "clicked"
+  }
+ ],
+ "ui_fla.buttonAnimationSquare_86": [
+  {
+   "frame": 0,
+   "label": "stopped"
+  },
+  {
+   "frame": 1,
+   "label": "over"
+  },
+  {
+   "frame": 7,
+   "label": "out"
+  },
+  {
+   "frame": 14,
+   "label": "clicked"
+  }
+ ],
+ "ui_fla.buttonAnimation_62": [
+  {
+   "frame": 0,
+   "label": "stopped"
+  },
+  {
+   "frame": 1,
+   "label": "over"
+  },
+  {
+   "frame": 7,
+   "label": "out"
+  },
+  {
+   "frame": 14,
+   "label": "clicked"
+  }
+ ],
+ "ui_fla.buttonAnimationFootball_112": [
+  {
+   "frame": 0,
+   "label": "stopped"
+  },
+  {
+   "frame": 1,
+   "label": "over"
+  },
+  {
+   "frame": 7,
+   "label": "out"
+  },
+  {
+   "frame": 14,
+   "label": "clicked"
+  }
+ ],
+ "ui_fla.buttonAnimationTriangle_95": [
+  {
+   "frame": 0,
+   "label": "stopped"
+  },
+  {
+   "frame": 1,
+   "label": "over"
+  },
+  {
+   "frame": 7,
+   "label": "out"
+  },
+  {
+   "frame": 14,
+   "label": "clicked"
+  }
+ ],
+ "ui_fla.buttonAnimation_45": [
+  {
+   "frame": 0,
+   "label": "stopped"
+  },
+  {
+   "frame": 1,
+   "label": "over"
+  },
+  {
+   "frame": 7,
+   "label": "out"
+  },
+  {
+   "frame": 14,
+   "label": "clicked"
+  }
+ ],
  "ui_fla.buttonAnimationColor_227": [
   {
    "frame": 0,
@@ -301,6 +427,24 @@
   {
    "frame": 106,
    "label": "run1_end"
+  }
+ ],
+ "ui_fla.buttonAnimationSquare_39": [
+  {
+   "frame": 0,
+   "label": "stopped"
+  },
+  {
+   "frame": 1,
+   "label": "over"
+  },
+  {
+   "frame": 7,
+   "label": "out"
+  },
+  {
+   "frame": 14,
+   "label": "clicked"
   }
  ],
  "starling": [

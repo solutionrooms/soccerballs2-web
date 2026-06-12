@@ -6,13 +6,24 @@ import { STAGE_W } from './defs';
 
 export const HUD_BUTTONS = new Set(['btn_sfxMute', 'btn_musicMute']);
 
+// Mute button hit boxes in stage space (from the ui_hud layout). Generous for
+// finger taps; the visible art is smaller.
+const SFX_BOX = { x0: 50, y0: 462, x1: 110, y1: 520 };
+const MUSIC_BOX = { x0: 0, y0: 462, x1: 58, y1: 520 };
+
+function inBox(b: { x0: number; y0: number; x1: number; y1: number }, x: number, y: number): boolean {
+  return x >= b.x0 && x <= b.x1 && y >= b.y0 && y <= b.y1;
+}
+
 export function renderHud(ctx: SceneContext, level: LevelState): void {
   const g = ctx.r.ctx;
-  const hover = ctx.ui.hitTest('ui_hud', 0, ctx.input.x, ctx.input.y, HUD_BUTTONS);
   ctx.ui.draw(g, 'ui_hud', 0, {
-    hover,
     textOverrides: { textScore: String(level.score), textTitle: '' },
   });
+
+  // muted-state feedback: a red strike through the button when its sound is off
+  strikeIfMuted(g, MUSIC_BOX, ctx.settings.musicOn);
+  strikeIfMuted(g, SFX_BOX, ctx.settings.sfxOn);
 
   const kicksLeft = Math.max(0, level.maxKicks - level.numKicks);
   ctx.font.draw(g, `SHOTS ${kicksLeft}`, 12, 8);
@@ -21,11 +32,32 @@ export function renderHud(ctx: SceneContext, level: LevelState): void {
   });
 }
 
-/** mute button clicks; returns true when the click was consumed */
+function strikeIfMuted(
+  g: CanvasRenderingContext2D,
+  b: { x0: number; y0: number; x1: number; y1: number },
+  on: boolean,
+): void {
+  if (on) return;
+  g.save();
+  g.strokeStyle = 'rgba(220,40,40,0.9)';
+  g.lineWidth = 3;
+  g.beginPath();
+  g.moveTo(b.x0 + 16, b.y0 + 18);
+  g.lineTo(b.x1 - 16, b.y1 - 18);
+  g.stroke();
+  g.restore();
+}
+
+/** mute button taps; returns true when consumed. */
 export function hudHandleClick(ctx: SceneContext): boolean {
-  const hit = ctx.ui.hitTest('ui_hud', 0, ctx.input.x, ctx.input.y, HUD_BUTTONS);
+  const x = ctx.input.x;
+  const y = ctx.input.y;
+  let hit: 'sfx' | 'music' | null = null;
+  if (inBox(SFX_BOX, x, y)) hit = 'sfx';
+  else if (inBox(MUSIC_BOX, x, y)) hit = 'music';
   if (!hit) return false;
-  if (hit === 'btn_sfxMute') {
+
+  if (hit === 'sfx') {
     ctx.settings.sfxOn = !ctx.settings.sfxOn;
     ctx.audio.sfxOn = ctx.settings.sfxOn;
   } else {

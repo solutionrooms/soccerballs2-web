@@ -125,20 +125,17 @@ export class GameScene implements Scene {
     // and clicks to kick.
     const playerAiming = this.level.phase === 'play' && this.objects.byName('football')?.state === 1;
     if (inp.isTouch) {
+      // mute buttons are checked first, unconditionally, so a tap on them is
+      // never swallowed by the pad/kick logic
+      const muteHit = inp.buttonPressed && hudHandleClick(ctx);
       const onPad = this.aimPad.contains(inp, ctx.r);
       this.aimPad.update(inp, ctx.r, !!playerAiming);
       // the pad aim persists, so the trajectory keeps showing
       this.g.aimOverride = this.aimPad.hasAim ? this.aimPad.vector : null;
-      // a tap on the field (not the pad, above the HUD) commits the kick with
-      // the current aim — releasing the pad never fires
-      if (inp.buttonPressed && !onPad && inp.y < 487) {
-        if (hudHandleClick(ctx)) {
-          // mute toggled
-        } else if (playerAiming && this.aimPad.hasAim) {
-          this.level.doKick = true;
-        }
-      } else if (inp.buttonPressed && !onPad) {
-        hudHandleClick(ctx);
+      // a tap on the field (not the pad, not a mute button) commits the kick
+      // with the current aim — releasing the pad never fires
+      if (inp.buttonPressed && !muteHit && !onPad && inp.y < 487 && playerAiming && this.aimPad.hasAim) {
+        this.level.doKick = true;
       }
     } else {
       this.g.aimOverride = null;

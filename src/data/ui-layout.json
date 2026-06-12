@@ -1,0 +1,8688 @@
+{
+ "screens": {
+  "screen_mainMenu": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 541,
+       "kind": "sprite",
+       "name": "btn_language",
+       "x": 593.95,
+       "y": 456.25,
+       "scaleX": 0.647,
+       "scaleY": 0.647,
+       "rotDeg": 0
+      },
+      {
+       "charId": 543,
+       "kind": "button",
+       "name": "btn_y8",
+       "x": 579.05,
+       "y": 114.2,
+       "scaleX": 0.85,
+       "scaleY": 0.85,
+       "rotDeg": 0
+      },
+      {
+       "charId": 545,
+       "kind": "sprite",
+       "name": "btn_clearSaveGame",
+       "x": 602.15,
+       "y": 5.15,
+       "scaleX": 0.651,
+       "scaleY": 0.651,
+       "rotDeg": 0
+      },
+      {
+       "charId": 549,
+       "kind": "sprite",
+       "name": "logo_soccerballs",
+       "x": 124.15,
+       "y": 26.5,
+       "scaleX": 0.906,
+       "scaleY": 0.906,
+       "rotDeg": 0
+      },
+      {
+       "charId": 555,
+       "kind": "button",
+       "name": "turboBtn",
+       "x": 43.7,
+       "y": 25.3,
+       "scaleX": 0.298,
+       "scaleY": 0.298,
+       "rotDeg": 0
+      },
+      {
+       "charId": 557,
+       "kind": "sprite",
+       "name": "",
+       "x": -24,
+       "y": 265.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 364,
+       "kind": "sprite",
+       "name": "mainLogo",
+       "x": 341.2,
+       "y": 882.3,
+       "scaleX": 1.056,
+       "scaleY": 1.056,
+       "rotDeg": 0
+      },
+      {
+       "charId": 559,
+       "kind": "sprite",
+       "name": "btn_playgame",
+       "x": 473.7,
+       "y": 213.2,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 473.7,
+       "y": 280.1,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 561,
+       "kind": "sprite",
+       "name": "btn_credits",
+       "x": 473.7,
+       "y": 347,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 563,
+       "kind": "sprite",
+       "name": "btn_facebook",
+       "x": 533.15,
+       "y": 462.4,
+       "scaleX": 0.913,
+       "scaleY": 0.913,
+       "rotDeg": 0
+      },
+      {
+       "charId": 565,
+       "kind": "sprite",
+       "name": "btn_download",
+       "x": 506.9,
+       "y": 413.85,
+       "scaleX": 0.984,
+       "scaleY": 0.984,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 6.75,
+       "y": 209.2,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "screen_levelSelect": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 187,
+       "kind": "sprite",
+       "name": "btn_back",
+       "x": 632.15,
+       "y": 19.3,
+       "scaleX": 1.561,
+       "scaleY": 1.561,
+       "rotDeg": 0
+      },
+      {
+       "charId": 335,
+       "kind": "sprite",
+       "name": "nextPage",
+       "x": 624.45,
+       "y": 236.7,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 335,
+       "kind": "sprite",
+       "name": "prevPage",
+       "x": 72.45,
+       "y": 236.7,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 180
+      },
+      {
+       "charId": 340,
+       "kind": "shape",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 341,
+       "kind": "text",
+       "name": "textTitle",
+       "x": 11.15,
+       "y": -4.15,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"left\"><font face=\"Komika Axis\" size=\"25\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">LEVEL SELECT</font></p>",
+        "fontHeightTwips": 500,
+        "align": 0,
+        "x": -2,
+        "y": -2,
+        "w": 217.95,
+        "h": 44.9
+       }
+      },
+      {
+       "charId": 338,
+       "kind": "text",
+       "name": "textLevelName",
+       "x": 161.35,
+       "y": 425.85,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"center\"><font face=\"Komika Axis\" size=\"16\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">LEVEL SELECT</font></p>",
+        "fontHeightTwips": 320,
+        "align": 2,
+        "x": -2,
+        "y": -2,
+        "w": 316.4,
+        "h": 32.85
+       }
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "screen_matchSelect": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 369,
+       "kind": "sprite",
+       "name": "matchPanel",
+       "x": 18,
+       "y": -27,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 372,
+       "kind": "sprite",
+       "name": "btn_pick1",
+       "x": 544.05,
+       "y": 378.95,
+       "scaleX": 2.034,
+       "scaleY": 2.034,
+       "rotDeg": 0
+      },
+      {
+       "charId": 372,
+       "kind": "sprite",
+       "name": "btn_pick0",
+       "x": 55.9,
+       "y": 378.95,
+       "scaleX": 2.034,
+       "scaleY": 2.034,
+       "rotDeg": 0
+      },
+      {
+       "charId": 373,
+       "kind": "shape",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 187,
+       "kind": "sprite",
+       "name": "btn_back",
+       "x": 632.15,
+       "y": 19.3,
+       "scaleX": 1.561,
+       "scaleY": 1.561,
+       "rotDeg": 0
+      },
+      {
+       "charId": 413,
+       "kind": "sprite",
+       "name": "homeTeam",
+       "x": 29.95,
+       "y": 120.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 432,
+       "kind": "sprite",
+       "name": "awayTeam",
+       "x": 372.9,
+       "y": 120.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 433,
+       "kind": "shape",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 434,
+       "kind": "statictext",
+       "name": "",
+       "x": 334.1,
+       "y": 304.25,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0
+      },
+      {
+       "charId": 435,
+       "kind": "text",
+       "name": "textTeamName0",
+       "x": 31.4,
+       "y": 297.3,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"right\"><font face=\"Komika Axis\" size=\"22\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">TEAM NAME</font></p>",
+        "fontHeightTwips": 440,
+        "align": 1,
+        "x": -2,
+        "y": -2,
+        "w": 235,
+        "h": 44.9
+       }
+      },
+      {
+       "charId": 436,
+       "kind": "text",
+       "name": "textTeamName1",
+       "x": 385.4,
+       "y": 297.3,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"left\"><font face=\"Komika Axis\" size=\"22\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">TEAM NAME</font></p>",
+        "fontHeightTwips": 440,
+        "align": 0,
+        "x": -2,
+        "y": -2,
+        "w": 236.65,
+        "h": 44.9
+       }
+      },
+      {
+       "charId": 437,
+       "kind": "text",
+       "name": "textPlayer",
+       "x": 36.5,
+       "y": 250.2,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"left\"><font face=\"Komika Axis\" size=\"15\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">player</font></p>",
+        "fontHeightTwips": 300,
+        "align": 0,
+        "x": -2,
+        "y": -2,
+        "w": 150.25,
+        "h": 28.55
+       }
+      },
+      {
+       "charId": 438,
+       "kind": "text",
+       "name": "textComputer",
+       "x": 522.35,
+       "y": 248.3,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"right\"><font face=\"Komika Axis\" size=\"15\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">computer</font></p>",
+        "fontHeightTwips": 300,
+        "align": 1,
+        "x": -2,
+        "y": -2,
+        "w": 120.4,
+        "h": 28.55
+       }
+      },
+      {
+       "charId": 216,
+       "kind": "sprite",
+       "name": "btn_playgame",
+       "x": 299.5,
+       "y": 384.25,
+       "scaleX": 2.331,
+       "scaleY": 2.331,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 434,
+       "kind": "statictext",
+       "name": "",
+       "x": 334.1,
+       "y": 304.25,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0
+      },
+      {
+       "charId": 435,
+       "kind": "text",
+       "name": "textTeamName0",
+       "x": 31.4,
+       "y": 297.3,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"right\"><font face=\"Komika Axis\" size=\"22\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">TEAM NAME</font></p>",
+        "fontHeightTwips": 440,
+        "align": 1,
+        "x": -2,
+        "y": -2,
+        "w": 235,
+        "h": 44.9
+       }
+      },
+      {
+       "charId": 436,
+       "kind": "text",
+       "name": "textTeamName1",
+       "x": 385.4,
+       "y": 297.3,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"left\"><font face=\"Komika Axis\" size=\"22\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">TEAM NAME</font></p>",
+        "fontHeightTwips": 440,
+        "align": 0,
+        "x": -2,
+        "y": -2,
+        "w": 236.65,
+        "h": 44.9
+       }
+      },
+      {
+       "charId": 437,
+       "kind": "text",
+       "name": "textPlayer",
+       "x": 36.5,
+       "y": 250.2,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"left\"><font face=\"Komika Axis\" size=\"15\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">player</font></p>",
+        "fontHeightTwips": 300,
+        "align": 0,
+        "x": -2,
+        "y": -2,
+        "w": 150.25,
+        "h": 28.55
+       }
+      },
+      {
+       "charId": 438,
+       "kind": "text",
+       "name": "textComputer",
+       "x": 522.35,
+       "y": 248.3,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"right\"><font face=\"Komika Axis\" size=\"15\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">computer</font></p>",
+        "fontHeightTwips": 300,
+        "align": 1,
+        "x": -2,
+        "y": -2,
+        "w": 120.4,
+        "h": 28.55
+       }
+      },
+      {
+       "charId": 216,
+       "kind": "sprite",
+       "name": "btn_playgame",
+       "x": 299.5,
+       "y": 384.25,
+       "scaleX": 2.331,
+       "scaleY": 2.331,
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "screen_pickATeam_alt": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 187,
+       "kind": "sprite",
+       "name": "btn_back",
+       "x": 632.15,
+       "y": 19.3,
+       "scaleX": 1.561,
+       "scaleY": 1.561,
+       "rotDeg": 0
+      },
+      {
+       "charId": 468,
+       "kind": "text",
+       "name": "textTitle",
+       "x": 11.15,
+       "y": -4.15,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"left\"><font face=\"Komika Axis\" size=\"25\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">Team Select / Modify</font></p>",
+        "fontHeightTwips": 500,
+        "align": 0,
+        "x": -2,
+        "y": -2,
+        "w": 357.25,
+        "h": 44.9
+       }
+      },
+      {
+       "charId": 482,
+       "kind": "sprite",
+       "name": "team1",
+       "x": 13.2,
+       "y": 117.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 482,
+       "kind": "sprite",
+       "name": "team4",
+       "x": 13.2,
+       "y": 259.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 482,
+       "kind": "sprite",
+       "name": "team7",
+       "x": 13.2,
+       "y": 401.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 482,
+       "kind": "sprite",
+       "name": "team2",
+       "x": 245.15,
+       "y": 117.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 482,
+       "kind": "sprite",
+       "name": "team5",
+       "x": 245.15,
+       "y": 259.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 482,
+       "kind": "sprite",
+       "name": "team8",
+       "x": 245.15,
+       "y": 401.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 482,
+       "kind": "sprite",
+       "name": "team3",
+       "x": 477.1,
+       "y": 117.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 482,
+       "kind": "sprite",
+       "name": "team6",
+       "x": 477.1,
+       "y": 259.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 482,
+       "kind": "sprite",
+       "name": "team9",
+       "x": 477.1,
+       "y": 401.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "screen_modifyTeam": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 490,
+       "kind": "sprite",
+       "name": "",
+       "x": -70.45,
+       "y": 69.55,
+       "scaleX": 1.084,
+       "scaleY": 1.084,
+       "rotDeg": 0
+      },
+      {
+       "charId": 504,
+       "kind": "sprite",
+       "name": "kit",
+       "x": 174.7,
+       "y": 185,
+       "scaleX": 1.084,
+       "scaleY": 1.084,
+       "rotDeg": 0
+      },
+      {
+       "charId": 187,
+       "kind": "sprite",
+       "name": "btn_back",
+       "x": 632.15,
+       "y": 19.3,
+       "scaleX": 1.561,
+       "scaleY": 1.561,
+       "rotDeg": 0
+      },
+      {
+       "charId": 509,
+       "kind": "sprite",
+       "name": "btn_shirt",
+       "x": 56.5,
+       "y": 145.05,
+       "scaleX": 2.05,
+       "scaleY": 2.05,
+       "rotDeg": 0
+      },
+      {
+       "charId": 512,
+       "kind": "sprite",
+       "name": "btn_pattern",
+       "x": 56.5,
+       "y": 235.55,
+       "scaleX": 2.05,
+       "scaleY": 2.05,
+       "rotDeg": 0
+      },
+      {
+       "charId": 515,
+       "kind": "sprite",
+       "name": "btn_shorts",
+       "x": 56.5,
+       "y": 326.05,
+       "scaleX": 2.05,
+       "scaleY": 2.05,
+       "rotDeg": 0
+      },
+      {
+       "charId": 518,
+       "kind": "sprite",
+       "name": "btn_socks",
+       "x": 56.5,
+       "y": 416.55,
+       "scaleX": 2.05,
+       "scaleY": 2.05,
+       "rotDeg": 0
+      },
+      {
+       "charId": 519,
+       "kind": "text",
+       "name": "textTitle",
+       "x": 11.15,
+       "y": -4.15,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"left\"><font face=\"Komika Axis\" size=\"25\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">TEAM EDITOR</font></p>",
+        "fontHeightTwips": 500,
+        "align": 0,
+        "x": -2,
+        "y": -2,
+        "w": 217.95,
+        "h": 44.9
+       }
+      },
+      {
+       "charId": 529,
+       "kind": "sprite",
+       "name": "palette",
+       "x": 396.45,
+       "y": 89.9,
+       "scaleX": 0.993,
+       "scaleY": 0.993,
+       "rotDeg": 0
+      },
+      {
+       "charId": 530,
+       "kind": "sprite",
+       "name": "btn_shirtPlain",
+       "x": 443.35,
+       "y": 437.9,
+       "scaleX": 2.416,
+       "scaleY": 2.416,
+       "rotDeg": 0
+      },
+      {
+       "charId": 533,
+       "kind": "sprite",
+       "name": "btn_shirtStripes",
+       "x": 526,
+       "y": 437.9,
+       "scaleX": 2.416,
+       "scaleY": 2.416,
+       "rotDeg": 0
+      },
+      {
+       "charId": 534,
+       "kind": "sprite",
+       "name": "btn_shirtHoops",
+       "x": 608.6,
+       "y": 437.9,
+       "scaleX": 2.416,
+       "scaleY": 2.416,
+       "rotDeg": 0
+      },
+      {
+       "charId": 371,
+       "kind": "sprite",
+       "name": "",
+       "x": 407.6,
+       "y": 81.55,
+       "scaleX": 0.585,
+       "scaleY": 0.585,
+       "rotDeg": 0
+      },
+      {
+       "charId": 535,
+       "kind": "text",
+       "name": "textTeamName",
+       "x": 51.1,
+       "y": 73.85,
+       "scaleX": 1.306,
+       "scaleY": 1.306,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"left\"><font face=\"Komika Axis\" size=\"20\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">TEAM NAME</font></p>",
+        "fontHeightTwips": 400,
+        "align": 0,
+        "x": -2,
+        "y": -2,
+        "w": 291.75,
+        "h": 41.6
+       }
+      }
+     ]
+    }
+   ]
+  },
+  "screen_levelComplete": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": -355.25,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": -348.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": -350.65,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": -343.9,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": -336.55,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": -330.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": -312.85,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": -308.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": -280,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": -276.85,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": -239.4,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": -238,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": -193.25,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": -193.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": -144.85,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": -145.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": -97.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": -98.35,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": -55.45,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": -54.75,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": -20.8,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": -18.1,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 4.55,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 9.35,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 19.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 26.1,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 120.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": -313.8,
+       "y": 159.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 327.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 333.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": -313.55,
+       "y": 191.3,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": -347.35,
+       "y": 247.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": 66.65,
+       "y": 224.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": 66.65,
+       "y": 224.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": 66.65,
+       "y": 224.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": 66.65,
+       "y": 224.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": 66.65,
+       "y": 224.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": 66.65,
+       "y": 224.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    },
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 217,
+       "kind": "sprite",
+       "name": "levelComplete",
+       "x": 24.75,
+       "y": 27.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 221,
+       "kind": "sprite",
+       "name": "adBox",
+       "x": 399.85,
+       "y": 31.7,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 228,
+       "kind": "sprite",
+       "name": "btn_moregames",
+       "x": 379.4,
+       "y": 279.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 230,
+       "kind": "sprite",
+       "name": "btn_walkthrough",
+       "x": 115.7,
+       "y": 303.3,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 234,
+       "kind": "sprite",
+       "name": "levelrating",
+       "x": 66.65,
+       "y": 224.7,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText2",
+       "x": 86.45,
+       "y": 174.8,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 238,
+       "kind": "sprite",
+       "name": "scoreText1",
+       "x": 86.2,
+       "y": 140.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 240,
+       "kind": "sprite",
+       "name": "levelName",
+       "x": 106.2,
+       "y": 90.1,
+       "scaleX": 0.93,
+       "scaleY": 0.93,
+       "rotDeg": 0
+      },
+      {
+       "charId": 245,
+       "kind": "sprite",
+       "name": "coinBox",
+       "x": 243.55,
+       "y": 477.9,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 269,
+       "kind": "sprite",
+       "name": "trophies",
+       "x": 371.7,
+       "y": 477.2,
+       "scaleX": 0.922,
+       "scaleY": 0.922,
+       "rotDeg": 0
+      },
+      {
+       "charId": 274,
+       "kind": "sprite",
+       "name": "btn_feature1",
+       "x": 378,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 276,
+       "kind": "sprite",
+       "name": "btn_feature2",
+       "x": 459,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 278,
+       "kind": "sprite",
+       "name": "btn_feature3",
+       "x": 539.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info1",
+       "x": 371.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info2",
+       "x": 453.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 284,
+       "kind": "sprite",
+       "name": "info3",
+       "x": 535.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 290,
+       "kind": "sprite",
+       "name": "btn_feature4",
+       "x": 618.95,
+       "y": 385.85,
+       "scaleX": 1.804,
+       "scaleY": 1.804,
+       "rotDeg": 0
+      },
+      {
+       "charId": 291,
+       "kind": "sprite",
+       "name": "info4",
+       "x": 617.8,
+       "y": 420.25,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "buttonPlayWithHighcores",
+       "x": 116.45,
+       "y": 410.4,
+       "scaleX": 1.366,
+       "scaleY": 1.366,
+       "rotDeg": 0
+      },
+      {
+       "charId": 306,
+       "kind": "sprite",
+       "name": "buttonLevelSelect",
+       "x": 26.5,
+       "y": 412,
+       "scaleX": 1.8,
+       "scaleY": 1.8,
+       "rotDeg": 0
+      },
+      {
+       "charId": 308,
+       "kind": "sprite",
+       "name": "btn_prequel",
+       "x": 126.1,
+       "y": 404,
+       "scaleX": 1.504,
+       "scaleY": 1.504,
+       "rotDeg": 0
+      },
+      {
+       "charId": 312,
+       "kind": "sprite",
+       "name": "highscore",
+       "x": 542.45,
+       "y": 205.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "screen_paused": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 151,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 153,
+       "kind": "sprite",
+       "name": "",
+       "x": 177.7,
+       "y": 152.1,
+       "scaleX": 1.193,
+       "scaleY": 1.193,
+       "rotDeg": 0
+      },
+      {
+       "charId": 653,
+       "kind": "text",
+       "name": "textTitle",
+       "x": 202.4,
+       "y": 152.4,
+       "scaleX": 1.193,
+       "scaleY": 1.193,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"center\"><font face=\"Komika Axis\" size=\"27\" color=\"#ff9900\" letterSpacing=\"0.000000\" kerning=\"1\">PAUSED</font></p>",
+        "fontHeightTwips": 540,
+        "align": 2,
+        "x": -2,
+        "y": -2,
+        "w": 248.85,
+        "h": 52.8
+       }
+      },
+      {
+       "charId": 215,
+       "kind": "sprite",
+       "name": "ButtonRestart",
+       "x": 312.8,
+       "y": 232.85,
+       "scaleX": 2.018,
+       "scaleY": 2.018,
+       "rotDeg": 0
+      },
+      {
+       "charId": 656,
+       "kind": "sprite",
+       "name": "ButtonQuit",
+       "x": 209.25,
+       "y": 232.85,
+       "scaleX": 2.018,
+       "scaleY": 2.018,
+       "rotDeg": 0
+      },
+      {
+       "charId": 216,
+       "kind": "sprite",
+       "name": "ButtonContinue",
+       "x": 416,
+       "y": 232.85,
+       "scaleX": 2.018,
+       "scaleY": 2.018,
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "screen_credits": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 172,
+       "kind": "shape",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 177,
+       "kind": "sprite",
+       "name": "link_longAnimals",
+       "x": 150.75,
+       "y": 155.25,
+       "scaleX": 0.896,
+       "scaleY": 0.896,
+       "rotDeg": 0
+      },
+      {
+       "charId": 181,
+       "kind": "sprite",
+       "name": "link_robotJam",
+       "x": 351,
+       "y": 155.25,
+       "scaleX": 0.896,
+       "scaleY": 0.896,
+       "rotDeg": 0
+      },
+      {
+       "charId": 183,
+       "kind": "sprite",
+       "name": "",
+       "x": 299.95,
+       "y": 180.1,
+       "scaleX": 1.083,
+       "scaleY": 1.083,
+       "rotDeg": 0
+      },
+      {
+       "charId": 183,
+       "kind": "sprite",
+       "name": "",
+       "x": 498.05,
+       "y": 180.1,
+       "scaleX": 1.083,
+       "scaleY": 1.083,
+       "rotDeg": 0
+      },
+      {
+       "charId": 184,
+       "kind": "statictext",
+       "name": "",
+       "x": 158.15,
+       "y": 100.85,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0
+      },
+      {
+       "charId": 187,
+       "kind": "sprite",
+       "name": "btn_back",
+       "x": 632.15,
+       "y": 19.3,
+       "scaleX": 1.561,
+       "scaleY": 1.561,
+       "rotDeg": 0
+      },
+      {
+       "charId": 188,
+       "kind": "statictext",
+       "name": "",
+       "x": 135.95,
+       "y": 352.45,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "screen_clearSave": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 151,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 153,
+       "kind": "sprite",
+       "name": "",
+       "x": 201.7,
+       "y": 169.1,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 154,
+       "kind": "text",
+       "name": "textTitle",
+       "x": 245,
+       "y": 173.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"center\"><font face=\"Komika Axis\" size=\"27\" color=\"#ff9900\" letterSpacing=\"0.000000\" kerning=\"1\">Clear save ?</font></p>",
+        "fontHeightTwips": 540,
+        "align": 2,
+        "x": -2,
+        "y": -2,
+        "w": 209.45,
+        "h": 48.5
+       }
+      },
+      {
+       "charId": 162,
+       "kind": "sprite",
+       "name": "btn_yes",
+       "x": 268.25,
+       "y": 240.25,
+       "scaleX": 1.691,
+       "scaleY": 1.691,
+       "rotDeg": 0
+      },
+      {
+       "charId": 165,
+       "kind": "sprite",
+       "name": "btn_no",
+       "x": 354.75,
+       "y": 240.25,
+       "scaleX": 1.691,
+       "scaleY": 1.691,
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "screen_language": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 151,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 187,
+       "kind": "sprite",
+       "name": "btn_back",
+       "x": 630.05,
+       "y": 23.65,
+       "scaleX": 1.561,
+       "scaleY": 1.561,
+       "rotDeg": 0
+      },
+      {
+       "charId": 191,
+       "kind": "text",
+       "name": "textTitle",
+       "x": 14.95,
+       "y": 8.5,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"left\"><font face=\"Komika Axis\" size=\"27\" color=\"#ff9900\" letterSpacing=\"0.000000\" kerning=\"1\">LANGUAGES</font></p>",
+        "fontHeightTwips": 540,
+        "align": 0,
+        "x": -2,
+        "y": -2,
+        "w": 196,
+        "h": 48.15
+       }
+      }
+     ]
+    }
+   ]
+  },
+  "ui_hud": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 73,
+       "kind": "shape",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 75,
+       "kind": "text",
+       "name": "textScore",
+       "x": 121.75,
+       "y": 472.4,
+       "scaleX": 1.01,
+       "scaleY": 1.01,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"left\"><font face=\"Komika Axis\" size=\"23\" color=\"#ffffff\" letterSpacing=\"0.000000\" kerning=\"1\">1000000</font></p>",
+        "fontHeightTwips": 460,
+        "align": 0,
+        "x": -2,
+        "y": -2,
+        "w": 114.75,
+        "h": 41.6
+       }
+      },
+      {
+       "charId": 90,
+       "kind": "sprite",
+       "name": "btn_sfxMute",
+       "x": 53.7,
+       "y": 473.45,
+       "scaleX": 1.545,
+       "scaleY": 1.545,
+       "rotDeg": 0
+      },
+      {
+       "charId": 94,
+       "kind": "sprite",
+       "name": "btn_musicMute",
+       "x": 3.7,
+       "y": 474,
+       "scaleX": 1.545,
+       "scaleY": 1.545,
+       "rotDeg": 0
+      },
+      {
+       "charId": 95,
+       "kind": "text",
+       "name": "textTitle",
+       "x": 124.9,
+       "y": 464.1,
+       "scaleX": 1.01,
+       "scaleY": 1.01,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"left\"><font face=\"Komika Axis\" size=\"12\" color=\"#ffffff\" letterSpacing=\"0.000000\" kerning=\"1\">score</font></p>",
+        "fontHeightTwips": 240,
+        "align": 0,
+        "x": -2,
+        "y": -2,
+        "w": 94.15,
+        "h": 23.7
+       }
+      }
+     ]
+    }
+   ]
+  },
+  "screen_preparing": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 171,
+       "kind": "sprite",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 303,
+       "kind": "button",
+       "name": "btn_PlayWithHighcores",
+       "x": 263.95,
+       "y": 302.4,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 486,
+       "kind": "sprite",
+       "name": "loaderBar",
+       "x": 160,
+       "y": 264.95,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 487,
+       "kind": "statictext",
+       "name": "",
+       "x": 213.2,
+       "y": 81.85,
+       "scaleX": 1.204,
+       "scaleY": 1.204,
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "levelIcon": {
+   "frames": [
+    {
+     "label": null,
+     "children": [
+      {
+       "charId": 314,
+       "kind": "shape",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 319,
+       "kind": "sprite",
+       "name": "buttonAnimation",
+       "x": 1.25,
+       "y": -0.25,
+       "scaleX": 0.762,
+       "scaleY": 0.762,
+       "rotDeg": 0
+      },
+      {
+       "charId": 321,
+       "kind": "sprite",
+       "name": "",
+       "x": 6.65,
+       "y": 10.95,
+       "scaleX": 0.82,
+       "scaleY": 0.82,
+       "rotDeg": 0
+      },
+      {
+       "charId": 322,
+       "kind": "text",
+       "name": "levelNumber",
+       "x": 6.65,
+       "y": 7.4,
+       "scaleX": 0.988,
+       "scaleY": 0.988,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"center\"><font face=\"Komika Axis\" size=\"16\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">36</font></p>",
+        "fontHeightTwips": 320,
+        "align": 2,
+        "x": -2,
+        "y": -2,
+        "w": 38.4,
+        "h": 36.7
+       }
+      },
+      {
+       "charId": 323,
+       "kind": "text",
+       "name": "textLevelCreator",
+       "x": -23.85,
+       "y": 35.45,
+       "scaleX": 0.966,
+       "scaleY": 0.966,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"center\"><font face=\"Komika Axis\" size=\"14\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">36</font></p>",
+        "fontHeightTwips": 280,
+        "align": 2,
+        "x": -2,
+        "y": -2,
+        "w": 103.55,
+        "h": 26.85
+       }
+      },
+      {
+       "charId": 324,
+       "kind": "shape",
+       "name": "",
+       "x": 0,
+       "y": 0,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 244,
+       "kind": "sprite",
+       "name": "coins",
+       "x": 37.9,
+       "y": -6.4,
+       "scaleX": 1.652,
+       "scaleY": 1.652,
+       "rotDeg": 0
+      },
+      {
+       "charId": 325,
+       "kind": "text",
+       "name": "coinpercent",
+       "x": 26.1,
+       "y": -16.85,
+       "scaleX": 0.966,
+       "scaleY": 0.966,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"center\"><font face=\"Komika Axis\" size=\"8\" color=\"#ff9900\" letterSpacing=\"1.000000\" kerning=\"1\">36%</font></p>",
+        "fontHeightTwips": 160,
+        "align": 2,
+        "x": -2,
+        "y": -2,
+        "w": 28.55,
+        "h": 18.75
+       }
+      },
+      {
+       "charId": 159,
+       "kind": "text",
+       "name": "buttonName",
+       "x": 1.5,
+       "y": 6,
+       "scaleX": 0.762,
+       "scaleY": 0.762,
+       "rotDeg": 0,
+       "text": {
+        "html": "<p align=\"center\"></p>",
+        "fontHeightTwips": 360,
+        "align": 2,
+        "x": -2,
+        "y": -2,
+        "w": 14.4,
+        "h": 19.75
+       }
+      },
+      {
+       "charId": 327,
+       "kind": "sprite",
+       "name": "greystar",
+       "x": -2.6,
+       "y": -19.05,
+       "scaleX": 1,
+       "scaleY": 1,
+       "rotDeg": 0
+      },
+      {
+       "charId": 233,
+       "kind": "sprite",
+       "name": "gold",
+       "x": -1.9,
+       "y": -18.4,
+       "scaleX": 1.365,
+       "scaleY": 1.365,
+       "rotDeg": 0
+      },
+      {
+       "charId": 328,
+       "kind": "sprite",
+       "name": "cup",
+       "x": 9.1,
+       "y": -7.65,
+       "scaleX": 0.81,
+       "scaleY": 0.81,
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "art": {
+  "73": {
+   "ox": 114.6,
+   "oy": 466.4,
+   "w": 124.35,
+   "h": 46
+  },
+  "151": {
+   "ox": 0,
+   "oy": 0,
+   "w": 700,
+   "h": 525
+  },
+  "153": {
+   "ox": 0,
+   "oy": 0,
+   "w": 286.65,
+   "h": 170.7
+  },
+  "162": {
+   "ox": -0.02,
+   "oy": -0.85,
+   "w": 30.82,
+   "h": 22
+  },
+  "165": {
+   "ox": -0.02,
+   "oy": -0.75,
+   "w": 31.42,
+   "h": 23.35
+  },
+  "172": {
+   "ox": 130,
+   "oy": 348.95,
+   "w": 425.95,
+   "h": 102
+  },
+  "177": {
+   "ox": -0.9,
+   "oy": -1.5,
+   "w": 204.03,
+   "h": 193.45
+  },
+  "181": {
+   "ox": -1.5,
+   "oy": -1.5,
+   "w": 202.95,
+   "h": 193.45
+  },
+  "183": {
+   "ox": 0,
+   "oy": 0,
+   "w": 23.65,
+   "h": 23.4
+  },
+  "187": {
+   "ox": -0.02,
+   "oy": 1.55,
+   "w": 33.17,
+   "h": 19.2
+  },
+  "215": {
+   "ox": -0.02,
+   "oy": -3.65,
+   "w": 32.9,
+   "h": 28.8
+  },
+  "216": {
+   "ox": -0.02,
+   "oy": -2.95,
+   "w": 31.97,
+   "h": 25.92
+  },
+  "217": {
+   "ox": -3.75,
+   "oy": -7.45,
+   "w": 326.65,
+   "h": 370.7
+  },
+  "221": {
+   "ox": -36.75,
+   "oy": -12.45,
+   "w": 266.65,
+   "h": 325.8
+  },
+  "228": {
+   "ox": 1.85,
+   "oy": 0.85,
+   "w": 130.95,
+   "h": 28.55
+  },
+  "230": {
+   "ox": 1.85,
+   "oy": 0.85,
+   "w": 130.95,
+   "h": 28.55
+  },
+  "233": {
+   "ox": -0.5,
+   "oy": -0.5,
+   "w": 17.55,
+   "h": 16.8
+  },
+  "234": {
+   "ox": -31.69,
+   "oy": 0.02,
+   "w": 246.8,
+   "h": 42.58
+  },
+  "238": {
+   "ox": -58.07,
+   "oy": -3.58,
+   "w": 322.54,
+   "h": 42.3
+  },
+  "240": {
+   "ox": -70.02,
+   "oy": 0.02,
+   "w": 323.03,
+   "h": 37.69
+  },
+  "244": {
+   "ox": -7.8,
+   "oy": -7.9,
+   "w": 13.85,
+   "h": 16.45
+  },
+  "245": {
+   "ox": 0,
+   "oy": 0,
+   "w": 135.45,
+   "h": 38.15
+  },
+  "269": {
+   "ox": 0,
+   "oy": 0,
+   "w": 346.45,
+   "h": 38.15
+  },
+  "274": {
+   "ox": 1.85,
+   "oy": -12.6,
+   "w": 35.9,
+   "h": 42.05
+  },
+  "276": {
+   "ox": -1.2,
+   "oy": -5.85,
+   "w": 38.95,
+   "h": 35.9
+  },
+  "278": {
+   "ox": -1.75,
+   "oy": -10.15,
+   "w": 39.5,
+   "h": 39.55
+  },
+  "284": {
+   "ox": -71.5,
+   "oy": -151.5,
+   "w": 225,
+   "h": 176.95
+  },
+  "291": {
+   "ox": -151.5,
+   "oy": -151.5,
+   "w": 225,
+   "h": 176.95
+  },
+  "303": {
+   "ox": -1,
+   "oy": -1,
+   "w": 162,
+   "h": 32
+  },
+  "306": {
+   "ox": -0.02,
+   "oy": -0.35,
+   "w": 32.62,
+   "h": 22.6
+  },
+  "308": {
+   "ox": 1.85,
+   "oy": 0.85,
+   "w": 130.95,
+   "h": 28.55
+  },
+  "312": {
+   "ox": -93.08,
+   "oy": -42.33,
+   "w": 184.23,
+   "h": 71.83
+  },
+  "314": {
+   "ox": 3.8,
+   "oy": -13.9,
+   "w": 19.55,
+   "h": 18.8
+  },
+  "321": {
+   "ox": -1,
+   "oy": -1,
+   "w": 40.6,
+   "h": 30.75
+  },
+  "324": {
+   "ox": 23.6,
+   "oy": -20.6,
+   "w": 25.5,
+   "h": 29.45
+  },
+  "327": {
+   "ox": -1,
+   "oy": -1,
+   "w": 26,
+   "h": 24.9
+  },
+  "328": {
+   "ox": -18.45,
+   "oy": -19.7,
+   "w": 36.9,
+   "h": 39.45
+  },
+  "335": {
+   "ox": -0.02,
+   "oy": 4.48,
+   "w": 10.97,
+   "h": 15.05
+  },
+  "340": {
+   "ox": 156.8,
+   "oy": 425.25,
+   "w": 386.45,
+   "h": 37.4
+  },
+  "364": {
+   "ox": -100.4,
+   "oy": -418.08,
+   "w": 306.44,
+   "h": 74.68
+  },
+  "369": {
+   "ox": -1,
+   "oy": 76.44,
+   "w": 661.95,
+   "h": 305.51
+  },
+  "371": {
+   "ox": -1.3,
+   "oy": 0,
+   "w": 28.9,
+   "h": 32.75
+  },
+  "372": {
+   "ox": -0.02,
+   "oy": -5.95,
+   "w": 35.17,
+   "h": 32.75
+  },
+  "373": {
+   "ox": 25.35,
+   "oy": 297.7,
+   "w": 647.35,
+   "h": 48.95
+  },
+  "413": {
+   "ox": 0,
+   "oy": 0,
+   "w": 295.2,
+   "h": 160.95
+  },
+  "432": {
+   "ox": 0,
+   "oy": 0,
+   "w": 295.2,
+   "h": 160.95
+  },
+  "433": {
+   "ox": 346.7,
+   "oy": 114.7,
+   "w": 2.5,
+   "h": 236.5
+  },
+  "482": {
+   "ox": -4.55,
+   "oy": -31.45,
+   "w": 210.9,
+   "h": 121.3
+  },
+  "490": {
+   "ox": 98.75,
+   "oy": -1.25,
+   "w": 571.45,
+   "h": 387.45
+  },
+  "504": {
+   "ox": 14.23,
+   "oy": -44.74,
+   "w": 145.3,
+   "h": 305.04
+  },
+  "509": {
+   "ox": -0.85,
+   "oy": -8.95,
+   "w": 40,
+   "h": 40.05
+  },
+  "512": {
+   "ox": -0.85,
+   "oy": -8.95,
+   "w": 40,
+   "h": 40.05
+  },
+  "515": {
+   "ox": -0.85,
+   "oy": -8.95,
+   "w": 40,
+   "h": 40.05
+  },
+  "518": {
+   "ox": -0.85,
+   "oy": -8.95,
+   "w": 40,
+   "h": 40.05
+  },
+  "529": {
+   "ox": 10.42,
+   "oy": 51.74,
+   "w": 51.4,
+   "h": 51.49
+  },
+  "530": {
+   "ox": -15.35,
+   "oy": -15.45,
+   "w": 28.4,
+   "h": 28.45
+  },
+  "533": {
+   "ox": -15.35,
+   "oy": -15.45,
+   "w": 28.4,
+   "h": 28.45
+  },
+  "534": {
+   "ox": -15.35,
+   "oy": -15.45,
+   "w": 28.4,
+   "h": 28.45
+  },
+  "541": {
+   "ox": 0,
+   "oy": 0,
+   "w": 120.48,
+   "h": 79.39
+  },
+  "543": {
+   "ox": 0,
+   "oy": 0,
+   "w": 119.9,
+   "h": 75.9
+  },
+  "545": {
+   "ox": 1.85,
+   "oy": 0.85,
+   "w": 130.95,
+   "h": 28.55
+  },
+  "555": {
+   "ox": -145,
+   "oy": -73,
+   "w": 282.1,
+   "h": 123.95
+  },
+  "557": {
+   "ox": -1.5,
+   "oy": 0,
+   "w": 533.3,
+   "h": 265.35
+  },
+  "559": {
+   "ox": 1.85,
+   "oy": 0.85,
+   "w": 130.95,
+   "h": 28.55
+  },
+  "561": {
+   "ox": 1.85,
+   "oy": 0.85,
+   "w": 130.95,
+   "h": 28.55
+  },
+  "565": {
+   "ox": 1.85,
+   "oy": 0.85,
+   "w": 130.95,
+   "h": 29.65
+  },
+  "656": {
+   "ox": -0.02,
+   "oy": -2.05,
+   "w": 33.91,
+   "h": 25.65
+  }
+ }
+}

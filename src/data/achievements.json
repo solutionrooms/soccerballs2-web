@@ -1,0 +1,10 @@
+[
+ {
+  "name": "Winner",
+  "desc": "",
+  "toUnlock": "First place in every race, and finished all bonus levels.",
+  "specificLevel": 0,
+  "testFunc": "AchTest_WinAllLevels",
+  "passFunc": "AchPass_Null"
+ }
+]

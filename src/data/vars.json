@@ -1,0 +1,13 @@
+{
+ "kick_dist0": 150,
+ "kick_dist1": 300,
+ "kick_power0": 80,
+ "kick_power1": 200,
+ "kick_power0_beachball": 2,
+ "kick_power1_beachball": 8,
+ "gravity": 1000,
+ "ballpath_gravity_multiplier": 0.0003,
+ "ballpath_gravity_multiplier_beachball": 0.0003,
+ "cannonLaunchForce": 1000,
+ "windforce": 12
+}

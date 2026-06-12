@@ -1,0 +1,392 @@
+{
+ "ui_fla.buttonAnimationColor_227": [
+  {
+   "frame": 0,
+   "label": "stopped"
+  },
+  {
+   "frame": 1,
+   "label": "over"
+  },
+  {
+   "frame": 7,
+   "label": "out"
+  },
+  {
+   "frame": 14,
+   "label": "clicked"
+  }
+ ],
+ "player": [
+  {
+   "frame": 0,
+   "label": "idle1"
+  },
+  {
+   "frame": 13,
+   "label": "idle1_end"
+  },
+  {
+   "frame": 18,
+   "label": "idle2"
+  },
+  {
+   "frame": 29,
+   "label": "idle2_end"
+  },
+  {
+   "frame": 34,
+   "label": "idle3"
+  },
+  {
+   "frame": 45,
+   "label": "idle3_end"
+  },
+  {
+   "frame": 55,
+   "label": "kick1"
+  },
+  {
+   "frame": 66,
+   "label": "release_ball"
+  },
+  {
+   "frame": 90,
+   "label": "kick1_end"
+  },
+  {
+   "frame": 98,
+   "label": "kick2"
+  },
+  {
+   "frame": 109,
+   "label": "release_ball"
+  },
+  {
+   "frame": 125,
+   "label": "kick2_end"
+  },
+  {
+   "frame": 132,
+   "label": "kick3"
+  },
+  {
+   "frame": 140,
+   "label": "release_ball"
+  },
+  {
+   "frame": 156,
+   "label": "kick3_end"
+  },
+  {
+   "frame": 164,
+   "label": "run1"
+  },
+  {
+   "frame": 175,
+   "label": "run1_end"
+  },
+  {
+   "frame": 180,
+   "label": "goal1"
+  },
+  {
+   "frame": 215,
+   "label": "goal1_end"
+  },
+  {
+   "frame": 219,
+   "label": "conceed"
+  },
+  {
+   "frame": 223,
+   "label": "conceed_end"
+  },
+  {
+   "frame": 224,
+   "label": "conceed_loop"
+  },
+  {
+   "frame": 236,
+   "label": "conceed_loop_end"
+  },
+  {
+   "frame": 245,
+   "label": "hitHigh"
+  },
+  {
+   "frame": 260,
+   "label": "hitHigh_end"
+  },
+  {
+   "frame": 268,
+   "label": "hitMid"
+  },
+  {
+   "frame": 284,
+   "label": "hitMid_end"
+  },
+  {
+   "frame": 290,
+   "label": "hitLow"
+  },
+  {
+   "frame": 306,
+   "label": "hitLow_end"
+  },
+  {
+   "frame": 310,
+   "label": "jump_start"
+  },
+  {
+   "frame": 314,
+   "label": "jump_start_end"
+  },
+  {
+   "frame": 315,
+   "label": "jumped"
+  },
+  {
+   "frame": 328,
+   "label": "jumped_end"
+  },
+  {
+   "frame": 329,
+   "label": "landing"
+  },
+  {
+   "frame": 334,
+   "label": "landing_end"
+  }
+ ],
+ "keeper": [
+  {
+   "frame": 0,
+   "label": "idle1"
+  },
+  {
+   "frame": 17,
+   "label": "idle1_end"
+  },
+  {
+   "frame": 21,
+   "label": "idle2"
+  },
+  {
+   "frame": 38,
+   "label": "idle2_end"
+  },
+  {
+   "frame": 44,
+   "label": "idle3"
+  },
+  {
+   "frame": 59,
+   "label": "idle3_end"
+  },
+  {
+   "frame": 64,
+   "label": "duck"
+  },
+  {
+   "frame": 69,
+   "label": "duck_end"
+  },
+  {
+   "frame": 70,
+   "label": "duck_loop"
+  },
+  {
+   "frame": 76,
+   "label": "duck_loop_end"
+  },
+  {
+   "frame": 77,
+   "label": "unduck"
+  },
+  {
+   "frame": 81,
+   "label": "unduck_end"
+  },
+  {
+   "frame": 87,
+   "label": "jump"
+  },
+  {
+   "frame": 90,
+   "label": "air"
+  },
+  {
+   "frame": 102,
+   "label": "jump_end"
+  },
+  {
+   "frame": 107,
+   "label": "idle_end"
+  },
+  {
+   "frame": 108,
+   "label": "kick1"
+  },
+  {
+   "frame": 118,
+   "label": "release_ball"
+  },
+  {
+   "frame": 142,
+   "label": "kick1_end"
+  },
+  {
+   "frame": 149,
+   "label": "conceed"
+  },
+  {
+   "frame": 152,
+   "label": "conceed_end"
+  },
+  {
+   "frame": 153,
+   "label": "conceedloop"
+  },
+  {
+   "frame": 162,
+   "label": "conceedloop_end"
+  }
+ ],
+ "ref": [
+  {
+   "frame": 0,
+   "label": "idle1"
+  },
+  {
+   "frame": 13,
+   "label": "idle1_end"
+  },
+  {
+   "frame": 17,
+   "label": "idle2"
+  },
+  {
+   "frame": 29,
+   "label": "idle2_end"
+  },
+  {
+   "frame": 34,
+   "label": "idle3"
+  },
+  {
+   "frame": 53,
+   "label": "idle3_end"
+  },
+  {
+   "frame": 54,
+   "label": "redcard"
+  },
+  {
+   "frame": 71,
+   "label": "redcard_end"
+  },
+  {
+   "frame": 72,
+   "label": "die"
+  },
+  {
+   "frame": 84,
+   "label": "die_end"
+  },
+  {
+   "frame": 91,
+   "label": "run1"
+  },
+  {
+   "frame": 106,
+   "label": "run1_end"
+  }
+ ],
+ "starling": [
+  {
+   "frame": 0,
+   "label": "flap1"
+  },
+  {
+   "frame": 9,
+   "label": "flap1_end"
+  },
+  {
+   "frame": 10,
+   "label": "flap2"
+  },
+  {
+   "frame": 19,
+   "label": "flap2_end"
+  }
+ ],
+ "parrot": [
+  {
+   "frame": 0,
+   "label": "flap1"
+  },
+  {
+   "frame": 9,
+   "label": "flap1_end"
+  },
+  {
+   "frame": 10,
+   "label": "flap2"
+  },
+  {
+   "frame": 19,
+   "label": "flap2_end"
+  }
+ ],
+ "switch_Timer": [
+  {
+   "frame": 0,
+   "label": "off"
+  },
+  {
+   "frame": 1,
+   "label": "on"
+  }
+ ],
+ "switch_weight": [
+  {
+   "frame": 0,
+   "label": "off"
+  },
+  {
+   "frame": 1,
+   "label": "on"
+  }
+ ],
+ "switch_Once": [
+  {
+   "frame": 0,
+   "label": "off"
+  },
+  {
+   "frame": 1,
+   "label": "on"
+  }
+ ],
+ "switch_twoWay": [
+  {
+   "frame": 0,
+   "label": "off"
+  },
+  {
+   "frame": 1,
+   "label": "on"
+  }
+ ],
+ "switch_StopGo": [
+  {
+   "frame": 0,
+   "label": "off"
+  },
+  {
+   "frame": 1,
+   "label": "on"
+  }
+ ]
+}

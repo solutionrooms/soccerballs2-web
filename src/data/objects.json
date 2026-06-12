@@ -1,0 +1,6939 @@
+{
+ "materials": {
+  "guineapig": {
+   "density": 0.5,
+   "frictionStatic": 1,
+   "frictionDynamic": 1,
+   "frictionRolling": 1,
+   "elasticity": 0
+  },
+  "switch": {
+   "density": 1,
+   "frictionStatic": 0.1,
+   "frictionDynamic": 0.1,
+   "frictionRolling": 0.1,
+   "elasticity": 0
+  },
+  "average": {
+   "density": 0.5,
+   "frictionStatic": 0.1,
+   "frictionDynamic": 0.1,
+   "frictionRolling": 0.1,
+   "elasticity": 0.2
+  },
+  "football": {
+   "density": 0.5,
+   "frictionStatic": 0.1,
+   "frictionDynamic": 0.1,
+   "frictionRolling": 0.1,
+   "elasticity": 1
+  },
+  "beachball": {
+   "density": 0.02,
+   "frictionStatic": 0.1,
+   "frictionDynamic": 0.1,
+   "frictionRolling": 0.1,
+   "elasticity": 1
+  },
+  "ball_notbouncy": {
+   "density": 0.2,
+   "frictionStatic": 0.1,
+   "frictionDynamic": 0.1,
+   "frictionRolling": 0.1,
+   "elasticity": 0.2
+  },
+  "snake": {
+   "density": 1,
+   "frictionStatic": 0,
+   "frictionDynamic": 0,
+   "frictionRolling": 0,
+   "elasticity": 0
+  },
+  "hinge": {
+   "density": 1,
+   "frictionStatic": 0.5,
+   "frictionDynamic": 0.5,
+   "frictionRolling": 0.5,
+   "elasticity": 0
+  },
+  "light": {
+   "density": 0.1,
+   "frictionStatic": 0.5,
+   "frictionDynamic": 0.5,
+   "frictionRolling": 0.5,
+   "elasticity": 0
+  },
+  "floaty_bubbble": {
+   "density": 0.05,
+   "frictionStatic": 0.5,
+   "frictionDynamic": 0.5,
+   "frictionRolling": 0.5,
+   "elasticity": 0
+  },
+  "heavy": {
+   "density": 1,
+   "frictionStatic": 0.5,
+   "frictionDynamic": 0.5,
+   "frictionRolling": 0.5,
+   "elasticity": 0
+  },
+  "veryheavy": {
+   "density": 2,
+   "frictionStatic": 0.5,
+   "frictionDynamic": 0.5,
+   "frictionRolling": 0.5,
+   "elasticity": 0
+  },
+  "bouncy": {
+   "density": 0.5,
+   "frictionStatic": 0.5,
+   "frictionDynamic": 0.5,
+   "frictionRolling": 0.5,
+   "elasticity": 1
+  },
+  "smooth": {
+   "density": 0.5,
+   "frictionStatic": 0,
+   "frictionDynamic": 0,
+   "frictionRolling": 0,
+   "elasticity": 0
+  },
+  "dense": {
+   "density": 1,
+   "frictionStatic": 1,
+   "frictionDynamic": 1,
+   "frictionRolling": 1,
+   "elasticity": 0
+  },
+  "massivelydense": {
+   "density": 50,
+   "frictionStatic": 1,
+   "frictionDynamic": 1,
+   "frictionRolling": 1,
+   "elasticity": 0
+  },
+  "bubblebit_dense": {
+   "density": 50,
+   "frictionStatic": 1,
+   "frictionDynamic": 1,
+   "frictionRolling": 1,
+   "elasticity": 0
+  },
+  "springboard": {
+   "density": 1,
+   "frictionStatic": 1,
+   "frictionDynamic": 1,
+   "frictionRolling": 1,
+   "elasticity": 2
+  },
+  "poly_ice": {
+   "density": 1,
+   "frictionStatic": 0.01,
+   "frictionDynamic": 0.01,
+   "frictionRolling": 0.01,
+   "elasticity": 0
+  },
+  "poly_average": {
+   "density": 1,
+   "frictionStatic": 0.5,
+   "frictionDynamic": 0.5,
+   "frictionRolling": 0.5,
+   "elasticity": 0
+  },
+  "poly_mud": {
+   "density": 1,
+   "frictionStatic": 100,
+   "frictionDynamic": 100,
+   "frictionRolling": 100,
+   "elasticity": 0
+  }
+ },
+ "gamelayers": {
+  "Far_Background": 2000,
+  "Near_Background": 1000,
+  "SceneryObjects": 20,
+  "NormalObjects": 10,
+  "NormalObjects_Nearer": 5,
+  "Centre": 0,
+  "Balls": -1,
+  "GoalObjects": -2,
+  "SceneryPolys": -5,
+  "Polys_1": -20,
+  "Polys_2": -30,
+  "Decorations": -40,
+  "Far_Foreground": -100,
+  "Near_Foreground": -200
+ },
+ "polymats": {
+  "poly_collide_grass": {
+   "clip": "Fill",
+   "frame": 0,
+   "fixed": true,
+   "initType": "poly",
+   "colCat": 1,
+   "colMask": 15,
+   "senCat": 0,
+   "senMask": 0,
+   "initFunction": "InitGameObjLine_Standard",
+   "material": "poly_average",
+   "gameLayer": "Polys_1"
+  },
+  "poly_collide_mud": {
+   "clip": "FillSoil",
+   "frame": 0,
+   "fixed": true,
+   "initType": "poly",
+   "colCat": 1,
+   "colMask": 15,
+   "senCat": 0,
+   "senMask": 0,
+   "initFunction": "InitGameObjLine_Mud",
+   "material": "poly_mud",
+   "gameLayer": "Polys_2"
+  },
+  "poly_decor_grass": {
+   "clip": "Fill",
+   "frame": 0,
+   "fixed": true,
+   "initType": "nophysics",
+   "colCat": 1,
+   "colMask": 15,
+   "senCat": 0,
+   "senMask": 0,
+   "initFunction": "InitGameObjLine_Decor",
+   "material": "poly_average",
+   "gameLayer": "Polys_1"
+  },
+  "poly_decor_mud": {
+   "clip": "FillSoil",
+   "frame": 0,
+   "fixed": true,
+   "initType": "nophysics",
+   "colCat": 1,
+   "colMask": 15,
+   "senCat": 0,
+   "senMask": 0,
+   "initFunction": "InitGameObjLine_Decor",
+   "material": "poly_mud",
+   "gameLayer": "Polys_2"
+  },
+  "poly_path": {
+   "clip": "",
+   "frame": 0,
+   "fixed": false,
+   "initType": "path",
+   "colCat": 0,
+   "colMask": 0,
+   "senCat": 0,
+   "senMask": 0,
+   "initFunction": "InitGameObjLine_Path",
+   "material": "average",
+   "gameLayer": "Centre"
+  },
+  "poly_death": {
+   "clip": "Fill",
+   "frame": 0,
+   "fixed": true,
+   "initType": "poly",
+   "colCat": 1,
+   "colMask": 15,
+   "senCat": 0,
+   "senMask": 0,
+   "initFunction": "InitGameObjLine_Death",
+   "material": "smooth",
+   "gameLayer": "Centre"
+  },
+  "poly_scrollarea": {
+   "clip": "Fill",
+   "frame": 0,
+   "fixed": true,
+   "initType": "nophysics",
+   "colCat": 0,
+   "colMask": 0,
+   "senCat": 0,
+   "senMask": 0,
+   "initFunction": "InitGameObjLine_ScrollArea",
+   "material": "smooth",
+   "gameLayer": "Centre"
+  },
+  "poly_switch": {
+   "clip": "Fill",
+   "frame": 0,
+   "fixed": true,
+   "initType": "poly",
+   "colCat": 0,
+   "colMask": 0,
+   "senCat": 1,
+   "senMask": 15,
+   "initFunction": "InitGameObjLine_Switch",
+   "material": "smooth",
+   "gameLayer": "Centre"
+  },
+  "poly_linedraw": {
+   "clip": "Fill",
+   "frame": 0,
+   "fixed": true,
+   "initType": "poly",
+   "colCat": 1,
+   "colMask": 15,
+   "senCat": 0,
+   "senMask": 0,
+   "initFunction": "InitGameObjLine_ForShow",
+   "material": "smooth",
+   "gameLayer": "Centre"
+  },
+  "poly_clicker_1": {
+   "clip": "Fill",
+   "frame": 0,
+   "fixed": false,
+   "initType": "poly",
+   "colCat": 1,
+   "colMask": 15,
+   "senCat": 0,
+   "senMask": 0,
+   "initFunction": "InitGameObjLine_Clicker",
+   "material": "smooth",
+   "gameLayer": "Centre"
+  }
+ },
+ "objparams": {
+  "general_timer": {
+   "type": "number",
+   "default": "1"
+  },
+  "general_timer_startoffset": {
+   "type": "number",
+   "default": "0"
+  },
+  "mathpath_speed": {
+   "type": "number",
+   "default": "0"
+  },
+  "mathpath_radius": {
+   "type": "number",
+   "default": "0"
+  },
+  "mathpath_startpos": {
+   "type": "number",
+   "default": "0"
+  },
+  "mathpath_scalex": {
+   "type": "number",
+   "default": "1"
+  },
+  "mathpath_scaley": {
+   "type": "number",
+   "default": "1"
+  },
+  "mathpath_num": {
+   "type": "number",
+   "default": "1"
+  },
+  "mathpath_wavespeed": {
+   "type": "number",
+   "default": "0"
+  },
+  "mathpath_waveradius": {
+   "type": "number",
+   "default": "0"
+  },
+  "mathpath_numpertype": {
+   "type": "number",
+   "default": "0"
+  },
+  "rotator_vel": {
+   "type": "number",
+   "default": "0"
+  },
+  "rotator_pause": {
+   "type": "number",
+   "default": "0"
+  },
+  "rotator_anglechange": {
+   "type": "number",
+   "default": "0"
+  },
+  "cannon_minang": {
+   "type": "number",
+   "default": "0"
+  },
+  "cannon_maxang": {
+   "type": "number",
+   "default": "0"
+  },
+  "cannon_mode": {
+   "type": "number",
+   "default": "0"
+  },
+  "cannon_speed": {
+   "type": "number",
+   "default": "0"
+  },
+  "pickup_count": {
+   "type": "number",
+   "default": "3"
+  },
+  "force": {
+   "type": "number",
+   "default": "100"
+  },
+  "obj_on": {
+   "type": "bool",
+   "default": "true"
+  },
+  "path_startmode": {
+   "type": "list",
+   "default": "stop"
+  },
+  "path_endmode": {
+   "type": "list",
+   "default": "stop"
+  },
+  "path_switchmode": {
+   "type": "list",
+   "default": "start"
+  },
+  "path_line": {
+   "type": "linelink",
+   "default": ""
+  },
+  "path_speed": {
+   "type": "number",
+   "default": "30"
+  },
+  "path_loop": {
+   "type": "bool",
+   "default": "false"
+  },
+  "path_spline": {
+   "type": "bool",
+   "default": "true"
+  },
+  "path_ease": {
+   "type": "list",
+   "default": "linear"
+  },
+  "path_easevalue": {
+   "type": "number",
+   "default": "1"
+  },
+  "path_endreset": {
+   "type": "bool",
+   "default": "false"
+  },
+  "path_startpos": {
+   "type": "number",
+   "default": "0"
+  },
+  "path_2way": {
+   "type": "bool",
+   "default": "false"
+  },
+  "path_rotatetopath": {
+   "type": "bool",
+   "default": "true"
+  },
+  "path_startmoving": {
+   "type": "bool",
+   "default": "true"
+  },
+  "linkobj_line": {
+   "type": "linelink",
+   "default": ""
+  },
+  "linkobj_linka": {
+   "type": "objlink",
+   "default": ""
+  },
+  "linkobj_linkb": {
+   "type": "objlink",
+   "default": ""
+  },
+  "linkobj_minang": {
+   "type": "number",
+   "default": "0"
+  },
+  "linkobj_maxang": {
+   "type": "number",
+   "default": "0"
+  },
+  "linkobj_x0": {
+   "type": "number",
+   "default": "0"
+  },
+  "linkobj_y0": {
+   "type": "number",
+   "default": "0"
+  },
+  "linkobj_x1": {
+   "type": "number",
+   "default": "0"
+  },
+  "linkobj_y1": {
+   "type": "number",
+   "default": "0"
+  },
+  "prismatic_axisangle": {
+   "type": "angle",
+   "default": "0"
+  },
+  "prismatic_enablelimit": {
+   "type": "bool",
+   "default": "true"
+  },
+  "prismatic_lowertranslation": {
+   "type": "number",
+   "default": "0"
+  },
+  "prismatic_uppertranslation": {
+   "type": "number",
+   "default": "0"
+  },
+  "prismatic_enablemotor": {
+   "type": "bool",
+   "default": "false"
+  },
+  "prismatic_motorspeed": {
+   "type": "number",
+   "default": "0"
+  },
+  "prismatic_maxmotorforce": {
+   "type": "number",
+   "default": "0"
+  },
+  "line_type": {
+   "type": "list",
+   "default": "normal"
+  },
+  "line_thickness": {
+   "type": "number",
+   "default": "1"
+  },
+  "line_fixed": {
+   "type": "bool",
+   "default": "true"
+  },
+  "line_physmaterial": {
+   "type": "list",
+   "default": "average"
+  },
+  "line_function": {
+   "type": "list",
+   "default": "InitGameObjLine_Grassy"
+  },
+  "line_background_frame": {
+   "type": "int",
+   "default": "1"
+  },
+  "editor_layer": {
+   "type": "editorlayer",
+   "default": "1"
+  },
+  "switch_name": {
+   "type": "text",
+   "default": ""
+  },
+  "switch_type": {
+   "type": "list",
+   "default": "once"
+  },
+  "switch_time": {
+   "type": "number",
+   "default": "3"
+  },
+  "helptext_text": {
+   "type": "text",
+   "default": "help text"
+  },
+  "helptext_initialdelay": {
+   "type": "number",
+   "default": "0"
+  },
+  "helptext_color": {
+   "type": "list",
+   "default": "ffffff"
+  },
+  "disk_velocity": {
+   "type": "number",
+   "default": "20"
+  },
+  "disk_type": {
+   "type": "list",
+   "default": "constant"
+  },
+  "spawner_initialdelay": {
+   "type": "number",
+   "default": "0"
+  },
+  "spawner_frequency": {
+   "type": "number",
+   "default": "3"
+  },
+  "spawner_spawnobject": {
+   "type": "list",
+   "default": "once"
+  },
+  "spawner_totalamount": {
+   "type": "number",
+   "default": "10"
+  },
+  "player_ammo": {
+   "type": "number",
+   "default": "0"
+  },
+  "doorswitch_openangle": {
+   "type": "angle",
+   "default": "90"
+  },
+  "doorswitch_2way": {
+   "type": "bool",
+   "default": "true"
+  },
+  "doorswitch_ccw": {
+   "type": "bool",
+   "default": "false"
+  },
+  "doorswitch_linkid": {
+   "type": "number",
+   "default": "0"
+  },
+  "doorswitch_rotvel": {
+   "type": "number",
+   "default": "6"
+  },
+  "doorswitch_link": {
+   "type": "objlink",
+   "default": ""
+  },
+  "conveyor_speed": {
+   "type": "number",
+   "default": "50"
+  },
+  "keeper_action": {
+   "type": "list",
+   "default": "stationary"
+  }
+ },
+ "physobjs": {
+  "Conveyor": {
+   "name": "Conveyor",
+   "libClass": "machines",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitConveyor",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "conveyor_speed": "50"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "conveyor",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 1,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        0,
+        0,
+        200,
+        0,
+        200,
+        40,
+        0,
+        40
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "MagnetPush": {
+   "name": "MagnetPush",
+   "libClass": "machines",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitMagnetPush",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {},
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "spikyball",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 0,
+       "colMask": 0,
+       "senCat": 1,
+       "senMask": 15,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 60
+      }
+     ]
+    }
+   ]
+  },
+  "MagnetPull": {
+   "name": "MagnetPull",
+   "libClass": "machines",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitMagnetPull",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {},
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "spikyball",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 0,
+       "colMask": 0,
+       "senCat": 1,
+       "senMask": 15,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 60
+      }
+     ]
+    }
+   ]
+  },
+  "spikyball": {
+   "name": "spikyball",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitSpikyBall",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "spikyball",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 4,
+       "colMask": 15,
+       "senCat": 4,
+       "senMask": 15,
+       "material": "ball_notbouncy",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "pickup_normal": {
+   "name": "pickup_normal",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPickup",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Background"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "Pickups",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 0,
+       "colMask": 0,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "pickup_trophy_1": {
+   "name": "pickup_trophy_1",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPickupTrophy1",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Background"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "Pickups_Trophies",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "pickup_trophy_2": {
+   "name": "pickup_trophy_2",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPickupTrophy2",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Background"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "Pickups_Trophies",
+       "frame": 1,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "pickup_trophy_3": {
+   "name": "pickup_trophy_3",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPickupTrophy3",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Background"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "Pickups_Trophies",
+       "frame": 2,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "pickup_trophy_4": {
+   "name": "pickup_trophy_4",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPickupTrophy4",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Background"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "Pickups_Trophies",
+       "frame": 3,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "pickup_trophy_5": {
+   "name": "pickup_trophy_5",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPickupTrophy5",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Background"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "Pickups_Trophies",
+       "frame": 4,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "pickup_trophy_6": {
+   "name": "pickup_trophy_6",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPickupTrophy6",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Background"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "Pickups_Trophies",
+       "frame": 5,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "pickup_trophy_7": {
+   "name": "pickup_trophy_7",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPickupTrophy7",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Background"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "Pickups_Trophies",
+       "frame": 6,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "pickup_trophy_8": {
+   "name": "pickup_trophy_8",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPickupTrophy8",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Background"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "Pickups_Trophies",
+       "frame": 7,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "pickup_trophy_9": {
+   "name": "pickup_trophy_9",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPickupTrophy9",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Background"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "Pickups_Trophies",
+       "frame": 8,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 51,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "pickup_trophy_10": {
+   "name": "pickup_trophy_10",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPickupTrophy10",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Background"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "Pickups_Trophies",
+       "frame": 9,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "wind": {
+   "name": "wind",
+   "libClass": "scenery",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitWind",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "windblock",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 0,
+       "colMask": 0,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -20,
+        -20,
+        20,
+        -20,
+        20,
+        20,
+        -20,
+        20
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "run_marker": {
+   "name": "run_marker",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": "InitRunMarker",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Far_Foreground"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "editor_patrolMarker",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "patrol_marker": {
+   "name": "patrol_marker",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": "InitPatrolMarker",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Far_Foreground"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "editor_patrolMarker",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "jump_marker": {
+   "name": "jump_marker",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": "InitJumpMarker",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Far_Foreground"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "editor_jumpArrow",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "cannon": {
+   "name": "cannon",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitFixedCannon",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "GoalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "cannon_top",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 0,
+       "colMask": 0,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 20
+      }
+     ]
+    }
+   ]
+  },
+  "broken_piece": {
+   "name": "broken_piece",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitBreakable_Piece_Physics",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "hinge",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 1,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 5
+      }
+     ]
+    }
+   ]
+  },
+  "parrot": {
+   "name": "parrot",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "parrot",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "flying_parrot": {
+   "name": "flying_parrot",
+   "libClass": "",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitFlyingBird",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects_Nearer"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "parrotFly",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 0,
+       "colMask": 0,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 10
+      }
+     ]
+    }
+   ]
+  },
+  "cog": {
+   "name": "cog",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitCog",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects_Nearer"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "hinge",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "hinge": {
+   "name": "hinge",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects_Nearer"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "hinge",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 0,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 7
+      }
+     ]
+    }
+   ]
+  },
+  "weight": {
+   "name": "weight",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects_Nearer"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "hinge",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "heavy",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 7
+      }
+     ]
+    }
+   ]
+  },
+  "weight_nocollide": {
+   "name": "weight_nocollide",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects_Nearer"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "hinge",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 0,
+       "colMask": 0,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "heavy",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 7
+      }
+     ]
+    }
+   ]
+  },
+  "switchable_block": {
+   "name": "switchable_block",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitSwitchable_Disappear",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "Switchable_Block_Disappear",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        0,
+        0,
+        30,
+        0,
+        30,
+        30,
+        0,
+        30
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "switch_once": {
+   "name": "switch_once",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitSwitch_Once",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "switch_Once",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        0,
+        0,
+        25,
+        0,
+        25,
+        20,
+        0,
+        20
+       ],
+       "rotDeg": 0
+      },
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        2,
+        -6,
+        21,
+        -6,
+        21,
+        0,
+        2,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "switch_2way": {
+   "name": "switch_2way",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitSwitch_2Way",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "switch_twoWay",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        2,
+        -6,
+        21,
+        -6,
+        21,
+        0,
+        2,
+        0
+       ],
+       "rotDeg": 0
+      },
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        0,
+        0,
+        25,
+        0,
+        25,
+        20,
+        0,
+        20
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "switch_StopGo": {
+   "name": "switch_StopGo",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitSwitch_2Way",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "switch_StopGo",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        0,
+        0,
+        25,
+        0,
+        25,
+        20,
+        0,
+        20
+       ],
+       "rotDeg": 0
+      },
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        2,
+        -6,
+        21,
+        -6,
+        21,
+        0,
+        2,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "switch_timer": {
+   "name": "switch_timer",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitSwitch_Timer",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects",
+    "switch_time": "1.5"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "switch_Timer",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        0,
+        0,
+        25,
+        0,
+        25,
+        20,
+        0,
+        20
+       ],
+       "rotDeg": 0
+      },
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        2,
+        -6,
+        21,
+        -6,
+        21,
+        0,
+        2,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "switch_weight": {
+   "name": "switch_weight",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitSwitch_Weight",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "switch_weight",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        0,
+        -6,
+        50,
+        -6,
+        50,
+        20,
+        0,
+        20
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "player": {
+   "name": "player",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPlayer",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "player",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 2,
+       "colMask": 11,
+       "senCat": 2,
+       "senMask": 15,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -10,
+        -80,
+        10,
+        -80,
+        10,
+        0,
+        -10,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "ball_normal": {
+   "name": "ball_normal",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitFootball",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Balls"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "football",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 4,
+       "colMask": 15,
+       "senCat": 4,
+       "senMask": 11,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "ballboy": {
+   "name": "ballboy",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitBallboy",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "opponent",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 0,
+       "colMask": 0,
+       "senCat": 8,
+       "senMask": 4,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -10,
+        -80,
+        10,
+        -80,
+        10,
+        0,
+        -10,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "opponent": {
+   "name": "opponent",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitOpponent",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "opponent",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 2,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -10,
+        -80,
+        10,
+        -80,
+        10,
+        0,
+        -10,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "opponent_patrol": {
+   "name": "opponent_patrol",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitOpponent_Patrol",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "opponentWalk",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 2,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -10,
+        -80,
+        10,
+        -80,
+        10,
+        0,
+        -10,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "opponent_jump_when_near": {
+   "name": "opponent_jump_when_near",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitOpponent_JumpWhenNear",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "opponentWalk",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 2,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -10,
+        -80,
+        10,
+        -80,
+        10,
+        0,
+        -10,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "referee": {
+   "name": "referee",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitRef",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "ref",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 2,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -10,
+        -80,
+        10,
+        -80,
+        10,
+        0,
+        -10,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "referee_loose": {
+   "name": "referee_loose",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitRef_Loose",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "ref",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 2,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -10,
+        -80,
+        10,
+        -80,
+        10,
+        0,
+        -10,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "referee_patrol": {
+   "name": "referee_patrol",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitRef_Patrol",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "ref",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 2,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -10,
+        -80,
+        10,
+        -80,
+        10,
+        0,
+        -10,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "keeper": {
+   "name": "keeper",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitKeeper",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre",
+    "keeper_action": "stationary"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "keeper",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "a",
+       "colCat": 2,
+       "colMask": 14,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -10,
+        -70,
+        10,
+        -70,
+        10,
+        0,
+        -10,
+        0
+       ],
+       "rotDeg": 0
+      },
+      {
+       "type": "poly",
+       "name": "b",
+       "colCat": 2,
+       "colMask": 14,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -10,
+        -40,
+        10,
+        -40,
+        10,
+        0,
+        -10,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "sand_block": {
+   "name": "sand_block",
+   "libClass": "normal",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitSandBlock",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "sand_block",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        0,
+        0,
+        30,
+        0,
+        30,
+        30,
+        0,
+        30
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "crateMetalLarge": {
+   "name": "crateMetalLarge",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "crate_metalLarge",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -24,
+        -20,
+        24,
+        -20,
+        24,
+        20,
+        -24,
+        20
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "crateMetalSmall": {
+   "name": "crateMetalSmall",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "crate_metalSmall",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -12,
+        -10,
+        12,
+        -10,
+        12,
+        10,
+        -12,
+        10
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "crate": {
+   "name": "crate",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitBreakable_WoodenCrate",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "woodenCrate1",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -24,
+        -20,
+        24,
+        -20,
+        24,
+        20,
+        -24,
+        20
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "crateSmall": {
+   "name": "crateSmall",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitBreakable_WoodenCrate",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "woodenCrate2",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -12,
+        -10,
+        12,
+        -10,
+        12,
+        10,
+        -12,
+        10
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "cornerflag": {
+   "name": "cornerflag",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "NormalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "cornerFlag",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -5,
+        0,
+        -5,
+        -50,
+        5,
+        -50,
+        5,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "goal": {
+   "name": "goal",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitGoal",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "GoalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "goalposts",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -23,
+        -4,
+        -6,
+        -85,
+        19,
+        -86,
+        18,
+        -80,
+        0,
+        -79,
+        -16,
+        -3
+       ],
+       "rotDeg": 0
+      },
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 0,
+       "colMask": 0,
+       "senCat": 8,
+       "senMask": 15,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -11,
+        -4,
+        3,
+        -77,
+        14,
+        -77,
+        14,
+        -4
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "goal2": {
+   "name": "goal2",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitGoal",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "GoalObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "goalposts",
+       "frame": 1,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -21,
+        -86,
+        2,
+        -86,
+        19,
+        -2,
+        13,
+        -2,
+        -3,
+        -83,
+        -20,
+        -83
+       ],
+       "rotDeg": 0
+      },
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 0,
+       "colMask": 0,
+       "senCat": 8,
+       "senMask": 15,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -21,
+        -81,
+        -4,
+        -82,
+        13,
+        -2,
+        -20,
+        -2
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "ball_beachball": {
+   "name": "ball_beachball",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitFootball_Beachball",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Balls"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "beachBall",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 4,
+       "colMask": 15,
+       "senCat": 4,
+       "senMask": 11,
+       "material": "beachball",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "ball_notplayerball": {
+   "name": "ball_notplayerball",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitBurstableBall",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Balls"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "football",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 4,
+       "colMask": 15,
+       "senCat": 4,
+       "senMask": 11,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 12
+      }
+     ]
+    }
+   ]
+  },
+  "ball_verylarge": {
+   "name": "ball_verylarge",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitBurstableBall",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Balls"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "football_veryLarge",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 4,
+       "colMask": 15,
+       "senCat": 4,
+       "senMask": 11,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 64
+      }
+     ]
+    }
+   ]
+  },
+  "ball_large": {
+   "name": "ball_large",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitBurstableBall",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Balls"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "football_large",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 4,
+       "colMask": 15,
+       "senCat": 4,
+       "senMask": 11,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 35
+      }
+     ]
+    }
+   ]
+  },
+  "ball_tiny": {
+   "name": "ball_tiny",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitBurstableBall",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Balls"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "football_tiny",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 4,
+       "colMask": 15,
+       "senCat": 4,
+       "senMask": 11,
+       "material": "football",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 5
+      }
+     ]
+    }
+   ]
+  },
+  "post_movable": {
+   "name": "post_movable",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitAnimatedWhenMoving",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "post_moveable",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -6,
+        -28,
+        6,
+        -28,
+        6,
+        28,
+        -6,
+        28
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "metalpost_loose": {
+   "name": "metalpost_loose",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "metalPost0",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -6,
+        -28,
+        6,
+        -28,
+        6,
+        28,
+        -6,
+        28
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "metalpost_fixed": {
+   "name": "metalpost_fixed",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "metalPost0_fixed",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -6,
+        -28,
+        6,
+        -28,
+        6,
+        28,
+        -6,
+        28
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "woodenpost_loose": {
+   "name": "woodenpost_loose",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitBreakable_WoodenPost",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "woodenPost0",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -6,
+        -28,
+        6,
+        -28,
+        6,
+        28,
+        -6,
+        28
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "woodenpost_fixed": {
+   "name": "woodenpost_fixed",
+   "libClass": "soccerballs",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitBreakable_WoodenPost",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Centre"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "woodenPost0_fixed",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 15,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -6,
+        -28,
+        6,
+        -28,
+        6,
+        28,
+        -6,
+        28
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "icecreamvan": {
+   "name": "icecreamvan",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": "InitIcecreamVan",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "Icecream",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 8,
+       "colMask": 4,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -65,
+        -73,
+        39,
+        -70,
+        64,
+        0,
+        -68,
+        0
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "floodlight": {
+   "name": "floodlight",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingObjects",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "stadium": {
+   "name": "stadium",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingObjects",
+       "frame": 1,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "burgerVan": {
+   "name": "burgerVan",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingObjects",
+       "frame": 2,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "hotdog_van": {
+   "name": "hotdog_van",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingObjects",
+       "frame": 3,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "ninja_world": {
+   "name": "ninja_world",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingObjects",
+       "frame": 4,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "grave_stone": {
+   "name": "grave_stone",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingObjects",
+       "frame": 5,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "circus_sign": {
+   "name": "circus_sign",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingObjects",
+       "frame": 6,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "floodlight_small": {
+   "name": "floodlight_small",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingObjects",
+       "frame": 7,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "footglue": {
+   "name": "footglue",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingObjects",
+       "frame": 8,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_1": {
+   "name": "tree_1",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_2": {
+   "name": "tree_2",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 1,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_3": {
+   "name": "tree_3",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 2,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_4": {
+   "name": "tree_4",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 3,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_5": {
+   "name": "tree_5",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 4,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_6": {
+   "name": "tree_6",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 5,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_7": {
+   "name": "tree_7",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 6,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_8": {
+   "name": "tree_8",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 7,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_9": {
+   "name": "tree_9",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 8,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_10": {
+   "name": "tree_10",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 9,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_11": {
+   "name": "tree_11",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 10,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_12": {
+   "name": "tree_12",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": true,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 11,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_13": {
+   "name": "tree_13",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 12,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "tree_14": {
+   "name": "tree_14",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "trees",
+       "frame": 13,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "rock_1": {
+   "name": "rock_1",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "rocks",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "rock_2": {
+   "name": "rock_2",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "rocks",
+       "frame": 1,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "rock_3": {
+   "name": "rock_3",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "rocks",
+       "frame": 2,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "rock_4": {
+   "name": "rock_4",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "rocks",
+       "frame": 3,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "rock_5": {
+   "name": "rock_5",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "rocks",
+       "frame": 4,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "bush_1": {
+   "name": "bush_1",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "bushes",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "bush_2": {
+   "name": "bush_2",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "bushes",
+       "frame": 1,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "bush_3": {
+   "name": "bush_3",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "bushes",
+       "frame": 2,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "bush_4": {
+   "name": "bush_4",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "bushes",
+       "frame": 3,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "bush_5": {
+   "name": "bush_5",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "bushes",
+       "frame": 4,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "bush_6": {
+   "name": "bush_6",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "bushes",
+       "frame": 5,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "bush_7": {
+   "name": "bush_7",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "bushes",
+       "frame": 6,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "bush_8": {
+   "name": "bush_8",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "bushes",
+       "frame": 7,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "soil_rock1": {
+   "name": "soil_rock1",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Decorations"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "scenery_rocks",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "soil_rock2": {
+   "name": "soil_rock2",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Decorations"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "scenery_rocks",
+       "frame": 1,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "soil_rock3": {
+   "name": "soil_rock3",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Decorations"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "scenery_rocks",
+       "frame": 2,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "soil_rock4": {
+   "name": "soil_rock4",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Decorations"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "scenery_rocks",
+       "frame": 3,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "soil_rock5": {
+   "name": "soil_rock5",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Decorations"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "scenery_rocks",
+       "frame": 4,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "soil_cave1": {
+   "name": "soil_cave1",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Decorations"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingSoil",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "soil_cave2": {
+   "name": "soil_cave2",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Decorations"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingSoil",
+       "frame": 1,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "soil_cave3": {
+   "name": "soil_cave3",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Decorations"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingSoil",
+       "frame": 2,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "soil_cave4": {
+   "name": "soil_cave4",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Decorations"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingSoil",
+       "frame": 3,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "skulls": {
+   "name": "skulls",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Decorations"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingSoil",
+       "frame": 4,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "dino_skelton": {
+   "name": "dino_skelton",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Decorations"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "dressingSoil",
+       "frame": 5,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "cloud": {
+   "name": "cloud",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "clouds",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "starling": {
+   "name": "starling",
+   "libClass": "furniture",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": null,
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "SceneryObjects"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "starling",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "spawner": {
+   "name": "spawner",
+   "libClass": "normal",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": "InitSpawner",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "spawner_initialdelay": "0",
+    "spawner_frequency": "3",
+    "spawner_spawnobject": "ball_tiny",
+    "spawner_totalamount": "10"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "wormhole_large",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "circle",
+       "name": "",
+       "colCat": 0,
+       "colMask": 0,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "radius": 10
+      }
+     ]
+    }
+   ]
+  },
+  "path_object": {
+   "name": "path_object",
+   "libClass": "platform",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitPhysObj_Path_Virtual",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "path_startmode": "start",
+    "path_endmode": "stop",
+    "path_switchmode": "stop",
+    "path_line": "",
+    "path_speed": "30",
+    "path_ease": "linear",
+    "path_easevalue": "1",
+    "path_startpos": "0",
+    "path_rotatetopath": "false"
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": true,
+     "graphics": [
+      {
+       "clip": "editor_linker",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 0,
+       "colMask": 0,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "average",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -34,
+        -6,
+        34,
+        -6,
+        34,
+        6,
+        -34,
+        6
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "switch_regular": {
+   "name": "switch_regular",
+   "libClass": "zswitches",
+   "hasPhysics": true,
+   "snapToFloor": false,
+   "initFunction": "InitDoorSwitch",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "doorswitch_openangle": "90",
+    "doorswitch_2way": "true",
+    "doorswitch_ccw": "false",
+    "doorswitch_linkid": "0",
+    "doorswitch_rotvel": "6",
+    "doorswitch_link": ""
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": false,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "switch_green",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": [
+      {
+       "type": "poly",
+       "name": "",
+       "colCat": 4,
+       "colMask": 14,
+       "senCat": 0,
+       "senMask": 0,
+       "material": "switch",
+       "pos": [
+        0,
+        0
+       ],
+       "vertices": [
+        -5,
+        -5,
+        48,
+        -5,
+        48,
+        5,
+        -5,
+        5
+       ],
+       "rotDeg": 0
+      }
+     ]
+    }
+   ]
+  },
+  "helptext_text": {
+   "name": "helptext_text",
+   "libClass": "links",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": "GameObj_InitHelpText",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Foreground",
+    "helptext_text": "",
+    "helptext_initialdelay": "",
+    "helptext_color": ""
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "editor_helpText",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "helptext_text_foreground": {
+   "name": "helptext_text_foreground",
+   "libClass": "links",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": "GameObj_InitHelpText",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Foreground",
+    "helptext_text": "",
+    "editor_helpText": "",
+    "helptext_color": ""
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "Text_Marker",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "helpobject_arrow1": {
+   "name": "helpobject_arrow1",
+   "libClass": "walkthrough",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": "GameObj_InitHelpObject",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Foreground",
+    "helptext_initialdelay": "",
+    "helptext_color": ""
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "walkthroughArrow",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "helpobject_marker": {
+   "name": "helpobject_marker",
+   "libClass": "walkthrough",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": "GameObj_InitHelpObject",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Foreground",
+    "helptext_initialdelay": "",
+    "helptext_color": ""
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "walkthroughMarker",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "arrow_1_walkthrough": {
+   "name": "arrow_1_walkthrough",
+   "libClass": "walkthrough",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": "InitWalkthroughObject",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Foreground",
+    "helptext_initialdelay": "",
+    "helptext_color": ""
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "walkthroughArrow",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "marker_walkthrough": {
+   "name": "marker_walkthrough",
+   "libClass": "walkthrough",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": "InitWalkthroughObject",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Foreground",
+    "helptext_initialdelay": "",
+    "helptext_color": ""
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "walkthroughMarker",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "helptext_text_walkthrough": {
+   "name": "helptext_text_walkthrough",
+   "libClass": "walkthrough",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": "GameObj_InitHelpTextW",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Foreground",
+    "helptext_text": "",
+    "helptext_initialdelay": "",
+    "helptext_color": ""
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "editor_walkthroughText",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  },
+  "helptext_text_walkthrough_with_marker": {
+   "name": "helptext_text_walkthrough_with_marker",
+   "libClass": "walkthrough",
+   "hasPhysics": false,
+   "snapToFloor": false,
+   "initFunction": "GameObj_InitHelpTextW_WithMarker",
+   "initParams": "",
+   "wakeFunction": "",
+   "params": {
+    "game_layer": "Near_Foreground",
+    "helptext_text": "",
+    "helptext_initialdelay": "",
+    "helptext_color": ""
+   },
+   "sfxBreak": "",
+   "sfxHit": "",
+   "bodies": [
+    {
+     "name": "fix",
+     "pos": [
+      0,
+      0
+     ],
+     "fixed": true,
+     "sensor": false,
+     "graphics": [
+      {
+       "clip": "editor_walkthroughText",
+       "frame": 0,
+       "pos": [
+        0,
+        0
+       ],
+       "rot": 0,
+       "shadow": true,
+       "goInitFunction": "",
+       "goInitVars": ""
+      }
+     ],
+     "shapes": []
+    }
+   ]
+  }
+ }
+}

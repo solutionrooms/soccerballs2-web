@@ -200,24 +200,21 @@ export class PhysicsWorld {
         ),
       );
     } else if (shape.vertices && shape.vertices.length >= 6) {
-      // Fan-triangulate like PhysicsBase.AddPhysObjAt — works for the convex
-      // and mildly concave editor shapes the game uses.
-      const pts: pl.Vec2[] = [];
+      // Ear-clip triangulate (Nape's GeomPoly.triangularDecomposition). Fan
+      // triangulation is WRONG for the concave editor shapes — e.g. the goal
+      // post collider doubles back, so a fan leaves gaps the ball slips
+      // through (scoring from behind the net).
       const rot = ((shape.rotDeg ?? 0) * Math.PI) / 180;
       const cos = Math.cos(rot);
       const sin = Math.sin(rot);
+      const flat: number[] = [];
       for (let i = 0; i < shape.vertices.length; i += 2) {
         const vx = shape.vertices[i] * scale;
         const vy = shape.vertices[i + 1] * scale;
-        pts.push(
-          new pl.Vec2(
-            (vx * cos - vy * sin + shape.pos[0] * scale) / S,
-            (vx * sin + vy * cos + shape.pos[1] * scale) / S,
-          ),
-        );
+        flat.push(vx * cos - vy * sin + shape.pos[0] * scale, vx * sin + vy * cos + shape.pos[1] * scale);
       }
-      for (let i = 1; i < pts.length - 1; i++) {
-        geoms.push(new pl.Polygon([pts[0], pts[i], pts[i + 1]]));
+      for (const tri of triangulate(flat)) {
+        geoms.push(new pl.Polygon(tri.map((p) => new pl.Vec2(p[0] / S, p[1] / S))));
       }
     }
 

@@ -3,6 +3,7 @@
 // player or opponent side is chosen by the caller (match select).
 import type { Scene, SceneContext } from './scene';
 import { drawRig } from '../game/rig';
+import { fillTextSafe } from '../render/ui-screen';
 import { DEFAULT_TEAMS, kitOverride, resolveTeam } from '../game/kits';
 
 export class PickTeamScene implements Scene {
@@ -20,7 +21,8 @@ export class PickTeamScene implements Scene {
     for (const child of screen.frames[0].children) {
       const m = child.name.match(/^team(\d)$/);
       if (!m) continue;
-      if (Math.abs(x - child.x) < 70 && Math.abs(y - child.y) < 75) return Number(m[1]) - 1;
+      // card art spans (x-5, y-31) .. (x+206, y+90)
+      if (x > child.x - 5 && x < child.x + 206 && y > child.y - 31 && y < child.y + 90) return Number(m[1]) - 1;
     }
     return -1;
   }
@@ -73,16 +75,21 @@ export class PickTeamScene implements Scene {
       if (!m) continue;
       const idx = Number(m[1]) - 1;
       const team = resolveTeam(idx, ctx.save.customTeam);
-      // live kit preview: the player rig at idle frame 0
-      drawRig(g, ctx.atlas, 'player', 0, child.x, child.y + 45, {
-        scale: 0.9,
+      // live kit preview over the card's shirt display (card is 211x121 at
+      // origin (x-5, y-31); shirt sits centre-right)
+      drawRig(g, ctx.atlas, 'player', 0, child.x + 128, child.y + 42, {
+        scale: 0.85,
         override: kitOverride(team),
       });
+      // name over the card's TEAM NAME plate
       g.save();
-      g.font = '11px "Komika Axis", sans-serif';
+      g.fillStyle = '#0d1f10';
+      g.fillRect(child.x + 44, child.y + 52, 158, 25);
+      g.font = '12px "Komika Axis", sans-serif';
       g.fillStyle = idx === selected ? '#f7f546' : '#ffffff';
       g.textAlign = 'center';
-      g.fillText(DEFAULT_TEAMS[idx].teamName, child.x, child.y + 62);
+      g.textBaseline = 'middle';
+      fillTextSafe(g, DEFAULT_TEAMS[idx].teamName, child.x + 123, child.y + 65);
       g.restore();
     }
     r.endFrame();

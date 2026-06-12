@@ -6,6 +6,8 @@
 import type { Scene, SceneContext } from './scene';
 import { LEVELS } from '../game/level-loader';
 import { GameScene } from './game-scene';
+import { fillTextSafe } from '../render/ui-screen';
+import { coinsCollectedTotal } from '../game/save-data';
 
 const NUM_PER_PAGE = 9;
 const NUM_PAGES = 4;
@@ -99,6 +101,8 @@ export class LevelSelectScene implements Scene {
     const hidden = new Set<string>();
     if (this.page === 0) hidden.add('prevPage');
     if (this.page === NUM_PAGES - 1) hidden.add('nextPage');
+    hidden.add('coinBox'); // baked "100/100" placeholder text — redrawn below
+    hidden.add('trophies'); // baked all-gold strip — redrawn below
     ctx.ui.draw(g, 'screen_levelSelect', 0, {
       hidden,
       hover,
@@ -106,6 +110,34 @@ export class LevelSelectScene implements Scene {
         textLevelName: this.hoverLevel >= 0 ? LEVELS[this.hoverLevel].name : '',
       },
     });
+
+    // collection status (replaces coinBox/trophies sprites): star count +
+    // the ten trophies, greyed until collected
+    g.save();
+    g.fillStyle = 'rgba(10,25,12,0.75)';
+    g.beginPath();
+    g.roundRect(243, 477, 125, 35, 8);
+    g.fill();
+    ctx.atlas.draw(g, 'Pickups', 0, 262, 495, { scale: 1.1 });
+    g.font = '14px "Komika Axis", sans-serif';
+    g.fillStyle = '#f7f546';
+    g.textAlign = 'left';
+    g.textBaseline = 'middle';
+    const totalCoins = LEVELS.reduce((s2, l) => s2 + l.totalCoins, 0);
+    fillTextSafe(g, `${coinsCollectedTotal(ctx.save)}/${totalCoins}`, 280, 496);
+    g.beginPath();
+    g.roundRect(378, 477, 320, 35, 8);
+    g.fillStyle = 'rgba(10,25,12,0.75)';
+    g.fill();
+    for (let t = 1; t <= 10; t++) {
+      const got = ctx.save.trophies.includes(t);
+      if (!got) g.filter = 'grayscale(1) brightness(0.55)';
+      ctx.atlas.draw(g, 'Pickups_Trophies', t - 1, 390 + (t - 1) * 26, 505, { scale: 0.55 });
+      g.filter = 'none';
+    }
+    g.fillStyle = '#f7f546';
+    fillTextSafe(g, `${ctx.save.trophies.length}/10`, 652, 496);
+    g.restore();
 
     for (let i = 0; i < NUM_PER_PAGE; i++) {
       const level = this.page * NUM_PER_PAGE + i;

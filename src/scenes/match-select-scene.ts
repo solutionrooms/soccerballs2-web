@@ -48,6 +48,7 @@ export class MatchSelectScene implements Scene {
         textPlayer: 'PLAYER',
         textComputer: 'COMPUTER',
       },
+      centerTexts: new Set(['textTeamName0', 'textTeamName1']),
     });
 
     // live kit previews standing centred in the home/away panels

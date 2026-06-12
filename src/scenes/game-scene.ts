@@ -119,9 +119,11 @@ export class GameScene implements Scene {
     // HUD mute buttons consume the click before kick handling
     if (inp.buttonPressed && hudHandleClick(ctx)) {
       // consumed
-    } else if (this.level.phase === 'play' && inp.buttonPressed && inp.y < 487) {
-      // click-to-kick (GameObj.as:5031-5038 — only above the HUD strip)
-      this.level.doKick = true;
+    } else if (this.level.phase === 'play' && inp.y < 487) {
+      // Desktop: click to kick (GameObj.as:5031-5038). Touch: drag to aim
+      // (the arc follows the finger), lift to kick — the original mobile mode.
+      const fire = inp.isTouch ? inp.buttonReleased : inp.buttonPressed;
+      if (fire) this.level.doKick = true;
     }
 
     if (this.level.phase === 'end') {

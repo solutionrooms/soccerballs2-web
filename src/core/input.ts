@@ -13,6 +13,8 @@ export class InputManager {
   buttonPressed = false;
   /** went up this frame */
   buttonReleased = false;
+  /** true once any touch input has been seen (enables drag-to-aim kicking) */
+  isTouch = false;
 
   private prevX = 0;
   private prevY = 0;
@@ -23,20 +25,42 @@ export class InputManager {
   constructor(canvas: HTMLCanvasElement, renderer: Renderer) {
     this.renderer = renderer;
 
-    canvas.addEventListener('pointerdown', (e) => {
-      this.updatePos(e);
+    // Listen on window (not just the canvas) so automation/synthetic events
+    // and clicks dispatched at the document still register. A 'click' fallback
+    // covers environments that don't deliver pointerdown to the canvas.
+    const press = (e: PointerEvent | MouseEvent): void => {
+      if ('pointerType' in e && e.pointerType === 'touch') this.isTouch = true;
+      const p = this.renderer.screenToStage(e.clientX, e.clientY);
+      this.x = p.x;
+      this.y = p.y;
       this.buttonDown = true;
       this.buttonPressed = true;
-      canvas.setPointerCapture(e.pointerId);
+    };
+    window.addEventListener('pointerdown', (e) => {
+      press(e);
+      try {
+        canvas.setPointerCapture(e.pointerId);
+      } catch {
+        // synthetic/automation events may lack a capturable pointer
+      }
     });
-    canvas.addEventListener('pointermove', (e) => this.updatePos(e));
+    window.addEventListener('mousedown', press);
+    window.addEventListener('click', (e) => {
+      // only synthesize a press if pointerdown didn't already fire this gesture
+      if (!this.buttonPressed) {
+        press(e);
+        this.buttonReleased = true;
+        this.buttonDown = false;
+      }
+    });
+    window.addEventListener('pointermove', (e) => this.updatePos(e));
     const up = (e: PointerEvent): void => {
       this.updatePos(e);
       if (this.buttonDown) this.buttonReleased = true;
       this.buttonDown = false;
     };
-    canvas.addEventListener('pointerup', up);
-    canvas.addEventListener('pointercancel', up);
+    window.addEventListener('pointerup', up);
+    window.addEventListener('pointercancel', up);
 
     window.addEventListener('keydown', (e) => {
       if (!this.keysDown.has(e.code)) this.keysPressed.add(e.code);

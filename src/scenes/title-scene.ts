@@ -64,7 +64,11 @@ export class TitleScene implements Scene {
       g.fillStyle = 'rgba(0,0,0,0.5)';
       g.fillRect(0, 0, STAGE_W, STAGE_H);
       const hover = ctx.ui.hitTest('screen_clearSave', 0, ctx.input.x, ctx.input.y, new Set(['btn_yes', 'btn_no']));
-      ctx.ui.draw(g, 'screen_clearSave', 0, { hover });
+      ctx.ui.draw(g, 'screen_clearSave', 0, {
+        hover,
+        hiddenCharIds: new Set([151]), // full-screen "INFORMATION HERE" placeholder
+        centerTexts: new Set(['textTitle']),
+      });
     } else {
       const hover = ctx.ui.hitTest(SCREEN, 0, ctx.input.x, ctx.input.y, ACTIVE);
       ctx.ui.draw(g, SCREEN, 0, { hidden: HIDDEN, hover });

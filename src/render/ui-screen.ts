@@ -41,6 +41,36 @@ function htmlColor(html: string): string {
   return m ? m[1] : '#ffffff';
 }
 
+/**
+ * fillText that survives the extracted Komika Axis TTF's zero-width space
+ * glyph: words are laid out manually with a 0.32em gap.
+ */
+export function fillTextSafe(ctx: CanvasRenderingContext2D, text: string, x: number, y: number): void {
+  if (!text.includes(' ')) {
+    ctx.fillText(text, x, y);
+    return;
+  }
+  const em = ctx.measureText('M').width;
+  if (ctx.measureText(' ').width > em * 0.15) {
+    ctx.fillText(text, x, y);
+    return;
+  }
+  const gap = em * 0.32;
+  const words = text.split(' ');
+  const widths = words.map((w) => ctx.measureText(w).width);
+  const total = widths.reduce((a, b) => a + b, 0) + gap * (words.length - 1);
+  let sx = x;
+  if (ctx.textAlign === 'center') sx = x - total / 2;
+  else if (ctx.textAlign === 'right' || ctx.textAlign === 'end') sx = x - total;
+  const prevAlign = ctx.textAlign;
+  ctx.textAlign = 'left';
+  for (let i = 0; i < words.length; i++) {
+    ctx.fillText(words[i], sx, y);
+    sx += widths[i] + gap;
+  }
+  ctx.textAlign = prevAlign;
+}
+
 function htmlSize(html: string, fallbackTwips: number): number {
   const m = html.match(/size="(\d+)"/);
   return m ? Number(m[1]) : fallbackTwips / 20;
@@ -87,10 +117,15 @@ export class UiScreens {
       scale?: number;
       /** canvas filter applied to the whole screen draw (e.g. grayscale) */
       filter?: string;
+      /** force centre alignment for these named TextFields */
+      centerTexts?: Set<string>;
+      /** hide children by character id (for unnamed placeholder sprites) */
+      hiddenCharIds?: Set<number>;
     } = {},
   ): void {
     const screen = data.screens[screenName];
-    const f = screen?.frames[Math.min(frame, (screen?.frames.length ?? 1) - 1)];
+    const fi = frame < 0 ? (screen?.frames.length ?? 1) - 1 : Math.min(frame, (screen?.frames.length ?? 1) - 1);
+    const f = screen?.frames[fi];
     if (!f) return;
     const offX = opts.offsetX ?? 0;
     const offY = opts.offsetY ?? 0;
@@ -104,6 +139,7 @@ export class UiScreens {
 
     for (const child of f.children) {
       if (child.name && opts.hidden?.has(child.name)) continue;
+      if (opts.hiddenCharIds?.has(child.charId)) continue;
 
       if (child.kind === 'text' && child.text) {
         const override = child.name ? opts.textOverrides?.[child.name] : undefined;
@@ -118,10 +154,11 @@ export class UiScreens {
         const ty = child.y + child.text.y * child.scaleY + offY;
         const tw = child.text.w * child.scaleX;
         // align: 0=left 1=right 2=center
-        ctx.textAlign = child.text.align === 2 ? 'center' : child.text.align === 1 ? 'right' : 'left';
-        const ax = child.text.align === 2 ? tx + tw / 2 : child.text.align === 1 ? tx + tw : tx;
+        const align = child.name && opts.centerTexts?.has(child.name) ? 2 : child.text.align;
+        ctx.textAlign = align === 2 ? 'center' : align === 1 ? 'right' : 'left';
+        const ax = align === 2 ? tx + tw / 2 : align === 1 ? tx + tw : tx;
         content.split('\n').forEach((line, i) => {
-          ctx.fillText(line, ax, ty + 2 + i * size * 1.15);
+          fillTextSafe(ctx, line, ax, ty + 2 + i * size * 1.15);
         });
         ctx.restore();
         continue;
@@ -153,7 +190,8 @@ export class UiScreens {
   /** topmost named child whose bounds contain the stage point */
   hitTest(screenName: string, frame: number, x: number, y: number, names?: Set<string>): string | null {
     const screen = data.screens[screenName];
-    const f = screen?.frames[Math.min(frame, (screen?.frames.length ?? 1) - 1)];
+    const fi = frame < 0 ? (screen?.frames.length ?? 1) - 1 : Math.min(frame, (screen?.frames.length ?? 1) - 1);
+    const f = screen?.frames[fi];
     if (!f) return null;
     for (let i = f.children.length - 1; i >= 0; i--) {
       const child = f.children[i];

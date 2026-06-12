@@ -7,6 +7,7 @@ import { GameObjects, GameContext, GameObj } from '../game/gameobj';
 import { LevelState } from '../game/game-state';
 import { loadLevel, LoadedLevel, LEVELS } from '../game/level-loader';
 import { Camera } from '../game/camera';
+import { AimPad } from '../render/aim-pad';
 import { kickAim } from '../game/behaviors/core';
 import { renderBallPath } from '../game/ballpath';
 import { renderTerrainLine } from '../game/terrain';
@@ -51,6 +52,7 @@ export class GameScene implements Scene {
   private level!: LevelState;
   private loaded!: LoadedLevel;
   private camera = new Camera();
+  private aimPad = new AimPad();
   private g!: GameContext;
   private levelIndex: number;
 
@@ -116,14 +118,24 @@ export class GameScene implements Scene {
       return;
     }
 
-    // HUD mute buttons consume the click before kick handling
-    if (inp.buttonPressed && hudHandleClick(ctx)) {
-      // consumed
-    } else if (this.level.phase === 'play' && inp.y < 487) {
-      // Desktop: click to kick (GameObj.as:5031-5038). Touch: drag to aim
-      // (the arc follows the finger), lift to kick — the original mobile mode.
-      const fire = inp.isTouch ? inp.buttonReleased : inp.buttonPressed;
-      if (fire) this.level.doKick = true;
+    // aiming: a touch player aims via the corner pad (finger off the field);
+    // a mouse player aims by pointing and clicks to kick.
+    const playerAiming = this.level.phase === 'play' && this.objects.byName('football')?.state === 1;
+    if (inp.isTouch) {
+      const fired = this.aimPad.update(inp, ctx.r, !!playerAiming);
+      this.g.aimOverride = this.aimPad.aiming ? this.aimPad.vector : null;
+      if (fired) this.level.doKick = true;
+      // taps outside the pad can still hit the HUD mute buttons
+      if (inp.buttonPressed && !this.aimPad.aiming) hudHandleClick(ctx);
+    } else {
+      this.g.aimOverride = null;
+      // HUD mute buttons consume the click before kick handling
+      if (inp.buttonPressed && hudHandleClick(ctx)) {
+        // consumed
+      } else if (this.level.phase === 'play' && inp.buttonPressed && inp.y < 487) {
+        // click-to-kick (GameObj.as:5031-5038 — only above the HUD strip)
+        this.level.doKick = true;
+      }
     }
 
     if (this.level.phase === 'end') {
@@ -205,7 +217,11 @@ export class GameScene implements Scene {
 
     // camera follows the ball
     const ball = this.objects.byName('football');
-    this.camera.update(ball, inp.x, inp.y, this.loaded.scrollBounds);
+    // touch aims via the corner pad, so don't bias the camera toward the
+    // finger — keep the ball centred
+    const camMouseX = inp.isTouch ? STAGE_W / 2 : inp.x;
+    const camMouseY = inp.isTouch ? STAGE_H / 2 : inp.y;
+    this.camera.update(ball, camMouseX, camMouseY, this.loaded.scrollBounds);
   }
 
   // DoEndLevelStuff (Game.as:752-775): rating, unlock chain, coins, trophies
@@ -331,6 +347,12 @@ export class GameScene implements Scene {
     }
 
     r.endFrame();
+
+    // aim pad drawn in screen space (outside the stage clip), touch only,
+    // while the player can kick
+    if (ctx.input.isTouch && this.level.phase === 'play' && this.objects.byName('football')?.state === 1) {
+      this.aimPad.render(g);
+    }
   }
 
   private renderTerrain(g: CanvasRenderingContext2D, ctx: SceneContext): void {

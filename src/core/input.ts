@@ -15,6 +15,9 @@ export class InputManager {
   buttonReleased = false;
   /** true once any touch input has been seen (enables drag-to-aim kicking) */
   isTouch = false;
+  /** pointer position in CSS pixels within the canvas (for screen-space UI like the aim pad) */
+  screenX = 0;
+  screenY = 0;
 
   private prevX = 0;
   private prevY = 0;
@@ -25,34 +28,21 @@ export class InputManager {
   constructor(canvas: HTMLCanvasElement, renderer: Renderer) {
     this.renderer = renderer;
 
-    // Listen on window (not just the canvas) so automation/synthetic events
-    // and clicks dispatched at the document still register. A 'click' fallback
-    // covers environments that don't deliver pointerdown to the canvas.
-    const press = (e: PointerEvent | MouseEvent): void => {
-      if ('pointerType' in e && e.pointerType === 'touch') this.isTouch = true;
-      const p = this.renderer.screenToStage(e.clientX, e.clientY);
-      this.x = p.x;
-      this.y = p.y;
+    // Pointer events only — they unify mouse, touch and pen. (Adding mousedown
+    // or click on top double-fires on desktop, since one mouse click emits all
+    // three.) Listen on window so a press anywhere registers.
+    const press = (e: PointerEvent): void => {
+      if (e.pointerType === 'touch') this.isTouch = true;
+      this.updatePos(e);
       this.buttonDown = true;
       this.buttonPressed = true;
-    };
-    window.addEventListener('pointerdown', (e) => {
-      press(e);
       try {
         canvas.setPointerCapture(e.pointerId);
       } catch {
         // synthetic/automation events may lack a capturable pointer
       }
-    });
-    window.addEventListener('mousedown', press);
-    window.addEventListener('click', (e) => {
-      // only synthesize a press if pointerdown didn't already fire this gesture
-      if (!this.buttonPressed) {
-        press(e);
-        this.buttonReleased = true;
-        this.buttonDown = false;
-      }
-    });
+    };
+    window.addEventListener('pointerdown', press);
     window.addEventListener('pointermove', (e) => this.updatePos(e));
     const up = (e: PointerEvent): void => {
       this.updatePos(e);
@@ -73,7 +63,10 @@ export class InputManager {
     });
   }
 
-  private updatePos(e: PointerEvent): void {
+  private updatePos(e: PointerEvent | MouseEvent): void {
+    const rect = this.renderer.canvas.getBoundingClientRect();
+    this.screenX = e.clientX - rect.left;
+    this.screenY = e.clientY - rect.top;
     const p = this.renderer.screenToStage(e.clientX, e.clientY);
     this.x = p.x;
     this.y = p.y;

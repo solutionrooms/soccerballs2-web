@@ -247,21 +247,34 @@ function updatePlayer(player: GameObj, g: GameContext): void {
       cycleAnim(player);
       return;
     }
-    const mx = g.mouseX + g.cameraX;
-    const my = g.mouseY + g.cameraY;
-    player.xflip = mx < player.xpos;
-    cycleAnim(player);
-
-    const dx = mx - ball.xpos;
-    const dy = my - ball.ypos;
     let kickPower0 = VARS.kick_power0;
     let kickPower1 = VARS.kick_power1;
     if (ball.collisionType === 'beachball') {
       kickPower0 = VARS.kick_power0_beachball;
       kickPower1 = VARS.kick_power1_beachball;
     }
-    const dist = distBetween(0, 0, dx, dy);
-    const spd = scaleToPreLimit(kickPower0, kickPower1, VARS.kick_dist0, VARS.kick_dist1, dist);
+
+    let dx: number;
+    let dy: number;
+    let spd: number;
+    let dist: number;
+    if (g.aimOverride && (g.aimOverride.dx !== 0 || g.aimOverride.dy !== 0)) {
+      // touch aim pad: direction + power come from the pad, not the cursor
+      dx = g.aimOverride.dx;
+      dy = g.aimOverride.dy;
+      spd = kickPower0 + (kickPower1 - kickPower0) * g.aimOverride.power01;
+      dist = VARS.kick_dist0 + (VARS.kick_dist1 - VARS.kick_dist0) * g.aimOverride.power01;
+    } else {
+      const mx = g.mouseX + g.cameraX;
+      const my = g.mouseY + g.cameraY;
+      dx = mx - ball.xpos;
+      dy = my - ball.ypos;
+      dist = distBetween(0, 0, dx, dy);
+      spd = scaleToPreLimit(kickPower0, kickPower1, VARS.kick_dist0, VARS.kick_dist1, dist);
+    }
+    player.xflip = ball.xpos + dx < player.xpos;
+    cycleAnim(player);
+
     const ang = Math.atan2(dy, dx);
     kickAim.active = true;
     kickAim.jx = Math.cos(ang) * spd;

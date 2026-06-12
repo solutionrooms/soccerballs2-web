@@ -18,6 +18,8 @@ export interface GameContext {
   cameraX: number;
   cameraY: number;
   bounds: { left: number; top: number; right: number; bottom: number };
+  /** touch aim pad override: when set, the player aims by this instead of the mouse */
+  aimOverride?: { dx: number; dy: number; power01: number } | null;
 }
 
 export type UpdateFn = (go: GameObj, g: GameContext) => void;

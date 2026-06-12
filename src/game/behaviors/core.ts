@@ -272,7 +272,9 @@ function updatePlayer(player: GameObj, g: GameContext): void {
       dist = distBetween(0, 0, dx, dy);
       spd = scaleToPreLimit(kickPower0, kickPower1, VARS.kick_dist0, VARS.kick_dist1, dist);
     }
-    player.xflip = ball.xpos + dx < player.xpos;
+    // face the horizontal kick direction (works for both the full mouse delta
+    // and the pad's unit-vector aim; the original compared cursor x to player x)
+    player.xflip = dx < 0;
     cycleAnim(player);
 
     const ang = Math.atan2(dy, dx);

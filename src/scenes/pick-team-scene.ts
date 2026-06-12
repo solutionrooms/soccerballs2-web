@@ -3,7 +3,7 @@
 // player or opponent side is chosen by the caller (match select).
 import type { Scene, SceneContext } from './scene';
 import { drawRig } from '../game/rig';
-import { fillTextSafe } from '../render/ui-screen';
+import { fillTextSafe, uiFont } from '../render/ui-screen';
 import { DEFAULT_TEAMS, kitOverride, resolveTeam } from '../game/kits';
 
 export class PickTeamScene implements Scene {
@@ -85,7 +85,7 @@ export class PickTeamScene implements Scene {
       g.save();
       g.fillStyle = '#0d1f10';
       g.fillRect(child.x + 44, child.y + 52, 158, 25);
-      g.font = '12px "Komika Axis", sans-serif';
+      g.font = uiFont(12);
       g.fillStyle = idx === selected ? '#f7f546' : '#ffffff';
       g.textAlign = 'center';
       g.textBaseline = 'middle';

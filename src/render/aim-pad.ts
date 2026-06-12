@@ -1,16 +1,15 @@
 // On-screen aiming pad for touch play. Lives in a screen-space corner (in the
 // letterbox, away from the play field) so the finger never covers the ball.
-// Drag sets kick direction + power; lift fires. Mirrors the original mobile
-// joystick aim (Game.controlMode 1) but relocated off the field.
+// The pad ONLY aims — it sets direction + power and the aim persists. Kicking
+// is a separate tap on the field/player, so releasing the pad never fires a
+// stray kick.
 import type { Renderer } from './renderer';
 import type { InputManager } from '../core/input';
 
 export interface AimVector {
-  /** unit direction in world axes (y down), or 0,0 when centred */
-  dx: number;
+  dx: number; // unit direction, world axes (y down)
   dy: number;
-  /** 0..1 of the pad radius — drives kick power between min and max */
-  power01: number;
+  power01: number; // 0..1 of pad radius -> kick power
 }
 
 export class AimPad {
@@ -19,41 +18,50 @@ export class AimPad {
   private radius = 70;
   private knobX = 0;
   private knobY = 0;
-  /** a pad drag is in progress */
-  aiming = false;
+  /** a pad drag is currently in progress */
+  private grabbing = false;
 
   private layout(r: Renderer): void {
-    // bottom-right corner, sized to the screen, thumb-reachable
     this.radius = Math.max(48, Math.min(r.height * 0.16, 92));
     const margin = this.radius * 0.55;
     this.cx = r.width - margin - this.radius;
     this.cy = r.height - margin - this.radius;
   }
 
-  /**
-   * Process input. Returns true on the frame the pad is released (kick).
-   * `enabled` gates new grabs (e.g. only while the player is aiming).
-   */
-  update(input: InputManager, r: Renderer, enabled: boolean): boolean {
+  /** is the pointer within the pad's grab area? */
+  contains(input: InputManager, r: Renderer): boolean {
     this.layout(r);
     const dx = input.screenX - this.cx;
     const dy = input.screenY - this.cy;
-    const within = dx * dx + dy * dy <= (this.radius * 1.35) ** 2;
+    return dx * dx + dy * dy <= (this.radius * 1.35) ** 2;
+  }
 
-    if (!this.aiming && enabled && input.buttonPressed && within) {
-      this.aiming = true;
+  /** Update the knob while the pad is being dragged. Never fires a kick. */
+  update(input: InputManager, r: Renderer, enabled: boolean): void {
+    this.layout(r);
+    const dx = input.screenX - this.cx;
+    const dy = input.screenY - this.cy;
+    if (!this.grabbing && enabled && input.buttonPressed && this.contains(input, r)) {
+      this.grabbing = true;
     }
-    if (this.aiming && input.buttonDown) {
+    if (this.grabbing && input.buttonDown) {
       const d = Math.hypot(dx, dy);
       const k = d > this.radius ? this.radius / d : 1;
       this.knobX = dx * k;
       this.knobY = dy * k;
     }
-    if (this.aiming && input.buttonReleased) {
-      this.aiming = false;
-      return true;
+    if (this.grabbing && input.buttonReleased) {
+      this.grabbing = false; // knob persists — the aim stays set
     }
-    return false;
+  }
+
+  /** the player has set a meaningful aim */
+  get hasAim(): boolean {
+    return Math.hypot(this.knobX, this.knobY) > this.radius * 0.12;
+  }
+
+  get aiming(): boolean {
+    return this.grabbing;
   }
 
   get vector(): AimVector {
@@ -63,16 +71,15 @@ export class AimPad {
   }
 
   reset(): void {
-    this.aiming = false;
+    this.grabbing = false;
     this.knobX = 0;
     this.knobY = 0;
   }
 
-  /** Draw in screen space (call after the world/HUD, outside the stage clip). */
+  /** Draw in screen space (after the world/HUD, outside the stage clip). */
   render(ctx: CanvasRenderingContext2D): void {
     ctx.save();
-    ctx.globalAlpha = this.aiming ? 0.85 : 0.5;
-    // base ring
+    ctx.globalAlpha = this.grabbing ? 0.9 : 0.55;
     ctx.beginPath();
     ctx.arc(this.cx, this.cy, this.radius, 0, Math.PI * 2);
     ctx.fillStyle = 'rgba(0,0,0,0.35)';
@@ -80,10 +87,9 @@ export class AimPad {
     ctx.lineWidth = 3;
     ctx.strokeStyle = 'rgba(255,255,255,0.6)';
     ctx.stroke();
-    // direction line + knob
     const kx = this.cx + this.knobX;
     const ky = this.cy + this.knobY;
-    if (this.aiming && (this.knobX || this.knobY)) {
+    if (this.knobX || this.knobY) {
       ctx.beginPath();
       ctx.moveTo(this.cx, this.cy);
       ctx.lineTo(kx, ky);
@@ -93,8 +99,14 @@ export class AimPad {
     }
     ctx.beginPath();
     ctx.arc(kx, ky, this.radius * 0.32, 0, Math.PI * 2);
-    ctx.fillStyle = this.aiming ? 'rgba(247,245,70,0.95)' : 'rgba(255,255,255,0.55)';
+    ctx.fillStyle = this.hasAim ? 'rgba(247,245,70,0.95)' : 'rgba(255,255,255,0.55)';
     ctx.fill();
+    // hint label
+    ctx.globalAlpha = 0.8;
+    ctx.fillStyle = '#fff';
+    ctx.font = `${Math.round(this.radius * 0.22)}px sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.fillText('AIM', this.cx, this.cy - this.radius - 6);
     ctx.restore();
   }
 }

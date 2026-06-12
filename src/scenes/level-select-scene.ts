@@ -6,7 +6,7 @@
 import type { Scene, SceneContext } from './scene';
 import { LEVELS } from '../game/level-loader';
 import { GameScene } from './game-scene';
-import { fillTextSafe } from '../render/ui-screen';
+import { fillTextSafe, uiFont } from '../render/ui-screen';
 import { coinsCollectedTotal } from '../game/save-data';
 
 const NUM_PER_PAGE = 9;
@@ -119,7 +119,7 @@ export class LevelSelectScene implements Scene {
     g.roundRect(243, 477, 125, 35, 8);
     g.fill();
     ctx.atlas.draw(g, 'Pickups', 0, 262, 495, { scale: 1.1 });
-    g.font = '14px "Komika Axis", sans-serif';
+    g.font = uiFont(14);
     g.fillStyle = '#f7f546';
     g.textAlign = 'left';
     g.textBaseline = 'middle';

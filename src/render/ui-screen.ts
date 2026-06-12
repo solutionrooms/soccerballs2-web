@@ -29,6 +29,15 @@ const data = uiJson as unknown as {
   art: Record<string, ArtInfo>;
 };
 
+// The Komika Axis the SWF embedded is a 7-glyph subset (only the literal
+// characters the game's TextFields showed), so using it for dynamic text
+// fell back per-glyph to sans-serif — mismatched letter sizes mid-word. Use
+// one complete bold font for all dynamic UI text so it stays uniform.
+export const UI_FONT_STACK = '"Trebuchet MS", "Arial Black", Arial, sans-serif';
+export function uiFont(px: number, weight = 800): string {
+  return `${weight} ${px}px ${UI_FONT_STACK}`;
+}
+
 function stripHtml(html: string): string {
   return html
     .replace(/<br\s*\/?>/gi, '\n')
@@ -147,7 +156,7 @@ export class UiScreens {
         if (!content) continue;
         const size = htmlSize(child.text.html, child.text.fontHeightTwips) * child.scaleY;
         ctx.save();
-        ctx.font = `${size}px "Komika Axis", sans-serif`;
+        ctx.font = uiFont(size);
         ctx.fillStyle = htmlColor(child.text.html);
         ctx.textBaseline = 'top';
         const tx = child.x + child.text.x * child.scaleX + offX;

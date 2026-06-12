@@ -1,6 +1,7 @@
 // Gameplay scene mirroring Game.as UpdateGameplay: input -> pre-update ->
 // physics step -> write-back -> object logic -> win/fail tests -> render
 // layers sorted by zpos.
+import { uiFont } from '../render/ui-screen';
 import type { Scene, SceneContext } from './scene';
 import { PhysicsWorld } from '../physics/world';
 import { GameObjects, GameContext, GameObj } from '../game/gameobj';
@@ -67,6 +68,7 @@ export class GameScene implements Scene {
     this.objects = new GameObjects();
     this.level = new LevelState();
     this.camera.reset();
+    this.aimPad.reset();
 
     this.g = {
       physics: this.physics,
@@ -118,15 +120,26 @@ export class GameScene implements Scene {
       return;
     }
 
-    // aiming: a touch player aims via the corner pad (finger off the field);
-    // a mouse player aims by pointing and clicks to kick.
+    // aiming: a touch player AIMS with the corner pad (finger off the field)
+    // and then TAPS the field/player to kick; a mouse player aims by pointing
+    // and clicks to kick.
     const playerAiming = this.level.phase === 'play' && this.objects.byName('football')?.state === 1;
     if (inp.isTouch) {
-      const fired = this.aimPad.update(inp, ctx.r, !!playerAiming);
-      this.g.aimOverride = this.aimPad.aiming ? this.aimPad.vector : null;
-      if (fired) this.level.doKick = true;
-      // taps outside the pad can still hit the HUD mute buttons
-      if (inp.buttonPressed && !this.aimPad.aiming) hudHandleClick(ctx);
+      const onPad = this.aimPad.contains(inp, ctx.r);
+      this.aimPad.update(inp, ctx.r, !!playerAiming);
+      // the pad aim persists, so the trajectory keeps showing
+      this.g.aimOverride = this.aimPad.hasAim ? this.aimPad.vector : null;
+      // a tap on the field (not the pad, above the HUD) commits the kick with
+      // the current aim — releasing the pad never fires
+      if (inp.buttonPressed && !onPad && inp.y < 487) {
+        if (hudHandleClick(ctx)) {
+          // mute toggled
+        } else if (playerAiming && this.aimPad.hasAim) {
+          this.level.doKick = true;
+        }
+      } else if (inp.buttonPressed && !onPad) {
+        hudHandleClick(ctx);
+      }
     } else {
       this.g.aimOverride = null;
       // HUD mute buttons consume the click before kick handling
@@ -325,10 +338,10 @@ export class GameScene implements Scene {
         g.save();
         g.textAlign = 'center';
         g.textBaseline = 'top';
-        g.font = '18px "Komika Axis", sans-serif';
+        g.font = uiFont(18);
         g.fillStyle = '#f7f546';
         g.fillText(this.loaded.def.name.toUpperCase(), 183, 88);
-        g.font = '16px "Komika Axis", sans-serif';
+        g.font = uiFont(16);
         g.fillStyle = '#ffffff';
         g.fillText(`SCORE: ${this.level.score}`, 183, 142);
         g.fillText(`SHOTS: ${this.level.numKicks}  (GOLD: ${this.level.goldKicks})`, 183, 176);
@@ -352,6 +365,15 @@ export class GameScene implements Scene {
     // while the player can kick
     if (ctx.input.isTouch && this.level.phase === 'play' && this.objects.byName('football')?.state === 1) {
       this.aimPad.render(g);
+      if (this.aimPad.hasAim) {
+        g.save();
+        g.globalAlpha = 0.85;
+        g.fillStyle = '#fff';
+        g.font = '600 16px sans-serif';
+        g.textAlign = 'center';
+        g.fillText('TAP TO KICK', r.width / 2, r.height - 14);
+        g.restore();
+      }
     }
   }
 

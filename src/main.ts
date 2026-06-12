@@ -96,11 +96,6 @@ function frame(now: number): void {
 
 async function boot(): Promise<void> {
   await atlas.load(`${base}assets/pages/`);
-  try {
-    await document.fonts.load('20px "Komika Axis"');
-  } catch {
-    // fall back to sans-serif if the font fails to load
-  }
   // ?debug=1 opens the asset viewer; default boots straight into gameplay
   const params = new URLSearchParams(location.search);
   if (params.get('debug')) {

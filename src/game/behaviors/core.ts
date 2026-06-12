@@ -299,6 +299,12 @@ function updatePlayer(player: GameObj, g: GameContext): void {
     const ballGO = g.objects.byName('football');
     if (ballGO) player.xflip = ballGO.xpos < player.xpos;
     cycleAnim(player);
+  } else if (player.state === 20) {
+    // celebrate (GameObj.as:5255-5271): resume aiming if still holding a ball
+    if (playAnim(player)) {
+      player.state = player.refA ? 1 : 3;
+      setAnim(player, 'player', 'idle1');
+    }
   } else if (player.state === 999) {
     cycleAnim(player);
   }
@@ -372,7 +378,11 @@ export function initGoal(go: GameObj, g: GameContext): void {
     });
   };
   go.onHitFn = (goal, hitter, gg, sensor) => {
-    if (goal.state !== 0 || !sensor) return;
+    if (goal.state !== 0) return;
+    if (!sensor) {
+      gg.audio.playSfx('sfx_hit_metal'); // post clang (GameObj.as:6617-6620)
+      return;
+    }
     if (hitter.collisionType !== 'football') return;
     goal.state = 1;
     goal.frame += 2; // net bulge frame
@@ -382,7 +392,7 @@ export function initGoal(go: GameObj, g: GameContext): void {
     spawnPopup(gg, goal.xpos, goal.ypos - 60, 'popup_goal');
     for (const p of gg.objects.allByName('player')) {
       setAnim(p, 'player', 'goal1');
-      p.state = 0;
+      p.state = 20; // celebrate, then resume (GameObj.as:5255-5271)
     }
     // GameObj.as:6606-6610 — opponents play the conceed anim
     if (goalScoredHook) goalScoredHook(gg);

@@ -39,6 +39,9 @@ const LC_HIDDEN = new Set([
   'info4',
 ]);
 const LC_BUTTONS = new Set(['buttonLevelSelect']);
+// these sprites' PNG exports carry the FLA TextFields' placeholder text baked
+// in — hide them and draw the rows cleanly instead
+for (const n of ['levelName', 'scoreText1', 'scoreText2']) LC_HIDDEN.add(n);
 
 export class GameScene implements Scene {
   private paused = false;
@@ -299,15 +302,18 @@ export class GameScene implements Scene {
       const hidden = new Set(LC_HIDDEN);
       if (!gold) hidden.add('levelrating');
       ctx.ui.draw(g, 'screen_levelComplete', frame, { hidden, hover });
-      // dynamic values next to the screen's label sprites (final-frame coords)
+      // clean dynamic rows inside the black panel (panel spans x 36..330)
       if (frame >= 20) {
         g.save();
-        g.font = '20px "Komika Axis", sans-serif';
-        g.fillStyle = '#ffffff';
+        g.textAlign = 'center';
         g.textBaseline = 'top';
-        g.fillText(this.loaded.def.name, 115, 92);
-        g.fillText(String(this.level.score), 200, 142);
-        g.fillText(`${this.level.numKicks} SHOTS (GOLD ${this.level.goldKicks})`, 200, 176);
+        g.font = '18px "Komika Axis", sans-serif';
+        g.fillStyle = '#f7f546';
+        g.fillText(this.loaded.def.name.toUpperCase(), 183, 88);
+        g.font = '16px "Komika Axis", sans-serif';
+        g.fillStyle = '#ffffff';
+        g.fillText(`SCORE: ${this.level.score}`, 183, 142);
+        g.fillText(`SHOTS: ${this.level.numKicks}  (GOLD: ${this.level.goldKicks})`, 183, 176);
         g.restore();
         if (this.level.phase === 'end') {
           ctx.font.draw(g, 'CLICK TO CONTINUE', STAGE_W / 2, STAGE_H - 36, { align: 'center' });
@@ -329,6 +335,8 @@ export class GameScene implements Scene {
     // Polys_2 (mud, deeper) first, then Polys_1 (grass) on top
     const order = [...this.loaded.lines].sort((a, b) => b.go.zpos - a.go.zpos);
     for (const line of order) {
+      // poly_switch lines are invisible sensors (InitGameObjLine_Switch)
+      if (line.polymat === 'poly_switch') continue;
       if (line.initType === 'poly' || line.initType === 'nophysics') {
         renderTerrainLine(g, ctx.atlas, line);
       }

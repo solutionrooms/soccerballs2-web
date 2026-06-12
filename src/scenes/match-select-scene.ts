@@ -45,17 +45,25 @@ export class MatchSelectScene implements Scene {
       textOverrides: {
         textTeamName0: DEFAULT_TEAMS[ctx.save.playerTeam]?.teamName ?? playerTeam.teamName,
         textTeamName1: DEFAULT_TEAMS[ctx.save.opponentTeam]?.teamName ?? oppoTeam.teamName,
+        textPlayer: 'PLAYER',
+        textComputer: 'COMPUTER',
       },
     });
 
-    // live kit previews at the homeTeam/awayTeam slots
+    // live kit previews standing centred in the home/away panels
+    // (panels are 295x161 at the homeTeam/awayTeam origins; rig origin = feet)
     const screen = ctx.ui.screen('screen_matchSelect');
     const home = screen?.frames[0].children.find((c) => c.name === 'homeTeam');
     const away = screen?.frames[0].children.find((c) => c.name === 'awayTeam');
-    if (home) drawRig(g, ctx.atlas, 'player', 0, home.x, home.y + 70, { scale: 1.6, override: kitOverride(playerTeam) });
+    if (home) {
+      drawRig(g, ctx.atlas, 'player', 0, home.x + 147, home.y + 150, {
+        scale: 1.4,
+        override: kitOverride(playerTeam),
+      });
+    }
     if (away) {
-      drawRig(g, ctx.atlas, 'player', 0, away.x, away.y + 70, {
-        scale: 1.6,
+      drawRig(g, ctx.atlas, 'player', 0, away.x + 147, away.y + 150, {
+        scale: 1.4,
         xflip: true,
         override: kitOverride(oppoTeam),
       });

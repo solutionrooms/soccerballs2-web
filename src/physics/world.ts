@@ -121,12 +121,15 @@ export class PhysicsWorld {
       if (!a || !b) return;
       this.contacts.push({ a, b, sensor: fa.isSensor() || fb.isSensor() });
     });
-    // Nape combines elasticity by AVERAGE; Box2D's default is max(a, b),
-    // which makes the e=1 football bounce forever off dead (e=0) ground.
+    // Nape combines elasticity by PRODUCT (Box2D's default is max). The
+    // material set only makes sense as a product: dead ground (e=0) gives
+    // 1*0 = 0 so the e=1 ball rolls instead of bouncing forever, while the
+    // springboard (e=2) gives 1*2 = 2 for its super-bounce. A crate (e=0.2)
+    // gives a modest 0.2 — enough to rebound the ball off a wall.
     this.world.on('pre-solve', (contact) => {
       const rA = contact.getFixtureA().getRestitution();
       const rB = contact.getFixtureB().getRestitution();
-      contact.setRestitution((rA + rB) / 2);
+      contact.setRestitution(rA * rB);
     });
   }
 

@@ -44,6 +44,9 @@ class NapeWorld {
   // begin-collision impulse reports drained each frame:
   // [handleA, handleB, impulse, normalX, normalY]
   var impacts:Array<Float>;
+  // joint-connected partner handles per body (for waking welded riders when a
+  // kinematic mover starts moving — Nape sleeps welded bodies otherwise)
+  var jointPartners:Map<Int, Array<Int>>;
 
   public function new(gravityPxY:Float) {
     space = new Space(new Vec2(0, gravityPxY));
@@ -52,6 +55,7 @@ class NapeWorld {
     defaultCb = new CbType();
     contacts = [];
     impacts = [];
+    jointPartners = new Map();
 
     // collect begin-interaction events: one listener per type so we know the
     // sensor flag without inspecting arbiters
@@ -350,10 +354,32 @@ class NapeWorld {
 
   // --- level joints (PhysicsBase.AddJoint_Nape). handle 0 == world body. ----
 
+  // record a joint connection so a moving body can wake its sleeping partners
+  function addPartner(hA:Int, hB:Int):Void {
+    if (hA == 0 || hB == 0) return;
+    if (!jointPartners.exists(hA)) jointPartners.set(hA, []);
+    if (!jointPartners.exists(hB)) jointPartners.set(hB, []);
+    jointPartners.get(hA).push(hB);
+    jointPartners.get(hB).push(hA);
+  }
+
+  // wake the bodies jointed to h (kinematic movers carry sleeping welded riders).
+  // applyImpulse with sleepable=false wakes a sleeping body (a no-op velocity
+  // write does not), so push a zero impulse.
+  public function wakeJointPartners(h:Int):Void {
+    var list = jointPartners.get(h);
+    if (list == null) return;
+    for (ph in list) {
+      var b = bodies.get(ph);
+      if (b != null && b.type == BodyType.DYNAMIC && b.isSleeping) b.applyImpulse(new Vec2(0, 0));
+    }
+  }
+
   public function jointRev(hA:Int, hB:Int, ax:Float, ay:Float, enableMotor:Bool, motorSpeed:Float,
       maxTorque:Float, enableLimit:Bool, lowerRad:Float, upperRad:Float):Void {
     var a = lookup(hA); var b = lookup(hB);
     if (a == null || b == null || a == b) return;
+    addPartner(hA, hB);
     var anchor = new Vec2(ax, ay);
     var piv = new PivotJoint(a, b, a.worldPointToLocal(anchor), b.worldPointToLocal(anchor));
     piv.space = space;
@@ -373,6 +399,7 @@ class NapeWorld {
     if (a == null || b == null || a == b) return;
     // a weld between two non-dynamic bodies is meaningless (matches planck)
     if (a.type != BodyType.DYNAMIC && b.type != BodyType.DYNAMIC) return;
+    addPartner(hA, hB);
     // weld is rigid regardless of anchor; use bodyB origin (the AS3 intent).
     var anchor = b.position.copy();
     var phase = b.rotation - a.rotation;
@@ -384,6 +411,7 @@ class NapeWorld {
   public function jointDist(hA:Int, hB:Int, x0:Float, y0:Float, x1:Float, y1:Float, distLimit:Float, soft:Bool, freq:Float):Void {
     var a = lookup(hA); var b = lookup(hB);
     if (a == null || b == null || a == b) return;
+    addPartner(hA, hB);
     var dx = x1 - x0; var dy = y1 - y0;
     var dist = Math.sqrt(dx * dx + dy * dy);
     var minLen = dist - distLimit; if (minLen < 0) minLen = 0;

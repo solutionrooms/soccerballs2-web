@@ -15,6 +15,7 @@ var NapeWorld = $hx_exports["NapeWorld"] = function(gravityPxY) {
 	this.defaultCb = new nape_callbacks_CbType();
 	this.contacts = [];
 	this.impacts = [];
+	this.jointPartners = new haxe_ds_IntMap();
 	var anyCb = zpp_$nape_callbacks_ZPP_$CbType.ANY_BODY;
 	var _this = this.space.zpp_inner.wrap_listeners;
 	if(zpp_$nape_util_ZPP_$Flags.CbEvent_BEGIN == null) {
@@ -1315,12 +1316,62 @@ NapeWorld.prototype = {
 		}
 		return p.zpp_inner.y;
 	}
+	,addPartner: function(hA,hB) {
+		if(hA == 0 || hB == 0) {
+			return;
+		}
+		if(!this.jointPartners.h.hasOwnProperty(hA)) {
+			this.jointPartners.h[hA] = [];
+		}
+		if(!this.jointPartners.h.hasOwnProperty(hB)) {
+			this.jointPartners.h[hB] = [];
+		}
+		this.jointPartners.h[hA].push(hB);
+		this.jointPartners.h[hB].push(hA);
+	}
+	,wakeJointPartners: function(h) {
+		var list = this.jointPartners.h[h];
+		if(list == null) {
+			return;
+		}
+		var _g = 0;
+		while(_g < list.length) {
+			var ph = list[_g];
+			++_g;
+			var b = this.bodies.h[ph];
+			var tmp;
+			var tmp1;
+			if(b != null) {
+				var tmp2 = zpp_$nape_phys_ZPP_$Body.types[b.zpp_inner.type];
+				if(zpp_$nape_util_ZPP_$Flags.BodyType_DYNAMIC == null) {
+					zpp_$nape_util_ZPP_$Flags.internal = true;
+					zpp_$nape_util_ZPP_$Flags.BodyType_DYNAMIC = new nape_phys_BodyType();
+					zpp_$nape_util_ZPP_$Flags.internal = false;
+				}
+				tmp1 = tmp2 == zpp_$nape_util_ZPP_$Flags.BodyType_DYNAMIC;
+			} else {
+				tmp1 = false;
+			}
+			if(tmp1) {
+				if(b.zpp_inner.space == null) {
+					throw new js__$Boot_HaxeError("Error: isSleeping makes no sense if the object is not contained within a Space");
+				}
+				tmp = b.zpp_inner.component.sleeping;
+			} else {
+				tmp = false;
+			}
+			if(tmp) {
+				b.applyImpulse(new nape_geom_Vec2(0,0));
+			}
+		}
+	}
 	,jointRev: function(hA,hB,ax,ay,enableMotor,motorSpeed,maxTorque,enableLimit,lowerRad,upperRad) {
 		var a = hA == 0 ? this.space.zpp_inner.__static : this.bodies.get(hA);
 		var b = hB == 0 ? this.space.zpp_inner.__static : this.bodies.get(hB);
 		if(a == null || b == null || a == b) {
 			return;
 		}
+		this.addPartner(hA,hB);
 		var anchor = new nape_geom_Vec2(ax,ay);
 		var piv = new nape_constraint_PivotJoint(a,b,a.worldPointToLocal(anchor),b.worldPointToLocal(anchor));
 		var space = this.space;
@@ -1439,6 +1490,7 @@ NapeWorld.prototype = {
 		if(tmp) {
 			return;
 		}
+		this.addPartner(hA,hB);
 		if(b.zpp_inner.wrap_pos == null) {
 			b.zpp_inner.setupPosition();
 		}
@@ -1594,6 +1646,7 @@ NapeWorld.prototype = {
 		if(a == null || b == null || a == b) {
 			return;
 		}
+		this.addPartner(hA,hB);
 		var dx = x1 - x0;
 		var dy = y1 - y0;
 		var dist = Math.sqrt(dx * dx + dy * dy);

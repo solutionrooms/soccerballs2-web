@@ -7,7 +7,7 @@
 // conversion, and rolling friction + mass + collision impulse are all native —
 // which is exactly why it matches the original feel more closely than planck.
 import { VARS } from '../game/defs';
-import { triangulate } from './planck-world';
+import { triangulate } from './geometry';
 import {
   PhysicsWorld,
   type PhysWorld,
@@ -22,8 +22,9 @@ import {
 } from './phys-world';
 
 // Nape worldLinearDrag/worldAngularDrag library default (never overridden by
-// the game), applied per-body inside the Haxe step().
-const NAPE_DRAG = 0.015;
+// the game). Exported for the ball-path preview (ballpath.ts), which models the
+// same drag.
+export const NAPE_LINEAR_DRAG = 0.015;
 
 /** The handle-based facade exposed by the compiled nape.js (window.NapeWorld). */
 interface NapeNative {
@@ -56,6 +57,7 @@ interface NapeNative {
   setBodyCollision(h: number, enabled: boolean): void;
   setBodyCollisionAboveTop(h: number, topThresholdPx: number, enabled: boolean): void;
   touchingBodies(h: number): number[];
+  wakeJointPartners(h: number): void;
   raycastDown(x: number, fromY: number, maxDist: number, colCat: number): number;
   jointRev(hA: number, hB: number, ax: number, ay: number, enableMotor: boolean, motorSpeed: number, maxTorque: number, enableLimit: boolean, lowerRad: number, upperRad: number): void;
   jointWeld(hA: number, hB: number, soft: boolean, freq: number): void;
@@ -70,7 +72,7 @@ const BASE = import.meta.env.BASE_URL;
 // Cache-buster for the compiled engine: bump this whenever nape.js is rebuilt
 // so browsers fetch the new physics instead of a stale cached copy (a cached
 // old build was why level-9 felt unreachable under Nape).
-const NAPE_BUILD = '20260613d';
+const NAPE_BUILD = '20260613e';
 let napeLoadPromise: Promise<void> | null = null;
 
 /** true once nape.js has been loaded and window.NapeWorld is constructible */
@@ -168,7 +170,7 @@ export class NapePhysWorld implements PhysWorld {
     shapes: ShapeDef[],
     opts: CreateBodyOpts,
   ): PhysBody {
-    const h = this.nape.createBody(opts.fixed, xPx, yPx, rotDeg, NAPE_DRAG, NAPE_DRAG);
+    const h = this.nape.createBody(opts.fixed, xPx, yPx, rotDeg, NAPE_LINEAR_DRAG, NAPE_LINEAR_DRAG);
     this.owners.set(h, owner);
     for (const shape of shapes) this.addShape(h, shape, scale);
     this.nape.finalizeBody(h, opts.bullet ?? false);
@@ -319,8 +321,9 @@ export class NapePhysWorld implements PhysWorld {
   touchingDynamicBodies(body: PhysBody): PhysBody[] {
     return this.nape.touchingBodies(body as number);
   }
-  wakeJointPartners(_body: PhysBody): void {
-    // No-op: Nape keeps constraint partners awake natively (unlike Box2D, which
-    // needed an explicit wake when a kinematic mover carried a sleeping body).
+  wakeJointPartners(body: PhysBody): void {
+    // wake bodies welded/jointed to this one — Nape sleeps welded riders, so a
+    // kinematic mover (e.g. a switch-driven platform) wouldn't carry them.
+    this.nape.wakeJointPartners(body as number);
   }
 }

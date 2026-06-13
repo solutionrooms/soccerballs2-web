@@ -3,7 +3,7 @@
 // layers sorted by zpos.
 import { uiFont } from '../render/ui-screen';
 import type { Scene, SceneContext } from './scene';
-import { PhysicsWorld, PlanckWorld, NapePhysWorld, napeLoaded, type PhysWorld } from '../physics/world';
+import { PhysicsWorld, NapePhysWorld, type PhysWorld } from '../physics/world';
 import type { MaterialDef } from '../physics/world';
 import { GameObjects, GameContext, GameObj } from '../game/gameobj';
 import { LevelState } from '../game/game-state';
@@ -68,10 +68,9 @@ export class GameScene implements Scene {
   }
 
   onEnter(ctx: SceneContext): void {
-    // engine chosen in Settings; fall back to planck if Nape isn't loaded yet
+    // Nape is the only engine; it's preloaded at boot (ensureNapeLoaded)
     const materials = (objectsJson as unknown as { materials: Record<string, MaterialDef> }).materials;
-    const useNape = ctx.settings.physicsEngine === 'nape' && napeLoaded();
-    this.physics = useNape ? new NapePhysWorld(materials) : new PlanckWorld(materials);
+    this.physics = new NapePhysWorld(materials);
     this.objects = new GameObjects();
     this.level = new LevelState();
     this.camera.reset();

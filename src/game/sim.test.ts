@@ -1,8 +1,9 @@
-// Headless physics acceptance: load level 1, kick the ball at the goal, and
-// assert the goal sensor fires — proves the Nape->planck mapping produces a
-// playable trajectory with the original kick constants.
+// Headless physics acceptance (Nape engine): load level 1, kick the ball at the
+// goal, and assert the goal sensor fires — proves the data->Nape mapping
+// produces a playable trajectory with the original kick constants.
+import './nape-test-setup';
 import { describe, it, expect } from 'vitest';
-import { PhysicsWorld, PlanckWorld } from '../physics/world';
+import { PhysicsWorld, NapePhysWorld } from '../physics/world';
 import { GameObjects, GameContext, GameObj } from './gameobj';
 import { LevelState } from './game-state';
 import { loadLevel } from './level-loader';
@@ -13,8 +14,8 @@ import type { GameAudio } from '../audio/audio';
 import type { Atlas } from '../render/atlas';
 
 function makeContext(): GameContext {
-  const physics = new PlanckWorld(
-    (objectsJson as unknown as { materials: ConstructorParameters<typeof PlanckWorld>[0] }).materials,
+  const physics = new NapePhysWorld(
+    (objectsJson as unknown as { materials: ConstructorParameters<typeof NapePhysWorld>[0] }).materials,
   );
   // update-path stubs: audio is fire-and-forget, atlas only needs frameCount
   const audio = { playSfx: () => {}, playMusic: () => {} } as unknown as GameAudio;

@@ -1,7 +1,6 @@
-// Barrel for the physics layer. Historically this file held the single planck
-// PhysicsWorld class; the engine is now pluggable (planck or Nape) so the
-// implementation lives in phys-world.ts (abstraction) + planck-world.ts /
-// nape-world.ts (engines). Re-exported here so existing import paths still work.
+// Barrel for the physics layer. The game holds a PhysWorld and calls body ops
+// through the PhysicsWorld static facade (phys-world.ts); the engine is Nape
+// (nape-world.ts). Re-exported here so existing import paths keep working.
 export {
   PhysicsWorld,
   type PhysWorld,
@@ -13,5 +12,5 @@ export {
   type CreateBodyOpts,
   type JointSpec,
 } from './phys-world';
-export { PlanckWorld, triangulate, NAPE_LINEAR_DRAG } from './planck-world';
-export { NapePhysWorld, ensureNapeLoaded, napeLoaded } from './nape-world';
+export { triangulate } from './geometry';
+export { NapePhysWorld, ensureNapeLoaded, napeLoaded, NAPE_LINEAR_DRAG } from './nape-world';

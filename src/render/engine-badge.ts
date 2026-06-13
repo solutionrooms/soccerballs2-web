@@ -1,13 +1,11 @@
-// Debug overlay drawn on top of every scene so it's always clear which physics
-// engine is active while testing, plus the current level number during play.
-// Toggled by settings.physicsEngine; meant to be hidden/removed for release.
+// Debug overlay drawn on top of every scene: the active engine (always Nape)
+// and the current level number during play. Meant to be hidden for release.
 import { STAGE_W, STAGE_H } from '../game/defs';
 import { uiFont } from './ui-screen';
-import type { PhysicsEngine } from '../core/settings';
 
 export function drawEngineBadge(
   g: CanvasRenderingContext2D,
-  engine: PhysicsEngine,
+  engine: 'nape',
   level: number | null,
 ): void {
   const isNape = engine === 'nape';

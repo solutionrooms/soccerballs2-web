@@ -1,12 +1,9 @@
 // Settings / dev menu (not part of the original game — added for testing, and
-// meant to be hidden or trimmed for the final build). Sound + music toggles
-// plus the headline feature: a Box2D(planck) <-> Nape physics-engine switch so
-// the two engines can be compared side by side. The choice is persisted and
-// applied when the next level (re)loads, since the world is rebuilt per level.
+// meant to be hidden or trimmed for the final build): sound + music toggles and
+// an "Open all levels" debug unlock.
 import type { Scene, SceneContext } from './scene';
 import { STAGE_W } from '../game/defs';
 import { uiFont, fillTextSafe } from '../render/ui-screen';
-import { ensureNapeLoaded, napeLoaded } from '../physics/world';
 
 interface Row {
   y: number;
@@ -29,11 +26,9 @@ const BACK_Y = 452;
 
 export class SettingsScene implements Scene {
   private rows: Row[] = [];
-  private napeStatus: 'idle' | 'loading' | 'ready' | 'error' = 'idle';
 
   onEnter(ctx: SceneContext): void {
     ctx.audio.playMusic('menus_music');
-    if (ctx.settings.physicsEngine === 'nape') this.napeStatus = napeLoaded() ? 'ready' : 'idle';
     this.buildRows();
   }
 
@@ -63,21 +58,6 @@ export class SettingsScene implements Scene {
       },
     );
     mk(
-      'Physics engine',
-      () => (this.s.physicsEngine === 'nape' ? 'Nape' : 'Box2D (planck)'),
-      (ctx) => this.toggleEngine(ctx),
-      () =>
-        this.s.physicsEngine === 'nape'
-          ? this.napeStatus === 'ready'
-            ? 'Nape ready — applies on next level / restart'
-            : this.napeStatus === 'loading'
-              ? 'loading Nape engine…'
-              : this.napeStatus === 'error'
-                ? 'Nape failed to load — using Box2D'
-                : 'applies on next level / restart'
-          : 'the closest Box2D match (current default)',
-    );
-    mk(
       'Open all levels',
       () => {
         const lv = this.ctxRef!.save.levels;
@@ -95,29 +75,6 @@ export class SettingsScene implements Scene {
     return this.ctxRef!.settings;
   }
   private ctxRef: SceneContext | null = null;
-
-  private toggleEngine(ctx: SceneContext): void {
-    const next = ctx.settings.physicsEngine === 'nape' ? 'planck' : 'nape';
-    ctx.settings.physicsEngine = next;
-    ctx.saveSettings();
-    if (next === 'nape' && !napeLoaded()) {
-      // preload now so it's ready by the time a level starts
-      this.napeStatus = 'loading';
-      ensureNapeLoaded().then(
-        () => {
-          this.napeStatus = 'ready';
-        },
-        () => {
-          this.napeStatus = 'error';
-          // fall back so the game stays playable if the engine can't load
-          ctx.settings.physicsEngine = 'planck';
-          ctx.saveSettings();
-        },
-      );
-    } else if (next === 'nape') {
-      this.napeStatus = 'ready';
-    }
-  }
 
   update(ctx: SceneContext): void {
     this.ctxRef = ctx;

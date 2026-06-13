@@ -12,8 +12,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "earcut": "^3.0.2",
-    "planck": "^1.4.2"
+    "earcut": "^3.0.2"
   },
   "devDependencies": {
     "@types/earcut": "^3.0.0",

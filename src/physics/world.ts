@@ -69,6 +69,42 @@ export function triangulate(points: number[]): [number, number][][] {
   return tris;
 }
 
+function toVec2s(flat: number[], scale: number): pl.Vec2[] {
+  const out: pl.Vec2[] = [];
+  for (let i = 0; i < flat.length; i += 2) out.push(new pl.Vec2(flat[i] / scale, flat[i + 1] / scale));
+  return out;
+}
+
+/** true if the polygon is convex (all cross products share one sign). */
+function isConvex(v: pl.Vec2[]): boolean {
+  const n = v.length;
+  if (n < 3) return false;
+  let pos = false;
+  let neg = false;
+  for (let i = 0; i < n; i++) {
+    const a = v[i];
+    const b = v[(i + 1) % n];
+    const c = v[(i + 2) % n];
+    const cross = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+    if (cross > 1e-9) pos = true;
+    else if (cross < -1e-9) neg = true;
+    if (pos && neg) return false;
+  }
+  return true;
+}
+
+/** Box2D wants CCW winding; canvas y is down so flip if signed area is negative. */
+function ensureCCW(v: pl.Vec2[]): pl.Vec2[] {
+  let area = 0;
+  for (let i = 0; i < v.length; i++) {
+    const a = v[i];
+    const b = v[(i + 1) % v.length];
+    area += a.x * b.y - b.x * a.y;
+  }
+  // y-down screen space: positive shoelace area = clockwise on screen = CCW for Box2D
+  return area > 0 ? v : v.slice().reverse();
+}
+
 export class PhysicsWorld {
   readonly world: pl.World;
   contacts: ContactEvent[] = [];
@@ -200,10 +236,6 @@ export class PhysicsWorld {
         ),
       );
     } else if (shape.vertices && shape.vertices.length >= 6) {
-      // Ear-clip triangulate (Nape's GeomPoly.triangularDecomposition). Fan
-      // triangulation is WRONG for the concave editor shapes — e.g. the goal
-      // post collider doubles back, so a fan leaves gaps the ball slips
-      // through (scoring from behind the net).
       const rot = ((shape.rotDeg ?? 0) * Math.PI) / 180;
       const cos = Math.cos(rot);
       const sin = Math.sin(rot);
@@ -213,8 +245,18 @@ export class PhysicsWorld {
         const vy = shape.vertices[i + 1] * scale;
         flat.push(vx * cos - vy * sin + shape.pos[0] * scale, vx * sin + vy * cos + shape.pos[1] * scale);
       }
-      for (const tri of triangulate(flat)) {
-        geoms.push(new pl.Polygon(tri.map((p) => new pl.Vec2(p[0] / S, p[1] / S))));
+      // A convex polygon (crates, posts, most editor boxes) becomes ONE native
+      // planck.Polygon — box-vs-box contacts stack stably. Triangulating a
+      // convex box into 2 triangles gives erratic triangle-vs-triangle contacts
+      // (jitter, scatter), which is what broke the level-9 crate stack.
+      // Only genuinely concave shapes (e.g. the goal post) are ear-clipped.
+      const verts = toVec2s(flat, S);
+      if (verts.length <= 8 && isConvex(verts)) {
+        geoms.push(new pl.Polygon(ensureCCW(verts)));
+      } else {
+        for (const tri of triangulate(flat)) {
+          geoms.push(new pl.Polygon(tri.map((p) => new pl.Vec2(p[0] / S, p[1] / S))));
+        }
       }
     }
 

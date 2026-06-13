@@ -1,7 +1,7 @@
 // Smoke test: every level constructs (instances, lines, joints, behaviors)
 // and survives 120 simulation frames without throwing.
 import { describe, it, expect } from 'vitest';
-import { PhysicsWorld } from '../physics/world';
+import { PhysicsWorld, PlanckWorld } from '../physics/world';
 import { GameObjects, GameContext, GameObj } from './gameobj';
 import { LevelState } from './game-state';
 import { loadLevel, LEVELS } from './level-loader';
@@ -10,8 +10,8 @@ import type { GameAudio } from '../audio/audio';
 import type { Atlas } from '../render/atlas';
 
 function makeContext(): GameContext {
-  const physics = new PhysicsWorld(
-    (objectsJson as unknown as { materials: ConstructorParameters<typeof PhysicsWorld>[0] }).materials,
+  const physics = new PlanckWorld(
+    (objectsJson as unknown as { materials: ConstructorParameters<typeof PlanckWorld>[0] }).materials,
   );
   const audio = { playSfx: () => {}, playMusic: () => {} } as unknown as GameAudio;
   const atlas = { frameCount: () => 8, draw: () => {} } as unknown as Atlas;
@@ -34,12 +34,12 @@ function stepWorld(g: GameContext): void {
     if (go.body && go.physicsStationary) {
       PhysicsWorld.setPosPx(go.body, go.xpos, go.ypos, go.dir);
       PhysicsWorld.setVelPx(go.body, 0, 0);
-      go.body.setAngularVelocity(0);
+      PhysicsWorld.setAngularVelocity(go.body, 0);
     }
   }
   g.physics.step();
   for (const go of g.objects.list) {
-    if (go.body && !go.physicsStationary && go.body.isDynamic()) {
+    if (go.body && !go.physicsStationary && PhysicsWorld.isDynamic(go.body)) {
       const p = PhysicsWorld.getPosPx(go.body);
       go.xpos = p.x;
       go.ypos = p.y;

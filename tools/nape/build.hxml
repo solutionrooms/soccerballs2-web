@@ -1,0 +1,5 @@
+-cp .
+-lib nape
+-main NapeWorld
+-js ../../public/assets/nape.js
+-dce full

@@ -63,6 +63,18 @@ export class Renderer {
     this.ctx.restore();
   }
 
+  /** Run a draw callback in stage coordinates without clearing — for overlays
+   *  drawn on top of the current scene (e.g. the debug engine/level badge). */
+  withStageTransform(cb: (ctx: CanvasRenderingContext2D) => void): void {
+    const { ctx } = this;
+    ctx.save();
+    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    ctx.translate(this.offX, this.offY);
+    ctx.scale(this.scale, this.scale);
+    cb(ctx);
+    ctx.restore();
+  }
+
   screenToStage(clientX: number, clientY: number): { x: number; y: number } {
     const rect = this.canvas.getBoundingClientRect();
     return {

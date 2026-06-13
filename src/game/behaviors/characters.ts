@@ -3,10 +3,11 @@
 // patrol/jump markers, beachball, spawner and help-text/help-object variants.
 import { GameObj, GameContext } from '../gameobj';
 import { PhysicsWorld } from '../../physics/world';
-import { FPS, PX_PER_METER } from '../defs';
+import { FPS } from '../defs';
 import { drawRig, labelFrame } from '../rig';
 import { scaleTo, distBetween } from '../utils';
 import { initFootball, initRef, setAnim, spawnPopup } from './core';
+import { pickPlayerSkin } from '../kits';
 
 // GameVars.as:33
 const GRAVITY_GO = 0.2;
@@ -412,9 +413,8 @@ export function initOpponent(go: GameObj, g: GameContext): void {
   charData.set(go, d);
   go.name = 'opponent';
   go.state = 0;
-  // AddHierarchy_Player head pick — GameObj.as:6070-6077
-  const race = randBetweenInt(0, 1);
-  d.rigFrames.set('head', race === 1 ? randBetweenInt(8, 15) : randBetweenInt(0, 7));
+  // AddHierarchy_Player skin pick — head + matching limb frames (GameObj.as:6070-6118)
+  for (const [part, frame] of pickPlayerSkin()) d.rigFrames.set(part, frame);
   startIdleAnim(go, d, 'player');
   go.scale = 1;
   go.starty = go.ypos; // GameObj.as:5757
@@ -489,17 +489,9 @@ function keeperNextAction(d: CharData): void {
 // (each fan-triangulated), so we toggle every fixture reaching above -50px.
 function keeperSetDuckMasks(go: GameObj, ducked: boolean): void {
   if (!go.body) return;
-  const bodyY = go.body.getPosition().y;
-  for (let f = go.body.getFixtureList(); f; f = f.getNext()) {
-    const tag = f.getUserData() as { colMask: number } | null;
-    const topPx = (bodyY - f.getAABB(0).lowerBound.y) * PX_PER_METER;
-    if (topPx <= 50) continue; // crouch-height shape stays solid
-    f.setFilterData({
-      groupIndex: f.getFilterGroupIndex(),
-      categoryBits: f.getFilterCategoryBits(),
-      maskBits: ducked ? 0 : (tag?.colMask ?? 14),
-    });
-  }
+  // toggle the tall upper-body shapes (top above -50px) so the ball flies over
+  // the keeper's head while ducked; the short crouch shape stays solid
+  PhysicsWorld.setUpperShapesCollision(go.body, !ducked, 50);
 }
 
 // GameObj.as:5768-5796 — KeeperStartAction

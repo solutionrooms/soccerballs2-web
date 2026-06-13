@@ -61,3 +61,28 @@ export function kitOverride(team: TeamDef): RigPartOverride {
 export function resolveTeam(index: number, customTeam: TeamDef): TeamDef {
   return index === 8 ? customTeam : DEFAULT_TEAMS[index] ?? DEFAULT_TEAMS[0];
 }
+
+// AddHierarchy_Player skin pick (GameObj.as:6070-6118): player_Race 0/1 chooses
+// a head (light heads 0-7 / dark heads 8-15) AND, for race 1, sets every limb
+// skin part to frame 1 (the dark-skin art) so the whole player is one tone.
+// Limbs left at frame 0 (light) with a dark head was the "grey head, white body"
+// mismatch.
+const SKIN_LIMB_PARTS = [
+  'upperArmRight',
+  'lowerArmRight',
+  'upperArmLeft',
+  'lowerArmLeft',
+  'upperLegRight',
+  'upperLegLeft',
+  'footRight',
+  'footLeft',
+];
+
+export function pickPlayerSkin(): Map<string, number> {
+  const rand = (a: number, b: number): number => a + Math.floor(Math.random() * (b - a + 1));
+  const frames = new Map<string, number>();
+  const race = rand(0, 1);
+  frames.set('head', race === 1 ? rand(8, 15) : rand(0, 7));
+  if (race === 1) for (const p of SKIN_LIMB_PARTS) frames.set(p, 1);
+  return frames;
+}

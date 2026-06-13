@@ -1,9 +1,8 @@
 // Hazards behavior family ported from GameObj.as: spiky ball, wind area,
 // burstable bubble, sand block (+ the shared "pop" popup and explosion helper).
-import * as pl from 'planck';
 import { GameObj, GameContext } from '../gameobj';
 import { PhysicsWorld } from '../../physics/world';
-import { VARS, FPS, PX_PER_METER } from '../defs';
+import { VARS, FPS } from '../defs';
 import { scaleTo, scaleToPreLimit } from '../utils';
 import { footballLaunch, footballMoveToPlayer, parkBody } from './core';
 
@@ -170,7 +169,7 @@ export function initWind(go: GameObj): void {
 
 function windBodyAngle(wind: GameObj): number {
   // GetBodyAngle(0) — nape body rotation in radians
-  return wind.body ? wind.body.getAngle() : (wind.dir * Math.PI) / 180;
+  return wind.body ? PhysicsWorld.bodyAngleRad(wind.body) : (wind.dir * Math.PI) / 180;
 }
 
 // OnHit_Wind (GameObj.as:1978-1991) — nape ApplyForce (GameObj_Base.as:1618-1624)
@@ -184,13 +183,6 @@ function windApplyForce(wind: GameObj, hitter: GameObj): void {
   PhysicsWorld.setVelPx(hitter.body, v.x + Math.cos(ang) * fs, v.y + Math.sin(ang) * fs);
 }
 
-function windContainsPoint(body: pl.Body, xPx: number, yPx: number): boolean {
-  const p = new pl.Vec2(xPx / PX_PER_METER, yPx / PX_PER_METER);
-  for (let f = body.getFixtureList(); f; f = f.getNext()) {
-    if (f.testPoint(p)) return true;
-  }
-  return false;
-}
 
 // UpdateWind (GameObj.as:1992-2013)
 function updateWind(wind: GameObj, g: GameContext): void {
@@ -203,7 +195,7 @@ function updateWind(wind: GameObj, g: GameContext): void {
     for (const other of g.objects.list) {
       if (other.dead || !other.body) continue;
       if (other.collisionType !== 'football' && other.collisionType !== 'beachball') continue;
-      if (windContainsPoint(wind.body, other.xpos, other.ypos)) windApplyForce(wind, other);
+      if (PhysicsWorld.bodyContainsPoint(wind.body, other.xpos, other.ypos)) windApplyForce(wind, other);
     }
   }
 
@@ -272,16 +264,8 @@ function onHitBurstableBall(go: GameObj, hitter: GameObj, g: GameContext): void 
   if (hitter.name !== 'spikyball') return;
   spawnPopPopup(g, go.xpos, go.ypos);
 
-  // Sum body shape area (nape shape.area is px^2; planck computeMass with
-  // density 1 yields area in m^2, so scale by PX_PER_METER^2).
-  let area = 0;
-  if (go.body) {
-    const md: pl.MassData = { mass: 0, center: new pl.Vec2(0, 0), I: 0 };
-    for (let f = go.body.getFixtureList(); f; f = f.getNext()) {
-      f.getShape().computeMass(md, 1);
-      area += md.mass * PX_PER_METER * PX_PER_METER;
-    }
-  }
+  // Sum body shape area in px^2 (Football_Burst scales explosion force by it).
+  const area = go.body ? PhysicsWorld.bodyArea(go.body) : 0;
   const force = scaleToPreLimit(5, 30, 100, 12000, area);
   doExplosion(g, go, go.xpos, go.ypos, 200, force);
   g.audio.playSfx('sfx_pop');

@@ -10,6 +10,7 @@ import type { Scene, SceneContext } from './scenes/scene';
 import { DebugViewerScene } from './scenes/debug-viewer-scene';
 import { GameScene } from './scenes/game-scene';
 import { TitleScene } from './scenes/title-scene';
+import { drawEngineBadge } from './render/engine-badge';
 import { FRAME_TIME } from './game/defs';
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
@@ -91,6 +92,10 @@ function frame(now: number): void {
     console.error('[soccerballs2] frame error:', e);
   }
 
+  // debug overlay: active physics engine on every screen + level number in-game
+  const level = current instanceof GameScene ? current.levelNumber : null;
+  renderer.withStageTransform((g) => drawEngineBadge(g, settings.physicsEngine, level));
+
   if (pending) {
     const next = pending;
     pending = null;
@@ -100,6 +105,15 @@ function frame(now: number): void {
 }
 
 async function boot(): Promise<void> {
+  // if Nape is the saved engine, load it now so it's ready at first level start
+  if (settings.physicsEngine === 'nape') {
+    const { ensureNapeLoaded } = await import('./physics/world');
+    await ensureNapeLoaded().catch(() => {
+      // couldn't load Nape — stay on Box2D so the game still boots
+      settings.physicsEngine = 'planck';
+      saveSettings(settings);
+    });
+  }
   await atlas.load(`${base}assets/pages/`);
   // ?debug=1 opens the asset viewer; default boots straight into gameplay
   const params = new URLSearchParams(location.search);

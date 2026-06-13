@@ -42,6 +42,13 @@ export class TitleScene implements Scene {
       return;
     }
 
+    // SETTINGS dev menu entry (bottom-left corner; hide/trim for final build)
+    if (inp.x < 160 && inp.y > STAGE_H - 40) {
+      ctx.audio.playSfx('sfx_click');
+      void import('./settings-scene').then(({ SettingsScene }) => ctx.setScene(new SettingsScene()));
+      return;
+    }
+
     const hit = ctx.ui.hitTest(SCREEN, 0, inp.x, inp.y, ACTIVE);
     if (!hit) return;
     ctx.audio.playSfx('sfx_click');
@@ -72,9 +79,16 @@ export class TitleScene implements Scene {
     } else {
       const hover = ctx.ui.hitTest(SCREEN, 0, ctx.input.x, ctx.input.y, ACTIVE);
       ctx.ui.draw(g, SCREEN, 0, { hidden: HIDDEN, hover });
-      // sound toggle in the corner (ui_hud mute buttons arrive with the HUD pass)
-      ctx.font.draw(g, `SOUND ${ctx.settings.sfxOn ? 'ON' : 'OFF'}`, STAGE_W - 14, STAGE_H - 26, { align: 'right' });
-      if (ctx.input.buttonPressed && ctx.input.x > STAGE_W - 160 && ctx.input.y > STAGE_H - 40) {
+      // sound toggle (bottom-centre; bottom-right is the global engine badge)
+      ctx.font.draw(g, `SOUND ${ctx.settings.sfxOn ? 'ON' : 'OFF'}`, STAGE_W / 2, STAGE_H - 26, { align: 'center' });
+      // SETTINGS dev menu link (bottom-left); active engine is shown by the badge
+      ctx.font.draw(g, 'SETTINGS', 14, STAGE_H - 26, { align: 'left' });
+      if (
+        ctx.input.buttonPressed &&
+        ctx.input.x > STAGE_W / 2 - 90 &&
+        ctx.input.x < STAGE_W / 2 + 90 &&
+        ctx.input.y > STAGE_H - 40
+      ) {
         ctx.settings.sfxOn = !ctx.settings.sfxOn;
         ctx.settings.musicOn = ctx.settings.sfxOn;
         ctx.audio.sfxOn = ctx.settings.sfxOn;

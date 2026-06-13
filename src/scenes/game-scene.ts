@@ -3,7 +3,8 @@
 // layers sorted by zpos.
 import { uiFont } from '../render/ui-screen';
 import type { Scene, SceneContext } from './scene';
-import { PhysicsWorld } from '../physics/world';
+import { PhysicsWorld, PlanckWorld, NapePhysWorld, napeLoaded, type PhysWorld } from '../physics/world';
+import type { MaterialDef } from '../physics/world';
 import { GameObjects, GameContext, GameObj } from '../game/gameobj';
 import { LevelState } from '../game/game-state';
 import { loadLevel, LoadedLevel, LEVELS } from '../game/level-loader';
@@ -48,7 +49,7 @@ for (const n of ['levelName', 'scoreText1', 'scoreText2']) LC_HIDDEN.add(n);
 export class GameScene implements Scene {
   private paused = false;
   private lcFrame = 0; // level-complete screen animation (ui runs at 30fps)
-  private physics!: PhysicsWorld;
+  private physics!: PhysWorld;
   private objects!: GameObjects;
   private level!: LevelState;
   private loaded!: LoadedLevel;
@@ -61,10 +62,16 @@ export class GameScene implements Scene {
     this.levelIndex = levelIndex;
   }
 
+  /** 1-based level number, for the debug engine/level badge overlay. */
+  get levelNumber(): number {
+    return this.levelIndex + 1;
+  }
+
   onEnter(ctx: SceneContext): void {
-    this.physics = new PhysicsWorld(
-      (objectsJson as unknown as { materials: Record<string, never> }).materials,
-    );
+    // engine chosen in Settings; fall back to planck if Nape isn't loaded yet
+    const materials = (objectsJson as unknown as { materials: Record<string, MaterialDef> }).materials;
+    const useNape = ctx.settings.physicsEngine === 'nape' && napeLoaded();
+    this.physics = useNape ? new NapePhysWorld(materials) : new PlanckWorld(materials);
     this.objects = new GameObjects();
     this.level = new LevelState();
     this.camera.reset();
@@ -177,12 +184,12 @@ export class GameScene implements Scene {
       if (go.body && go.physicsStationary) {
         PhysicsWorld.setPosPx(go.body, go.xpos, go.ypos, go.dir);
         PhysicsWorld.setVelPx(go.body, 0, 0);
-        go.body.setAngularVelocity(0);
+        PhysicsWorld.setAngularVelocity(go.body, 0);
       }
     }
     this.physics.step();
     for (const go of this.objects.list) {
-      if (go.body && !go.physicsStationary && go.body.isDynamic()) {
+      if (go.body && !go.physicsStationary && PhysicsWorld.isDynamic(go.body)) {
         const p = PhysicsWorld.getPosPx(go.body);
         go.xpos = p.x;
         go.ypos = p.y;

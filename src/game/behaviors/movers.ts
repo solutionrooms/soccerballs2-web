@@ -1,13 +1,10 @@
 // Movers & cannons behavior family ported from GameObj.as / GameObj_Base.as,
 // plus the level joint factory ported from PhysicsBase.AddJoint_Nape.
-import * as pl from 'planck';
 import { GameObj, GameContext } from '../gameobj';
-import { PhysicsWorld } from '../../physics/world';
-import { VARS, FPS, PX_PER_METER } from '../defs';
+import { PhysicsWorld, type JointSpec } from '../../physics/world';
+import { VARS, FPS } from '../defs';
 import { parkBody, footballLaunch } from './core';
 import { scaleToPreLimit, scaleTo, distBetween, easePowerInOut } from '../utils';
-
-const S = PX_PER_METER; // 30px = 1m
 
 // ---------------------------------------------------------------------------
 // Switch hooks. AS3 GameObjs expose switchFunction, driven by switch joints
@@ -429,9 +426,7 @@ function setPathPos(go: GameObj, data: PathData): void {
     PhysicsWorld.setVelPx(go.body, vx, vy);
     if (Math.abs(vx) > 0.5 || Math.abs(vy) > 0.5) {
       // kinematic motion doesn't wake sleeping joint partners in Box2D
-      for (let je = go.body.getJointList(); je; je = je.next) {
-        je.other?.setAwake(true);
-      }
+      PhysicsWorld.wakeJointPartners(go.body);
     }
   }
 }
@@ -477,7 +472,7 @@ function initPhysObj_Path(go: GameObj, g: GameContext): void {
   // kinematic + velocity-driven (see setPathPos) so welded platforms carry
   // their riders; the park loop must not zero the velocity each frame
   go.physicsStationary = false;
-  if (go.body) go.body.setType('kinematic');
+  if (go.body) PhysicsWorld.setType(go.body, 'kinematic');
   const p = pathPoint(data);
   if (p) {
     go.xpos = go.startx = p.x;
@@ -691,21 +686,12 @@ function jBool(j: LevelJointDef, name: string): boolean {
 
 // Joints against the world (obj name "") attach to Nape's static space.world
 // body; planck needs an explicit static ground body per world.
-const groundBodies = new WeakMap<pl.World, pl.Body>();
-function groundBody(world: pl.World): pl.Body {
-  let b = groundBodies.get(world);
-  if (!b) {
-    b = world.createBody({ type: 'static' });
-    groundBodies.set(world, b);
-  }
-  return b;
-}
-
 /**
- * Create a level joint between goA (joint.obj0) and goB (joint.obj1); pass
- * null for either to attach to the ground. Returns the planck joints created
- * (PhysicsBase returns the Vector.<Constraint> the same way). Supported types:
- * 'rev', 'dist', 'weld'. ('logic' joints are object links, not physics.)
+ * Create a level joint between goA (joint.obj0) and goB (joint.obj1); pass null
+ * for either to attach to the static world body. The engine-specific joint
+ * construction lives in each PhysWorld.createLevelJoint; here we normalize the
+ * LevelJointDef into an engine-neutral JointSpec. Supported types: 'rev',
+ * 'dist', 'weld' ('logic'/'switch' joints are object links / editor wiring).
  */
 export function createLevelJoint(
   g: GameContext,
@@ -713,112 +699,34 @@ export function createLevelJoint(
   goA: GameObj | null,
   goB: GameObj | null,
   jointDef: LevelJointDef,
-): pl.Joint[] {
-  const world = g.physics.world;
-  const bodyA = goA?.body ?? groundBody(world);
-  const bodyB = goB?.body ?? groundBody(world);
-  // joinedBodiesIgnoreCollision = !collide_joined (PhysicsBase.as:565-566)
-  const collideConnected = jBool(jointDef, 'collide_joined');
-  const out: pl.Joint[] = [];
-
-  if (type === 'rev') {
-    // PhysicsBase.as:641-695 — PivotJoint (+ optional MotorJoint + AngleJoint)
-    const anchor = new pl.Vec2(jointDef.x / S, jointDef.y / S);
-    const enableMotor = jBool(jointDef, 'rev_enablemotor');
-    const enableLimit = jBool(jointDef, 'rev_enablelimit');
-    const rev = new pl.RevoluteJoint({
-      bodyA,
-      bodyB,
-      collideConnected,
-      localAnchorA: bodyA.getLocalPoint(anchor),
-      localAnchorB: bodyB.getLocalPoint(anchor),
-      // Nape's AngleJoint limits the absolute relative rotation (b2-b1), not
-      // an offset from the starting pose — referenceAngle 0 reproduces that.
-      referenceAngle: 0,
-      enableMotor,
-      // Nape MotorJoint rate (rad/s) -> motorSpeed; maxForce is in Nape px
-      // torque units -> divide by 30^2 for N*m.
-      motorSpeed: jNum(jointDef, 'rev_motorrate'),
-      maxMotorTorque: jNum(jointDef, 'rev_motormax', 10000) / (S * S),
-      enableLimit,
-      lowerAngle: (jNum(jointDef, 'rev_lowerangle') * Math.PI) / 180,
-      upperAngle: (jNum(jointDef, 'rev_upperangle') * Math.PI) / 180,
-    });
-    // TODO(M5): rev_soft/rev_soft_frequency — planck's revolute has no soft
-    // mode (Nape stiff=false). No level currently uses rev_soft=true.
-    // TODO(M5): rev_motorratio (Nape gear ratio) is not supported by planck's
-    // revolute motor; all levels use ratio 0/unused.
-    world.createJoint(rev);
-    out.push(rev);
-  } else if (type === 'weld') {
-    // PhysicsBase.as:696-742 — WeldJoint with phase = jb1.rotation-jb0.rotation.
-    // NOTE: the AS3 anchor math (line 705) has a typo (jb1.position.x -
-    // jb0.position.y) and the rotated result is discarded (716-717 commented),
-    // so the Nape anchor was effectively a near-arbitrary world point; a weld
-    // is rigid regardless of anchor, so we use bodyB's origin (the intent).
-    if (!bodyA.isDynamic() && !bodyB.isDynamic()) {
-      console.error('Weld joints cannot have both bodies non-dynamic — joint not created');
-      return out;
-    }
-    const p = bodyB.getPosition();
-    const anchor = new pl.Vec2(p.x, p.y);
-    const soft = jBool(jointDef, 'weld_soft');
-    const weld = new pl.WeldJoint({
-      bodyA,
-      bodyB,
-      collideConnected,
-      localAnchorA: bodyA.getLocalPoint(anchor),
-      localAnchorB: bodyB.getLocalPoint(anchor),
-      referenceAngle: bodyB.getAngle() - bodyA.getAngle(), // phase
-      frequencyHz: soft ? jNum(jointDef, 'weld_soft_frequency') : 0,
-      dampingRatio: soft ? 1 : 0, // Nape Constraint.damping default = 1
-    });
-    world.createJoint(weld);
-    out.push(weld);
-  } else if (type === 'dist') {
-    // PhysicsBase.as:744-783 — DistanceJoint with jointMin = dist-limit and
-    // jointMax = dist+limit around the anchor separation.
-    const a0 = new pl.Vec2(jointDef.x0 / S, jointDef.y0 / S);
-    const a1 = new pl.Vec2(jointDef.x1 / S, jointDef.y1 / S);
-    const dist = distBetween(jointDef.x0, jointDef.y0, jointDef.x1, jointDef.y1);
-    const distLimit = jNum(jointDef, 'dist_limit');
-    const soft = jBool(jointDef, 'dist_soft');
-    if (distLimit === 0) {
-      // rigid rod (min == max == dist)
-      const dj = new pl.DistanceJoint({
-        bodyA,
-        bodyB,
-        collideConnected,
-        localAnchorA: bodyA.getLocalPoint(a0),
-        localAnchorB: bodyB.getLocalPoint(a1),
-        length: dist / S,
-        frequencyHz: soft ? jNum(jointDef, 'dist_soft_frequency') : 0,
-        dampingRatio: soft ? 1 : 0, // Nape Constraint.damping default = 1
-      });
-      world.createJoint(dj);
-      out.push(dj);
-    } else {
-      // planck has no min/max distance joint; a rope joint enforces the upper
-      // bound (dist+limit). TODO(M5): the lower bound (dist-limit) is not
-      // enforced — acceptable for the hanging-platform uses in the data.
-      const rj = new pl.RopeJoint({
-        bodyA,
-        bodyB,
-        collideConnected,
-        localAnchorA: bodyA.getLocalPoint(a0),
-        localAnchorB: bodyB.getLocalPoint(a1),
-        maxLength: (dist + distLimit) / S,
-      });
-      world.createJoint(rj);
-      out.push(rj);
-    }
-    // TODO(M5): params joint_initfunction = "InitJoint_Render" spawns a rope
-    // renderer GameObj in AS3 (PhysicsBase.as:793-806) — visual only.
-  }
-  // 'logic' (PhysicsBase.as:570-579) just links logicLink0/1 between objects
-  // and 'switch' joints are editor wiring — neither creates physics joints.
-
-  return out;
+): void {
+  if (type !== 'rev' && type !== 'weld' && type !== 'dist') return;
+  const weld = type === 'weld';
+  const spec: JointSpec = {
+    type,
+    // joinedBodiesIgnoreCollision = !collide_joined (PhysicsBase.as:565-566)
+    collideConnected: jBool(jointDef, 'collide_joined'),
+    // rev (PhysicsBase.as:641-695). Nape MotorJoint rate (rad/s) -> motorSpeed;
+    // maxForce stays in Nape px torque units (engine converts).
+    anchorXPx: jointDef.x,
+    anchorYPx: jointDef.y,
+    enableMotor: jBool(jointDef, 'rev_enablemotor'),
+    motorSpeed: jNum(jointDef, 'rev_motorrate'),
+    maxMotorTorquePx: jNum(jointDef, 'rev_motormax', 10000),
+    enableLimit: jBool(jointDef, 'rev_enablelimit'),
+    lowerAngleRad: (jNum(jointDef, 'rev_lowerangle') * Math.PI) / 180,
+    upperAngleRad: (jNum(jointDef, 'rev_upperangle') * Math.PI) / 180,
+    // weld / dist soft constraint
+    soft: weld ? jBool(jointDef, 'weld_soft') : jBool(jointDef, 'dist_soft'),
+    softFreq: weld ? jNum(jointDef, 'weld_soft_frequency') : jNum(jointDef, 'dist_soft_frequency'),
+    // dist (PhysicsBase.as:744-783)
+    x0Px: jointDef.x0,
+    y0Px: jointDef.y0,
+    x1Px: jointDef.x1,
+    y1Px: jointDef.y1,
+    distLimitPx: jNum(jointDef, 'dist_limit'),
+  };
+  g.physics.createLevelJoint(spec, goA?.body ?? null, goB?.body ?? null);
 }
 
 // ---------------------------------------------------------------------------

@@ -4,6 +4,7 @@ import { GameObj, GameContext } from '../gameobj';
 import { PhysicsWorld } from '../../physics/world';
 import { VARS, FPS } from '../defs';
 import { drawRig, animRange, labelFrame } from '../rig';
+import { pickPlayerSkin } from '../kits';
 import { scaleTo, scaleToPreLimit, easePowerInOut, distBetween } from '../utils';
 
 // GameVars.as:73-74 — ball offset at the player's feet
@@ -60,8 +61,8 @@ export function footballLaunch(ball: GameObj, jx: number, jy: number): void {
   footballHitSomething.delete(ball);
   if (ball.body) {
     PhysicsWorld.setVelPx(ball.body, 0, 0);
-    ball.body.setAngularVelocity(0);
-    ball.body.setAwake(true);
+    PhysicsWorld.setAngularVelocity(ball.body, 0);
+    PhysicsWorld.setAwake(ball.body, true);
     PhysicsWorld.applyImpulsePx(ball.body, jx, jy);
   }
   ball.state = 2;
@@ -143,7 +144,7 @@ export function parkBody(go: GameObj): void {
   if (go.body) {
     PhysicsWorld.setPosPx(go.body, go.xpos, go.ypos, go.dir);
     PhysicsWorld.setVelPx(go.body, 0, 0);
-    go.body.setAngularVelocity(0);
+    PhysicsWorld.setAngularVelocity(go.body, 0);
   }
 }
 
@@ -151,14 +152,7 @@ export function parkBody(go: GameObj): void {
 // origSensorMask afterwards — the originals live on each fixture's tag.
 export function setCollisionEnabled(go: GameObj, on: boolean): void {
   if (!go.body) return;
-  for (let f = go.body.getFixtureList(); f; f = f.getNext()) {
-    const tag = f.getUserData() as { colMask: number } | null;
-    f.setFilterData({
-      groupIndex: f.getFilterGroupIndex(),
-      categoryBits: f.getFilterCategoryBits(),
-      maskBits: on ? (tag?.colMask ?? 0xffff) : 0,
-    });
-  }
+  PhysicsWorld.setCollisionEnabled(go.body, on);
 }
 
 // ---------------------------------------------------------------------------
@@ -169,20 +163,24 @@ interface PlayerData {
   idleTimer: number;
   kickJx: number;
   kickJy: number;
+  /** AddHierarchy_Player skin pick: head + matching limb frames */
+  skin: Map<string, number>;
 }
 const playerData = new WeakMap<GameObj, PlayerData>();
 
 export function initPlayer(go: GameObj): void {
   go.name = 'player';
   go.state = 0;
-  playerData.set(go, { idleTimer: 0, kickJx: 0, kickJy: 0 });
+  playerData.set(go, { idleTimer: 0, kickJx: 0, kickJy: 0, skin: pickPlayerSkin() });
   setAnim(go, 'player', 'idle1');
   go.updateFn = updatePlayer;
   go.renderFn = (p, g, ctx) => {
+    // combine the team kit (tints + style) with this player's skin frames
+    const kit = g.level.playerKit;
     drawRig(ctx, g.atlas, 'player', p.animFrame, p.xpos, p.ypos, {
       xflip: p.xflip,
       scale: p.scale,
-      override: g.level.playerKit ?? undefined,
+      override: { tints: kit?.tints, hidden: kit?.hidden, frames: playerData.get(p)?.skin },
     });
   };
   // OnHitPlayer (GameObj.as:4963-4974) — players sense the ball passing

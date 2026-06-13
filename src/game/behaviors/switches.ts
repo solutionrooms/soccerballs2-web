@@ -16,8 +16,8 @@
 import objectsJson from '../../data/objects.json';
 import { GameObj, GameContext } from '../gameobj';
 import { PhysicsWorld } from '../../physics/world';
-import type { ShapeDef, FixtureTag } from '../../physics/world';
-import { FPS, PX_PER_METER } from '../defs';
+import type { ShapeDef } from '../../physics/world';
+import { FPS } from '../defs';
 import { labelFrame } from '../rig';
 import { scaleTo } from '../utils';
 import { setCollisionEnabled } from './core';
@@ -26,8 +26,6 @@ const objData = objectsJson as unknown as {
   physobjs: Record<string, { params: Record<string, string>; bodies: { shapes: ShapeDef[] }[] }>;
   gamelayers: Record<string, number>;
 };
-
-const S = PX_PER_METER;
 
 // Utils.as:383-394 (RandBetweenInt is inclusive on both ends)
 function randBetweenFloat(r0: number, r1: number): number {
@@ -189,10 +187,7 @@ function switchWeightHit(go: GameObj, hitter: GameObj): void {
 // only, so we scan the body's touching contacts each update instead.
 function switchWeightPersistScan(go: GameObj): void {
   if (go.state !== 2 || !go.body) return;
-  for (let edge = go.body.getContactList(); edge; edge = edge.next) {
-    if (!edge.contact.isTouching()) continue;
-    const other = edge.other;
-    if (!other || !other.isDynamic()) continue;
+  for (const other of PhysicsWorld.touchingDynamicBodies(go.body)) {
     // GameObj_Base.as:2992 — micro-nudge keeps the hitter awake so contact
     // callbacks keep firing (planck: a non-zero setLinearVelocity wakes it)
     const v = PhysicsWorld.getVelPx(other);
@@ -382,38 +377,20 @@ const hookedWorlds = new WeakSet<object>();
 // j = (1 + e) * vRel_n / (invMassA + invMassB).
 // TODO(fidelity): compare the 150-threshold break feel side by side with AS3.
 function ensureImpactHook(g: GameContext): void {
-  const world = g.physics.world;
-  if (hookedWorlds.has(world)) return;
-  hookedWorlds.add(world);
-  world.on('begin-contact', (contact) => {
-    const fa = contact.getFixtureA();
-    const fb = contact.getFixtureB();
-    if (fa.isSensor() || fb.isSensor()) return;
-    const a = (fa.getUserData() as FixtureTag | null)?.owner as GameObj | undefined;
-    const b = (fb.getUserData() as FixtureTag | null)?.owner as GameObj | undefined;
-    if (!a || !b) return;
-    const aIsTarget = impactTargets.has(a);
-    const bIsTarget = impactTargets.has(b);
+  if (hookedWorlds.has(g.physics)) return;
+  hookedWorlds.add(g.physics);
+  // The engine reports each collision's impulse (planck estimates it, Nape uses
+  // its real normalImpulse); record it per impact-target object so the
+  // breakable's onHit can compare against the 150 break threshold.
+  g.physics.onImpact((a, b, j, nx, ny) => {
+    const ao = a.owner as GameObj | undefined;
+    const bo = b.owner as GameObj | undefined;
+    if (!ao || !bo) return;
+    const aIsTarget = impactTargets.has(ao);
+    const bIsTarget = impactTargets.has(bo);
     if (!aIsTarget && !bIsTarget) return;
-    const wm = contact.getWorldManifold(null);
-    if (!wm) return;
-    const bodyA = fa.getBody();
-    const bodyB = fb.getBody();
-    const va = bodyA.getLinearVelocity();
-    const vb = bodyB.getLinearVelocity();
-    const n = wm.normal; // points from A to B
-    const vRel = Math.abs((vb.x - va.x) * n.x + (vb.y - va.y) * n.y) * S; // px/s
-    const invA = bodyA.isDynamic() && bodyA.getMass() > 0 ? 1 / bodyA.getMass() : 0;
-    const invB = bodyB.isDynamic() && bodyB.getMass() > 0 ? 1 / bodyB.getMass() : 0;
-    if (invA + invB === 0) return;
-    const e = contact.getRestitution();
-    const j = ((1 + e) * vRel) / (invA + invB); // ~ Nape normalImpulse length
-    if (aIsTarget && bodyB.getMass() > 0) {
-      lastImpact.set(a, { other: b, l: j / bodyB.getMass(), jx: -n.x * j, jy: -n.y * j });
-    }
-    if (bIsTarget && bodyA.getMass() > 0) {
-      lastImpact.set(b, { other: a, l: j / bodyA.getMass(), jx: n.x * j, jy: n.y * j });
-    }
+    if (aIsTarget && b.mass > 0) lastImpact.set(ao, { other: bo, l: j / b.mass, jx: -nx * j, jy: -ny * j });
+    if (bIsTarget && a.mass > 0) lastImpact.set(bo, { other: ao, l: j / a.mass, jx: nx * j, jy: ny * j });
   });
 }
 

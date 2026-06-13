@@ -142,9 +142,9 @@
   },
   "poly_mud": {
    "density": 1,
-   "frictionStatic": 100,
-   "frictionDynamic": 100,
-   "frictionRolling": 100,
+   "frictionStatic": 0.5,
+   "frictionDynamic": 0.5,
+   "frictionRolling": 0.5,
    "elasticity": 0
   }
  },

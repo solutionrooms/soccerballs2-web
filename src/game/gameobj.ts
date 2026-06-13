@@ -1,13 +1,12 @@
 // Game entity, mirroring GameObj.as structure: position + state + dispatch
 // to per-type update/render functions, optionally backed by a physics body.
-import type * as pl from 'planck';
 import type { Atlas } from '../render/atlas';
-import type { PhysicsWorld } from '../physics/world';
+import type { PhysWorld, PhysBody } from '../physics/world';
 import type { LevelState } from './game-state';
 import type { GameAudio } from '../audio/audio';
 
 export interface GameContext {
-  physics: PhysicsWorld;
+  physics: PhysWorld;
   atlas: Atlas;
   level: LevelState;
   audio: GameAudio;
@@ -64,7 +63,7 @@ export class GameObj {
   toPosY = 0;
 
   // physics
-  body: pl.Body | null = null;
+  body: PhysBody | null = null;
   /** when true the body is parked: transform written from xpos/ypos each frame */
   physicsStationary = false;
 
@@ -104,7 +103,7 @@ export class GameObjects {
     this.addList = [];
   }
 
-  removeDead(physics: PhysicsWorld): void {
+  removeDead(physics: PhysWorld): void {
     for (const go of this.list) {
       if (go.dead && go.body) {
         physics.destroyBody(go.body);

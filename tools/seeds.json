@@ -1,3 +1,14 @@
 {
-  "1": { "kicks": [ { "angleDeg": 200, "aSpan": 45 }, { "angleDeg": 300, "aSpan": 55 }, { "angleDeg": 6, "aSpan": 45 }, { "angleDeg": 300, "aSpan": 60 } ] }
+  "18": { "kicks": [ { "angleDeg": 290, "aSpan": 45 }, { "angleDeg": 30, "aSpan": 45 }, { "angleDeg": 290, "aSpan": 55 }, { "angleDeg": 30, "aSpan": 55 } ] },
+  "35": { "kicks": [ { "angleDeg": 120, "aSpan": 45 }, { "angleDeg": 260, "aSpan": 45 }, { "angleDeg": 120, "aSpan": 55 }, { "angleDeg": 260, "aSpan": 60 } ] },
+  "5": { "kicks": [ { "angleDeg": 300, "aSpan": 45 }, { "angleDeg": 90, "aSpan": 45 }, { "angleDeg": 270, "aSpan": 50 }, { "angleDeg": 90, "aSpan": 55 } ] },
+  "15": { "kicks": [ { "angleDeg": 340, "aSpan": 45 }, { "angleDeg": 280, "aSpan": 45 }, { "angleDeg": 40, "aSpan": 50 }, { "angleDeg": 280, "aSpan": 55 }, { "angleDeg": 40, "aSpan": 60 } ] },
+  "29": { "kicks": [ { "angleDeg": 270, "aSpan": 45 }, { "angleDeg": 250, "aSpan": 45 }, { "angleDeg": 40, "aSpan": 50 }, { "angleDeg": 250, "aSpan": 60 } ] },
+  "3": { "kicks": [ { "angleDeg": 110, "aSpan": 45 }, { "angleDeg": 120, "aSpan": 45 }, { "angleDeg": 310, "aSpan": 50 }, { "angleDeg": 250, "aSpan": 55 }, { "angleDeg": 120, "aSpan": 60 } ] },
+  "23": { "kicks": [ { "angleDeg": 250, "aSpan": 45 }, { "angleDeg": 300, "aSpan": 45 }, { "angleDeg": 290, "aSpan": 50 }, { "angleDeg": 290, "aSpan": 55 }, { "angleDeg": 300, "aSpan": 60 } ] },
+  "34": { "kicks": [ { "angleDeg": 220, "aSpan": 45 }, { "angleDeg": 300, "aSpan": 45 }, { "angleDeg": 0, "aSpan": 50 }, { "angleDeg": 0, "aSpan": 60 } ] },
+  "7": { "kicks": [ { "angleDeg": 330, "aSpan": 45 }, { "angleDeg": 30, "aSpan": 45 }, { "angleDeg": 30, "aSpan": 55 }, { "angleDeg": 330, "aSpan": 60 } ] },
+  "14": { "kicks": [ { "angleDeg": 180, "aSpan": 45 }, { "angleDeg": 340, "aSpan": 45 }, { "angleDeg": 250, "aSpan": 50 }, { "angleDeg": 280, "aSpan": 55 }, { "angleDeg": 340, "aSpan": 60 } ] },
+  "25": { "kicks": [ { "angleDeg": 30, "aSpan": 45 }, { "angleDeg": 290, "aSpan": 45 }, { "angleDeg": 20, "aSpan": 50 }, { "angleDeg": 60, "aSpan": 50 }, { "angleDeg": 310, "aSpan": 55 }, { "angleDeg": 310, "aSpan": 60 } ] },
+  "19": { "kicks": [ { "angleDeg": 350, "aSpan": 45 }, { "angleDeg": 210, "aSpan": 45 }, { "angleDeg": 210, "aSpan": 55 }, { "angleDeg": 350, "aSpan": 60 } ] }
 }

@@ -30,6 +30,17 @@ function runChunk(index: number, routes: RouteKick[][], opts: EvalOpts): Promise
   });
 }
 
+/**
+ * Verify a single route in a FRESH worker process. nape.js's static pools retain
+ * history across worlds, so a borderline route can win or lose depending on how
+ * many worlds were created before it. A fresh process gives the canonical result
+ * (matching a clean game load), so routes are accepted/tested this way.
+ */
+export async function verifyRoute(index: number, kicks: RouteKick[], opts?: EvalOpts): Promise<RunResult | null> {
+  const res = await runChunk(index, [kicks], opts ?? { abortStuckFrames: 1_000_000, maxFrames: 4000 });
+  return res[0] ?? null;
+}
+
 export function makeEvaluator(
   concurrency = Math.max(1, os.cpus().length - 1),
   chunk = 150,

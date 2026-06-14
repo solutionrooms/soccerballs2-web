@@ -46,9 +46,9 @@ const NO_ABORT = 1_000_000; // "abortStuckFrames off" sentinel for exact validat
  *  goal distance is the fine-grained tie-breaker. */
 function scoreOf(res: RunResult): number {
   // goals scored and refs hit are the win sub-objectives; closeness to the goal
-  // is the fine-grained gradient. (A switch/gate bonus was tried but distracted
-  // the beam off otherwise-solvable levels, so it's left out.)
-  return res.minGoalDist - res.numGoalsScored * 5000 - res.numRefsHit * 2000;
+  // is the fine-grained gradient; a small, capped bonus for triggering a
+  // switch/gate gives a gradient toward mechanisms without distracting the beam.
+  return res.minGoalDist - res.numGoalsScored * 5000 - res.numRefsHit * 2000 - Math.min(res.worldChanges, 4) * 100;
 }
 
 /** bucket a candidate by ball rest + progress so the beam stays diverse. */

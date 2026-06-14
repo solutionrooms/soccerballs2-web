@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 import { solveSeeded, type SeedKick } from '../src/game/sim/solver';
 import { LEVELS } from '../src/game/level-loader';
 import type { RoutesFile, RouteStatus } from '../src/game/sim/route-types';
-import { makeEvaluator } from './pool';
+import { makeEvaluator, verifyRoute } from './pool';
 
 const OUT = fileURLToPath(new URL('../src/data/routes.json', import.meta.url));
 const SEEDS = fileURLToPath(new URL('./seeds.json', import.meta.url));
@@ -32,6 +32,17 @@ async function main(): Promise<void> {
     const t0 = Date.now();
     process.stdout.write(`[${key}] "${LEVELS[i].name}" gold=${LEVELS[i].goldKicks} seeded(${plan.kicks.length}) ... `);
     const route = await solveSeeded(i, plan.kicks, evaluate, { log });
+    // accept only fresh-process-reproducible routes (nape pool state is history-dependent)
+    if (route.status !== 'unsolved' && route.kicks.length) {
+      const fresh = await verifyRoute(i, route.kicks);
+      if (!fresh?.success || fresh.numKicks > LEVELS[i].failKicks) {
+        route.status = 'unsolved';
+        route.kicks = [];
+      } else {
+        route.status = fresh.numKicks <= LEVELS[i].goldKicks ? 'gold' : 'win';
+        route.numKicks = fresh.numKicks;
+      }
+    }
     const existing = routes.levels[key];
     if (!existing || rank[route.status] > rank[existing.status]) routes.levels[key] = route;
     console.log(`${route.status.toUpperCase()} ${route.kicks.length}k ${route.note ? `(${route.note})` : ''} ${((Date.now() - t0) / 1000).toFixed(0)}s`);

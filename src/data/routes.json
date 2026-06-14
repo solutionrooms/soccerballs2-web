@@ -102,10 +102,21 @@
       "note": "no winning route found within budget"
     },
     "13": {
-      "status": "unsolved",
-      "kicks": [],
-      "goldKicks": 2,
-      "note": "no winning route found within budget"
+      "status": "gold",
+      "kicks": [
+        {
+          "angleDeg": 282.5,
+          "power01": 0.9600000000000003,
+          "waitFrames": 0
+        },
+        {
+          "angleDeg": 279,
+          "power01": 1,
+          "waitFrames": 0
+        }
+      ],
+      "numKicks": 2,
+      "goldKicks": 2
     },
     "14": {
       "status": "unsolved",
@@ -114,10 +125,26 @@
       "note": "no winning route found within budget"
     },
     "15": {
-      "status": "unsolved",
-      "kicks": [],
-      "goldKicks": 6,
-      "note": "no winning route found within budget"
+      "status": "gold",
+      "kicks": [
+        {
+          "angleDeg": 40,
+          "power01": 1,
+          "waitFrames": 0
+        },
+        {
+          "angleDeg": 190,
+          "power01": 1,
+          "waitFrames": 0
+        },
+        {
+          "angleDeg": 60,
+          "power01": 1,
+          "waitFrames": 0
+        }
+      ],
+      "numKicks": 3,
+      "goldKicks": 6
     },
     "16": {
       "status": "unsolved",
@@ -251,5 +278,5 @@
       "note": "no winning route found within budget"
     }
   },
-  "generated": "2026-06-14T06:17:13.595Z"
+  "generated": "2026-06-14T14:10:10.572Z"
 }

@@ -136,6 +136,11 @@ export function applyKick(g: GameContext, angleDeg: number, power01: number): vo
 /** Distance from the ball to the nearest UNMET win objective — an unscored goal
  *  or an un-hit referee (most levels require hitting the ref as well as scoring).
  *  This is the solver's gradient toward whatever still needs doing. */
+// SOLVER_GOAL_ONLY=1 makes the heuristic ignore ref distance (some levels solve
+// better when the search isn't pulled toward the ref); the win condition still
+// requires the ref. Used to run multiple heuristic configs and accumulate.
+const GOAL_ONLY = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env?.SOLVER_GOAL_ONLY === '1';
+
 export function ballGoalDistance(g: GameContext): number {
   const ball = g.objects.byName('football');
   if (!ball) return Infinity;
@@ -145,10 +150,12 @@ export function ballGoalDistance(g: GameContext): number {
     const d = Math.hypot(goal.xpos - ball.xpos, goal.ypos - ball.ypos);
     if (d < best) best = d;
   }
-  for (const ref of g.objects.allByName('ref')) {
-    if (ref.state !== 0) continue; // already hit
-    const d = Math.hypot(ref.xpos - ball.xpos, ref.ypos - ball.ypos);
-    if (d < best) best = d;
+  if (!GOAL_ONLY) {
+    for (const ref of g.objects.allByName('ref')) {
+      if (ref.state !== 0) continue; // already hit
+      const d = Math.hypot(ref.xpos - ball.xpos, ref.ypos - ball.ypos);
+      if (d < best) best = d;
+    }
   }
   return best;
 }

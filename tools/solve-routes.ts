@@ -15,6 +15,7 @@ import { LEVELS } from '../src/game/level-loader';
 import { solveLevel, type BatchEvaluator, type EvalOpts } from '../src/game/sim/solver';
 import type { RouteKick, RoutesFile } from '../src/game/sim/route-types';
 import type { RunResult } from '../src/game/sim/replay';
+import { verifyRoute } from './pool';
 
 const CHUNK_WORKER = fileURLToPath(new URL('./solve-chunk.ts', import.meta.url));
 const OUT = process.env.OUT_FILE
@@ -89,10 +90,26 @@ async function main(): Promise<void> {
         beamWidth: process.env.BEAM_WIDTH ? Number(process.env.BEAM_WIDTH) : undefined,
         maxDepth: process.env.MAX_DEPTH ? Number(process.env.MAX_DEPTH) : undefined,
       });
-      routes.levels[String(i)] = route;
-      console.log(`${route.status.toUpperCase()} ${route.kicks.length} kicks (numKicks=${route.numKicks ?? '-'})  ${((Date.now() - t0) / 1000).toFixed(0)}s`);
+      // accept only routes that reproduce in a fresh process (nape pool state is
+      // history-dependent, so a route validated mid-chunk may be fragile)
+      if (route.status !== 'unsolved' && route.kicks.length) {
+        const fresh = await verifyRoute(i, route.kicks);
+        if (!fresh?.success || fresh.numKicks > def.failKicks) {
+          route.status = 'unsolved';
+          route.kicks = [];
+        } else {
+          route.status = fresh.numKicks <= def.goldKicks ? 'gold' : 'win';
+          route.numKicks = fresh.numKicks;
+        }
+      }
+      // never downgrade: keep the best route per level across runs
+      const rank: Record<string, number> = { gold: 3, win: 2, unsolved: 1 };
+      const cur = routes.levels[String(i)];
+      const better = !cur || rank[route.status] > rank[cur.status] || (route.status === cur.status && (route.numKicks ?? 1e9) < (cur.numKicks ?? 1e9));
+      if (better) routes.levels[String(i)] = route;
+      console.log(`${route.status.toUpperCase()} ${route.kicks.length}k${better ? '' : ' (kept existing)'}  ${((Date.now() - t0) / 1000).toFixed(0)}s`);
     } catch (e) {
-      routes.levels[String(i)] = { status: 'unsolved', kicks: [], goldKicks: def.goldKicks, note: `solver error: ${(e as Error).message}` };
+      if (!routes.levels[String(i)]) routes.levels[String(i)] = { status: 'unsolved', kicks: [], goldKicks: def.goldKicks };
       console.log(`ERROR: ${(e as Error).message}`);
     }
     routes.generated = new Date().toISOString();

@@ -183,6 +183,8 @@ class Game
     
     private static var hudController : HudController;
     
+    
+    
     public static function InitOnce(_main : Main)
     {
         main = _main;
@@ -235,18 +237,11 @@ class Game
     
     private static function InitBitmaps()
     {
-        if (false)
-        {
-            polyScreenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
-        }
-        else
-        {
-            polyScreenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
-            backgroundScreenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
-            scrollScreenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
-            scrollScreenTempBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
-            copyScreenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
-        }
+        polyScreenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
+        backgroundScreenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
+        scrollScreenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
+        scrollScreenTempBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
+        copyScreenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
         
         backDOF = new DisplayObjFrame();
         polyDOF = new DisplayObjFrame();
@@ -269,17 +264,6 @@ class Game
             Walkthrough.InitScreens();
             UI.StartTransition("preparingscreen");
         }
-        else if (false)
-        {
-            if (loadTextureFiles)
-            {
-                UI.StartTransition("preparingscreen");
-            }
-            else
-            {
-                UI.StartTransition("title");
-            }
-        }
         else
         {
             UI.StartTransition("preparingscreen");
@@ -287,9 +271,12 @@ class Game
     }
     
     
+    
+    
     public static function InitGame()
     {
         gameState = gameState_Play;
+        
         
         
         EngineDebug.debugMode = 0;
@@ -306,6 +293,8 @@ class Game
         Levels.LoadAll();
         WalkthroughRecordings.InitOnce();
         Achievements.InitOnce();
+        
+        
         
         
         
@@ -553,11 +542,11 @@ class Game
 		static function InitPhysicsGO(x:Number, y:Number,graphic:PhysObjGraphic,_gid:int = 0,_frame:int = 0,_zpos:Number=0):int
 		{
 			var go:GameObj;
-			
+
 			_zpos += graphic.zoffset;
-			
+
 			if (graphic == null)
-			{			
+			{
 				go = GameObjects.AddObj(x*PhysicsBase.p2w, y*PhysicsBase.p2w, _zpos+zsortoffset);
 				go.InitPhysicsObject(_gid, _frame,0,0,"",false);
 			}
@@ -571,7 +560,7 @@ class Game
 				else
 				{
 					go = GameObjects.AddObj(x*PhysicsBase.p2w, y*PhysicsBase.p2w, _zpos+zsortoffset);
-					go.InitPhysicsObject(_gid, _frame,graphic.offset.x,graphic.offset.y,graphic.goInitFuntionVarString,graphic.hasShadow);	
+					go.InitPhysicsObject(_gid, _frame,graphic.offset.x,graphic.offset.y,graphic.goInitFuntionVarString,graphic.hasShadow);
 					go.initFunctionVarString = graphic.goInitFuntionVarString;
 					go[graphic.goInitFuntion]();
 				}
@@ -612,7 +601,7 @@ class Game
         if (levelState == levelState_EndScreen)
         {
             SaveData.Save();
-            cast((levelState_Null), InitLevelState);
+            InitLevelState(levelState_Null);
             
             if (levelSuccessFlag == true)
             {
@@ -647,7 +636,7 @@ class Game
     
     private static function LevelFailed()
     {
-        cast((levelState_Null), InitLevelState);
+        InitLevelState(levelState_Null);
         UI.StartTransition("levelfailed");
     }
     
@@ -752,6 +741,7 @@ class Game
         
         
         
+        
         if (levelScore > l.bestScore)
         {
             l.bestScore = levelScore;
@@ -759,6 +749,7 @@ class Game
         
         
         CalculateScore();
+        
         
         SubmitStats();
     }
@@ -770,6 +761,9 @@ class Game
     private static function SubmitStats()
     {
         var l : Level;
+        
+        
+        
         
         
         
@@ -917,6 +911,7 @@ class Game
     private static var goPolyLayer : GameObj;
     
     
+    
     public static function StopLevel()
     {
         HintPopups.ExitForLevel();
@@ -926,30 +921,25 @@ class Game
         s3d.SetVisible(false);
     }
     
+    
     private static var doingWalkthrough : Bool;
     public static function StartLevel(_doingWalkthrough : Bool = false) : Void
     {
         doingWalkthrough = _doingWalkthrough;
         
         StartLevelA();
+        
         var a : Int = 0;
     }
     public static function StartLevelA() : Void
     {
-        if (false)
-        {
-            if (loadTextureFiles == false)
-            {
-                Preparing.Start();
-            }
-        }
-        
         s3d.SetVisible(true);
         
         
         LevelDobjCache.InitForLevel();
         
         Grass.InitForLevel();
+        
         
         gameState = gameState_Play;
         
@@ -960,11 +950,15 @@ class Game
         KeyReader.InitOnce(main.stage);
         
         
+        
+        
         QuietAllSounds();
+        
         
         boundingRectangle = new Rectangle(-10000, -10000, 20000, 20000);
         
         textFrameOffset = 0;
+        
         
         var l : Level = Levels.GetCurrent();
         
@@ -977,11 +971,12 @@ class Game
         
         GameObjects.ClearAll();
         
-        cast((levelState_LevelStart), InitLevelState);
+        InitLevelState(levelState_LevelStart);
         
         InitLevelPlayFromEditorObjects();
         PhysicsBase.InitLines();
         PhysicsBase.InitJoints();
+        
         
         
         
@@ -998,6 +993,9 @@ class Game
         {
             currentMC.addChild(hudController.hudMC);
         }
+        
+        
+        
         
         
         
@@ -1023,9 +1021,13 @@ class Game
         
         
         
+        
         scoreMultiplier = 1;
         
         InitLevelGameplay();
+        
+        
+        
         
         
         
@@ -1037,7 +1039,13 @@ class Game
         
         
         
+        
+        
+        
+        
         InitControl();
+        
+        
         
         
         Grass.PreRenderLines();
@@ -1064,7 +1072,9 @@ class Game
         Achievements.ResetForLevel();
         
         
+        
         HintPopups.InitForLevel();
+        
         
         
         CustomCursor.Use(true);
@@ -1088,8 +1098,11 @@ class Game
             backBD.draw(backgroundsMC);
             
             
+            
             backDOF.CreateStandalone(backBD, 0, 0);
             backDOF.ReUploadBitmap(backBD);
+            
+            
             
             
             
@@ -1190,6 +1203,8 @@ class Game
     private static function StartLevelSounds()
     {
     }
+    
+    
     
     
     
@@ -1297,7 +1312,7 @@ class Game
                 if (KeyReader.Pressed(KeyReader.KEY_SPACE))
                 {
                     Mouse.cursor = MouseCursor.AUTO;
-                    cast((levelState_Editor), InitLevelState);
+                    InitLevelState(levelState_Editor);
                 }
                 if (KeyReader.Pressed(KeyReader.KEY_C))
                 {
@@ -1358,6 +1373,7 @@ class Game
             if (levelState == levelState_LevelStart)
             {
             }
+            
             
             
             
@@ -1446,7 +1462,7 @@ class Game
                             {
                                 levelSuccessFlag = true;
                                 Audio.OneShot("sfx_levelcomplete");
-                                cast((levelState_Complete), InitLevelState);
+                                InitLevelState(levelState_Complete);
                             }
                         }
                     }
@@ -1464,9 +1480,10 @@ class Game
                 levelStateTimer++;
                 var time : Int = as3hx.Compat.parseInt(Defs.fps * 1);
                 
+                
                 if (levelStateTimer > time && stillUpdating == false)
                 {
-                    cast((levelState_EndScreen), InitLevelState);
+                    InitLevelState(levelState_EndScreen);
                 }
             }
             
@@ -1497,7 +1514,7 @@ class Game
     }
     
     
-    private static function InitCreateForegroundBitmaps()  // once  
+    private static function InitCreateForegroundBitmaps()
     {
     }
     
@@ -1522,7 +1539,7 @@ class Game
     }
     
     
-    private static var scrollMode : Int = 0;  // nothing  
+    private static var scrollMode : Int = 0;
     private static var scrollDragX : Float;
     private static var scrollDragY : Float;
     private static var doKick : Bool = false;
@@ -1590,21 +1607,17 @@ class Game
     public static function MouseClickHandler(event : MouseEvent) : Void
     {
         if (true)
-        
-        //usedebug){
-            
+        {
+            if (event.stageX < 100 && event.stageY < 100)
             {
-                if (event.stageX < 100 && event.stageY < 100)
+                hudController.CycleDebugModes();
+            }
+            if (event.stageX < 100 && event.stageY > 300)
+            {
+                GameVars.renderDebugMode++;
+                if (GameVars.renderDebugMode >= GameVars.renderDebugModeMax)
                 {
-                    hudController.CycleDebugModes();
-                }
-                if (event.stageX < 100 && event.stageY > 300)
-                {
-                    GameVars.renderDebugMode++;
-                    if (GameVars.renderDebugMode >= GameVars.renderDebugModeMax)
-                    {
-                        GameVars.renderDebugMode = 0;
-                    }
+                    GameVars.renderDebugMode = 0;
                 }
             }
         }
@@ -1623,12 +1636,8 @@ class Game
             if (scrollMode == 0)
             {
                 if (Utils.DistBetweenPoints(mouse_x + camera.x, mouse_y + camera.y, go.xpos, go.ypos) < 50)
-                
-                // is ball{
-                    
-                    {
-                        scrollMode = 2;
-                    }
+                {
+                    scrollMode = 2;
                 }
                 else
                 {
@@ -1739,19 +1748,20 @@ class Game
         }
         
         
-        if (go.state == 1)
         
-        // waiting to be launched{
+        
+        
+        
+        
+        if (go.state == 1)
+        {
+            var mx : Float = MouseControl.x;
+            var my : Float = MouseControl.y;
             
-            {
-                var mx : Float = MouseControl.x;
-                var my : Float = MouseControl.y;
-                
-                var tox : Float = (((mx - w2) * 0.5) + p.x) - w2;
-                var toy : Float = (((my - h2) * 0.5) + p.y) - h2;
-                camera.x += (tox - camera.x) * c;
-                camera.y += (toy - camera.y) * c;
-            }
+            var tox : Float = (((mx - w2) * 0.5) + p.x) - w2;
+            var toy : Float = (((my - h2) * 0.5) + p.y) - h2;
+            camera.x += (tox - camera.x) * c;
+            camera.y += (toy - camera.y) * c;
         }
         else
         {
@@ -1816,16 +1826,12 @@ class Game
             if (MouseControl.buttonPressed)
             {
                 if (Utils.DistBetweenPoints(MouseControl.x + camera.x, MouseControl.y + camera.y, go.xpos, go.ypos) < 50)
-                
-                // is ball{
-                    
-                    {
-                        scrollMode = 2;
-                    }
+                {
+                    scrollMode = 2;
                 }
                 else
                 {
-                    scrollMode = 1;  // start drag  
+                    scrollMode = 1;
                     scrollDragX = 0;
                     scrollDragY = 0;
                     MouseControl.dx = 0;
@@ -1834,37 +1840,29 @@ class Game
             }
         }
         else if (scrollMode == 1)
-        
-        // drag{
-            
+        {
+            camera.x -= MouseControl.dx;
+            camera.y -= MouseControl.dy;
+            scrollDragX = MouseControl.x;
+            scrollDragY = MouseControl.y;
+            MouseControl.dx = 0;
+            MouseControl.dy = 0;
+            if (MouseControl.buttonPressed == false)
             {
-                camera.x -= MouseControl.dx;
-                camera.y -= MouseControl.dy;
-                scrollDragX = MouseControl.x;
-                scrollDragY = MouseControl.y;
-                MouseControl.dx = 0;
-                MouseControl.dy = 0;
-                if (MouseControl.buttonPressed == false)
-                {
-                    scrollMode = 0;
-                }
+                scrollMode = 0;
             }
         }
         else if (scrollMode == 2)
-        
-        // dragging cursor{
-            
+        {
+            var dx : Float = cx - MouseControl.x;
+            var dy : Float = cy - MouseControl.y;
+            var scaler : Float = 0.8;
+            camera.x = (go.xpos + (dx * scaler)) - cx;
+            camera.y = (go.ypos + (dy * scaler)) - cy;
+            if (MouseControl.buttonPressed == false)
             {
-                var dx : Float = cx - MouseControl.x;
-                var dy : Float = cy - MouseControl.y;
-                var scaler : Float = 0.8;
-                camera.x = (go.xpos + (dx * scaler)) - cx;
-                camera.y = (go.ypos + (dy * scaler)) - cy;
-                if (MouseControl.buttonPressed == false)
-                {
-                    scrollMode = 0;
-                    doKick = true;
-                }
+                scrollMode = 0;
+                doKick = true;
             }
         }
         
@@ -1904,6 +1902,7 @@ class Game
         camera.oldY = camera.y;
         
         
+        
         var playerPos : Point = new Point(go.xpos, go.ypos);
         
         var dx : Float;
@@ -1917,13 +1916,9 @@ class Game
         var speed : Float = linv.length;
         
         if (false)
-        
-        //speed < 1){
-            
-            {
-                dx = 0;
-                dy = 0;
-            }
+        {
+            dx = 0;
+            dy = 0;
         }
         else
         {
@@ -2073,7 +2068,7 @@ class Game
         }
         if (gameState == gameState_Walkthrough)
         {
-            return cast((_bd), RenderWalkthrough);
+            return RenderWalkthrough(_bd);
         }
         if (pause)
         {
@@ -2114,12 +2109,7 @@ class Game
         var level : Level = Levels.GetCurrent();
         
         
-        if (false)
-        {
-            EngineDebug.StartTimer("startrender");
-            s3d.StartRender();
-            EngineDebug.EndTimer("startrender");
-        }
+        
         
         if (false == false)
         {
@@ -2142,41 +2132,19 @@ class Game
         
         
         
+        
         if (false == false)
         {
             screenBD.copyPixels(bd, bd.rect, new Point(0, 0), null, null, true);
         }
         
-        if (false)
-        {
-            if (currentDisplayTexture != -1)
-            {
-                s3d.RenderRectangle(new Matrix3D(), TexturePages.pages[currentDisplayTexture].s3dTexture, 0, 0, 640, 480, 0, 0, 0, 1, 1);
-            }
-            if (usedebug)
-            {
-                if (KeyReader.Pressed(KeyReader.KEY_T))
-                {
-                    currentDisplayTexture++;
-                    if (currentDisplayTexture >= TexturePages.pages.length)
-                    {
-                        currentDisplayTexture = -1;
-                    }
-                    Utils.print("texture page " + currentDisplayTexture);
-                }
-            }
-            
-            
-            EngineDebug.StartTimer("present");
-            s3d.EndRender();
-            EngineDebug.EndTimer("present");
-        }
+        
         
         
         
         EngineDebug.EndTimer("render");
         EngineDebug.StopTimers();
-        cast((screenBD), RenderPanel);
+        RenderPanel(screenBD);
         EngineDebug.RenderTimers(screenBD);
         EngineDebug.CreateGetTimerStrings();
     }
@@ -2198,12 +2166,7 @@ class Game
         var level : Level = Levels.GetCurrent();
         
         
-        if (false)
-        {
-            EngineDebug.StartTimer("startrender");
-            s3d.StartRender();
-            EngineDebug.EndTimer("startrender");
-        }
+        
         
         if (false == false)
         {
@@ -2226,41 +2189,19 @@ class Game
         
         
         
+        
         if (false == false)
         {
             screenBD.copyPixels(bd, bd.rect, new Point(0, 0), null, null, true);
         }
         
-        if (false)
-        {
-            if (currentDisplayTexture != -1)
-            {
-                s3d.RenderRectangle(new Matrix3D(), TexturePages.pages[currentDisplayTexture].s3dTexture, 0, 0, 640, 480, 0, 0, 0, 1, 1);
-            }
-            if (usedebug)
-            {
-                if (KeyReader.Pressed(KeyReader.KEY_T))
-                {
-                    currentDisplayTexture++;
-                    if (currentDisplayTexture >= TexturePages.pages.length)
-                    {
-                        currentDisplayTexture = -1;
-                    }
-                    Utils.print("texture page " + currentDisplayTexture);
-                }
-            }
-            
-            
-            EngineDebug.StartTimer("present");
-            s3d.EndRender();
-            EngineDebug.EndTimer("present");
-        }
+        
         
         
         
         EngineDebug.EndTimer("render");
         EngineDebug.StopTimers();
-        cast((screenBD), RenderPanel);
+        RenderPanel(screenBD);
         EngineDebug.RenderTimers(screenBD);
         EngineDebug.CreateGetTimerStrings();
     }
@@ -2363,36 +2304,33 @@ class Game
         for (line/* AS3HX WARNING could not determine type for var: line exp: EField(EIdent(l),lines) type: null */ in l.lines)
         {
             if (line.type == 3)
-            
-            // normals (spikes){
-                
+            {
+                for (i in 0...line.points.length)
                 {
-                    for (i in 0...line.points.length)
+                    var j : Int = as3hx.Compat.parseInt(i + 1);
+                    j %= line.points.length;
+                    p0 = line.points[i].clone();
+                    p1 = line.points[j].clone();
+                    
+                    var dx : Float = p1.x - p0.x;
+                    var dy : Float = p1.y - p0.y;
+                    
+                    var len : Float = Utils.DistBetweenPoints(p0.x, p0.y, p1.x, p1.y);
+                    
+                    dx /= len;
+                    dy /= len;
+                    
+                    var k : Float;
+                    k = 0;
+                    while (k < len)
                     {
-                        var j : Int = as3hx.Compat.parseInt(i + 1);
-                        j %= line.points.length;
-                        p0 = line.points[i].clone();
-                        p1 = line.points[j].clone();
+                        var xx : Float = p0.x + (dx * k);
+                        var yy : Float = p0.y + (dy * k);
                         
-                        var dx : Float = p1.x - p0.x;
-                        var dy : Float = p1.y - p0.y;
                         
-                        var len : Float = Utils.DistBetweenPoints(p0.x, p0.y, p1.x, p1.y);
-                        
-                        dx /= len;
-                        dy /= len;
-                        
-                        var k : Float;
-                        k = 0;
-                        while (k < len)
-                        {
-                            var xx : Float = p0.x + (dx * k);
-                            var yy : Float = p0.y + (dy * k);
-                            
-                            var ang : Float = Math.atan2(dy, dx);  // + (Math.PI * 0.5);  
-                            dobj_spikes.RenderAtRotScaled(Utils.RandBetweenInt(0, numf_spikes - 1), bd, xx, yy, 1, ang, null, true);
-                            k += 7;
-                        }
+                        var ang : Float = Math.atan2(dy, dx);
+                        dobj_spikes.RenderAtRotScaled(Utils.RandBetweenInt(0, numf_spikes - 1), bd, xx, yy, 1, ang, null, true);
+                        k += 7;
                     }
                 }
             }
@@ -2417,11 +2355,6 @@ class Game
     
     private static function RenderPanel(bd : BitmapData)
     {
-        if (false)
-        {
-            return;
-        }
-        
         var l : Level = Levels.GetCurrent();
         if (l == null)
         {
@@ -2597,11 +2530,6 @@ class Game
     
     public static function HitTestPhysObjGraphics(x : Float, y : Float) : GameObj
     {
-        if (false)
-        {
-            return HitTestPhysObjGraphics_Stage3D(x, y);
-        }
-        
         var bd : BitmapData = Game.main.screenBD;
         var r : Rectangle = new Rectangle(0, 0, 1, 1);
         
@@ -2709,6 +2637,8 @@ class Game
             }
         }
     }
+    
+    
     
     public static function GetPlayerPosition() : Int
     {
@@ -2886,11 +2816,7 @@ class Game
         {
             return;
         }
-        if (false)
-        {
-            RenderBallPath_Stage3D(bd, _x, _y, _dx, _dy);
-            return;
-        }
+        
         
         RenderBallPath_calcPositions(_x, _y);
         
@@ -2919,11 +2845,7 @@ class Game
         {
             return;
         }
-        if (false)
-        {
-            RenderBallPath_Stage3D(bd, _x, _y, _dx, _dy);
-            return;
-        }
+        
         var g : Graphics = fillScreenMC.graphics;
         g.clear();
         g.lineStyle(1, 0xffffff, 0.5);
@@ -2931,6 +2853,7 @@ class Game
         renderBallPathTimer -= 1;
         
         var bpt : Float = renderBallPathTimer;
+        
         
         
         if (usedebug)
@@ -2978,7 +2901,7 @@ class Game
             {
                 if (Utils.Dist2BetweenPoints(x, y, ox, oy) > (d2))
                 {
-                    var alpha : Float = 0.5;  // + (Math.cos(bpt * 0.2) * 0.1);  
+                    var alpha : Float = 0.5;
                     var alphaOffset = Utils.ScaleToPreLimit(0, 0.7, 0, GameVars.ballLineLength, i);
                     
                     alpha -= alphaOffset;
@@ -3039,36 +2962,11 @@ class Game
         };
         if (false)
         {
-            use_texturepages = true;
-            usedebug = false;
-            load_vars_data = false;
-            loadTextureFiles = true;
-        };
-        if (false)
-        {
             controlMode = 1;
             load_vars_data = false;
-        };
-        if (false)
-        {
-            static;function RenderBallPath_Stage3D(bd : BitmapData, _x : Float, _y : Float, _dx : Float, _dy : Float)
-            {
-                RenderBallPath_calcPositions(_x, _y);
-                
-                var dob : DisplayObj = GraphicObjects.GetDisplayObjByName("whiteRect");
-                var tx : Texture = dob.GetTexture(0);
-                var dof : DisplayObjFrame = dob.GetFrame(0);
-                
-                for (i in 0...positions.length - 1)
-                {
-                    var alpha : Float = Utils.ScaleTo(1, 0, 0, positions.length, i);
-                    var p : Point = positions[i];
-                    var p1 : Point = positions[i + 1];
-                    s3d.RenderLine(tx, p.x, p.y, p1.x, p1.y, dof.u0, dof.v0, dof.u1, dof.v1);
-                }
-            };
         };
         true;
     }
 
 }
+

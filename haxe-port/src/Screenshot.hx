@@ -51,6 +51,7 @@ class Screenshot
         lname = StringTools.replace(lname, "/", "_");
         var name : String = "screenshot_level_" + (Levels.currentIndex + 1) + "__" + lname + ".png";
         
+        
         var ba : ByteArray = PNGEncoder.encode(bd);
         fr.save(ba, name);
         
@@ -62,4 +63,5 @@ class Screenshot
         EngineDebug.StopImmediateTimer("Level_Dump");
     }
 }
+
 

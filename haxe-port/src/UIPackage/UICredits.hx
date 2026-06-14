@@ -30,6 +30,7 @@ class UICredits extends UIScreenInstance
         titleMC.gotoAndPlay(1);
         
         UI.AddAnimatedMCButton(titleMC.btn_back, buttonBackPressed);
+        
         UI.AddBarebonesMCButton(titleMC.link_longAnimals, link_longAnimalsPressed);
         UI.AddBarebonesMCButton(titleMC.link_robotJam, link_robotJamPressed);
     }
@@ -65,4 +66,5 @@ class UICredits extends UIScreenInstance
         UI.StartTransition("title");
     }
 }
+
 

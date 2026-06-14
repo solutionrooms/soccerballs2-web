@@ -29,6 +29,7 @@ class ExternalData
     
     
     
+    
     @:meta(Embed(source="../bin/SoccerBalls2_Objects_Data.xml",mimeType="application/octet-stream"))
 
     private static var class_Data : Class<Dynamic>;
@@ -133,6 +134,8 @@ class ExternalData
         {
             levelsXml = try cast(new FastXML(Type.createInstance(class_Levels, [])), FastXML) catch(e:Dynamic) null;
         }
+        
+        
         
         GetConstants();
         cb();

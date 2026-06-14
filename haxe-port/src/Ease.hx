@@ -27,7 +27,7 @@ class Ease
     {
         if (name == "linear")
         {
-            return cast((time), Linear);
+            return Linear(time);
         }
         if (name == "power_in")
         {
@@ -43,15 +43,15 @@ class Ease
         }
         if (name == "spring_in")
         {
-            return cast((time), Spring_In);
+            return Spring_In(time);
         }
         if (name == "spring_out")
         {
-            return cast((time), Spring_Out);
+            return Spring_Out(time);
         }
         if (name == "spring_inout")
         {
-            return cast((time), Spring_InOut);
+            return Spring_InOut(time);
         }
         return time;
     }
@@ -153,7 +153,7 @@ class Ease
     }
     
     /*
-		
+
 		public static function easeOut (t:Number, b:Number, c:Number, d:Number):Number {
 			if ((t/=d) < (1/2.75)) {
 				return c*(7.5625*t*t) + b;
@@ -171,7 +171,7 @@ class Ease
 		public static function easeInOut (t:Number, b:Number, c:Number, d:Number):Number {
 			if (t < d*0.5) return easeIn (t*2, 0, c, d) * .5 + b;
 			else return easeOut (t*2-d, 0, c, d) * .5 + c*.5 + b;
-		}		
+		}
 		*/
     
     
@@ -182,6 +182,7 @@ class Ease
         {
             v *= time;
         }
+        
         return v;
     }
     public static function Power_Out(time : Float, power : Float = 2) : Float
@@ -221,4 +222,5 @@ class Ease
         }
     }
 }
+
 

@@ -50,6 +50,7 @@ class WalkthroughScreen
         Game.gameState = Game.gameState_Walkthrough;
         Game.StartLevel(true);
         titleMC = _titleMC;
+        
         titleMC.addChild(screenB);
         titleMC.setChildIndex(screenB, 0);
         titleMC.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
@@ -78,35 +79,35 @@ class WalkthroughScreen
         var l : Level = Levels.GetCurrent();
         
         /*
-			
+
 			Game.StartLevel(true);
-			
+
 			Game.gameState = Game.gameState_Play;
 			Game.UpdateGameplay();
 			var bd:BitmapData = Game.main.screenBD;
 			bd.fillRect(Defs.screenRect, 0);
 			Game.Render(bd);
 			Game.gameState = Game.gameState_UI;
-			
-			
-			
+
+
+
 			var m:Matrix = new Matrix();
-			
+
 			var scale:Number;
-			
+
 			scale = screenW/Defs.displayarea_w;
 			screenBD = new BitmapData(screenW, screenH);
 			m.identity();
 			m.scale(scale, scale);
 			screenBD.draw(bd, m, null, null, null, true);
 			screenB = new Bitmap(screenBD);
-			
+
 			scale = thumbW/Defs.displayarea_w;
 			thumbBD = new BitmapData(thumbW, thumbH);
 			m.identity();
 			m.scale(scale, scale);
 			thumbBD.draw(bd, m, null, null, null, true);
-			
+
 			thumbB = new Bitmap(thumbBD);
 			*/
         
@@ -114,4 +115,5 @@ class WalkthroughScreen
         screenB = new Bitmap(screenBD);
     }
 }
+
 

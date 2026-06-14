@@ -70,12 +70,8 @@ class ObjParameters
     public function AddOrSet(name : String, value : String)
     {
         if (value == null)
-        
-        // get absolute devault{
-            
-            {
-                value = ObjectParameters.GetDefault(name);
-            }
+        {
+            value = ObjectParameters.GetDefault(name);
         }
         for (i in 0...list.length)
         {
@@ -91,12 +87,8 @@ class ObjParameters
     public function Add(name : String, value : String)
     {
         if (value == null)
-        
-        // get absolute devault{
-            
-            {
-                value = ObjectParameters.GetDefault(name);
-            }
+        {
+            value = ObjectParameters.GetDefault(name);
         }
         var op : ObjParameter = new ObjParameter();
         op.name = name;
@@ -172,7 +164,7 @@ class ObjParameters
     
     public function GetValueBoolean(param : String) : Bool
     {
-        var s : String = cast((param), GetParam);
+        var s : String = GetParam(param);
         if (s == "true")
         {
             return true;
@@ -181,17 +173,17 @@ class ObjParameters
     }
     public function GetValueString(param : String, _default : String = "") : String
     {
-        var s : String = cast((param), GetParam);
+        var s : String = GetParam(param);
         return s;
     }
     public function GetValueNumber(param : String) : Float
     {
-        var s : String = cast((param), GetParam);
+        var s : String = GetParam(param);
         return as3hx.Compat.parseFloat(s);
     }
     public function GetValueInt(param : String, _default : Int = 0) : Int
     {
-        var s : String = cast((param), GetParam);
+        var s : String = GetParam(param);
         return as3hx.Compat.parseInt(s);
     }
     
@@ -235,4 +227,5 @@ class ObjParameters
         return "";
     }
 }
+
 

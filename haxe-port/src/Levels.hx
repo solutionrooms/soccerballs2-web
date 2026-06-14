@@ -62,8 +62,8 @@ class Levels
         var num = x.nodes.level.length();
         for (i in 0...num)
         {
-            cast((i), PreLoadLevel);
-            cast((i), LoadLevel);
+            PreLoadLevel(i);
+            LoadLevel(i);
         }
     }
     
@@ -95,6 +95,7 @@ class Levels
             var xx : FastXML = x.nodes.helpscreen.get(i);
             level.helpscreenFrames.push(XmlHelper.GetAttrInt(xx.att.frame, 0));
         }
+        
         
         
         list.push(level);
@@ -137,7 +138,7 @@ class Levels
     public static function GetGameSpecificLevelDataXML(_level : Int) : String
     {
         var s : String;
-        var l : Level = cast((_level), GetLevel);
+        var l : Level = GetLevel(_level);
         s = "\t<soccerballs";
         s += " gold=\"" + l.goldKicks + "\"";
         s += " fail=\"" + l.failKicks + "\"";
@@ -580,4 +581,5 @@ class Levels
         }
     }
 }
+
 

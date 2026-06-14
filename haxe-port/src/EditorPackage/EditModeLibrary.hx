@@ -169,6 +169,7 @@ class EditModeLibrary extends EditModeBase
             {
                 s = po.name;
                 PhysEditor.AddInfoText("a", x + 8, y + boxSizeH - 16, s);
+                
                 x += boxSizeW;
                 xp++;
                 if (xp >= boxNumW)
@@ -216,6 +217,8 @@ class EditModeLibrary extends EditModeBase
         
         
         var po : PhysObj = libraryPieces[pos];
+        
+        
         
         
         
@@ -295,7 +298,7 @@ class EditModeLibrary extends EditModeBase
         {
             if (po.displayInLibrary)
             {
-                if (cast((po.libraryClass), DoesLibraryFilterListContain) == false)
+                if (DoesLibraryFilterListContain(po.libraryClass) == false)
                 {
                     libraryFilters.push(po.libraryClass);
                 }
@@ -365,7 +368,7 @@ class EditModeLibrary extends EditModeBase
         libraryPieces = new Array<Dynamic>();
         for (po/* AS3HX WARNING could not determine type for var: po exp: EField(EField(EIdent(Game),objectDefs),list) type: null */ in Game.objectDefs.list)
         {
-            if (po.displayInLibrary && cast((po.libraryClass), TestLibraryFilter))
+            if (po.displayInLibrary && TestLibraryFilter(po.libraryClass))
             {
                 libraryPieces.push(po);
             }
@@ -377,7 +380,7 @@ class EditModeLibrary extends EditModeBase
         var count : Int = 0;
         for (po/* AS3HX WARNING could not determine type for var: po exp: EField(EField(EIdent(Game),objectDefs),list) type: null */ in Game.objectDefs.list)
         {
-            if (po.displayInLibrary && cast((po.libraryClass), TestLibraryFilter))
+            if (po.displayInLibrary && TestLibraryFilter(po.libraryClass))
             {
                 count++;
             }
@@ -400,4 +403,5 @@ class EditModeLibrary extends EditModeBase
         return p;
     }
 }
+
 

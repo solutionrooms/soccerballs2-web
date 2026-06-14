@@ -18,7 +18,6 @@ import flash.text.Font;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
-import flash.text.TextRun;
 import flash.ui.Mouse;
 import licPackage.Lic;
 import licPackage.LicDef;
@@ -33,7 +32,7 @@ class UI
     private static var muteButtonReverse : Bool = true;
     
     private static var onTransitionCompleteFunction : Function = null;
-    private static var returnScreenName : String = "";  // Only 1 screen deep  
+    private static var returnScreenName : String = "";
     
     private static var screenTemplates : Array<Dynamic>;
     
@@ -95,12 +94,17 @@ class UI
     
     
     
+    
+    
+    
     public static function RemoveGeneric()
     {
         if (genericMC == null)
         {
             return;
         }
+        
+        
         genericMC = null;
     }
     
@@ -115,6 +119,7 @@ class UI
         {
             return;
         }
+        
         genericMC.textScore.text = Game.currentScore;
     }
     public static function AddGeneric(parent : MovieClip, removeStuff : Bool = false)
@@ -125,17 +130,27 @@ class UI
         }
         
         
+        
+        
         genericMC = new UiHud();
         parent.addChild(genericMC);
         
         TextStrings.ReplaceTextFieldText(genericMC.textTitle);
-        cast((genericMC.btn_sfxMute), AddAnimatedSFXMuteButton);
-        cast((genericMC.btn_musicMute), AddAnimatedMusicMuteButton);
+        AddAnimatedSFXMuteButton(genericMC.btn_sfxMute);
+        AddAnimatedMusicMuteButton(genericMC.btn_musicMute);
+        
+        
+        
+        
+        
+        
         
         
         
         UpdateGeneric();
     }
+    
+    
     
     
     private static var addButtonList : Array<Dynamic> = null;
@@ -179,6 +194,9 @@ class UI
     
     
     
+    
+    
+    
     public static var currentScreen : UIScreenInstance;
     public static var nextScreen : UIScreenInstance;
     
@@ -198,7 +216,7 @@ class UI
     
     private static function TransitionMakeInstance(_name : String) : UIScreenInstance
     {
-        var template : UIScreen = cast((_name), GetUIScreenTemplateByName);
+        var template : UIScreen = GetUIScreenTemplateByName(_name);
         var inst : UIScreenInstance = new template.TheClass();
         inst.active = true;
         inst.template = template;
@@ -215,7 +233,7 @@ class UI
     }
     public static function StartOverlay(_toScreen : String)
     {
-        nextScreen = cast((_toScreen), TransitionMakeInstance);
+        nextScreen = TransitionMakeInstance(_toScreen);
         Game.main.addChild(nextScreen.titleMC);
     }
     
@@ -243,7 +261,7 @@ class UI
         }
         else
         {
-            nextScreen = cast((_toScreen), TransitionMakeInstance);
+            nextScreen = TransitionMakeInstance(_toScreen);
             currentScreen = nextScreen;
             nextScreen = null;
             Game.main.addChild(currentScreen.titleMC);
@@ -264,7 +282,7 @@ class UI
         {
             exitScreenTimer = 0;
             exitScreenMC.removeEventListener(Event.ENTER_FRAME, WaitAndExitScreenEnterFrame);
-            cast((exitScreenLocation), StartTransition);
+            StartTransition(exitScreenLocation);
         }
     }
     public static function WaitAndStartTransition(_mc : MovieClip, _exitScreenLocation : String)
@@ -305,7 +323,7 @@ class UI
             }
             else
             {
-                nextScreen = cast((_toScreen), TransitionMakeInstance);
+                nextScreen = TransitionMakeInstance(_toScreen);
                 currentScreen = nextScreen;
                 nextScreen = null;
                 Game.main.addChild(currentScreen.titleMC);
@@ -317,6 +335,7 @@ class UI
         {
             Audio.OneShot("sfx_transition");
             isInTransition = true;
+            
             
             transScreenA_BD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, false, 0);
             transScreenB_BD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, false, 0);
@@ -343,7 +362,7 @@ class UI
             
             if (_toScreen != null)
             {
-                nextScreen = cast((_toScreen), TransitionMakeInstance);
+                nextScreen = TransitionMakeInstance(_toScreen);
                 transScreenB_BD.draw(nextScreen.titleMC);
             }
             else
@@ -432,6 +451,12 @@ class UI
     
     
     
+    
+    
+    
+    
+    
+    
     public static function SetupAnimatedSFXMuteButton(mc : MovieClip)
     {
         mc.toggleIcon.visible = true;
@@ -455,7 +480,7 @@ class UI
         
         btn.helpText = text;
         
-        cast((btn), SetupAnimatedSFXMuteButton);
+        SetupAnimatedSFXMuteButton(btn);
         
         btn.gotoAndStop(1);
         btn.addEventListener(MouseEvent.ROLL_OVER, AnimatedSFXMuteButton_Over, false, 0, true);
@@ -463,6 +488,7 @@ class UI
         
         btn.useHandCursor = true;
         btn.buttonMode = true;
+        
         btn.addEventListener(MouseEvent.CLICK, AnimatedSFXMuteButton_Click, false, 0, true);
     }
     
@@ -471,6 +497,7 @@ class UI
     {
         btn.removeEventListener(MouseEvent.ROLL_OVER, AnimatedSFXMuteButton_Over);
         btn.removeEventListener(MouseEvent.ROLL_OUT, AnimatedSFXMuteButton_Out);
+        
         btn.removeEventListener(MouseEvent.CLICK, AnimatedSFXMuteButton_Click);
     }
     public static function AnimatedSFXMuteButton_Click(e : MouseEvent)
@@ -478,7 +505,7 @@ class UI
         e.currentTarget.buttonAnimation.gotoAndPlay("clicked");
         
         Audio.ToggleMuteSFX();
-        cast((try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null), SetupAnimatedSFXMuteButton);
+        SetupAnimatedSFXMuteButton(try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null);
     }
     public static function AnimatedSFXMuteButton_Over(e : MouseEvent)
     {
@@ -504,6 +531,9 @@ class UI
     }
     
     
+    
+    
+    
     public static function SetupAnimatedMusicMuteButton(mc : MovieClip)
     {
         mc.toggleIcon.visible = true;
@@ -526,7 +556,7 @@ class UI
         
         btn.helpText = text;
         
-        cast((btn), SetupAnimatedMusicMuteButton);
+        SetupAnimatedMusicMuteButton(btn);
         
         btn.gotoAndStop(1);
         btn.addEventListener(MouseEvent.ROLL_OVER, AnimatedMusicMuteButton_Over, false, 0, true);
@@ -534,6 +564,7 @@ class UI
         
         btn.useHandCursor = true;
         btn.buttonMode = true;
+        
         btn.addEventListener(MouseEvent.CLICK, AnimatedMusicMuteButton_Click, false, 0, true);
     }
     
@@ -542,6 +573,7 @@ class UI
     {
         btn.removeEventListener(MouseEvent.ROLL_OVER, AnimatedMusicMuteButton_Over);
         btn.removeEventListener(MouseEvent.ROLL_OUT, AnimatedMusicMuteButton_Out);
+        
         btn.removeEventListener(MouseEvent.CLICK, AnimatedMusicMuteButton_Click);
     }
     public static function AnimatedMusicMuteButton_Click(e : MouseEvent)
@@ -549,7 +581,7 @@ class UI
         e.currentTarget.buttonAnimation.gotoAndPlay("clicked");
         
         Audio.ToggleMuteMusic();
-        cast((try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null), SetupAnimatedMusicMuteButton);
+        SetupAnimatedMusicMuteButton(try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null);
     }
     public static function AnimatedMusicMuteButton_Over(e : MouseEvent)
     {
@@ -576,6 +608,8 @@ class UI
     
     
     
+    
+    
     public static function StopPropagation(e : MouseEvent)
     {
         e.stopPropagation();
@@ -589,8 +623,10 @@ class UI
     }
     private static function nonPropagate(e : MouseEvent)
     {
-        cast((e), StopPropagation);
+        StopPropagation(e);
     }
+    
+    
     
     
     public static function AddBarebonesMCButton(btn : MovieClip, clickCallback : Function, _overCB : Function = null, _outCB : Function = null, _text : String = null)
@@ -635,6 +671,8 @@ class UI
     }
     
     
+    
+    
     public static function AddAnimatedMCButton_Mobile(btn : MovieClip, clickCallback : Function, text : String = null, reorderWhenOver : Bool = false, _hoverCallback)
     {
         if (btn == null)
@@ -647,7 +685,8 @@ class UI
         }
         
         
-        btn.reorderWhenOver = false;  // reorderWhenOver;  
+        
+        btn.reorderWhenOver = false;
         btn.helpText = text;
         if (text != null)
         {
@@ -661,17 +700,12 @@ class UI
         btn.buttonAnimation.gotoAndStop(1);
         
         if (false)
-        
-        //btn.buttonAnimation.buttonText != null){
-            
-            {
-                
-                btn.buttonAnimation.buttonText.buttonName.text = btn.buttonName.text;
-                btn.buttonName.visible = false;
-                btn.buttonAnimation.buttonText.visible = true;
-                btn.buttonAnimation.buttonText.mouseEnabled = false;
-                btn.buttonName.mouseEnabled = false;
-            }
+        {
+            btn.buttonAnimation.buttonText.buttonName.text = btn.buttonName.text;
+            btn.buttonName.visible = false;
+            btn.buttonAnimation.buttonText.visible = true;
+            btn.buttonAnimation.buttonText.mouseEnabled = false;
+            btn.buttonName.mouseEnabled = false;
         }
         if (btn.buttonName != null)
         {
@@ -680,6 +714,8 @@ class UI
         
         
         btn.addEventListener(MouseEvent.MOUSE_DOWN, AnimatedMCButton_Mobile_Down, false, 0, true);
+        
+        
         
         
         if (Game.use_localisation)
@@ -710,6 +746,8 @@ class UI
     
     
     
+    
+    
     public static function AddInfoButton(btn : MovieClip, text : String)
     {
         btn.popup.visible = false;
@@ -729,6 +767,9 @@ class UI
     }
     
     
+    
+    
+    
     public static function GetAnimatedMCTickState(btn : MovieClip) : Bool
     {
         return btn.tickState;
@@ -737,7 +778,7 @@ class UI
     {
         btn.canClick = b;
     }
-    public static function AddAnimatedMCTickButton(btn : MovieClip, clickCallback : Function, text : String = null, reorderWhenOver : Bool = false, _hoverCallback _initialTickState : Bool = false)
+    public static function AddAnimatedMCTickButton(btn : MovieClip, clickCallback : Function, text : String = null, reorderWhenOver : Bool = false, _hoverCallback : Dynamic = null, _initialTickState : Bool = false)
     {
         AddAnimatedMCButton(btn, clickCallback, text, reorderWhenOver, _hoverCallback);
         btn.useTick = true;
@@ -761,7 +802,7 @@ class UI
             Utils.print("add MCbutton clickCallback = null");
         }
         
-        cast((btn), SetNonPropagateMouse);
+        SetNonPropagateMouse(btn);
         
         if (Game.use_localisation)
         {
@@ -772,7 +813,7 @@ class UI
         
         btn.canClick = true;
         
-        btn.reorderWhenOver = false;  // reorderWhenOver;  
+        btn.reorderWhenOver = false;
         btn.helpText = text;
         if (text != null)
         {
@@ -811,6 +852,7 @@ class UI
         
         btn.addEventListener(MouseEvent.ROLL_OVER, AnimatedMCButton_Over, false, 0, true);
         btn.addEventListener(MouseEvent.ROLL_OUT, AnimatedMCButton_Out, false, 0, true);
+        
         
         btn.useHandCursor = true;
         btn.buttonMode = true;
@@ -854,7 +896,7 @@ class UI
         
         if (e.currentTarget.reorderWhenOver)
         {
-            cast((try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null), ReorderButtonList);
+            ReorderButtonList(try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null);
         }
         
         if (e.currentTarget.hoverCallback != null)
@@ -875,6 +917,9 @@ class UI
         {
         }
     }
+    
+    
+    
     
     
     
@@ -991,11 +1036,13 @@ class UI
     
     
     
+    
+    
     public static function KeypressSFXMuteButton(mc : MovieClip)
     {
         mc.gotoAndStop(3);
         Audio.ToggleMuteSFX();
-        cast((mc), SetupSFXMuteButton);
+        SetupSFXMuteButton(mc);
     }
     public static function SetupSFXMuteButton(mc : MovieClip)
     {
@@ -1012,8 +1059,8 @@ class UI
         mc.addEventListener(MouseEvent.MOUSE_OUT, SFXMuteButton_Out, false, 0, true);
         mc.addEventListener(MouseEvent.MOUSE_DOWN, SFXMuteButton_Down, false, 0, true);
         
-        cast((mc), SetNonPropagateMouse);
-        cast((mc), SetupSFXMuteButton);
+        SetNonPropagateMouse(mc);
+        SetupSFXMuteButton(mc);
         
         mc.useHandCursor = true;
         mc.buttonMode = true;
@@ -1030,7 +1077,7 @@ class UI
     {
         e.currentTarget.gotoAndStop(3);
         Audio.ToggleMuteSFX();
-        cast((try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null), SetupSFXMuteButton);
+        SetupSFXMuteButton(try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null);
     }
     
     
@@ -1038,7 +1085,7 @@ class UI
     {
         mc.gotoAndStop(3);
         Audio.ToggleMuteMusic();
-        cast((mc), SetupSFXMuteButton);
+        SetupSFXMuteButton(mc);
     }
     public static function SetupMusicMuteButton(mc : MovieClip)
     {
@@ -1055,8 +1102,8 @@ class UI
         mc.addEventListener(MouseEvent.MOUSE_OUT, MusicMuteButton_Out, false, 0, true);
         mc.addEventListener(MouseEvent.MOUSE_DOWN, MusicMuteButton_Down, false, 0, true);
         
-        cast((mc), SetNonPropagateMouse);
-        cast((mc), SetupMusicMuteButton);
+        SetNonPropagateMouse(mc);
+        SetupMusicMuteButton(mc);
         
         mc.useHandCursor = true;
         mc.buttonMode = true;
@@ -1073,8 +1120,9 @@ class UI
     {
         e.currentTarget.gotoAndStop(3);
         Audio.ToggleMuteMusic();
-        cast((try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null), SetupSFXMuteButton);
+        SetupSFXMuteButton(try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null);
     }
+    
     
     
     
@@ -1169,6 +1217,7 @@ class UI
     
     
     
+    
     private static var areYouSureDialog : MovieClip;
     private static var areYouSureDialogParent : MovieClip;
     private static var areYouSureDialogCallback : Function;
@@ -1191,7 +1240,7 @@ class UI
     public static function AddAreYouSureDialog(parent : MovieClip, title : String, cb : Function)
     {
         areYouSureDialogParent = parent;
-        areYouSureDialog = new MovieClip();  // ConfirmPurchase();  
+        areYouSureDialog = new MovieClip();
         parent.addChild(areYouSureDialog);
         
         parent.setChildIndex(areYouSureDialog, parent.numChildren - 1);
@@ -1203,6 +1252,7 @@ class UI
         AddAnimatedMCButton(areYouSureDialog.btn_no, AddAreYouSureDialog_No);
     }
     
+    
     private static var helpPage : Int;
     private static var numHelpPages : Int;
     private static var helpOverlay : MovieClip;
@@ -1210,7 +1260,7 @@ class UI
     public static function InitHelp(parent : MovieClip)
     {
         helpOverlayParent = parent;
-        helpOverlay = new MovieClip();  // HelpScreen();  
+        helpOverlay = new MovieClip();
         helpOverlayParent.addChild(helpOverlay);
         AddAnimatedMCButton(helpOverlay.buttonPrevious, Help_PrevPressed);
         AddAnimatedMCButton(helpOverlay.buttonNext, Help_NextPressed);
@@ -1223,6 +1273,7 @@ class UI
     private static function InitHelp_Update()
     {
         helpOverlay.gotoAndStop(helpPage + 1);
+        
         
         helpOverlay.buttonPrevious.visible = true;
         if (helpPage == 0)
@@ -1316,16 +1367,7 @@ class UI
             }
         }
     }
-    private static var UI_static_initializer = {
-        if (false)
-        {
-            static;var useFullTransition : Bool = false;
-        }
-        else
-        {
-            static;var useFullTransition : Bool = true;
-        };
-        true;
-    }
+    private static var useFullTransition : Bool = true;
 
 }
+

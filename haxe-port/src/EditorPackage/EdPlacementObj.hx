@@ -18,6 +18,7 @@ class EdPlacementObj
     public var objParameters : ObjParameters;
     
     
+    
     public function new(_typeName : String = "", _params : ObjParameters = null)
     {
         typeName = _typeName;
@@ -35,4 +36,5 @@ class EdPlacementObj
         }
     }
 }
+
 

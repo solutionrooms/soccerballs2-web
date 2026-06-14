@@ -11,7 +11,7 @@ import nape.geom.Vec2;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class Grass
 {
@@ -28,8 +28,8 @@ class Grass
         list = new Array<GrassItem>();
         
         frames = new Array<GrassFrame>();
-        cast(("grass_fairway"), AddFrames);
-        cast(("grass_rough"), AddFrames);
+        AddFrames("grass_fairway");
+        AddFrames("grass_rough");
     }
     
     private static function GetGrassFrame(mcName : String, f : Int) : GrassFrame
@@ -69,7 +69,9 @@ class Grass
         
         
         
+        
         var renderIt : Bool = true;
+        
         
         var mat : Matrix = new Matrix();
         
@@ -80,7 +82,7 @@ class Grass
         var y1 : Float = (Defs.displayarea_h) * (1 / sc);
         
         
-        var frameIndex : Int = 0;  // frames[0].GetNearestScaleFrame(sc);  
+        var frameIndex : Int = 0;
         
         
         var dobj : DisplayObj = GraphicObjects.GetDisplayObjByName("grass_rough");
@@ -90,10 +92,10 @@ class Grass
         var numGrass : Int = 0;
         for (seg in segmentList)
         {
-            var xp0 : Float = (seg.x0 - cx);  // * sc;  
-            var xp1 : Float = (seg.x1 - cx);  // * sc;  
-            var yp0 : Float = (seg.y0 - cy);  // * sc;  
-            var yp1 : Float = (seg.y1 - cy);  // * sc;  
+            var xp0 : Float = (seg.x0 - cx);
+            var xp1 : Float = (seg.x1 - cx);
+            var yp0 : Float = (seg.y0 - cy);
+            var yp1 : Float = (seg.y1 - cy);
             
             if ((xp1 >= x0 && xp0 <= x1) && (yp1 >= y0 && yp0 <= y1))
             {
@@ -125,6 +127,8 @@ class Grass
         }
         EngineDebug.EndTimer("grass");
     }
+    
+    
     
     
     public static var minX : Float;
@@ -228,10 +232,10 @@ class Grass
         
         for (seg in segmentList)
         {
-            var xp0 : Float = (seg.x0 - cx);  // * sc;  
-            var xp1 : Float = (seg.x1 - cx);  // * sc;  
-            var yp0 : Float = (seg.y0 - cy);  // * sc;  
-            var yp1 : Float = (seg.y1 - cy);  // * sc;  
+            var xp0 : Float = (seg.x0 - cx);
+            var xp1 : Float = (seg.x1 - cx);
+            var yp0 : Float = (seg.y0 - cy);
+            var yp1 : Float = (seg.y1 - cy);
             
             
             if (doCol)
@@ -253,6 +257,7 @@ class Grass
                     }
                 }
             }
+            
             
             if ((xp1 >= x0 && xp0 <= x1) && (yp1 >= y0 && yp0 <= y1))
             {
@@ -337,4 +342,5 @@ class Grass
         }
     }
 }
+
 

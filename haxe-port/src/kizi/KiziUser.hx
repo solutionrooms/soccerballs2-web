@@ -3,7 +3,7 @@ package kizi;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class KiziUser
 {
@@ -43,4 +43,5 @@ class KiziUser
     }
 
 }
+
 

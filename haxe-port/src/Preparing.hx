@@ -2,7 +2,7 @@ import uIPackage.PreparingObject;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class Preparing
 {
@@ -99,7 +99,7 @@ class Preparing
         for (i in 0...preparingList.length)
         {
             var po : PreparingObject = preparingList[i];
-            cast((po), DoPreparingObject);
+            DoPreparingObject(po);
         }
         TexturePages.Create();
         isInitialised = true;
@@ -292,4 +292,5 @@ class Preparing
         new PreparingObject("gfx", "Icecream")
     ];
 }
+
 

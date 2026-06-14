@@ -69,7 +69,7 @@ class Particles
         if (nextIndex >= max)
         {
             nextIndex = 0;
-        }  // always overwrite particle - cyclic loop  
+        }
         p.active = true;
         p.timer = 0;
         p.alpha = 1.0;

@@ -11,7 +11,7 @@ import uIPackage.UI;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class EditParamEditItemEditorLayer extends EditParamEditItemBase
 {
@@ -102,4 +102,5 @@ class EditParamEditItemEditorLayer extends EditParamEditItemBase
         UpdateButtons();
     }
 }
+
 

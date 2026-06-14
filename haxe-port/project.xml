@@ -5,6 +5,8 @@
 	<window width="700" height="525" fps="60" background="#000000" allow-high-dpi="false" />
 
 	<source path="src" />
+	<!-- vendored + Haxe-4-patched as3hx runtime support: as3hx.Compat, FastXML (E4X), FastXMLList -->
+	<source path="vendor" />
 
 	<haxelib name="openfl" />
 	<haxelib name="nape-haxe4" />

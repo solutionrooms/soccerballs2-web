@@ -185,7 +185,7 @@ class AdHolder
                 else
                 {
                     adItem = new AdItem(name, "othergames", clickurl, swfurl);
-                    adItem.url = "";  // overwritten when the swf is loaded  
+                    adItem.url = "";
                     items.push(adItem);
                     loadList.push(adItem);
                 }
@@ -199,6 +199,7 @@ class AdHolder
             var name : String = XmlHelper.GetAttrString(x.att.id, "");
             var active : Bool = true;
             
+            
             var swfurl : String = XmlHelper.GetAttrString(x.att.swfurl, "");
             var clickurl : String = XmlHelper.GetAttrString(x.att.clickurl, "");
             var fullscreen : Bool = XmlHelper.GetAttrBoolean(x.att.fullscreen, false);
@@ -210,7 +211,7 @@ class AdHolder
             {
                 adItem = new AdItem(name, "othergames", clickurl, swfurl);
                 adItem.fullScreen = fullscreen;
-                adItem.url = "";  // overwritten when the swf is loaded  
+                adItem.url = "";
                 pread_items.push(adItem);
                 loadList.push(adItem);
             }
@@ -283,12 +284,13 @@ class AdHolder
         
         if (xml != null)
         {
-            cast((xml), AddLoadedAdsFromXML);
+            AddLoadedAdsFromXML(xml);
         }
         else
         {
             DoCompletedCallback();
         }
+        
         
         
         urlXMLLoader.removeEventListener(Event.COMPLETE, LoadCustomAdXMLa_Complete);
@@ -359,9 +361,9 @@ class AdHolder
         var adItem : AdItem = loadList[loadIndex];
         if (adItem != null)
         {
-            if (cast((loadIndex), IsAdADuplicate) != null)
+            if (IsAdADuplicate(loadIndex) != null)
             {
-                var adItem1 : AdItem = cast((loadIndex), IsAdADuplicate);
+                var adItem1 : AdItem = IsAdADuplicate(loadIndex);
                 adItem.urlLoaded = true;
                 trace("ad is duplicate: " + adItem.swfurl);
                 adItem.type = "custom";
@@ -413,6 +415,8 @@ class AdHolder
         trace("ad loaded: " + adItem.swfurl);
         
         
+        
+        
         adItem.type = "custom";
         adItem.url = adItem.original_url;
         
@@ -460,7 +464,7 @@ class AdHolder
                 }
                 else
                 {
-                    cast((parent), RemoveCustomMC);
+                    RemoveCustomMC(parent);
                 }
             }
             else if (adItem.type == "cycloracers")
@@ -513,12 +517,8 @@ class AdHolder
         var mc : MovieClip;
         
         if (items.length == 0)
-        
-        // final failsafe{
-            
-            {
-                items.push(new AdItem("OtherGames", "othergames", "", ""));
-            }
+        {
+            items.push(new AdItem("OtherGames", "othergames", "", ""));
         }
         
         adIndex++;
@@ -593,6 +593,7 @@ class AdHolder
     }
     
     
+    
     private static function GetPrequelMC() : MovieClip
     {
         var classRef_PrequelAd : Class<Dynamic> = Type.getClass(Type.resolveClass("PrequelAd"));
@@ -601,7 +602,7 @@ class AdHolder
     }
     private static function GetCycloRacersMC() : MovieClip
     {
-        var mc : MovieClip = new MovieClip();  // ad_banner_cycloracers();  
+        var mc : MovieClip = new MovieClip();
         return mc;
     }
     private static function GetBlankMC() : MovieClip
@@ -791,4 +792,5 @@ class AdHolder
         return val;
     }
 }
+
 

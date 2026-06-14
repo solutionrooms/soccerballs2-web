@@ -112,6 +112,7 @@ class SaveData
         {
             trace("SO size 0");
         }
+        
         so.clear();
         
         so.data.hintpopups = HintPopups.ToSharedObject();
@@ -126,4 +127,5 @@ class SaveData
         so.close();
     }
 }
+
 

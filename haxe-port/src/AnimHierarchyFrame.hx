@@ -2,7 +2,7 @@ import flash.geom.ColorTransform;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class AnimHierarchyFrame
 {
@@ -24,4 +24,5 @@ class AnimHierarchyFrame
         parts = new Array<AnimHierarchyFramePart>();
     }
 }
+
 

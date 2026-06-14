@@ -44,7 +44,9 @@ class UIWalkthroughScreen extends UIScreenInstance
         TextStrings.ReplaceTextFieldText(titleMC.textTitle);
         
         
+        
         UI.AddAnimatedMCButton(titleMC.buttonBack, backClicked);
+        
         
         
         titleMC.textLevelName.text = Levels.GetCurrent().name;
@@ -64,4 +66,5 @@ class UIWalkthroughScreen extends UIScreenInstance
         UI.StartTransition("walkthrough");
     }
 }
+
 

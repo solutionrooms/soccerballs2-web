@@ -1,5 +1,4 @@
 import haxe.Constraints.Function;
-import flash.display.ActionScriptVersion;
 import flash.display.Bitmap;
 import flash.geom.Point;
 
@@ -9,7 +8,7 @@ import flash.geom.Point;
 	*/
 class Particle
 {
-    private var active : Bool;
+    public var active : Bool;
     private var xpos : Float;
     private var ypos : Float;
     private var xpos1 : Float;
@@ -43,6 +42,9 @@ class Particle
     
     
     
+    
+    
+    
     private function UpdateVelsTimer()
     {
         xpos += xvel;
@@ -62,6 +64,10 @@ class Particle
             active = false;
         }
     }
+    
+    
+    
+    
     
     
     
@@ -112,8 +118,8 @@ class Particle
     
     private function RenderBloodSplat(x : Int, y : Int)
     {
-        var xx : Int = x;  //xpos + Game.boundingRectangle.left;  
-        var yy : Int = y;  // ypos + Game.boundingRectangle.top;  
+        var xx : Int = x;
+        var yy : Int = y;
         
         var col : Int = Game.scrollScreenBD.getPixel(xx, yy);
         if (col != 0)
@@ -133,7 +139,7 @@ class Particle
         var xx : Int = as3hx.Compat.parseInt(xpos - Game.boundingRectangle.left);
         var yy : Int = as3hx.Compat.parseInt(ypos - Game.boundingRectangle.top);
         
-        var col : Int = Game.scrollScreenBD.getPixel(xx, yy);
+        var col : Int = Game.scrollScreenBD.getPixel(as3hx.Compat.parseInt(xx), as3hx.Compat.parseInt(yy));
         if (col != 0)
         {
             active = false;
@@ -173,6 +179,8 @@ class Particle
         }
     }
     
+    
+    
     public function InitTextBloodSplat() : Void
     {
         var r : Float = Utils.RandCircle();
@@ -202,6 +210,8 @@ class Particle
     }
     
     
+    
+    
     public function InitSmoke(_name : String) : Void
     {
         var v : Float = Utils.RandBetweenFloat(0, 1);
@@ -215,6 +225,8 @@ class Particle
         frameVel = Utils.RandBetweenFloat(0.6, 1);
         frame = 0;
         maxframe = as3hx.Compat.parseInt(dobj.GetNumFrames() - 1);
+        
+        
         timer = 0;
         visible = false;
     }
@@ -238,6 +250,8 @@ class Particle
             }
         }
     }
+    
+    
     
     
     public function InitDivot() : Void
@@ -279,6 +293,8 @@ class Particle
     }
     
     
+    
+    
     public function InitSandShower() : Void
     {
         var v : Float = Utils.RandBetweenFloat(3, 6);
@@ -316,6 +332,8 @@ class Particle
             active = false;
         }
     }
+    
+    
     
     
     public function InitCloudShower() : Void
@@ -357,6 +375,8 @@ class Particle
     }
     
     
+    
+    
     public function InitStarShower() : Void
     {
         var v : Float = Utils.RandBetweenFloat(3, 6);
@@ -394,6 +414,8 @@ class Particle
     }
     
     
+    
+    
     public function InitFeather(mcName : String, _frame : Int) : Void
     {
         xvel = Utils.RandBetweenFloat(-2, 2);
@@ -426,6 +448,8 @@ class Particle
             active = false;
         }
     }
+    
+    
     
     
     public function InitSparkle(mcName : String, _frame : Int) : Void
@@ -462,9 +486,10 @@ class Particle
     }
     
     
+    
     public function InitBubble() : Void
     {
-        psize = 2;  // Utils.RandBetweenInt(1, 3);  
+        psize = 2;
         dobj = GraphicObjects.GetDisplayObjByName("bubbles");
         
         yvel = -Utils.RandBetweenFloat(1, 2);
@@ -493,15 +518,18 @@ class Particle
     }
     
     
+    
     public function InitBubble1(dir : Float) : Void
     {
-        psize = 2;  // Utils.RandBetweenInt(1, 3);  
+        psize = 2;
         dobj = GraphicObjects.GetDisplayObjByName("bubbles1");
         
         dir += Utils.RandBetweenFloat(-0.3, 0.3);
         var spd : Float = Utils.RandBetweenFloat(1, 3);
         xvel = Math.cos(dir) * spd;
         yvel = Math.sin(dir) * spd;
+        
+        
         
         
         
@@ -519,11 +547,13 @@ class Particle
         xpos += xvel;
         ypos += yvel;
         
+        
         if (PlayAnimation())
         {
             active = false;
         }
     }
+    
     
     
     public function InitExplosion_Small() : Void
@@ -580,6 +610,7 @@ class Particle
     }
     
     
+    
     public function UpdateShard() : Void
     {
         xpos += xvel;
@@ -627,6 +658,7 @@ class Particle
         {
             dobj = GraphicObjects.GetDisplayObjByName("gem8_shards");
         }
+        
         updateFunction = UpdateShard;
         frameVel = 0;
         maxframe = dobj.GetNumFrames();
@@ -636,12 +668,13 @@ class Particle
         var _d : Float = 6;
         
         var r : Float = Utils.RandCircle();
-        var d : Float = _d;  // Utils.RandBetweenFloat(5, 10);  
+        var d : Float = _d;
         xpos += Math.cos(r) * d;
         ypos += Math.sin(r) * d;
         
         var _d : Float = 3;
-        var d : Float = _d;  // Utils.RandBetweenFloat(2, 6);  
+        
+        var d : Float = _d;
         xvel = Math.cos(r) * d;
         yvel = Math.sin(r) * d;
         
@@ -649,6 +682,7 @@ class Particle
         angle = Utils.RandCircle();
         dirVel = Utils.RandBetweenFloat(-0.4, 0.4);
     }
+    
     
     
     public function UpdateSpark() : Void
@@ -662,6 +696,10 @@ class Particle
         {
             active = false;
         }
+        
+        
+        
+        
         alpha -= 12;
         if (alpha <= 0)
         {
@@ -677,26 +715,28 @@ class Particle
         updateFunction = UpdateSpark;
         
         
-        var r : Float = _r;  // Utils.RandCircle();  
+        
+        var r : Float = _r;
         var d : Float = _d;
         xpos += Math.cos(r) * d;
         ypos += Math.sin(r) * d;
         
-        var r : Float = _r;  // Utils.RandCircle();  
+        var r : Float = _r;
         var d : Float = _d;
         xvel = Math.cos(r) * d;
         yvel = Math.sin(r) * d;
         
-        velmul = 0.9;  // Utils.RandBetweenFloat(0.9);  
+        velmul = 0.9;
         
-        timer = 15;  // Utils.RandBetweenInt(10, 20);  
+        timer = 15;
         alpha = 255;
     }
     
     
+    
     public function InitMultiplier() : Void
     {
-        psize = 3;  // Utils.RandBetweenInt(1, 3);  
+        psize = 3;
         
         startx = xpos;
         starty = ypos;
@@ -734,6 +774,7 @@ class Particle
             active = false;
         }
     }
+    
     
     
     
@@ -776,6 +817,7 @@ class Particle
     
     
     
+    
     public function InitPandaFireTrail(_type : Int) : Void
     {
         psize = Utils.RandBetweenInt(1, 3);
@@ -812,6 +854,7 @@ class Particle
             active = false;
         }
     }
+    
     
     
     public function InitPandaLaunch(_angle : Float) : Void
@@ -858,6 +901,7 @@ class Particle
     
     
     
+    
     public function InitAddScore(_type : Int) : Void
     {
         psize = 2;
@@ -901,6 +945,8 @@ class Particle
     
     
     
+    
+    
     private function PlayAnimation() : Bool
     {
         frame = frame + frameVel;
@@ -926,4 +972,5 @@ class Particle
     {
     }
 }
+
 

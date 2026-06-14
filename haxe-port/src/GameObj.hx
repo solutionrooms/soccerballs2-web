@@ -1,5 +1,4 @@
 import audioPackage.Audio;
-import com.adobe.net.proxies.RFC2817Socket;
 import editorPackage.EdJoint;
 import editorPackage.GameLayers;
 import editorPackage.PhysEditor;
@@ -44,6 +43,9 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
+    
     private function ShowHealthBar()
     {
         healthBarTimer = Defs.fps * 1;
@@ -65,6 +67,7 @@ class GameObj extends GameObjBase
             }
         }
     }
+    
     
     
     
@@ -109,6 +112,7 @@ class GameObj extends GameObjBase
             RemoveObject();
         }
     }
+    
     
     
     public function RenderScoreOverlay() : Void
@@ -177,12 +181,15 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
+    
     public var physObjOffsetX : Float;
     public var physObjOffsetY : Float;
     public var physObjInitVarString : String;
     public function InitPhysicsObject(_gid : Int, _frame : Int, _offsetX : Float = 0, _offsetY : Float = 0, _initvarstring : String = "", _hasShadow : Bool = false)
     {  /*
-			
+
 			colFlag_isPhysObj = true;
 			physObjOffsetX = _offsetX;
 			physObjOffsetY = _offsetY;
@@ -217,12 +224,14 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
     public function BossHitByBubble()
     {
         if (state == 0)
         {
             var soundName : String = "sfx_boss_hit" + Utils.RandBetweenInt(1, 3);
-            cast((soundName), SFX_OneShot);
+            SFX_OneShot(soundName);
             
             health--;
             if (health <= 0)
@@ -350,6 +359,7 @@ class GameObj extends GameObjBase
     }
     
     
+    
     public function InitPhysObj_Path_Virtual()
     {
         InitPhysObj_Path();
@@ -369,6 +379,8 @@ class GameObj extends GameObjBase
         InitPhysObj_Path();
         name = "death";
     }
+    
+    
     
     
     private var fillScreenMCListMiniMap : Array<Shape>;
@@ -464,6 +476,9 @@ class GameObj extends GameObjBase
         
         
         
+        
+        
+        
         var p0 : Point = new Point();
         var p1 : Point = new Point();
         var p2 : Point = new Point();
@@ -552,8 +567,8 @@ class GameObj extends GameObjBase
 				var p0:Point = newpoints1[i];
 				g.lineTo(p0.x, p0.y);
 			}
-			
-			
+
+
 			var p0:Point = newpoints2[newpoints2.length - 1];
 			g.lineTo(p0.x, p0.y);
 			var p0:Point = newpoints2[0];
@@ -633,6 +648,9 @@ class GameObj extends GameObjBase
         
         
         
+        
+        
+        
         var p0 : Point = new Point();
         var p1 : Point = new Point();
         var p2 : Point = new Point();
@@ -708,6 +726,7 @@ class GameObj extends GameObjBase
                 newpoints1.push(p1);
                 newpoints2.push(p2);
             }
+            
             
             
             
@@ -818,6 +837,7 @@ class GameObj extends GameObjBase
         
         
         
+        
         if (true)
         {
             fillScreenMCMiniMap = new Shape();
@@ -909,6 +929,7 @@ class GameObj extends GameObjBase
         
         
         
+        
         if (true)
         {
             fillScreenMC = new Shape();
@@ -963,6 +984,7 @@ class GameObj extends GameObjBase
             var r0 : Rectangle = fillScreenMC.getBounds(null);
             var r1 : Rectangle = fillScreenMC.getRect(null);
             
+            
             if (r0.x > Game.camera.x + Defs.displayarea_w)
             {
             }
@@ -990,6 +1012,7 @@ class GameObj extends GameObjBase
         yp = ypos - Game.camera.y;
         
         
+        
         if (true)
         {
             gmat.identity();
@@ -1004,7 +1027,9 @@ class GameObj extends GameObjBase
         name = "surface";
         state = 0;
         renderFunction = RenderPhysicsLineObject_Surface_PointsList;
+        
         dobj1 = GraphicObjects.GetDisplayObjByName("SurfaceFills");
+        
         PreRenderPhysicsLineObject_Surface_PointsList();
         miniMapRenderFunction = RenderPhysicsLineObject_Surface_PointsList_Minimap;
         zpos = 0;
@@ -1025,11 +1050,14 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
     private function InitGameObjLine_Null()
     {
         lineRender_Color0 = 0x000000;
         lineRender_Color1 = 0xff0000;
         lineRender_Color = 0xa0a0a0;
+        
         frame = 0;
     }
     
@@ -1076,12 +1104,6 @@ class GameObj extends GameObjBase
     
     private function RenderPhysicsLineObject_Movable()
     {
-        if (false)
-        {
-            RenderPhysicsLineObject_Movable_Stage3D();
-            return;
-        }
-        
         var x : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var y : Float = Math.round(ypos) - Math.round(Game.camera.y);
         
@@ -1163,6 +1185,7 @@ class GameObj extends GameObjBase
         gmat.translate(-sx, -sy);
         
         
+        
         g.beginBitmapFill(dobj.GetBitmapData(frame), gmat, true);
         
         if (dobj2 == null)
@@ -1197,12 +1220,6 @@ class GameObj extends GameObjBase
     private var staticLineRectangle : Rectangle;
     private function PreRenderPhysicsLineObject_Static()
     {
-        if (false)
-        {
-            linkedPhysLine.DoTriangulation();
-            return;
-        }
-        
         staticLinePoints = new Array<Point>();
         
         var pts : Array<Dynamic> = linkedPhysLine.points;
@@ -1218,8 +1235,13 @@ class GameObj extends GameObjBase
             p0 = p.clone();
             p0.x -= linkedPhysLine.centrex;
             p0.y -= linkedPhysLine.centrey;
+            
             p0.x += xpos;
             p0.y += ypos;
+            
+            
+            
+            
             staticLinePoints.push(p0);
             
             if (index == 0)
@@ -1251,12 +1273,6 @@ class GameObj extends GameObjBase
     
     private function RenderPhysicsLineObject_Static()
     {
-        if (false)
-        {
-            RenderPhysicsLineObject_Movable_Stage3D();
-            return;
-        }
-        
         if (staticLineRectangle.right < Game.camera.x)
         {
             return;
@@ -1293,6 +1309,7 @@ class GameObj extends GameObjBase
         gmat.rotate(dir);
         gmat.translate(xpos, ypos);
         gmat.translate(-sx, -sy);
+        
         
         
         g.beginBitmapFill(dobj.GetBitmapData(frame), gmat, true);
@@ -1349,6 +1366,7 @@ class GameObj extends GameObjBase
         InitGameObjLine_Standard();
         name = "movable";
         preRenderFunction = null;
+        
         renderFunction = RenderPhysicsLineObject_Static;
     }
     private function InitGameObjLine_Standard_KeepActive()
@@ -1373,8 +1391,10 @@ class GameObj extends GameObjBase
     private function InitGameObjLine_Standard()
     {
         collisionType = "normal";
-        preRenderFunction = null;  //RenderPhysicsLineObject_Movable;  
+        preRenderFunction = null;
+        
         renderFunction = RenderPhysicsLineObject_Static;
+        
         PreRenderPhysicsLineObject_Static();
         
         frame = GameVars.grassFrame;
@@ -1392,7 +1412,7 @@ class GameObj extends GameObjBase
     private function InitGameObjLine_Mud()
     {
         collisionType = "normal";
-        preRenderFunction = null;  //RenderPhysicsLineObject_Movable;  
+        preRenderFunction = null;
         renderFunction = RenderPhysicsLineObject_Static;
         PreRenderPhysicsLineObject_Static();
         
@@ -1405,7 +1425,7 @@ class GameObj extends GameObjBase
     private function InitGameObjLine_Decor()
     {
         collisionType = "normal";
-        preRenderFunction = null;  //RenderPhysicsLineObject_Movable;  
+        preRenderFunction = null;
         renderFunction = RenderPhysicsLineObject_Static;
         PreRenderPhysicsLineObject_Static();
         state = 0;
@@ -1447,7 +1467,7 @@ class GameObj extends GameObjBase
         Utils.print("InitGameObjLine_Wood");
         state = 0;
         frame = 1;
-        cast(("average"), SetPolysMaterial_Nape);
+        SetPolysMaterial_Nape("average");
         Utils.GetParams(initParams);
         
         frame = linkedPhysLine.objParameters.GetValueInt("line_background_frame", 1);
@@ -1461,21 +1481,21 @@ class GameObj extends GameObjBase
         Utils.print("InitGameObjLine_Smooth");
         state = 0;
         frame = 2;
-        cast(("smooth"), SetPolysMaterial_Nape);
+        SetPolysMaterial_Nape("smooth");
     }
     private function InitGameObjLine_Bouncy()
     {
         Utils.print("InitGameObjLine_Bouncy");
         state = 0;
         frame = 2;
-        cast(("bouncy"), SetPolysMaterial_Nape);
+        SetPolysMaterial_Nape("bouncy");
     }
     private function InitGameObjLine_Icy()
     {
         Utils.print("InitGameObjLine_Icy");
         state = 0;
         frame = 3;
-        cast(("smooth"), SetPolysMaterial_Nape);
+        SetPolysMaterial_Nape("smooth");
     }
     
     
@@ -1523,6 +1543,7 @@ class GameObj extends GameObjBase
     {
         name = "invisible_switch";
         
+        
         onHitFunction = InitGameObjLine_Switch_Hit;
         updateFunction = UpdateSwitchOnce;
         
@@ -1540,10 +1561,23 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     private function RenderPhysObj_Generic()
     {
         RenderDispObjNormally();
     }
+    
+    
+    
     
     
     
@@ -1571,9 +1605,11 @@ class GameObj extends GameObjBase
         var level : Level = Levels.GetCurrent();
         dobj = GraphicObjects.GetDisplayObjByName("backgrounds");
         
+        
         frame = as3hx.Compat.parseInt((Levels.currentIndex) % dobj.GetNumFrames());
         xpos = ypos = 0;
     }
+    
     
     
     
@@ -1589,6 +1625,9 @@ class GameObj extends GameObjBase
         updateFunction = UpdatePolyLayer;
         renderFunction = RenderPolyLayer;
     }
+    
+    
+    
     
     
     
@@ -1664,7 +1703,7 @@ class GameObj extends GameObjBase
     
     private function UpdateDoorSwitch()
     {
-        var b : Body = cast((0), GetBody);
+        var b : Body = GetBody(0);
         b.type = BodyType.KINEMATIC;
         
         if (doorSwitch_parentGO != null)
@@ -1686,7 +1725,7 @@ class GameObj extends GameObjBase
         }
         
         
-        var a : Float = cast((0), GetBodyAngle);
+        var a : Float = GetBodyAngle(0);
         if ((rotVel < 0) && (a <= minAng + origAng))
         {
             rotVel = 0;
@@ -1784,6 +1823,7 @@ class GameObj extends GameObjBase
         joint.objParameters.SetValueNumber("rev_upperangle", 0);
         
         
+        
         origAng = dir;
         
         minAng = 0;
@@ -1807,6 +1847,7 @@ class GameObj extends GameObjBase
     }
     
     
+    
     private function InitGameObjLine_Clicker()
     {
         initParams = "doorswitch_openangle=90,doorswitch_2way=true,doorswitch_ccw=false";
@@ -1818,6 +1859,9 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
+    
     private function OnHit_Wind(goHitter : GameObj)
     {
         if (goHitter.collisionType != "football" && goHitter.collisionType != "beachball")
@@ -1825,7 +1869,7 @@ class GameObj extends GameObjBase
             return;
         }
         
-        var ang : Float = cast((0), GetBodyAngle);
+        var ang : Float = GetBodyAngle(0);
         var dx : Float = 1;
         var dy : Float = 0;
         
@@ -1837,7 +1881,7 @@ class GameObj extends GameObjBase
     
     private function UpdateWind()
     {
-        var ang : Float = cast((0), GetBodyAngle);
+        var ang : Float = GetBodyAngle(0);
         ang -= Math.PI / 2;
         
         timer--;
@@ -1874,6 +1918,8 @@ class GameObj extends GameObjBase
     }
     private var force_strength : Float;
     private var initial_force_strength : Float;
+    
+    
     
     
     
@@ -1922,12 +1968,8 @@ class GameObj extends GameObjBase
         rotVel += 0.09;
         
         if (state == -1)
-        
-        // waiting for a click{
-            
-            {
-                state = 0;
-            }
+        {
+            state = 0;
         }
         if (state == 0)
         {
@@ -1945,7 +1987,7 @@ class GameObj extends GameObjBase
             o.name = spawner_spawnobjectList[spawner_spawncount % spawner_spawnobjectList.length];
             GameObjects.AddToAddList(Spawner_GenerateObjectsCallback, o);
             
-            cast(("sfx_portal"), SFX_OneShot);
+            SFX_OneShot("sfx_portal");
             
             spawner_spawncount++;
             
@@ -1953,14 +1995,10 @@ class GameObj extends GameObjBase
             state = 0;
             
             if (spawner_total != 0)
-            
-            // 0 meaning infinite{
-                
+            {
+                if (spawner_spawncount >= spawner_total)
                 {
-                    if (spawner_spawncount >= spawner_total)
-                    {
-                        state = 2;
-                    }
+                    state = 2;
                 }
             }
         }
@@ -1986,7 +2024,7 @@ class GameObj extends GameObjBase
     
     public function RenderSpawner()
     {
-        dir = rotVel;  // DIR is being set by the physics, so usign rotVel to change the render angle  
+        dir = rotVel;
         RenderDispObjNormally();
         var dir2 : Float = rotVel * 0.3;
         RenderDispObjAt(xpos, ypos, dobj1, 0, null, dir2);
@@ -2012,10 +2050,12 @@ class GameObj extends GameObjBase
         
         updateFunction = UpdateSpawner;
         
+        
         state = -1;
         dir = 1;
         rotVel = 1;
     }
+    
     
     
     
@@ -2057,6 +2097,9 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
+    
     public function OnHitBonusPickup(goHitter : GameObj)
     {
         if (goHitter == null)
@@ -2072,7 +2115,7 @@ class GameObj extends GameObjBase
     {
         if (state == 1)
         {
-            cast((RemovePhysObj()), RemoveObject);
+            RemoveObject(RemovePhysObj());
         }
     }
     public function InitBonusPickup()
@@ -2083,12 +2126,15 @@ class GameObj extends GameObjBase
     }
     
     
+    
+    
     public function OnHitPortalIn(goHitter : GameObj)
     {
         if (goHitter == null)
         {
             return;
         }
+        
         {
             if (logicLink1 == null)
             {
@@ -2096,7 +2142,7 @@ class GameObj extends GameObjBase
             }
             else
             {
-                cast(("sfx_portal"), SFX_OneShot);
+                SFX_OneShot("sfx_portal");
                 
                 if (logicLink1.name == "portal_out")
                 {
@@ -2149,6 +2195,7 @@ class GameObj extends GameObjBase
     public function InitPortalIn()
     {
         name = "portal_in";
+        
         updateFunction = UpdatePortalIn;
         onHitFunction = OnHitPortalIn;
         renderFunction = RenderPortalIn;
@@ -2156,6 +2203,8 @@ class GameObj extends GameObjBase
         dobj1 = null;
         frameVel1 = 1;
     }
+    
+    
     
     
     
@@ -2214,6 +2263,7 @@ class GameObj extends GameObjBase
         dobj1 = null;
         frameVel1 = 1;
     }
+    
     
     
     private function OnClickSnake()
@@ -2282,13 +2332,13 @@ class GameObj extends GameObjBase
             if (spitTimer <= 0)
             {
                 var soundName : String = "sfx_spit" + Utils.RandBetweenInt(1, 3);
-                cast((soundName), SFX_OneShot);
+                SFX_OneShot(soundName);
                 
                 var go : GameObj = snakeObjList[snakeObjList.length - 1];
                 
                 var p : Point = new Point(0, 20);
                 var m : Matrix = new Matrix();
-                m.rotate(go.dir);  // +(Math.PI / 2));  
+                m.rotate(go.dir);
                 p = m.transformPoint(p);
                 var x : Float = go.xpos + p.x;
                 var y : Float = go.ypos + p.y;
@@ -2381,6 +2431,7 @@ class GameObj extends GameObjBase
     }
     
     private var snakeObjList : Array<Dynamic>;
+    
     
     
     private function InitSnake1_Normal()
@@ -2543,6 +2594,7 @@ class GameObj extends GameObjBase
             joint.rev_pos.y = y;
             
             joint.objParameters.SetValueBoolean("rev_enablemotor", false);
+            
             joint.objParameters.SetValueNumber("rev_motorrate", 10);
             joint.objParameters.SetValueNumber("rev_motorratio", 1);
             joint.objParameters.SetValueNumber("rev_motormax", 20000);
@@ -2580,7 +2632,7 @@ class GameObj extends GameObjBase
         
         var p : Point = new Point(0, 30);
         var m : Matrix = new Matrix();
-        m.rotate(go.dir);  // +(Math.PI / 2));  
+        m.rotate(go.dir);
         p = m.transformPoint(p);
         var x : Float = go.xpos + p.x;
         var y : Float = go.ypos + p.y;
@@ -2589,7 +2641,7 @@ class GameObj extends GameObjBase
         
         var pigGO : GameObj;
         pigGO = PhysicsBase.AddPhysObjAt("guinea_pig_" + pigType, x, y, 0, 1, "", "", "");
-        pigGO.type = type;  // ie. bubble type  
+        pigGO.type = type;
         pigGO.id = PhysEditor.CreateNewUniqueID();
         
         var joint : EdJoint = new EdJoint();
@@ -2616,7 +2668,7 @@ class GameObj extends GameObjBase
         
         
         snake_pigGOJoint = snake_pigGO.nape_joints[0];
-        snake_pigGOJoint1 = null;  // snake_pigGO.nape_joints[1];  
+        snake_pigGOJoint1 = null;
         
         if (GameVars.snakeUpgrade == GameVars.snakeUpgrade_PigChain && GameVars.snakeUpgradeGO == this)
         {
@@ -2625,7 +2677,7 @@ class GameObj extends GameObjBase
             for (i in 0...3)
             {
                 pigGO = PhysicsBase.AddPhysObjAt("guinea_pig_1", x, y, 0, 1, "", "", "");
-                pigGO.type = type;  // ie. bubble type  
+                pigGO.type = type;
                 pigGO.id = PhysEditor.CreateNewUniqueID();
                 
                 var joint : EdJoint = new EdJoint();
@@ -2653,6 +2705,9 @@ class GameObj extends GameObjBase
     }
     
     
+    
+    
+    
     private function OnHitGuineaPig(goHitter : GameObj)
     {
         if (goHitter == null)
@@ -2660,7 +2715,7 @@ class GameObj extends GameObjBase
             return;
         }
         
-        var spd : Float = cast((0), GetBodyLinearVelocity).length;
+        var spd : Float = GetBodyLinearVelocity(0).length;
         var r : Float = 0;
         if (hitContactPoint_Nape != null)
         {
@@ -2671,15 +2726,11 @@ class GameObj extends GameObjBase
             if (hitContactPoint_Nape.arbiter.isCollisionArbiter())
             {
                 if (true)
-                
-                //goHitter.name != ""){
-                    
+                {
+                    if (spd > 40)
                     {
-                        if (spd > 40)
-                        {
-                            var soundName : String = "sfx_pig_bounce" + Utils.RandBetweenInt(1, 10);
-                            cast((soundName), SFX_OneShot);
-                        }
+                        var soundName : String = "sfx_pig_bounce" + Utils.RandBetweenInt(1, 10);
+                        SFX_OneShot(soundName);
                     }
                 }
             }
@@ -2691,7 +2742,7 @@ class GameObj extends GameObjBase
         if (state == 0)
         {
             var soundName : String = "sfx_blow" + Utils.RandBetweenInt(1, 3);
-            cast((soundName), SFX_OneShot);
+            SFX_OneShot(soundName);
             if (type == 0)
             {
                 dobj1 = GraphicObjects.GetDisplayObjByName("Bubble");
@@ -2729,14 +2780,14 @@ class GameObj extends GameObjBase
         }
         
         var soundName : String = "sfx_pop" + Utils.RandBetweenInt(1, 3);
-        cast((soundName), SFX_OneShot);
+        SFX_OneShot(soundName);
         
         for (i in 0...numBits)
         {
             if (type == 2)
             {
                 var d : Float = 700;
-                var r : Float = (Math.PI * 2) / numBits * as3hx.Compat.parseFloat(i);
+                var r : Float = (Math.PI * 2) / as3hx.Compat.parseFloat(numBits) * as3hx.Compat.parseFloat(i);
                 var dx : Float = Math.cos(r) * d;
                 var dy : Float = Math.sin(r) * d;
                 var go : GameObj = PhysicsBase.AddPhysObjAt("bubblebit_dense", xpos, ypos, 0, 1);
@@ -2746,7 +2797,7 @@ class GameObj extends GameObjBase
             else
             {
                 var d : Float = 6;
-                var r : Float = (Math.PI * 2) / numBits * as3hx.Compat.parseFloat(i);
+                var r : Float = (Math.PI * 2) / as3hx.Compat.parseFloat(numBits) * as3hx.Compat.parseFloat(i);
                 var dx : Float = Math.cos(r) * d;
                 var dy : Float = Math.sin(r) * d;
                 var go : GameObj = PhysicsBase.AddPhysObjAt("bubblebit", xpos, ypos, 0, 1);
@@ -2758,6 +2809,7 @@ class GameObj extends GameObjBase
     
     
     
+    
     private function OnHitBubbleBit(goHitter : GameObj)
     {
         if (goHitter == null)
@@ -2765,14 +2817,15 @@ class GameObj extends GameObjBase
             return;
         }
         
+        
         if (goHitter.collisionType == "animal")
         {
-            cast((RemovePhysObj), RemoveObject);
+            RemoveObject(RemovePhysObj);
         }
         if (goHitter.collisionType == "boss")
         {
             goHitter.BossHitByBubble();
-            cast((RemovePhysObj), RemoveObject);
+            RemoveObject(RemovePhysObj);
         }
         else
         {
@@ -2790,7 +2843,7 @@ class GameObj extends GameObjBase
             timer--;
             if (timer <= 0)
             {
-                cast((RemovePhysObj), RemoveObject);
+                RemoveObject(RemovePhysObj);
             }
         }
         else if (state == 1)
@@ -2823,12 +2876,13 @@ class GameObj extends GameObjBase
         timer = 6;
     }
     
+    
     private function UpdateBubbleBitDense()
     {
         timer--;
         if (timer <= 0)
         {
-            cast((RemovePhysObj), RemoveObject);
+            RemoveObject(RemovePhysObj);
         }
     }
     private function InitBubbleBitDense()
@@ -2836,6 +2890,7 @@ class GameObj extends GameObjBase
         updateFunction = UpdateBubbleBitDense;
         timer = 12;
     }
+    
     
     
     private function OnHitSpitRock(hitterGO : GameObj)
@@ -2851,7 +2906,7 @@ class GameObj extends GameObjBase
         timer--;
         if (timer <= 0)
         {
-            cast((RemovePhysObj), RemoveObject);
+            RemoveObject(RemovePhysObj);
         }
     }
     private function InitSpitRock()
@@ -2860,6 +2915,8 @@ class GameObj extends GameObjBase
         onHitFunction = OnHitSpitRock;
         timer = as3hx.Compat.parseInt(Defs.fps * 2);
     }
+    
+    
     
     
     
@@ -2879,7 +2936,7 @@ class GameObj extends GameObjBase
             dobj = GraphicObjects.GetDisplayObjByName("collectPickup");
             frame = 0;
             GameVars.collectedBonus = true;
-            cast(("sfx_pickup_gold"), SFX_OneShot);
+            SFX_OneShot("sfx_pickup_gold");
         }
     }
     private function UpdateAnimalGold()
@@ -2910,6 +2967,8 @@ class GameObj extends GameObjBase
     }
     
     
+    
+    
     private function OnHitIcecreamVan(hitterGO : GameObj)
     {
         if (hitterGO == null)
@@ -2922,7 +2981,7 @@ class GameObj extends GameObjBase
         }
         state = 1;
         timer = as3hx.Compat.parseInt(Defs.fps * 5);
-        cast(("sfx_icecreamvan"), SFX_OneShot);
+        SFX_OneShot("sfx_icecreamvan");
     }
     private function UpdateIcecreamVan()
     {
@@ -2941,6 +3000,8 @@ class GameObj extends GameObjBase
         onHitFunction = OnHitIcecreamVan;
     }
     
+    
+    
     private function OnHitSandBlock(hitterGO : GameObj)
     {
         if (hitterGO == null)
@@ -2953,7 +3014,7 @@ class GameObj extends GameObjBase
         }
         if (hitterGO.collisionType == "beachball")
         {
-            cast(("sfx_hit_sandblock"), SFX_OneShot);
+            SFX_OneShot("sfx_hit_sandblock");
             RemovePhysObj();
             state = 1;
         }
@@ -2976,6 +3037,7 @@ class GameObj extends GameObjBase
         frameVel = 0.3;
     }
     
+    
     private function InitBreakable_WoodenCrate()
     {
         var x : Float = -18;
@@ -2989,7 +3051,7 @@ class GameObj extends GameObjBase
         list.push(new BreakablePieceDef(x + 33, y + 19, "woodenCrate1_part6"));
         list.push(new BreakablePieceDef(x + 19, y + 28, "woodenCrate1_part7"));
         list.push(new BreakablePieceDef(x + 36, y + 30, "woodenCrate1_part8"));
-        cast((list), Init_Breakable_Pieces);
+        Init_Breakable_Pieces(list);
     }
     
     private function InitBreakable_WoodenPost()
@@ -2998,7 +3060,7 @@ class GameObj extends GameObjBase
         list.push(new BreakablePieceDef(0, -20, "woodPost0_part3"));
         list.push(new BreakablePieceDef(0, -1, "woodPost0_part2"));
         list.push(new BreakablePieceDef(0, 19, "woodPost0_part1"));
-        cast((list), Init_Breakable_Pieces);
+        Init_Breakable_Pieces(list);
     }
     
     private function InitBreakable_Block()
@@ -3012,8 +3074,9 @@ class GameObj extends GameObjBase
         list.push(new BreakablePieceDef(-17, -18, "Block_part6"));
         list.push(new BreakablePieceDef(4, -13, "Block_part7"));
         list.push(new BreakablePieceDef(17, -12, "Block_part8"));
-        cast((list), Init_Breakable_Pieces);
+        Init_Breakable_Pieces(list);
     }
+    
     
     private function InitBreakable_Wood()
     {
@@ -3028,8 +3091,9 @@ class GameObj extends GameObjBase
         list.push(new BreakablePieceDef(-14, -4, "Wood_part8"));
         list.push(new BreakablePieceDef(2, 2, "Wood_part9"));
         list.push(new BreakablePieceDef(26, 3, "Wood_part10"));
-        cast((list), Init_Breakable_Pieces);
+        Init_Breakable_Pieces(list);
     }
+    
     
     private function InitBreakable_SwitchCover()
     {
@@ -3045,8 +3109,9 @@ class GameObj extends GameObjBase
         list.push(new BreakablePieceDef(-13, 4, "lever_part8"));
         list.push(new BreakablePieceDef(-2, 2, "lever_part9"));
         list.push(new BreakablePieceDef(11, 2, "lever_part10"));
-        cast((list), Init_Breakable_Pieces);
+        Init_Breakable_Pieces(list);
     }
+    
     
     private var breakable_piece_def_list : Array<Dynamic>;
     private function Init_Breakable_Pieces(_list : Array<Dynamic>)
@@ -3065,7 +3130,7 @@ class GameObj extends GameObjBase
         else if (state == 1)
         {
             var soundName : String = "sfx_wood_snap" + Utils.RandBetweenInt(1, 4);
-            cast((soundName), SFX_OneShot);
+            SFX_OneShot(soundName);
             
             if (break_sfx_name == "")
             {
@@ -3073,11 +3138,14 @@ class GameObj extends GameObjBase
             else
             {
             }
-            cast((RemovePhysObj()), RemoveObject);
+            RemoveObject(RemovePhysObj());
             for (def in breakable_piece_def_list)
             {
                 var r : Float = dir;
                 var go : GameObj;
+                
+                
+                
                 
                 
                 
@@ -3106,6 +3174,7 @@ class GameObj extends GameObjBase
         {
             return;
         }
+        
         if (hitterGO.collisionType == "football" || hitterGO.collisionType == "beachball")
         {
             var aa : InteractionCallback = hitterGO.hitInteractionCallback_Nape;
@@ -3137,6 +3206,7 @@ class GameObj extends GameObjBase
     }
     
     
+    
     public function RenderBreakable_Piece()
     {
         RenderDispObjNormallyAlpha();
@@ -3160,7 +3230,7 @@ class GameObj extends GameObjBase
         timer--;
         if (timer <= 0)
         {
-            cast((RemovePhysObj), RemoveObject);
+            RemoveObject(RemovePhysObj);
         }
     }
     
@@ -3216,6 +3286,7 @@ class GameObj extends GameObjBase
     
     
     
+    
     private function OnHitSpringboard(goHitter : GameObj)
     {
         if (goHitter == null)
@@ -3250,6 +3321,8 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
     private function UpdateCycleAnimation()
     {
         CycleAnimation();
@@ -3258,6 +3331,9 @@ class GameObj extends GameObjBase
     {
         updateFunction = UpdateCycleAnimation;
     }
+    
+    
+    
     
     
     
@@ -3276,9 +3352,9 @@ class GameObj extends GameObjBase
         }
         if (goHitter.name == "football")
         {
-            cast((goHitter), PickupCollected);
+            PickupCollected(goHitter);
             RemovePhysObj();
-            cast(("sfx_collect_coin"), SFX_OneShot);
+            SFX_OneShot("sfx_collect_coin");
             dobj1 = GraphicObjects.GetDisplayObjByName("fx_sparkles");
             zpos = -10000;
             scale1 = 1;
@@ -3329,6 +3405,7 @@ class GameObj extends GameObjBase
         updateFunction = UpdatePickup;
         renderFunction = RenderPickup;
         
+        
         type = GameVars.totalLevelCoins;
         GameVars.totalLevelCoins++;
         
@@ -3348,6 +3425,7 @@ class GameObj extends GameObjBase
     }
     
     
+    
     private function OnHitPickupTrophy(goHitter : GameObj)
     {
         if (goHitter == null)
@@ -3361,8 +3439,8 @@ class GameObj extends GameObjBase
         if (goHitter.name == "football")
         {
             GameVars.SetHasTrophy(type);
-            cast((RemovePhysObj), RemoveObject);
-            cast(("sfx_collect_cup"), SFX_OneShot);
+            RemoveObject(RemovePhysObj);
+            SFX_OneShot("sfx_collect_cup");
             
             var go : GameObj = GameObjects.AddObj(xpos, ypos - 30, zpos - 2000);
             go.InitTrophyPopup();
@@ -3384,7 +3462,7 @@ class GameObj extends GameObjBase
         type = _trophyID;
         if (GameVars.HasTrophy(type))
         {
-            cast((RemovePhysObj), RemoveObject);
+            RemoveObject(RemovePhysObj);
         }
         name = "pickup";
         onHitFunction = OnHitPickupTrophy;
@@ -3402,43 +3480,43 @@ class GameObj extends GameObjBase
     
     private function InitPickupTrophy1()
     {
-        cast((0), InitPickupTrophy);
+        InitPickupTrophy(0);
     }
     private function InitPickupTrophy2()
     {
-        cast((1), InitPickupTrophy);
+        InitPickupTrophy(1);
     }
     private function InitPickupTrophy3()
     {
-        cast((2), InitPickupTrophy);
+        InitPickupTrophy(2);
     }
     private function InitPickupTrophy4()
     {
-        cast((3), InitPickupTrophy);
+        InitPickupTrophy(3);
     }
     private function InitPickupTrophy5()
     {
-        cast((4), InitPickupTrophy);
+        InitPickupTrophy(4);
     }
     private function InitPickupTrophy6()
     {
-        cast((5), InitPickupTrophy);
+        InitPickupTrophy(5);
     }
     private function InitPickupTrophy7()
     {
-        cast((6), InitPickupTrophy);
+        InitPickupTrophy(6);
     }
     private function InitPickupTrophy8()
     {
-        cast((7), InitPickupTrophy);
+        InitPickupTrophy(7);
     }
     private function InitPickupTrophy9()
     {
-        cast((8), InitPickupTrophy);
+        InitPickupTrophy(8);
     }
     private function InitPickupTrophy10()
     {
-        cast((9), InitPickupTrophy);
+        InitPickupTrophy(9);
     }
     
     
@@ -3479,6 +3557,7 @@ class GameObj extends GameObjBase
     }
     
     
+    
     private var gunBombNumBits : Int;
     private var gunBombTime : Int;
     private function OnHitGumBomb(goHitter : GameObj)
@@ -3501,7 +3580,7 @@ class GameObj extends GameObjBase
         {
             type = 1;
             GuineaPig_BubblePops(gunBombNumBits, gunBombTime);
-            cast((RemovePhysObj), RemoveObject);
+            RemoveObject(RemovePhysObj);
         }
     }
     private function InitGumBomb()
@@ -3523,6 +3602,7 @@ class GameObj extends GameObjBase
         gunBombNumBits = 64;
         gunBombTime = 10;
     }
+    
     
     
     
@@ -3575,6 +3655,7 @@ class GameObj extends GameObjBase
         updateFunction = UpdateMagnetPull;
         type = 0;
     }
+    
     
     
     private var conveyor_speed : Float;
@@ -3638,6 +3719,9 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
+    
     private function UpdateGameObjJoint_SwitchedDistance()
     {
         var dj : DistanceJoint = try cast(jointController_joints[0], DistanceJoint) catch(e:Dynamic) null;
@@ -3662,7 +3746,7 @@ class GameObj extends GameObjBase
     private var jointMaxDist : Float;
     private function InitGameObjJoint_SwitchedDistance1(cons : Array<Constraint>)
     {
-        cast((cons), InitGameObjJoint_SwitchedDistance);
+        InitGameObjJoint_SwitchedDistance(cons);
         jointMinDist = jointMaxDist / 2;
     }
     
@@ -3755,7 +3839,7 @@ class GameObj extends GameObjBase
     private function InitJoint_RotateSwitch(cons : Array<Constraint>)
     {
         rotVel = 5;
-        cast((cons), CopyJointDataToGO);
+        CopyJointDataToGO(cons);
         switchFunction = SwitchJoint_RotateSwitch;
         updateFunction = UpdateJoint_RotateSwitch;
         visible = false;
@@ -3797,7 +3881,7 @@ class GameObj extends GameObjBase
     {
         name = "poocock2";
         rotVel = 0.02;
-        cast((cons), CopyJointDataToGO);
+        CopyJointDataToGO(cons);
         switchFunction = SwitchJoint_RotateSwitch_StopGo;
         updateFunction = UpdateJoint_RotateSwitch_StopGo;
         visible = false;
@@ -3833,6 +3917,8 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
     private function CopyJointDataToGO(cons : Array<Constraint>)
     {
         jointController_joints = new Array<Constraint>();
@@ -3843,7 +3929,7 @@ class GameObj extends GameObjBase
     }
     private function InitJoint_Render(cons : Array<Constraint>)
     {
-        cast((cons), CopyJointDataToGO);
+        CopyJointDataToGO(cons);
         renderFunction = RenderJointRenderer;
     }
     private function JointObject_JointRemoved(j : Constraint)
@@ -3857,6 +3943,7 @@ class GameObj extends GameObjBase
             }
         }
     }
+    
     
     
     
@@ -3880,7 +3967,7 @@ class GameObj extends GameObjBase
         }
         else if (state == 1)
         {
-            cast(("sfx_text_appear"), SFX_OneShot);
+            SFX_OneShot("sfx_text_appear");
             
             PlayAnimation();
             visible = true;
@@ -3955,6 +4042,7 @@ class GameObj extends GameObjBase
         frame = 0;
         state = 3;
         scale = 1;
+        
         if (Game.doWalkthrough == false)
         {
             RemoveObject();
@@ -4039,6 +4127,7 @@ class GameObj extends GameObjBase
     
     
     
+    
     public function GameObj_UpdateHelpObjectAppear() : Void
     {
         if (state == 0)
@@ -4088,6 +4177,7 @@ class GameObj extends GameObjBase
     }
     
     
+    
     public function GameObj_RenderHelpText_Walkthrough() : Void
     {
         if (Game.doWalkthrough == false)
@@ -4124,6 +4214,7 @@ class GameObj extends GameObjBase
         name = "walkthrough";
         updateFunction = UpdateWalkthroughObject;
         timer = as3hx.Compat.parseInt(Utils.GetParamNumber("helptext_initialdelay", 0) * Defs.fps);
+        
         state = 0;
         if (Game.doWalkthrough == false)
         {
@@ -4131,6 +4222,7 @@ class GameObj extends GameObjBase
             visible = false;
         }
     }
+    
     
     
     
@@ -4153,6 +4245,7 @@ class GameObj extends GameObjBase
         renderFunction = RenderRain;
         updateFunction = UpdateRain;
     }
+    
     
     
     
@@ -4220,6 +4313,10 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
+    
+    
     private function MiniGamePickup_Collected()
     {
         state = 1;
@@ -4228,7 +4325,7 @@ class GameObj extends GameObjBase
         
         dobj = GraphicObjects.GetDisplayObjByName("collectPickup");
         frame = 0;
-        cast(("sfx_pickup_gold"), SFX_OneShot);
+        SFX_OneShot("sfx_pickup_gold");
     }
     private function UpdateMiniGamePickup()
     {
@@ -4273,6 +4370,8 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
     private function UpdatePlaybackCursor()
     {
     }
@@ -4296,6 +4395,9 @@ class GameObj extends GameObjBase
         dobj = GraphicObjects.GetDisplayObjByName("Walkthrough_click");
         frame = 0;
     }
+    
+    
+    
     
     
     public function OnHitCannon(goHitter : GameObj)
@@ -4325,7 +4427,7 @@ class GameObj extends GameObjBase
             state = 1;
             timer = GameVars.cannonHoldTime;
             goHitter.Football_InitHoldInCannon(this);
-            cast(("sfx_enter_cannon"), SFX_OneShot);
+            SFX_OneShot("sfx_enter_cannon");
         }
     }
     public function Cannon_Fired()
@@ -4353,31 +4455,26 @@ class GameObj extends GameObjBase
             frame = 0;
         }
         else if (state == 1)
-        
-        // holding ball{
-            
-            { };
+        {
         }
         else if (state == 2)
-        
-        // just fired{
+        {
+            var p : Point = new Point(0, -25);
+            var m : Matrix = new Matrix();
+            m.rotate(dir);
+            p = m.transformPoint(p);
             
-            {
-                var p : Point = new Point(0, -25);
-                var m : Matrix = new Matrix();
-                m.rotate(dir);
-                p = m.transformPoint(p);
-                
-                var xp : Float = xpos + p.x;
-                var yp : Float = ypos + p.y;
-                state = 3;
-                PlayAnimation();
-                cast(("sfx_cannon_fire"), SFX_OneShot);
-                
-                dobj2 = GraphicObjects.GetDisplayObjByName("cannonSmoke");
-                frame2 = 0;
-                frameVel2 = 0.5;
-            }
+            var xp : Float = xpos + p.x;
+            var yp : Float = ypos + p.y;
+            
+            
+            state = 3;
+            PlayAnimation();
+            SFX_OneShot("sfx_cannon_fire");
+            
+            dobj2 = GraphicObjects.GetDisplayObjByName("cannonSmoke");
+            frame2 = 0;
+            frameVel2 = 0.5;
         }
         else if (state == 3)
         {
@@ -4406,6 +4503,8 @@ class GameObj extends GameObjBase
         dobj2 = null;
         frame2 = 0;
     }
+    
+    
     
     
     
@@ -4478,7 +4577,7 @@ class GameObj extends GameObjBase
     
     private function Football_MoveToPlayer(_go : GameObj)
     {
-        cast(("sfx_ball_return"), SFX_OneShot);
+        SFX_OneShot("sfx_ball_return");
         SetBodyCollisionMask(-1, 0);
         SetBodySensorMask(-1, 0);
         
@@ -4533,140 +4632,118 @@ class GameObj extends GameObjBase
     
     private function UpdateFootball()
     {
-        previousVel = cast((0), GetBodyLinearVelocity).copy();
+        previousVel = GetBodyLinearVelocity(0).copy();
         if (state == 0)
-        
-        // initial{
-            
+        {
+            var go : GameObj = GameObjects.GetNearestGameObjByName("player", xpos, ypos);
+            if (go != null)
             {
-                var go : GameObj = GameObjects.GetNearestGameObjByName("player", xpos, ypos);
-                if (go != null)
-                {
-                    cast((go), Football_SnapToPlayer);
-                }
+                Football_SnapToPlayer(go);
             }
         }
         else if (state == 1)
-        
-        // at player's feet{
-            
+        {
+            GameVars.doingFastForward = false;
+            if (football_playerGO.xflip == false)
             {
-                GameVars.doingFastForward = false;
-                if (football_playerGO.xflip == false)
-                {
-                    xpos = football_playerGO.xpos + GameVars.football_footOffsetX;
-                }
-                else
-                {
-                    xpos = football_playerGO.xpos - GameVars.football_footOffsetX;
-                }
-                SetBodyXForm_Immediate(0, xpos, ypos, 0);
-                SetBodyLinearVelocity(0, 0, 0);
-                SetBodyAngularVelocity(0, 0);
-                
-                
-                if (GameVars.numKicks >= GameVars.maxKicks)
-                {
-                    GameVars.numKicks = GameVars.maxKicks;
-                    Game.levelSuccessFlag = false;
-                    Audio.OneShot("sfx_levelfailed");
-                    Game.InitLevelState(Game.levelState_Complete);
-                    state = 999;
-                    football_playerGO.state = 999;
-                }
+                xpos = football_playerGO.xpos + GameVars.football_footOffsetX;
+            }
+            else
+            {
+                xpos = football_playerGO.xpos - GameVars.football_footOffsetX;
+            }
+            SetBodyXForm_Immediate(0, xpos, ypos, 0);
+            SetBodyLinearVelocity(0, 0, 0);
+            SetBodyAngularVelocity(0, 0);
+            
+            
+            if (GameVars.numKicks >= GameVars.maxKicks)
+            {
+                GameVars.numKicks = GameVars.maxKicks;
+                Game.levelSuccessFlag = false;
+                Audio.OneShot("sfx_levelfailed");
+                Game.InitLevelState(Game.levelState_Complete);
+                state = 999;
+                football_playerGO.state = 999;
             }
         }
         else if (state == 2)
-        
-        // launched{
-            
+        {
+            if (Game.levelState == Game.levelState_Play)
             {
-                if (Game.levelState == Game.levelState_Play)
+                ballTimer++;
+                
+                if (ballTimer >= GameVars.ballTimerShowTimerMax)
                 {
-                    ballTimer++;
-                    
-                    if (ballTimer >= GameVars.ballTimerShowTimerMax)
+                    if ((ballTimer % 20) == 0)
                     {
-                        if ((ballTimer % 20) == 0)
-                        {
-                            SFX_OneShot("sfx_tick", 0.5);
-                        }
-                    }
-                    if (ballTimer >= GameVars.ballTimerMax)
-                    {
-                        GameVars.numKicks++;
-                        state = 3;
-                        PhysicsSetStationary();
+                        SFX_OneShot("sfx_tick", 0.5);
                     }
                 }
-                
-                if (Game.boundingRectangle.contains(xpos, ypos) == false)
+                if (ballTimer >= GameVars.ballTimerMax)
                 {
                     GameVars.numKicks++;
                     state = 3;
                     PhysicsSetStationary();
                 }
             }
+            
+            if (Game.boundingRectangle.contains(xpos, ypos) == false)
+            {
+                GameVars.numKicks++;
+                state = 3;
+                PhysicsSetStationary();
+            }
         }
         else if (state == 3)
-        
-        // come to rest{
-            
-            {
-                Football_GenerateSmokePuff();
-                cast((football_playerGO), Football_MoveToPlayer);
-            }
+        {
+            Football_GenerateSmokePuff();
+            Football_MoveToPlayer(football_playerGO);
         }
         else if (state == 4)
-        
-        // returning to player{
-            
+        {
+            timer--;
+            if (timer <= 0)
             {
-                timer--;
-                if (timer <= 0)
-                {
-                    timer = 0;
-                    football_playerGO.Player_SetHasFootball(this);
-                    state = 1;
-                    
-                    SetBodyCollisionMask(-1, origCollisionMask);
-                    SetBodySensorMask(-1, origSensorMask);
-                }
-                var v : Float = Utils.ScaleTo(0, 1, timerMax, 0, timer);
-                v = Ease.Power_InOut(v);
-                xpos = Utils.ScaleTo(startx, toPosX, 0, 1, v);
-                ypos = Utils.ScaleTo(starty, toPosY, 0, 1, v);
-                SetBodyXForm_Immediate(0, xpos, ypos, 0);
-                SetBodyAngularVelocity(0, 0);
-                SetBodyLinearVelocity(0, 0, 0);
+                timer = 0;
+                football_playerGO.Player_SetHasFootball(this);
+                state = 1;
+                
+                SetBodyCollisionMask(-1, origCollisionMask);
+                SetBodySensorMask(-1, origSensorMask);
             }
+            var v : Float = Utils.ScaleTo(0, 1, timerMax, 0, timer);
+            v = Ease.Power_InOut(v);
+            xpos = Utils.ScaleTo(startx, toPosX, 0, 1, v);
+            ypos = Utils.ScaleTo(starty, toPosY, 0, 1, v);
+            SetBodyXForm_Immediate(0, xpos, ypos, 0);
+            SetBodyAngularVelocity(0, 0);
+            SetBodyLinearVelocity(0, 0, 0);
         }
         else if (state == 200)
-        
-        // in cannon{
-            
+        {
+            visible = true;
+            xpos = football_CannonObj.xpos;
+            ypos = football_CannonObj.ypos;
+            PhysicsSetStationary();
+            timer--;
+            if (timer <= 0)
             {
+                updateFromPhysicsFunction = null;
+                
+                
+                ballLaunch_vec.SetAng(football_CannonObj.dir - (Math.PI / 2));
+                ballLaunch_vec.speed = Vars.GetVarAsNumber("cannonLaunchForce");
+                
+                ballLaunch_vec.speed *= GetBodyMass(0);
+                
+                timer = timerMax = Defs.fps * 3;
+                
+                
+                football_CannonObj.Cannon_Fired();
                 visible = true;
-                xpos = football_CannonObj.xpos;
-                ypos = football_CannonObj.ypos;
-                PhysicsSetStationary();
-                timer--;
-                if (timer <= 0)
-                {
-                    updateFromPhysicsFunction = null;
-                    
-                    ballLaunch_vec.SetAng(football_CannonObj.dir - (Math.PI / 2));
-                    ballLaunch_vec.speed = Vars.GetVarAsNumber("cannonLaunchForce");
-                    
-                    ballLaunch_vec.speed *= cast((0), GetBodyMass);
-                    timer = timerMax = Defs.fps * 3;
-                    
-                    
-                    football_CannonObj.Cannon_Fired();
-                    visible = true;
-                    
-                    cast((ballLaunch_vec), Football_Launch);
-                }
+                
+                Football_Launch(ballLaunch_vec);
             }
         }
         
@@ -4691,7 +4768,8 @@ class GameObj extends GameObjBase
                 var go : GameObj = GameObjects.AddObj(xpos, ypos, -10000);
                 go.InitPopPopup();
                 
-                cast((football_lastPlayerToHaveBall), Football_MoveToPlayer);
+                
+                Football_MoveToPlayer(football_lastPlayerToHaveBall);
             }
         }
         if (hitterGO.name != "player" && hitterGO.name != "pickup" && hitterGO.name != "invisible_switch")
@@ -4718,12 +4796,15 @@ class GameObj extends GameObjBase
         origCollisionMask = GetBodyCollisionMask();
         origSensorMask = GetBodySensorMask();
         
+        
         collisionType = "football";
         name = "football";
         renderFunction = RenderFootball;
         updateFunction = UpdateFootball;
         onHitFunction = OnHit_Football;
         state = 0;
+        
+        
         ballLaunch_vec = new Vec();
         ballTimer = 0;
         dobj1 = GraphicObjects.GetDisplayObjByName("generalTimer");
@@ -4840,7 +4921,7 @@ class GameObj extends GameObjBase
     private function Player_InitRunToMarker(_x : Float)
     {
         state = 10;
-        cast(("run1"), SetAnimRangeSingle);
+        SetAnimRangeSingle("run1");
         toPosX = _x;
         xvel = 3;
     }
@@ -4866,293 +4947,267 @@ class GameObj extends GameObjBase
             }
         }
         
-        if (state == 0)
         
-        // initial, waiting for ball{
-            
-            {
-                PlayerFaceToBall();
-                player_currentFootball = null;
-                PlayerUpdateIdleAnim();
-                PlayerHeadFollowPoint(ballGO.xpos, ballGO.ypos);
-            }
+        
+        if (state == 0)
+        {
+            PlayerFaceToBall();
+            player_currentFootball = null;
+            PlayerUpdateIdleAnim();
+            PlayerHeadFollowPoint(ballGO.xpos, ballGO.ypos);
         }
         else if (state == 1)
-        
-        // has ball{
-            
+        {
+            if (Game.controlMode == 0)
             {
-                if (Game.controlMode == 0)
+                Game.scrollMode = 1;
+            }
+            
+            if (false == false)
+            {
+                if (MouseControl.buttonPressed)
                 {
-                    Game.scrollMode = 1;
+                    if (MouseControl.y < 487)
+                    {
+                        Game.doKick = true;
+                        MouseControl.buttonPressed = false;
+                    }
                 }
+            }
+            
+            
+            var mx : Float = Game.mouse_x + Game.camera.x;
+            var my : Float = Game.mouse_y + Game.camera.y;
+            
+            var marker : Int = 0;
+            var doaiming : Bool = true;
+            if (runMarkerB != null)
+            {
+                if (Utils.DistBetweenPoints(mx, my, runMarkerB.xpos, runMarkerB.ypos) < 60)
+                {
+                    marker = 1;
+                    doaiming = false;
+                }
+            }
+            if (runMarkerA != null)
+            {
+                if (Utils.DistBetweenPoints(mx, my, runMarkerA.xpos, runMarkerA.ypos) < 60)
+                {
+                    marker = 0;
+                    doaiming = false;
+                }
+            }
+            
+            if (doaiming == false)
+            {
+                Game.ballpath_doit = false;
+                if (Game.doKick)
+                {
+                    Game.doKick = false;
+                    if (marker == 0)
+                    {
+                        Player_InitRunToMarker(runMarkerA.xpos);
+                    }
+                    if (marker == 1)
+                    {
+                        Player_InitRunToMarker(runMarkerB.xpos);
+                    }
+                }
+            }
+            else
+            {
+                Game.ballpath_doit = true;
                 
                 if (false == false)
                 {
-                    if (MouseControl.buttonPressed)
+                    xflip = false;
+                    if ((mx) < xpos)
                     {
-                        if (MouseControl.y < 487)
-                        {
-                            Game.doKick = true;
-                            MouseControl.buttonPressed = false;
-                        }
-                    }
-                }
-                
-                
-                var mx : Float = Game.mouse_x + Game.camera.x;
-                var my : Float = Game.mouse_y + Game.camera.y;
-                
-                var marker : Int = 0;
-                var doaiming : Bool = true;
-                if (runMarkerB != null)
-                {
-                    if (Utils.DistBetweenPoints(mx, my, runMarkerB.xpos, runMarkerB.ypos) < 60)
-                    {
-                        marker = 1;
-                        doaiming = false;
-                    }
-                }
-                if (runMarkerA != null)
-                {
-                    if (Utils.DistBetweenPoints(mx, my, runMarkerA.xpos, runMarkerA.ypos) < 60)
-                    {
-                        marker = 0;
-                        doaiming = false;
-                    }
-                }
-                
-                if (doaiming == false)
-                
-                // on run marker{
-                    
-                    {
-                        Game.ballpath_doit = false;
-                        if (Game.doKick)
-                        {
-                            Game.doKick = false;
-                            if (marker == 0)
-                            {
-                                cast((runMarkerA.xpos), Player_InitRunToMarker);
-                            }
-                            if (marker == 1)
-                            {
-                                cast((runMarkerB.xpos), Player_InitRunToMarker);
-                            }
-                        }
+                        xflip = true;
                     }
                 }
                 else
                 {
-                    Game.ballpath_doit = true;
-                    
-                    if (false == false)
+                    xflip = false;
+                    if ((mx) > xpos)
                     {
-                        xflip = false;
-                        if ((mx) < xpos)
-                        {
-                            xflip = true;
-                        }
+                        xflip = true;
                     }
-                    else
-                    {
-                        xflip = false;
-                        if ((mx) > xpos)
-                        {
-                            xflip = true;
-                        }
-                    }
-                    PlayerUpdateIdleAnim();
+                }
+                PlayerUpdateIdleAnim();
+                
+                
+                var dx : Float;
+                var dy : Float;
+                if (Game.controlMode == 0)
+                {
+                    dx = (mx) - ballGO.xpos;
+                    dy = (my) - ballGO.ypos;
+                }
+                else
+                {
+                    var cx : Float = Defs.displayarea_w / 2;
+                    var cy : Float = Defs.displayarea_h / 2;
                     
+                    dx = cx - Game.mouse_x;
+                    dy = cy - Game.mouse_y;
+                }
+                
+                
+                var kick_dist0 : Float = Vars.GetVarAsNumber("kick_dist0");
+                var kick_dist1 : Float = Vars.GetVarAsNumber("kick_dist1");
+                var kick_power0 : Float = Vars.GetVarAsNumber("kick_power0");
+                var kick_power1 : Float = Vars.GetVarAsNumber("kick_power1");
+                if (ballGO.collisionType == "beachball")
+                {
+                    kick_power0 = Vars.GetVarAsNumber("kick_power0_beachball");
+                    kick_power1 = Vars.GetVarAsNumber("kick_power1_beachball");
+                }
+                
+                if (false)
+                {
+                    kick_dist0 = 30;
+                    kick_dist1 = Defs.displayarea_h2 * 0.4;
+                }
+                
+                
+                var dist : Float = Utils.DistBetweenPoints(0, 0, dx, dy);
+                ballLaunch_dist = dist;
+                var spd : Float = Utils.ScaleToPreLimit(kick_power0, kick_power1, kick_dist0, kick_dist1, dist);
+                
+                ballLaunch_vec.SetFromDxDy(dx, dy);
+                ballLaunch_vec.speed = spd;
+                
+                
+                var path_vec : Vec = new Vec();
+                path_vec.SetFromDxDy(dx, dy);
+                path_vec.speed = Utils.ScaleToPreLimit(Vars.GetVarAsNumber("kick_power0"), Vars.GetVarAsNumber("kick_power1"), kick_dist0, kick_dist1, dist);
+                
+                Game.ballpath_dx = ballLaunch_vec.X();
+                Game.ballpath_dy = ballLaunch_vec.Y();
+                Game.ballpath_mass = ballGO.GetBodyMass(0);
+                
+                
+                DoBallLine(ballGO.xpos, ballGO.ypos, Game.ballpath_dx, Game.ballpath_dy, ballGO);
+                
+                
+                PlayerHeadFollowPoint(Game.mouse_x + Game.camera.x, Game.mouse_y + Game.camera.y);
+                
+                var doKick : Bool = false;
+                
+                if (Game.doKick)
+                {
+                    doKick = true;
+                    Game.doKick = false;
+                }
+                
+                if (doKick)
+                {
+                    SetAnimRangeSingle("kick3");
+                    state = 2;
                     
-                    var dx : Float;
-                    var dy : Float;
                     if (Game.controlMode == 0)
                     {
-                        dx = (mx) - ballGO.xpos;
-                        dy = (my) - ballGO.ypos;
-                    }
-                    else
-                    {
-                        var cx : Float = Defs.displayarea_w / 2;
-                        var cy : Float = Defs.displayarea_h / 2;
-                        
-                        dx = cx - Game.mouse_x;
-                        dy = cy - Game.mouse_y;
-                    }
-                    
-                    
-                    var kick_dist0 : Float = Vars.GetVarAsNumber("kick_dist0");
-                    var kick_dist1 : Float = Vars.GetVarAsNumber("kick_dist1");
-                    var kick_power0 : Float = Vars.GetVarAsNumber("kick_power0");
-                    var kick_power1 : Float = Vars.GetVarAsNumber("kick_power1");
-                    if (ballGO.collisionType == "beachball")
-                    {
-                        kick_power0 = Vars.GetVarAsNumber("kick_power0_beachball");
-                        kick_power1 = Vars.GetVarAsNumber("kick_power1_beachball");
-                    }
-                    
-                    if (false)
-                    {
-                        kick_dist0 = 30;
-                        kick_dist1 = Defs.displayarea_h2 * 0.4;
-                    }
-                    
-                    
-                    var dist : Float = Utils.DistBetweenPoints(0, 0, dx, dy);
-                    ballLaunch_dist = dist;
-                    var spd : Float = Utils.ScaleToPreLimit(kick_power0, kick_power1, kick_dist0, kick_dist1, dist);
-                    
-                    ballLaunch_vec.SetFromDxDy(dx, dy);
-                    ballLaunch_vec.speed = spd;
-                    
-                    
-                    var path_vec : Vec = new Vec();
-                    path_vec.SetFromDxDy(dx, dy);
-                    path_vec.speed = Utils.ScaleToPreLimit(Vars.GetVarAsNumber("kick_power0"), Vars.GetVarAsNumber("kick_power1"), kick_dist0, kick_dist1, dist);
-                    
-                    Game.ballpath_dx = ballLaunch_vec.X();
-                    Game.ballpath_dy = ballLaunch_vec.Y();
-                    Game.ballpath_mass = ballGO.GetBodyMass(0);
-                    
-                    
-                    DoBallLine(ballGO.xpos, ballGO.ypos, Game.ballpath_dx, Game.ballpath_dy, ballGO);
-                    
-                    
-                    PlayerHeadFollowPoint(Game.mouse_x + Game.camera.x, Game.mouse_y + Game.camera.y);
-                    
-                    var doKick : Bool = false;
-                    
-                    if (Game.doKick)
-                    {
-                        doKick = true;
-                        Game.doKick = false;
-                    }
-                    
-                    if (doKick)
-                    {
-                        cast(("kick3"), SetAnimRangeSingle);
-                        state = 2;
-                        
-                        if (Game.controlMode == 0)
-                        {
-                            Game.scrollMode = 0;
-                        }
+                        Game.scrollMode = 0;
                     }
                 }
             }
         }
         else if (state == 2)
-        
-        // kick anim{
-            
+        {
+            var done : Bool = PlayAnimationEx();
+            if (player_currentFootball != null)
             {
-                var done : Bool = PlayAnimationEx();
-                if (player_currentFootball != null)
+                if (dobj.GetLabelAtThisFrame(frame) == "release_ball")
                 {
-                    if (dobj.GetLabelAtThisFrame(frame) == "release_ball")
-                    {
-                        var rand : Int = Utils.RandBetweenInt(1, 2);
-                        cast(("sfx_kick_football" + rand), SFX_OneShot);
-                        
-                        
-                        player_currentFootball.Football_Launch(ballLaunch_vec);
-                        player_currentFootball.football_lastPlayerToHaveBall = this;
-                        
-                        player_currentFootball = null;
-                        GameVars.numKicks++;
-                    }
+                    var rand : Int = Utils.RandBetweenInt(1, 2);
+                    SFX_OneShot("sfx_kick_football" + rand);
+                    
+                    
+                    player_currentFootball.Football_Launch(ballLaunch_vec);
+                    player_currentFootball.football_lastPlayerToHaveBall = this;
+                    
+                    player_currentFootball = null;
+                    GameVars.numKicks++;
                 }
-                if (done)
-                {
-                    PlayerUpdateIdleAnim();
-                    state = 3;
-                }
-                PlayerHeadFollowPoint(ballGO.xpos, ballGO.ypos);
             }
+            if (done)
+            {
+                PlayerUpdateIdleAnim();
+                state = 3;
+            }
+            PlayerHeadFollowPoint(ballGO.xpos, ballGO.ypos);
         }
         else if (state == 3)
-        
-        // has launched{
-            
-            {
-                PlayerFaceToBall();
-                PlayerUpdateIdleAnim();
-                PlayerHeadFollowPoint(ballGO.xpos, ballGO.ypos);
-            }
+        {
+            PlayerFaceToBall();
+            PlayerUpdateIdleAnim();
+            PlayerHeadFollowPoint(ballGO.xpos, ballGO.ypos);
         }
         else if (state == 10)
-        
-        // run to marker, using ToPosX{
+        {
+            var highestY : Float = 99999;
             
+            var r : Ray = new Ray(new Vec2(xpos, ypos - 50), new Vec2(0, 1));
+            r.maxDistance = 100;
+            
+            var filter : InteractionFilter = new InteractionFilter(1, 1, 0, 0, 0, 0);
+            
+            var rr : RayResult = PhysicsBase.GetNapeSpace().rayCast(r, false, filter);
+            if (rr != null)
             {
-                var highestY : Float = 99999;
-                
-                var r : Ray = new Ray(new Vec2(xpos, ypos - 50), new Vec2(0, 1));
-                r.maxDistance = 100;
-                
-                var filter : InteractionFilter = new InteractionFilter(1, 1, 0, 0, 0, 0);
-                
-                var rr : RayResult = PhysicsBase.GetNapeSpace().rayCast(r, false, filter);
-                if (rr != null)
+                var p : Vec2 = r.at(rr.distance);
+                highestY = p.y;
+                ypos = highestY;
+            }
+            
+            var xv : Float = xvel;
+            
+            
+            if (xpos < toPosX)
+            {
+                xflip = false;
+                xpos += xv;
+                if (xpos >= toPosX)
                 {
-                    var p : Vec2 = r.at(rr.distance);
-                    highestY = p.y;
-                    ypos = highestY;
+                    xpos = toPosX;
+                    state = 1;
+                    PlayerStartIdleAnim();
                 }
-                
-                var xv : Float = xvel;
-                
-                
-                if (xpos < toPosX)
+            }
+            else
+            {
+                xflip = true;
+                xpos -= xv;
+                if (xpos <= toPosX)
                 {
-                    xflip = false;
-                    xpos += xv;
-                    if (xpos >= toPosX)
-                    {
-                        xpos = toPosX;
-                        state = 1;
-                        PlayerStartIdleAnim();
-                    }
+                    xpos = toPosX;
+                    state = 1;
+                    PlayerStartIdleAnim();
                 }
-                else
-                {
-                    xflip = true;
-                    xpos -= xv;
-                    if (xpos <= toPosX)
-                    {
-                        xpos = toPosX;
-                        state = 1;
-                        PlayerStartIdleAnim();
-                    }
-                }
-                
-                SetBodyXForm(0, xpos, ypos, 0);
-                CycleAnimationEx();
-                
-                if (player_currentFootball != null)
-                {
-                    player_currentFootball.Football_DribbleWithPlayer();
-                }
+            }
+            
+            SetBodyXForm(0, xpos, ypos, 0);
+            CycleAnimationEx();
+            
+            if (player_currentFootball != null)
+            {
+                player_currentFootball.Football_DribbleWithPlayer();
             }
         }
         else if (state == 20)
-        
-        // celebrate{
-            
+        {
+            if (PlayAnimationEx())
             {
-                if (PlayAnimationEx())
+                if (player_currentFootball == null)
                 {
-                    if (player_currentFootball == null)
-                    {
-                        state = 3;
-                        PlayerStartIdleAnim();
-                    }
-                    else
-                    {
-                        state = 1;
-                        PlayerStartIdleAnim();
-                    }
+                    state = 3;
+                    PlayerStartIdleAnim();
+                }
+                else
+                {
+                    state = 1;
+                    PlayerStartIdleAnim();
                 }
             }
         }
@@ -5161,7 +5216,7 @@ class GameObj extends GameObjBase
     
     private function PlayerStartCelebration()
     {
-        cast(("goal" + Utils.RandBetweenInt(1, 1)), SetAnimRangeSingle);
+        SetAnimRangeSingle("goal" + Utils.RandBetweenInt(1, 1));
         state = 20;
     }
     private var idleTimer : Int = 0;
@@ -5170,7 +5225,7 @@ class GameObj extends GameObjBase
     {
         idleTimer = 0;
         idleState = 0;
-        cast(("idle" + Utils.RandBetweenInt(1, 3)), SetAnimRangeSingle);
+        SetAnimRangeSingle("idle" + Utils.RandBetweenInt(1, 3));
     }
     private function PlayerUpdateIdleAnim()
     {
@@ -5186,7 +5241,7 @@ class GameObj extends GameObjBase
             idleTimer--;
             if (idleTimer <= 0)
             {
-                cast(("idle" + Utils.RandBetweenInt(1, 3)), SetAnimRangeSingle);
+                SetAnimRangeSingle("idle" + Utils.RandBetweenInt(1, 3));
                 idleTimer = Utils.RandBetweenInt(Defs.fps, Defs.fps * 2);
                 idleState = 0;
             }
@@ -5197,6 +5252,7 @@ class GameObj extends GameObjBase
     {
         var head_dx : Float = (x) - xpos;
         var head_dy : Float = (y) - (ypos - 70);
+        
         
         if (xflip)
         {
@@ -5274,6 +5330,7 @@ class GameObj extends GameObjBase
     private function InitPlayer()
     {
         playerHeadToAngle = playerHeadAngle = 0;
+        
         name = "player";
         renderFunction = RenderPlayer;
         updateFunction = UpdatePlayer;
@@ -5301,6 +5358,8 @@ class GameObj extends GameObjBase
         scale = 1;
     }
     
+    
+    
     private function Opponent_KickBall(ok : OppoKick)
     {
         var ballGO : GameObj = GameVars.footballGO;
@@ -5312,13 +5371,13 @@ class GameObj extends GameObjBase
     }
     private function Opponent_InitKick()
     {
-        cast(("kick1"), SetAnimRangeSingle);
+        SetAnimRangeSingle("kick1");
         state = 1;
     }
     
     private function Opponent_InitHeader()
     {
-        cast(("jump_start"), SetAnimRangeSingle);
+        SetAnimRangeSingle("jump_start");
         state = 20;
     }
     
@@ -5326,7 +5385,7 @@ class GameObj extends GameObjBase
     {
         if (state == 0)
         {
-            cast(("conceed"), SetAnimRangeSingle);
+            SetAnimRangeSingle("conceed");
             state = 30;
         }
     }
@@ -5377,32 +5436,28 @@ class GameObj extends GameObjBase
             }
         }
         else if (state == 1)
-        
-        // KICK{
-            
+        {
+            if (PlayAnimationEx())
             {
-                if (PlayAnimationEx())
+                PlayerStartIdleAnim();
+                state = 0;
+            }
+            
+            for (ok/* AS3HX WARNING could not determine type for var: ok exp: EField(EIdent(GameVars),oppo_kick_table) type: null */ in GameVars.oppo_kick_table)
+            {
+                if (as3hx.Compat.parseInt(frame) == ok.frame)
                 {
-                    PlayerStartIdleAnim();
-                    state = 0;
-                }
-                
-                for (ok/* AS3HX WARNING could not determine type for var: ok exp: EField(EIdent(GameVars),oppo_kick_table) type: null */ in GameVars.oppo_kick_table)
-                {
-                    if (frame == ok.frame)
+                    var x : Float = xpos + ok.xoff;
+                    if (xflip)
                     {
-                        var x : Float = xpos + ok.xoff;
-                        if (xflip)
-                        {
-                            x = xpos - ok.xoff;
-                        }
-                        var d : Float = Utils.DistBetweenPoints(x, ypos + ok.yoff, ballGO.xpos, ballGO.ypos);
-                        if (d < 15)
-                        {
-                            Utils.print("kick ball");
-                            cast((ok), Opponent_KickBall);
-                            state = 2;
-                        }
+                        x = xpos - ok.xoff;
+                    }
+                    var d : Float = Utils.DistBetweenPoints(x, ypos + ok.yoff, ballGO.xpos, ballGO.ypos);
+                    if (d < 15)
+                    {
+                        Utils.print("kick ball");
+                        Opponent_KickBall(ok);
+                        state = 2;
                     }
                 }
             }
@@ -5416,35 +5471,28 @@ class GameObj extends GameObjBase
             }
         }
         else if (state == 10)
-        
-        // hit by ball{
+        {
+            PlayerHeadFollowPoint(ballGO.xpos, ballGO.ypos);
+            playerHeadAngle = playerHeadToAngle;
             
+            frameVel = 0.4;
+            if (PlayAnimationEx())
             {
-                PlayerHeadFollowPoint(ballGO.xpos, ballGO.ypos);
-                playerHeadAngle = playerHeadToAngle;
-                frameVel = 0.4;
-                if (PlayAnimationEx())
-                {
-                    frameVel = 0.5;
-                    PlayerStartIdleAnim();
-                    state = 0;
-                }
+                frameVel = 0.5;
+                PlayerStartIdleAnim();
+                state = 0;
             }
         }
         else if (state == 20)
-        
-        // jump for header{
-            
+        {
+            CycleAnimation1();
+            if (PlayAnimationEx())
             {
-                CycleAnimation1();
-                if (PlayAnimationEx())
-                {
-                    cast(("sfx_jump"), SFX_OneShot);
-                    
-                    cast(("jumped"), SetAnimRangeSingle);
-                    state = 21;
-                    yvel = -7;
-                }
+                SFX_OneShot("sfx_jump");
+                
+                SetAnimRangeSingle("jumped");
+                state = 21;
+                yvel = -7;
             }
         }
         else if (state == 21)
@@ -5458,7 +5506,9 @@ class GameObj extends GameObjBase
                 ypos = starty;
                 SetBodyXForm(0, xpos, ypos, 0);
                 yvel = 0;
-                cast(("landing"), SetAnimRangeSingle);
+                
+                
+                SetAnimRangeSingle("landing");
                 state = 22;
             }
             else
@@ -5480,7 +5530,7 @@ class GameObj extends GameObjBase
             if (PlayAnimationEx())
             {
                 state = 31;
-                cast(("conceed_loop"), SetAnimRangeSingle);
+                SetAnimRangeSingle("conceed_loop");
                 timer = Utils.RandBetweenInt(Defs.fps * 1, Defs.fps * 2);
             }
         }
@@ -5494,6 +5544,7 @@ class GameObj extends GameObjBase
                 state = 0;
             }
         }
+        
         if (state == 100)
         {
             for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameVars),jumpMarkers) type: null */ in GameVars.jumpMarkers)
@@ -5556,7 +5607,7 @@ class GameObj extends GameObjBase
                     }
                 }
             }
-            if (cast((true), RaycastBelow) == false)
+            if (RaycastBelow(true) == false)
             {
                 state = 101;
                 yvel = 0;
@@ -5569,7 +5620,7 @@ class GameObj extends GameObjBase
             yvel += GameVars.gravity_GO;
             if (yvel > 0)
             {
-                if (cast((false), RaycastBelow))
+                if (RaycastBelow(false))
                 {
                     state = 100;
                     xvel = 2;
@@ -5593,7 +5644,7 @@ class GameObj extends GameObjBase
         {
             if (state == 0)
             {
-                cast((goHitter), Opponent_InitHitByFootball);
+                Opponent_InitHitByFootball(goHitter);
             }
         }
     }
@@ -5603,15 +5654,15 @@ class GameObj extends GameObjBase
         
         if (dy < 20)
         {
-            cast(("hitLow"), SetAnimRangeSingle);
+            SetAnimRangeSingle("hitLow");
         }
         else if (dy < 55)
         {
-            cast(("hitMid"), SetAnimRangeSingle);
+            SetAnimRangeSingle("hitMid");
         }
         else
         {
-            cast(("hitHigh"), SetAnimRangeSingle);
+            SetAnimRangeSingle("hitHigh");
         }
         state = 10;
     }
@@ -5660,40 +5711,30 @@ class GameObj extends GameObjBase
     {
         var p : Point = GameVars.GetKeeperAction(keeperActionName, keeperActionIndex);
         if (p.x == 0)
-        
-        // stationary{
-            
+        {
+            timer = as3hx.Compat.parseInt(p.y * Defs.fps);
+            if (p.y < 0)
             {
-                timer = as3hx.Compat.parseInt(p.y * Defs.fps);
-                if (p.y < 0)
-                {
-                    timer = 9999999;
-                }
-                timerMax = timer;
-                state = 0;
+                timer = 9999999;
             }
+            timerMax = timer;
+            state = 0;
         }
         else if (p.x == 1)
-        
-        // jump{
-            
-            {
-                cast(("jump"), SetAnimRangeSingle);
-                state = 20;
-            }
+        {
+            SetAnimRangeSingle("jump");
+            state = 20;
         }
         else if (p.x == 2)
-        
-        // crouch{
+        {
+            SetAnimRangeSingle("duck");
+            timer = Utils.RandBetweenInt(100, 100);
+            timerMax = timer;
+            state = 10;
             
-            {
-                cast(("duck"), SetAnimRangeSingle);
-                timer = Utils.RandBetweenInt(100, 100);
-                timerMax = timer;
-                state = 10;
-                SetBodyShapeCollisionMask(0, 2, 0);
-                SetBodyShapeCollisionMask(0, 3, 0);
-            }
+            
+            SetBodyShapeCollisionMask(0, 2, 0);
+            SetBodyShapeCollisionMask(0, 3, 0);
         }
     }
     
@@ -5748,7 +5789,7 @@ class GameObj extends GameObjBase
             
             for (ok/* AS3HX WARNING could not determine type for var: ok exp: EField(EIdent(GameVars),oppo_kick_table) type: null */ in GameVars.oppo_kick_table)
             {
-                if (frame == ok.frame)
+                if (as3hx.Compat.parseInt(frame) == ok.frame)
                 {
                     var x : Float = xpos + ok.xoff;
                     if (xflip)
@@ -5759,7 +5800,7 @@ class GameObj extends GameObjBase
                     if (d < 15)
                     {
                         Utils.print("kick ball");
-                        cast((ok), Opponent_KickBall);
+                        Opponent_KickBall(ok);
                         state = 2;
                     }
                 }
@@ -5774,65 +5815,49 @@ class GameObj extends GameObjBase
             }
         }
         else if (state == 10)
-        
-        // duck{
-            
+        {
+            PlayAnimationEx();
+            timer--;
+            if (timer <= 0)
             {
-                PlayAnimationEx();
-                timer--;
-                if (timer <= 0)
-                {
-                    state = 11;
-                    timer = as3hx.Compat.parseInt(Defs.fps * 2);
-                    cast(("duck_loop"), SetAnimRangeSingle);
-                }
+                state = 11;
+                timer = as3hx.Compat.parseInt(Defs.fps * 2);
+                SetAnimRangeSingle("duck_loop");
             }
         }
         else if (state == 11)
-        
-        // duck loop{
-            
+        {
+            CycleAnimationEx();
+            timer--;
+            if (timer <= 0)
             {
-                CycleAnimationEx();
-                timer--;
-                if (timer <= 0)
-                {
-                    state = 12;
-                    cast(("unduck"), SetAnimRangeSingle);
-                }
+                state = 12;
+                SetAnimRangeSingle("unduck");
             }
         }
         else if (state == 12)
-        
-        // unduck{
-            
+        {
+            if (PlayAnimationEx())
             {
-                if (PlayAnimationEx())
-                {
-                    state = 0;
-                    PlayerStartIdleAnim();
-                    SetBodyShapeCollisionMask(0, 0, 14);
-                    SetBodyShapeCollisionMask(0, 1, 14);
-                    SetBodyShapeCollisionMask(0, 2, 14);
-                    SetBodyShapeCollisionMask(0, 3, 14);
-                    KeeperNextAction();
-                    KeeperStartAction();
-                }
+                state = 0;
+                PlayerStartIdleAnim();
+                SetBodyShapeCollisionMask(0, 0, 14);
+                SetBodyShapeCollisionMask(0, 1, 14);
+                SetBodyShapeCollisionMask(0, 2, 14);
+                SetBodyShapeCollisionMask(0, 3, 14);
+                KeeperNextAction();
+                KeeperStartAction();
             }
         }
         else if (state == 20)
-        
-        // start jump{
-            
+        {
+            PlayAnimationEx();
+            if (dobj.GetLabelAtThisFrame(frame) == "air")
             {
-                PlayAnimationEx();
-                if (dobj.GetLabelAtThisFrame(frame) == "air")
-                {
-                    cast(("sfx_jump"), SFX_OneShot);
-                    
-                    state = 21;
-                    yvel = -7;
-                }
+                SFX_OneShot("sfx_jump");
+                
+                state = 21;
+                yvel = -7;
             }
         }
         else if (state == 21)
@@ -5848,6 +5873,7 @@ class GameObj extends GameObjBase
                 yvel = 0;
                 PlayerStartIdleAnim();
                 var body : Body = nape_bodies[0];
+                
                 KeeperNextAction();
                 KeeperStartAction();
             }
@@ -5876,6 +5902,7 @@ class GameObj extends GameObjBase
         name = "opponent_keeper";
         renderFunction = RenderKeeper;
         updateFunction = UpdateKeeper;
+        
         PlayerStartIdleAnim();
         
         PhysicsSetStationary();
@@ -5895,6 +5922,8 @@ class GameObj extends GameObjBase
         AddHierarchy_Keeper(ct0, ct1, ct0, ct1, team.kitStyle);
         scale = 1;
     }
+    
+    
     
     
     private var patrol_x0 : Float;
@@ -5944,15 +5973,18 @@ class GameObj extends GameObjBase
         InitOpponent();
         state = 100;
         
+        
         onHitFunction = null;
         frameVel = 0.3;
-        cast(("run1"), SetAnimRangeSingle);
+        SetAnimRangeSingle("run1");
         
         patrol_x0 = 0;
         patrol_x1 = 0;
         toPosX = patrol_x1;
         xvel = 2;
     }
+    
+    
     
     private var player_Race : Int;
     private var player_Head : Int;
@@ -6064,6 +6096,10 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
+    
+    
     private function OnHitRef(goHitter : GameObj)
     {
         if (goHitter == null)
@@ -6083,13 +6119,13 @@ class GameObj extends GameObjBase
     private function Ref_HitByFootball()
     {
         state = 1;
-        cast(("redcard"), SetAnimRangeSingle);
+        SetAnimRangeSingle("redcard");
         GameVars.numRefsHit++;
-        animHierarchy.SetPartFrame("lowerArmLeft", 2);  // red card  
-        animHierarchy.SetPartFrame("lowerArmRight", 1);  // whistle  
+        animHierarchy.SetPartFrame("lowerArmLeft", 2);
+        animHierarchy.SetPartFrame("lowerArmRight", 1);
         
         var r : Int = Utils.RandBetweenInt(1, 3);
-        cast(("sfx_refgroan" + r), SFX_OneShot);
+        SFX_OneShot("sfx_refgroan" + r);
         
         SFX_OneShot("sfx_ref_whistle", true, 0.1);
         
@@ -6128,14 +6164,10 @@ class GameObj extends GameObjBase
         var ballGO : GameObj = GameVars.footballGO;
         
         if (state == 0)
-        
-        // initial, waiting for ball{
-            
-            {
-                PlayerFaceToBall();
-                PlayerHeadFollowPoint(ballGO.xpos, ballGO.ypos);
-                PlayerUpdateIdleAnim();
-            }
+        {
+            PlayerFaceToBall();
+            PlayerHeadFollowPoint(ballGO.xpos, ballGO.ypos);
+            PlayerUpdateIdleAnim();
         }
         else if (state == 1)
         {
@@ -6147,14 +6179,14 @@ class GameObj extends GameObjBase
                     go.InitRefPiece();
                 }
                 state = 3;
-                cast((RemovePhysObj), RemoveObject);
+                RemoveObject(RemovePhysObj);
             }
             else
             {
                 playerHeadToAngle = 0;
                 if (PlayAnimationEx())
                 {
-                    cast(("die"), SetAnimRangeSingle);
+                    SetAnimRangeSingle("die");
                     RemovePhysObj();
                     state = 2;
                     yvel = -4;
@@ -6174,6 +6206,7 @@ class GameObj extends GameObjBase
             }
             CycleAnimationEx();
         }
+        
         
         if (state == 100)
         {
@@ -6237,7 +6270,7 @@ class GameObj extends GameObjBase
                     }
                 }
             }
-            if (cast((true), RaycastBelow) == false)
+            if (RaycastBelow(true) == false)
             {
                 state = 101;
                 yvel = 0;
@@ -6250,7 +6283,7 @@ class GameObj extends GameObjBase
             yvel += GameVars.gravity_GO;
             if (yvel > 0)
             {
-                if (cast((false), RaycastBelow))
+                if (RaycastBelow(false))
                 {
                     state = 100;
                     xvel = 2;
@@ -6279,7 +6312,7 @@ class GameObj extends GameObjBase
     {
         idleTimer = 0;
         idleState = 0;
-        cast(("idle" + Utils.RandBetweenInt(1, 3)), SetAnimRangeSingle);
+        SetAnimRangeSingle("idle" + Utils.RandBetweenInt(1, 3));
     }
     private function RefUpdateIdleAnim()
     {
@@ -6295,7 +6328,7 @@ class GameObj extends GameObjBase
             idleTimer--;
             if (idleTimer <= 0)
             {
-                cast(("idle" + Utils.RandBetweenInt(1, 3)), SetAnimRangeSingle);
+                SetAnimRangeSingle("idle" + Utils.RandBetweenInt(1, 3));
                 idleTimer = Utils.RandBetweenInt(Defs.fps, Defs.fps * 2);
                 idleState = 0;
             }
@@ -6309,19 +6342,15 @@ class GameObj extends GameObjBase
         
         playerHeadToAngle = 0;
         if (state == 0)
-        
-        // initial, waiting for ball{
-            
-            {
-                PlayerUpdateIdleAnim();
-            }
+        {
+            PlayerUpdateIdleAnim();
         }
         else if (state == 1)
         {
             playerHeadToAngle = 0;
             if (PlayAnimationEx())
             {
-                cast(("die"), SetAnimRangeSingle);
+                SetAnimRangeSingle("die");
                 RemovePhysObj();
                 state = 2;
                 yvel = -4;
@@ -6351,10 +6380,12 @@ class GameObj extends GameObjBase
     {
         playerHeadToAngle = playerHeadAngle = 0;
         
+        
         name = "ref";
         renderFunction = RenderRef;
         updateFunction = UpdateRef;
         onHitFunction = OnHitRef;
+        
         RefStartIdleAnim();
         
         GameVars.totalRefs++;
@@ -6368,7 +6399,7 @@ class GameObj extends GameObjBase
         InitRef();
         state = 100;
         frameVel = 0.3;
-        cast(("run1"), SetAnimRangeSingle);
+        SetAnimRangeSingle("run1");
         
         patrol_x0 = 0;
         patrol_x1 = 0;
@@ -6388,6 +6419,8 @@ class GameObj extends GameObjBase
         
         animHierarchy.SetPartFrame("head", player_Head);
     }
+    
+    
     
     
     
@@ -6505,13 +6538,13 @@ class GameObj extends GameObjBase
                         }
                         
                         Game.AddScore(200);
-                        cast(("sfx_goal"), SFX_OneShot);
+                        SFX_OneShot("sfx_goal");
                         return;
                     }
                 }
                 else
                 {
-                    cast(("sfx_hit_metal"), SFX_OneShot);
+                    SFX_OneShot("sfx_hit_metal");
                 }
             }
         }
@@ -6522,6 +6555,8 @@ class GameObj extends GameObjBase
         
         onHitFunction = OnHitGoal;
     }
+    
+    
     
     
     private function PhysicsUpdateNull(b : Body)
@@ -6541,42 +6576,41 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
     private function UpdateSpikyBall()
     {
         if (state == 0)
         {
             if (Game.boundingRectangle.contains(xpos, ypos) == false)
             {
-                cast((RemovePhysObj), RemoveObject);
+                RemoveObject(RemovePhysObj);
             }
         }
         else if (state == 200)
-        
-        // in cannon{
-            
+        {
+            visible = true;
+            xpos = football_CannonObj.xpos;
+            ypos = football_CannonObj.ypos;
+            PhysicsSetStationary();
+            timer--;
+            if (timer <= 0)
             {
+                updateFromPhysicsFunction = null;
+                
+                ballLaunch_vec.SetAng(football_CannonObj.dir - (Math.PI / 2));
+                ballLaunch_vec.speed = Vars.GetVarAsNumber("cannonLaunchForce");
+                
+                ballLaunch_vec.speed *= GetBodyMass(0);
+                
+                
+                timer = timerMax = Defs.fps * 3;
+                
+                
+                football_CannonObj.Cannon_Fired();
                 visible = true;
-                xpos = football_CannonObj.xpos;
-                ypos = football_CannonObj.ypos;
-                PhysicsSetStationary();
-                timer--;
-                if (timer <= 0)
-                {
-                    updateFromPhysicsFunction = null;
-                    
-                    ballLaunch_vec.SetAng(football_CannonObj.dir - (Math.PI / 2));
-                    ballLaunch_vec.speed = Vars.GetVarAsNumber("cannonLaunchForce");
-                    
-                    ballLaunch_vec.speed *= cast((0), GetBodyMass);
-                    
-                    timer = timerMax = Defs.fps * 3;
-                    
-                    
-                    football_CannonObj.Cannon_Fired();
-                    visible = true;
-                    
-                    cast((ballLaunch_vec), Football_Launch);
-                }
+                
+                Football_Launch(ballLaunch_vec);
             }
         }
     }
@@ -6587,6 +6621,8 @@ class GameObj extends GameObjBase
         updateFunction = UpdateSpikyBall;
         name = "spikyball";
     }
+    
+    
     
     
     private function OnHitBurstableBall(goHitter : GameObj)
@@ -6614,9 +6650,9 @@ class GameObj extends GameObjBase
             
             GOHelpers.DoExplosion(this, xpos, ypos, 200, force);
             
-            cast(("sfx_pop"), SFX_OneShot);
+            SFX_OneShot("sfx_pop");
             
-            cast((RemovePhysObj), RemoveObject);
+            RemoveObject(RemovePhysObj);
         }
     }
     private function InitBurstableBall()
@@ -6625,6 +6661,9 @@ class GameObj extends GameObjBase
         name = "burstable";
         onHitFunction = OnHitBurstableBall;
     }
+    
+    
+    
     
     
     private function InitRunMarker()
@@ -6658,13 +6697,15 @@ class GameObj extends GameObjBase
     }
     
     
+    
+    
     private function UpdateCloud()
     {
         var fov : Float = 100;
         
-        var fl : Float = 1.0;  // focal length  
+        var fl : Float = 1.0;
         
-        var z1 : Float = zpos;  // (z - camZ);  
+        var z1 : Float = zpos;
         var sc : Float = fl / (fl + z1);
         sc *= fov;
         
@@ -6690,7 +6731,7 @@ class GameObj extends GameObjBase
     }
     private function RenderCloud()
     {
-        cast((false), RenderDispObjNormally);
+        RenderDispObjNormally(false);
     }
     private function InitCloud()
     {
@@ -6726,6 +6767,8 @@ class GameObj extends GameObjBase
         
         xvel = Utils.RandBetweenFloat(1, 2);
     }
+    
+    
     
     
     private function SwitchedCog()
@@ -6765,6 +6808,9 @@ class GameObj extends GameObjBase
         switchFlag = false;
         state = 1;
     }
+    
+    
+    
     
     
     
@@ -6850,6 +6896,7 @@ class GameObj extends GameObjBase
     
     
     
+    
     private function FootballGenerateSparkle()
     {
         for (i in 0...1)
@@ -6875,7 +6922,7 @@ class GameObj extends GameObjBase
         }
         if (goHitter.collisionType == "football" || goHitter.collisionType == "beachball")
         {
-            cast((RemovePhysObj), RemoveObject);
+            RemoveObject(RemovePhysObj);
             BirdGenerateFeathers();
         }
     }
@@ -6907,11 +6954,11 @@ class GameObj extends GameObjBase
                     timer = as3hx.Compat.parseInt(300 * 4);
                     if (Utils.RandBool())
                     {
-                        cast(("sfx_bird_squalk"), SFX_OneShot);
+                        SFX_OneShot("sfx_bird_squalk");
                     }
                     else
                     {
-                        cast(("sfx_bird_flyoff"), SFX_OneShot);
+                        SFX_OneShot("sfx_bird_flyoff");
                     }
                 }
             }
@@ -6919,7 +6966,7 @@ class GameObj extends GameObjBase
             if (timer <= 0)
             {
                 state = Utils.RandBetweenInt(0, 1);
-                cast(("flap" + as3hx.Compat.parseInt(state + 1)), SetAnimRangeSingle);
+                SetAnimRangeSingle("flap" + as3hx.Compat.parseInt(state + 1));
                 timer = as3hx.Compat.parseInt(Utils.RandBetweenInt(10, 50) * 4);
             }
         }
@@ -6933,7 +6980,7 @@ class GameObj extends GameObjBase
             timer--;
             if (timer <= 0)
             {
-                cast((RemovePhysObj), RemoveObject);
+                RemoveObject(RemovePhysObj);
             }
             SetBodyXForm_Immediate(0, xpos, ypos, 0);
         }
@@ -6951,11 +6998,13 @@ class GameObj extends GameObjBase
         timer = Utils.RandBetweenInt(30, 50);
         state = Utils.RandBetweenInt(0, 1);
         timer1 = 0;
-        cast(("flap1"), SetAnimRangeSingle);
+        SetAnimRangeSingle("flap1");
         birdWatchDist2 = Utils.RandBetweenFloat(100, 100);
         birdWatchDist2 *= birdWatchDist2;
         frameVel = 0.25;
     }
+    
+    
     
     
     private function UpdateSmokePuff()
@@ -6976,6 +7025,10 @@ class GameObj extends GameObjBase
         dobj = GraphicObjects.GetDisplayObjByName("fx_smoke");
         frame = 0;
     }
+    
+    
+    
+    
     
     
     
@@ -7023,6 +7076,7 @@ class GameObj extends GameObjBase
         name = "ballboy";
         renderFunction = RenderOpponent;
         state = 0;
+        
         onHitFunction = OnHitBallboy;
         PlayerStartIdleAnim();
         
@@ -7045,10 +7099,14 @@ class GameObj extends GameObjBase
     
     
     
+    
+    
+    
+    
     private function UpdateAnimatedWhenMoving()
     {
         CycleAnimation();
-        var v : Float = cast((0), GetBodyLinearVelocity).length;
+        var v : Float = GetBodyLinearVelocity(0).length;
         
         frameVel = Utils.ScaleToPreLimit(0, 2, 0, 100, v);
     }
@@ -7059,6 +7117,7 @@ class GameObj extends GameObjBase
     }
     
     
+    
     private function AddDummyBall()
     {
     }
@@ -7067,9 +7126,9 @@ class GameObj extends GameObjBase
     {  /*
 			PhysicsBase.SetCurrentSpace(1);
 			var b:Body = new Body();
-			
+
 			var body:PhysObjBody = ballGO.physobj.bodies[0];
-			
+
 			for each(var shape:PhysObjShape in body.shapes)
 			{
 				var physMaterial:PhysObjMaterial = Game.GetPhysMaterialByName(shape.materialName);
@@ -7077,34 +7136,36 @@ class GameObj extends GameObjBase
 				{
 					var circle_pos:Vec2 = new Vec2(shape.circle_pos.x * scale, shape.circle_pos.y * scale);
 					var nape_circle:Circle = new Circle(shape.circle_radius, circle_pos);
-					
-					
+
+
 					nape_circle.material = physMaterial.MakeNapeMaterial();
 					var interactionFilter:InteractionFilter = new InteractionFilter(4,0,4,0,4,0);
 
 					nape_circle.filter = interactionFilter;
-					
+
 					nape_circle.sensorEnabled = false;
 					b.shapes.add(nape_circle);
-				}	
+				}
 			}
-			
+
 			b.type = BodyType.DYNAMIC;
 			b.angularVel = 0;
 			b.velocity.setxy(0, 0);
 			b.position.setxy(x, y);
 			b.applyImpulse(new Vec2(dx, dy));
-			
+
 			PhysicsBase.GetNapeSpace().bodies.add(b);
-			
+
+
 			for (var i:int = 0; i < 120; i++)
 			{
 				PhysicsBase.TimeStep();
 				var p:Point = new Point(b.position.x, b.position.y);
-				
+
+
 			}
-			
-			
+
+
 			PhysicsBase.GetNapeSpace().bodies.remove(b);
 			PhysicsBase.SetCurrentSpace(0);
 			*/  
@@ -7115,94 +7176,6 @@ class GameObj extends GameObjBase
     {
         super();
     }
-    private static var GameObj_static_initializer = {
-        if (false)
-        {
-            function RenderPhysicsLineObject_Movable_Stage3D()
-            {
-                if (GameVars.renderDebugMode == 3)
-                {
-                    return;
-                }
-                
-                if (linkedPhysLine.triangleList == null)
-                {
-                    return;
-                }
-                
-                var x : Float = Math.round(xpos);
-                var y : Float = Math.round(ypos);
-                x = Math.round(Game.camera.x);
-                y = Math.round(Game.camera.y);
-                
-                if (s3dTriListIndex != -1)
-                {
-                    var cx : Int = Game.camera.x;
-                    var cy : Int = Game.camera.y;
-                    
-                    if (cx + Defs.displayarea_w < linkedPhysLine.boundingRectangle.left)
-                    {
-                        return;
-                    }
-                    if (cy + Defs.displayarea_h < linkedPhysLine.boundingRectangle.top)
-                    {
-                        return;
-                    }
-                    if (cx > linkedPhysLine.boundingRectangle.right)
-                    {
-                        return;
-                    }
-                    if (cy > linkedPhysLine.boundingRectangle.bottom)
-                    {
-                        return;
-                    }
-                    
-                    m3d.identity();
-                    m3d.appendTranslation(-x, -y, 0);
-                    var triList : S3dTriList = s3d.triangleLists[s3dTriListIndex];
-                    s3d.RenderTriangleList(m3d, dobj.GetTexture(frame), triList.indices, triList.vertices, triList.vertices_extra);
-                    return;
-                }
-                
-                linkedPhysLine.CalcBoundingRectangle();
-                
-                s3dTriListIndex = s3d.MakeIndieTriangleList(linkedPhysLine.triangleList, linkedPhysLine.uvList);
-                return;
-                
-                
-                var t : Array<Dynamic> = linkedPhysLine.triangleList;
-                var uvs : Array<Dynamic> = linkedPhysLine.uvList;
-                
-                var numTris : Int = as3hx.Compat.parseInt(t.length / 3);
-                
-                for (i in 0...numTris)
-                {
-                    var i3 : Int = as3hx.Compat.parseInt(i * 3);
-                    
-                    var x0 : Float = t[i3 + 0].x - x;
-                    var x1 : Float = t[i3 + 1].x - x;
-                    var x2 : Float = t[i3 + 2].x - x;
-                    var y0 : Float = t[i3 + 0].y - y;
-                    var y1 : Float = t[i3 + 1].y - y;
-                    var y2 : Float = t[i3 + 2].y - y;
-                    
-                    var uv0 : Point = uvs[i3 + 0];
-                    var uv1 : Point = uvs[i3 + 1];
-                    var uv2 : Point = uvs[i3 + 2];
-                    
-                    var uvscale : Float = 0.2;
-                    
-                    s3d.RenderTriangle(dobj.GetTexture(0), 
-                            x0, y0, 1, uv0.x * uvscale, uv0.y * uvscale, 
-                            x1, y1, 1, uv1.x * uvscale, uv1.y * uvscale, 
-                            x2, y2, 1, uv2.x * uvscale, uv2.y * uvscale
-                );
-                }
-            };
-        };
-        true;
-    }
-
 }
 
 

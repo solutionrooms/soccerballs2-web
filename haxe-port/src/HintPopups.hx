@@ -4,7 +4,7 @@ import uIPackage.UI;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class HintPopups
 {
@@ -122,7 +122,7 @@ class HintPopups
         if (popup.active == false)
         {
             popup.active = true;
-            popup.mc = new MovieClip();  // HintPopupMC();  
+            popup.mc = new MovieClip();
             UI.AddAnimatedMCButton(popup.mc.inner.buttonNoMore, buttonNoMorePressed);
             popup.mc.inner.hint_text.text = popup.text;
             Game.main.addChild(popup.mc);
@@ -182,4 +182,5 @@ class HintPopups
         }
     }
 }
+
 

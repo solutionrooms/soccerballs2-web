@@ -2,7 +2,7 @@ import flash.geom.Rectangle;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class TexturePageNode
 {
@@ -43,18 +43,15 @@ class TexturePageNode
     public function Insert(dof : DisplayObjFrame) : TexturePageNode
     {
         if (child[0] != null && child[1] != null)
-        
-        // isn't leaf{
-            
+        {
+            var newNode : TexturePageNode = child[0].Insert(dof);
+            if (newNode != null)
             {
-                var newNode : TexturePageNode = child[0].Insert(dof);
-                if (newNode != null)
-                {
-                    return newNode;
-                }
-                
-                return child[1].Insert(dof);
+                return newNode;
             }
+            
+            
+            return child[1].Insert(dof);
         }
         else
         {
@@ -63,12 +60,14 @@ class TexturePageNode
                 return null;
             }
             
-            if (cast((dof), DofFitsIntoRect) == false)
+            
+            if (DofFitsIntoRect(dof) == false)
             {
                 return null;
             }
             
-            if (cast((dof), DofFitsIntoRectPerfectly))
+            
+            if (DofFitsIntoRectPerfectly(dof))
             {
                 dof.sourceRect.copyFrom(rect);
                 theDof = dof;
@@ -79,8 +78,10 @@ class TexturePageNode
                 return this;
             }
             
+            
             child[0] = new TexturePageNode();
             child[1] = new TexturePageNode();
+            
             
             var bw : Int = dof.bitmapData.width;
             var bh : Int = dof.bitmapData.height;
@@ -102,4 +103,5 @@ class TexturePageNode
         }
     }
 }
+
 

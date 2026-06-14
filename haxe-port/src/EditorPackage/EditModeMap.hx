@@ -88,7 +88,7 @@ class EditModeMap extends EditModeBase
     override public function OnMouseDown(e : MouseEvent) : Void
     {
         super.OnMouseDown(e);
-        cast((mapper_currentCell), Mapper_PlotCell);
+        Mapper_PlotCell(mapper_currentCell);
     }
     override public function OnMouseUp(e : MouseEvent) : Void
     {
@@ -112,7 +112,7 @@ class EditModeMap extends EditModeBase
         super.Update();
         if (KeyReader.Down(KeyReader.KEY_1) == true)
         {
-            cast((0), Mapper_PlotCell);
+            Mapper_PlotCell(0);
         }
         if (KeyReader.Pressed(KeyReader.KEY_2) == true)
         {
@@ -124,7 +124,7 @@ class EditModeMap extends EditModeBase
         }
         if (KeyReader.Pressed(KeyReader.KEY_4) == true)
         {
-            cast((mapper_currentCell), Mapper_Fill);
+            Mapper_Fill(mapper_currentCell);
         }
         if (KeyReader.Pressed(KeyReader.KEY_5) == true)
         {
@@ -174,6 +174,9 @@ class EditModeMap extends EditModeBase
     
     
     
+    
+    
+    
     private function mapper_ExpandMap(mx : Int, my : Int)
     {
         var newMap : Array<Dynamic>;
@@ -208,6 +211,9 @@ class EditModeMap extends EditModeBase
         
         offsetX = as3hx.Compat.parseInt(newMinX - l.mapMinX);
         offsetY = as3hx.Compat.parseInt(newMinY - l.mapMinY);
+        
+        
+        
         
         
         var i : Int;
@@ -347,10 +353,12 @@ class EditModeMap extends EditModeBase
             return;
         }
         
+        
         var oldW : Int = as3hx.Compat.parseInt((l.mapMaxX - l.mapMinX) + 1);
         mx -= l.mapMinX;
         my -= l.mapMinY;
         var cell : Int = l.map[mx + (my * oldW)];
+        
         
         
         if (cell != fillOrigCell)
@@ -486,4 +494,5 @@ class EditModeMap extends EditModeBase
         }
     }
 }
+
 

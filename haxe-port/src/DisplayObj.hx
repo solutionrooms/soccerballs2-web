@@ -116,7 +116,7 @@ class DisplayObj
             
             rect = t.getBounds(null);
             mat.identity();
-            mat.translate(-rect.x, -rect.y);  // to centre of bitmap (bitmap is w & h * 2)  
+            mat.translate(-rect.x, -rect.y);
             
             dof.xoffset = 0;
             dof.yoffset = 0;
@@ -132,22 +132,7 @@ class DisplayObj
             
             frames.push(dof);
             
-            if (false)
-            {
-                var w : Int = cast((rect.width), NearestSuperiorPow2);
-                var h : Int = cast((rect.height), NearestSuperiorPow2);
-                dof.s3dTexture = s3d.context3D.createTexture(w, h, Context3DTextureFormat.BGRA, true);
-                dof.s3dTexture.uploadFromBitmapData(BD);
-                
-                
-                
-                dof.u0 = 0;
-                dof.v0 = 0;
-                dof.u1 = 1 / w * rect.width;
-                dof.v1 = 1 / h * rect.height;
-                
-                dof.MakeVertexBuffer();
-            }
+            
             
             
             
@@ -159,12 +144,8 @@ class DisplayObj
     {
         var scl : Float = 1;
         
-        if (false)
-        {
-            if (Game.use_texturepages)
-            {
-            }
-        }
+        
+        
         
         
         frames = new Array<DisplayObjFrame>();
@@ -204,6 +185,10 @@ class DisplayObj
             
             rect = mc.getBounds(null);
             
+            
+            
+            
+            
             rect.x = (rect.x * scale);
             rect.y = (rect.y * scale);
             rect.width = (rect.width * scale);
@@ -222,72 +207,27 @@ class DisplayObj
             mat.identity();
             mat.scale(scale, scale);
             mat.translate(-x0, -y0);
-            dof.xoffset = x0;
-            dof.yoffset = y0;
+            dof.xoffset = as3hx.Compat.parseFloat(x0);
+            dof.yoffset = as3hx.Compat.parseFloat(y0);
             
             if (mc.width != 0 && mc.height != 0)
             {
                 if (Game.use_texturepages == false || flags == "separatetexturepage")
                 {
-                    BD = new BitmapData((rect.width), (rect.height), true, 0);  // scaled (if necessary) original bitmap  
+                    BD = new BitmapData((rect.width), (rect.height), true, 0);
                     BD.draw(mc, mat, null, null, null, false);
                     
                     dof.bitmapData = BD;
-                    dof.sourceRect = new Rectangle(0, 0, rect.width, rect.height);  // actual render size  
-                    
-                    if (false)
-                    {
-                        if (true)
-                        
-                        //s3d.context3D != null){
-                            
-                            {
-                                var w : Int = cast((rect.width), NearestSuperiorPow2);
-                                var h : Int = cast((rect.height), NearestSuperiorPow2);
-                                
-                                var mul : Float = 1;
-                                
-                                w *= as3hx.Compat.parseInt(mul);
-                                h *= as3hx.Compat.parseInt(mul);
-                                
-                                
-                                if (mul != 1)
-                                {
-                                    var scaleM : Matrix = new Matrix();
-                                    scaleM.scale(mul, mul);
-                                    var bd2 : BitmapData = new BitmapData(w, h, true, 0);
-                                    bd2.draw(BD, scaleM);
-                                    dof.s3dTexture = s3d.context3D.createTexture(w, h, Context3DTextureFormat.BGRA, true);
-                                    dof.s3dTexture.uploadFromBitmapData(bd2);
-                                    bd2.dispose();
-                                    bd2 = null;
-                                }
-                                else
-                                {
-                                    dof.s3dTexture = s3d.context3D.createTexture(w, h, Context3DTextureFormat.BGRA, true);
-                                    dof.s3dTexture.uploadFromBitmapData(BD);
-                                }
-                                
-                                
-                                
-                                dof.u0 = 0;
-                                dof.v0 = 0;
-                                dof.u1 = 1 / w * rect.width * mul;
-                                dof.v1 = 1 / h * rect.height * mul;
-                                
-                                dof.MakeVertexBuffer();
-                            }
-                        }
-                    }
+                    dof.sourceRect = new Rectangle(0, 0, rect.width, rect.height);
                 }
                 else
                 {
                     mat.scale(scl, scl);
-                    BD = new BitmapData((rect.width * scl), (rect.height * scl), true, 0);  // scaled (if necessary) original bitmap  
+                    BD = new BitmapData((rect.width * scl), (rect.height * scl), true, 0);
                     BD.draw(mc, mat, null, null, null, false);
                     
                     dof.bitmapData = BD;
-                    dof.sourceRect = new Rectangle(0, 0, rect.width, rect.height);  // actual render size  
+                    dof.sourceRect = new Rectangle(0, 0, rect.width, rect.height);
                     
                     dof.MakeVertexBuffer();
                 }
@@ -379,8 +319,8 @@ class DisplayObj
             y0 = rect.top;
             mat.identity();
             mat.translate(-x0, -y0);
-            dof.xoffset = x0;
-            dof.yoffset = y0;
+            dof.xoffset = as3hx.Compat.parseFloat(x0);
+            dof.yoffset = as3hx.Compat.parseFloat(y0);
             
             
             if (mc.width != 0 && mc.height != 0)
@@ -436,8 +376,8 @@ class DisplayObj
         y0 = rect.top;
         mat.identity();
         mat.translate(-x0, -y0);
-        dof.xoffset = x0;
-        dof.yoffset = y0;
+        dof.xoffset = as3hx.Compat.parseFloat(x0);
+        dof.yoffset = as3hx.Compat.parseFloat(y0);
         
         
         if (origMC.width != 0 && origMC.height != 0)
@@ -657,18 +597,6 @@ class DisplayObj
             frame = as3hx.Compat.parseInt(frames.length - 1);
         }
     }
-    private static var DisplayObj_static_initializer = {
-        if (false)
-        {
-            public;function GetTexture(_frame : Int) : Texture
-            {
-                var dof : DisplayObjFrame = frames[_frame];
-                return dof.s3dTexture;
-            };
-        };
-        true;
-    }
-
 }
 
 

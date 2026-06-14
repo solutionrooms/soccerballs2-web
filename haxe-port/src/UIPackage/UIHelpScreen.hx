@@ -31,7 +31,7 @@ class UIHelpScreen extends UIScreenInstance
     private static function InitHelp_Update()
     {
         titleMC.gotoAndStop(helpPage + 1);
-        titleMC.textPage.text = as3hx.Compat.parseInt(helpPage + 1) + "/" + numHelpPages;
+        titleMC.textPage.text = as3hx.Compat.parseInt(helpPage + 1) + "/" + as3hx.Compat.parseInt(numHelpPages);
         
         titleMC.buttonPrev.visible = true;
         if (helpPage == 0)
@@ -59,8 +59,9 @@ class UIHelpScreen extends UIScreenInstance
     }
     public static function OKPressed(e : MouseEvent)
     {
-        cast((helpMC), RemoveScreen);
+        RemoveScreen(helpMC);
         Game.pause = false;
     }
 }
+
 

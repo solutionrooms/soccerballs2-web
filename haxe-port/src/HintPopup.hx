@@ -2,7 +2,7 @@ import flash.display.MovieClip;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class HintPopup
 {
@@ -28,4 +28,5 @@ class HintPopup
         return clone;
     }
 }
+
 

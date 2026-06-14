@@ -138,13 +138,14 @@ class Vec
         
         if (d1 < 0)
         {
-            cast((rv), AddRot);
+            AddRot(rv);
         }
         else
         {
-            cast((-rv), AddRot);
+            AddRot(-rv);
         }
         return false;
     }
 }
+
 

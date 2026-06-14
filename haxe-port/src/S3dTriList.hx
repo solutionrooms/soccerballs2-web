@@ -1,7 +1,7 @@
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class S3dTriList
 {
@@ -19,4 +19,5 @@ class S3dTriList
         vertices_extra = new Array<Float>();
     }
 }
+
 

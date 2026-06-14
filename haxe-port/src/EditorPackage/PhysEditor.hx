@@ -43,18 +43,18 @@ class PhysEditor
     }
     
     
-    public static inline var editMode_Placement : Int = 0;  // done  
-    public static inline var editMode_Library : Int = 1;  // done  
+    public static inline var editMode_Placement : Int = 0;
+    public static inline var editMode_Library : Int = 1;
     public static inline var editMode_Commands1 : Int = 4;
     public static inline var editMode_Adjust : Int = 5;
-    public static inline var editMode_Lines : Int = 6;  // done  
+    public static inline var editMode_Lines : Int = 6;
     public static inline var editMode_Joints : Int = 7;
     public static inline var editMode_GridCommands : Int = 8;
-    public static inline var editMode_ObjCol : Int = 9;  //done  
-    public static inline var editMode_Map : Int = 10;  // done  
-    public static inline var editMode_PickPieceForLink : Int = 11;  // done  
-    public static inline var editMode_PickLineForLink : Int = 12;  // done  
-    public static inline var editMode_Multi : Int = 13;  // done  
+    public static inline var editMode_ObjCol : Int = 9;
+    public static inline var editMode_Map : Int = 10;
+    public static inline var editMode_PickPieceForLink : Int = 11;
+    public static inline var editMode_PickLineForLink : Int = 12;
+    public static inline var editMode_Multi : Int = 13;
     
     
     public static var currentLevel : Int = 0;
@@ -231,7 +231,7 @@ class PhysEditor
         CursorText_Init();
         CursorText_Hide();
         
-        cast((editMode), SetEditMode);
+        SetEditMode(editMode);
     }
     
     private static var layersMC : MovieClip;
@@ -335,6 +335,12 @@ class PhysEditor
     
     
     
+    
+    
+    
+    
+    
+    
     private static function GetInstanceById(id : String) : EdObj
     {
         var level_instances : Array<Dynamic> = GetCurrentLevelInstances();
@@ -405,11 +411,11 @@ class PhysEditor
     {
         var piece : Dynamic = {};
         piece.id = id;
-        piece.rot = rot;
-        piece.xoff = xoff;
-        piece.yoff = yoff;
-        piece.origx = _origX;
-        piece.origy = _origY;
+        piece.rot = as3hx.Compat.parseFloat(rot);
+        piece.xoff = as3hx.Compat.parseFloat(xoff);
+        piece.yoff = as3hx.Compat.parseFloat(yoff);
+        piece.origx = as3hx.Compat.parseFloat(_origX);
+        piece.origy = as3hx.Compat.parseFloat(_origY);
         piece.scale = 1;
         piece.initParams = _initParams;
         currentPieceList.push(piece);
@@ -450,8 +456,8 @@ class PhysEditor
         {
             mx = Math.floor(mx);
             my = Math.floor(my);
-            mx = as3hx.Compat.parseInt(as3hx.Compat.parseInt(mx / gridsnap) * gridsnap);
-            my = as3hx.Compat.parseInt(as3hx.Compat.parseInt(my / gridsnap) * gridsnap);
+            mx = as3hx.Compat.parseInt(as3hx.Compat.parseInt(mx / gridsnap) * as3hx.Compat.parseInt(gridsnap));
+            my = as3hx.Compat.parseInt(as3hx.Compat.parseInt(my / gridsnap) * as3hx.Compat.parseInt(gridsnap));
         }
         
         var sx : Float = scrollX;
@@ -460,8 +466,8 @@ class PhysEditor
         {
             sx = Math.floor(sx);
             sy = Math.floor(sy);
-            sx = as3hx.Compat.parseInt(sx / gridsnap) * gridsnap;
-            sy = as3hx.Compat.parseInt(sy / gridsnap) * gridsnap;
+            sx = as3hx.Compat.parseInt(sx / gridsnap) * as3hx.Compat.parseInt(gridsnap);
+            sy = as3hx.Compat.parseInt(sy / gridsnap) * as3hx.Compat.parseInt(gridsnap);
         }
         
         var mxs : Int = as3hx.Compat.parseInt(mx + sx);
@@ -493,23 +499,25 @@ class PhysEditor
         
         if (KeyReader.Pressed(KeyReader.KEY_F1))
         {
-            cast((editMode_Multi), SetEditMode);
+            SetEditMode(editMode_Multi);
         }
         if (KeyReader.Pressed(KeyReader.KEY_F2))
         {
-            cast((editMode_Library), SetEditMode);
+            SetEditMode(editMode_Library);
         }
+        
+        
         if (KeyReader.Pressed(KeyReader.KEY_F5))
         {
-            cast((editMode_Adjust), SetEditMode);
+            SetEditMode(editMode_Adjust);
         }
         if (KeyReader.Pressed(KeyReader.KEY_F6))
         {
-            cast((editMode_Lines), SetEditMode);
+            SetEditMode(editMode_Lines);
         }
         if (KeyReader.Pressed(KeyReader.KEY_F7))
         {
-            cast((editMode_Joints), SetEditMode);
+            SetEditMode(editMode_Joints);
         }
         
         if (KeyReader.Pressed(KeyReader.KEY_F8))
@@ -574,75 +582,65 @@ class PhysEditor
         
         
         if (editMode == editMode_Commands1)
-        
-        // commands{
-            
+        {
+            if (KeyReader.Pressed(KeyReader.KEY_9))
             {
+                var sss : String = ExportLevelAsXml();
+                ExternalData.OutputString(sss);
                 
-                if (KeyReader.Pressed(KeyReader.KEY_9))
-                {
-                    var sss : String = ExportLevelAsXml();
-                    ExternalData.OutputString(sss);
-                    
-                    CloseEditor();
-                    Game.StartLevel();
-                    return;
-                }
-                if (KeyReader.Pressed(KeyReader.KEY_4))
-                {
-                    KeyReader.ClearKey(KeyReader.KEY_4);
-                    var sss : String = ExportLevelAsXml();
-                    ExternalData.OutputString(sss);
-                    
-                    cast((prevEditMode), SetEditMode);
-                    return;
-                }
-                if (KeyReader.Pressed(KeyReader.KEY_5))
-                {
-                    KeyReader.ClearKey(KeyReader.KEY_5);
-                    ExportAllLevelsAsXml();
-                    cast((prevEditMode), SetEditMode);
-                    return;
-                }
-                
+                CloseEditor();
+                Game.StartLevel();
                 return;
             }
+            if (KeyReader.Pressed(KeyReader.KEY_4))
+            {
+                KeyReader.ClearKey(KeyReader.KEY_4);
+                var sss : String = ExportLevelAsXml();
+                ExternalData.OutputString(sss);
+                
+                SetEditMode(prevEditMode);
+                return;
+            }
+            if (KeyReader.Pressed(KeyReader.KEY_5))
+            {
+                KeyReader.ClearKey(KeyReader.KEY_5);
+                ExportAllLevelsAsXml();
+                SetEditMode(prevEditMode);
+                return;
+            }
+            
+            return;
         }
         if (editMode == editMode_GridCommands)
-        
-        // commands{
-            
+        {
+            if (KeyReader.Pressed(KeyReader.KEY_1))
             {
-                
-                if (KeyReader.Pressed(KeyReader.KEY_1))
-                {
-                    gridMode_active = gridMode_active == false;
-                }
-                if (KeyReader.Pressed(KeyReader.KEY_2))
-                {
-                    gridMode_renderGrid = gridMode_renderGrid == false;
-                }
-                if (KeyReader.Pressed(KeyReader.KEY_3))
-                {
-                    objectZSortMode = objectZSortMode == false;
-                }
-                if (KeyReader.Pressed(KeyReader.KEY_4))
-                {
-                    renderMiniMap = (renderMiniMap == false);
-                }
-                if (KeyReader.Pressed(KeyReader.KEY_5))
-                {
-                    renderObjects = (renderObjects == false);
-                }
-                
-                if (KeyReader.Pressed(KeyReader.KEY_SPACE))
-                {
-                    cast((prevEditMode), SetEditMode);
-                }
-                
-                
-                return;
+                gridMode_active = gridMode_active == false;
             }
+            if (KeyReader.Pressed(KeyReader.KEY_2))
+            {
+                gridMode_renderGrid = gridMode_renderGrid == false;
+            }
+            if (KeyReader.Pressed(KeyReader.KEY_3))
+            {
+                objectZSortMode = objectZSortMode == false;
+            }
+            if (KeyReader.Pressed(KeyReader.KEY_4))
+            {
+                renderMiniMap = (renderMiniMap == false);
+            }
+            if (KeyReader.Pressed(KeyReader.KEY_5))
+            {
+                renderObjects = (renderObjects == false);
+            }
+            
+            if (KeyReader.Pressed(KeyReader.KEY_SPACE))
+            {
+                SetEditMode(prevEditMode);
+            }
+            
+            
+            return;
         }
         
         if (KeyReader.Pressed(KeyReader.KEY_U))
@@ -794,6 +792,7 @@ class PhysEditor
         
         
         
+        
         infoMC.addChild(tf);
         return as3hx.Compat.parseInt(tf.height - 6);
     }
@@ -919,7 +918,7 @@ class PhysEditor
             {
                 s += Utils.RandBetweenInt(0, 9);
             }
-            unique = cast((s), CheckIDForUniqueness);
+            unique = CheckIDForUniqueness(s);
         }
         while ((unique == false));
         
@@ -961,7 +960,7 @@ class PhysEditor
         {
             return;
         }
-        cast((editMode_PickPieceForLink), SetEditMode);
+        SetEditMode(editMode_PickPieceForLink);
     }
     private static function CurrentAdjustObject_ParameterPickLineLink()
     {
@@ -980,7 +979,7 @@ class PhysEditor
         {
             return;
         }
-        cast((editMode_PickLineForLink), SetEditMode);
+        SetEditMode(editMode_PickLineForLink);
     }
     
     
@@ -1083,9 +1082,10 @@ class PhysEditor
         {
             if (AddTextEntry_Callback != null)
             {
-                cast((tf.text), AddTextEntry_Callback);
+                AddTextEntry_Callback(tf.text);
             }
             isEntering = false;
+            
             
             Game.main.stage.focus = null;
             tf.parent.removeChild(tf);
@@ -1096,6 +1096,7 @@ class PhysEditor
         {
             Utils.print("cancelled");
             isEntering = false;
+            
             Game.main.stage.focus = null;
             tf.parent.removeChild(tf);
             tf = null;
@@ -1125,8 +1126,8 @@ class PhysEditor
         {
             mx = Math.floor(mx);
             my = Math.floor(my);
-            mx = as3hx.Compat.parseInt(as3hx.Compat.parseInt(mx / gridsnap) * gridsnap);
-            my = as3hx.Compat.parseInt(as3hx.Compat.parseInt(my / gridsnap) * gridsnap);
+            mx = as3hx.Compat.parseInt(as3hx.Compat.parseInt(mx / gridsnap) * as3hx.Compat.parseInt(gridsnap));
+            my = as3hx.Compat.parseInt(as3hx.Compat.parseInt(my / gridsnap) * as3hx.Compat.parseInt(gridsnap));
         }
         
         var sx : Float = scrollX;
@@ -1135,8 +1136,8 @@ class PhysEditor
         {
             sx = Math.floor(sx);
             sy = Math.floor(sy);
-            sx = as3hx.Compat.parseInt(sx / gridsnap) * gridsnap;
-            sy = as3hx.Compat.parseInt(sy / gridsnap) * gridsnap;
+            sx = as3hx.Compat.parseInt(sx / gridsnap) * as3hx.Compat.parseInt(gridsnap);
+            sy = as3hx.Compat.parseInt(sy / gridsnap) * as3hx.Compat.parseInt(gridsnap);
         }
         
         var mxs : Int = as3hx.Compat.parseInt(mx + sx);
@@ -1156,8 +1157,15 @@ class PhysEditor
         currentModeObject.Render(bd);
         
         
+        
         RenderPanel_Editor();
     }
+    
+    
+    
+    
+    
+    
     
     
     
@@ -1188,8 +1196,8 @@ class PhysEditor
         
         mx = Math.floor(mx);
         my = Math.floor(my);
-        mx = as3hx.Compat.parseInt(as3hx.Compat.parseInt(mx / gridsnap) * gridsnap);
-        my = as3hx.Compat.parseInt(as3hx.Compat.parseInt(my / gridsnap) * gridsnap);
+        mx = as3hx.Compat.parseInt(as3hx.Compat.parseInt(mx / gridsnap) * as3hx.Compat.parseInt(gridsnap));
+        my = as3hx.Compat.parseInt(as3hx.Compat.parseInt(my / gridsnap) * as3hx.Compat.parseInt(gridsnap));
         
         var x0 : Float = 0;
         var x1 : Float = Defs.displayarea_w;
@@ -1244,6 +1252,7 @@ class PhysEditor
         
         
         var bd : BitmapData = screenBD;
+        
         
         var madnumber : Int = 99999999;
         
@@ -1622,6 +1631,7 @@ class PhysEditor
     }
     
     
+    
     private static function Editor_RenderPickedObjectsHilight() : Void
     {
         if (renderObjects == false)
@@ -1800,7 +1810,7 @@ class PhysEditor
         
         if (objectZSortMode)
         {
-            level_instances = cast((level_instances), SortInstancesByZ);
+            level_instances = SortInstancesByZ(level_instances);
         }
         
         
@@ -2136,7 +2146,7 @@ class PhysEditor
         
         var a0 : Array<Dynamic> = editModeObj_Joints.HitTestRectangle(r);
         var a1 : Array<Dynamic> = editModeObj_Lines.HitTestRectangle(r);
-        var a2 : Array<Dynamic> = cast((r), ObjectsHitTestRectangle);
+        var a2 : Array<Dynamic> = ObjectsHitTestRectangle(r);
         
         var a : Array<Dynamic> = a0.concat(a1);
         a = a.concat(a2);
@@ -2281,15 +2291,15 @@ class PhysEditor
     {
         if (obj.classType == "obj")
         {
-            cast((try cast(obj, EdObj) catch(e:Dynamic) null), RemoveFromLevelInstances);
+            RemoveFromLevelInstances(try cast(obj, EdObj) catch(e:Dynamic) null);
         }
         if (obj.classType == "line")
         {
-            cast((try cast(obj, EdLine) catch(e:Dynamic) null), DeleteLine);
+            DeleteLine(try cast(obj, EdLine) catch(e:Dynamic) null);
         }
         if (obj.classType == "joint")
         {
-            cast((try cast(obj, EdJoint) catch(e:Dynamic) null), DeleteJoint);
+            DeleteJoint(try cast(obj, EdJoint) catch(e:Dynamic) null);
         }
     }
     
@@ -2383,7 +2393,7 @@ class PhysEditor
     }
     public static function GetMapPos(x : Int, y : Int) : Point
     {
-        return cast((new Point(x, y)), GetMapPosPoint);
+        return GetMapPosPoint(new Point(x, y));
     }
     public static function GetMapPosPoint(p : Point) : Point
     {
@@ -2446,13 +2456,13 @@ class PhysEditor
 		{
 			if (editModeObj_Lines.addlineActive == false) _useCursor = false;
 			if (editModeObj_Lines.subMode != "addpoint") _useCursor = false;
-			
-			
-			
+
+
+
 			var p0:Point = new Point();
 			var p1:Point = new Point();
 			var r:Rectangle = new Rectangle();
-			
+
 			var l:Level = GetCurrentLevel();
 			var bd:BitmapData = screenBD;
 			var lineIndex:int = 0;
@@ -2463,12 +2473,12 @@ class PhysEditor
 				{
 					layer = line.objParameters.GetValueInt("editor_layer")-1;
 				}
-				
+
 				if (IsLayerVisible(layer) == true)
 				{
-				
+
 					var points:Array = line.points;
-					if (lineIndex == editModeObj_Lines.currentLineIndex && _useCursor && line.primitiveType==EdLine.PRIMITIVE_LINE) 
+					if (lineIndex == editModeObj_Lines.currentLineIndex && _useCursor && line.primitiveType==EdLine.PRIMITIVE_LINE)
 					{
 						GetMousePositions();
 						points = new Array();
@@ -2485,14 +2495,15 @@ class PhysEditor
 						points1.push(zp);
 					}
 					points = points1;
-					
+
 					var lineMode:int = GetLineTypeMode(line.type);
 					var doNormals:Boolean = false;
 					if ( (lineMode & LM_LINK) != 0) doNormals = true;
 					var col:uint = GetLineTypeColor(line.type);
 					var thickness:int = 1;
-					if (lineIndex == editModeObj_Lines.currentLineIndex) 
+					if (lineIndex == editModeObj_Lines.currentLineIndex)
 					{
+
 						thickness = 2;
 					}
 					if (points.length >= 2)
@@ -2515,7 +2526,7 @@ class PhysEditor
 					{
 						FillPoly(points, col, 0.1);
 					}
-					
+
 					if (line.primitiveType == EdLine.PRIMITIVE_LINE)
 					{
 						for (i = 0; i < points.length; i++)
@@ -2533,11 +2544,11 @@ class PhysEditor
 							r.y = points[i].y - off1;
 							r.width = off2;
 							r.height = off2;
-							
+
 							RenderRectangle(r, col);
-						}					
+						}
 					}
-					
+
 					if (line.primitiveType == EdLine.PRIMITIVE_RECTANGLE)
 					{
 						for (i = 0; i <= 2; i+=2)
@@ -2555,14 +2566,14 @@ class PhysEditor
 							r.y = points[i].y - off1;
 							r.width = off2;
 							r.height = off2;
-							
+
 							RenderRectangle(r, col);
 						}
-						
+
 					}
 				}
 				lineIndex++;
-			}			
+			}
 		}
 		*/
     
@@ -2573,7 +2584,7 @@ class PhysEditor
             return;
         }
         
-        var points : Array<Dynamic> = cast((line.points), GetMapPosPoints);
+        var points : Array<Dynamic> = GetMapPosPoints(line.points);
         
         FillPoly(points, 0xffffff, 0.5);
     }

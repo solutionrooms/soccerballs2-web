@@ -1,10 +1,10 @@
-  /*
+/*
 MochiAds.com ActionScript 3 code, version 3.0
 
 Flash movies should be published for Flash 9 or later.
 
 Copyright (C) 2006-2008 Mochi Media, Inc. All rights reserved.
-*/  
+*/
 
 package mochi.as3;
 
@@ -88,7 +88,7 @@ class MochiAd
 
                     outline is the outline color of the preloader
                     bar as a number (default: 0xD58B3C)
-                    
+
                     no_progress_bar disables the ad's preload/progress bar when set to true
                     (default: false)
 
@@ -106,7 +106,7 @@ class MochiAd
                     ad_failed is called if an ad can not be displayed,
                     this is usually due to the user having ad blocking
                     software installed or issues with retrieving the ad
-                    over the network. If it is called, then it is called 
+                    over the network. If it is called, then it is called
                     before ad_finished.
                     (default: function ():void { }).
 
@@ -114,17 +114,17 @@ class MochiAd
                     with the width and height of the ad. If it is called,
                     it is called after ad_started.
                     (default: function(width:Number, height:Number):void { }).
-                    
-                    ad_skipped is called if the ad was skipped, this is 
+
+                    ad_skipped is called if the ad was skipped, this is
                     usually due to frequency capping, or developer initiated
-                    domain filtering.  If it is called, then it is called 
+                    domain filtering.  If it is called, then it is called
                     before ad_finished.
                     (default: function():void { }).
-                    
+
                     ad_progress is called with the progress of the ad.  The
-                    progress is the percent (represented from 0 to 100) of the 
+                    progress is the percent (represented from 0 to 100) of the
                     ad show time or loading time for the host swf, whichever is more.
-                    (default: function(percent:Number):void { }).                   
+                    (default: function(percent:Number):void { }).
             */
     {
         
@@ -356,6 +356,7 @@ class MochiAd
                 {
                     MochiAd.rpc(clip, callbackID, arg);
                 };
+        
         mc.rpcTestFn = function(s : String) : Dynamic
                 {
                     trace("[MOCHIAD rpcTestFn] " + s);
@@ -403,7 +404,7 @@ class MochiAd
             
             options.ad_progress(pcnt);
             
-            /* Send to our targetting SWF percent of host loaded.  
+            /* Send to our targetting SWF percent of host loaded.
                This is so we can notify the AD SWF when we're loaded.
             */
             if (sendHostProgress)
@@ -480,7 +481,7 @@ class MochiAd
                     ad_failed is called if an ad can not be displayed,
                     this is usually due to the user having ad blocking
                     software installed or issues with retrieving the ad
-                    over the network. If it is called, then it is called 
+                    over the network. If it is called, then it is called
                     before ad_finished.
                     (default: function ():void { }).
 
@@ -488,10 +489,10 @@ class MochiAd
                     with the width and height of the ad. If it is called,
                     it is called after ad_started.
                     (default: function(width:Number, height:Number):void { }).
-                    
-                    ad_skipped is called if the ad was skipped, this is 
+
+                    ad_skipped is called if the ad was skipped, this is
                     usually due to frequency capping, or developer initiated
-                    domain filtering.  If it is called, then it is called 
+                    domain filtering.  If it is called, then it is called
                     before ad_finished.
                     (default: function():void { })
             */
@@ -650,7 +651,7 @@ class MochiAd
                     ad_failed is called if an ad can not be displayed,
                     this is usually due to the user having ad blocking
                     software installed or issues with retrieving the ad
-                    over the network. If it is called, then it is called 
+                    over the network. If it is called, then it is called
                     before ad_finished.
                     (default: function ():void { }).
 
@@ -658,10 +659,10 @@ class MochiAd
                     with the width and height of the ad. If it is called,
                     it is called after ad_started.
                     (default: function(width:Number, height:Number):void { }).
-                    
-                    ad_skipped is called if the ad was skipped, this is 
+
+                    ad_skipped is called if the ad was skipped, this is
                     usually due to frequency capping, or developer initiated
-                    domain filtering.  If it is called, then it is called 
+                    domain filtering.  If it is called, then it is called
                     before ad_finished.
                     (default: function():void { })
             */
@@ -878,7 +879,7 @@ class MochiAd
     public static function load(options : Dynamic) : MovieClip
     /*
                 Load a MochiAd into the given MovieClip
-            
+
                 options:
                     An object with keys and values to pass to the server.
 
@@ -900,6 +901,8 @@ class MochiAd
             id : "_UNKNOWN_"
         };
         options = MochiAd._parseOptions(options, DEFAULTS);
+        
+        
         options.swfv = 9;
         options.mav = MochiAd.getVersion();
         
@@ -1004,7 +1007,7 @@ class MochiAd
     public static function unload(clip : Dynamic) : Bool
     /*
                 Unload a MochiAd from the given MovieClip
-            
+
                     clip:
                         a MovieClip reference (e.g. this.stage)
             */
@@ -1060,11 +1063,11 @@ class MochiAd
             }
             as3hx.Compat.setTimeout(f, 0);
         }
-        var idx : Float = cast((mc), DisplayObjectContainer).numChildren;
+        var idx : Float = DisplayObjectContainer(mc).numChildren;
         while (idx > 0)
         {
             idx -= 1;
-            cast((mc), DisplayObjectContainer).removeChildAt(idx);
+            DisplayObjectContainer(mc).removeChildAt(idx);
         }
         for (k in Reflect.fields(mc))
         {
@@ -1162,6 +1165,7 @@ class MochiAd
     {
         var nameArray : Array<Dynamic> = objectName.split(".");
         
+        
         for (i in 0...nameArray.length - 1)
         {
             if (Reflect.field(base, Std.string(nameArray[i])) == null || Reflect.field(base, Std.string(nameArray[i])) == null)
@@ -1178,6 +1182,7 @@ class MochiAd
     {
         var nameArray : Array<Dynamic> = objectName.split(".");
         
+        
         for (i in 0...nameArray.length - 1)
         {
             if (Reflect.field(base, Std.string(nameArray[i])) == null || Reflect.field(base, Std.string(nameArray[i])) == null)
@@ -1186,6 +1191,7 @@ class MochiAd
             }
             base = Reflect.field(base, Std.string(nameArray[i]));
         }
+        
         
         return Reflect.field(base, Std.string(nameArray[i]));
     }
@@ -1194,6 +1200,7 @@ class MochiAd
     {
         var nameArray : Array<Dynamic> = methodName.split(".");
         
+        
         for (i in 0...nameArray.length - 1)
         {
             if (Reflect.field(base, Std.string(nameArray[i])) == null || Reflect.field(base, Std.string(nameArray[i])) == null)
@@ -1202,6 +1209,7 @@ class MochiAd
             }
             base = Reflect.field(base, Std.string(nameArray[i]));
         }
+        
         
         if (as3hx.Compat.typeof((Reflect.field(base, Std.string(nameArray[i])))) == "function")
         {

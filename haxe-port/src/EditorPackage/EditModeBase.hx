@@ -64,15 +64,15 @@ class EditModeBase
     
     public function OnMouseDown(e : MouseEvent) : Void
     {
-        cast((e), GetMousePositions);
+        GetMousePositions(e);
     }
     public function OnMouseUp(e : MouseEvent) : Void
     {
-        cast((e), GetMousePositions);
+        GetMousePositions(e);
     }
     public function OnMouseMove(e : MouseEvent) : Void
     {
-        cast((e), GetMousePositions);
+        GetMousePositions(e);
     }
     public function OnMouseWheel(delta : Int) : Void
     {
@@ -110,4 +110,5 @@ class EditModeBase
         PhysEditor.SetCurrentLevelInstances(instances);
     }
 }
+
 

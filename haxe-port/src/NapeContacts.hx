@@ -8,7 +8,7 @@ import zpp_nape.dynamics.ZPPSensorArbiter;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class NapeContacts
 {
@@ -34,6 +34,10 @@ class NapeContacts
                 var a : Int = 0;
             }
         }
+        
+        
+        
+        
         
         
         var go0 : GameObj = null;
@@ -115,11 +119,11 @@ class NapeContacts
     
     public static function OngoingSensor(cb : InteractionCallback)
     {
-        cast((cb), BeginCollide);
+        BeginCollide(cb);
     }
     public static function BeginSensor(cb : InteractionCallback)
     {
-        cast((cb), BeginCollide);
+        BeginCollide(cb);
     }
     public static function BeginPre(cb : InteractionCallback)
     {
@@ -267,4 +271,5 @@ class NapeContacts
         }
     }
 }
+
 

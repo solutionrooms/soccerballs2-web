@@ -9,7 +9,7 @@ import flash.utils.Dictionary;
 	 */
 class ZombieHolder
 {
-    private static var dictionary : Dictionary;
+    private static var dictionary : Dictionary<Dynamic, Dynamic>;
     
     
     
@@ -20,7 +20,7 @@ class ZombieHolder
     
     public static function InitOnce()
     {
-        dictionary = new Dictionary();
+        dictionary = new Dictionary<Dynamic, Dynamic>();
     }
     
     public static function Add(mc : MovieClip, _type : String, _cb : Function, _index0 : Int, _index1 : Int, _index2 : Int) : DisplayObj
@@ -48,7 +48,10 @@ class ZombieHolder
         
         
         
+        
+        
         return zombieDobj;
     }
 }
+
 

@@ -91,7 +91,7 @@ class EditModePlacement extends EditModeBase
             }
             
             PhysEditor.UndoTakeSnapshot();
-            cast((rotvel), CurrenPiece_AddRot);
+            CurrenPiece_AddRot(rotvel);
         }
         else if (KeyReader.Down(KeyReader.KEY_CONTROL))
         {
@@ -107,7 +107,7 @@ class EditModePlacement extends EditModeBase
             }
             
             PhysEditor.UndoTakeSnapshot();
-            cast((rotvel), CurrenPiece_AddScale);
+            CurrenPiece_AddScale(rotvel);
         }
         else
         {
@@ -124,16 +124,12 @@ class EditModePlacement extends EditModeBase
     override public function Update() : Void
     {
         if (KeyReader.Down(KeyReader.KEY_P) == true)
-        
-        // pick a piece{
-            
+        {
+            var poi : EdObj = PhysEditor.HitTestPhysObjGraphics(mx, my);
+            if (poi != null)
             {
-                var poi : EdObj = PhysEditor.HitTestPhysObjGraphics(mx, my);
-                if (poi != null)
-                {
-                    PhysEditor.ClearCurrentPieces();
-                    PhysEditor.AddCurrentPiece(Game.objectDefs.FindIndexByName(poi.typeName), 0, 0, 0, poi.x, poi.y, poi.objParameters.ToString());
-                }
+                PhysEditor.ClearCurrentPieces();
+                PhysEditor.AddCurrentPiece(Game.objectDefs.FindIndexByName(poi.typeName), 0, 0, 0, poi.x, poi.y, poi.objParameters.ToString());
             }
         }
         
@@ -159,12 +155,12 @@ class EditModePlacement extends EditModeBase
             if (KeyReader.Down(KeyReader.KEY_LEFT))
             {
                 PhysEditor.UndoTakeSnapshot();
-                cast((-rv), CurrenPiece_AddRot);
+                CurrenPiece_AddRot(-rv);
             }
             if (KeyReader.Down(KeyReader.KEY_RIGHT))
             {
                 PhysEditor.UndoTakeSnapshot();
-                cast((rv), CurrenPiece_AddRot);
+                CurrenPiece_AddRot(rv);
             }
         }
     }
@@ -210,18 +206,19 @@ class EditModePlacement extends EditModeBase
     }
     
     
+    
     private function CurrenPiece_AddScale(rv : Float)
     {
         for (ob/* AS3HX WARNING could not determine type for var: ob exp: EField(EIdent(PhysEditor),currentPieceList) type: null */ in PhysEditor.currentPieceList)
         {
-            ob.scale += rv;
+            ob.scale += as3hx.Compat.parseFloat(rv);
         }
     }
     private function CurrenPiece_AddRot(rv : Float)
     {
         for (ob/* AS3HX WARNING could not determine type for var: ob exp: EField(EIdent(PhysEditor),currentPieceList) type: null */ in PhysEditor.currentPieceList)
         {
-            ob.rot += rv;
+            ob.rot += as3hx.Compat.parseFloat(rv);
         }
     }
     
@@ -249,4 +246,5 @@ class EditModePlacement extends EditModeBase
         }
     }
 }
+
 

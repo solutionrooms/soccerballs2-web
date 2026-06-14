@@ -10,7 +10,7 @@ import flash.events.TextEvent;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class EditParamListBox extends MovieClip
 {
@@ -143,4 +143,5 @@ class EditParamListBox extends MovieClip
         }
     }
 }
+
 

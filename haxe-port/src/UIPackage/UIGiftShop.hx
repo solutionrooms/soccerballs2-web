@@ -37,7 +37,7 @@ class UIGiftShop extends UIScreenInstance
         
         Audio.PlayMusic("menus_music");
         
-        titleMC = new MovieClip();  // giftShop();  
+        titleMC = new MovieClip();
         titleMC.gotoAndStop(1);
         
         UI.AddAnimatedMCButton(titleMC.buttonQuit, buttonBackPressed, null, true);
@@ -79,19 +79,19 @@ class UIGiftShop extends UIScreenInstance
         var id : Int = e.currentTarget.giftID;
         if (id == 1)
         {
-            cast(("http://www.guineapop.com/Downloads/PackofPiggies.pdf"), DownloadFile);
+            DownloadFile("http://www.guineapop.com/Downloads/PackofPiggies.pdf");
         }
         if (id == 2)
         {
-            cast(("http://www.guineapop.com/Downloads/TokyoGuineaPop_WALLPAPERS.zip"), DownloadFile);
+            DownloadFile("http://www.guineapop.com/Downloads/TokyoGuineaPop_WALLPAPERS.zip");
         }
         if (id == 3)
         {
-            cast(("http://www.guineapop.com/Downloads/Concepts.jpg"), DownloadFile);
+            DownloadFile("http://www.guineapop.com/Downloads/Concepts.jpg");
         }
         if (id == 4)
         {
-            cast(("http://www.guineapop.com/Downloads/BoardGames.zip"), DownloadFile);
+            DownloadFile("http://www.guineapop.com/Downloads/BoardGames.zip");
         }
     }
     
@@ -104,4 +104,5 @@ class UIGiftShop extends UIScreenInstance
         UI.StartTransition("levelselect");
     }
 }
+
 

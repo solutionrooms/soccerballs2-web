@@ -57,7 +57,7 @@ class EditModeLines extends EditModeBase
     {
         PhysEditor.CursorText_Show();
         PhysEditor.CursorText_Set("");
-        cast(("null"), SetSubMode);
+        SetSubMode("null");
         hoveredLineIndex = -1;
         hoveredPointIndex = -1;
         hoveredPointLineIndex = -1;
@@ -103,9 +103,9 @@ class EditModeLines extends EditModeBase
             currentPointIndex = -1;
             Lines_NewLine();
             Lines_AddPoint(mxs, mys);
-            var line : EdLine = cast((currentLineIndex), Lines_GetLineByIndex);
+            var line : EdLine = Lines_GetLineByIndex(currentLineIndex);
             EditParams.AddParameterListBox(line.objParameters);
-            cast(("addpoint"), SetSubMode);
+            SetSubMode("addpoint");
         }
         else if (subMode == "newrectangle")
         {
@@ -113,9 +113,9 @@ class EditModeLines extends EditModeBase
             addlineActive = true;
             currentPointIndex = -1;
             Lines_NewRect();
-            var line : EdLine = cast((currentLineIndex), Lines_GetLineByIndex);
+            var line : EdLine = Lines_GetLineByIndex(currentLineIndex);
             EditParams.AddParameterListBox(line.objParameters);
-            cast(("addpoint"), SetSubMode);
+            SetSubMode("addpoint");
             return;
         }
         else if (subMode == "dragpoint")
@@ -147,7 +147,7 @@ class EditModeLines extends EditModeBase
         if (subMode == "scaleline")
         {
             var scale : Float = 1 + ((mxs - scaleCentreX) * 0.005);
-            cast((scale), Lines_Scale);
+            Lines_Scale(scale);
         }
         else if (subMode == "freeline")
         {
@@ -267,12 +267,12 @@ class EditModeLines extends EditModeBase
         else if (subMode == "scaleline")
         {
             var scale : Float = 1 + ((mxs - scaleCentreX) * 0.005);
-            cast((scale), Lines_Scale);
+            Lines_Scale(scale);
         }
         else if (subMode == "rotateline")
         {
             var rot : Float = ((mxs - rotateCentreX) * 0.005);
-            cast((rot), Lines_Rotate);
+            Lines_Rotate(rot);
         }
     }
     
@@ -431,80 +431,76 @@ class EditModeLines extends EditModeBase
         
         
         if (currentLineIndex != -1)
-        
-        // a line is selected{
-            
+        {
+            if (currentPointIndex != -1)
             {
-                if (currentPointIndex != -1)
-                {
-                    if (KeyReader.Pressed(KeyReader.KEY_K))
-                    {
-                        PhysEditor.UndoTakeSnapshot();
-                        var firstPointIndex : Int = currentPointIndex;
-                        Lines_SelectPoint(mxs, mys);
-                        if (firstPointIndex != currentPointIndex)
-                        {
-                            Lines_SplitPoly(currentLineIndex, firstPointIndex, currentPointIndex);
-                        }
-                    }
-                }
-                
-                
-                if (KeyReader.Pressed(KeyReader.KEY_DELETE) || KeyReader.Pressed(KeyReader.KEY_SQUIGGLE))
+                if (KeyReader.Pressed(KeyReader.KEY_K))
                 {
                     PhysEditor.UndoTakeSnapshot();
-                    Lines_DeleteSelectedLine();
-                    EditParams.AddParameterListBoxOrClear(null);
-                }
-                else if (KeyReader.Pressed(KeyReader.KEY_X))
-                {
-                    if (GetCurrentLinePrimitiveType() == EdLine.PRIMITIVE_LINE)
+                    var firstPointIndex : Int = currentPointIndex;
+                    Lines_SelectPoint(mxs, mys);
+                    if (firstPointIndex != currentPointIndex)
                     {
-                        PhysEditor.UndoTakeSnapshot();
-                        Lines_DeletePoint(mxs, mys);
+                        Lines_SplitPoly(currentLineIndex, firstPointIndex, currentPointIndex);
                     }
                 }
-                else if (KeyReader.Pressed(KeyReader.KEY_E))
-                {
-                    Lines_PickPieceForObjCol();
-                }
-                else if (KeyReader.Pressed(KeyReader.KEY_D))
+            }
+            
+            
+            if (KeyReader.Pressed(KeyReader.KEY_DELETE) || KeyReader.Pressed(KeyReader.KEY_SQUIGGLE))
+            {
+                PhysEditor.UndoTakeSnapshot();
+                Lines_DeleteSelectedLine();
+                EditParams.AddParameterListBoxOrClear(null);
+            }
+            else if (KeyReader.Pressed(KeyReader.KEY_X))
+            {
+                if (GetCurrentLinePrimitiveType() == EdLine.PRIMITIVE_LINE)
                 {
                     PhysEditor.UndoTakeSnapshot();
-                    Lines_DuplicateSelectedLine();
+                    Lines_DeletePoint(mxs, mys);
                 }
-                else if (KeyReader.Pressed(KeyReader.KEY_C))
-                {
-                    CopyParameters();
-                }
-                else if (KeyReader.Pressed(KeyReader.KEY_V))
+            }
+            else if (KeyReader.Pressed(KeyReader.KEY_E))
+            {
+                Lines_PickPieceForObjCol();
+            }
+            else if (KeyReader.Pressed(KeyReader.KEY_D))
+            {
+                PhysEditor.UndoTakeSnapshot();
+                Lines_DuplicateSelectedLine();
+            }
+            else if (KeyReader.Pressed(KeyReader.KEY_C))
+            {
+                CopyParameters();
+            }
+            else if (KeyReader.Pressed(KeyReader.KEY_V))
+            {
+                PhysEditor.UndoTakeSnapshot();
+                PasteParameters();
+            }
+            else if (KeyReader.Pressed(KeyReader.KEY_S))
+            {
+                if (GetCurrentLinePrimitiveType() == EdLine.PRIMITIVE_LINE)
                 {
                     PhysEditor.UndoTakeSnapshot();
-                    PasteParameters();
+                    Lines_InsertPointAtMousePos(mxs, mys);
                 }
-                else if (KeyReader.Pressed(KeyReader.KEY_S))
+            }
+            else if (KeyReader.Pressed(KeyReader.KEY_A))
+            {
+                if (GetCurrentLinePrimitiveType() == EdLine.PRIMITIVE_LINE)
                 {
-                    if (GetCurrentLinePrimitiveType() == EdLine.PRIMITIVE_LINE)
-                    {
-                        PhysEditor.UndoTakeSnapshot();
-                        Lines_InsertPointAtMousePos(mxs, mys);
-                    }
+                    PhysEditor.UndoTakeSnapshot();
+                    Lines_InsertPoint(mxs, mys);
                 }
-                else if (KeyReader.Pressed(KeyReader.KEY_A))
+            }
+            else if (KeyReader.Down(KeyReader.KEY_Q))
+            {
+                if (GetCurrentLinePrimitiveType() == EdLine.PRIMITIVE_LINE)
                 {
-                    if (GetCurrentLinePrimitiveType() == EdLine.PRIMITIVE_LINE)
-                    {
-                        PhysEditor.UndoTakeSnapshot();
-                        Lines_InsertPoint(mxs, mys);
-                    }
-                }
-                else if (KeyReader.Down(KeyReader.KEY_Q))
-                {
-                    if (GetCurrentLinePrimitiveType() == EdLine.PRIMITIVE_LINE)
-                    {
-                        PhysEditor.UndoTakeSnapshot();
-                        Lines_SelectPoint(mxs, mys);
-                    }
+                    PhysEditor.UndoTakeSnapshot();
+                    Lines_SelectPoint(mxs, mys);
                 }
             }
         }
@@ -516,20 +512,20 @@ class EditModeLines extends EditModeBase
             {
                 Lines_SelectLine(mxs, mys);
             }
-            var line : EdLine = cast((currentLineIndex), Lines_GetLineByIndex);
+            var line : EdLine = Lines_GetLineByIndex(currentLineIndex);
             lastLineSelectedIndex = currentLineIndex;
-            cast((line), AddLineParameterListBoxOrClear);
+            AddLineParameterListBoxOrClear(line);
         }
         if (KeyReader.Pressed(KeyReader.KEY_N))
         {
-            cast(("newline"), SetSubMode);
+            SetSubMode("newline");
         }
         if (KeyReader.Pressed(KeyReader.KEY_SPACE))
         {
-            cast(("null"), SetSubMode);
+            SetSubMode("null");
             currentLineIndex = -1;
             currentPointIndex = -1;
-            cast((null), AddLineParameterListBoxOrClear);
+            AddLineParameterListBoxOrClear(null);
         }
         
         
@@ -547,29 +543,29 @@ class EditModeLines extends EditModeBase
         
         if (KeyReader.Down(KeyReader.KEY_T))
         {
-            cast(("scaleline"), SetSubMode);
+            SetSubMode("scaleline");
         }
         else if (KeyReader.Down(KeyReader.KEY_Y))
         {
-            cast(("rotateline"), SetSubMode);
+            SetSubMode("rotateline");
         }
         else if (KeyReader.Down(KeyReader.KEY_M))
         {
-            cast(("newrectangle"), SetSubMode);
+            SetSubMode("newrectangle");
         }
         else if (KeyReader.Down(KeyReader.KEY_SHIFT))
         {
-            cast(("dragpoint"), SetSubMode);
+            SetSubMode("dragpoint");
         }
         else if (KeyReader.Down(KeyReader.KEY_CONTROL))
         {
-            cast(("dragline"), SetSubMode);
+            SetSubMode("dragline");
         }
         else if (subMode != "pick" && subMode != "newline" && subMode != "freeline")
         {
             if (subMode == "addpoint" && KeyReader.Pressed(KeyReader.KEY_F))
             {
-                cast(("freeline"), SetSubMode);
+                SetSubMode("freeline");
             }
             else if (addlineActive)
             {
@@ -577,21 +573,21 @@ class EditModeLines extends EditModeBase
                 {
                     if (GetCurrentLine().primitiveType == EdLine.PRIMITIVE_LINE)
                     {
-                        cast(("addpoint"), SetSubMode);
+                        SetSubMode("addpoint");
                     }
                     else
                     {
-                        cast(("null"), SetSubMode);
+                        SetSubMode("null");
                     }
                 }
                 else
                 {
-                    cast(("null"), SetSubMode);
+                    SetSubMode("null");
                 }
             }
             else
             {
-                cast(("null"), SetSubMode);
+                SetSubMode("null");
             }
         }
         
@@ -736,6 +732,7 @@ class EditModeLines extends EditModeBase
         }
         return y;
     }
+    
     
     
     
@@ -890,6 +887,7 @@ class EditModeLines extends EditModeBase
             
             as3hx.Compat.arraySplice(a0, currentPointIndex + 1, 0, [newPoint]);
             
+            
             currentPointIndex = as3hx.Compat.parseInt(currentPointIndex + 1);
         }
     }
@@ -942,7 +940,7 @@ class EditModeLines extends EditModeBase
         var id : String = "";
         if (poi != null)
         {
-            cast((poi), CreateObjLineCollision);
+            CreateObjLineCollision(poi);
         }
         PhysEditor.SetEditMode(PhysEditor.oldEditMode, false);
         PhysEditor.CursorText_Set("");
@@ -1006,7 +1004,7 @@ class EditModeLines extends EditModeBase
         var l : Level = GetCurrentLevel();
         if (currentLineIndex != -1)
         {
-            var edLine : EdLine = cast((currentLineIndex), Lines_GetLineByIndex);
+            var edLine : EdLine = Lines_GetLineByIndex(currentLineIndex);
             PhysEditor.editModeObj_Joints.UpdateJoints_ObjectDeleted(edLine.id);
             
             
@@ -1400,6 +1398,7 @@ class EditModeLines extends EditModeBase
     
     
     
+    
     private var scaleCentreX : Float;
     private var scaleCentreY : Float;
     private var scalePositions : Array<Dynamic>;
@@ -1433,6 +1432,7 @@ class EditModeLines extends EditModeBase
             }
         }
     }
+    
     private var rotateCentreX : Float;
     private var rotateCentreY : Float;
     private var rotatePositions : Array<Dynamic>;
@@ -1475,6 +1475,7 @@ class EditModeLines extends EditModeBase
     }
     
     
+    
     private function Lines_SplitPoly(lineIndex : Int, p0Index : Int, p1Index : Int)
     {
         if (lineIndex == -1)
@@ -1496,6 +1497,7 @@ class EditModeLines extends EditModeBase
         
         var newLine0 : EdLine = new EdLine();
         var newLine1 : EdLine = new EdLine();
+        
         
         
         var i : Int = p0Index;
@@ -1547,10 +1549,12 @@ class EditModeLines extends EditModeBase
         currentPointIndex = -1;
     }
     
+    
     private function Lines_SelectPoint(x : Float, y : Float)
     {
         var l : Level = GetCurrentLevel();
         var lineIndex : Int = 0;
+        
         currentPointIndex = -1;
         for (line/* AS3HX WARNING could not determine type for var: line exp: EField(EIdent(l),lines) type: null */ in l.lines)
         {
@@ -1601,9 +1605,10 @@ class EditModeLines extends EditModeBase
     }
     private function FreeLine_End()
     {
-        cast((freeLine_MinDist), Lines_MinDistanceBetweenPoints);
-        cast(("addpoint"), SetSubMode);
+        Lines_MinDistanceBetweenPoints(freeLine_MinDist);
+        SetSubMode("addpoint");
         addlineActive = true;
     }
 }
+
 

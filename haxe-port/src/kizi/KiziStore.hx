@@ -4,10 +4,11 @@ import haxe.Constraints.Function;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class KiziStore
 {
+    
     public static inline var ITEM_MAXED_OUT : String = "ITEM_MAXED_OUT";
     public static inline var NOT_ENOUGH_COINS : String = "NOT_ENOUGH_COINS";
     public static inline var ITEM_NOT_FOUND : String = "ITEM_NOT_FOUND";
@@ -69,4 +70,5 @@ class KiziStore
     {
     }
 }
+
 

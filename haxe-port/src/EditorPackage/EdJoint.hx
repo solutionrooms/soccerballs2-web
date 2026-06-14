@@ -529,27 +529,27 @@ class EdJoint extends EditableObjectBase
     {
         if (type == EdJoint.Type_Rev)
         {
-            cast((1), RenderRevJoint);
+            RenderRevJoint(1);
         }
         if (type == EdJoint.Type_Distance)
         {
-            cast((1), RenderDistanceJoint);
+            RenderDistanceJoint(1);
         }
         if (type == EdJoint.Type_Prismatic)
         {
-            cast((1), RenderPrismaticJoint);
+            RenderPrismaticJoint(1);
         }
         if (type == EdJoint.Type_Switch)
         {
-            cast((1), RenderSwitchJoint);
+            RenderSwitchJoint(1);
         }
         if (type == EdJoint.Type_LogicLink)
         {
-            cast((1), RenderLogicLinkJoint);
+            RenderLogicLinkJoint(1);
         }
         if (type == EdJoint.Type_Weld)
         {
-            cast((1), RenderWeldJoint);
+            RenderWeldJoint(1);
         }
     }
     
@@ -845,7 +845,7 @@ class EdJoint extends EditableObjectBase
     override public function Duplicate() : EditableObjectBase
     {
         var dup : EditableObjectBase = try cast(Clone(), EditableObjectBase) catch(e:Dynamic) null;
-        cast((dup), CopyBaseToDuplicate);
+        CopyBaseToDuplicate(dup);
         return dup;
     }
     
@@ -862,4 +862,5 @@ class EdJoint extends EditableObjectBase
         return new Point(0, 0);
     }
 }
+
 

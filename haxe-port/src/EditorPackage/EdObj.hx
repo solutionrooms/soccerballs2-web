@@ -15,6 +15,7 @@ import flash.media.SoundChannel;
 class EdObj extends EditableObjectBase
 {
     public var instanceName : String;
+    
     public var initFunctionParams : String;
     public var typeName : String;
     public var x : Float;
@@ -31,10 +32,12 @@ class EdObj extends EditableObjectBase
         super();
         classType = "obj";
         scale = 1;
+        
         instanceName = "";
         typeName = "";
         x = y = 0;
     }
+    
     
     public function GetParameterListForExport() : String
     {
@@ -62,6 +65,7 @@ class EdObj extends EditableObjectBase
         
         clone.classType = classType;
         clone.instanceName = instanceName;
+        
         clone.typeName = typeName;
         clone.x = x;
         clone.y = y;
@@ -72,6 +76,7 @@ class EdObj extends EditableObjectBase
         
         return clone;
     }
+    
     
     
     
@@ -167,7 +172,7 @@ class EdObj extends EditableObjectBase
     override public function Duplicate() : EditableObjectBase
     {
         var dup : EditableObjectBase = try cast(Clone(), EditableObjectBase) catch(e:Dynamic) null;
-        cast((dup), CopyBaseToDuplicate);
+        CopyBaseToDuplicate(dup);
         return dup;
     }
 }

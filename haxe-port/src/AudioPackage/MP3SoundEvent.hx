@@ -33,7 +33,7 @@ import flash.media.Sound;
 class MP3SoundEvent extends Event
 {
     /**
-		 * A loaded Sound instance. Can call <code>play</code> or <code>extract</code> to get at the audio 
+		 * A loaded Sound instance. Can call <code>play</code> or <code>extract</code> to get at the audio
 		 */
     public var sound : Sound;
     
@@ -49,3 +49,4 @@ class MP3SoundEvent extends Event
         this.sound = sound;
     }
 }
+

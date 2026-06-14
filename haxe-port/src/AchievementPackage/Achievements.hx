@@ -38,9 +38,9 @@ class Achievements
             ach.completeFunction = XmlHelper.GetAttrString(ax.node.pass.innerData.att.func, "");
             ach.completeFunctionParams = XmlHelper.GetAttrString(ax.node.pass.innerData.att.params, "");
             
-            ach.name = cast((ach.name), GetFullString);
-            ach.description = cast((ach.description), GetFullString);
-            ach.toUnlockText = cast((ach.toUnlockText), GetFullString);
+            ach.name = GetFullString(ach.name);
+            ach.description = GetFullString(ach.description);
+            ach.toUnlockText = GetFullString(ach.toUnlockText);
             
             var numTests : Int = ax.nodes.test.length();
             for (j in 0...numTests)
@@ -120,19 +120,15 @@ class Achievements
             {
             }
             else if (false)
-            
-            //word.match("&Level")){
-                
+            {
+                s1 = word.substr(6);
+                num = as3hx.Compat.parseInt(s1);
+                var l : Level = Levels.GetLevel(num - 1);
+                if (replaceLevel)
                 {
-                    s1 = word.substr(6);
-                    num = as3hx.Compat.parseInt(s1);
-                    var l : Level = Levels.GetLevel(num - 1);
-                    if (replaceLevel)
-                    {
-                        word = "'" + l.displayName + "'";
-                        newstring += word;
-                        newstring += " ";
-                    }
+                    word = "'" + l.displayName + "'";
+                    newstring += word;
+                    newstring += " ";
                 }
             }
             else
@@ -233,6 +229,8 @@ class Achievements
                         var test : AchievementTest = ach.testList[testIndex];
                         var testFuncName : String = test.functionName;
                         
+                        
+                        
                         Utils.paramNames = test.precalcedParamNames;
                         Utils.paramValues = test.precalcedParamValues;
                         var result : Bool = Reflect.field(testFunctions, testFuncName)();
@@ -246,16 +244,12 @@ class Achievements
                         }
                     }
                     if (numCorrect == numTests)
-                    
-                    // AND all the tests.{
-                        
-                        {
-                            currentAch = ach;
-                            Utils.GetParams(ach.completeFunctionParams);
-                            testFunctions[ach.completeFunction]();
-                            ach.complete = true;
-                            unlockedList.push(ach);
-                        }
+                    {
+                        currentAch = ach;
+                        Utils.GetParams(ach.completeFunctionParams);
+                        testFunctions[ach.completeFunction]();
+                        ach.complete = true;
+                        unlockedList.push(ach);
                     }
                     else
                     {
@@ -295,6 +289,8 @@ class Achievements
     }
     
     
+    
+    
     public static function ToSharedObject() : Dynamic
     {
         var o : Dynamic = {};
@@ -328,4 +324,5 @@ class Achievements
         }
     }
 }
+
 

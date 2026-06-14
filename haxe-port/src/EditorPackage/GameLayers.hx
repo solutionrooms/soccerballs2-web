@@ -4,12 +4,12 @@ import flash.utils.Dictionary;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class GameLayers
 {
     private static var layers : Array<GameLayer>;
-    private static var nameDictionary : Dictionary;
+    private static var nameDictionary : Dictionary<Dynamic, Dynamic>;
     
     public function new()
     {
@@ -34,7 +34,7 @@ class GameLayers
     public static function InitOnce(x : FastXML)
     {
         layers = new Array<GameLayer>();
-        nameDictionary = new Dictionary();
+        nameDictionary = new Dictionary<Dynamic, Dynamic>();
         for (i in 0...x.nodes.gamelayer.length())
         {
             var lx : FastXML = x.nodes.gamelayer.get(i);
@@ -60,4 +60,5 @@ class GameLayers
         }
     }
 }
+
 

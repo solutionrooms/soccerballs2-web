@@ -1,7 +1,7 @@
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class GameVars
 {
@@ -11,4 +11,5 @@ class GameVars
     {
     }
 }
+
 

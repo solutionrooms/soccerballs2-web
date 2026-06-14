@@ -1,7 +1,7 @@
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class TeamDef
 {
@@ -39,4 +39,5 @@ class TeamDef
         }
     }
 }
+
 

@@ -27,16 +27,12 @@ class ObjectParameters
             var pstr : String = paramList[i];
             var def : String = defaultsList[i];
             Utils.print("param " + pstr + " " + def);
-            var op : ObjParam = cast((pstr), GetObjectParamByName);
+            var op : ObjParam = GetObjectParamByName(pstr);
             s += op.name;
             s += "=";
             if (def != "")
-            
-            // per-instance default overrides generic default:{
-                
-                {
-                    s += def;
-                }
+            {
+                s += def;
             }
             else
             {
@@ -98,7 +94,7 @@ class ObjectParameters
     }
     public static function AddParam(_name : String, _type : String, _defaultValue : String, _values : String) : ObjParam
     {
-        var op : ObjParam = cast((_name), GetObjectParamByName);
+        var op : ObjParam = GetObjectParamByName(_name);
         if (op != null)
         {
             return op;
@@ -124,10 +120,11 @@ class ObjectParameters
             var op : ObjParam = new ObjParam();
             op.name = XmlHelper.GetAttrString(xx.att.name, "");
             op.type = XmlHelper.GetAttrString(xx.att.type, "");
-            op.defaultValue = XmlHelper.GetAttrString(xx.att.default, "");
+            op.defaultValue = XmlHelper.GetAttrString(xx.att.resolve("default"), "");
             op.AddValuesString(XmlHelper.GetAttrString(xx.att.values, ""));
             objparamList.push(op);
         }
     }
 }
+
 

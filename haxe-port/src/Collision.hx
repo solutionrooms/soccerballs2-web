@@ -38,6 +38,8 @@ class Collision
     
     
     
+    
+    
     private static function GameObjectInPolyBoundingBox(go : GameObj, poly : Poly) : Bool
     {
         var rad : Float = go.radius + 50;
@@ -99,6 +101,7 @@ class Collision
     
     
     
+    
     public static var closestX : Float = 0;
     public static var closestY : Float = 0;
     public static var closestInfiniteX : Float = 0;
@@ -151,8 +154,14 @@ class Collision
         
         var d0 : Float = (x1 - x0);
         var d1 : Float = (x3 - x2);
+        
+        
         var m1 : Float = (y1 - y0) / d0;
         var m2 : Float = (y3 - y2) / d1;
+        
+        
+        
+        
         
         
         var c1 : Float = (y0 - m1 * x0);
@@ -175,6 +184,7 @@ class Collision
     
     
     
+    
     private static function DistToLine(lx0 : Float, ly0 : Float, lx1 : Float, ly1 : Float, x : Float, y : Float) : Float
     {
         ClosestPointOnLine(lx0, ly0, lx1, ly1, x, y);
@@ -192,6 +202,7 @@ class Collision
         var dy : Float = closestY - y;
         return (dx * dx) + (dy * dy);
     }
+    
     
     
     private static function SideOfLine(lx0 : Float, ly0 : Float, lx1 : Float, ly1 : Float, x : Float, y : Float) : Bool
@@ -216,11 +227,13 @@ class Collision
     }
     
     
+    
     private static function DotProduct(x0 : Float, y0 : Float, x1 : Float, y1 : Float) : Float
     {
         var dot : Float = (x0 * x1) + (y0 * y1);
         return dot;
     }
+    
     
     
     private static function Intersected(go : GameObj, l : Line, intersectionPointX : Float, intersectionPointY : Float, xoff : Float, yoff : Float, rad : Float) : Void
@@ -230,8 +243,8 @@ class Collision
         var dy : Float = (go.oldypos + yoff) - intersectionPointY;
         
         
-        dx /= numIterations;
-        dy /= numIterations;
+        dx /= as3hx.Compat.parseFloat(numIterations);
+        dy /= as3hx.Compat.parseFloat(numIterations);
         var x : Float = go.xpos + xoff;
         var y : Float = go.ypos + yoff;
         
@@ -251,6 +264,7 @@ class Collision
             }
         }
     }
+    
     
     
     private static var PolyCollision_LineHit : Line;
@@ -461,6 +475,10 @@ class Collision
         
         
         EngineDebug.StartTimer("collision");
+        
+        
+        
+        
         EngineDebug.EndTimer("collision");
     }
     
@@ -473,4 +491,5 @@ class Collision
     {
     }
 }
+
 

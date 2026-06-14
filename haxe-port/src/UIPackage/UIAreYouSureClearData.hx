@@ -40,3 +40,4 @@ class UIAreYouSureClearData extends UIScreenInstance
     }
 }
 
+

@@ -2,25 +2,25 @@
 Copyright (c) 2011, Adobe Systems Incorporated
 All rights reserved.
 
-Redistribution and use in source and binary forms, with or without 
+Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
 met:
 
-* Redistributions of source code must retain the above copyright notice, 
+* Redistributions of source code must retain the above copyright notice,
 this list of conditions and the following disclaimer.
 
 * Redistributions in binary form must reproduce the above copyright
-notice, this list of conditions and the following disclaimer in the 
+notice, this list of conditions and the following disclaimer in the
 documentation and/or other materials provided with the distribution.
 
-* Neither the name of Adobe Systems Incorporated nor the names of its 
-contributors may be used to endorse or promote products derived from 
+* Neither the name of Adobe Systems Incorporated nor the names of its
+contributors may be used to endorse or promote products derived from
 this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR 
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
 CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
 EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
 PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
@@ -101,12 +101,12 @@ class PerspectiveMatrix3D extends Matrix3D
             zNear : Float,
             zFar : Float) : Void
     {
-        this.copyRawDataFrom([
+        this.copyRawDataFrom(Array/*Vector.<T> call?*/([
                         2.0 * zNear / width, 0.0, 0.0, 0.0, 
                         0.0, 2.0 * zNear / height, 0.0, 0.0, 
                         0.0, 0.0, zFar / (zFar - zNear), 1.0, 
                         0.0, 0.0, zNear * zFar / (zNear - zFar), 0.0
-            ]);
+            ]));
     }
     
     public function perspectiveRH(width : Float,
@@ -114,12 +114,12 @@ class PerspectiveMatrix3D extends Matrix3D
             zNear : Float,
             zFar : Float) : Void
     {
-        this.copyRawDataFrom([
+        this.copyRawDataFrom(Array/*Vector.<T> call?*/([
                         2.0 * zNear / width, 0.0, 0.0, 0.0, 
                         0.0, 2.0 * zNear / height, 0.0, 0.0, 
                         0.0, 0.0, zFar / (zNear - zFar), -1.0, 
                         0.0, 0.0, zNear * zFar / (zNear - zFar), 0.0
-            ]);
+            ]));
     }
     
     public function perspectiveFieldOfViewLH(fieldOfViewY : Float,
@@ -129,12 +129,12 @@ class PerspectiveMatrix3D extends Matrix3D
     {
         var yScale : Float = 1.0 / Math.tan(fieldOfViewY / 2.0);
         var xScale : Float = yScale / aspectRatio;
-        this.copyRawDataFrom([
+        this.copyRawDataFrom(Array/*Vector.<T> call?*/([
                         xScale, 0.0, 0.0, 0.0, 
                         0.0, yScale, 0.0, 0.0, 
                         0.0, 0.0, zFar / (zFar - zNear), 1.0, 
                         0.0, 0.0, (zNear * zFar) / (zNear - zFar), 0.0
-            ]);
+            ]));
     }
     
     public function perspectiveFieldOfViewRH(fieldOfViewY : Float,
@@ -144,12 +144,12 @@ class PerspectiveMatrix3D extends Matrix3D
     {
         var yScale : Float = 1.0 / Math.tan(fieldOfViewY / 2.0);
         var xScale : Float = yScale / aspectRatio;
-        this.copyRawDataFrom([
+        this.copyRawDataFrom(Array/*Vector.<T> call?*/([
                         xScale, 0.0, 0.0, 0.0, 
                         0.0, yScale, 0.0, 0.0, 
                         0.0, 0.0, zFar / (zNear - zFar), -1.0, 
                         0.0, 0.0, (zNear * zFar) / (zNear - zFar), 0.0
-            ]);
+            ]));
     }
     
     public function perspectiveOffCenterLH(left : Float,
@@ -159,12 +159,12 @@ class PerspectiveMatrix3D extends Matrix3D
             zNear : Float,
             zFar : Float) : Void
     {
-        this.copyRawDataFrom([
+        this.copyRawDataFrom(Array/*Vector.<T> call?*/([
                         2.0 * zNear / (right - left), 0.0, 0.0, 0.0, 
                         0.0, -2.0 * zNear / (bottom - top), 0.0, 0.0, 
                         -1.0 - 2.0 * left / (right - left), 1.0 + 2.0 * top / (bottom - top), -zFar / (zNear - zFar), 1.0, 
                         0.0, 0.0, (zNear * zFar) / (zNear - zFar), 0.0
-            ]);
+            ]));
     }
     
     public function perspectiveOffCenterRH(left : Float,
@@ -174,12 +174,12 @@ class PerspectiveMatrix3D extends Matrix3D
             zNear : Float,
             zFar : Float) : Void
     {
-        this.copyRawDataFrom([
+        this.copyRawDataFrom(Array/*Vector.<T> call?*/([
                         2.0 * zNear / (right - left), 0.0, 0.0, 0.0, 
                         0.0, -2.0 * zNear / (bottom - top), 0.0, 0.0, 
                         1.0 + 2.0 * left / (right - left), -1.0 - 2.0 * top / (bottom - top), zFar / (zNear - zFar), -1.0, 
                         0.0, 0.0, (zNear * zFar) / (zNear - zFar), 0.0
-            ]);
+            ]));
     }
     
     public function orthoLH(width : Float,
@@ -187,12 +187,12 @@ class PerspectiveMatrix3D extends Matrix3D
             zNear : Float,
             zFar : Float) : Void
     {
-        this.copyRawDataFrom([
+        this.copyRawDataFrom(Array/*Vector.<T> call?*/([
                         2.0 / width, 0.0, 0.0, 0.0, 
                         0.0, 2.0 / height, 0.0, 0.0, 
                         0.0, 0.0, 1.0 / (zFar - zNear), 0.0, 
                         0.0, 0.0, zNear / (zNear - zFar), 1.0
-            ]);
+            ]));
     }
     
     public function orthoRH(width : Float,
@@ -200,12 +200,12 @@ class PerspectiveMatrix3D extends Matrix3D
             zNear : Float,
             zFar : Float) : Void
     {
-        this.copyRawDataFrom([
+        this.copyRawDataFrom(Array/*Vector.<T> call?*/([
                         2.0 / width, 0.0, 0.0, 0.0, 
                         0.0, 2.0 / height, 0.0, 0.0, 
                         0.0, 0.0, 1.0 / (zNear - zNear), 0.0, 
                         0.0, 0.0, zNear / (zNear - zFar), 1.0
-            ]);
+            ]));
     }
     
     public function orthoOffCenterLH(left : Float,
@@ -215,12 +215,12 @@ class PerspectiveMatrix3D extends Matrix3D
             zNear : Float,
             zFar : Float) : Void
     {
-        this.copyRawDataFrom([
+        this.copyRawDataFrom(Array/*Vector.<T> call?*/([
                         2.0 / (right - left), 0.0, 0.0, 0.0, 
                         0.0, 2.0 * zNear / (top - bottom), 0.0, 0.0, 
                         -1.0 - 2.0 * left / (right - left), 1.0 + 2.0 * top / (bottom - top), 1.0 / (zFar - zNear), 0.0, 
                         0.0, 0.0, zNear / (zNear - zFar), 1.0
-            ]);
+            ]));
     }
     
     public function orthoOffCenterRH(left : Float,
@@ -230,12 +230,12 @@ class PerspectiveMatrix3D extends Matrix3D
             zNear : Float,
             zFar : Float) : Void
     {
-        this.copyRawDataFrom([
+        this.copyRawDataFrom(Array/*Vector.<T> call?*/([
                         2.0 / (right - left), 0.0, 0.0, 0.0, 
                         0.0, 2.0 * zNear / (top - bottom), 0.0, 0.0, 
                         -1.0 - 2.0 * left / (right - left), 1.0 + 2.0 * top / (bottom - top), 1.0 / (zNear - zFar), 0.0, 
                         0.0, 0.0, zNear / (zNear - zFar), 1.0
-            ]);
+            ]));
     }
     
     private var _x : Vector3D = new Vector3D();

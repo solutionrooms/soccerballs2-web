@@ -94,7 +94,7 @@ class EditModeMulti extends EditModeBase
         {
             Levels.currentIndex = lindex;
             PhysEditor.currentLevel = lindex;
-            cast((false), SelectAll);
+            SelectAll(false);
             SetDefaultGameLayers();
             
             Utils.print(" level " + lindex + "    num objects: " + selectedObjects.length);
@@ -179,13 +179,13 @@ class EditModeMulti extends EditModeBase
         {
             return;
         }
-        if (cast((obj), IsInSelectedList))
+        if (IsInSelectedList(obj))
         {
-            cast((obj), RemoveFromSelected);
+            RemoveFromSelected(obj);
         }
         else
         {
-            cast((obj), AddToSelected);
+            AddToSelected(obj);
         }
     }
     
@@ -202,7 +202,7 @@ class EditModeMulti extends EditModeBase
     {
         PhysEditor.CursorText_Show();
         PhysEditor.CursorText_Set("");
-        cast(("null"), SetSubMode);
+        SetSubMode("null");
         
         selectedObjects = new Array<EditableObjectBase>();
         hoveredObj = null;
@@ -245,7 +245,7 @@ class EditModeMulti extends EditModeBase
         else
         {
             var obj : EditableObjectBase = PhysEditor.HitTestAnyObject(mxs, mys, mx, my);
-            cast((obj), ToggleSelected);
+            ToggleSelected(obj);
         }
     }
     
@@ -269,14 +269,14 @@ class EditModeMulti extends EditModeBase
         
         if (subMode == "dragbox")
         {
-            cast((true), SelectInDragBox);
+            SelectInDragBox(true);
             KeyReader.ClearKey(KeyReader.KEY_SHIFT);
         }
         else if (subMode == "dragrot")
         {
         }
         
-        cast(("null"), SetSubMode);
+        SetSubMode("null");
     }
     override public function OnMouseMove(e : MouseEvent) : Void
     {
@@ -289,7 +289,7 @@ class EditModeMulti extends EditModeBase
             {
                 dragRectX1 = mxs;
                 dragRectY1 = mys;
-                cast((false), SelectInDragBox);
+                SelectInDragBox(false);
             }
             else if (subMode == "drag")
             {
@@ -321,7 +321,7 @@ class EditModeMulti extends EditModeBase
     
     private function getClass(obj : Dynamic) : Class<Dynamic>
     {
-        return cast((Type.resolveClass(Type.getClassName(obj))), Class);
+        return Class(Type.resolveClass(Type.getClassName(obj)));
     }
     
     override public function OnMouseWheel(delta : Int) : Void
@@ -362,11 +362,11 @@ class EditModeMulti extends EditModeBase
         
         if (KeyReader.Down(KeyReader.KEY_CONTROL))
         {
-            cast(("drag"), SetSubMode);
+            SetSubMode("drag");
         }
         else if (KeyReader.Down(KeyReader.KEY_R))
         {
-            cast(("dragrot"), SetSubMode);
+            SetSubMode("dragrot");
         }
         else if (KeyReader.Down(KeyReader.KEY_SHIFT))
         {
@@ -378,7 +378,7 @@ class EditModeMulti extends EditModeBase
                 dragRectY1 = mys;
                 ClearSelected();
             }
-            cast(("dragbox"), SetSubMode);
+            SetSubMode("dragbox");
         }
         else if (KeyReader.Pressed(KeyReader.KEY_C))
         {
@@ -396,9 +396,9 @@ class EditModeMulti extends EditModeBase
         {
             if (subMode == "dragbox")
             {
-                cast((true), SelectInDragBox);
+                SelectInDragBox(true);
             }
-            cast(("null"), SetSubMode);
+            SetSubMode("null");
         }
     }
     
@@ -471,6 +471,7 @@ class EditModeMulti extends EditModeBase
     private function SetSubMode(s : String)
     {
         subMode = s;
+        
         
         
         
@@ -594,8 +595,9 @@ class EditModeMulti extends EditModeBase
             {
                 PhysEditor.GetCurrentLevelJoints().push(obj);
             }
-            cast((obj), AddToSelected);
+            AddToSelected(obj);
         }
+        
         
         for (obj in a)
         {
@@ -604,11 +606,12 @@ class EditModeMulti extends EditModeBase
                 var j : EdJoint = try cast(obj, EdJoint) catch(e:Dynamic) null;
                 j.UpdateLinkages();
             }
-            cast((obj), AddToSelected);
+            AddToSelected(obj);
         }
         
         
         PhysEditor.ClearAllPreviousIDs();
     }
 }
+
 

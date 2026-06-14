@@ -3,7 +3,7 @@ package editorPackage;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class GameLayer
 {
@@ -18,4 +18,5 @@ class GameLayer
         zpos = XmlHelper.GetAttrNumber(x.att.zpos, 0);
     }
 }
+
 

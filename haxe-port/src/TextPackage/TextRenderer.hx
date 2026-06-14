@@ -8,7 +8,7 @@ import flash.geom.Rectangle;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class TextRenderer
 {
@@ -46,7 +46,7 @@ class TextRenderer
         m.rotate(dir);
         m.scale(scale, scale);
         
-        var width : Float = cast((str), GetStringWidth);
+        var width : Float = GetStringWidth(str);
         if (justify == JUSTIFY_LEFT)
         {
         }
@@ -98,12 +98,12 @@ class TextRenderer
     
     public static function GetStringWidth(str : String) : Float
     {
-        return cast((str), GetStringDimensions).width;
+        return GetStringDimensions(str).width;
     }
     
     public static function GetStringHeight(str : String) : Int
     {
-        return cast((str), GetStringDimensions).height;
+        return GetStringDimensions(str).height;
     }
     public static function GetStringDimensions(str : String) : Rectangle
     {
@@ -136,4 +136,5 @@ class TextRenderer
         return r;
     }
 }
+
 

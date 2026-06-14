@@ -63,25 +63,32 @@ class MochiServices
     
     public static var widget : Bool = false;
     
+    
     private static function get_id() : String
     {
         return _id;
     }
+    
     
     private static function get_clip() : Dynamic
     {
         return _container;
     }
     
+    
     private static function get_childClip() : Dynamic
     {
         return _clip;
     }
     
+    
+    
     public static function getVersion() : String
     {
         return "3.0";
     }
+    
+    
     
     public static function allowDomains(server : String) : String
     {
@@ -105,10 +112,13 @@ class MochiServices
         return hostname;
     }
     
+    
+    
     public static function isNetworkAvailable() : Bool
     {
         return Security.sandboxType != "localWithFile";
     }
+    
     
     private static function set_comChannelName(val : String) : String
     {
@@ -122,6 +132,7 @@ class MochiServices
         }
         return val;
     }
+    
     
     private static function get_connected() : Bool
     {
@@ -173,7 +184,7 @@ class MochiServices
                 {
                     if (Std.is(_clip.parent, Sprite))
                     {
-                        cast((_clip.parent), Sprite).removeChild(_clip);
+                        Sprite(_clip.parent).removeChild(_clip);
                         _clip = null;
                     }
                 }
@@ -241,7 +252,7 @@ class MochiServices
         _container.removeEventListener(Event.ENTER_FRAME, MochiServices.bringToTop);
         if (_clip.parent != null)
         {
-            cast((_clip.parent), Sprite).removeChild(_clip);
+            Sprite(_clip.parent).removeChild(_clip);
         }
     }
     
@@ -268,6 +279,8 @@ class MochiServices
         }
     }
     
+    
+    
     private static function init(id : String, clip : Dynamic) : Void
     {
         _id = id;
@@ -277,6 +290,8 @@ class MochiServices
             loadCommunicator(id, _container);
         }
     }
+    
+    
     
     public static function setContainer(container : Dynamic = null, doAdd : Bool = true) : Void
     {
@@ -292,10 +307,12 @@ class MochiServices
         {
             if (Std.is(_container, Sprite))
             {
-                cast((_container), Sprite).addChild(_clip);
+                Sprite(_container).addChild(_clip);
             }
         }
     }
+    
+    
     
     
     private static function loadCommunicator(id : String, clip : Dynamic) : MovieClip
@@ -320,6 +337,7 @@ class MochiServices
         MochiServices.allowDomains(_servicesURL);
         
         _clip = createEmptyMovieClip(clip, clipname, 10336, false);
+        
         
         _loader = new Loader();
         
@@ -346,11 +364,13 @@ class MochiServices
         }
         req.data = vars;
         
+        
         listen();
         _loader.load(req);
         
         _clip.addChild(_loader);
         _clip._mochiservices_com = _loader;
+        
         
         _sendChannel = new LocalConnection();
         
@@ -365,6 +385,8 @@ class MochiServices
         return _clip;
     }
     
+    
+    
     public static function connectWait(e : TimerEvent) : Void
     {
         if (!_connected)
@@ -375,6 +397,8 @@ class MochiServices
             MochiServices.onError("IOError");
         }
     }
+    
+    
     
     private static function onStatus(event : StatusEvent) : Void
     {
@@ -387,6 +411,8 @@ class MochiServices
                 _listenChannel.connect(_listenChannelName);
         }
     }
+    
+    
     
     private static function listen() : Void
     {
@@ -401,6 +427,8 @@ class MochiServices
         _listenChannel.connect(_listenChannelName);
         trace("Waiting for MochiAds services to connect...");
     }
+    
+    
     
     private static function initComChannels() : Void
     {
@@ -480,6 +508,8 @@ class MochiServices
     }
     
     
+    
+    
     private static function flush(error : Bool) : Void
     {
         var request : Dynamic;
@@ -511,6 +541,8 @@ class MochiServices
             }
         }
     }
+    
+    
     
     private static function handleError(args : Dynamic, callbackObject : Dynamic, callbackMethod : Dynamic) : Void
     {
@@ -554,6 +586,8 @@ class MochiServices
             }
         }
     }
+    
+    
     
     public static function send(methodName : String, args : Dynamic = null, callbackObject : Dynamic = null, callbackMethod : Dynamic = null) : Void
     {

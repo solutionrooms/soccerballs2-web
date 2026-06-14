@@ -1,4 +1,3 @@
-import flash.errors.Error;
 import flash.display.BitmapData;
 import flash.display3D.Context3DTextureFormat;
 import flash.display3D.textures.Texture;
@@ -11,7 +10,7 @@ import flash.utils.ByteArray;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class TexturePage
 {
@@ -56,6 +55,7 @@ class TexturePage
     
     
     
+    
     public function Create()
     {
         if (false == false)
@@ -75,10 +75,10 @@ class TexturePage
         {
             bd.copyPixels(dof.bitmapData, dof.bitmapData.rect, new Point(dof.sourceRect.x, dof.sourceRect.y));
             
-            dof.u0 = 1 / width * dof.sourceRect.x;
-            dof.v0 = 1 / height * dof.sourceRect.y;
-            dof.u1 = 1 / width * (dof.sourceRect.x + dof.bitmapData.width);
-            dof.v1 = 1 / height * (dof.sourceRect.y + dof.bitmapData.height);
+            dof.u0 = 1 / as3hx.Compat.parseFloat(width) * dof.sourceRect.x;
+            dof.v0 = 1 / as3hx.Compat.parseFloat(height) * dof.sourceRect.y;
+            dof.u1 = 1 / as3hx.Compat.parseFloat(width) * (dof.sourceRect.x + dof.bitmapData.width);
+            dof.v1 = 1 / as3hx.Compat.parseFloat(height) * (dof.sourceRect.y + dof.bitmapData.height);
             dof.s3dTexture = s3dTexture;
             dof.MakeVertexBuffer();
             
@@ -95,28 +95,15 @@ class TexturePage
     
     
     
+    
+    
+    
     public function Save(index : Int)
     {
         if (Game.saveTextureFiles)
         {
-            if (false)
-            {
-                var ba : ByteArray = PNGEncoder.encode(bd);
-                var fl : File = File.desktopDirectory.resolvePath("TexturePage_" + index + ".png");
-                var fs : FileStream = new FileStream();
-                
-                try
-                {
-                    fs.open(fl, FileMode.WRITE);
-                    fs.writeBytes(ba);
-                    fs.close();
-                }
-                catch (e : Error)
-                {
-                    trace(e.message);
-                }
-            }
         }
     }
 }
+
 

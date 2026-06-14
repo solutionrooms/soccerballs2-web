@@ -2,25 +2,25 @@
 Copyright (c) 2011, Adobe Systems Incorporated
 All rights reserved.
 
-Redistribution and use in source and binary forms, with or without 
+Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
 met:
 
-* Redistributions of source code must retain the above copyright notice, 
+* Redistributions of source code must retain the above copyright notice,
 this list of conditions and the following disclaimer.
 
 * Redistributions in binary form must reproduce the above copyright
-notice, this list of conditions and the following disclaimer in the 
+notice, this list of conditions and the following disclaimer in the
 documentation and/or other materials provided with the distribution.
 
-* Neither the name of Adobe Systems Incorporated nor the names of its 
-contributors may be used to endorse or promote products derived from 
+* Neither the name of Adobe Systems Incorporated nor the names of its
+contributors may be used to endorse or promote products derived from
 this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
 THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR 
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
 CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
 EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
 PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
@@ -39,12 +39,19 @@ class AGALMiniAssembler
     public var error(get, never) : String;
     public var agalcode(get, never) : ByteArray;
 
+    
+    
+    
+    
     private var _agalcode : ByteArray = null;
     private var _error : String = "";
     
     private var debugEnabled : Bool = false;
     
     private static var initialized : Bool = false;
+    
+    
+    
     
     private function get_error() : String
     {
@@ -55,6 +62,9 @@ class AGALMiniAssembler
         return _agalcode;
     }
     
+    
+    
+    
     public function new(debugging : Bool = false)
     {
         debugEnabled = debugging;
@@ -63,6 +73,9 @@ class AGALMiniAssembler
             init();
         }
     }
+    
+    
+    
     public function assemble(mode : String, source : String, verbose : Bool = false) : ByteArray
     {
         var start : Int = Math.round(haxe.Timer.stamp() * 1000);
@@ -82,10 +95,10 @@ class AGALMiniAssembler
         }
         
         agalcode.endian = Endian.LITTLE_ENDIAN;
-        agalcode.writeByte(0xa0);  // tag version  
-        agalcode.writeUnsignedInt(0x1);  // AGAL version, big endian, bit pattern will be 0x01000000  
-        agalcode.writeByte(0xa1);  // tag program id  
-        agalcode.writeByte((isFrag) ? 1 : 0);  // vertex or fragment  
+        agalcode.writeByte(0xa0);
+        agalcode.writeUnsignedInt(0x1);
+        agalcode.writeByte(0xa1);
+        agalcode.writeByte((isFrag) ? 1 : 0);
         
         var lines : Array<Dynamic> = new as3hx.Compat.Regex('[\\f\\n\\r\\v]+', "g").replace(source, "\n").split("\n");
         var nest : Int = 0;
@@ -96,13 +109,15 @@ class AGALMiniAssembler
         i = 0;
         while (i < lng && _error == "")
         {
-            var line : String = new String(lines[i]);
+            var line : String = new Std.string(lines[i]);
+            
             
             var startcomment : Int = line.search("//");
             if (startcomment != -1)
             {
                 line = line.substring(0, startcomment);
             }
+            
             
             var optsi : Int = line.search(new as3hx.Compat.Regex('<.*>', "g"));
             var opts : Array<Dynamic>;
@@ -112,8 +127,10 @@ class AGALMiniAssembler
                 line = line.substring(0, optsi);
             }
             
+            
             var opCode : Array<Dynamic> = line.match(new as3hx.Compat.Regex('^\\w{3}', "ig"));
             var opFound : OpCode = Reflect.field(OPMAP, Std.string(opCode[0]));
+            
             
             if (debugEnabled)
             {
@@ -131,6 +148,7 @@ class AGALMiniAssembler
             }
             
             line = line.substring(line.search(opFound.name) + opFound.name.length);
+            
             
             if ((opFound.flags & OP_DEC_NEST) != 0)
             {
@@ -169,6 +187,7 @@ class AGALMiniAssembler
                 break;
             }
             
+            
             var regs : Array<Dynamic> = line.match(new as3hx.Compat.Regex('vc\\[([vof][actps]?)(\\d*)?(\\.[xyzw](\\+\\d{1,3})?)?\\](\\.[xyzw]{1,4})?|([vof][actps]?)(\\d*)?(\\.[xyzw]{1,4})?', "gi"));
             if (regs.length != opFound.numRegister)
             {
@@ -197,6 +216,7 @@ class AGALMiniAssembler
                 
                 var res : Array<Dynamic> = regs[j].match(new as3hx.Compat.Regex('^\\b[A-Za-z]{1,2}', "ig"));
                 var regFound : Register = Reflect.field(REGMAP, Std.string(res[0]));
+                
                 
                 if (debugEnabled)
                 {
@@ -233,6 +253,7 @@ class AGALMiniAssembler
                 }
                 
                 regs[j] = regs[j].slice(regs[j].search(regFound.name) + regFound.name.length);
+                
                 var idxmatch : Array<Dynamic> = (isRelative) ? relreg[0].match(new as3hx.Compat.Regex('\\d+', "")) : regs[j].match(new as3hx.Compat.Regex('\\d+', ""));
                 var regidx : Int = 0;
                 
@@ -288,7 +309,7 @@ class AGALMiniAssembler
                     {
                         while (k <= 4)
                         {
-                            regmask = regmask | as3hx.Compat.parseInt(cv <<((k - 1) << 1)  // repeat last  );
+                            regmask = regmask | as3hx.Compat.parseInt(cv << ((k - 1) << 1));
                             k++;
                         }
                     }
@@ -355,7 +376,7 @@ class AGALMiniAssembler
                     {
                         trace("  emit sampler");
                     }
-                    var samplerbits : Int = 5;  // type 5  
+                    var samplerbits : Int = 5;
                     var optsLength : Int = opts.length;
                     var bias : Float = 0;
                     for (k in 0...optsLength)
@@ -411,6 +432,7 @@ class AGALMiniAssembler
                 }
             }
             
+            
             j = 0;
             while (j < pad)
             {
@@ -431,6 +453,7 @@ class AGALMiniAssembler
             agalcode.length = 0;
             trace(_error);
         }
+        
         
         if (debugEnabled)
         {
@@ -469,6 +492,7 @@ class AGALMiniAssembler
     private static function init() : Void
     {
         initialized = true;
+        
         
         OPMAP[MOV] = new OpCode(MOV, 2, 0x00, 0);
         OPMAP[ADD] = new OpCode(ADD, 3, 0x01, 0);
@@ -542,9 +566,12 @@ class AGALMiniAssembler
         SAMPLEMAP[CLAMP] = new Sampler(CLAMP, SAMPLER_REPEAT_SHIFT, 0);
     }
     
-    private static var OPMAP : Dictionary = new Dictionary();
-    private static var REGMAP : Dictionary = new Dictionary();
-    private static var SAMPLEMAP : Dictionary = new Dictionary();
+    
+    
+    
+    private static var OPMAP : Dictionary<Dynamic, Dynamic> = new Dictionary<Dynamic, Dynamic>();
+    private static var REGMAP : Dictionary<Dynamic, Dynamic> = new Dictionary<Dynamic, Dynamic>();
+    private static var SAMPLEMAP : Dictionary<Dynamic, Dynamic> = new Dictionary<Dynamic, Dynamic>();
     
     private static inline var MAX_NESTING : Int = 4;
     private static inline var MAX_OPCODES : Int = 256;
@@ -552,16 +579,19 @@ class AGALMiniAssembler
     private static inline var FRAGMENT : String = "fragment";
     private static inline var VERTEX : String = "vertex";
     
+    
     private static inline var SAMPLER_DIM_SHIFT : Int = 12;
     private static inline var SAMPLER_SPECIAL_SHIFT : Int = 16;
     private static inline var SAMPLER_REPEAT_SHIFT : Int = 20;
     private static inline var SAMPLER_MIPMAP_SHIFT : Int = 24;
     private static inline var SAMPLER_FILTER_SHIFT : Int = 28;
     
+    
     private static inline var REG_WRITE : Int = 0x1;
     private static inline var REG_READ : Int = 0x2;
     private static inline var REG_FRAG : Int = 0x20;
     private static inline var REG_VERT : Int = 0x40;
+    
     
     private static inline var OP_SCALAR : Int = 0x1;
     private static inline var OP_INC_NEST : Int = 0x2;
@@ -571,6 +601,7 @@ class AGALMiniAssembler
     private static inline var OP_FRAG_ONLY : Int = 0x20;
     private static inline var OP_VERT_ONLY : Int = 0x40;
     private static inline var OP_NO_DEST : Int = 0x80;
+    
     
     private static inline var MOV : String = "mov";
     private static inline var ADD : String = "add";
@@ -617,6 +648,7 @@ class AGALMiniAssembler
     private static inline var SLT : String = "slt";
     private static inline var SGN : String = "sgn";
     
+    
     private static inline var VA : String = "va";
     private static inline var VC : String = "vc";
     private static inline var VT : String = "vt";
@@ -626,6 +658,7 @@ class AGALMiniAssembler
     private static inline var FT : String = "ft";
     private static inline var FS : String = "fs";
     private static inline var OC : String = "oc";
+    
     
     private static inline var D2 : String = "2d";
     private static inline var D3 : String = "3d";
@@ -646,6 +679,12 @@ class AGALMiniAssembler
 
 
 
+
+
+
+
+
+
 class OpCode
 {
     public var emitCode(get, never) : Int;
@@ -653,10 +692,16 @@ class OpCode
     public var name(get, never) : String;
     public var numRegister(get, never) : Int;
 
+    
+    
+    
     private var _emitCode : Int;
     private var _flags : Int;
     private var _name : String;
     private var _numRegister : Int;
+    
+    
+    
     
     private function get_emitCode() : Int
     {
@@ -675,6 +720,9 @@ class OpCode
         return _numRegister;
     }
     
+    
+    
+    
     public function new(name : String, numRegister : Int, emitCode : Int, flags : Int)
     {
         _name = name;
@@ -683,11 +731,17 @@ class OpCode
         _flags = flags;
     }
     
+    
+    
+    
     public function toString() : String
     {
         return "[OpCode name=\"" + _name + "\", numRegister=" + _numRegister + ", emitCode=" + _emitCode + ", flags=" + _flags + "]";
     }
 }
+
+
+
 
 class Register
 {
@@ -697,11 +751,17 @@ class Register
     public var flags(get, never) : Int;
     public var range(get, never) : Int;
 
+    
+    
+    
     private var _emitCode : Int;
     private var _name : String;
     private var _longName : String;
     private var _flags : Int;
     private var _range : Int;
+    
+    
+    
     
     private function get_emitCode() : Int
     {
@@ -724,6 +784,9 @@ class Register
         return _range;
     }
     
+    
+    
+    
     public function new(name : String, longName : String, emitCode : Int, range : Int, flags : Int)
     {
         _name = name;
@@ -733,11 +796,17 @@ class Register
         _flags = flags;
     }
     
+    
+    
+    
     public function toString() : String
     {
         return "[Register name=\"" + _name + "\", longName=\"" + _longName + "\", emitCode=" + _emitCode + ", range=" + _range + ", flags=" + _flags + "]";
     }
 }
+
+
+
 
 class Sampler
 {
@@ -745,9 +814,15 @@ class Sampler
     public var mask(get, never) : Int;
     public var name(get, never) : String;
 
+    
+    
+    
     private var _flag : Int;
     private var _mask : Int;
     private var _name : String;
+    
+    
+    
     
     private function get_flag() : Int
     {
@@ -762,6 +837,9 @@ class Sampler
         return _name;
     }
     
+    
+    
+    
     public function new(name : String, flag : Int, mask : Int)
     {
         _name = name;
@@ -769,8 +847,12 @@ class Sampler
         _mask = mask;
     }
     
+    
+    
+    
     public function toString() : String
     {
         return "[Sampler name=\"" + _name + "\", flag=\"" + _flag + "\", mask=" + mask + "]";
     }
 }
+

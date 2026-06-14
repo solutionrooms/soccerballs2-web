@@ -3,7 +3,7 @@ package achievementPackage;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class AchievementTestFunctions
 {
@@ -19,6 +19,7 @@ class AchievementTestFunctions
     private function AchPass_Cash() : Void
     {
         var num : Int = Utils.GetParamInt("cash");
+        
         Game.currentScore += num;
     }
     
@@ -31,6 +32,7 @@ class AchievementTestFunctions
         Levels.GetLevel(num - 1).newlyAvailable = true;
         Levels.GetLevel(num - 1).markedAsJustUnlocked = true;
         Achievements.currentAch.popupFrame = num;
+        
         Game.currentScore += 500;
     }
     
@@ -243,6 +245,9 @@ class AchievementTestFunctions
     
     
     
+    
+    
+    
     public var num_hits : Int;
     public var race_time : Int = 999999;
     public var race_place : Int = 99999;
@@ -259,4 +264,5 @@ class AchievementTestFunctions
         race_place = 9999999;
     }
 }
+
 

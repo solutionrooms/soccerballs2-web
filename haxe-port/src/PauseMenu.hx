@@ -51,7 +51,7 @@ class PauseMenu
 			pauseMC.buttonContinue.addEventListener(MouseEvent.CLICK,pressed_buttonContinue);
 			pauseMC.buttonHelp.addEventListener(MouseEvent.CLICK,pressed_buttonHelp);
 			pauseMC.buttonHints.addEventListener(MouseEvent.CLICK, pressed_buttonHelp);
-			
+
 			pauseMC.buttonHelp.visible = false;
 			pauseMC.buttonHints.visible = false;
 */
@@ -101,4 +101,5 @@ class PauseMenu
         KeyReader.InitOnce(Game.main.stage);
     }
 }
+
 

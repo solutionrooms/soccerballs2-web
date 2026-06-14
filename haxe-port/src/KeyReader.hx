@@ -118,9 +118,9 @@ class KeyReader
         var i : Int;
         for (i in 0...256)
         {
-            keysDown[i] = 0;
-            keysPressed[i] = cast(false, Bool);
-            keysCleared[i] = cast(false, Bool);
+            keysDown[i] = as3hx.Compat.parseInt(0);
+            keysPressed[i] = false;
+            keysCleared[i] = false;
         }
         active = true;
     }
@@ -166,6 +166,13 @@ class KeyReader
             }
         }
     }
+    
+    
+    
+    
+    
+    
+    
     
     
     public static function Down(keyID : Int) : Bool
@@ -217,4 +224,5 @@ class KeyReader
         keysCleared[code] = false;
     }
 }
+
 

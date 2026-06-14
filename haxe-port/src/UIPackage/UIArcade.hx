@@ -39,7 +39,7 @@ class UIArcade extends UIScreenInstance
         
         Audio.PlayMusic("menus_music");
         
-        titleMC = new MovieClip();  // arcade();  
+        titleMC = new MovieClip();
         titleMC.gotoAndStop(1);
         
         UI.AddAnimatedMCButton(titleMC.buttonQuit, buttonBackPressed, null, true);
@@ -48,7 +48,7 @@ class UIArcade extends UIScreenInstance
         MiniGame.Init(titleMC);
         
         titleMC.addChild(MiniGame.GetBitmap());
-        titleMC.setChildIndex(MiniGame.GetBitmap(), 0);  // titleMC.numChildren - 1);  
+        titleMC.setChildIndex(MiniGame.GetBitmap(), 0);
         
         
         titleMC.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
@@ -75,4 +75,5 @@ class UIArcade extends UIScreenInstance
         UI.StartTransition("levelselect");
     }
 }
+
 

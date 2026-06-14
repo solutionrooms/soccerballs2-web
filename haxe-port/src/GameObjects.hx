@@ -74,9 +74,10 @@ class GameObjects
 			var nextAvailableIndex:int = inactiveIndices[numInactive-1];
 			var go:GameObj = objs[nextAvailableIndex];
 			numInactive--;
-			
+
 			Utils.trace("initing index " + nextAvailableIndex + ".   numInactive: " + numInactive);
-			
+
+
 
 					go.active = true;
 					go.zpos = _zpos;
@@ -132,6 +133,7 @@ class GameObjects
     
     
     private var v : Array<GameObj> = new Array<GameObj>();
+    
     public static function zcompare(x : Point, y : Point) : Float
     {
         if (x.y > y.y)
@@ -233,12 +235,18 @@ class GameObjects
         EngineDebug.EndTimer("sort");
         
         
+        
+        
+        
+        
         for (a in 0...i)
         {
             go = Reflect.field(zorder, Std.string(a));
+            
             go.Render(bd);
         }
     }
+    
     
     public static function CountByName(_name : String) : Int
     {
@@ -266,6 +274,7 @@ class GameObjects
         }
         return count;
     }
+    
     
     
     public static function UpdateMultiplePhysicsUpdateObjects() : Void
@@ -344,6 +353,7 @@ class GameObjects
     }
     
     
+    
     private static function GetGameObjListByNameList(names : String) : Array<Dynamic>
     {
         var list : Array<Dynamic> = new Array<Dynamic>();
@@ -351,7 +361,7 @@ class GameObjects
         var nameList : Array<Dynamic> = names.split(",");
         for (name in nameList)
         {
-            var l1 : Array<Dynamic> = cast((name), GetGameObjListByName);
+            var l1 : Array<Dynamic> = GetGameObjListByName(name);
             for (go in l1)
             {
                 list.push(go);

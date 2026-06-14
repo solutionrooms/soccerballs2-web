@@ -4,19 +4,19 @@ import flash.utils.Dictionary;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class TextString
 {
     private var name : String;
-    private var dictionary : Dictionary;
+    private var dictionary : Dictionary<Dynamic, Dynamic>;
     
     public function new()
     {
     }
     public function FromXML(x : FastXML)
     {
-        dictionary = new Dictionary();
+        dictionary = new Dictionary<Dynamic, Dynamic>();
         
         name = XmlHelper.GetAttrString(x.att.name, "");
         var attrs : FastXMLList = x.node.attributes.innerData();
@@ -45,4 +45,5 @@ class TextString
         return dictionary[TextStrings.languageLabels[TextStrings.currentLanguage]];
     }
 }
+
 

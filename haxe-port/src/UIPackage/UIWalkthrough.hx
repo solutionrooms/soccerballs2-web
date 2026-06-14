@@ -98,10 +98,12 @@ class UIWalkthrough extends UIScreenInstance
                     var mc : MovieClip = try cast(Type.createInstance(classRef, []), MovieClip) catch(e:Dynamic) null;
                     mc.gotoAndStop(i + 1);
                     
+                    
                     mc.screenIndex = i;
                     mc.x = 10 + (x * (w.thumbW + spaceX));
                     mc.y = 120 + (y * (w.thumbH + spaceY));
                     titleMC.addChild(mc);
+                    
                     
                     
                     mc.useHandCursor = true;
@@ -207,6 +209,7 @@ class UIWalkthrough extends UIScreenInstance
                 if (l.available)
                 {
                     mc.canPress = true;
+                    
                     mc.levelNumber.visible = true;
                 }
                 else
@@ -225,12 +228,12 @@ class UIWalkthrough extends UIScreenInstance
 					if (l.newlyAvailable)
 					{
 						mc.newIcon.visible = true;
-						mc.newIcon.play();						
+						mc.newIcon.play();
 					}
 					else
 					{
 						mc.newIcon.visible = false;
-						mc.newIcon.stop();			
+						mc.newIcon.stop();
 					}
 					*/
                 
@@ -274,6 +277,7 @@ class UIWalkthrough extends UIScreenInstance
         fr.addEventListener(Event.COMPLETE, SaveScreenshots_CB);
         
         var name : String = "screenshot_level_" + (currentScreenshot + 1) + ".png";
+        
         
         var ba : ByteArray = PNGEncoder.encode(w.thumbBD);
         fr.save(ba, name);
@@ -320,4 +324,5 @@ class UIWalkthrough extends UIScreenInstance
         UI.StartTransition("walkthrough_screen");
     }
 }
+
 

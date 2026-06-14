@@ -7,7 +7,7 @@ import flash.utils.Dictionary;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class TextStrings
 {
@@ -19,19 +19,19 @@ class TextStrings
     
     private static var xml : FastXML;
     public static var list : Array<TextString>;
-    public static var dict : Dictionary;
+    public static var dict : Dictionary<Dynamic, Dynamic>;
     
     private static var initialised : Bool = false;
     
-    public static var LANGUAGE_EN : Int = 0;  // english  
-    public static var LANGUAGE_FR : Int = 1;  // french  
-    public static var LANGUAGE_DE : Int = 2;  // german  
-    public static var LANGUAGE_PT : Int = 3;  // portuguese  
-    public static var LANGUAGE_ES : Int = 4;  // spanish  
-    public static var LANGUAGE_NL : Int = 5;  // dutch  
-    public static var LANGUAGE_TR : Int = 6;  // turkish  
-    public static var LANGUAGE_SE : Int = 7;  // swedish  
-    public static var LANGUAGE_IT : Int = 8;  // italian  
+    public static var LANGUAGE_EN : Int = 0;
+    public static var LANGUAGE_FR : Int = 1;
+    public static var LANGUAGE_DE : Int = 2;
+    public static var LANGUAGE_PT : Int = 3;
+    public static var LANGUAGE_ES : Int = 4;
+    public static var LANGUAGE_NL : Int = 5;
+    public static var LANGUAGE_TR : Int = 6;
+    public static var LANGUAGE_SE : Int = 7;
+    public static var LANGUAGE_IT : Int = 8;
     
     public static var languageLabels = new Array<Dynamic>(
         "en", "fr", "de", "pt", "es", "nl", "tr", "se", "it");
@@ -51,6 +51,7 @@ class TextStrings
         LANGUAGE_PT, 
         LANGUAGE_ES, 
         LANGUAGE_NL, 
+        
         LANGUAGE_SE, 
         LANGUAGE_IT);
     
@@ -61,7 +62,7 @@ class TextStrings
     public static function InitOnce()
     {
         list = new Array<TextString>();
-        dict = new Dictionary();
+        dict = new Dictionary<Dynamic, Dynamic>();
         
         FastXML.ignoreWhitespace = true;
         xml = try cast(new FastXML(Type.createInstance(class_embedded_XML, [])), FastXML) catch(e:Dynamic) null;
@@ -118,11 +119,11 @@ class TextStrings
             s = StringTools.replace(s, "\r", "");
             s = StringTools.replace(s, "\n", "");
             
-            txt = cast((s), GetTextString);
+            txt = GetTextString(s);
         }
         else
         {
-            txt = cast((strName), GetTextString);
+            txt = GetTextString(strName);
         }
         if (txt != null)
         {
@@ -139,11 +140,11 @@ class TextStrings
             s = StringTools.replace(s, "\r", "");
             s = StringTools.replace(s, "\n", "");
             
-            txt = cast((s), GetTextString);
+            txt = GetTextString(s);
         }
         else
         {
-            txt = cast((strName), GetTextString);
+            txt = GetTextString(strName);
         }
         
         if (txt != null)
@@ -172,6 +173,7 @@ class TextStrings
         tf.text = tf.text.replace("\r", "");
         tf.text = tf.text.replace("\n", "");
         
+        
         var tFormat : TextFormat;
         
         var carryOn : Bool = true;
@@ -196,4 +198,5 @@ class TextStrings
         while ((carryOn == false));
     }
 }
+
 

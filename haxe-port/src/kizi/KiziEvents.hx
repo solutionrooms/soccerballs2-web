@@ -4,7 +4,7 @@ import haxe.Constraints.Function;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class KiziEvents
 {
@@ -48,3 +48,4 @@ class KiziEvents
     {
     }
 }
+

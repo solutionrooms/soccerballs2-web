@@ -49,6 +49,7 @@ class UIPickATeam extends UIScreenInstance
         
         
         
+        
         InitTeamButtons();
         
         if (Game.usedebug)
@@ -320,5 +321,6 @@ class UIPickATeam extends UIScreenInstance
         animHierarchy.SetPartFrame("head", player_Head);
     }
 }
+
 
 

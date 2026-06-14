@@ -5,7 +5,7 @@ import flash.utils.Dictionary;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class KiziScores
 {
@@ -21,3 +21,4 @@ class KiziScores
     {
     }
 }
+

@@ -1,8 +1,8 @@
 /**
 This code is a quick port of code written in C++ which was submitted to
-flipcode.com by John W. Ratcliff  // July 22, 2000
+flipcode.com by John W. Ratcliff
 See original code and more information here:
-http://www.flipcode.com/archives/Efficient_Polygon_Triangulation.shtml
+http:
 ported to actionscript by Zevan Rosser
 www.actionsnippet.com
 */
@@ -94,6 +94,7 @@ t = as3hx.Compat.parseInt(v + 1);
         }
         return result;
     }
+    
     public function area(contour : Array<Dynamic>) : Float
     {
         var n : Int = contour.length;
@@ -107,6 +108,7 @@ t = as3hx.Compat.parseInt(v + 1);
         }
         return a * 0.5;
     }
+    
     public function insideTriangle(ax : Float, ay : Float, bx : Float, by : Float, cx : Float, cy : Float, px : Float, py : Float) : Bool
     {
         var aX : Float;
@@ -172,3 +174,4 @@ t = as3hx.Compat.parseInt(v + 1);
         return true;
     }
 }
+

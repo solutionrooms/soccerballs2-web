@@ -5,7 +5,7 @@ import licPackage.Lic;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class MiniGame
 {
@@ -65,8 +65,10 @@ class MiniGame
         var go : GameObj;
         go = GameObjects.AddObj(0, 0, 0);
         
+        
         var go : GameObj;
         go = GameObjects.AddObj(0, 0, 0);
+        
         
         score = 0;
         lives = 5;
@@ -81,6 +83,7 @@ class MiniGame
     {
         var dob : DisplayObj = GraphicObjects.GetDisplayObjByName("ArcadeBackground");
         dob.RenderAt(0, screenBD, 0, 0);
+        
         GameObjects.Render(screenBD);
     }
     public static function UpdateHud()
@@ -102,4 +105,5 @@ class MiniGame
         }
     }
 }
+
 

@@ -58,12 +58,12 @@ class EngineDebug
         timerNames = new Array<Dynamic>();
         timerTimes = new Array<Dynamic>();
         timerStartTimes = new Array<Dynamic>();
-        cast(("total"), StartTimer);
+        StartTimer("total");
     }
     
     public static function StopTimers()
     {
-        cast(("total"), EndTimer);
+        EndTimer("total");
     }
     
     
@@ -115,7 +115,7 @@ class EngineDebug
         {
             return;
         }
-        if (cast((2), IsSet) == false)
+        if (IsSet(2) == false)
         {
             return;
         }
@@ -153,9 +153,10 @@ class EngineDebug
     }
     
     
+    
     private static function RenderNape(bd : BitmapData) : Void
     {
-        if (cast((4), IsSet) == false)
+        if (IsSet(4) == false)
         {
             return;
         }
@@ -211,7 +212,7 @@ class EngineDebug
         {
             return;
         }
-        if (cast((1), IsSet) == false)
+        if (IsSet(1) == false)
         {
             return;
         }
@@ -230,6 +231,7 @@ class EngineDebug
                 var x1 : Float = line.points[i + 1].x - sx;
                 var y1 : Float = line.points[i + 1].y - sy;
                 
+                
                 {
                     Utils.RenderDotLine(bd, x0, y0, x1, y1, 1000, 0xffffff00);
                 }
@@ -237,4 +239,5 @@ class EngineDebug
         }
     }
 }
+
 

@@ -218,7 +218,7 @@ class LicAds
         var bytesloaded = LicDef.GetStage().stage.loaderInfo.bytesLoaded;
         
         var val : Float = 1 / bytestotal * bytesloaded;
-        cast((val), RenderLoaderBar);
+        RenderLoaderBar(val);
         if (bytesloaded >= bytestotal)
         {
             LicDef.GetStage().removeEventListener(Event.ENTER_FRAME, CPMStarLoadingEventCallback);
@@ -264,6 +264,7 @@ class LicAds
     private static var cpmStarTimer : Timer;
     private static var ad : DisplayObject = null;
     
+    
     private static function RenderLoaderBar(val : Float) : Void
     {
         if (intro == null)
@@ -295,17 +296,18 @@ class LicAds
     }
     
     
+    
     private static function AddIntroScreenAndSetUpButtons()
     {
         intro = new Preloader();
-        intro.x = 0;  // cx;  
-        intro.y = 0;  // cy;  
+        intro.x = 0;
+        intro.y = 0;
         ScreenSize.ScaleMovieClip(intro);
         
         
         LicDef.GetStage().addChild(intro);
         
-        cast((intro.mainLogo), MainLogoButton);
+        MainLogoButton(intro.mainLogo);
         
         intro.logo_soccerballs.gotoAndStop(1);
         if (LicDef.GetLicensor() == LicDef.LICENSOR_MOUSEBREAKER)
@@ -315,7 +317,7 @@ class LicAds
         
         
         UI.AddAnimatedMCButton(intro.buttonSkipCPMStarAd, buttonSkipCPMStarAdPressed);
-        cast((intro.turboBtn), AuthorButton);
+        AuthorButton(intro.turboBtn);
         intro.buttonSkipCPMStarAd.visible = false;
     }
     
@@ -342,7 +344,7 @@ class LicAds
         
         var r : Int = RandBetweenInt(0, LicDef.authorLinks.length - 1);
         r = LimitNumber(0, LicDef.authorLinks.length - 1, r);
-        cast((LicDef.authorLinks[r]), DoLink);
+        DoLink(LicDef.authorLinks[r]);
     }
     public static function LimitNumber(f0 : Float, f1 : Float, n : Float) : Float
     {
@@ -385,24 +387,34 @@ class LicAds
     
     
     
+    
+    
+    
+    
+    
     /*
 var myEpicGameAdsPublisherCode:String="3run02qoxt";
 var myEpicGameAdsGameID:String="1";
-var myEpicGameAdsBgSolid:int=0; // 1 = enabled (show the ad background filled with color), 0 = disabled
-var myEpicGameAdsBgColor:uint=0x000000; // background hex RGB color if background is solid
-var myEpicGameAdsFadeIn:int=1; // 1 = enabled, 2 = disabled (no fade in)
-var myEpicGameAdsFadeFrames:int=24; // how many frames in fadeIn default 24
+
+var myEpicGameAdsBgSolid:int=0;
+var myEpicGameAdsBgColor:uint=0x000000;
+var myEpicGameAdsFadeIn:int=1;
+var myEpicGameAdsFadeFrames:int=24;
+
+
 
 var epicXPos:int=0;
 var epicYPos:int=0;
+
 setRegPoint(this,epicXPos,epicYPos);
 var sEpicRefURL:String=loaderInfo.loaderURL;
 var oEpicUserInfo:Object={publisherCode:myEpicGameAdsPublisherCode,gameId:myEpicGameAdsGameID,refURL:sEpicRefURL,bgSolid:myEpicGameAdsBgSolid,bgColor:myEpicGameAdsBgColor,fadeIN:myEpicGameAdsFadeIn,fadeFrames:myEpicGameAdsFadeFrames};
 var oEpicContent:Object;
 var oEpicDisplay:DisplayObject;
-var epicGameAds:Loader; // holds reference to loader, used to unload ad later
+var epicGameAds:Loader;
 
 Security.allowDomain("http://www.epicgameads.com","http://epicgameads.com");
+
   if(Security.sandboxType != "remote")
   {
   trace("Notice:Running EpicGameAds InGameAd in local security sandbox (domain)");
@@ -410,18 +422,22 @@ Security.allowDomain("http://www.epicgameads.com","http://epicgameads.com");
   trace("Publish the SWF and run it in a REMOTE security sandbox (from a internet URL)");
   }
 
+
 var i:int = this.numChildren;
 while( i -- )
 {
     this.removeChildAt( i );
 }
+
 epicInit();
+
 
 function epicInit():void
 {
 var swfUrl:String="http://www.epicgameads.com/epicgameads-as3-v2.swf";
 var request:URLRequest=new URLRequest(swfUrl);
 var loader:Loader=new Loader();
+
 epicGameAds=loader;
 loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onEpicConIOError);
 loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, epicLoadProgress,false,0,true);
@@ -432,6 +448,7 @@ oEpicDisplay=this.addChild(loader);
 
 function unloadEpicGameAds()
 {
+
 epicGameAds.unloadAndStop();
 }
 
@@ -451,18 +468,29 @@ function epicLoadComplete(e:Event):void
 oEpicDisplay.x=epicXPos;
 oEpicDisplay.y=epicYPos;
 oEpicContent=Object(e.target.content);
+
 oEpicContent.adServerConnect(oEpicUserInfo);
 }
 
 function setRegPoint(obj:DisplayObjectContainer, newX:Number, newY:Number):void {
+
+
+
+
+
 	var bounds:Rectangle = obj.getBounds(obj.parent);
 	var currentRegX:Number = obj.x - bounds.left;
 	var currentRegY:Number = obj.y - bounds.top;
 
 	var xOffset:Number = newX - currentRegX;
 	var yOffset:Number = newY - currentRegY;
+
+
+
 	obj.x += xOffset;
 	obj.y += yOffset;
+
+
 
 	for(var i:int = 0; i < obj.numChildren; i++) {
 		obj.getChildAt(i).x -= xOffset;
@@ -470,15 +498,17 @@ function setRegPoint(obj:DisplayObjectContainer, newX:Number, newY:Number):void 
 	}
 }
 stop();
+
 */
     
     private static var myEpicGameAdsPublisherCode : String = "3run02qoxt";
     private static var myEpicGameAdsGameID : String = "1";
-    private static var myEpicGameAdsBgSolid : Int = 0;  // 1 = enabled (show the ad background filled with color), 0 = disabled  
-    private static var myEpicGameAdsBgColor : Int = 0x000000;  // background hex RGB color if background is solid  
-    private static var myEpicGameAdsFadeIn : Int = 1;  // 1 = enabled, 2 = disabled (no fade in)  
-    private static var myEpicGameAdsFadeFrames : Int = 24;  // how many frames in fadeIn default 24  
-    private static var epicGameAds : Loader;  // holds reference to loader, used to unload ad later  
+    
+    private static var myEpicGameAdsBgSolid : Int = 0;
+    private static var myEpicGameAdsBgColor : Int = 0x000000;
+    private static var myEpicGameAdsFadeIn : Int = 1;
+    private static var myEpicGameAdsFadeFrames : Int = 24;
+    private static var epicGameAds : Loader;
     private static var oEpicContent : Dynamic;
     private static var oEpicDisplay : DisplayObject;
     private static var oEpicUserInfo : Dynamic;
@@ -499,6 +529,7 @@ stop();
                 };
         
         Security.allowDomain("http://www.epicgameads.com", "http://epicgameads.com");
+        
         if (Security.sandboxType != "remote")
         {
             trace("Notice:Running EpicGameAds InGameAd in local security sandbox (domain)");
@@ -509,6 +540,7 @@ stop();
         var swfUrl : String = "http://www.epicgameads.com/epicgameads-as3-v2.swf";
         var request : URLRequest = new URLRequest(swfUrl);
         var loader : Loader = new Loader();
+        
         epicGameAds = loader;
         loader.contentLoaderInfo.addEventListener(IOErrorEvent.IO_ERROR, onEpicConIOError);
         loader.contentLoaderInfo.addEventListener(ProgressEvent.PROGRESS, epicLoadProgress, false, 0, true);
@@ -542,11 +574,15 @@ stop();
     
     private static function epicLoadComplete(e : Event) : Void
     {
-        oEpicDisplay.x = 0;  // epicXPos;  
-        oEpicDisplay.y = 0;  // epicYPos;  
-        oEpicContent = cast((e.target.content), Object);
+        oEpicDisplay.x = 0;
+        oEpicDisplay.y = 0;
+        oEpicContent = Dynamic(e.target.content);
+        
         oEpicContent.adServerConnect(oEpicUserInfo);
     }
+    
+    
+    
     
     
     
@@ -572,6 +608,7 @@ stop();
                 id = LicDef.CPMStarContentSpotIDs[1];
             }
         }
+        
         ad = new cPMStar.AdLoader(id);
         intro.adBox.addChild(ad);
         
@@ -585,7 +622,7 @@ stop();
     }
     
     
-    public static function ShowMochiAd_Preload()  // but preload the game please  
+    public static function ShowMochiAd_Preload()
     {
         LicDef.GetStage().stop();
         
@@ -604,7 +641,7 @@ stop();
         var bytesloaded = LicDef.GetStage().stage.loaderInfo.bytesLoaded;
         
         var val : Float = 1 / bytestotal * bytesloaded;
-        cast((val), RenderLoaderBar);
+        RenderLoaderBar(val);
         if (bytesloaded >= bytestotal)
         {
             LicDef.GetStage().removeEventListener(Event.ENTER_FRAME, ShowMochiAd_Preload_LoadingEventCallback);
@@ -638,7 +675,7 @@ stop();
     }
     
     
-    public static function ShowNoAd() : Void  // but preload the game please  
+    public static function ShowNoAd() : Void
     {
         AddIntroScreenAndSetUpButtons();
         
@@ -726,12 +763,12 @@ stop();
     private static function ClickedLinkURL(e : MouseEvent)
     {
         var sku : LicSku = GetCurrentSku();
-        cast((sku.linkURL), DoLink);
+        DoLink(sku.linkURL);
     }
     private static function ClickedMainLogoURL(e : MouseEvent)
     {
         var sku : LicSku = GetCurrentSku();
-        cast((sku.mainLogoLinkURL), DoLink);
+        DoLink(sku.mainLogoLinkURL);
     }
     
     public static function DoLink(linkStr : String)
@@ -792,4 +829,5 @@ stop();
     {
     }
 }
+
 

@@ -4,7 +4,7 @@ import flash.net.URLRequest;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class Vars
 {
@@ -23,7 +23,7 @@ class Vars
         if (Game.load_vars_data == false)
         {
             var xml : FastXML = try cast(new FastXML(new ClassVars()), FastXML) catch(e:Dynamic) null;
-            cast((xml), DecodeXML);
+            DecodeXML(xml);
         }
         else
         {
@@ -32,6 +32,7 @@ class Vars
     }
     
     private static var xmlLoader : URLLoader;
+    
     
     public static function ReloadXML()
     {
@@ -50,7 +51,7 @@ class Vars
         xmlLoader.removeEventListener(Event.COMPLETE, XMLLoaded);
         
         var xml : FastXML = try cast(new FastXML(e.target.data), FastXML) catch(e:Dynamic) null;
-        cast((xml), DecodeXML);
+        DecodeXML(xml);
     }
     private static function DecodeXML(_xml : FastXML)
     {
@@ -92,27 +93,21 @@ class Vars
     }
     public static function GetVarAsString(name : String) : String
     {
-        var v : Var = cast((name), GetVar);
+        var v : Var = GetVar(name);
         return v.valueString;
     }
     public static function GetVarAsNumber(name : String) : Float
     {
-        var v : Var = cast((name), GetVar);
+        var v : Var = GetVar(name);
         return as3hx.Compat.parseFloat(v.valueString);
     }
     public static function GetVarAsInt(name : String) : Int
     {
-        var v : Var = cast((name), GetVar);
+        var v : Var = GetVar(name);
         return as3hx.Compat.parseInt(v.valueString);
     }
-    private static var Vars_static_initializer = {
-        if (Game.load_vars_data == false)
-        {
-            [Embed(source = "../bin/VarsData.xml", mimeType = "application/octet-stream")];
-            private;static;var class_vars : Class<Dynamic>;
-        };
-        true;
-    }
+    
 
 }
+
 

@@ -107,6 +107,7 @@ class PhysicsBase
         current_space = nape_space0;
         
         
+        
         nape_cbtype_default = new CbType();
         
         interactionListener = new InteractionListener(CbEvent.BEGIN, InteractionType.COLLISION, nape_cbtype_default, nape_cbtype_default, NapeContacts.BeginCollide);
@@ -217,7 +218,7 @@ class PhysicsBase
                 else if (polyMaterial.initType == "nophysics")
                 {
                     var centrePoint : Point = line.CalculateCentre();
-                    var go : GameObj = GameObjects.AddObj(0, 0, 0);  // centrePoint.x, centrePoint.y, 0);  
+                    var go : GameObj = GameObjects.AddObj(0, 0, 0);
                     go.InitPhysicsLineObject(line);
                 }
                 else if (polyMaterial.initType == "poly")
@@ -341,10 +342,12 @@ class PhysicsBase
         go.dir = Utils.DegToRad(_rotDeg);
         go.scale = scale;
         
+        
         go.colFlag_isPhysObj = true;
         go.isPhysObj = true;
-        go.physObjOffsetX = 0;  // _x;  
-        go.physObjOffsetY = 0;  // _y;  
+        go.physObjOffsetX = 0;
+        go.physObjOffsetY = 0;
+        
         
         
         var jointxoff : Float;
@@ -365,134 +368,52 @@ class PhysicsBase
         }
         
         for (body/* AS3HX WARNING could not determine type for var: body exp: EField(EIdent(physobj),bodies) type: null */ in physobj.bodies)
-        
-        // there should be only one now.{
+        {
+            var bodyxoff : Float = body.pos.x;
+            var bodyyoff : Float = body.pos.y;
             
+            
+            var p : Point = new Point(bodyxoff, bodyyoff);
+            p = m.transformPoint(p);
+            bodyxoff = p.x;
+            bodyyoff = p.y;
+            
+            b = new Body();
+            b.position.setxy(_x + bodyxoff, _y + bodyyoff);
+            b.rotation = rot;
+            
+            
+            
+            var bud : PhysObjBodyUserData = new PhysObjBodyUserData();
+            bud.type = objName;
+            bud.bodyName = body.name;
+            bud.gameObjectIndex = go.listIndex;
+            if (go.isIndependant == true)
             {
+                bud.gameObjectIndex = -1;
+                bud.independantGO = go;
+            }
+            
+            b.userData.data = bud;
+            if (body.graphics.length != 0)
+            {
+                var graphic : PhysObjGraphic = body.graphics[0];
                 
-                var bodyxoff : Float = body.pos.x;
-                var bodyyoff : Float = body.pos.y;
+                go.dobj = GraphicObjects.GetDisplayObjByName(graphic.graphicName);
+                go.frame = graphic.frame;
+            }
+            
+            
+            
+            for (shape/* AS3HX WARNING could not determine type for var: shape exp: EField(EIdent(body),shapes) type: null */ in body.shapes)
+            {
+                var physMaterial : PhysObjMaterial = Game.GetPhysMaterialByName(shape.materialName);
                 
-                
-                var p : Point = new Point(bodyxoff, bodyyoff);
-                p = m.transformPoint(p);
-                bodyxoff = p.x;
-                bodyyoff = p.y;
-                
-                b = new Body();
-                b.position.setxy(_x + bodyxoff, _y + bodyyoff);
-                b.rotation = rot;
-                
-                
-                
-                var bud : PhysObjBodyUserData = new PhysObjBodyUserData();
-                bud.type = objName;
-                bud.bodyName = body.name;
-                bud.gameObjectIndex = go.listIndex;
-                if (go.isIndependant == true)
+                if (shape.type == PhysObjShape.Type_Poly)
                 {
-                    bud.gameObjectIndex = -1;
-                    bud.independantGO = go;
-                }
-                
-                b.userData.data = bud;
-                if (body.graphics.length != 0)
-                {
-                    var graphic : PhysObjGraphic = body.graphics[0];
-                    
-                    go.dobj = GraphicObjects.GetDisplayObjByName(graphic.graphicName);
-                    go.frame = graphic.frame;
-                }
-                
-                
-                
-                for (shape/* AS3HX WARNING could not determine type for var: shape exp: EField(EIdent(body),shapes) type: null */ in body.shapes)
-                {
-                    var physMaterial : PhysObjMaterial = Game.GetPhysMaterialByName(shape.materialName);
-                    
-                    if (shape.type == PhysObjShape.Type_Poly)
+                    var triangulatePoly : Bool = true;
+                    if (triangulatePoly == false)
                     {
-                        var triangulatePoly : Bool = true;
-                        if (triangulatePoly == false)
-                        {
-                            var interactionFilter : InteractionFilter = new InteractionFilter(shape.collisionCategory, shape.collisionMask, shape.sensorCategory, shape.sensorMask);
-                            
-                            var sensorEnabled : Bool = false;
-                            if (shape.sensorCategory != 0)
-                            {
-                                sensorEnabled = true;
-                            }
-                            
-                            var points : Array<Dynamic> = shape.poly_points;
-                            
-                            var localVerts : Array<Dynamic> = new Array<Dynamic>();
-                            for (pt in points)
-                            {
-                                localVerts.push(Vec2.fromPoint(pt));
-                            }
-                            
-                            var gp : GeomPoly = new GeomPoly(localVerts);
-                            if (gp.isConvex() == true)
-                            {
-                                var aaaa : Int = 0;
-                            }
-                            
-                            var poly : Polygon = new Polygon(localVerts, physMaterial.MakeNapeMaterial(), interactionFilter);
-                            
-                            poly.userData.data = {};
-                            poly.userData.data.name = physMaterial.name;
-                            
-                            poly.sensorEnabled = sensorEnabled;
-                            b.shapes.add(poly);
-                        }
-                        else
-                        {
-                            var points : Array<Dynamic> = shape.poly_points;
-                            if (points.length >= 3)
-                            {
-                                var triangulate : Triangulate = new Triangulate();
-                                var triangulatedVerts : Array<Dynamic> = triangulate.process(points);
-                                
-                                if (triangulatedVerts == null)
-                                {
-                                    Utils.traceerror("object failed triangulating: " + points.length);
-                                }
-                                else
-                                {
-                                }
-                                var numTris : Int = as3hx.Compat.parseInt(triangulatedVerts.length / 3);
-                                for (t in 0...numTris)
-                                {
-                                    var p0 : Point = triangulatedVerts[(t * 3) + 0];
-                                    var p1 : Point = triangulatedVerts[(t * 3) + 1];
-                                    var p2 : Point = triangulatedVerts[(t * 3) + 2];
-                                    
-                                    
-                                    var interactionFilter : InteractionFilter = new InteractionFilter(shape.collisionCategory, shape.collisionMask, shape.sensorCategory, shape.sensorMask);
-                                    
-                                    var sensorEnabled : Bool = false;
-                                    if (shape.sensorCategory != 0)
-                                    {
-                                        sensorEnabled = true;
-                                    }
-                                    
-                                    var poly : Polygon = new Polygon([Vec2.fromPoint(p0), Vec2.fromPoint(p1), Vec2.fromPoint(p2)], physMaterial.MakeNapeMaterial(), interactionFilter);
-                                    poly.userData.data = {};
-                                    poly.userData.data.name = physMaterial.name;
-                                    
-                                    poly.sensorEnabled = sensorEnabled;
-                                    b.shapes.add(poly);
-                                }
-                            }
-                        }
-                    }
-                    else if (shape.type == PhysObjShape.Type_Circle)
-                    {
-                        var circle_pos : Vec2 = new Vec2(shape.circle_pos.x * scale, shape.circle_pos.y * scale);
-                        var nape_circle : Circle = new Circle(shape.circle_radius, circle_pos);
-                        
-                        
-                        nape_circle.material = physMaterial.MakeNapeMaterial();
                         var interactionFilter : InteractionFilter = new InteractionFilter(shape.collisionCategory, shape.collisionMask, shape.sensorCategory, shape.sensorMask);
                         
                         var sensorEnabled : Bool = false;
@@ -501,27 +422,105 @@ class PhysicsBase
                             sensorEnabled = true;
                         }
                         
-                        nape_circle.filter = interactionFilter;
+                        var points : Array<Dynamic> = shape.poly_points;
                         
-                        nape_circle.sensorEnabled = sensorEnabled;
-                        b.shapes.add(nape_circle);
+                        var localVerts : Array<Dynamic> = new Array<Dynamic>();
+                        for (pt in points)
+                        {
+                            localVerts.push(Vec2.fromPoint(pt));
+                        }
+                        
+                        var gp : GeomPoly = new GeomPoly(localVerts);
+                        if (gp.isConvex() == true)
+                        {
+                            var aaaa : Int = 0;
+                        }
+                        
+                        var poly : Polygon = new Polygon(localVerts, physMaterial.MakeNapeMaterial(), interactionFilter);
+                        
+                        poly.userData.data = {};
+                        poly.userData.data.name = physMaterial.name;
+                        
+                        poly.sensorEnabled = sensorEnabled;
+                        b.shapes.add(poly);
+                    }
+                    else
+                    {
+                        var points : Array<Dynamic> = shape.poly_points;
+                        if (points.length >= 3)
+                        {
+                            var triangulate : Triangulate = new Triangulate();
+                            var triangulatedVerts : Array<Dynamic> = triangulate.process(points);
+                            
+                            if (triangulatedVerts == null)
+                            {
+                                Utils.traceerror("object failed triangulating: " + points.length);
+                            }
+                            else
+                            {
+                            }
+                            var numTris : Int = as3hx.Compat.parseInt(triangulatedVerts.length / 3);
+                            for (t in 0...numTris)
+                            {
+                                var p0 : Point = triangulatedVerts[(t * 3) + 0];
+                                var p1 : Point = triangulatedVerts[(t * 3) + 1];
+                                var p2 : Point = triangulatedVerts[(t * 3) + 2];
+                                
+                                
+                                var interactionFilter : InteractionFilter = new InteractionFilter(shape.collisionCategory, shape.collisionMask, shape.sensorCategory, shape.sensorMask);
+                                
+                                var sensorEnabled : Bool = false;
+                                if (shape.sensorCategory != 0)
+                                {
+                                    sensorEnabled = true;
+                                }
+                                
+                                var poly : Polygon = new Polygon([Vec2.fromPoint(p0), Vec2.fromPoint(p1), Vec2.fromPoint(p2)], physMaterial.MakeNapeMaterial(), interactionFilter);
+                                poly.userData.data = {};
+                                poly.userData.data.name = physMaterial.name;
+                                
+                                poly.sensorEnabled = sensorEnabled;
+                                b.shapes.add(poly);
+                            }
+                        }
                     }
                 }
-                if (isFixed)
+                else if (shape.type == PhysObjShape.Type_Circle)
                 {
-                    b.type = BodyType.STATIC;
+                    var circle_pos : Vec2 = new Vec2(shape.circle_pos.x * scale, shape.circle_pos.y * scale);
+                    var nape_circle : Circle = new Circle(shape.circle_radius, circle_pos);
+                    
+                    
+                    nape_circle.material = physMaterial.MakeNapeMaterial();
+                    var interactionFilter : InteractionFilter = new InteractionFilter(shape.collisionCategory, shape.collisionMask, shape.sensorCategory, shape.sensorMask);
+                    
+                    var sensorEnabled : Bool = false;
+                    if (shape.sensorCategory != 0)
+                    {
+                        sensorEnabled = true;
+                    }
+                    
+                    nape_circle.filter = interactionFilter;
+                    
+                    nape_circle.sensorEnabled = sensorEnabled;
+                    b.shapes.add(nape_circle);
                 }
-                else
-                {
-                    b.type = BodyType.DYNAMIC;
-                }
-                b.angularVel = 0;
-                b.velocity.setxy(0, 0);
-                
-                b.cbTypes.add(PhysicsBase.nape_cbtype_default);
-                GetNapeSpace().bodies.add(b);
-                go.nape_bodies.push(b);
             }
+            
+            if (isFixed)
+            {
+                b.type = BodyType.STATIC;
+            }
+            else
+            {
+                b.type = BodyType.DYNAMIC;
+            }
+            b.angularVel = 0;
+            b.velocity.setxy(0, 0);
+            
+            b.cbTypes.add(PhysicsBase.nape_cbtype_default);
+            GetNapeSpace().bodies.add(b);
+            go.nape_bodies.push(b);
         }
         
         try
@@ -547,7 +546,7 @@ class PhysicsBase
         var jointList : Array<Dynamic> = Levels.GetCurrentLevelJoints();
         for (joint in jointList)
         {
-            cast((joint), AddJoint_Nape);
+            AddJoint_Nape(joint);
         }
     }
     
@@ -681,6 +680,9 @@ class PhysicsBase
             
             
             
+            
+            
+            
             var v0 : Vec2 = new Vec2(jb1.position.x - jb0.position.y, jb1.position.y - jb0.position.y);
             
             var m : Matrix = new Matrix();
@@ -691,6 +693,8 @@ class PhysicsBase
             p.x = v0.x;
             p.y = v0.y;
             p = m.transformPoint(p);
+            
+            
             
             
             if (jb0.type != BodyType.DYNAMIC && jb1.type != BodyType.DYNAMIC)
@@ -756,6 +760,7 @@ class PhysicsBase
         }
         
         
+        
         AddConstraintsToGameObj(go0, cons);
         AddConstraintsToGameObj(go0a, cons);
         AddConstraintsToGameObj(go1, cons);
@@ -796,4 +801,5 @@ class PhysicsBase
         }
     }
 }
+
 

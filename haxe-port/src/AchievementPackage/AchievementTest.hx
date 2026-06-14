@@ -17,6 +17,7 @@ class AchievementTest
     {
     }
     
+    
     public function PreCalc()
     {
         Utils.GetParams(functionParams);
@@ -34,4 +35,5 @@ class AchievementTest
         }
     }
 }
+
 

@@ -1,7 +1,7 @@
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class GrassItem
 {
@@ -35,4 +35,5 @@ class GrassItem
         return clone;
     }
 }
+
 

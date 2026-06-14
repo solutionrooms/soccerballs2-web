@@ -8,7 +8,7 @@ class PhysObjBodyUserData
     public var type : String;
     public var bodyName : String;
     public var gameObjectIndex : Int;
-    public var id : Int;  // generic ID  
+    public var id : Int;
     public var independantGO : GameObj;
     
     public function new()
@@ -31,4 +31,5 @@ class PhysObjBodyUserData
         return copy;
     }
 }
+
 

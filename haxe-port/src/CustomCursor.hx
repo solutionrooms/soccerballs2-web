@@ -5,7 +5,7 @@ import flash.ui.MouseCursorData;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class CustomCursor
 {
@@ -17,10 +17,7 @@ class CustomCursor
     public static function Use(b : Bool)
     {
         return;
-        if (false)
-        {
-            return;
-        }
+        
         if (b)
         {
             Mouse.cursor = "pointer";
@@ -33,10 +30,7 @@ class CustomCursor
     public static function InitOnce()
     {
         return;
-        if (false)
-        {
-            return;
-        }
+        
         var cursorData : MouseCursorData;
         
         var dobj : DisplayObj = GraphicObjects.GetDisplayObjByName("Cursor_Pointer");
@@ -76,4 +70,5 @@ class CustomCursor
         Mouse.registerCursor("cantpress", cursorData);
     }
 }
+
 

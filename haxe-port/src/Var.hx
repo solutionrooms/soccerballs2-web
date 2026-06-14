@@ -1,7 +1,7 @@
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class Var
 {
@@ -19,4 +19,5 @@ class Var
     {
     }
 }
+
 

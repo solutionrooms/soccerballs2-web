@@ -17,7 +17,7 @@ import uIPackage.UI;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class EditParamEditItemLinePicker extends EditParamEditItemBase
 {
@@ -128,4 +128,5 @@ class EditParamEditItemLinePicker extends EditParamEditItemBase
         Utils.print("TextInputDone " + e.text);
     }
 }
+
 

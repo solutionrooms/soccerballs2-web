@@ -12,6 +12,7 @@ import org.flashdevelop.utils.FlashConnect;
 class ActiveSoundEffectItem
 {
     
+    
     private var active : Bool;
     private var sc : SoundChannel;
     private var name : String;
@@ -223,4 +224,5 @@ class ActiveSoundEffectItem
         }
     }
 }
+
 

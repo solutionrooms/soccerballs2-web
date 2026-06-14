@@ -19,7 +19,7 @@ import flash.utils.Timer;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class KiziAPI
 {
@@ -56,6 +56,7 @@ class KiziAPI
         Security.allowInsecureDomain("*");
         
         loaderInfo = loaderInfo_;
+        
         
         if (loaderInfo.parameters.apiSwfUrl != null)
         {
@@ -150,3 +151,4 @@ class KiziAPI
     {
     }
 }
+

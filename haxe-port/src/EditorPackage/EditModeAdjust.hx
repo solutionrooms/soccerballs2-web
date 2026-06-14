@@ -34,7 +34,7 @@ class EditModeAdjust extends EditModeBase
     {
         PhysEditor.CursorText_Show();
         PhysEditor.CursorText_Set("");
-        cast(("null"), SetSubMode);
+        SetSubMode("null");
         
         currentPlacementObject = null;
         
@@ -57,7 +57,7 @@ class EditModeAdjust extends EditModeBase
     {
         if (poi != null)
         {
-            cast((null), PickSinglePlacementObject);
+            PickSinglePlacementObject(null);
             currentAdjustObject = poi;
             EditParams.AddParameterListBox(poi.objParameters);
         }
@@ -134,22 +134,18 @@ class EditModeAdjust extends EditModeBase
                 var pieceName : String = physObj.name;
                 
                 if (false)
-                
-                //KeyReader.Down(KeyReader.KEY_1)){
-                    
+                {
+                    var ppp : Point = PhysEditor.SnapToObjects(mxs, mys);
+                    if (ppp != null)
                     {
-                        var ppp : Point = PhysEditor.SnapToObjects(mxs, mys);
-                        if (ppp != null)
-                        {
-                            Utils.print("snapped to point :" + mxs + " " + mys + "   ->   " + ppp.x + " " + ppp.y);
-                            posx = ppp.x;
-                            posy = ppp.y;
-                        }
+                        Utils.print("snapped to point :" + mxs + " " + mys + "   ->   " + ppp.x + " " + ppp.y);
+                        posx = ppp.x;
+                        posy = ppp.y;
                     }
                 }
                 
                 
-                var pi : EdObj = Levels.CreateLevelObjInstanceAt(pieceName, posx, posy, ob.rot, ob.scale, "", null);  // ob.initParams);  
+                var pi : EdObj = Levels.CreateLevelObjInstanceAt(pieceName, posx, posy, ob.rot, ob.scale, "", null);
                 
                 var physobj : PhysObj = Game.objectDefs.FindByName(pieceName);
                 if (physobj != null)
@@ -185,28 +181,28 @@ class EditModeAdjust extends EditModeBase
         
         if (subMode == "place_rot")
         {
-            cast(("place"), SetSubMode);
+            SetSubMode("place");
         }
         if (subMode == "place_change")
         {
-            cast(("place"), SetSubMode);
+            SetSubMode("place");
         }
         if (subMode == "place_scale")
         {
-            cast(("place"), SetSubMode);
+            SetSubMode("place");
         }
         
         if (subMode == "dragpos")
         {
-            cast(("edit"), SetSubMode);
+            SetSubMode("edit");
         }
         if (subMode == "dragrot")
         {
-            cast(("edit"), SetSubMode);
+            SetSubMode("edit");
         }
         if (subMode == "dragscale")
         {
-            cast(("edit"), SetSubMode);
+            SetSubMode("edit");
         }
     }
     
@@ -242,11 +238,11 @@ class EditModeAdjust extends EditModeBase
                     {
                         if (dx < 0)
                         {
-                            cast((-1), AddCurrentPlacementObject);
+                            AddCurrentPlacementObject(-1);
                         }
                         if (dx > 0)
                         {
-                            cast((1), AddCurrentPlacementObject);
+                            AddCurrentPlacementObject(1);
                         }
                         currentAdjustObject_mouseX = mx;
                     }
@@ -344,11 +340,11 @@ class EditModeAdjust extends EditModeBase
             {
                 if (delta < 0)
                 {
-                    cast((-1), AddCurrentPlacementObject);
+                    AddCurrentPlacementObject(-1);
                 }
                 if (delta > 0)
                 {
-                    cast((1), AddCurrentPlacementObject);
+                    AddCurrentPlacementObject(1);
                 }
             }
         }
@@ -420,7 +416,7 @@ class EditModeAdjust extends EditModeBase
             {
                 if (KeyReader.Down(mode.keyCode) == false)
                 {
-                    cast((newMode), SetSubMode);
+                    SetSubMode(newMode);
                 }
             }
         }
@@ -478,6 +474,7 @@ class EditModeAdjust extends EditModeBase
         super.Update();
         
         
+        
         if (subMode == "place")
         {
             SetCurrentPlacementObjectPosition();
@@ -486,7 +483,7 @@ class EditModeAdjust extends EditModeBase
         if (subMode == "place")
         {
             HandleKeypress("pick", false, PickObject);
-            HandleKeypress("edit", false, PickEditPiece);  // pick edit piece  
+            HandleKeypress("edit", false, PickEditPiece);
             HandleKeypress("place_scale", true, null);
             HandleKeypress("place_rot", true, null);
             HandleKeypress("place_change", true, null);
@@ -501,20 +498,16 @@ class EditModeAdjust extends EditModeBase
         
         
         if (subMode == "edit")
-        
-        // IN edit mode{
-            
-            {
-                HandleKeypress("pick", false, PickObject);
-                HandleKeypress("edit", false, PickEditPiece);  // pick edit piece  
-                HandleKeypress("duplicate", false, DuplicateEditObject);
-                HandleKeypress("delete", false, DeleteEditObject);
-                HandleKeypress("dragscale", true, null);
-                HandleKeypress("dragrot", true, null);
-                HandleKeypress("copyparams", false, CopyParameters);
-                HandleKeypress("pasteparams", false, PasteParameters);
-                cast(("dragpos"), HandleKeypressModifier);
-            }
+        {
+            HandleKeypress("pick", false, PickObject);
+            HandleKeypress("edit", false, PickEditPiece);
+            HandleKeypress("duplicate", false, DuplicateEditObject);
+            HandleKeypress("delete", false, DeleteEditObject);
+            HandleKeypress("dragscale", true, null);
+            HandleKeypress("dragrot", true, null);
+            HandleKeypress("copyparams", false, CopyParameters);
+            HandleKeypress("pasteparams", false, PasteParameters);
+            HandleKeypressModifier("dragpos");
         }
         
         if (subMode == "dragpos")
@@ -737,6 +730,7 @@ class EditModeAdjust extends EditModeBase
         
         PhysEditor.Editor_RenderJoints(bd);
         
+        
         PhysEditor.Editor_RenderGrid(bd);
         
         if (subMode == "edit" || subMode == "dragpos")
@@ -881,6 +875,9 @@ class EditModeAdjust extends EditModeBase
     
     
     
+    
+    
+    
     private function GetDragRectangle() : Rectangle
     {
         var x0 : Int = dragRectX0;
@@ -925,7 +922,7 @@ class EditModeAdjust extends EditModeBase
     private function SetSubMode(s : String)
     {
         subMode = s;
-        cast((s), SetCursorTextFromKeypressName);
+        SetCursorTextFromKeypressName(s);
     }
     
     private function PickObject()
@@ -938,16 +935,16 @@ class EditModeAdjust extends EditModeBase
             var po : EdPlacementObj = new EdPlacementObj(poi.typeName, poi.objParameters);
             po.scale = poi.scale;
             po.rot = poi.rot;
-            cast((po), PickSinglePlacementObject);
+            PickSinglePlacementObject(po);
             ClearCurrentAdjustObject();
-            cast(("place"), SetSubMode);
+            SetSubMode("place");
             KeyReader.ClearKey(KeyReader.KEY_P);
         }
         else
         {
-            cast((null), PickSinglePlacementObject);
+            PickSinglePlacementObject(null);
             ClearCurrentAdjustObject();
-            cast(("null"), SetSubMode);
+            SetSubMode("null");
             KeyReader.ClearKey(KeyReader.KEY_P);
         }
     }
@@ -957,8 +954,8 @@ class EditModeAdjust extends EditModeBase
         var poi : EdObj;
         
         poi = PhysEditor.HitTestPhysObjGraphics(mx, my);
-        cast((poi), SelectEditObject);
-        cast(("edit"), SetSubMode);
+        SelectEditObject(poi);
+        SetSubMode("edit");
     }
     
     private function DeleteEditObject()
@@ -971,8 +968,8 @@ class EditModeAdjust extends EditModeBase
         PhysEditor.UndoTakeSnapshot();
         PhysEditor.editModeObj_Joints.UpdateJoints_ObjectDeleted(currentAdjustObject.id);
         PhysEditor.RemoveFromLevelInstances(currentAdjustObject);
-        cast((null), SelectEditObject);
-        cast((null), PickSinglePlacementObject);
+        SelectEditObject(null);
+        PickSinglePlacementObject(null);
     }
     
     private function DuplicateEditObject()
@@ -992,9 +989,9 @@ class EditModeAdjust extends EditModeBase
         level_instances.push(newpoi);
         PhysEditor.SetCurrentLevelInstances(level_instances);
         ClearCurrentAdjustObject();
-        cast((newpoi), SelectEditObject);
+        SelectEditObject(newpoi);
         EditParams.AddParameterListBox(newpoi.objParameters);
-        cast((null), PickSinglePlacementObject);
+        PickSinglePlacementObject(null);
     }
     
     private function SetCurrentPlacementObjectPosition()
@@ -1006,4 +1003,5 @@ class EditModeAdjust extends EditModeBase
         }
     }
 }
+
 

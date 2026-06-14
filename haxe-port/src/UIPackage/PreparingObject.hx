@@ -3,7 +3,7 @@ package uIPackage;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class PreparingObject
 {
@@ -18,4 +18,5 @@ class PreparingObject
         data = _data;
     }
 }
+
 

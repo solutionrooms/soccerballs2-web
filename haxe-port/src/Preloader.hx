@@ -40,6 +40,8 @@ class Preloader extends MovieClip
             addEventListener(Event.ENTER_FRAME, updateProgress_Kizi);
             
             
+            
+            
             if (ExternalInterface.available)
             {
                 ExternalInterface.addCallback("startGame", startGame_Kizi);
@@ -67,13 +69,9 @@ class Preloader extends MovieClip
         }
         
         if (false)
-        
-        //false){
-            
-            {
-                LicDef.InitFromPreloader(this);
-                LicAdsShowAdCB();
-            }
+        {
+            LicDef.InitFromPreloader(this);
+            LicAdsShowAdCB();
         }
         else
         {
@@ -115,6 +113,7 @@ class Preloader extends MovieClip
         removeEventListener(Event.ENTER_FRAME, checkFrame);
         loaderInfo.removeEventListener(ProgressEvent.PROGRESS, progress);
         loaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, ioError);
+        
         loadingFinished2();
     }
     private function loadingFinished2() : Void
@@ -132,6 +131,7 @@ class Preloader extends MovieClip
     {
         KiziStuff.InitFromPreloader();
         
+        
         var mainClass : Class<Dynamic> = Type.getClass(Type.resolveClass("Main"));
         addChildAt(try cast(Type.createInstance(mainClass, []), DisplayObject) catch(e:Dynamic) null, 0);
     }
@@ -143,6 +143,7 @@ class Preloader extends MovieClip
         var pct : Int = as3hx.Compat.parseInt(loaded / total * 100);
         var apiLoaded : Bool = KiziAPI.apiLoaded;
         
+        
         if (apiLoaded)
         {
             if (ExternalInterface.available)
@@ -150,6 +151,7 @@ class Preloader extends MovieClip
                 ExternalInterface.call("apiLoaded");
             }
         }
+        
         
         if (ExternalInterface.available)
         {
@@ -160,10 +162,12 @@ class Preloader extends MovieClip
             as3hx.Compat.setTimeout(startGame_Kizi, 1000);
         }
         
+        
         if (pct == 100 && apiLoaded)
         {
             removeEventListener(Event.ENTER_FRAME, updateProgress_Kizi);
         }
     }
 }
+
 

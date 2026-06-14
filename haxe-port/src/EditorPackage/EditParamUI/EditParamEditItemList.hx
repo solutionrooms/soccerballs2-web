@@ -11,7 +11,7 @@ import uIPackage.UI;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class EditParamEditItemList extends EditParamEditItemBase
 {
@@ -115,4 +115,5 @@ class EditParamEditItemList extends EditParamEditItemBase
         CopyValueToParameter();
     }
 }
+
 

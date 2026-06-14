@@ -33,8 +33,8 @@ import flash.utils.Endian;
 
 /**
 	 * Dispatched when the MP3 data is loaded
-	* @eventType org.audiofx.mp3.MP3SoundEvent.COMPLETE 
-	* 
+	* @eventType org.audiofx.mp3.MP3SoundEvent.COMPLETE
+	*
 	*/
 @:meta(Event(name="complete",type="org.audiofx.mp3.MP3SoundEvent"))
 
@@ -48,8 +48,8 @@ class MP3FileReferenceLoader extends EventDispatcher
     private var mp3Parser : MP3Parser;
     
     /**
-		 * Constructs an new MP3FileReferenceLoader instance 
-		 * 
+		 * Constructs an new MP3FileReferenceLoader instance
+		 *
 		 */
     public function new()
     {
@@ -81,26 +81,26 @@ class MP3FileReferenceLoader extends EventDispatcher
             swfBytes.writeByte(SoundClassSwfByteCode.soundClassSwfBytes1[i]);
         }
         var swfSizePosition : Int = swfBytes.position;
-        swfBytes.writeInt(0);  //swf size will go here  
+        swfBytes.writeInt(0);
         for (i in 0...SoundClassSwfByteCode.soundClassSwfBytes2.length)
         {
             swfBytes.writeByte(SoundClassSwfByteCode.soundClassSwfBytes2[i]);
         }
         var audioSizePosition : Int = swfBytes.position;
-        swfBytes.writeInt(0);  //audiodatasize+7 to go here  
+        swfBytes.writeInt(0);
         swfBytes.writeByte(1);
         swfBytes.writeByte(0);
         mp3Source.writeSwfFormatByte(swfBytes);
         
         var sampleSizePosition : Int = swfBytes.position;
-        swfBytes.writeInt(0);  //number of samples goes here  
+        swfBytes.writeInt(0);
         
-        swfBytes.writeByte(0);  //seeksamples  
+        swfBytes.writeByte(0);
         swfBytes.writeByte(0);
         
         var frameCount : Int = 0;
         
-        var byteCount : Int = 0;  //this includes the seeksamples written earlier  
+        var byteCount : Int = 0;
         
         while (true)
         {
@@ -145,3 +145,4 @@ class MP3FileReferenceLoader extends EventDispatcher
         dispatchEvent(new MP3SoundEvent(MP3SoundEvent.COMPLETE, sound));
     }
 }
+

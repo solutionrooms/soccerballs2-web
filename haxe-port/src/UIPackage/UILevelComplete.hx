@@ -89,9 +89,11 @@ class UILevelComplete extends UIScreenInstance
         
         
         
+        
         UI.AddAnimatedMCButton(titleMC.buttonLevelSelect, buttonMenuPressed);
         UI.AddAnimatedMCButton(titleMC.levelComplete.btn_continue, buttonNextPressed);
         UI.AddAnimatedMCButton(titleMC.levelComplete.btn_tryagain, buttonRetryPressed);
+        
         Lic.AnimatedMCWalkthroughButton(titleMC.btn_walkthrough);
         
         Lic.PlayWithScoresButton(titleMC.buttonPlayWithHighcores);
@@ -126,14 +128,14 @@ class UILevelComplete extends UIScreenInstance
         GameVars.InitCoinBoxClip(titleMC.coinBox);
         
         titleMC.levelName.textDescription.text = l.name;
-        titleMC.scoreText1.textDescription.text = "";  // TextStrings.GetLocalisedText("Kicks") + ": " ;  
-        titleMC.scoreText1.textValue.text = "";  // GameVars.numKicks;  
+        titleMC.scoreText1.textDescription.text = "";
+        titleMC.scoreText1.textValue.text = "";
         titleMC.scoreText1.textAll.text = TextStrings.GetLocalisedText("Kicks") + ": " + GameVars.numKicks;
         
         
         
-        titleMC.scoreText2.textDescription.text = "";  // TextStrings.GetLocalisedText("Gold") + ": ";  
-        titleMC.scoreText2.textValue.text = "";  //GameVars.goldKicks;  
+        titleMC.scoreText2.textDescription.text = "";
+        titleMC.scoreText2.textValue.text = "";
         titleMC.scoreText2.textAll.text = TextStrings.GetLocalisedText("Gold") + ": " + GameVars.goldKicks;
         
         titleMC.levelrating.title.text = TextStrings.GetLocalisedText("Your Best") + ": " + l.bestShots;
@@ -219,7 +221,9 @@ class UILevelComplete extends UIScreenInstance
     private function TransitionComplete()
     {
         titleMC.gotoAndPlay(1);
+        
         onTransitionCompleteFunction = null;
     }
 }
+
 

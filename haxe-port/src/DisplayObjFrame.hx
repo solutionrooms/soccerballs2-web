@@ -113,6 +113,8 @@ class DisplayObjFrame
         indices = new Array<Int>();
         
         
+        
+        
         vertices[currentV++] = 0;
         vertices[currentV++] = 0;
         vertices[currentV++] = 1;
@@ -172,18 +174,10 @@ class DisplayObjFrame
         return a;
     }
     
+    
     public function ReUploadBitmap(bd : BitmapData)
     {
         bitmapData = bd;
-        
-        if (false)
-        {
-            if (s3dTexture == null)
-            {
-                return;
-            }
-            s3dTexture.uploadFromBitmapData(bd);
-        }
     }
     
     public function CreateStandalone(bd : BitmapData, xoff : Float, yoff : Float, reuse : Bool = false)
@@ -197,28 +191,6 @@ class DisplayObjFrame
         yoffset = 0;
         sourceRect = new Rectangle(0, 0, bd.width, bd.height);
         point = new Point(0, 0);
-        
-        if (false)
-        {
-            if (s3dTexture != null)
-            {
-                s3dTexture = null;
-                s3dTexPageIndex = -1;
-            }
-            
-            
-            var w : Int = cast((bd.width), NearestSuperiorPow2);
-            var h : Int = cast((bd.height), NearestSuperiorPow2);
-            s3dTexPageIndex = -1;
-            s3dTexture = s3d.context3D.createTexture(w, h, Context3DTextureFormat.BGRA, true);
-            s3dTexture.uploadFromBitmapData(bd);
-            
-            u0 = 0;
-            v0 = 0;
-            u1 = 1 / w * sourceRect.width;
-            v1 = 1 / h * sourceRect.height;
-            MakeVertexBuffer();
-        }
     }
     
     
@@ -227,15 +199,9 @@ class DisplayObjFrame
     {
         point.x = xpos + xoffset;
         point.y = ypos + yoffset;
-        if (false)
+        
         {
-            m3d.identity();
-            m3d.appendTranslation(xpos + xoffset, ypos + yoffset, 0);
             
-            s3d.RenderTriangleList(m3d, s3dTexture, indices, vertices, vertices_extra, null);
-        }
-        else
-        {
             screenBD.copyPixels(bitmapData, sourceRect, point, null, null, true);
         }
     }
@@ -248,17 +214,12 @@ class DisplayObjFrame
         mat.scale(-1.0, 1);
         mat.translate(xpos, ypos);
         
-        if (false)
+        
         {
-            point.x = xpos + -xoffset;
-            point.y = ypos + yoffset;
-            point.x -= sourceRect.width;
-            m3d.identity();
-            s3d.RenderRectangle(m3d, s3dTexture, point.x, point.y, sourceRect.width, sourceRect.height, 0, u1, v0, u0, v1);
-        }
-        else if (bitmapData != null)
-        {
-            screenBD.draw(bitmapData, mat, null, null, null, true);
+            if (bitmapData != null)
+            {
+                screenBD.draw(bitmapData, mat, null, null, null, true);
+            }
         }
     }
     
@@ -293,69 +254,35 @@ class DisplayObjFrame
     
     public function RenderAtRotScaled(screenBD : BitmapData, xpos : Float, ypos : Float, scale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false) : Void
     {
-        if (false)
+        mat.identity();
+        mat.translate(xoffset, yoffset);
+        mat.rotate(rot);
+        mat.translate(-xoffset, -yoffset);
+        
+        mat.scale(scale, scale);
+        mat.translate(xpos + (xoffset * scale), ypos + (yoffset * scale));
+        
+        if (bitmapData != null)
         {
-            m3d.identity();
-            m3d.appendTranslation(xoffset, yoffset, 0);
-            m3d.appendRotation(Utils.RadToDeg(rot), z_azis);
-            m3d.appendTranslation(-xoffset, -yoffset, 0);
-            if (scale == 0)
-            {
-                scale = 0.001;
-            }
-            m3d.appendScale(scale, scale, 1);
-            m3d.appendTranslation(xpos + (xoffset * scale), ypos + (yoffset * scale), 0);
-            
-            s3d.RenderTriangleList(m3d, s3dTexture, indices, vertices, vertices_extra, ct);
-        }
-        else
-        {
-            mat.identity();
-            mat.translate(xoffset, yoffset);
-            mat.rotate(rot);
-            mat.translate(-xoffset, -yoffset);
-            
-            mat.scale(scale, scale);
-            mat.translate(xpos + (xoffset * scale), ypos + (yoffset * scale));
-            
-            if (bitmapData != null)
-            {
-                screenBD.draw(bitmapData, mat, ct, null, null, _doSmooth);
-            }
+            screenBD.draw(bitmapData, mat, ct, null, null, _doSmooth);
         }
     }
     
     public function RenderAtRotScaled_Xflip(screenBD : BitmapData, xpos : Float, ypos : Float, scale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false) : Void
     {
-        if (false)
+        mat.identity();
+        mat.translate(xoffset, yoffset);
+        mat.rotate(rot);
+        mat.translate(-xoffset, -yoffset);
+        
+        mat.scale(scale, scale);
+        mat.translate(xoffset * scale, yoffset * scale);
+        mat.scale(-1.0, 1);
+        mat.translate(xpos, ypos);
+        
+        if (bitmapData != null)
         {
-            m3d.identity();
-            m3d.appendTranslation(xoffset, yoffset, 0);
-            m3d.appendRotation(Utils.RadToDeg(rot), z_azis);
-            m3d.appendTranslation(-xoffset, -yoffset, 0);
-            m3d.appendScale(scale, scale, 1);
-            m3d.appendTranslation(xoffset * scale, yoffset * scale, 0);
-            m3d.appendScale(-1, 1, 1);
-            m3d.appendTranslation(xpos, ypos, 0);
-            
-            s3d.RenderTriangleList(m3d, s3dTexture, indices, vertices, vertices_extra, ct);
-        }
-        else
-        {
-            mat.identity();
-            mat.translate(xoffset, yoffset);
-            mat.rotate(rot);
-            mat.translate(-xoffset, -yoffset);
-            
-            mat.scale(scale, scale);
-            mat.translate(xoffset * scale, yoffset * scale);
-            mat.scale(-1.0, 1);
-            mat.translate(xpos, ypos);
-            
-            if (bitmapData != null)
-            {
-                screenBD.draw(bitmapData, mat, ct, null, null, _doSmooth);
-            }
+            screenBD.draw(bitmapData, mat, ct, null, null, _doSmooth);
         }
     }
     
@@ -428,3 +355,4 @@ class DisplayObjFrame
         }
     }
 }
+

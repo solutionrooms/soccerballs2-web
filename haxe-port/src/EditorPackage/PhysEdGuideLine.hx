@@ -11,7 +11,7 @@ class PhysEdGuideLine
     public var x1 : Float;
     public var y0 : Float;
     public var y1 : Float;
-    public var type : Int;  // 0 = horiz, 1 = vert  
+    public var type : Int;
     public var level : Bool;
     
     public function new(l0 : Float, l1 : Float, p : Float, _type : Float, _level : Bool)
@@ -34,4 +34,5 @@ class PhysEdGuideLine
         }
     }
 }
+
 

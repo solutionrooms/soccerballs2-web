@@ -5,7 +5,7 @@ import flash.utils.Proxy;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class KiziGameState extends Proxy
 {
@@ -34,4 +34,5 @@ class KiziGameState extends Proxy
         super();
     }
 }
+
 

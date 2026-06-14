@@ -5,7 +5,7 @@ import flash.display.MovieClip;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class EditParamEditItemBase
 {
@@ -39,6 +39,7 @@ class EditParamEditItemBase
         mc.y += _y;
     }
     
+    
     public function Setup(_op : ObjParameter, _parent : MovieClip = null)
     {
         op = _op;
@@ -69,4 +70,5 @@ class EditParamEditItemBase
         EditParams.DoChangedCallback(op);
     }
 }
+
 

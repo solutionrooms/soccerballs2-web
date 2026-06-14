@@ -79,8 +79,8 @@ class PhysObj
         graphic.goInitFuntionVarString = gx.att.gameobjvars;
         graphic.graphicName = gx.att.clip;
         graphic.frame = XmlHelper.GetAttrInt(gx.att.frame) - 1;
-        graphic.offset = cast((gx.att.pos), PointFromString);
-        graphic.zoffset = 0;  // XmlHelper.GetAttrNumber(gx.@zoffset, 0);  
+        graphic.offset = PointFromString(gx.att.pos);
+        graphic.zoffset = 0;
         graphic.hasShadow = XmlHelper.GetAttrBoolean(gx.att.shadow, true);
         
         graphic.rot = as3hx.Compat.parseFloat(gx.att.rot);
@@ -106,6 +106,7 @@ class PhysObj
     {
     }
     
+    
     public function FromXml(x : FastXML) : Void
     {
         var i : Int;
@@ -130,8 +131,8 @@ class PhysObj
         snapToFloor = XmlHelper.GetAttrBoolean(x.att.snaptofloor, false);
         wakeFunctionName = XmlHelper.GetAttrString(x.att.wakefunction, "");
         
-        cast((x.nodes.sfx.get(0)), GetSfx);
-        cast((x.nodes.zombooka.get(0)), GetGameSpecific);
+        GetSfx(x.nodes.sfx.get(0));
+        GetGameSpecific(x.nodes.zombooka.get(0));
         
         
         
@@ -139,14 +140,14 @@ class PhysObj
         {
             var px : FastXML = x.nodes.parameter.get(i);
             instanceParams.push(XmlHelper.GetAttrString(px.att.name, ""));
-            instanceParamsDefaults.push(XmlHelper.GetAttrString(px.att.default, ""));
+            instanceParamsDefaults.push(XmlHelper.GetAttrString(px.att.resolve("default"), ""));
         }
         
         
         for (i in 0...x.nodes.graphic.length())
         {
             var gx : FastXML = x.nodes.graphic.get(j);
-            graphics.push(cast((gx), GetGraphic));
+            graphics.push(GetGraphic(gx));
         }
         
         
@@ -156,19 +157,21 @@ class PhysObj
             var bx : FastXML = x.nodes.body.get(i);
             var body : PhysObjBody = new PhysObjBody();
             body.name = bx.att.name;
-            body.fixed = cast((bx.att.fixed), BooleanFromString);
+            body.fixed = BooleanFromString(bx.att.fixed);
             
-            body.sensor = cast((bx.att.sensor), BooleanFromString);
-            body.pos = cast((bx.att.pos), PointFromString);
+            body.sensor = BooleanFromString(bx.att.sensor);
+            body.pos = PointFromString(bx.att.pos);
             
-            body.linearDamping = 0;  // XmlHelper.GetAttrNumber(bx.@lineardamping, body.linearDamping);  
-            body.angularDamping = 0;  // XmlHelper.GetAttrNumber(bx.@angulardamping, body.angularDamping);  
+            body.linearDamping = 0;
+            body.angularDamping = 0;
+            
             
             for (j in 0...bx.nodes.graphic.length())
             {
                 var gx : FastXML = bx.nodes.graphic.get(j);
-                body.graphics.push(cast((gx), GetGraphic));
+                body.graphics.push(GetGraphic(gx));
             }
+            
             
             
             for (j in 0...bx.nodes.shape.length())
@@ -189,12 +192,12 @@ class PhysObj
                 shape.friction = XmlHelper.GetAttrNumber(sx.att.friction);
                 shape.restitution = XmlHelper.GetAttrNumber(sx.att.restitution);
                 
-                var gs : Float = 1;  // GameVars.globalScale;  
+                var gs : Float = 1;
                 
                 if (typename == "circle")
                 {
                     shape.type = PhysObjShape.Type_Circle;
-                    shape.circle_pos = cast((sx.att.pos), PointFromString);
+                    shape.circle_pos = PointFromString(sx.att.pos);
                     shape.circle_radius = XmlHelper.GetAttrNumber(sx.att.radius);
                     
                     if (true)
@@ -207,7 +210,7 @@ class PhysObj
                 else if (typename == "poly")
                 {
                     shape.type = PhysObjShape.Type_Poly;
-                    shape.poly_points = cast((sx.att.vertices), PointArrayFromString);
+                    shape.poly_points = PointArrayFromString(sx.att.vertices);
                     
                     if (true)
                     {
@@ -259,6 +262,7 @@ class PhysObj
         }
         
         
+        
         for (i in 0...x.nodes.joint.length())
         {
             var jx : FastXML = x.nodes.joint.get(i);
@@ -272,19 +276,19 @@ class PhysObj
             if (typename == "rev")
             {
                 joint.type = EdJoint.Type_Rev;
-                joint.rev_pos = cast((jx.att.pos), PointFromString);
-                joint.rev_enableLimit = cast((jx.att.enablelimit), BooleanFromString);
+                joint.rev_pos = PointFromString(jx.att.pos);
+                joint.rev_enableLimit = BooleanFromString(jx.att.enablelimit);
                 joint.rev_lowerAngle = Utils.DegToRad(XmlHelper.GetAttrNumber(jx.att.lowerangle));
                 joint.rev_upperAngle = Utils.DegToRad(XmlHelper.GetAttrNumber(jx.att.upperangle));
-                joint.rev_enableMotor = cast((jx.att.enablemotor), BooleanFromString);
+                joint.rev_enableMotor = BooleanFromString(jx.att.enablemotor);
                 joint.rev_motorSpeed = as3hx.Compat.parseFloat(jx.att.motorspeed);
                 joint.rev_maxMotorTorque = as3hx.Compat.parseFloat(jx.att.maxmotortorque);
             }
             else if (typename == "distance")
             {
                 joint.type = EdJoint.Type_Distance;
-                joint.dist_pos0 = cast((jx.att.pos), PointFromString);
-                joint.dist_pos1 = cast((jx.att.pos1), PointFromString);
+                joint.dist_pos0 = PointFromString(jx.att.pos);
+                joint.dist_pos1 = PointFromString(jx.att.pos1);
             }
             else if (typename == "mouse")
             {
@@ -293,18 +297,19 @@ class PhysObj
             else if (typename == "prismatic")
             {
                 joint.type = EdJoint.Type_Prismatic;
-                joint.prism_pos = cast((jx.att.pos), PointFromString);
-                joint.prism_enableLimit = cast((jx.att.enablelimit), BooleanFromString);
+                joint.prism_pos = PointFromString(jx.att.pos);
+                joint.prism_enableLimit = BooleanFromString(jx.att.enablelimit);
                 joint.prism_lowerTranslation = as3hx.Compat.parseFloat(jx.att.lowertranslation);
                 joint.prism_upperTranslation = as3hx.Compat.parseFloat(jx.att.uppertranslation);
-                joint.prism_enableMotor = cast((jx.att.enablemotor), BooleanFromString);
-                joint.prism_axisangle = as3hx.Compat.parseFloat(jx.att.axisangle) - 90;
+                joint.prism_enableMotor = BooleanFromString(jx.att.enablemotor);
+                joint.prism_axisangle = as3hx.Compat.parseFloat(jx.att.axisangle) - as3hx.Compat.parseFloat(90);
                 joint.prism_motorSpeed = as3hx.Compat.parseFloat(jx.att.motorspeed);
                 joint.prism_maxMotorForce = as3hx.Compat.parseFloat(jx.att.maxmotorforce);
             }
             joints.push(joint);
         }
     }
+    
     
     private function PointFromString(s : String, defaultValue : String = "0,0") : Point
     {
@@ -542,6 +547,7 @@ class PhysObj
                             
                             renderMatrix.identity();
                             renderMatrix.rotate(Utils.DegToRad(_rotDeg));
+                            
                             renderPoint = renderMatrix.transformPoint(renderPoint);
                             
                             xp = (x) + renderPoint.x;
@@ -631,6 +637,10 @@ class PhysObj
                                     p1.y = verts[j].y;
                                     
                                     
+                                    
+                                    
+                                    
+                                    
                                     p0 = renderMatrix.transformPoint(p0);
                                     p1 = renderMatrix.transformPoint(p1);
                                     
@@ -709,4 +719,5 @@ class PhysObj
         }
     }
 }
+
 

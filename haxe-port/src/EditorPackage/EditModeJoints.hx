@@ -30,7 +30,7 @@ class EditModeJoints extends EditModeBase
     {
         PhysEditor.CursorText_Show();
         PhysEditor.CursorText_Set("");
-        cast(("null"), SetSubMode);
+        SetSubMode("null");
         selectedJoint = null;
         hoveredObj = null;
     }
@@ -126,7 +126,7 @@ class EditModeJoints extends EditModeBase
     
     private function RemoveJoint(j : EdJoint)
     {
-        cast((j), RemoveMarkedJoints);
+        RemoveMarkedJoints(j);
         PhysEditor.DeleteJoint(j);
     }
     private function AddRevoluteJoint(x : Float, y : Float) : EdJoint
@@ -229,11 +229,13 @@ class EditModeJoints extends EditModeBase
         var obj : EditableObjectBase;
         
         
+        
+        
         if (subMode == "newrev")
         {
             PhysEditor.UndoTakeSnapshot();
             currentJoint = AddRevoluteJoint(mxs, mys);
-            cast(("firstrev"), SetSubMode);
+            SetSubMode("firstrev");
         }
         else if (subMode == "newprism")
         {
@@ -249,7 +251,7 @@ class EditModeJoints extends EditModeBase
                 }
                 currentJoint.obj0Name = obj.id;
             }
-            cast(("secondprism"), SetSubMode);
+            SetSubMode("secondprism");
         }
         else if (subMode == "secondprism")
         {
@@ -264,17 +266,17 @@ class EditModeJoints extends EditModeBase
                 }
                 currentJoint.obj1Name = obj.id;
             }
-            cast(("firstprismaxis"), SetSubMode);
+            SetSubMode("firstprismaxis");
         }
         else if (subMode == "firstprismaxis")
         {
             currentJoint.prism_pos = new Point(mxs, mys);
-            cast(("secondprismaxis"), SetSubMode);
+            SetSubMode("secondprismaxis");
         }
         else if (subMode == "secondprismaxis")
         {
             currentJoint.prism_pos1 = new Point(mxs, mys);
-            cast(("null"), SetSubMode);
+            SetSubMode("null");
         }
         else if (subMode == "new_switch")
         {
@@ -290,7 +292,7 @@ class EditModeJoints extends EditModeBase
                     obj.id = PhysEditor.CreateNewUniqueID();
                 }
                 currentJoint.obj0Name = obj.id;
-                cast(("second_switch"), SetSubMode);
+                SetSubMode("second_switch");
             }
         }
         else if (subMode == "second_switch")
@@ -305,7 +307,7 @@ class EditModeJoints extends EditModeBase
                     obj.id = PhysEditor.CreateNewUniqueID();
                 }
                 currentJoint.obj1Name = obj.id;
-                cast(("null"), SetSubMode);
+                SetSubMode("null");
             }
         }
         else if (subMode == "new_logic")
@@ -322,7 +324,7 @@ class EditModeJoints extends EditModeBase
                     obj.id = PhysEditor.CreateNewUniqueID();
                 }
                 currentJoint.obj0Name = obj.id;
-                cast(("second_logic"), SetSubMode);
+                SetSubMode("second_logic");
             }
         }
         else if (subMode == "second_logic")
@@ -337,7 +339,7 @@ class EditModeJoints extends EditModeBase
                     obj.id = PhysEditor.CreateNewUniqueID();
                 }
                 currentJoint.obj1Name = obj.id;
-                cast(("null"), SetSubMode);
+                SetSubMode("null");
             }
         }
         else if (subMode == "new_weld")
@@ -354,7 +356,7 @@ class EditModeJoints extends EditModeBase
                     obj.id = PhysEditor.CreateNewUniqueID();
                 }
                 currentJoint.obj0Name = obj.id;
-                cast(("second_weld"), SetSubMode);
+                SetSubMode("second_weld");
             }
         }
         else if (subMode == "second_weld")
@@ -369,7 +371,7 @@ class EditModeJoints extends EditModeBase
                     obj.id = PhysEditor.CreateNewUniqueID();
                 }
                 currentJoint.obj1Name = obj.id;
-                cast(("null"), SetSubMode);
+                SetSubMode("null");
             }
         }
         else if (subMode == "newdist")
@@ -392,7 +394,7 @@ class EditModeJoints extends EditModeBase
                 currentJoint.obj1Name = obj.id;
                 currentJoint.dist_pos1.x = mxs;
                 currentJoint.dist_pos1.y = mys;
-                cast(("seconddist"), SetSubMode);
+                SetSubMode("seconddist");
             }
             else
             {
@@ -401,7 +403,7 @@ class EditModeJoints extends EditModeBase
                 currentJoint.dist_pos0.y = mys;
                 currentJoint.dist_pos1.x = mxs;
                 currentJoint.dist_pos1.y = mys;
-                cast(("seconddist"), SetSubMode);
+                SetSubMode("seconddist");
             }
         }
         else if (subMode == "firstdist")
@@ -416,14 +418,14 @@ class EditModeJoints extends EditModeBase
                 currentJoint.obj0Name = obj.id;
                 currentJoint.dist_pos0.x = mxs;
                 currentJoint.dist_pos0.y = mys;
-                cast(("seconddist"), SetSubMode);
+                SetSubMode("seconddist");
             }
             else
             {
                 currentJoint.obj0Name = "";
                 currentJoint.dist_pos0.x = mxs;
                 currentJoint.dist_pos0.y = mys;
-                cast(("seconddist"), SetSubMode);
+                SetSubMode("seconddist");
             }
         }
         else if (subMode == "seconddist")
@@ -438,14 +440,14 @@ class EditModeJoints extends EditModeBase
                 currentJoint.obj1Name = obj.id;
                 currentJoint.dist_pos1.x = mxs;
                 currentJoint.dist_pos1.y = mys;
-                cast(("null"), SetSubMode);
+                SetSubMode("null");
             }
             else
             {
                 currentJoint.obj1Name = "";
                 currentJoint.dist_pos1.x = mxs;
                 currentJoint.dist_pos1.y = mys;
-                cast(("null"), SetSubMode);
+                SetSubMode("null");
             }
         }
         else if (subMode == "firstrev")
@@ -459,7 +461,7 @@ class EditModeJoints extends EditModeBase
                 }
                 currentJoint.obj0Name = obj.id;
             }
-            cast(("secondrev"), SetSubMode);
+            SetSubMode("secondrev");
         }
         else if (subMode == "secondrev")
         {
@@ -472,7 +474,7 @@ class EditModeJoints extends EditModeBase
                 }
                 currentJoint.obj1Name = obj.id;
             }
-            cast(("null"), SetSubMode);
+            SetSubMode("null");
         }
         else if (subMode == "drag")
         {
@@ -742,6 +744,7 @@ class EditModeJoints extends EditModeBase
         subMode = s;
         
         
+        
         if (s == "new_switch")
         {
             PhysEditor.CursorText_Set("new switch joint - first object");
@@ -828,52 +831,52 @@ class EditModeJoints extends EditModeBase
             {
                 if (selectedJoint.type == EdJoint.Type_Rev)
                 {
-                    cast(("firstrev"), SetSubMode);
+                    SetSubMode("firstrev");
                 }
                 if (selectedJoint.type == EdJoint.Type_Distance)
                 {
-                    cast(("firstrev"), SetSubMode);
+                    SetSubMode("firstrev");
                 }
             }
             else if (KeyReader.Pressed(KeyReader.KEY_C))
             {
-                cast((selectedJoint), CopyParameters);
+                CopyParameters(selectedJoint);
             }
             else if (KeyReader.Pressed(KeyReader.KEY_V))
             {
                 PhysEditor.UndoTakeSnapshot();
-                cast((selectedJoint), PasteParameters);
+                PasteParameters(selectedJoint);
             }
             else if (KeyReader.Down(KeyReader.KEY_DELETE) || KeyReader.Down(KeyReader.KEY_SQUIGGLE))
             {
                 PhysEditor.UndoTakeSnapshot();
-                cast((selectedJoint), RemoveJoint);
+                RemoveJoint(selectedJoint);
             }
         }
         
         if (KeyReader.Pressed(KeyReader.KEY_R))
         {
-            cast(("newrev"), SetSubMode);
+            SetSubMode("newrev");
         }
         else if (KeyReader.Pressed(KeyReader.KEY_D))
         {
-            cast(("newdist"), SetSubMode);
+            SetSubMode("newdist");
         }
         else if (KeyReader.Pressed(KeyReader.KEY_P))
         {
-            cast(("newprism"), SetSubMode);
+            SetSubMode("newprism");
         }
         else if (KeyReader.Pressed(KeyReader.KEY_S))
         {
-            cast(("new_switch"), SetSubMode);
+            SetSubMode("new_switch");
         }
         else if (KeyReader.Pressed(KeyReader.KEY_L))
         {
-            cast(("new_logic"), SetSubMode);
+            SetSubMode("new_logic");
         }
         else if (KeyReader.Pressed(KeyReader.KEY_W))
         {
-            cast(("new_weld"), SetSubMode);
+            SetSubMode("new_weld");
         }
         
         
@@ -881,11 +884,11 @@ class EditModeJoints extends EditModeBase
         {
             if (KeyReader.Down(KeyReader.KEY_CONTROL))
             {
-                cast(("drag"), SetSubMode);
+                SetSubMode("drag");
             }
             else
             {
-                cast(("null"), SetSubMode);
+                SetSubMode("null");
             }
         }
         if (KeyReader.Pressed(KeyReader.KEY_TAB) && KeyReader.Down(KeyReader.KEY_CONTROL))
@@ -962,4 +965,5 @@ class EditModeJoints extends EditModeBase
         return y;
     }
 }
+
 

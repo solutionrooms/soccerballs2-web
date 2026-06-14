@@ -26,7 +26,7 @@ class EditModeObjCol extends EditModeBase
     {
         PhysEditor.CursorText_Show();
         PhysEditor.CursorText_Set("");
-        cast(("null"), SetSubMode);
+        SetSubMode("null");
         objLines = new Array<Dynamic>();
         PhysEditor.scrollX = 0;
         PhysEditor.scrollY = 0;
@@ -115,7 +115,7 @@ class EditModeObjCol extends EditModeBase
         if (subMode == "scaleline")
         {
             var scale : Float = 1 + ((mxs - scaleCentreX) * 0.001);
-            cast((scale), Lines_Scale);
+            Lines_Scale(scale);
         }
     }
     
@@ -156,7 +156,7 @@ class EditModeObjCol extends EditModeBase
         else if (subMode == "scaleline")
         {
             var scale : Float = 1 + ((mxs - scaleCentreX) * 0.001);
-            cast((scale), Lines_Scale);
+            Lines_Scale(scale);
         }
     }
     override public function OnMouseWheel(delta : Int) : Void
@@ -225,51 +225,51 @@ class EditModeObjCol extends EditModeBase
         
         if (KeyReader.Down(KeyReader.KEY_T))
         {
-            cast(("scaleline"), SetSubMode);
+            SetSubMode("scaleline");
         }
         else if (KeyReader.Down(KeyReader.KEY_L))
         {
-            cast(("pick"), SetSubMode);
+            SetSubMode("pick");
         }
         else if (KeyReader.Down(KeyReader.KEY_N))
         {
-            cast(("newline"), SetSubMode);
+            SetSubMode("newline");
         }
         else if (KeyReader.Down(KeyReader.KEY_SHIFT))
         {
-            cast(("dragpoint"), SetSubMode);
+            SetSubMode("dragpoint");
         }
         else if (KeyReader.Down(KeyReader.KEY_CONTROL))
         {
-            cast(("dragline"), SetSubMode);
+            SetSubMode("dragline");
         }
         else if (KeyReader.Down(KeyReader.KEY_DELETE) || KeyReader.Down(KeyReader.KEY_SQUIGGLE))
         {
-            cast(("deleteline"), SetSubMode);
+            SetSubMode("deleteline");
         }
         else if (KeyReader.Down(KeyReader.KEY_D))
         {
-            cast(("deletepoint"), SetSubMode);
+            SetSubMode("deletepoint");
         }
         else if (KeyReader.Down(KeyReader.KEY_S))
         {
-            cast(("insertpoint"), SetSubMode);
+            SetSubMode("insertpoint");
         }
         else if (KeyReader.Down(KeyReader.KEY_Q))
         {
-            cast(("selectpoint"), SetSubMode);
+            SetSubMode("selectpoint");
         }
         else if (KeyReader.Down(KeyReader.KEY_A))
         {
-            cast(("insertafter"), SetSubMode);
+            SetSubMode("insertafter");
         }
         else if (addlineActive)
         {
-            cast(("addpoint"), SetSubMode);
+            SetSubMode("addpoint");
         }
         else
         {
-            cast(("null"), SetSubMode);
+            SetSubMode("null");
         }
         
         var l : Level = GetCurrentLevel();
@@ -325,10 +325,12 @@ class EditModeObjCol extends EditModeBase
         var ss : String = "";
         
         
+        
         if (objLines.length == 0)
         {
             return;
         }
+        
         
         var line : PhysLine = objLines[0];
         {
@@ -358,7 +360,7 @@ class EditModeObjCol extends EditModeBase
                 }
                 s1 += "\"";
                 s = s1;
-                ss += s;  // + "\n";  
+                ss += s;
                 Utils.print(s);
             }
             if (numRemainder != 0)
@@ -375,7 +377,7 @@ class EditModeObjCol extends EditModeBase
                 }
                 s1 += "\"";
                 s = s1;
-                ss += s;  // + "\n";  
+                ss += s;
                 Utils.print(s);
             }
         }
@@ -429,8 +431,8 @@ class EditModeObjCol extends EditModeBase
     {
         super.Render(bd);
         bd.fillRect(Defs.screenRect, 0xff445566);
-        cast((bd), RenderCurrentPiece);
-        cast((false), Editor_RenderObjectCollisionLines);
+        RenderCurrentPiece(bd);
+        Editor_RenderObjectCollisionLines(false);
         PhysEditor.Editor_RenderLineToCursor();
     }
     override public function RenderHud(x : Int, y : Int) : Int
@@ -486,6 +488,7 @@ class EditModeObjCol extends EditModeBase
         }
         return y;
     }
+    
     
     
     
@@ -585,6 +588,7 @@ class EditModeObjCol extends EditModeBase
             var newPoint : Point = new Point(x, y);
             
             as3hx.Compat.arraySplice(a0, currentPointIndex + 1, 0, [newPoint]);
+            
             
             currentPointIndex = as3hx.Compat.parseInt(currentPointIndex + 1);
         }
@@ -929,6 +933,7 @@ class EditModeObjCol extends EditModeBase
     {
         var l : Level = GetCurrentLevel();
         var lineIndex : Int = 0;
+        
         currentPointIndex = -1;
         for (line in objLines)
         {
@@ -1058,4 +1063,5 @@ class EditModeObjCol extends EditModeBase
         Utils.RenderDotLine(bd, cp.x, cp.y - 10, cp.x, cp.y + 10, 100, 0xff0000);
     }
 }
+
 

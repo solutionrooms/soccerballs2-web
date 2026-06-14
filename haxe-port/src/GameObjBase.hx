@@ -135,7 +135,7 @@ class GameObjBase
     private var minFrame : Int;
     private var maxFrame : Int;
     private var rotVel : Float;
-    private var dist : Float;  // generic dist stuff  
+    private var dist : Float;
     private var flashTimer : Int;
     private var flashTimerMax : Int;
     private var flashFlag : Bool;
@@ -368,6 +368,9 @@ class GameObjBase
         colFlag_isRemovable = false;
     }
     
+    
+    
+    
     private var bd : BitmapData;
     public function Render(_bd : BitmapData) : Void
     {
@@ -426,8 +429,11 @@ class GameObjBase
         }
         
         
+        
+        
         dobj.RenderAtRotScaled(frame, bd, xp, yp, scale, dir, shadowCT, true);
     }
+    
     
     
     private function RenderDispObjNormally(_useScroll : Bool = true)
@@ -557,6 +563,7 @@ class GameObjBase
             return;
         }
         
+        
         ct.alphaMultiplier = alpha;
         
         dobj.RenderAtRotScaled(frame, bd, xp, yp, scale, dir, ct, renderSmooth);
@@ -634,6 +641,11 @@ class GameObjBase
     
     
     
+    
+    
+    
+    
+    
     private function IsInWorld(radius : Float) : Bool
     {
         if (xpos < 0 - radius)
@@ -656,11 +668,15 @@ class GameObjBase
     }
     
     
-    public function GetDirBetween(x0 y0 x1 y1) : Float
+    
+    
+    public function GetDirBetween(x0 : Float, y0 : Float, x1 : Float, y1 : Float) : Float
     {
         var d = Math.atan2(y1 - y0, x1 - x0);
         return d;
     }
+    
+    
     
     
     public function GetVelFromDir(vel : Float)
@@ -668,6 +684,8 @@ class GameObjBase
         xvel = Math.cos(dir) * vel;
         yvel = Math.sin(dir) * vel;
     }
+    
+    
     
     
     
@@ -797,6 +815,9 @@ class GameObjBase
     }
     
     
+    
+    
+    
     public function Update() : Void
     {
         if (keepAwakeFunction != null)
@@ -814,6 +835,9 @@ class GameObjBase
         {
         }
     }
+    
+    
+    
     
     
     
@@ -838,7 +862,7 @@ class GameObjBase
     private function KeepAwake_ConstantAndNearby()
     {
         WakeUp_Nape();
-        cast((20), WakeUpNearbyObjects);
+        WakeUpNearbyObjects(20);
     }
     
     
@@ -906,6 +930,10 @@ class GameObjBase
             }
         }
     }
+    
+    
+    
+    
     
     
     
@@ -1002,6 +1030,7 @@ class GameObjBase
     
     
     
+    
     private function SwitchedGameObj_TwoWaySwitch() : Bool
     {
         if (state == 0)
@@ -1020,9 +1049,10 @@ class GameObjBase
     }
     
     
+    
     private function UpdateGameObj_TwoWaySwitch()
     {  /*
-			if (controlMode == 0)	
+			if (controlMode == 0)
 			{
 				controlMode = 2;
 			}
@@ -1033,6 +1063,7 @@ class GameObjBase
 			*/  
         
     }
+    
     
     
     
@@ -1053,6 +1084,7 @@ class GameObjBase
         return false;
     }
     
+    
     private function UpdateGameObj_TimedSwitch()
     {
         if (state == 1)
@@ -1065,6 +1097,7 @@ class GameObjBase
             }
         }
     }
+    
     
     
     private function SwitchedGameObj_TimedSwitch() : Bool
@@ -1085,6 +1118,7 @@ class GameObjBase
     }
     
     
+    
     private function Update_SimpleRotator()
     {
         dir += rotVel;
@@ -1101,6 +1135,7 @@ class GameObjBase
         
         updateFunction = Update_SimpleRotator;
     }
+    
     
     
     private function Update_PlayAnimList()
@@ -1139,6 +1174,7 @@ class GameObjBase
     
     
     
+    
     private function Set_SwitchedAnim(_mode : Int)
     {
         state = _mode;
@@ -1169,7 +1205,7 @@ class GameObjBase
         {
             if (PlayAnimationEx())
             {
-                cast((2), Set_SwitchedAnim);
+                Set_SwitchedAnim(2);
             }
         }
         else if (state == 2)
@@ -1180,7 +1216,7 @@ class GameObjBase
         {
             if (PlayAnimationEx())
             {
-                cast((0), Set_SwitchedAnim);
+                Set_SwitchedAnim(0);
             }
         }
     }
@@ -1191,22 +1227,22 @@ class GameObjBase
         {
             if (dobj.DoesFrameIndexLabelExist("off_on_start"))
             {
-                cast((1), Set_SwitchedAnim);
+                Set_SwitchedAnim(1);
             }
             else
             {
-                cast((2), Set_SwitchedAnim);
+                Set_SwitchedAnim(2);
             }
         }
         else if (state == 2)
         {
             if (dobj.DoesFrameIndexLabelExist("on_off_start"))
             {
-                cast((3), Set_SwitchedAnim);
+                Set_SwitchedAnim(3);
             }
             else
             {
-                cast((0), Set_SwitchedAnim);
+                Set_SwitchedAnim(0);
             }
         }
     }
@@ -1220,7 +1256,7 @@ class GameObjBase
         switchName = Utils.GetParamString("switch", "");
         var startPos : Int = Utils.GetParamInt("startpos", 0);
         
-        cast((startPos), Set_SwitchedAnim);
+        Set_SwitchedAnim(startPos);
         
         
         switchFunction = null;
@@ -1229,6 +1265,7 @@ class GameObjBase
             switchFunction = SwitchFunction_SwitchedAnim;
         }
     }
+    
     
     
     
@@ -1319,12 +1356,8 @@ class GameObjBase
     private function SwitchFunction_Path_2way()
     {
         if (state == 0)
-        
-        // stopped{
-            
-            {
-                state = 1;
-            }
+        {
+            state = 1;
         }
         else if (state == 1)
         {
@@ -1352,7 +1385,7 @@ class GameObjBase
         
         if (state == 1)
         {
-            var pos : Point = cast((lineSpeed), UpdateLine);
+            var pos : Point = UpdateLine(lineSpeed);
             xpos = pos.x;
             ypos = pos.y;
             if (lineLinearPos >= 1)
@@ -1362,7 +1395,7 @@ class GameObjBase
         }
         else if (state == 2)
         {
-            var pos : Point = cast((-lineSpeed), UpdateLine);
+            var pos : Point = UpdateLine(-lineSpeed);
             xpos = pos.x;
             ypos = pos.y;
             if (lineLinearPos <= 0)
@@ -1381,23 +1414,24 @@ class GameObjBase
         
         if (state == 0)
         {
-            var pos : Point = cast((0), UpdateLine);
+            var pos : Point = UpdateLine(0);
             xpos = pos.x;
             ypos = pos.y;
         }
         else if (state == 1)
         {
-            var pos : Point = cast((lineSpeed), UpdateLine);
+            var pos : Point = UpdateLine(lineSpeed);
             xpos = pos.x;
             ypos = pos.y;
         }
         else if (state == 2)
         {
-            var pos : Point = cast((-lineSpeed), UpdateLine);
+            var pos : Point = UpdateLine(-lineSpeed);
             xpos = pos.x;
             ypos = pos.y;
         }
     }
+    
     
     private function SwitchFunction_Path()
     {
@@ -1415,13 +1449,13 @@ class GameObjBase
         
         if (state == 0)
         {
-            var pos : Point = cast((0), UpdateLine);
+            var pos : Point = UpdateLine(0);
             xpos = pos.x;
             ypos = pos.y;
         }
         else
         {
-            var pos : Point = cast((lineSpeed), UpdateLine);
+            var pos : Point = UpdateLine(lineSpeed);
             xpos = pos.x;
             ypos = pos.y;
             
@@ -1498,6 +1532,8 @@ class GameObjBase
         var p : Point;
         
         
+        
+        
         var lp : Float = lineLinearPos;
         
         if (pathEaseName != null && pathEaseName != "" && pathEaseName != "linear")
@@ -1516,10 +1552,15 @@ class GameObjBase
         return p;
     }
     
+    
+    
+    
+    
     private function GameObj_InitInvisible() : Void
     {
         visible = false;
     }
+    
     
     private function GameObj_InitCycleAnim() : Void
     {
@@ -1546,9 +1587,13 @@ class GameObjBase
     }
     
     
-    private function SetAnimRangeSingle(name reset : Bool = true, _bounce : Bool = false)
+    
+    
+    
+    private function SetAnimRangeSingle(name : Dynamic, reset : Bool = true, _bounce : Bool = false)
     {
         animBouncing = _bounce;
+        
         SetAnimRange(name, name + "_end", reset, _bounce);
     }
     private function SetAnimRange(fr0Name : String, fr1Name : String, reset : Bool = true, _bounce : Bool = false)
@@ -1580,6 +1625,16 @@ class GameObjBase
         
         
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         if (frame < minFrame)
         {
             frame = minFrame;
@@ -1593,6 +1648,11 @@ class GameObjBase
             frame = minFrame;
         }
     }
+    
+    
+    
+    
+    
     
     
     
@@ -1734,6 +1794,7 @@ class GameObjBase
         body.angularVel = da;
     }
     
+    
     public function GetBodyCollisionMask() : Int
     {
         var body : Body;
@@ -1746,6 +1807,7 @@ class GameObjBase
         }
         return 0;
     }
+    
     
     public function GetBodySensorMask() : Int
     {
@@ -1825,6 +1887,8 @@ class GameObjBase
     
     
     
+    
+    
     private function HitPhysObj_HitSwitch(goHitter : GameObj)
     {
         if (goHitter.name != "missile")
@@ -1833,7 +1897,7 @@ class GameObjBase
         }
         if (doSwitchFunction != null)
         {
-            Utils.print("doing switch ");  // + pi.switchName);  
+            Utils.print("doing switch ");
             if (doSwitchFunction())
             {
                 Utils.print("switch hit");
@@ -1846,6 +1910,7 @@ class GameObjBase
         InitPhysObj_Switch();
         onHitFunction = HitPhysObj_HitSwitch;
     }
+    
     private function InitPhysObj_Switch()
     {
         Utils.GetParams(initParams);
@@ -1914,6 +1979,7 @@ class GameObjBase
     }
     
     
+    
     private function UpdatePhysObj_TwoWaySwitch()
     {
         if (state == 0)
@@ -1933,6 +1999,7 @@ class GameObjBase
     
     
     
+    
     private function SwitchedPhysObj_Switch() : Bool
     {
         Utils.print("SwitchedPhysObj_Switch");
@@ -1945,9 +2012,11 @@ class GameObjBase
         state = 1;
         Game.DoSwitch(try cast(this, GameObj) catch(e:Dynamic) null);
         
+        
         frame = 1;
         return true;
     }
+    
     
     private function UpdatePhysObj_SwitchOnce()
     {
@@ -1971,6 +2040,7 @@ class GameObjBase
             }
         }
     }
+    
     
     
     private function SwitchedPhysObj_TimedSwitch() : Bool
@@ -2021,6 +2091,7 @@ class GameObjBase
         if (switchType == "timed")
         {
             switch_timer = as3hx.Compat.parseInt(Utils.GetParamNumber("switch_time") * Defs.fps);
+            
             updateFunction = UpdatePhysObj_PathSwitch_Once;
         }
         if (switchType == "2way")
@@ -2124,7 +2195,7 @@ class GameObjBase
         }
         else
         {
-            lineIndex = cast((lineName), GetLineIndexByName);
+            lineIndex = GetLineIndexByName(lineName);
         }
         
         if (lineIndex == -1)
@@ -2132,7 +2203,7 @@ class GameObjBase
             updateFunction = null;
         }
         
-        dir = cast((0), GetBodyAngle);
+        dir = GetBodyAngle(0);
         
         lineSpeed = 1 / (Utils.GetParamNumber("path_speed") * Defs.fps);
         lineLoop = Utils.GetParamBool("path_loop");
@@ -2156,7 +2227,7 @@ class GameObjBase
         switchFunction = null;
         updateFunction = null;
         
-        var pos : Point = cast((0), UpdateLine);
+        var pos : Point = UpdateLine(0);
         pathPos.x = pos.x;
         pathPos.y = pos.y;
         xpos = oldxpos = pos.x;
@@ -2197,12 +2268,8 @@ class GameObjBase
     private function SwitchFunction_PhysObj_Path_2way()
     {
         if (pathControlMode == 0)
-        
-        // stopped{
-            
-            {
-                pathControlMode = 1;
-            }
+        {
+            pathControlMode = 1;
         }
         else if (pathControlMode == 1)
         {
@@ -2228,7 +2295,7 @@ class GameObjBase
         
         if (pathControlMode == 1)
         {
-            var pos : Point = cast((lineSpeed), UpdateLine);
+            var pos : Point = UpdateLine(lineSpeed);
             pathPos.x = pos.x;
             pathPos.y = pos.y;
             SetBodyXForm(0, pos.x, pos.y, dir);
@@ -2239,7 +2306,7 @@ class GameObjBase
         }
         else if (pathControlMode == 2)
         {
-            var pos : Point = cast((-lineSpeed), UpdateLine);
+            var pos : Point = UpdateLine(-lineSpeed);
             pathPos.x = pos.x;
             pathPos.y = pos.y;
             SetBodyXForm(0, pos.x, pos.y, dir);
@@ -2259,26 +2326,27 @@ class GameObjBase
         
         if (pathControlMode == 0)
         {
-            var pos : Point = cast((0), UpdateLine);
+            var pos : Point = UpdateLine(0);
             pathPos.x = pos.x;
             pathPos.y = pos.y;
             SetBodyXForm(0, pos.x, pos.y, dir);
         }
         else if (pathControlMode == 1)
         {
-            var pos : Point = cast((lineSpeed), UpdateLine);
+            var pos : Point = UpdateLine(lineSpeed);
             pathPos.x = pos.x;
             pathPos.y = pos.y;
             SetBodyXForm(0, pos.x, pos.y, dir);
         }
         else if (pathControlMode == 2)
         {
-            var pos : Point = cast((-lineSpeed), UpdateLine);
+            var pos : Point = UpdateLine(-lineSpeed);
             pathPos.x = pos.x;
             pathPos.y = pos.y;
             SetBodyXForm(0, pos.x, pos.y, dir);
         }
     }
+    
     
     private function SwitchFunction_PhysObj_Path()
     {
@@ -2301,14 +2369,14 @@ class GameObjBase
         
         if (pathControlMode == 0)
         {
-            var pos : Point = cast((0), UpdateLine);
+            var pos : Point = UpdateLine(0);
             pathPos.x = pos.x;
             pathPos.y = pos.y;
             SetBodyXForm(0, pos.x, pos.y, dir);
         }
         else
         {
-            var pos : Point = cast((lineSpeed), UpdateLine);
+            var pos : Point = UpdateLine(lineSpeed);
             pathPos.x = pos.x;
             pathPos.y = pos.y;
             SetBodyXForm(0, pos.x, pos.y, dir);
@@ -2365,6 +2433,8 @@ class GameObjBase
         y -= Math.round(Game.camera.y);
         
         
+        
+        
         var g : Graphics = Game.fillScreenMC.graphics;
         g.clear();
         
@@ -2374,6 +2444,8 @@ class GameObjBase
         var z : Int = as3hx.Compat.parseInt(zpos);
         
         var bmat : Matrix = new Matrix();
+        
+        
         bmat.translate(-sx, -sy);
         
         var p0 : Point;
@@ -2431,18 +2503,16 @@ class GameObjBase
         
         
         
-        if (false)
         
-        //name == "sticky"){
-            
-            {
-                g.lineStyle(null, null, 0);
-            }
+        if (false)
+        {
+            g.lineStyle(null, null, 0);
         }
         else
         {
             g.lineStyle(2, lineRender_Color, 1);
         }
+        
         
         
         g.beginBitmapFill(dobj.GetBitmapData(frame), bmat, true);
@@ -2452,6 +2522,9 @@ class GameObjBase
         var gradientRatios : Array<Dynamic> = new Array<Dynamic>(0, 255);
         var gradientMatrix : Matrix = new Matrix();
         gradientMatrix.createGradientBox(r.width, r.height, 0, r.x, r.y);
+        
+        
+        
         
         
         
@@ -2555,91 +2628,87 @@ class GameObjBase
         
         
         if (false)
-        
-        //name == "grass"){
+        {
+            var dob : DisplayObj = GraphicObjects.GetDisplayObjByName("grass");
+            var numf : Int = as3hx.Compat.parseInt(dob.GetNumFrames() - 1);
+            Utils.RandSetSeed(123456789101112);
             
+            for (j in 0...newpoints.length)
             {
-                var dob : DisplayObj = GraphicObjects.GetDisplayObjByName("grass");
-                var numf : Int = as3hx.Compat.parseInt(dob.GetNumFrames() - 1);
-                Utils.RandSetSeed(123456789101112);
-                
-                for (j in 0...newpoints.length)
+                var k : Int = as3hx.Compat.parseInt(j + 1);
+                if (k >= newpoints.length)
                 {
-                    var k : Int = as3hx.Compat.parseInt(j + 1);
-                    if (k >= newpoints.length)
-                    {
-                        k = 0;
-                    }
-                    p0 = Reflect.field(newpoints, Std.string(j)).clone();
-                    p1 = newpoints[k].clone();
+                    k = 0;
+                }
+                p0 = Reflect.field(newpoints, Std.string(j)).clone();
+                p1 = newpoints[k].clone();
+                
+                var dx : Float = p1.x - p0.x;
+                var dy : Float = p1.y - p0.y;
+                var adx : Float = Math.abs(dx);
+                var ady : Float = Math.abs(dy);
+                
+                if ((p0.x < p1.x) && (adx > ady))
+                {
+                    var len : Float = Utils.DistBetweenPoints(p0.x, p0.y, p1.x, p1.y);
+                    var segDist : Float = 3;
+                    var numSegs : Int = as3hx.Compat.parseInt(len / segDist);
+                    dx /= numSegs;
+                    dy /= numSegs;
                     
+                    
+                    for (i in 0...numSegs)
+                    {
+                        p0.x += dx;
+                        p0.y += dy;
+                        var p : Point = p0.clone();
+                        p.x += Utils.RandBetweenFloat_Seeded(-1, 1);
+                        p.y += Utils.RandBetweenFloat_Seeded(2, 6);
+                        var f : Int = Utils.RandBetweenInt_Seeded(0, numf);
+                        dob.RenderAt(f, bd, p.x, p.y);
+                    }
+                }
+                else
+                {
                     var dx : Float = p1.x - p0.x;
                     var dy : Float = p1.y - p0.y;
-                    var adx : Float = Math.abs(dx);
-                    var ady : Float = Math.abs(dy);
+                    var len : Float = Utils.DistBetweenPoints(p0.x, p0.y, p1.x, p1.y);
+                    var segDist : Float = 3;
+                    var numSegs : Int = as3hx.Compat.parseInt(len / segDist);
+                    dx /= numSegs;
+                    dy /= numSegs;
                     
-                    if ((p0.x < p1.x) && (adx > ady))
+                    
+                    
+                    for (i in 0...numSegs)
                     {
-                        var len : Float = Utils.DistBetweenPoints(p0.x, p0.y, p1.x, p1.y);
-                        var segDist : Float = 3;
-                        var numSegs : Int = as3hx.Compat.parseInt(len / segDist);
-                        dx /= numSegs;
-                        dy /= numSegs;
+                        p0.x += dx;
+                        p0.y += dy;
+                        var p : Point = p0.clone();
+                        p.x += Utils.RandBetweenFloat_Seeded(-1, 1);
+                        p.y += Utils.RandBetweenFloat_Seeded(0, 2);
                         
+                        var xx : Int = p.x;
+                        var yy : Int = p.y;
+                        var rand : Int = Utils.RandBetweenInt(1, 2);
                         
-                        for (i in 0...numSegs)
+                        if (rand == 0)
                         {
-                            p0.x += dx;
-                            p0.y += dy;
-                            var p : Point = p0.clone();
-                            p.x += Utils.RandBetweenFloat_Seeded(-1, 1);
-                            p.y += Utils.RandBetweenFloat_Seeded(2, 6);
-                            var f : Int = Utils.RandBetweenInt_Seeded(0, numf);
-                            dob.RenderAt(f, bd, p.x, p.y);
                         }
-                    }
-                    else
-                    {
-                        var dx : Float = p1.x - p0.x;
-                        var dy : Float = p1.y - p0.y;
-                        var len : Float = Utils.DistBetweenPoints(p0.x, p0.y, p1.x, p1.y);
-                        var segDist : Float = 3;
-                        var numSegs : Int = as3hx.Compat.parseInt(len / segDist);
-                        dx /= numSegs;
-                        dy /= numSegs;
-                        
-                        
-                        
-                        for (i in 0...numSegs)
+                        else if (rand == 1)
                         {
-                            p0.x += dx;
-                            p0.y += dy;
-                            var p : Point = p0.clone();
-                            p.x += Utils.RandBetweenFloat_Seeded(-1, 1);
-                            p.y += Utils.RandBetweenFloat_Seeded(0, 2);
-                            
-                            var xx : Int = p.x;
-                            var yy : Int = p.y;
-                            var rand : Int = Utils.RandBetweenInt(1, 2);
-                            
-                            if (rand == 0)
-                            {
-                            }
-                            else if (rand == 1)
-                            {
-                                bd.setPixel32(xx, yy, 0);
-                                bd.setPixel32(xx + 1, yy, 0);
-                                bd.setPixel32(xx, yy + 1, 0);
-                                bd.setPixel32(xx + 1, yy + 1, 0);
-                            }
-                            else if (rand == 2)
-                            {
-                                bd.setPixel32(xx - 1, yy - 1, 0);
-                                bd.setPixel32(xx - 1, yy + 1, 0);
-                                bd.setPixel32(xx + 1, yy - 1, 0);
-                                bd.setPixel32(xx + 1, yy + 1, 0);
-                                bd.setPixel32(xx, yy, 0);
-                            }
+                            bd.setPixel32(xx, yy, 0);
+                            bd.setPixel32(xx + 1, yy, 0);
+                            bd.setPixel32(xx, yy + 1, 0);
+                            bd.setPixel32(xx + 1, yy + 1, 0);
+                        }
+                        else if (rand == 2)
+                        {
+                            bd.setPixel32(xx - 1, yy - 1, 0);
+                            bd.setPixel32(xx - 1, yy + 1, 0);
+                            bd.setPixel32(xx + 1, yy - 1, 0);
+                            bd.setPixel32(xx + 1, yy + 1, 0);
+                            bd.setPixel32(xx, yy, 0);
                         }
                     }
                 }
@@ -2695,6 +2764,8 @@ class GameObjBase
     {
         RenderPhysicsLineObjectInner();
         var shadowMat : Matrix = new Matrix();
+        
+        
         bd.draw(Game.fillScreenMC, shadowMat, shadowCT, null, null, false);
     }
     
@@ -2805,14 +2876,14 @@ class GameObjBase
             var b : Body = nape_bodies[i];
         }
     }
-    /*		
+    /*
 		function SetPolysMaterial(materialName:String)
 		{
 			var physMaterial:PhysObjMaterial = Game.GetPhysMaterialByName(materialName);
 
-			var b:b2Body = bodies[0];			
+			var b:b2Body = bodies[0];
 			var s:b2Shape;
-			
+
 			for (s = b.GetShapeList(); s; s = s.GetNext())
 			{
 				s.m_friction = physMaterial.friction;
@@ -2905,6 +2976,8 @@ class GameObjBase
                 p1.y += d.body2.position.y;
                 
                 
+                
+                
                 p0.x -= Game.camera.x;
                 p1.x -= Game.camera.x;
                 p0.y -= Game.camera.y;
@@ -2919,6 +2992,10 @@ class GameObjBase
             }
         }
     }
+    
+    
+    
+    
     
     
     
@@ -2959,6 +3036,8 @@ class GameObjBase
         updateFunction = UpdateSwitchOnce;
         state = 0;
     }
+    
+    
     
     
     private function Switch2WayHit(goHitter : GameObj)
@@ -3028,6 +3107,8 @@ class GameObjBase
     
     
     
+    
+    
     private function SwitchWeightHitPersist(goHitter : GameObj)
     {
         if (goHitter == null)
@@ -3042,6 +3123,7 @@ class GameObjBase
         {
             return false;
         }
+        
         
         goHitter.nape_bodies[0].velocity.y -= 0.00000001;
         
@@ -3061,6 +3143,7 @@ class GameObjBase
         {
             return false;
         }
+        
         
         
         Utils.print("SwitchWeightHit");
@@ -3110,6 +3193,8 @@ class GameObjBase
         state = 0;
         switchFlag = false;
     }
+    
+    
     
     
     private function SwitchTimerHit(goHitter : GameObj)
@@ -3174,6 +3259,9 @@ class GameObjBase
         state = 0;
         switchFlag = false;
     }
+    
+    
+    
     
     
     private function Switchable_Disappear_Switched()
@@ -3316,6 +3404,7 @@ class GameObjBase
     
     /*
 
+
 function OnHit$(SelText)(goHitter:GameObj)
 {
 	if (goHitter == null) return;
@@ -3328,9 +3417,9 @@ function Update$(SelText)()
 }
 function Init$(SelText)()
 {
-	onHitFunction = OnHit$(SelText);				
+	onHitFunction = OnHit$(SelText);
 	renderFunction = Render$(SelText);
-	updateFunction = Update$(SelText);			
+	updateFunction = Update$(SelText);
 }
 
 		*/
@@ -3370,13 +3459,13 @@ function Init$(SelText)()
             Utils.print("ERROR: Path Object has no line");
             return;
         }
-        lineIndex = cast((lineName), GetLineIndexByName);
+        lineIndex = GetLineIndexByName(lineName);
         
         var line : EdLine = Levels.GetCurrent().lines[lineIndex];
         
         lineSpline = line.IsSpline();
         
-        dir = cast((0), GetBodyAngle);
+        dir = GetBodyAngle(0);
         
         lineSpeed = 1 / (Utils.GetParamNumber("path_speed") * Defs.fps);
         
@@ -3392,7 +3481,7 @@ function Init$(SelText)()
         switchFunction = null;
         updateFunction = null;
         
-        var pos : Point = cast((0), UpdateLine);
+        var pos : Point = UpdateLine(0);
         pathPos.x = pos.x;
         pathPos.y = pos.y;
         xpos = oldxpos = pos.x;
@@ -3404,6 +3493,7 @@ function Init$(SelText)()
         
         switchFunction = SwitchFunction_PhysObj_Path_New;
         updateFunction = UpdatePhysObj_Path_New;
+        
         
         if (path_startmode == "stop")
         {
@@ -3428,20 +3518,16 @@ function Init$(SelText)()
             pathControlMode = 1;
         }
         if (path_switchmode == "start_doubleswitch")
-        
-        // for timed switches{
-            
+        {
+            if (lineLinearPos == 0)
             {
-                if (lineLinearPos == 0)
-                {
-                    lineSpeed = Math.abs(lineSpeed);
-                }
-                else
-                {
-                    lineSpeed = -Math.abs(lineSpeed);
-                }
-                pathControlMode = 1;
+                lineSpeed = Math.abs(lineSpeed);
             }
+            else
+            {
+                lineSpeed = -Math.abs(lineSpeed);
+            }
+            pathControlMode = 1;
         }
         if (path_switchmode == "stop")
         {
@@ -3460,7 +3546,7 @@ function Init$(SelText)()
     
     private function UpdatePhysObj_Path_SetPos()
     {
-        var pos : Point = cast((0), UpdateLine);
+        var pos : Point = UpdateLine(0);
         pathPos.x = pos.x;
         pathPos.y = pos.y;
         SetBodyXForm(0, pos.x, pos.y, dir);
@@ -3468,107 +3554,101 @@ function Init$(SelText)()
     private function UpdatePhysObj_Path_New()
     {
         if (pathControlMode == 0)
-        
-        // stationary{
-            
-            {
-                UpdatePhysObj_Path_SetPos();
-            }
+        {
+            UpdatePhysObj_Path_SetPos();
         }
         else if (pathControlMode == 1)
-        
-        // moving{
-            
+        {
+            lineLoop = false;
+            if (path_endmode == "loop")
             {
-                
-                lineLoop = false;
-                if (path_endmode == "loop")
-                {
-                    lineLoop = true;
-                }
-                
-                lineLinearPos += lineSpeed;
-                
-                if (path_endmode == "loop")
-                {
-                    if (lineLinearPos > 1)
-                    {
-                        lineLinearPos -= 1;
-                    }
-                    else if (lineLinearPos < 0)
-                    {
-                        lineLinearPos += 1;
-                    }
-                }
-                else if (path_endmode == "bounce")
-                {
-                    if (lineLinearPos > 1)
-                    {
-                        lineLinearPos = 1;
-                        lineSpeed *= -1;
-                    }
-                    else if (lineLinearPos < 0)
-                    {
-                        lineLinearPos = 0;
-                        lineSpeed *= -1;
-                    }
-                }
-                else if (path_endmode == "stop")
-                {
-                    if (lineLinearPos > 1)
-                    {
-                        lineLinearPos = 1;
-                        pathControlMode = 0;
-                    }
-                    else if (lineLinearPos < 0)
-                    {
-                        pathControlMode = 0;
-                        lineLinearPos = 0;
-                    }
-                }
-                else if (path_endmode == "reset")
-                {
-                    if (lineLinearPos > 1)
-                    {
-                        lineLinearPos = 0;
-                        pathControlMode = 0;
-                    }
-                    else if (lineLinearPos < 0)
-                    {
-                        lineLinearPos = 1;
-                        pathControlMode = 0;
-                    }
-                }
-                
-                var line : EdLine = Levels.GetCurrent().lines[lineIndex];
-                if (line == null)
-                {
-                    return new Point(0, 0);
-                }
-                
-                var p : Point;
-                
-                
-                var lp : Float = lineLinearPos;
-                
-                if (pathEaseName != null && pathEaseName != "" && pathEaseName != "linear")
-                {
-                    lp = Ease.EaseByName(pathEaseName, lp, pathEaseValue);
-                }
-                
-                if (lineLoop == true && lineSpline == false)
-                {
-                    p = line.GetInterpolatedPoint_SegmentRatio(lp, lineLoop, lineSpline);
-                }
-                else
-                {
-                    p = line.GetInterpolatedPoint_EqualSpacing(lp, lineLoop, lineSpline);
-                }
-                
-                
-                UpdatePhysObj_Path_SetPos();
+                lineLoop = true;
             }
+            
+            lineLinearPos += lineSpeed;
+            
+            if (path_endmode == "loop")
+            {
+                if (lineLinearPos > 1)
+                {
+                    lineLinearPos -= 1;
+                }
+                else if (lineLinearPos < 0)
+                {
+                    lineLinearPos += 1;
+                }
+            }
+            else if (path_endmode == "bounce")
+            {
+                if (lineLinearPos > 1)
+                {
+                    lineLinearPos = 1;
+                    lineSpeed *= -1;
+                }
+                else if (lineLinearPos < 0)
+                {
+                    lineLinearPos = 0;
+                    lineSpeed *= -1;
+                }
+            }
+            else if (path_endmode == "stop")
+            {
+                if (lineLinearPos > 1)
+                {
+                    lineLinearPos = 1;
+                    pathControlMode = 0;
+                }
+                else if (lineLinearPos < 0)
+                {
+                    pathControlMode = 0;
+                    lineLinearPos = 0;
+                }
+            }
+            else if (path_endmode == "reset")
+            {
+                if (lineLinearPos > 1)
+                {
+                    lineLinearPos = 0;
+                    pathControlMode = 0;
+                }
+                else if (lineLinearPos < 0)
+                {
+                    lineLinearPos = 1;
+                    pathControlMode = 0;
+                }
+            }
+            
+            var line : EdLine = Levels.GetCurrent().lines[lineIndex];
+            if (line == null)
+            {
+                return new Point(0, 0);
+            }
+            
+            var p : Point;
+            
+            
+            
+            
+            var lp : Float = lineLinearPos;
+            
+            if (pathEaseName != null && pathEaseName != "" && pathEaseName != "linear")
+            {
+                lp = Ease.EaseByName(pathEaseName, lp, pathEaseValue);
+            }
+            
+            if (lineLoop == true && lineSpline == false)
+            {
+                p = line.GetInterpolatedPoint_SegmentRatio(lp, lineLoop, lineSpline);
+            }
+            else
+            {
+                p = line.GetInterpolatedPoint_EqualSpacing(lp, lineLoop, lineSpline);
+            }
+            
+            
+            UpdatePhysObj_Path_SetPos();
         }
     }
 }
+
 

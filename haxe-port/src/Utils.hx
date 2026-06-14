@@ -178,9 +178,9 @@ class Utils
             return null;
         }
         
-        var r : Int = cast((str.substr(0, 2)), HexStringToInt);
-        var g : Int = cast((str.substr(2, 2)), HexStringToInt);
-        var b : Int = cast((str.substr(4, 2)), HexStringToInt);
+        var r : Int = HexStringToInt(str.substr(0, 2));
+        var g : Int = HexStringToInt(str.substr(2, 2));
+        var b : Int = HexStringToInt(str.substr(4, 2));
         
         r = as3hx.Compat.parseInt(-255 + r);
         g = as3hx.Compat.parseInt(-255 + g);
@@ -198,7 +198,7 @@ class Utils
         var remainder : Int = as3hx.Compat.parseInt(count % as3hx.Compat.parseInt(Defs.fps));
         
         s += Std.string(seconds) + ":";
-        var r : Float = 100 / Defs.fps * remainder;
+        var r : Float = 100 / Defs.fps * as3hx.Compat.parseFloat(remainder);
         s += Std.string(Math.floor(r));
         
         return s;
@@ -210,11 +210,11 @@ class Utils
         
         count /= Defs.fps;
         
-        var seconds : Int = as3hx.Compat.parseInt(count / 60);
-        var remainder : Int = as3hx.Compat.parseInt(count % 60);
+        var seconds : Int = as3hx.Compat.parseInt(count / as3hx.Compat.parseInt(60));
+        var remainder : Int = as3hx.Compat.parseInt(count % as3hx.Compat.parseInt(60));
         
         s += Std.string(seconds) + ":";
-        var r : Float = remainder;
+        var r : Float = as3hx.Compat.parseFloat(remainder);
         s += Std.string(Math.floor(r));
         
         return s;
@@ -232,8 +232,8 @@ class Utils
         
         count /= Defs.fps;
         
-        var seconds : Int = as3hx.Compat.parseInt(count / 60);
-        var remainder : Int = as3hx.Compat.parseInt(count % 60);
+        var seconds : Int = as3hx.Compat.parseInt(count / as3hx.Compat.parseInt(60));
+        var remainder : Int = as3hx.Compat.parseInt(count % as3hx.Compat.parseInt(60));
         
         if (remainder < 10)
         {
@@ -261,6 +261,9 @@ class Utils
         s += (secondsString);
         s += (":");
         s += (miliString);
+        
+        
+        
         
         
         return s;
@@ -373,7 +376,7 @@ class Utils
     
     public static function NumberToString2DP(n : Float) : String
     {
-        var aa : String = Std.string(cast((n), DP2));
+        var aa : String = Std.string(DP2(n));
         var index : Int = aa.lastIndexOf(".");
         if (index == -1)
         {
@@ -389,6 +392,7 @@ class Utils
         }
         return aa;
     }
+    
     
     public static function DP2(val : Float) : Float
     {
@@ -478,6 +482,8 @@ class Utils
         var y0 : Float = Math.sin(r0);
         var x1 : Float = Math.cos(r1);
         var y1 : Float = Math.sin(r1);
+        
+        
         var dot : Float = (x0 * x1) + (y0 * y1);
         return dot;
     }
@@ -512,8 +518,8 @@ class Utils
     {
         var i : Int;
         var maxP : Int = numP;
-        var dx : Float = (x1 - x0) / maxP;
-        var dy : Float = (y1 - y0) / maxP;
+        var dx : Float = (x1 - x0) / as3hx.Compat.parseFloat(maxP);
+        var dy : Float = (y1 - y0) / as3hx.Compat.parseFloat(maxP);
         bd.setPixel32(as3hx.Compat.parseInt(x0), as3hx.Compat.parseInt(y0), col);
         var ox : Float = x0;
         var oy : Float = y0;
@@ -567,6 +573,7 @@ class Utils
     }
     
     
+    
     public static function NormalizeRot(rot : Float) : Float
     {
         while (rot < 0)
@@ -579,6 +586,7 @@ class Utils
         }
         return rot;
     }
+    
     
     
     
@@ -611,6 +619,8 @@ class Utils
         {
             params = params.substring(0, params.length - 1);
         }
+        
+        
         
         
         var ss : Array<Dynamic> = params.split(",");
@@ -778,9 +788,10 @@ class Utils
         }
     }
     
+    
     public static function GetCardinalString(number : Int) : String
     {
-        return as3hx.Compat.parseInt(number + 1) + cast((number), GetPlacePostfixString);
+        return as3hx.Compat.parseInt(number + 1) + GetPlacePostfixString(number);
     }
     public static function GetPlacePostfixString(place : Int) : String
     {
@@ -798,4 +809,5 @@ class Utils
         return a[place];
     }
 }
+
 

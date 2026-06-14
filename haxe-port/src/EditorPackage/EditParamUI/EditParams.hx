@@ -59,7 +59,7 @@ class EditParams
     {
         if (_objParameters != null)
         {
-            cast((_objParameters), AddParameterListBox);
+            AddParameterListBox(_objParameters);
         }
         else
         {
@@ -126,7 +126,7 @@ class EditParams
     public static function AddParameterListBox_changeHandler(event : ListEvent) : Void
     {
         event.stopImmediatePropagation();
-        var list : List = cast((event.target), List);
+        var list : List = List(event.target);
         if (list == null)
         {
             return;
@@ -144,11 +144,11 @@ class EditParams
         if (_EdLine != null)
         {
             id = PhysEditor.GetOrCreateUniqueLineID(_EdLine);
-            cast((currentParamIndex), UpdateListBoxItem);
+            UpdateListBoxItem(currentParamIndex);
         }
         Utils.print("here " + id);
-        cast((id), CurrentAdjustObject_UpdateCurrentParameter);
-        cast((currentParamIndex), UpdateListBoxItem);
+        CurrentAdjustObject_UpdateCurrentParameter(id);
+        UpdateListBoxItem(currentParamIndex);
         
         PhysEditor.SetEditMode(PhysEditor.oldEditMode, false);
         PhysEditor.CursorText_Set("");
@@ -160,11 +160,11 @@ class EditParams
         if (poi != null)
         {
             id = PhysEditor.GetOrCreateUniqueObjectID(poi);
-            cast((currentParamIndex), UpdateListBoxItem);
+            UpdateListBoxItem(currentParamIndex);
         }
         Utils.print("here1 " + id);
-        cast((id), CurrentAdjustObject_UpdateCurrentParameter);
-        cast((currentParamIndex), UpdateListBoxItem);
+        CurrentAdjustObject_UpdateCurrentParameter(id);
+        UpdateListBoxItem(currentParamIndex);
         
         PhysEditor.SetEditMode(PhysEditor.oldEditMode, false);
         PhysEditor.CursorText_Set("");
@@ -181,7 +181,7 @@ class EditParams
         }
         if (ob.type == "list")
         {
-            AddComboBoxEntry(cast((currentParamIndex), GetParamXpos), cast((currentParamIndex), GetParamYpos), ob.name, CurrentAdjustObject_GetSelectedParameterValue(), ob.valueList, CurrentAdjustObject_EnterParameter_Done);
+            AddComboBoxEntry(GetParamXpos(currentParamIndex), GetParamYpos(currentParamIndex), ob.name, CurrentAdjustObject_GetSelectedParameterValue(), ob.valueList, CurrentAdjustObject_EnterParameter_Done);
         }
         else if (ob.type == "linelink" && KeyReader.Down(KeyReader.KEY_SHIFT))
         {
@@ -199,14 +199,14 @@ class EditParams
         }
         else
         {
-            AddTextEntry(cast((PhysEditor.editModeObj_Adjust.currentAdjustObjectParam), GetParamXpos), cast((PhysEditor.editModeObj_Adjust.currentAdjustObjectParam), GetParamYpos), ob.name, CurrentAdjustObject_GetSelectedParameterValue(), CurrentAdjustObject_EnterParameter_Done);
+            AddTextEntry(GetParamXpos(PhysEditor.editModeObj_Adjust.currentAdjustObjectParam), GetParamYpos(PhysEditor.editModeObj_Adjust.currentAdjustObjectParam), ob.name, CurrentAdjustObject_GetSelectedParameterValue(), CurrentAdjustObject_EnterParameter_Done);
         }
     }
     
     public static function CurrentAdjustObject_EnterParameter_Done(text : String)
     {
-        cast((text), CurrentAdjustObject_UpdateCurrentParameter);
-        cast((currentParamIndex), UpdateListBoxItem);
+        CurrentAdjustObject_UpdateCurrentParameter(text);
+        UpdateListBoxItem(currentParamIndex);
     }
     
     public static function ParameterListBox_SetSelectedIndex()
@@ -313,6 +313,7 @@ class EditParams
         comboBox.prompt = text;
         comboBox.addEventListener(Event.CHANGE, AddComboBoxEntry_changeHandler, false, 0, true);
         
+        
         Game.main.stage.focus = comboBox;
     }
     private static function ComboBox_Close()
@@ -343,13 +344,13 @@ class EditParams
     
     private static function AddComboBoxEntry_changeHandler(event : Event) : Void
     {
-        var selection : String = cast((event.target), ComboBox).selectedItem.data;
+        var selection : String = ComboBox(event.target).selectedItem.data;
         
         ComboBox_Close();
         
         if (AddTextEntry_Callback != null)
         {
-            cast((selection), AddTextEntry_Callback);
+            AddTextEntry_Callback(selection);
         }
     }
     
@@ -388,14 +389,14 @@ class EditParams
     }
     
     /*
-		listBoxContainer.addEventListener(KeyboardEvent.KEY_DOWN, ListBoxKeyHandler); 
+		listBoxContainer.addEventListener(KeyboardEvent.KEY_DOWN, ListBoxKeyHandler);
 		static function ListBoxKeyHandler(e:KeyboardEvent)
 		{
 			if (e.keyCode == KeyReader.KEY_ESCAPE)
 			{
 				PhysEditor.SetEditMode(PhysEditor.oldEditMode,false);
 				PhysEditor.CursorText_Set("");
-				
+
 			}
 		}
 		*/
@@ -413,9 +414,10 @@ class EditParams
             
             if (AddTextEntry_Callback != null)
             {
-                cast((tf.text), AddTextEntry_Callback);
+                AddTextEntry_Callback(tf.text);
             }
             PhysEditor.isEntering = false;
+            
             
             Game.main.stage.focus = null;
             tf.parent.removeChild(tf);
@@ -426,6 +428,7 @@ class EditParams
         {
             Utils.print("cancelled");
             PhysEditor.isEntering = false;
+            
             Game.main.stage.focus = null;
             tf.parent.removeChild(tf);
             tf = null;
@@ -433,4 +436,5 @@ class EditParams
         }
     }
 }
+
 

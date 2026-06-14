@@ -5,7 +5,7 @@ import flash.geom.Rectangle;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class TexturePages
 {
@@ -76,29 +76,9 @@ class TexturePages
     
     public static function LoadGraphicObjectsForPreparing()
     {
-        if (false)
-        {
-            GraphicObjects.Load();
-        }
     }
     public static function CreateSingleTextureFileForPreparing(index : Int)
     {
-        if (false)
-        {
-            var mc : MovieClip = new TexturePagesMC();
-            mc.gotoAndStop(index);
-            var currentTP : TexturePage = new TexturePage(index, txSize, txSize);
-            
-            var rect : Rectangle = mc.getBounds(null);
-            var BD : BitmapData = new BitmapData((rect.width), (rect.height), true, 0);
-            BD.draw(mc, null, null, null, null, false);
-            currentTP.s3dTexture = s3d.context3D.createTexture(rect.width, rect.height, Context3DTextureFormat.BGRA, true);
-            currentTP.s3dTexture.uploadFromBitmapData(BD);
-            BD.dispose();
-            BD = null;
-            pages.push(currentTP);
-            mc = null;
-        }
     }
     
     public static function Create()
@@ -133,7 +113,10 @@ class TexturePages
         }
         
         
+        
         dobjFrames = dobjFrames.sort(SortArea);
+        
+        
         
         
         for (dof in dobjFrames)
@@ -224,4 +207,5 @@ class TexturePages
         var a : Int = 0;
     }
 }
+
 

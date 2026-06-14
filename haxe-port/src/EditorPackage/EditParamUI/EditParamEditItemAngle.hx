@@ -13,7 +13,7 @@ import uIPackage.UI;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class EditParamEditItemAngle extends EditParamEditItemBase
 {
@@ -126,4 +126,5 @@ class EditParamEditItemAngle extends EditParamEditItemBase
         Utils.print("TextInputDone " + e.text);
     }
 }
+
 

@@ -14,7 +14,7 @@ import licPackage.LicDef;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class KiziStuff
 {
@@ -200,4 +200,5 @@ class KiziStuff
         trace("KiziStuff.AddLogoAt error");
     }
 }
+
 

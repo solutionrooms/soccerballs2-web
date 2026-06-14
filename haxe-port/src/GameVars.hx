@@ -80,55 +80,39 @@ class GameVars
     public static function IsFeatureUnlocked(index : Int) : Bool
     {
         if (index == 0)
-        
-        // 50 coins{
-            
+        {
+            if (GetTotalCoinsCollected() >= 50)
             {
-                if (GetTotalCoinsCollected() >= 50)
-                {
-                    return true;
-                }
+                return true;
             }
         }
         else if (index == 1)
-        
-        // all coins{
-            
+        {
+            if (GetTotalCoinsCollected() >= totalGameCoins)
             {
-                if (GetTotalCoinsCollected() >= totalGameCoins)
-                {
-                    return true;
-                }
+                return true;
             }
         }
         else if (index == 2)
-        
-        // all trophies{
-            
+        {
+            if (GetNumTrophies() >= 10)
             {
-                if (GetNumTrophies() >= 10)
-                {
-                    return true;
-                }
+                return true;
             }
         }
         else if (index == 3)
-        
-        // all level golds{
-            
+        {
+            var count : Int = 0;
+            for (i in 0...36)
             {
-                var count : Int = 0;
-                for (i in 0...36)
+                if (Levels.GetLevel(i).rating > 0)
                 {
-                    if (Levels.GetLevel(i).rating > 0)
-                    {
-                        count++;
-                    }
+                    count++;
                 }
-                if (count >= 36)
-                {
-                    return true;
-                }
+            }
+            if (count >= 36)
+            {
+                return true;
             }
         }
         return false;
@@ -206,6 +190,7 @@ class GameVars
         new Array<Dynamic>(48, 49), 
         new Array<Dynamic>(49, 50));
     
+    
     public static function GetUnlockedLevels(levelID : Int) : Array<Dynamic>
     {
         var unlocked : Array<Dynamic> = new Array<Dynamic>();
@@ -230,6 +215,7 @@ class GameVars
         24, 25, 26, 27, 28, 
         30, 31, 32, 33, 
         39, 40, 41, 42);
+    
     
     public static function ShouldDumpBackToLevelMap(levelID : Int) : Bool
     {
@@ -359,7 +345,7 @@ class GameVars
     }
     
     
-    public static var currentPickTeam : Int = 0;  // 0 = player, 1 = opponents  
+    public static var currentPickTeam : Int = 0;
     public static var currentEditTeamIndex : Int = 0;
     
     private static var teams : Array<TeamDef>;
@@ -384,6 +370,8 @@ class GameVars
         var o : Dynamic = {};
         
         o.hasPlayedIntro = hasPlayedIntro;
+        
+        
         
         
         
@@ -421,16 +409,16 @@ class GameVars
         }
         
         
-        /*			
+        /*
 			o.upgradeLevels = new Array();
 			o.sliderLevels = new Array();
-			
+
 			o.slot0 = saveSlots[0].Clone();
 			o.slot1 = saveSlots[1].Clone();
 			o.slot2 = saveSlots[2].Clone();
 			o.slot3 = saveSlots[3].Clone();
 			o.slot4 = saveSlots[4].Clone();
-			
+
 			for (var i:int = 0; i < 6; i++)
 			{
 				o.upgradeLevels.push(upgradeLevels[i]);
@@ -449,6 +437,8 @@ class GameVars
         }
         
         hasPlayedIntro = o.hasPlayedIntro;
+        
+        
         
         
         
@@ -724,7 +714,7 @@ class GameVars
     public static function InitCoinBoxClip(coinBox : MovieClip)
     {
         var a : Int = GetTotalCoinsCollected();
-        var b : Int = totalGameCoins;  // searched in levels_data for "pickup_normal" to find this amount.  
+        var b : Int = totalGameCoins;
         
         coinBox.coinsCollected.text = a + "/" + b;
     }
@@ -733,7 +723,7 @@ class GameVars
         for (i in 0...10)
         {
             var mc : MovieClip = try cast(trophies.getChildByName("trophy" + as3hx.Compat.parseInt(i + 1)), MovieClip) catch(e:Dynamic) null;
-            if (cast((i), HasTrophy))
+            if (HasTrophy(i))
             {
                 mc.filters = [];
             }
@@ -885,4 +875,5 @@ class GameVars
         new Array<Dynamic>(28, 185, 104), 
         new Array<Dynamic>(29, 124, 51));
 }
+
 

@@ -60,6 +60,7 @@ class UITitleScreen extends UIScreenInstance
         Lic.AnimatedMCPrequelButton(titleMC.btn_prequel);
         
         
+        
         UI.AddGeneric(titleMC);
         
         Lic.AnimatedMCMoreGamesButton(titleMC.btn_moregames, "title");
@@ -78,6 +79,7 @@ class UITitleScreen extends UIScreenInstance
         
         
         Lic.AuthorButton(titleMC.turboBtn);
+        
         
         
         Lic.AnimatedMCFacebookButton(titleMC.btn_facebook);
@@ -156,4 +158,5 @@ class UITitleScreen extends UIScreenInstance
         MobileSpecific.PostTwitter();
     }
 }
+
 

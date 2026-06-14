@@ -3,7 +3,7 @@ package kizi;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class KiziGameVars
 {
@@ -23,4 +23,5 @@ class KiziGameVars
     {
     }
 }
+
 

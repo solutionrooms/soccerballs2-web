@@ -8,7 +8,7 @@ import flash.geom.Point;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class AnimHierarchy
 {
@@ -44,6 +44,10 @@ class AnimHierarchy
                 p.y = (part.y * scale);
                 
                 
+                
+                
+                
+                
                 var xpos : Float = x + p.x;
                 var ypos : Float = y + p.y;
                 
@@ -74,10 +78,8 @@ class AnimHierarchy
         var f : AnimHierarchyFrame = frames[as3hx.Compat.parseInt(frame)];
         var _smooth : Bool = true;
         
-        if (false)
-        {
-            _smooth = false;
-        }
+        
+        
         
         var needToTransform : Bool = false;
         if (rot != 0)
@@ -149,6 +151,7 @@ class AnimHierarchy
             offset = frame - Math.floor(frame);
         }
         
+        
         offset = 0;
         
         var nextf : Int = as3hx.Compat.parseInt(frame + 1);
@@ -156,7 +159,7 @@ class AnimHierarchy
         {
             nextf = as3hx.Compat.parseInt(frame);
         }
-        var f1 : AnimHierarchyFrame = frames[nextf];
+        var f1 : AnimHierarchyFrame = frames[as3hx.Compat.parseInt(nextf)];
         
         for (pcount in 0...f.parts.length)
         {
@@ -323,7 +326,7 @@ class AnimHierarchy
         dobj = _dobj;
         frames = new Array<AnimHierarchyFrame>();
         
-        var mc : MovieClip = origMC;  // dobj.origMC;  
+        var mc : MovieClip = origMC;
         var totalFrames : Int = mc.totalFrames;
         mc.gotoAndStop(1);
         for (i in 1...totalFrames + 1)
@@ -381,11 +384,13 @@ class AnimHierarchy
                 
                 
                 
+                
                 partIndex++;
                 f.parts.push(part);
             }
             
             mc.nextFrame();
+            
             frames.push(f);
         }
     }

@@ -26,7 +26,7 @@ class Audio
     
     private static var soundAllowed : Bool;
     
-    private static var isInitialised : Bool = false;  // to stop button clicks etc. on preloader  
+    private static var isInitialised : Bool = false;
     
     
     public function new()
@@ -56,6 +56,7 @@ class Audio
             activeSounds.push(new ActiveSoundEffectItem());
         }
         
+        
         var s : Sound = new SfxClick();
         var sc : SoundChannel = s.play(0, 0, new SoundTransform(0, 0));
         if (sc == null)
@@ -81,11 +82,11 @@ class Audio
         muteSFX = (muteSFX == false);
         if (muteSFX)
         {
-            cast((false), MuteAll);
+            MuteAll(false);
         }
         else
         {
-            cast((false), UnMuteAll);
+            UnMuteAll(false);
         }
     }
     
@@ -103,11 +104,11 @@ class Audio
         muteMusic = (muteMusic == false);
         if (muteMusic)
         {
-            cast((true), MuteAll);
+            MuteAll(true);
         }
         else
         {
-            cast((true), UnMuteAll);
+            UnMuteAll(true);
         }
     }
     
@@ -121,7 +122,7 @@ class Audio
                 return def;
             }
         }
-        return cast((name), AddSound);
+        return AddSound(name);
     }
     
     
@@ -197,7 +198,7 @@ class Audio
     
     public static function SetSoundVolume(name : String, volume : Float)
     {
-        var activeAct : ActiveSoundEffectItem = cast((name), GetActiveSoundByName);
+        var activeAct : ActiveSoundEffectItem = GetActiveSoundByName(name);
         if (activeAct == null)
         {
             return;
@@ -207,7 +208,7 @@ class Audio
     
     public static function SetSoundPan(name : String, pan : Float)
     {
-        var activeAct : ActiveSoundEffectItem = cast((name), GetActiveSoundByName);
+        var activeAct : ActiveSoundEffectItem = GetActiveSoundByName(name);
         if (activeAct == null)
         {
             return;
@@ -243,13 +244,14 @@ class Audio
             return;
         }
         
-        var def : SoundEffectDef = cast((name), GetSoundDefByName);
+        var def : SoundEffectDef = GetSoundDefByName(name);
         if (def == null)
         {
             return;
         }
         
-        var activeAct : ActiveSoundEffectItem = cast((name), GetActiveSoundByName);
+        
+        var activeAct : ActiveSoundEffectItem = GetActiveSoundByName(name);
         if (activeAct != null)
         {
             return;
@@ -270,11 +272,11 @@ class Audio
     
     public static function Loop(name : String, numLoops : Int, pan : Float = 0, volume : Float = 1, unique : Bool = true)
     {
-        var def : SoundEffectDef = cast((name), GetSoundDefByName);
+        var def : SoundEffectDef = GetSoundDefByName(name);
         
         if (unique)
         {
-            var activeAct : ActiveSoundEffectItem = cast((name), GetActiveSoundByName);
+            var activeAct : ActiveSoundEffectItem = GetActiveSoundByName(name);
             if (activeAct != null)
             {
                 return;
@@ -294,11 +296,11 @@ class Audio
     
     public static function StartPitchControlSound(name : String, volume : Float = 0.3, unique : Bool = true)
     {
-        var def : SoundEffectDef = cast((name), GetSoundDefByName);
+        var def : SoundEffectDef = GetSoundDefByName(name);
         
         if (unique)
         {
-            var activeAct : ActiveSoundEffectItem = cast((name), GetActiveSoundByName);
+            var activeAct : ActiveSoundEffectItem = GetActiveSoundByName(name);
             if (activeAct != null)
             {
                 return;
@@ -309,6 +311,7 @@ class Audio
         if (act != null)
         {
             var st : SoundTransform = new SoundTransform();
+            
             act.StartPitchControlSound(name, null, volume);
             act.volume = volume;
             act.sc = new SoundChannel();
@@ -334,7 +337,7 @@ class Audio
         {
             return;
         }
-        var def : SoundEffectDef = cast((name), GetSoundDefByName);
+        var def : SoundEffectDef = GetSoundDefByName(name);
         if (def == null)
         {
             return;
@@ -361,7 +364,7 @@ class Audio
     
     public static function StopSFX(name : String) : Void
     {
-        var activeAct : ActiveSoundEffectItem = cast((name), GetActiveSoundByName);
+        var activeAct : ActiveSoundEffectItem = GetActiveSoundByName(name);
         if (activeAct == null)
         {
             return;
@@ -426,6 +429,7 @@ class Audio
             }
         }
     }
+    
     
     
     private static var loadedMP3 : Sound;
@@ -517,8 +521,9 @@ class Audio
         StopAllMusic();
         
         var mp3 : Sound = new Sound();
-        mp3.extract(data, 10000);  // data.length * 44.1);  
+        mp3.extract(data, 10000);
         mp3.play(0, 999999);
     }
 }
+
 

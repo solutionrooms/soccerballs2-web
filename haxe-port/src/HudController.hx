@@ -125,7 +125,7 @@ class HudController
         }
         if (KeyReader.Pressed(KeyReader.KEY_R))
         {
-            cast((null), ButtonRestartPressed);
+            ButtonRestartPressed(null);
         }
         if (KeyReader.Pressed(KeyReader.KEY_F))
         {
@@ -155,50 +155,7 @@ class HudController
         hudMC.mainArea.visible = true;
         hudMC.debugArea.visible = false;
         
-        if (false)
-        {
-            if (debugMode == 0)
-            {
-                hudMC.mainArea.visible = false;
-                hudMC.debugArea.visible = false;
-                hudMC.debugArea.btn_skipLevel.visible = false;
-                hudMC.debugArea.btn_restart.visible = false;
-            }
-            if (debugMode == 1)
-            {
-                hudMC.mainArea.visible = false;
-                hudMC.debugArea.visible = true;
-                hudMC.debugArea.btn_skipLevel.visible = false;
-                hudMC.debugArea.btn_restart.visible = false;
-            }
-            if (debugMode == 2)
-            {
-                hudMC.mainArea.visible = false;
-                hudMC.debugArea.visible = true;
-                hudMC.debugArea.btn_skipLevel.visible = true;
-                hudMC.debugArea.btn_restart.visible = true;
-            }
-            
-            
-            if (debugMode == 1)
-            {
-                hudMC.debugArea.debugText0.text = as3hx.Compat.parseInt(Game.main.timeForUpdate);
-                hudMC.debugArea.debugText0.visible = true;
-                hudMC.debugArea.debugText1.visible = false;
-                hudMC.debugArea.debugText2.visible = false;
-            }
-            else if (debugMode == 2)
-            {
-                hudMC.debugArea.debugText0.text = EngineDebug.GetTimerString(0) + "   " + EngineDebug.GetTimerString(1) + "   " + EngineDebug.GetTimerString(2) + "   " + EngineDebug.GetTimerString(3);
-                hudMC.debugArea.debugText1.text = EngineDebug.GetTimerString(4) + "   " + EngineDebug.GetTimerString(5) + "   " + EngineDebug.GetTimerString(6) + "   " + EngineDebug.GetTimerString(7);
-                hudMC.debugArea.debugText2.text = EngineDebug.GetTimerString(8) + "   " + EngineDebug.GetTimerString(9) + "   " + EngineDebug.GetTimerString(10) + "   " + EngineDebug.GetTimerString(11);
-                hudMC.debugArea.debugText0.visible = true;
-                hudMC.debugArea.debugText1.visible = true;
-                hudMC.debugArea.debugText2.visible = true;
-            }
-            
-            return;
-        }
+        
         
         
         if (Game.doWalkthrough)
@@ -265,4 +222,5 @@ class HudController
         }
     }
 }
+
 

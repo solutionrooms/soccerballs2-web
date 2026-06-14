@@ -4,7 +4,7 @@ import flash.display.MovieClip;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class EditorLayers
 {
@@ -74,6 +74,7 @@ class EditorLayers
         layers[index].active = true;
     }
     
+    
     public static function GetActive() : Int
     {
         for (l in layers)
@@ -96,4 +97,5 @@ class EditorLayers
         return layers[index].IsVisible();
     }
 }
+
 

@@ -3,13 +3,16 @@ package kizi;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class KiziLogger
 {
     public static var logLevel : Int;
+    
     public static inline var VERBOSE : Int = 2;
+    
     public static inline var DEBUG : Int = 1;
+    
     public static inline var ERROR : Int = 0;
     public static function verbose(params : Array<Dynamic> = null) : Void
     {
@@ -40,4 +43,5 @@ class KiziLogger
     {
     }
 }
+
 

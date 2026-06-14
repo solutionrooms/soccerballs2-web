@@ -41,9 +41,24 @@ class LicDef
     public static var MochiAdID : String = "e5813d4154e50e8f";
     public static var MochiAdRes : String = "700x525";
     
+    
     public static var primary_sponsor : Int = LICENSOR_KONGREGATE;
     
+    
     public static var licensor : Int = LICENSOR_TURBONUKE;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     public static var armorHighScore_devKey : String = "57e6ffa35f343197fbd276da0a94ccbb";
     public static var armorHighScore_gameKey : String = "basketballs-level-pack";
@@ -69,7 +84,7 @@ class LicDef
     
     public static var CPMStarContentSpotIDs : Array<Dynamic> = new Array<Dynamic>();
     public static var CPMStarIntersitialsSpotIDs : Array<Dynamic> = new Array<Dynamic>();
-    // Turbonuke
+    
     public static var CPMStarFixedTime : Int = 10;
     
     public static var localTest : Bool = false;
@@ -84,7 +99,7 @@ class LicDef
     
     public static function GetCurrentSku() : LicSku
     {
-        return cast((licensor), GetSku);
+        return GetSku(licensor);
     }
     
     public static function GetSku(skuID : Int) : LicSku
@@ -110,7 +125,7 @@ class LicDef
         {
             return true;
         }
-        var sku : LicSku = cast((licensor), GetSku);
+        var sku : LicSku = GetSku(licensor);
         if (sku.sitelocks.length == 0)
         {
             return true;
@@ -147,7 +162,7 @@ class LicDef
     }
     public static function GetDomain() : String
     {
-        var url : String = stg.loaderInfo.url;  //this is the magic _url successor  
+        var url : String = stg.loaderInfo.url;
         var urlStart : Float = url.indexOf("://") + 3;
         var urlEnd : Float = url.indexOf("/", urlStart);
         var dom : String = url.substring(urlStart, urlEnd);
@@ -230,11 +245,13 @@ class LicDef
         skus = new Array<Dynamic>();
         var sku : LicSku;
         
+        
         sku = new LicSku(LICENSOR_BEGAMER, "Begamer");
         sku.introName = "Intro_Begamer";
         sku.mainLogoName = "";
         sku.introFPS = 30;
         skus.push(sku);
+        
         
         sku = new LicSku(LICENSOR_DEVELOPMENT, "Development");
         sku.AddSiteLock("longanimalsgames.com");
@@ -243,10 +260,14 @@ class LicDef
         sku.AddSiteLock("");
         
         
+        
+        
         sku.allowOtherGames = true;
         sku.showMoreGamesButton = true;
+        
         sku.skipPreloaderContinueButton = true;
         skus.push(sku);
+        
         
         sku = new LicSku(LICENSOR_PANDAZONE, "PandaZone");
         sku.AddSiteLock("longanimalsgames.com");
@@ -257,6 +278,7 @@ class LicDef
         sku.allowAuthorLink = false;
         skus.push(sku);
         
+        
         sku = new LicSku(LICENSOR_HOODAMATH, "Hoodamath");
         sku.introName = "Intro_Hoodamath";
         sku.mainLogoName = "hoodamath";
@@ -265,6 +287,7 @@ class LicDef
         sku.allowAuthorLink = false;
         skus.push(sku);
         
+        
         sku = new LicSku(LICENSOR_TURBONUKE, "TurboNUKE");
         sku.AddSiteLock("turbonuke.com");
         sku.introName = "Intro_TurboNuke";
@@ -272,7 +295,9 @@ class LicDef
         sku.linkURL = "http://www.turbonuke.com";
         sku.prequelLinkURL = "http://www.turbonuke.com/games.php?game=basketballs";
         sku.walkthroughURL = "http://www.turbonuke.com/walkthrough.php?game=basketballslevelpack";
+        
         skus.push(sku);
+        
         sku = new LicSku(LICENSOR_KONGREGATE, "Kongregate");
         
         sku.introName = "Intro_Kongregate";
@@ -280,6 +305,8 @@ class LicDef
         sku.mainLogoName = "kongregate";
         sku.linkURL = "http://www.kongregate.com";
         sku.adtype = ADTYPE_CPMSTAR;
+        
+        
         sku.allowIntersitialAd = false;
         
         sku.prequelLinkURL = "http://www.kongregate.com/games/turboNuke/soccer-balls";
@@ -307,22 +334,22 @@ class LicDef
             sku.introName = "";
         }
         
-        if (false)
-        {
-            sku.secondaryIntroName = "";
-            sku.secondaryIntroLinkURL = "";
-            sku.adtype = ADTYPE_NONE;
-            sku.introName = "";
-            sku.skipPreloaderContinueButton = true;
-        }
+        
+        
+        
+        
+        
+        
         
         
         skus.push(sku);
+        
         
         sku = new LicSku(LICENSOR_KONGREGATE_ONSITE, "Kongregate OnSite");
         
         sku.introName = "Intro_Kongregate";
         sku.mainLogoName = "kongregate";
+        
         
         sku.prequelLinkURL = "http://www.kongregate.com/games/turboNuke/soccer-balls";
         
@@ -334,11 +361,15 @@ class LicDef
         
         sku.allowIntersitialAd = false;
         
+        
+        
         sku.allowOtherGames = true;
         sku.allowAuthorLink = true;
         sku.allowRemoteAdLoading = false;
         
+        
         skus.push(sku);
+        
         sku = new LicSku(LICENSOR_ANDKON, "Andkon");
         sku.AddSiteLock("andkon.com");
         sku.introName = "Intro_Andkon";
@@ -350,6 +381,7 @@ class LicDef
         sku.allowOtherGames = false;
         sku.allowIntersitialAd = false;
         skus.push(sku);
+        
         
         sku = new LicSku(LICENSOR_ARMORGAMES, "Armor Games");
         sku.AddSiteLock("armorgames.com");
@@ -365,6 +397,7 @@ class LicDef
         skus.push(sku);
         
         
+        
         sku = new LicSku(LICENSOR_YEPI, "Yepi");
         sku.AddSiteLock("twizl.com");
         sku.AddSiteLock("yepi.com");
@@ -377,6 +410,7 @@ class LicDef
         skus.push(sku);
         
         
+        
         sku = new LicSku(LICENSOR_COOLIFIED, "Coolified");
         sku.AddSiteLock("coolifiedgames.com");
         sku.AddSiteLock("longanimalsgames.com");
@@ -386,43 +420,53 @@ class LicDef
         skus.push(sku);
         
         
+        
         sku = new LicSku(LICENSOR_NOBRANDING, "No branding");
         skus.push(sku);
+        
         sku = new LicSku(LICENSOR_KIZI, "Kizi Sitelock");
         sku.AddSiteLock("kizi.com");
         sku.skipPreloaderContinueButton = true;
         sku.allowAuthorLink = false;
         
         skus.push(sku);
+        
+        
         sku = new LicSku(LICENSOR_MOUSEBREAKER, "MouseBreaker");
         sku.AddSiteLock("mousebreaker.com");
         sku.mainLogoName = "mousebreaker";
         sku.showMoreGamesButton = false;
         sku.introName = "Intro_MouseBreaker";
         sku.allowAuthorLink = false;
+        
         sku.walkthroughURL = "http://www.mousebreaker.com/games/redcardrampage2walkthrough/playgame";
         sku.prequelLinkURL = "http://www.mousebreaker.com/games/redcardrampage";
         
         sku.introFPS = 30;
         
         skus.push(sku);
+        
         sku = new LicSku(LICENSOR_ADDICTINGGAMES, "Addicting Games");
         sku.introName = "Intro_AddictingGames";
         sku.mainLogoName = "addictingGames";
         sku.linkURL = "http://www.addictinggames.com";
         sku.AddSiteLock("addictinggames.com");
         skus.push(sku);
+        
         sku = new LicSku(LICENSOR_LONGANIMALS, "LongAnimals");
         sku.adtype = ADTYPE_CPMSTAR;
         sku.mainLogoName = "longAnimals";
         sku.linkURL = "http://www.longanimalsgames.com";
         skus.push(sku);
+        
         sku = new LicSku(LICENSOR_LONGANIMALS_SITELOCKED, "LongAnimalsSitelocked");
         sku.AddSiteLock("longanimalsgames.com");
         sku.AddSiteLock("longanimals.com");
+        
         sku.mainLogoName = "longAnimals";
         sku.linkURL = "http://www.longanimalsgames.com";
         skus.push(sku);
+        
         sku = new LicSku(LICENSOR_ROBOTJAM, "RobotJam");
         sku.AddSiteLock("robotjam.com");
         sku.AddSiteLock("robotjamgames.com");
@@ -435,9 +479,10 @@ class LicDef
     }
     private static var LicDef_static_initializer = {
         authorLinks.push("http://www.turbonuke.com");
-        CPMStarContentSpotIDs.push("8122QBE1BD8F0");
+        CPMStarContentSpotIDs.push(Std.string("8122QBE1BD8F0"));
         true;
     }
 
 }
+
 

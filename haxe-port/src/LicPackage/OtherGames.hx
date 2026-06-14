@@ -32,13 +32,9 @@ class OtherGames
             mc = try cast(Type.createInstance(classRef_otherGamesMC_TitleScreen, []), MovieClip) catch(e:Dynamic) null;
         }
         if (type == 2)
-        
-        // button list{
-            
-            {
-                mc = try cast(Type.createInstance(classRef_otherGamesTextMC, []), MovieClip) catch(e:Dynamic) null;
-                amount = 4;
-            }
+        {
+            mc = try cast(Type.createInstance(classRef_otherGamesTextMC, []), MovieClip) catch(e:Dynamic) null;
+            amount = 4;
         }
         
         if (LicDef.AreOtherGamesAdsAllowed())
@@ -261,6 +257,7 @@ class OtherGames
                     mc[ro.button].y = positions[i].y;
                     var buttonMC : MovieClip = mc[ro.button];
                     UI.AddMCButton(buttonMC, OtherGamesPanel_ClickGame, null, OtherGamesPanel_Hover, OtherGamesPanel_Out);
+                    
                     buttonMC.nameHolder.visible = false;
                 }
             }
@@ -465,7 +462,7 @@ class OtherGames
     private static function OtherGamesPanel_ClickGameText(e : MouseEvent)
     {
         var name : String = e.currentTarget.linkName;
-        cast((name), DoLinkFromName);
+        DoLinkFromName(name);
     }
     
     
@@ -486,7 +483,8 @@ class OtherGames
             }
         }
         
-        cast((buttonO.name), DoLinkFromName);
+        DoLinkFromName(buttonO.name);
     }
 }
+
 

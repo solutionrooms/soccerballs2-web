@@ -91,6 +91,8 @@ class Camera
         
         
         
+        
+        
         if (minX != 12345678 && minY != 12345678)
         {
             if (x < minX)
@@ -156,8 +158,9 @@ class Camera
         }
         
         
-        shakeCamX += shakeCamDX;  // (shakeCamToX - shakeCamX) * 0.1;  
+        shakeCamX += shakeCamDX;
         shakeCamY += shakeCamDY;
     }
 }
+
 

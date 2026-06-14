@@ -63,6 +63,10 @@ class UILevelSelect extends UIScreenInstance
         
         
         
+        
+        
+        
+        
         UpdateChange();
         
         GameVars.InitTrophiesClip(titleMC.trophies);
@@ -167,6 +171,7 @@ class UILevelSelect extends UIScreenInstance
                 if (l.available)
                 {
                     mc.canPress = true;
+                    
                     mc.levelNumber.visible = true;
                     mc.filters = [];
                 }
@@ -187,12 +192,12 @@ class UILevelSelect extends UIScreenInstance
 					if (l.newlyAvailable)
 					{
 						mc.newIcon.visible = true;
-						mc.newIcon.play();						
+						mc.newIcon.play();
 					}
 					else
 					{
 						mc.newIcon.visible = false;
-						mc.newIcon.stop();			
+						mc.newIcon.stop();
 					}
 					*/
                 
@@ -264,6 +269,7 @@ class UILevelSelect extends UIScreenInstance
     private function levelOut(e : MouseEvent)
     {
         selectedLevel = -1;
+        
         UpdateChange();
     }
     
@@ -350,4 +356,5 @@ class UILevelSelect extends UIScreenInstance
         UI.WaitAndStartTransition(titleMC, "gamescreen");
     }
 }
+
 

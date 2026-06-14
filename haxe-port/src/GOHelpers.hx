@@ -4,7 +4,7 @@ import nape.shape.Circle;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class GOHelpers
 {
@@ -36,4 +36,5 @@ class GOHelpers
         }
     }
 }
+
 

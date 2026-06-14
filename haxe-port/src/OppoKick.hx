@@ -1,7 +1,7 @@
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class OppoKick
 {
@@ -18,4 +18,5 @@ class OppoKick
         force = _force;
     }
 }
+
 

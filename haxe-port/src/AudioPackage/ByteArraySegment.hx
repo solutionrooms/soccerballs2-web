@@ -37,3 +37,4 @@ class ByteArraySegment
         this.length = length;
     }
 }
+

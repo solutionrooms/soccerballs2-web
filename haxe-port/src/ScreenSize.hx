@@ -5,7 +5,7 @@ import licPackage.LicDef;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class ScreenSize
 {
@@ -71,4 +71,5 @@ class ScreenSize
         Utils.print("************************leftover W " + fullScreenBlankArea);
     }
 }
+
 

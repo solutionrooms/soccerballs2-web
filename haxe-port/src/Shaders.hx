@@ -12,10 +12,12 @@ class Shaders
     private static var MyShaderClass : Class<Dynamic>;
     
     
+    
     public static var shader : Shader = new Shader(Type.createInstance(MyShaderClass, []));
     
     public function new()
     {
     }
 }
+
 

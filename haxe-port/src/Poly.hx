@@ -177,7 +177,7 @@ class Poly
             t1 = 0;
             while (t1 < 1.0)
             {
-                var pp : Point = cast((t1), GetPointOnCatmullRom);
+                var pp : Point = GetPointOnCatmullRom(t1);
                 l.push(pp);
                 t1 += 0.025;
             }
@@ -190,6 +190,7 @@ class Poly
             var p1 : Point = l[i + 1];
             catmullRomLength += Utils.DistBetweenPoints(p0.x, p0.y, p1.x, p1.y);
         }
+        
         
         l = null;
     }
@@ -224,7 +225,8 @@ class Poly
         var p1 : Point;
         var p2 : Point;
         var p3 : Point;
-        var seg : Float = numSegs * t;
+        
+        var seg : Float = as3hx.Compat.parseFloat(numSegs) * t;
         var i : Int = as3hx.Compat.parseInt(seg);
         
         
@@ -251,10 +253,11 @@ class Poly
         p3 = pointList[pt3];
         
         var i1 : Int = as3hx.Compat.parseInt(i + 1);
-        var s0 : Float = 1.0 / numSegs * i;
-        var s1 : Float = 1.0 / numSegs * i1;
+        var s0 : Float = 1.0 / as3hx.Compat.parseFloat(numSegs) * i;
+        var s1 : Float = 1.0 / as3hx.Compat.parseFloat(numSegs) * i1;
         var t1 : Float = 1.0 / (s1 - s0) * (t - s0);
         var p : Point = PointOnCurve(t1, p0, p1, p2, p3);
+        
         
         
         return p;
@@ -272,7 +275,7 @@ class Poly
         t1 = 0;
         while (t1 < 1.0)
         {
-            var pp : Point = cast((t1), GetPointOnCatmullRom);
+            var pp : Point = GetPointOnCatmullRom(t1);
             bd.setPixel32(pp.x + xoff, pp.y + yoff, col);
             t1 += 0.001;
         }
@@ -305,4 +308,5 @@ class Poly
         return new Point(lineList[index].nx, lineList[index].ny);
     }
 }
+
 

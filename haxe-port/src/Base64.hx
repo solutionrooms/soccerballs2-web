@@ -41,7 +41,7 @@ class Base64
         for (i in 0...len)
         {
             var c : Int = data.readByte();
-            s += cast((c), ByteToHex);
+            s += ByteToHex(c);
         }
         return s;
     }
@@ -57,7 +57,7 @@ class Base64
             
             if (s != null && s != "")
             {
-                var c : Int = cast((s), HexToByte);
+                var c : Int = HexToByte(s);
                 ba.writeByte(c);
             }
             else
@@ -106,6 +106,7 @@ class Base64
         var u : Int = 0;
         u = as3hx.Compat.parseInt(u0 << 4);
         u = u | u1;
+        
         
         return u;
     }
@@ -161,6 +162,7 @@ class Base64
             {
                 break;
             }
+            
             do
             {
                 c2 = decodeChars[str.charCodeAt(i++) & 0xff];
@@ -171,6 +173,7 @@ class Base64
                 break;
             }
             out.writeByte((c1 << 2) | ((c2 & 0x30) >> 4));
+            
             do
             {
                 c3 = str.charCodeAt(i++) & 0xff;
@@ -186,6 +189,7 @@ class Base64
                 break;
             }
             out.writeByte(((c2 & 0x0f) << 4) | ((c3 & 0x3c) >> 2));
+            
             do
             {
                 c4 = str.charCodeAt(i++) & 0xff;

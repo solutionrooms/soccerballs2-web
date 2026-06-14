@@ -1,7 +1,7 @@
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class WalkthroughRecordings
 {
@@ -58,6 +58,8 @@ class WalkthroughRecordings
             var poss : String = rx.att.poss;
             var a : Array<Dynamic> = poss.split(",");
             var numPositions : Int = as3hx.Compat.parseInt(a.length / 3);
+            
+            
             for (j in 0...numPositions)
             {
                 var xp : Int = a[(j * 3) + 0];
@@ -72,6 +74,7 @@ class WalkthroughRecordings
             }
             list.push(r);
         }
+        
         
         for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(Levels),list) type: null */ in Levels.list)
         {
@@ -119,4 +122,5 @@ class WalkthroughRecordings
         ExternalData.OutputString(sss);
     }
 }
+
 

@@ -33,7 +33,7 @@ class GraphicObjects
 {
     
     
-    private static var dict : Dictionary;
+    private static var dict : Dictionary<Dynamic, Dynamic>;
     private static var displayObjs : Array<DisplayObj>;
     
     public function new()
@@ -74,6 +74,7 @@ class GraphicObjects
         s += "</graphicobjects>\n";
         s += "</data>\n";
         
+        
         trace(s);
         
         if (false)
@@ -84,7 +85,9 @@ class GraphicObjects
             try
             {
                 fs.open(fl, FileMode.WRITE);
+                
                 fs.writeUTFBytes(s);
+                
                 fs.close();
             }
             catch (e : IOErrorEvent)
@@ -97,7 +100,7 @@ class GraphicObjects
     public static function InitOnce() : Void
     {
         displayObjs = new Array<DisplayObj>();
-        dict = new Dictionary();
+        dict = new Dictionary<Dynamic, Dynamic>();
     }
     
     public static function GetDisplayObjByIndex(_index : Int) : DisplayObj
@@ -105,16 +108,18 @@ class GraphicObjects
         return displayObjs[_index];
     }
     
+    
     public static function GetDisplayObjByName(_name : String) : DisplayObj
     {
         var dob : DisplayObj;
+        
         
         dob = Reflect.field(dict, _name);
         if (dob != null)
         {
             return dob;
         }
-        dob = cast((_name), Add);
+        dob = Add(_name);
         return dob;
     }
     
@@ -129,7 +134,7 @@ class GraphicObjects
         tf.color = color;
         
         var fontDobj : DisplayObj;
-        fontDobj = new DisplayObj(null, 0, "", null, _name);  // don't create moveiclip  
+        fontDobj = new DisplayObj(null, 0, "", null, _name);
         fontDobj.CreateFont(tf);
         
         Reflect.setField(dict, _name, fontDobj);

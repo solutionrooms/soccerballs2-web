@@ -177,10 +177,12 @@ class EdLine extends EditableObjectBase
         return l;
     }
     
+    
     public function GetPoint(index : Int) : Point
     {
         return points[index];
     }
+    
     
     public var boundingRectangle : Rectangle;
     public function CalcBoundingRectangle()
@@ -267,6 +269,7 @@ class EdLine extends EditableObjectBase
                 var x2 : Float = x0 + (dx * y2);
                 
                 
+                
                 if (x < x2)
                 {
                     numIntersections++;
@@ -333,6 +336,7 @@ class EdLine extends EditableObjectBase
         }
         return true;
     }
+    
     
     
     
@@ -421,6 +425,7 @@ class EdLine extends EditableObjectBase
             catmullRomLength += Utils.DistBetweenPoints(p0.x, p0.y, p1.x, p1.y);
         }
         
+        
         l = null;
     }
     
@@ -453,7 +458,8 @@ class EdLine extends EditableObjectBase
         var p1 : Point;
         var p2 : Point;
         var p3 : Point;
-        var seg : Float = numSegs * t;
+        
+        var seg : Float = as3hx.Compat.parseFloat(numSegs) * t;
         if (seg >= numSegs)
         {
             seg = numSegs - 1;
@@ -500,10 +506,11 @@ class EdLine extends EditableObjectBase
         p3 = points[pt3];
         
         var i1 : Int = as3hx.Compat.parseInt(i + 1);
-        var s0 : Float = 1.0 / numSegs * i;
-        var s1 : Float = 1.0 / numSegs * i1;
+        var s0 : Float = 1.0 / as3hx.Compat.parseFloat(numSegs) * i;
+        var s1 : Float = 1.0 / as3hx.Compat.parseFloat(numSegs) * i1;
         var t1 : Float = 1.0 / (s1 - s0) * (t - s0);
         var p : Point = PointOnCurve(t1, p0, p1, p2, p3);
+        
         
         
         return p;
@@ -522,7 +529,8 @@ class EdLine extends EditableObjectBase
         var p1 : Point;
         var p2 : Point;
         var p3 : Point;
-        var seg : Float = numSegs * t;
+        
+        var seg : Float = as3hx.Compat.parseFloat(numSegs) * t;
         if (seg >= numSegs)
         {
             seg = numSegs - 1;
@@ -569,10 +577,11 @@ class EdLine extends EditableObjectBase
         p3 = _points[pt3];
         
         var i1 : Int = as3hx.Compat.parseInt(i + 1);
-        var s0 : Float = 1.0 / numSegs * i;
-        var s1 : Float = 1.0 / numSegs * i1;
+        var s0 : Float = 1.0 / as3hx.Compat.parseFloat(numSegs) * i;
+        var s1 : Float = 1.0 / as3hx.Compat.parseFloat(numSegs) * i1;
         var t1 : Float = 1.0 / (s1 - s0) * (t - s0);
         var p : Point = PointOnCurve(t1, p0, p1, p2, p3);
+        
         
         
         return p;
@@ -627,18 +636,19 @@ class EdLine extends EditableObjectBase
     
     
     
+    
+    
+    
     public function GetInterpolatedPoint_SegmentRatio(pos : Float, loop : Bool, isSpline : Bool = false) : Point
     {
         if (isSpline)
-        
-        //type == 2){
-            
-            {
-                return GetPointOnCatmullRom(pos, loop);
-            }
+        {
+            return GetPointOnCatmullRom(pos, loop);
         }
         
-        cast((loop), CalculateLength);
+        CalculateLength(loop);
+        
+        
         
         var numPoints : Int = points.length;
         if (loop)
@@ -673,12 +683,8 @@ class EdLine extends EditableObjectBase
     public function GetInterpolatedPoint_EqualSpacing(pos : Float, loop : Bool, isSpline : Bool = false) : Point
     {
         if (isSpline)
-        
-        //type == 2){
-            
-            {
-                return GetPointOnCatmullRom(pos, loop);
-            }
+        {
+            return GetPointOnCatmullRom(pos, loop);
         }
         
         
@@ -701,6 +707,7 @@ class EdLine extends EditableObjectBase
             var p : Point = new Point(x, y);
             return p;
         }
+        
         var numPoints : Int = points.length;
         
         var nodelen : Float = 1.0 / (numPoints - 1);
@@ -926,6 +933,12 @@ class EdLine extends EditableObjectBase
                     doDirectionArrows = false;
                     PhysEditor.RenderLine(p0.x, p0.y, p1.x, p1.y, col, thickness, 1, doNormals, doDirectionArrows);
                 }
+                
+                
+                
+                
+                
+                
                 if (doBitmapFill)
                 {
                     var dobj : DisplayObj = GraphicObjects.GetDisplayObjByName(polyMaterial.graphicName);
@@ -1010,7 +1023,8 @@ class EdLine extends EditableObjectBase
     override public function Duplicate() : EditableObjectBase
     {
         var dup : EditableObjectBase = try cast(Clone(), EditableObjectBase) catch(e:Dynamic) null;
-        cast((dup), CopyBaseToDuplicate);
+        CopyBaseToDuplicate(dup);
         return dup;
     }
 }
+

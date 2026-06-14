@@ -2,7 +2,7 @@ import achievementPackage.Achievement;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class GrassFrame
 {
@@ -46,4 +46,5 @@ class GrassFrame
         return bestI;
     }
 }
+
 

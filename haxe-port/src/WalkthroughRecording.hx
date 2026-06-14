@@ -1,7 +1,7 @@
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class WalkthroughRecording
 {
@@ -86,4 +86,5 @@ class WalkthroughRecording
         ExternalData.OutputString(sss);
     }
 }
+
 

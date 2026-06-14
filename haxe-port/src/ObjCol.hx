@@ -25,17 +25,13 @@ class ObjCol
         j.b1 = b1;
         
         if (j.type == 0)
-        
-        // rotational{
-            
-            {
-                j.enableLimit = vals[0];
-                j.lowerAngle = vals[1];
-                j.upperAngle = vals[2];
-                j.enableMotor = vals[3];
-                j.motorSpeed = vals[4];
-                j.maxMotorTorque = vals[5];
-            }
+        {
+            j.enableLimit = vals[0];
+            j.lowerAngle = vals[1];
+            j.upperAngle = vals[2];
+            j.enableMotor = vals[3];
+            j.motorSpeed = vals[4];
+            j.maxMotorTorque = vals[5];
         }
         
         joints.push(j);

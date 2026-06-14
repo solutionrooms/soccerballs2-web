@@ -26,7 +26,7 @@ import uIPackage.UI;
 
 class Main extends MovieClip
 {
-    private var ftime : Float;  // frame time  
+    private var ftime : Float;
     private var currentTime : Float = 0;
     
     public var screenBD : BitmapData;
@@ -81,6 +81,7 @@ class Main extends MovieClip
         TexturePages.InitOnce();
         
         GraphicObjects.InitOnce();
+        
         
         EngineDebug.InitOnce();
         KeyReader.InitOnce(theStage);
@@ -191,21 +192,21 @@ class Main extends MovieClip
         
         
         if (false)
-        
-        //doFrameSkip){
-            
+        {
+            if (timeForUpdate > maxTime && frameSkipCount < 3)
             {
-                if (timeForUpdate > maxTime && frameSkipCount < 3)
-                {
-                    screenBD.copyPixels(Game.backgroundScreenBD, screenBD.rect, Defs.pointZero);
-                    frameSkipCount++;
-                }
-                else
-                {
-                    cast((Game.backgroundScreenBD), Render);
-                    screenBD.copyPixels(Game.backgroundScreenBD, screenBD.rect, Defs.pointZero);
-                    frameSkipCount = 0;
-                }
+                screenBD.copyPixels(Game.backgroundScreenBD, screenBD.rect, Defs.pointZero);
+                
+                
+                frameSkipCount++;
+            }
+            else
+            {
+                Render(Game.backgroundScreenBD);
+                
+                screenBD.copyPixels(Game.backgroundScreenBD, screenBD.rect, Defs.pointZero);
+                
+                frameSkipCount = 0;
             }
         }
         else
@@ -222,12 +223,12 @@ class Main extends MovieClip
                 }
                 else
                 {
-                    cast((screenBD), Render);
+                    Render(screenBD);
                 }
             }
             else if (true)
             {
-                cast((screenBD), Render);
+                Render(screenBD);
             }
             else if (renderSkip == true)
             {
@@ -235,7 +236,7 @@ class Main extends MovieClip
             }
             else
             {
-                cast((screenBD), Render);
+                Render(screenBD);
                 renderSkip = true;
             }
         }
@@ -259,3 +260,4 @@ class Main extends MovieClip
         calcFrameTime();
     }
 }
+

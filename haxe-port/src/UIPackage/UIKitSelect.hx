@@ -66,9 +66,13 @@ class UIKitSelect extends UIScreenInstance
         
         
         
+        
+        
         InitColorButtons(titleMC.palette, 0, "shirt");
         
         team = GameVars.GetTeam(GameVars.currentEditTeamIndex);
+        
+        
         
         
         UpdateKit();
@@ -90,6 +94,8 @@ class UIKitSelect extends UIScreenInstance
     private function UpdateKit()
     {
         UpdateColorButtons(titleMC.palette, team.kitColorShirt);
+        
+        
         
         
         
@@ -357,5 +363,6 @@ class UIKitSelect extends UIScreenInstance
         animHierarchy.SetPartFrame("head", player_Head);
     }
 }
+
 
 

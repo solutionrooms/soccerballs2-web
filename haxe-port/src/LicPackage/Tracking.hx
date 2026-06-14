@@ -5,7 +5,7 @@ import com.google.analytics.GATracker;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class Tracking
 {
@@ -66,4 +66,5 @@ class Tracking
         tracker.trackPageview("/view");
     }
 }
+
 

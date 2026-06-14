@@ -5,7 +5,7 @@ import flash.display.MovieClip;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class AchievementDisplayQueue
 {
@@ -35,7 +35,7 @@ class AchievementDisplayQueue
         {
             Audio.OneShot("sfx_got_achievement");
             popup.active = true;
-            popup.mc = new MovieClip();  // AchievementPopupMC();  
+            popup.mc = new MovieClip();
             popup.mc.inner.achievementName.text = popup.achievement.name;
             popup.mc.inner.achievement_text.text = popup.achievement.description;
             popup.mc.inner.icon.descendants("gotoAndStop")(popup.achievement.popupFrame);
@@ -80,4 +80,5 @@ class AchievementDisplayQueue
         displayQueue = new Array<AchievementPopup>();
     }
 }
+
 

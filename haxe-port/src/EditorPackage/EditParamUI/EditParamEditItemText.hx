@@ -11,7 +11,7 @@ import uIPackage.UI;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class EditParamEditItemText extends EditParamEditItemBase
 {
@@ -75,4 +75,5 @@ class EditParamEditItemText extends EditParamEditItemBase
         Utils.print("TextInputDone " + e.text);
     }
 }
+
 

@@ -14,7 +14,7 @@ import uIPackage.UI;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class EditParamEditItemMaterialList extends EditParamEditItemBase
 {
@@ -167,4 +167,5 @@ class EditParamEditItemMaterialList extends EditParamEditItemBase
         UpdateEverything();
     }
 }
+
 

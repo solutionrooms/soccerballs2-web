@@ -65,6 +65,7 @@ class MP3Parser extends EventDispatcher
     {
         fileRef.addEventListener(Event.COMPLETE, loaderCompleteHandler);
         fileRef.addEventListener(IOErrorEvent.IO_ERROR, errorHandler);
+        
         fileRef.load();
     }
     private function errorHandler(ev : IOErrorEvent) : Void
@@ -89,21 +90,17 @@ class MP3Parser extends EventDispatcher
             
             
             if (str == "ID3")
-            
-            //here's an id3v2 header. fuck that for a laugh. skipping{
-                
-                {
-                    mp3Data.position += 3;
-                    var b3 : Int = as3hx.Compat.parseInt(mp3Data.readByte() & 0x7F) << 21;
-                    var b2 : Int = as3hx.Compat.parseInt(mp3Data.readByte() & 0x7F) << 14;
-                    var b1 : Int = as3hx.Compat.parseInt(mp3Data.readByte() & 0x7F) << 7;
-                    var b0 : Int = mp3Data.readByte() & 0x7F;
-                    var headerLength : Int = as3hx.Compat.parseInt(b0 + b1 + b2 + b3);
-                    var newPosition : Int = as3hx.Compat.parseInt(mp3Data.position + headerLength);
-                    trace("Found id3v2 header, length " + Std.string(headerLength) + " bytes. Moving to " + Std.string(newPosition));
-                    mp3Data.position = newPosition;
-                    readPosition = newPosition;
-                }
+            {
+                mp3Data.position += 3;
+                var b3 : Int = as3hx.Compat.parseInt(mp3Data.readByte() & 0x7F) << 21;
+                var b2 : Int = as3hx.Compat.parseInt(mp3Data.readByte() & 0x7F) << 14;
+                var b1 : Int = as3hx.Compat.parseInt(mp3Data.readByte() & 0x7F) << 7;
+                var b0 : Int = mp3Data.readByte() & 0x7F;
+                var headerLength : Int = as3hx.Compat.parseInt(b0 + b1 + b2 + b3);
+                var newPosition : Int = as3hx.Compat.parseInt(mp3Data.position + headerLength);
+                trace("Found id3v2 header, length " + Std.string(headerLength) + " bytes. Moving to " + Std.string(newPosition));
+                mp3Data.position = newPosition;
+                readPosition = newPosition;
             }
             else
             {
@@ -259,3 +256,4 @@ class MP3Parser extends EventDispatcher
         return as3hx.Compat.parseInt(headerBits & 3);
     }
 }
+

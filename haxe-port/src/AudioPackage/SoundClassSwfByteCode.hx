@@ -27,7 +27,7 @@ package audioPackage;
 	 * This class stores the bytecode necessary to generate a SoundClass SWF.
 	 * When assembled and loaded, the swf will contain a definition for class SoundClass, that contains the audio.
 	 * The way SWF bytecode is generated is by writing data in the following order into a ByteArray:
-	 * 
+	 *
 	 * soundClassSwfBytes1
 	 * UI32: the total size of the SWF in bytes
 	 * soundClassSwfBytes2
@@ -41,10 +41,10 @@ package audioPackage;
 	 * UI32: The number of samples in the audio data (incl seekSamples if mp3)
 	 * [SI16 seekSamples]
 	 * audio data
-	 * soundClassSwfBytes3 
-	 * 
+	 * soundClassSwfBytes3
+	 *
 	 * @author spender
-	 * 
+	 *
 	 */
 @:final class SoundClassSwfByteCode
 {
@@ -145,3 +145,4 @@ package audioPackage;
     {
     }
 }
+

@@ -11,7 +11,7 @@ class PitchControl
 {
     public var rate(get, set) : Float;
 
-    private var BLOCK_SIZE(default, never) : Int = 2048;  // 2048;  
+    private var BLOCK_SIZE(default, never) : Int = 2048;
     
     private var _mp3 : Sound;
     private var _sound : Sound;
@@ -34,6 +34,7 @@ class PitchControl
         _mp3 = try cast(Type.createInstance(classRef, []), Sound) catch(e:Dynamic) null;
         
         
+        
         var ba1 : ByteArray = new ByteArray();
         ba = new ByteArray();
         _mp3.extract(ba, _mp3.length * 44.1, 0);
@@ -51,7 +52,18 @@ class PitchControl
         
         
         
+        
+        
+        
+        
+        
         mp3length = _mp3.length * 44.1;
+        
+        
+        
+        
+        
+        
         
         
         
@@ -62,6 +74,7 @@ class PitchControl
         
         _sound = new Sound();
         _sound.addEventListener(SampleDataEvent.SAMPLE_DATA, sampleData, false, 0, true);
+        
         
         
         _sound.play();
@@ -82,6 +95,8 @@ class PitchControl
     public function Stop()
     {
         _sound.removeEventListener(SampleDataEvent.SAMPLE_DATA, sampleData);
+        
+        
         
         _target = null;
         _mp3 = null;
@@ -120,6 +135,7 @@ class PitchControl
     {
         _target.position = 0;
         
+        
         var data : ByteArray = event.data;
         
         var scaledBlockSize : Float = BLOCK_SIZE * _rate;
@@ -131,7 +147,10 @@ class PitchControl
         var positionTargetNum : Float = alpha;
         var positionTargetInt : Int = -1;
         
+        
         var need : Int = as3hx.Compat.parseInt(Math.ceil(scaledBlockSize) + 2);
+        
+        
         
         
         var read : Int = need;
@@ -170,7 +189,9 @@ class PitchControl
             {
                 positionTargetInt = as3hx.Compat.parseInt(positionTargetNum);
                 
+                
                 _target.position = positionTargetInt << 3;
+                
                 
                 l0 = _target.readFloat();
                 r0 = _target.readFloat();
@@ -184,7 +205,12 @@ class PitchControl
             data.writeFloat(l1 * v);
             
             
+            
+            
+            
+            
             positionTargetNum += _rate;
+            
             
             alpha += _rate;
             while (alpha >= 1.0)
@@ -192,6 +218,7 @@ class PitchControl
                 --alpha;
             }
         }
+        
         
         if (i < BLOCK_SIZE)
         {
@@ -203,6 +230,7 @@ class PitchControl
                 ++i;
             }
         }
+        
         
         _position += scaledBlockSize;
         if (_position >= mp3length)

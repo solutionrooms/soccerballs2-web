@@ -1,7 +1,7 @@
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class Walkthrough
 {
@@ -38,4 +38,5 @@ class Walkthrough
         }
     }
 }
+
 

@@ -2,7 +2,7 @@ import editorPackage.PolyMaterials;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class PolyDefs
 {
@@ -31,4 +31,5 @@ class PolyDefs
         instanceParamsDefaults.push("false");
     }
 }
+
 

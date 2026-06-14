@@ -3,11 +3,11 @@ import flash.geom.Matrix3D;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class S3dSpr
 {
-    private var type : Int;  // 0 = triangle, 1 = quad  
+    private var type : Int;
     
     public var indices : Array<Int>;
     public var vertices : Array<Float>;
@@ -189,4 +189,5 @@ class S3dSpr
         type = 0;
     }
 }
+
 

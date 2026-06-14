@@ -76,14 +76,17 @@ import flash.utils.ByteArray;
         var nonce : String = Encode.MD5(Date.now().time * Math.random() + Log.GUID);
         
         
+        
         var pd : Array<Dynamic> = new Array<Dynamic>();
         pd.push("nonce=" + nonce);
         pd.push("timestamp=" + timestamp);
         
         for (key in Reflect.fields(postdata))
         {
-            pd.push(key + "=" + cast((Reflect.field(postdata, key)), Escape));
+            pd.push(key + "=" + Escape(Reflect.field(postdata, key)));
         }
+        
+        
         
         
         
@@ -92,17 +95,19 @@ import flash.utils.ByteArray;
         GenerateKey("signature", nonce + timestamp + section + action + url + Log.GUID, pd);
         
         
+        
         var pda : ByteArray = new ByteArray();
         pda.writeUTFBytes(pd.join("&"));
         pda.position = 0;
         
         var postvars : URLVariables = new URLVariables();
-        Reflect.setField(postvars, "data", cast((Encode.Base64(pda)), Escape));
+        Reflect.setField(postvars, "data", Escape(Encode.Base64(pda)));
         
         request.urlRequest.url = url;
         request.urlRequest.method = "POST";
         request.urlRequest.data = postvars;
         request.postdata = postdata;
+        
         
         
         
@@ -148,6 +153,8 @@ import flash.utils.ByteArray;
         arr.sort();
         
         
+        
+        
         arr.push(name + "=" + Encode.MD5(arr.join("&") + key));
     }
     
@@ -181,7 +188,7 @@ import flash.utils.ByteArray;
             }
             
             Queue.splice(n, 1);
-            cast((request), Dispose);
+            Dispose(request);
             n--;
         }
     }
@@ -216,7 +223,8 @@ import flash.utils.ByteArray;
         }
         
         
-        var data : FastXML = FastXML.parse(request.data);
+        
+        var data : FastXML = FastXML(request.data);
         var status : Int = as3hx.Compat.parseInt(data.get("status"));
         var errorcode : Int = as3hx.Compat.parseInt(data.get("errorcode"));
         

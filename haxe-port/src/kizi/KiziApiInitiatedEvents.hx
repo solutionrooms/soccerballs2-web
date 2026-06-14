@@ -3,7 +3,7 @@ package kizi;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class KiziApiInitiatedEvents
 {
@@ -25,4 +25,5 @@ class KiziApiInitiatedEvents
         }
     }
 }
+
 

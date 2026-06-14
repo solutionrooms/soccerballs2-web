@@ -27,7 +27,7 @@ class UIAchievements extends UIScreenInstance
     override public function InitScreen()
     {
         UI.StartAddButtons();
-        titleMC = new MovieClip();  // AchievementsScreen();  
+        titleMC = new MovieClip();
         titleMC.gotoAndPlay(1);
         UI.AddGeneric(titleMC);
         
@@ -70,4 +70,5 @@ class UIAchievements extends UIScreenInstance
         UI.StartTransition(UI.returnScreenName);
     }
 }
+
 

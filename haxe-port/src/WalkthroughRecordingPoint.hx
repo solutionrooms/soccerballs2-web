@@ -1,7 +1,7 @@
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class WalkthroughRecordingPoint
 {
@@ -24,4 +24,5 @@ class WalkthroughRecordingPoint
         return p;
     }
 }
+
 

@@ -79,6 +79,12 @@ class UILanguageSelect extends UIScreenInstance
     
     
     
+    
+    
+    
+    
+    
+    
     private var flagMCs : Array<Dynamic>;
     
     private function UpdateFlags()
@@ -108,7 +114,7 @@ class UILanguageSelect extends UIScreenInstance
         {
             var mc : MovieClip = new LanguageFlags();
             mc.languageID = languageID;
-            mc.gotoAndStop(cast((TextStrings.languageLabels[languageID]), GetFlagFrameFromName));
+            mc.gotoAndStop(GetFlagFrameFromName(TextStrings.languageLabels[languageID]));
             titleMC.addChild(mc);
             UI.AddBarebonesMCButton(mc, flagClicked);
             mc.x = x;
@@ -144,5 +150,6 @@ class UILanguageSelect extends UIScreenInstance
         UI.StartTransition("title");
     }
 }
+
 
 

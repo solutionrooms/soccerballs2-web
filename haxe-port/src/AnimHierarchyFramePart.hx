@@ -2,7 +2,7 @@ import flash.geom.ColorTransform;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class AnimHierarchyFramePart
 {
@@ -42,4 +42,5 @@ class AnimHierarchyFramePart
         interpolate = true;
     }
 }
+
 

@@ -2,7 +2,7 @@ import flash.geom.Rectangle;
 
 /**
 	 * ...
-	 * @author 
+	 * @author
 	 */
 class GrassSegment
 {
@@ -18,4 +18,5 @@ class GrassSegment
         list = new Array<GrassItem>();
     }
 }
+
 

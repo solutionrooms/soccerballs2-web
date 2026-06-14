@@ -15,13 +15,71 @@ SRC_ORIG="${SRC_ORIG:-/Users/jonscott/Projects/SoccerBalls2/src}"
 WORK="${WORK:-/tmp/sb2src}"
 OUT="${OUT:-$(cd "$(dirname "$0")/.." && pwd)/src}"
 
+echo "==> 0. pin as3hx config (guessCasts OFF: this codebase uses PascalCase methods, so"
+echo "        guessCasts wrongly turns hundreds of method calls like Render(x) into cast(x,Render))"
+CFG="$HOME/.as3hx_config.xml"
+[ -f "$CFG" ] && [ ! -f "$CFG.sb2bak" ] && cp "$CFG" "$CFG.sb2bak"
+cat > "$CFG" <<'EOF'
+<as3hx>
+    <errorContinue value="true" />
+    <indentChars value="    " />
+    <newlineChars value="\n" />
+    <bracesOnNewline value="true" />
+    <spacesOnTypeColon value="true" />
+    <uintToInt value="true" />
+    <vectorToArray value="true" />
+    <guessCasts value="false" />
+    <functionToDynamic value="false" />
+    <getterMethods value="get_%I" />
+    <setterMethods value="set_%I" />
+    <forcePrivateSetter value="true" />
+    <forcePrivateGetter value="true" />
+    <getterSetterStyle value="haxe" />
+    <testCase value="false" />
+    <excludeList />
+    <conditionalCompilationList />
+    <dictionaryToHash value="false" />
+    <verifyGeneratedFiles value="false" />
+    <useFastXML value="true" />
+    <useCompat value="true" />
+    <postProcessor value="" />
+    <importPaths></importPaths>
+</as3hx>
+EOF
+
 echo "==> 1. fresh working copy of original AS3"
 rm -rf "$WORK"
 cp -r "$SRC_ORIG" "$WORK"
 
-echo "==> 2. strip full-line // comments (as3hx ECommented crash; comments are non-functional)"
-# A line whose first non-space chars are // is always a comment in AS3 (strings/regex cannot span lines).
-find "$WORK" -name '*.as' -exec perl -i -ne 'print unless /^\s*\/\//' {} +
+echo "==> 2. strip // line comments (string-aware), defusing as3hx comment bugs (ECommented crash,"
+echo "        and brace miscounting when a comment contains '{' e.g. 'if(false) //code){')"
+# Remove trailing+full-line // comments while respecting "..." and '...' literals so URLs like
+# "http://x" inside strings are never touched. Comments are non-functional, so this is safe.
+find "$WORK" -name '*.as' -exec perl -i -pe '
+  my $in=$_; my $o=""; my $q=""; my $i=0; my $n=length($in);
+  while ($i<$n) {
+    my $c=substr($in,$i,1);
+    if ($q ne "") { $o.=$c; if ($c eq "\\") { $o.=substr($in,$i+1,1); $i+=2; next; } $q="" if $c eq $q; $i++; }
+    elsif ($c eq "\x22" || $c eq "\x27") { $q=$c; $o.=$c; $i++; }
+    elsif ($c eq "/" && substr($in,$i+1,1) eq "/") { last; }
+    else { $o.=$c; $i++; }
+  }
+  $o =~ s/\s+$//;
+  $_ = $o . "\n";
+' {} +
+
+echo "==> 2.5 remove Stage3D code blocks (useStage3D=false: the GPU path was never in the shipped SWF)"
+# Remove 'if (PROJECT::useStage3D) { ... }' and bare 'PROJECT::useStage3D { ... }' blocks (balanced braces,
+# recursive (?1)). Anchored so 'PROJECT::useStage3D == false' (the live path) is never matched. This deletes
+# the Stage3D method defs AND their calls together, so no dead code references the (unported) s3d classes.
+find "$WORK" -name '*.as' -exec perl -0777 -i -pe '
+  # if (useStage3D) {A} else  -> drop the if+block+else so the else body runs unconditionally (faithful)
+  1 while s/if\s*\(\s*PROJECT::useStage3D\s*\)\s*(\{(?:[^{}]++|(?1))*\})\s*else\b/ /g;
+  # if (useStage3D) {A}  (no else)  -> drop entirely
+  1 while s/if\s*\(\s*PROJECT::useStage3D\s*\)\s*(\{(?:[^{}]++|(?1))*\})//g;
+  # bare block-form  PROJECT::useStage3D {A}  -> drop entirely (method-level conditional compile)
+  1 while s/\bPROJECT::useStage3D\s*(\{(?:[^{}]++|(?1))*\})//g;
+' {} +
 
 echo "==> 3. resolve PROJECT:: conditional-compilation constants (standard web release build)"
 # isFinal=true; mobile / Stage3D / walkthrough / ad-network / external all false (the shipped SoccerBalls2.swf build).
@@ -59,6 +117,18 @@ for n in $(find "$SRC_ORIG" -name '*_*.as' | xargs -n1 basename | sed 's/\.as$//
 done
 find "$OUT.staging" -name '*.hx' -exec perl -i -pe "$SUBS" {} +
 echo "    normalized $(printf '%s\n' $SUBS | grep -c 's/') class names"
+
+echo "==> 10. output-level fixups (type-conversion calls etc.)"
+"$(dirname "$0")/fixup.sh" "$OUT.staging"
+
+echo "==> 11. overlay hand-written overrides (stubs for ads/portal layers, manual fixes)"
+OVR="$(cd "$(dirname "$0")/.." && pwd)/overrides"
+if [ -d "$OVR" ]; then
+  ( cd "$OVR" && find . -name '*.hx' -print0 | while IFS= read -r -d '' f; do
+      mkdir -p "$OUT.staging/$(dirname "$f")"; cp "$f" "$OUT.staging/$f";
+    done )
+  echo "    applied $(find "$OVR" -name '*.hx' | wc -l | tr -d ' ') override files"
+fi
 
 echo "==> conversion errors (if any):"
 grep -E '^In .* : ' /tmp/as3hx-run.log || echo "  (none)"

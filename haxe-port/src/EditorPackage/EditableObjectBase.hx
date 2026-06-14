@@ -32,6 +32,7 @@ class EditableObjectBase
     }
     
     
+    
     public function SetSortPosFromGameLayer()
     {
         sort_zpos = 0;
@@ -116,4 +117,5 @@ class EditableObjectBase
         return id;
     }
 }
+
 

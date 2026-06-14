@@ -74,10 +74,12 @@ class PhysLine
         return l;
     }
     
+    
     public function GetPoint(index : Int) : Point
     {
         return points[index];
     }
+    
     
     private var boundingRectangle : Rectangle;
     private function CalcBoundingRectangle()
@@ -164,6 +166,7 @@ class PhysLine
                 var x2 : Float = x0 + (dx * y2);
                 
                 
+                
                 if (x < x2)
                 {
                     numIntersections++;
@@ -230,6 +233,7 @@ class PhysLine
         }
         return true;
     }
+    
     
     
     
@@ -318,6 +322,7 @@ class PhysLine
             catmullRomLength += Utils.DistBetweenPoints(p0.x, p0.y, p1.x, p1.y);
         }
         
+        
         l = null;
     }
     
@@ -350,7 +355,8 @@ class PhysLine
         var p1 : Point;
         var p2 : Point;
         var p3 : Point;
-        var seg : Float = numSegs * t;
+        
+        var seg : Float = as3hx.Compat.parseFloat(numSegs) * t;
         if (seg >= numSegs)
         {
             seg = numSegs - 1;
@@ -397,10 +403,11 @@ class PhysLine
         p3 = points[pt3];
         
         var i1 : Int = as3hx.Compat.parseInt(i + 1);
-        var s0 : Float = 1.0 / numSegs * i;
-        var s1 : Float = 1.0 / numSegs * i1;
+        var s0 : Float = 1.0 / as3hx.Compat.parseFloat(numSegs) * i;
+        var s1 : Float = 1.0 / as3hx.Compat.parseFloat(numSegs) * i1;
         var t1 : Float = 1.0 / (s1 - s0) * (t - s0);
         var p : Point = PointOnCurve(t1, p0, p1, p2, p3);
+        
         
         
         return p;
@@ -431,9 +438,14 @@ class PhysLine
     
     
     
+    
+    
+    
     public function GetInterpolatedPoint1(pos : Float, loop : Bool) : Point
     {
-        cast((loop), CalculateLength);
+        CalculateLength(loop);
+        
+        
         
         var numPoints : Int = points.length;
         if (loop)
@@ -468,12 +480,8 @@ class PhysLine
     public function GetInterpolatedPoint(pos : Float, loop : Bool, isSpline : Bool = false) : Point
     {
         if (isSpline)
-        
-        //type == 2){
-            
-            {
-                return GetPointOnCatmullRom(pos, loop);
-            }
+        {
+            return GetPointOnCatmullRom(pos, loop);
         }
         
         
@@ -496,6 +504,7 @@ class PhysLine
             var p : Point = new Point(x, y);
             return p;
         }
+        
         var numPoints : Int = points.length;
         
         var nodelen : Float = 1.0 / (numPoints - 1);
@@ -514,4 +523,5 @@ class PhysLine
         return p;
     }
 }
+
 

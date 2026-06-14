@@ -1,4 +1,4 @@
-  /*** MochiServices* Connection class for all MochiAds Remote Services* @author Mochi Media* @version 3.0*/  package mochi.as3;
+/*** MochiServices* Connection class for all MochiAds Remote Services* @author Mochi Media* @version 3.0*/package mochi.as3;
 
 @:final class MochiDigits
 {

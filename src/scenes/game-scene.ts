@@ -18,7 +18,12 @@ import { STAGE_W, STAGE_H, FPS, VARS } from '../game/defs';
 import { unlockedBy, returnsToMap } from '../game/progression';
 import { kitOverride, resolveTeam } from '../game/kits';
 import { scaleTo, scaleToPreLimit } from '../game/utils';
+import { RouteReplay } from '../game/sim/replay';
+import type { RoutesFile } from '../game/sim/route-types';
+import routesJson from '../data/routes.json';
 import objectsJson from '../data/objects.json';
+
+const ROUTES = routesJson as unknown as RoutesFile;
 
 const PAUSE_BUTTONS = new Set(['ButtonRestart', 'ButtonQuit', 'ButtonContinue']);
 
@@ -57,6 +62,9 @@ export class GameScene implements Scene {
   private aimPad = new AimPad();
   private g!: GameContext;
   private levelIndex: number;
+  // dev "watch walkthrough": replay the recorded route with input suppressed
+  private replay: RouteReplay | null = null;
+  private replayActive = false;
 
   constructor(levelIndex = 0) {
     this.levelIndex = levelIndex;
@@ -68,6 +76,12 @@ export class GameScene implements Scene {
   }
 
   onEnter(ctx: SceneContext): void {
+    this.buildLevel(ctx);
+    ctx.audio.playMusic('music_ingame1');
+  }
+
+  /** (Re)build a fresh playable level — used on enter and to reset for a replay. */
+  private buildLevel(ctx: SceneContext): void {
     // Nape is the only engine; it's preloaded at boot (ensureNapeLoaded)
     const materials = (objectsJson as unknown as { materials: Record<string, MaterialDef> }).materials;
     this.physics = new NapePhysWorld(materials);
@@ -98,8 +112,39 @@ export class GameScene implements Scene {
     // ball out-of-bounds rectangle is the scroll area (Game.boundingRectangle)
     this.g.bounds = this.loaded.scrollBounds;
     this.level.phase = 'play';
+  }
 
-    ctx.audio.playMusic('music_ingame1');
+  /** the recorded route for this level, if one was solved. */
+  private get route() {
+    const r = ROUTES.levels?.[String(this.levelIndex)];
+    return r && r.kicks.length > 0 ? r : null;
+  }
+
+  /** dev "Watch" button is offered only in dev mode and only when a route exists. */
+  private get canWatch(): boolean {
+    return !!this.route;
+  }
+
+  private startReplay(ctx: SceneContext): void {
+    const route = this.route;
+    if (!route) return;
+    this.buildLevel(ctx); // restart the level clean, then drive the recorded kicks
+    this.paused = false;
+    this.replay = new RouteReplay(route.kicks);
+    this.replayActive = true;
+  }
+
+  private stopReplay(ctx: SceneContext): void {
+    this.replayActive = false;
+    this.replay = null;
+    this.buildLevel(ctx); // back to a fresh, player-controlled level
+  }
+
+  // bottom-left button rect (screen space), clear of the HUD strip
+  private static readonly WATCH_BTN = { x: 12, y: 432, w: 150, h: 40 };
+  private watchBtnHit(x: number, y: number): boolean {
+    const b = GameScene.WATCH_BTN;
+    return x >= b.x && x <= b.x + b.w && y >= b.y && y <= b.y + b.h;
   }
 
   update(ctx: SceneContext): void {
@@ -109,8 +154,38 @@ export class GameScene implements Scene {
     this.g.cameraX = this.camera.x;
     this.g.cameraY = this.camera.y;
 
-    // pause (P / Escape, or while the pause screen is up)
-    if (inp.keyPressed('KeyP') || inp.keyPressed('Escape')) this.paused = !this.paused;
+    // ---- dev "watch walkthrough": drive the recorded route, suppress input ----
+    if (this.replayActive) {
+      if (this.level.phase !== 'play') {
+        this.replayActive = false; // replay reached the result screen — resume normal flow
+        this.replay = null;
+      } else {
+        if (inp.keyPressed('Escape') || (inp.buttonPressed && this.watchBtnHit(inp.x, inp.y))) {
+          this.stopReplay(ctx);
+          return;
+        }
+        this.g.aimOverride = null;
+        this.replay?.tick(this.g);
+        // fall through to the physics step; the user-input block is skipped
+      }
+    }
+
+    if (!this.replayActive) {
+      // dev: a click on the Watch button restarts the level and plays the route
+      if (
+        ctx.settings.devMode &&
+        this.canWatch &&
+        this.level.phase === 'play' &&
+        inp.buttonPressed &&
+        this.watchBtnHit(inp.x, inp.y)
+      ) {
+        ctx.audio.playSfx('sfx_click');
+        this.startReplay(ctx);
+        return;
+      }
+
+      // pause (P / Escape, or while the pause screen is up)
+      if (inp.keyPressed('KeyP') || inp.keyPressed('Escape')) this.paused = !this.paused;
     if (this.paused) {
       if (inp.buttonPressed) {
         const hit = ctx.ui.hitTest('screen_paused', 0, inp.x, inp.y, PAUSE_BUTTONS);
@@ -177,6 +252,7 @@ export class GameScene implements Scene {
       }
       return;
     }
+    } // end !replayActive input handling
 
     // physics: park stationary bodies, step, write back
     for (const go of this.objects.list) {
@@ -318,6 +394,12 @@ export class GameScene implements Scene {
 
     renderHud(ctx, this.level);
 
+    // dev "watch walkthrough" button + replay banner
+    if (ctx.settings.devMode && this.level.phase === 'play' && !this.replayActive && this.canWatch) {
+      this.drawWatchButton(g, ctx);
+    }
+    if (this.replayActive) this.drawReplayBanner(g);
+
     if (this.paused) {
       g.fillStyle = 'rgba(0,0,0,0.5)';
       g.fillRect(0, 0, STAGE_W, STAGE_H);
@@ -390,5 +472,37 @@ export class GameScene implements Scene {
         renderTerrainLine(g, ctx.atlas, line);
       }
     }
+  }
+
+  private drawWatchButton(g: CanvasRenderingContext2D, ctx: SceneContext): void {
+    const b = GameScene.WATCH_BTN;
+    const hover = this.watchBtnHit(ctx.input.x, ctx.input.y);
+    g.save();
+    g.fillStyle = hover ? 'rgba(20,120,40,0.92)' : 'rgba(8,60,20,0.85)';
+    g.strokeStyle = 'rgba(255,255,255,0.4)';
+    g.lineWidth = 2;
+    g.beginPath();
+    g.roundRect(b.x, b.y, b.w, b.h, 8);
+    g.fill();
+    g.stroke();
+    g.fillStyle = '#ffffff';
+    g.font = '600 16px sans-serif';
+    g.textAlign = 'center';
+    g.textBaseline = 'middle';
+    g.fillText('▶ WATCH SOLUTION', b.x + b.w / 2, b.y + b.h / 2);
+    g.restore();
+  }
+
+  private drawReplayBanner(g: CanvasRenderingContext2D): void {
+    g.save();
+    g.fillStyle = 'rgba(0,0,0,0.55)';
+    g.fillRect(0, 0, STAGE_W, 30);
+    g.fillStyle = '#9fe870';
+    g.font = '600 15px sans-serif';
+    g.textAlign = 'center';
+    g.textBaseline = 'middle';
+    const shots = this.replay ? `  shot ${this.replay.kicksIssued}` : '';
+    g.fillText(`▶ WATCHING WALKTHROUGH${shots}  —  click / Esc to stop`, STAGE_W / 2, 15);
+    g.restore();
   }
 }

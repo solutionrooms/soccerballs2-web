@@ -1,0 +1,255 @@
+{
+  "version": 1,
+  "levels": {
+    "0": {
+      "status": "gold",
+      "kicks": [
+        {
+          "angleDeg": 210,
+          "power01": 1,
+          "waitFrames": 0
+        }
+      ],
+      "numKicks": 1,
+      "goldKicks": 2
+    },
+    "1": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 4,
+      "note": "no winning route found within budget"
+    },
+    "2": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 3,
+      "note": "no winning route found within budget"
+    },
+    "3": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 3,
+      "note": "no winning route found within budget"
+    },
+    "4": {
+      "status": "gold",
+      "kicks": [
+        {
+          "angleDeg": 25,
+          "power01": 0.9,
+          "waitFrames": 0
+        },
+        {
+          "angleDeg": 333,
+          "power01": 0.8800000000000001,
+          "waitFrames": 0
+        },
+        {
+          "angleDeg": 310,
+          "power01": 0.8,
+          "waitFrames": 0
+        }
+      ],
+      "numKicks": 3,
+      "goldKicks": 3
+    },
+    "5": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 2,
+      "note": "no winning route found within budget"
+    },
+    "6": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 3,
+      "note": "no winning route found within budget"
+    },
+    "7": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 3,
+      "note": "no winning route found within budget"
+    },
+    "8": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 7,
+      "note": "no winning route found within budget"
+    },
+    "9": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 5,
+      "note": "no winning route found within budget"
+    },
+    "10": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 7,
+      "note": "no winning route found within budget"
+    },
+    "11": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 5,
+      "note": "no winning route found within budget"
+    },
+    "12": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 4,
+      "note": "no winning route found within budget"
+    },
+    "13": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 2,
+      "note": "no winning route found within budget"
+    },
+    "14": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 4,
+      "note": "no winning route found within budget"
+    },
+    "15": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 6,
+      "note": "no winning route found within budget"
+    },
+    "16": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 11,
+      "note": "no winning route found within budget"
+    },
+    "17": {
+      "status": "gold",
+      "kicks": [
+        {
+          "angleDeg": 225,
+          "power01": 1,
+          "waitFrames": 0
+        },
+        {
+          "angleDeg": 5,
+          "power01": 0.5,
+          "waitFrames": 0
+        }
+      ],
+      "numKicks": 2,
+      "goldKicks": 8
+    },
+    "18": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 5,
+      "note": "no winning route found within budget"
+    },
+    "19": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 13,
+      "note": "no winning route found within budget"
+    },
+    "20": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 11,
+      "note": "no winning route found within budget"
+    },
+    "21": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 14,
+      "note": "no winning route found within budget"
+    },
+    "22": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 5,
+      "note": "no winning route found within budget"
+    },
+    "23": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 8,
+      "note": "no winning route found within budget"
+    },
+    "24": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 5,
+      "note": "no winning route found within budget"
+    },
+    "25": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 6,
+      "note": "no winning route found within budget"
+    },
+    "26": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 12,
+      "note": "no winning route found within budget"
+    },
+    "27": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 16,
+      "note": "no winning route found within budget"
+    },
+    "28": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 11,
+      "note": "no winning route found within budget"
+    },
+    "29": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 10,
+      "note": "no winning route found within budget"
+    },
+    "30": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 14,
+      "note": "no winning route found within budget"
+    },
+    "31": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 10,
+      "note": "no winning route found within budget"
+    },
+    "32": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 17,
+      "note": "no winning route found within budget"
+    },
+    "33": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 12,
+      "note": "no winning route found within budget"
+    },
+    "34": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 6,
+      "note": "no winning route found within budget"
+    },
+    "35": {
+      "status": "unsolved",
+      "kicks": [],
+      "goldKicks": 11,
+      "note": "no winning route found within budget"
+    }
+  },
+  "generated": "2026-06-14T06:17:13.595Z"
+}

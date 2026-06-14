@@ -1,0 +1,5 @@
+# lime/openfl build output
+bin/
+export/
+.haxelib/
+*.hxml.bak

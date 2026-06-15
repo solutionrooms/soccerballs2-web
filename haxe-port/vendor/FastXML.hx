@@ -22,11 +22,10 @@ private abstract NodeAccess(Xml) from Xml {
 private abstract AttribAccess(Xml) from Xml {
 	@:op(a.b) public function resolve(name:String):String {
 		if (this.nodeType == Xml.Document)
-			throw "Cannot access document attribute " + name;
+			return "";
 		var v = this.get(name);
-		if (v == null)
-			throw this.nodeName + " is missing attribute " + name;
-		return v;
+		// AS3 E4X (which the original used) returns "" for a missing attribute rather than throwing.
+		return (v == null) ? "" : v;
 	}
 }
 

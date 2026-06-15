@@ -3,3 +3,4 @@ bin/
 export/
 .haxelib/
 *.hxml.bak
+node_modules/

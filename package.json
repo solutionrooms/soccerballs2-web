@@ -12,7 +12,8 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "earcut": "^3.0.2"
+    "earcut": "^3.0.2",
+    "puppeteer-core": "^24.43.1"
   },
   "devDependencies": {
     "@types/earcut": "^3.0.0",

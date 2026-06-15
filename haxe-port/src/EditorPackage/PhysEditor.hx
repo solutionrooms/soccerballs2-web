@@ -86,8 +86,8 @@ class PhysEditor
     public static var currentPieceList : Array<Dynamic>;
     
     
-    public static var hoverLineIndex : Int;
-    public static var hoverPointIndex : Int;
+    public static var hoverLineIndex : Int = 0;
+    public static var hoverPointIndex : Int = 0;
     
     public static var zoom : Float;
     public static var linZoom : Float;
@@ -725,7 +725,7 @@ class PhysEditor
     public static var cursorTF : TextField;
     public static function CursorText_Set(s : String)
     {
-        cursorTF.text = s;
+        cursorTF.text = Std.string(s);
         cursorTF.setTextFormat(infoTextFormat_Cursor);
     }
     public static function CursorText_Show()
@@ -768,7 +768,7 @@ class PhysEditor
         tf.type = TextFieldType.DYNAMIC;
         tf.x = x;
         tf.y = y;
-        tf.text = s;
+        tf.text = Std.string(s);
         tf.background = false;
         
         if (justify == "left")
@@ -1002,7 +1002,7 @@ class PhysEditor
         entryMC.addChild(tf);
         tf.x = xpos;
         tf.y = ypos;
-        tf.text = text;
+        tf.text = Std.string(text);
         tf.opaqueBackground = 0xFFFFFF;
         tf.background = true;
         tf.backgroundColor = 0xffffff;
@@ -2376,12 +2376,12 @@ class PhysEditor
         return p;
     }
     
-    public static var mx : Int;
-    public static var my : Int;
+    public static var mx : Int = 0;
+    public static var my : Int = 0;
     public static var sx : Float;
     public static var sy : Float;
-    public static var mxs : Int;
-    public static var mys : Int;
+    public static var mxs : Int = 0;
+    public static var mys : Int = 0;
     
     public static function GetMousePositions()
     {

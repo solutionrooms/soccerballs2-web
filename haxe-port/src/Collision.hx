@@ -476,9 +476,9 @@ class Collision
     }
     
     public static var main : Main;
-    public static var stats_numIntersections : Int;
-    public static var stats_numBBTests : Int;
-    public static var stats_numPolyCollisionTests : Int;
+    public static var stats_numIntersections : Int = 0;
+    public static var stats_numBBTests : Int = 0;
+    public static var stats_numPolyCollisionTests : Int = 0;
 
     public function new()
     {

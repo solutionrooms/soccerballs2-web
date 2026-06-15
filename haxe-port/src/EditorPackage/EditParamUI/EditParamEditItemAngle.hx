@@ -34,8 +34,8 @@ class EditParamEditItemAngle extends EditParamEditItemBase
         
         (untyped mc).editorItem = this;
         
-        (untyped mc).displayText.text = op.name;
-        (untyped mc).inputText.text = op.value;
+        (untyped mc).displayText.text = Std.string(op.name);
+        (untyped mc).inputText.text = Std.string(op.value);
         
         (untyped mc).displayText.mouseEnabled = false;
         
@@ -79,7 +79,7 @@ class EditParamEditItemAngle extends EditParamEditItemBase
         var degree : Float = Utils.RadToDeg(ang + (Math.PI / 2));
         degree = Math.round(degree);
         (untyped mc).anglePointer.pointer.rotation = degree;
-        (untyped mc).inputText.text = degree;
+        (untyped mc).inputText.text = Std.string(degree);
         CopyValueToParameter();
     }
     public function PlusPressed(e : MouseEvent)

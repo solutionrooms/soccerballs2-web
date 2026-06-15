@@ -15,13 +15,13 @@ import flash.utils.ByteArray;
 class TexturePage
 {
     public var items : Array<DisplayObjFrame>;
-    public var width : Int;
-    public var height : Int;
-    public var index : Int;
+    public var width : Int = 0;
+    public var height : Int = 0;
+    public var index : Int = 0;
     
-    public var cellSize : Int;
-    public var currentCellX : Int;
-    public var currentCellY : Int;
+    public var cellSize : Int = 0;
+    public var currentCellX : Int = 0;
+    public var currentCellY : Int = 0;
     
     public var bd : BitmapData;
     public var s3dTexture : Texture;

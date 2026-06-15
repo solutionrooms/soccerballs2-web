@@ -6,8 +6,8 @@
 class Anim
 {
     public var name : String;
-    public var minFrame : Int;
-    public var maxFrame : Int;
+    public var minFrame : Int = 0;
+    public var maxFrame : Int = 0;
     public var speed : Float;
     
     public function new(_n : String, _min : Int, _max : Int, _spd : Float = 1)

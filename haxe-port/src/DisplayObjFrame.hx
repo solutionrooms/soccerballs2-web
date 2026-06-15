@@ -23,7 +23,7 @@ class DisplayObjFrame
     public var point : Point;
     public var flags : String;
     
-    public var s3dTexPageIndex : Int;
+    public var s3dTexPageIndex : Int = 0;
     public var parentDobj : DisplayObj;
     public var s3dTexture : Texture;
     public var u0 : Float;

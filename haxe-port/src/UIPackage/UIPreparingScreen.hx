@@ -46,9 +46,9 @@ class UIPreparingScreen extends UIScreenInstance
         PreparingScreenSetBar();
     }
     public var preparingScreenDone : Bool = false;
-    public var preparingGraphicsTimer : Int;
+    public var preparingGraphicsTimer : Int = 0;
     
-    public var preparingGraphicsIndex : Int;
+    public var preparingGraphicsIndex : Int = 0;
     
     public function UpdatePreparingScreen(e : Event)
     {
@@ -97,7 +97,7 @@ class UIPreparingScreen extends UIScreenInstance
         var pc : Float = Utils.ScaleTo(0, 1, 0, Preparing.GetPreparingList().length - 1, preparingGraphicsIndex);
         (untyped titleMC).loaderBar.loadBar.scaleX = pc;
     }
-    public static var mem1 : Int;
+    public static var mem1 : Int = 0;
 }
 
 

@@ -153,7 +153,7 @@ class TextStrings
         }
         else if (strName != null)
         {
-            tf.text = strName;
+            tf.text = Std.string(strName);
         }
         
         

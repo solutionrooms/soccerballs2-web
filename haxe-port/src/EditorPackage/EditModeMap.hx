@@ -281,7 +281,7 @@ class EditModeMap extends EditModeBase
     public var fillList : Array<Dynamic>;
     public var fillList1 : Array<Dynamic>;
     
-    public var fillOrigCell : Int;
+    public var fillOrigCell : Int = 0;
     
     public function Mapper_Fill(cellID : Int)
     {

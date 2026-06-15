@@ -11,7 +11,7 @@ import uIPackage.UI;
 class EditorLayer
 {
     public var name : String;
-    public var index : Int;
+    public var index : Int = 0;
     public var visible : Bool;
     public var locked : Bool;
     public var active : Bool;

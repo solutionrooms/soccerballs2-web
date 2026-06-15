@@ -79,7 +79,7 @@ class UIKitSelect extends UIScreenInstance
         
         UpdateColorButtons((untyped titleMC).palette, team.kitColorShirt);
         
-        (untyped titleMC).textTeamName.text = team.teamName;
+        (untyped titleMC).textTeamName.text = Std.string(team.teamName);
     }
     
     public var team : TeamDef;

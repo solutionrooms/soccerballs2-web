@@ -116,25 +116,25 @@ class Game
     
     public static var debugPlayerInvulnerable : Bool = false;
     
-    public static var currentGameMusic : Int;
+    public static var currentGameMusic : Int = 0;
     
     public static var frameSkip : Int = 1;
     
     public static var currentMC : MovieClip;
     public static var main : Main;
     public static var currentScore : Int = 0; // AS3 defaults int fields to 0; Haxe/JS leaves them null
-    public static var levelScore : Int;
-    public static var scoreMultiplier : Int;
+    public static var levelScore : Int = 0;
+    public static var scoreMultiplier : Int = 0;
     
-    public static var numLevels : Int;
-    public static var numLives : Int;
-    public static var cash : Int;
+    public static var numLevels : Int = 0;
+    public static var numLives : Int = 0;
+    public static var cash : Int = 0;
     
     public static var pause : Bool;
     public static var pauseGameplayInput : Bool;
     
     public static var goPlayer : GameObj = null;
-    public static var levelTimer : Int;
+    public static var levelTimer : Int = 0;
     
     public static var mapBD : BitmapData;
     public static var polyDOF : DisplayObjFrame;
@@ -156,10 +156,10 @@ class Game
     public static var camera : Camera;
     public static var boundingRectangle : Rectangle;
     
-    public static var levelState : Int;
-    public static var gameState : Int;
-    public static var levelStateTimer : Int;
-    public static var levelStateCount : Int;
+    public static var levelState : Int = 0;
+    public static var gameState : Int = 0;
+    public static var levelStateTimer : Int = 0;
+    public static var levelStateCount : Int = 0;
     
     public static var objectDefs : PhysObjs;
     public static var physMaterials : Array<Dynamic>;
@@ -168,15 +168,15 @@ class Game
     public static var lastGeneratedGameObj : GameObj;
     public static var zsortoffset : Float = 0;
     public static var levelSuccessFlag : Bool;
-    public static var levelFailReason : Int;
+    public static var levelFailReason : Int = 0;
     
     public static var levelJustUnlocked : Bool = false;
     
     public static var level_instances : Array<Dynamic>;
     
-    public static var textFrameOffset : Int;
+    public static var textFrameOffset : Int = 0;
     
-    public static var currentBackground : Int;
+    public static var currentBackground : Int = 0;
     
     public static var goCursor : GameObj;
     public static var goMarker : GameObj;
@@ -665,9 +665,9 @@ class Game
     
     
     
-    public static var killScore : Int;
-    public static var rating : Int;
-    public static var endLevelScore : Int;
+    public static var killScore : Int = 0;
+    public static var rating : Int = 0;
+    public static var endLevelScore : Int = 0;
     
     
     public static function DoEndLevelStuff()
@@ -817,7 +817,7 @@ class Game
     
     
     
-    public static var numGolds : Int;
+    public static var numGolds : Int = 0;
     public static function CalculateScore()
     {  /*
 			currentScore = 0;
@@ -2240,7 +2240,7 @@ class Game
     }
     public static function RenderFarGOs(bd : BitmapData) : Void
     {
-        var go : GameObj = null;        var i : Int;
+        var go : GameObj = null;        var i : Int = 0;
         
         
         EngineDebug.StartTimer("sort");

@@ -7,8 +7,8 @@ class PhysObjBodyUserData
 {
     public var type : String;
     public var bodyName : String;
-    public var gameObjectIndex : Int;
-    public var id : Int;
+    public var gameObjectIndex : Int = 0;
+    public var id : Int = 0;
     public var independantGO : GameObj;
     
     public function new()

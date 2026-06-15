@@ -17,10 +17,10 @@ class EditModeAdjust extends EditModeBase
     public var currentAdjustObject_mouseX : Int = 0;
     public var currentAdjustObject_mouseY : Int = 0;
     public var currentAdjustObjectParam : Int = 0;
-    public var dragRectX0 : Int;
-    public var dragRectX1 : Int;
-    public var dragRectY0 : Int;
-    public var dragRectY1 : Int;
+    public var dragRectX0 : Int = 0;
+    public var dragRectX1 : Int = 0;
+    public var dragRectY0 : Int = 0;
+    public var dragRectY1 : Int = 0;
     
     public var currentPlacementObject : EdPlacementObj;
     

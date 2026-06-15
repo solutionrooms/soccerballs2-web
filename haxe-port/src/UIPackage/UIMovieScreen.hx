@@ -52,7 +52,7 @@ class UIMovieScreen extends UIScreenInstance
         LicDef.GetStage().stage.frameRate = 24;
     }
     
-    public var lastFrame : Int;
+    public var lastFrame : Int = 0;
     
     public function StartMovie()
     {

@@ -250,8 +250,8 @@ class EditParams
         return as3hx.Compat.parseInt(Defs.displayarea_h - 100);
     }
     
-    public static var instanceParamsStartY : Int;
-    public static var instanceParamsStartX : Int;
+    public static var instanceParamsStartY : Int = 0;
+    public static var instanceParamsStartX : Int = 0;
     public static function RemoveEntryMC()
     {
         if (entryMC != null)
@@ -373,7 +373,7 @@ class EditParams
         entryMC.addChild(tf);
         tf.x = xpos;
         tf.y = ypos;
-        tf.text = text;
+        tf.text = Std.string(text);
         tf.opaqueBackground = 0xFFFFFF;
         tf.background = true;
         tf.backgroundColor = 0xffffff;

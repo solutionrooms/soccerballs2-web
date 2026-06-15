@@ -248,7 +248,7 @@ class AchievementTestFunctions
     
     
     
-    public var num_hits : Int;
+    public var num_hits : Int = 0;
     public var race_time : Int = 999999;
     public var race_place : Int = 99999;
     

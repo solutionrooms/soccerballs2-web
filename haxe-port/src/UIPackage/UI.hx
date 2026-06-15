@@ -693,7 +693,7 @@ class UI
         (untyped btn).helpText = text;
         if (text != null)
         {
-            (untyped btn).buttonName.text = text;
+            (untyped btn).buttonName.text = Std.string(text);
         }
         
         
@@ -824,7 +824,7 @@ class UI
             {
                 text = TextStrings.GetLocalisedText(text);
             }
-            (untyped btn).buttonName.text = text;
+            (untyped btn).buttonName.text = Std.string(text);
         }
         
         
@@ -1250,14 +1250,14 @@ class UI
         
         areYouSureDialogCallback = cb;
         
-        (untyped areYouSureDialog).textQuestion.text = title;
+        (untyped areYouSureDialog).textQuestion.text = Std.string(title);
         AddAnimatedMCButton((untyped areYouSureDialog).btn_yes, AddAreYouSureDialog_Yes);
         AddAnimatedMCButton((untyped areYouSureDialog).btn_no, AddAreYouSureDialog_No);
     }
     
     
-    public static var helpPage : Int;
-    public static var numHelpPages : Int;
+    public static var helpPage : Int = 0;
+    public static var numHelpPages : Int = 0;
     public static var helpOverlay : MovieClip;
     public static var helpOverlayParent : MovieClip;
     public static function InitHelp(parent : MovieClip)
@@ -1324,7 +1324,7 @@ class UI
     
     public static var str0 : String;
     public static var str1 : String;
-    public static var lineColCount : Int;
+    public static var lineColCount : Int = 0;
     public static var colors0 : Array<Dynamic>;
     public static var colors1 : Array<Dynamic>;
     public static function AddLine(s0 : String, newline : Bool = true)
@@ -1353,7 +1353,7 @@ class UI
     
     public static function SetColorLines(tf : TextField)
     {
-        tf.text = str0;
+        tf.text = Std.string(str0);
         var statsColor0 : TextFormat = new TextFormat(null, null, 0xc0c0c0);
         var statsColor1 : TextFormat = new TextFormat(null, null, 0xe0e0e0);
         for (o in colors0)

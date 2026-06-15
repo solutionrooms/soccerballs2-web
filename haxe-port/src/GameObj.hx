@@ -1730,7 +1730,7 @@ class GameObj extends GameObjBase
     public var doorSwitch_rotvel : Float;
     public var doorSwitch_2Way : Bool;
     public var doorSwitch_ccw : Bool;
-    public var doorSwitch_linkid : Int;
+    public var doorSwitch_linkid : Int = 0;
     public var doorSwitch_parentGO : GameObj;
     public var doorSwitch_parentOffsetX : Float;
     public var doorSwitch_parentOffsetY : Float;
@@ -1986,10 +1986,10 @@ class GameObj extends GameObjBase
     }
     
     
-    public var spawner_initialdelay : Int;
-    public var spawner_frequency : Int;
-    public var spawner_total : Int;
-    public var spawner_spawncount : Int;
+    public var spawner_initialdelay : Int = 0;
+    public var spawner_frequency : Int = 0;
+    public var spawner_total : Int = 0;
+    public var spawner_spawncount : Int = 0;
     public var spawner_spawnobjectList : Array<Dynamic>;
     public function OnClickedSpawner()
     {
@@ -2036,8 +2036,8 @@ class GameObj extends GameObjBase
     {
         var xp : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
-        (untyped dobj.origMC.text1).theText.text = textMessage;
-        (untyped dobj.origMC.text2).theText.text = textMessage1;
+        (untyped dobj.origMC.text1).theText.text = Std.string(textMessage);
+        (untyped dobj.origMC.text2).theText.text = Std.string(textMessage1);
         dobj.RenderAtRotScaled_Vector(Std.int(frame), bd, xp, yp, 1, 0, null, false, xflip);
     }
     public function UpdateScoreText()
@@ -2707,7 +2707,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    public var stillTimer : Int;
+    public var stillTimer : Int = 0;
     public function GuineaPigStartBlow()
     {
         if (state == 0)
@@ -3528,8 +3528,8 @@ class GameObj extends GameObjBase
     
     
     
-    public var gunBombNumBits : Int;
-    public var gunBombTime : Int;
+    public var gunBombNumBits : Int = 0;
+    public var gunBombTime : Int = 0;
     public function OnHitGumBomb(goHitter : GameObj)
     {
         if (goHitter == null)
@@ -4157,7 +4157,7 @@ class GameObj extends GameObjBase
         var xp : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
         
-        (untyped dobj.origMC).helpClip.help.text = textMessage;
+        (untyped dobj.origMC).helpClip.help.text = Std.string(textMessage);
         dobj.RenderAtRotScaled_Vector(Std.int(frame), bd, xp, yp, 1, 0, null, false, xflip);
     }
     
@@ -4751,15 +4751,15 @@ class GameObj extends GameObjBase
     {
         RenderDispObjNormally();
     }
-    public var ballTimer : Int;
+    public var ballTimer : Int = 0;
     public function InitFootball_Beachball()
     {
         InitFootball();
         collisionType = "beachball";
     }
     
-    public var origSensorMask : Int;
-    public var origCollisionMask : Int;
+    public var origSensorMask : Int = 0;
+    public var origCollisionMask : Int = 0;
     
     public function InitFootball()
     {
@@ -5666,7 +5666,7 @@ class GameObj extends GameObjBase
     }
     
     
-    public var keeperActionIndex : Int;
+    public var keeperActionIndex : Int = 0;
     public var keeperActionName : String;
     
     public function KeeperNextAction()
@@ -5951,14 +5951,14 @@ class GameObj extends GameObjBase
     
     
     
-    public var player_Race : Int;
-    public var player_Head : Int;
+    public var player_Race : Int = 0;
+    public var player_Head : Int = 0;
     
     public var ct_shirt : ColorTransform;
     public var ct_shorts : ColorTransform;
     public var ct_socks : ColorTransform;
     public var ct_pattern : ColorTransform;
-    public var kitStyle : Int;
+    public var kitStyle : Int = 0;
     
     public function AddHierarchy_Player(_ct_shirt : ColorTransform, _ct_shorts : ColorTransform, _ct_socks : ColorTransform, _ct_pattern : ColorTransform, _style : Int)
     {

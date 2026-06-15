@@ -14,11 +14,11 @@ import flash.geom.Rectangle;
 class EditModeLines extends EditModeBase
 {
     public var addlineActive : Bool;
-    public var hoveredLineIndex : Int;
-    public var hoveredPointIndex : Int;
-    public var hoveredPointLineIndex : Int;
+    public var hoveredLineIndex : Int = 0;
+    public var hoveredPointIndex : Int = 0;
+    public var hoveredPointLineIndex : Int = 0;
     public var dragPoint : Point;
-    public var lastLineSelectedIndex : Int;
+    public var lastLineSelectedIndex : Int = 0;
     public var copiedParameters : ObjParameters;
     
     public var freeLine_MinDist : Int = 10;
@@ -735,8 +735,8 @@ class EditModeLines extends EditModeBase
     
     
     
-    public var currentLineIndex : Int;
-    public var currentPointIndex : Int;
+    public var currentLineIndex : Int = 0;
+    public var currentPointIndex : Int = 0;
     
     public function GetCurrentLinePrimitiveType() : String
     {

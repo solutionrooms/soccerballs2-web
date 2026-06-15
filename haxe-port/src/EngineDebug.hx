@@ -42,7 +42,7 @@ class EngineDebug
         return true;
     }
     
-    public static var immediateTime : Int;
+    public static var immediateTime : Int = 0;
     public static function StartImmediateTimer()
     {
         immediateTime = Math.round(haxe.Timer.stamp() * 1000);
@@ -96,7 +96,7 @@ class EngineDebug
         var totalTime : Float = timerTimes[0];
         var y : Int = 100;
         var x : Int = 10;
-        var s : String = null;        var i : Int;
+        var s : String = null;        var i : Int = 0;
         for (i in 0...timerNames.length)
         {
             var percent : Float = 100 / totalTime * timerTimes[i];
@@ -121,7 +121,7 @@ class EngineDebug
         var totalTime : Float = timerTimes[0];
         var y : Int = 100;
         var x : Int = 10;
-        var s : String = null;        var i : Int;
+        var s : String = null;        var i : Int = 0;
         for (i in 0...timerNames.length)
         {
             var percent : Float = 100 / totalTime * timerTimes[i];

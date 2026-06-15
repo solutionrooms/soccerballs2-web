@@ -5,7 +5,7 @@
 	 */
 class SuspensionSaveSlot
 {
-    public var index : Int;
+    public var index : Int = 0;
     public var sliderLevels : Array<Dynamic>;
     public var name : String;
     

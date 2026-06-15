@@ -13,10 +13,10 @@ import flash.geom.Rectangle;
 class EditModeMulti extends EditModeBase
 {
     
-    public var dragRectX0 : Int;
-    public var dragRectX1 : Int;
-    public var dragRectY0 : Int;
-    public var dragRectY1 : Int;
+    public var dragRectX0 : Int = 0;
+    public var dragRectX1 : Int = 0;
+    public var dragRectY0 : Int = 0;
+    public var dragRectY1 : Int = 0;
     public var selectedObjects : Array<EditableObjectBase>;
     public var hoveredObj : EditableObjectBase;
     

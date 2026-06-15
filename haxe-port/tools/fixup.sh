@@ -101,6 +101,13 @@ perl -i -pe '
   s/\bgo\[physobj\.initFunctionName\]\(\)/Reflect.callMethod(go, Reflect.field(go, physobj.initFunctionName), [])/g;
   s/\bthis\[physobj\.wakeFunctionName\]/Reflect.field(this, physobj.wakeFunctionName)/g;
 ' "$DIR/Game.hx" "$DIR/GameObjBase.hx" "$DIR/PhysicsBase.hx" 2>/dev/null || true
+# as3hx also emits AS3 `obj[name]()` dynamic calls directly as `Reflect.field(obj,name)(...)`, which
+# still loses the `this` binding (the init/test function sees this=undefined -> "set 'visible' on
+# undefined", etc.). Rebind via Reflect.callMethod. Covers no-arg and single-ident-arg forms.
+find "$DIR" -name '*.hx' -exec perl -i -pe '
+  s/Reflect\.field\((\w+), (\w+)\)\(\)/Reflect.callMethod($1, Reflect.field($1, $2), [])/g;
+  s/Reflect\.field\((\w+), (\w+)\)\((\w+)\)/Reflect.callMethod($1, Reflect.field($1, $2), [$3])/g;
+' {} +
 # new someVar.TheClass() -> Type.createInstance(someVar.TheClass, [])  (instantiate a stored Class ref)
 find "$DIR" -name '*.hx' -exec perl -i -pe 's/new (\w+)\.TheClass\(\)/Type.createInstance($1.theClass, [])/g' {} +
 
@@ -215,6 +222,12 @@ perl -i -pe 's/point\.x = x\.att\.point\.x;/point.x = 0;/; s/point\.y = x\.att\.
 # UI's pervasive LicDef.GetStage().stage access crashes. Wire the on-stage root here (theRoot=this).
 perl -i -pe 's/^(\s*)theRoot = this;/$1theRoot = this;\n$1licPackage.LicDef.stg = this;/' "$DIR/Main.hx" 2>/dev/null || true
 
+# AS3 defaults int fields to 0; Haxe/JS leaves uninitialised statics/fields as null/undefined, which
+# poisons arithmetic (undefined+1 -> NaN -> "Invalid type for frame", TextField.text #2007, etc.).
+# Initialise every uninitialised `var X : Int;` field to 0 (Number/Float fields are left NaN-defaulted,
+# matching AS3, and are assigned before use). Locals are already handled elsewhere.
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/\bvar (\w+) : Int;/var $1 : Int = 0;/g' {} +
+
 # --- Dictionary array-access consistency ------------------------------------------------------
 # flash.utils.Dictionary resolves to openfl.utils.Dictionary (Map-backed). as3hx converted some
 # `dict[key]` to array access and others to Reflect.field/setField; on a Map these don't interoperate,
@@ -232,8 +245,11 @@ perl -0777 -i -pe 's/return dictionary\[TextStrings\.languageLabels\[TextStrings
 # returns null (getClass wants an instance). Resolve the class directly, and fall back to the
 # first-letter-capitalised name openfl-swf gives generated symbol classes (woodenCrate1 -> WoodenCrate1).
 perl -0777 -i -pe 's/classRef = Type\.getClass\(Type\.resolveClass\(mcName\)\);/classRef = Type.resolveClass(mcName);\n            if (classRef == null \&\& mcName.length > 0) classRef = Type.resolveClass(mcName.charAt(0).toUpperCase() + mcName.substr(1));/g' "$DIR/GraphicObjects.hx" 2>/dev/null || true
-# UpdateGeneric: AS3 implicit int->String text coercion lost under untyped (#2007 on null).
-perl -i -pe 's/\.textScore\.text = Game\.currentScore;/.textScore.text = Std.string(Game.currentScore);/' "$DIR/uIPackage/UI.hx" 2>/dev/null || true
+# AS3 implicitly coerces non-String values assigned to TextField.text into strings; the untyped
+# conversion drops that, passing a raw Int/null to openfl's set_text (#2007 on null, or a number where
+# a string is expected). Wrap bare identifier/member RHS values in Std.string; string literals,
+# concatenations (a + b) and calls (f()) are left alone.
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/(\.text = )(?!null;|Std\.string)((?:[A-Za-z_][A-Za-z0-9_]*)(?:\.[A-Za-z_][A-Za-z0-9_]*)*);/${1}Std.string($2);/g' {} +
 # AS3 String.search(literal) -> indexOf
 perl -i -pe 's/type\.search\("pickup_trophy_"\)/type.indexOf("pickup_trophy_")/' "$DIR/Levels.hx" 2>/dev/null || true
 # LoadLevel: AS3 hoists a later bare `var level:Level;` to the top, so it is the SAME var already

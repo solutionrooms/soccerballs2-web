@@ -14,7 +14,7 @@ class EditParamEditItemBase
     public var parent : MovieClip;
     public var mc : MovieClip;
     public var selected : Bool;
-    public var parent_index : Int;
+    public var parent_index : Int = 0;
     
     public var x : Float;
     public var y : Float;

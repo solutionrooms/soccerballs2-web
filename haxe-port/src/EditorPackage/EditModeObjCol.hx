@@ -13,7 +13,7 @@ import flash.system.System;
 class EditModeObjCol extends EditModeBase
 {
     public var addlineActive : Bool;
-    public var newLineType : Int;
+    public var newLineType : Int = 0;
     
     public var objLines : Array<Dynamic>;
     
@@ -488,8 +488,8 @@ class EditModeObjCol extends EditModeBase
     
     
     
-    public var currentLineIndex : Int;
-    public var currentPointIndex : Int;
+    public var currentLineIndex : Int = 0;
+    public var currentPointIndex : Int = 0;
     
     
     public function Lines_EnterID()

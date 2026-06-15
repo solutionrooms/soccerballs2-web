@@ -38,8 +38,8 @@ class EditParamEditItemLinePicker extends EditParamEditItemBase
         
         (untyped mc).editorItem = this;
         
-        (untyped mc).displayText.text = op.name;
-        (untyped mc).inputText.text = op.value;
+        (untyped mc).displayText.text = Std.string(op.name);
+        (untyped mc).inputText.text = Std.string(op.value);
         
         (untyped mc).displayText.mouseEnabled = false;
         
@@ -97,7 +97,7 @@ class EditParamEditItemLinePicker extends EditParamEditItemBase
         {
             id = PhysEditor.GetOrCreateUniqueLineID(_EdLine);
         }
-        (untyped mc).inputText.text = id;
+        (untyped mc).inputText.text = Std.string(id);
         CopyValueToParameter();
         
         PhysEditor.SetEditMode(PhysEditor.oldEditMode, false);

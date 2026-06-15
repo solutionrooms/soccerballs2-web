@@ -10,11 +10,11 @@ class LicSku
 {
     public var secondaryIntroFunction : Function;
     public var introFunction : Function;
-    public var id : Int;
+    public var id : Int = 0;
     public var name : String;
     public var sitelocks : Array<Dynamic>;
     public var blackList : Array<Dynamic>;
-    public var adtype : Int;
+    public var adtype : Int = 0;
     public var mainLogoName : String;
     public var mainLogoLinkURL : String;
     public var facebookLinkURL : String;
@@ -25,7 +25,7 @@ class LicSku
     public var initFunction : Function;
     public var allowIntersitialAd : Bool;
     public var introName : String;
-    public var introFPS : Int;
+    public var introFPS : Int = 0;
     public var secondaryIntroName : String;
     public var secondaryIntroLinkURL : String;
     public var linkURL : String;

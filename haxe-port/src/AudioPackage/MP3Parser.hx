@@ -38,10 +38,10 @@ class MP3Parser extends EventDispatcher
 {
     public var mp3Data : ByteArray;
     public var loader : URLLoader;
-    public var currentPosition : Int;
-    public var sampleRate : Int;
-    public var channels : Int;
-    public var version : Int;
+    public var currentPosition : Int = 0;
+    public var sampleRate : Int = 0;
+    public var channels : Int = 0;
+    public var version : Int = 0;
     public static var bitRates : Array<Dynamic> = [-1, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, -1, -1, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160, -1];
     public static var versions : Array<Dynamic> = [2.5, -1, 2, 1];
     public static var samplingRates : Array<Dynamic> = [44100, 48000, 32000];

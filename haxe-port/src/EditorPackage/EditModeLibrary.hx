@@ -256,8 +256,8 @@ class EditModeLibrary extends EditModeBase
     public var libraryFilter : String = "";
     public var libraryFilterIndex : Int = 0;
     public var libraryFilters : Array<Dynamic>;
-    public var librarySizeIndex : Int;
-    public var numLibrarySizes : Int;
+    public var librarySizeIndex : Int = 0;
+    public var numLibrarySizes : Int = 0;
     public var librarySizes : Array<Dynamic>;
     
     public function DoesLibraryFilterListContain(filter : String) : Bool

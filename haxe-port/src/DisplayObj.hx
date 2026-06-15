@@ -22,7 +22,7 @@ import licPackage.LicDef;
 class DisplayObj
 {
     public var frames : Array<DisplayObjFrame>;
-    public var frame : Int;
+    public var frame : Int = 0;
     public var flags : String;
     public var labels : Array<Dynamic>;
     public var name : String;

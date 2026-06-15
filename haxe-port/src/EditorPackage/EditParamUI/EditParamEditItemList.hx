@@ -34,8 +34,8 @@ class EditParamEditItemList extends EditParamEditItemBase
         
         (untyped mc).editorItem = this;
         
-        (untyped mc).displayText.text = op.name;
-        (untyped mc).inputText.text = op.value;
+        (untyped mc).displayText.text = Std.string(op.name);
+        (untyped mc).inputText.text = Std.string(op.value);
         
         (untyped mc).displayText.mouseEnabled = false;
         (untyped mc).inputText.mouseEnabled = false;
@@ -80,7 +80,7 @@ class EditParamEditItemList extends EditParamEditItemBase
             var itemString : String = ob.valueList[i];
             
             var item : MovieClip = new EditorEditItemListItem();
-            (untyped item).displayText.text = itemString;
+            (untyped item).displayText.text = Std.string(itemString);
             (untyped item).listIndex = i;
             item.buttonMode = true;
             item.useHandCursor = true;

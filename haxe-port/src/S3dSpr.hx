@@ -7,7 +7,7 @@ import flash.geom.Matrix3D;
 	 */
 class S3dSpr
 {
-    public var type : Int;
+    public var type : Int = 0;
     
     public var indices : Array<Int>;
     public var vertices : Array<Float>;
@@ -29,7 +29,7 @@ class S3dSpr
     public var tintB : Float;
     public var z : Float;
     public var matrix : Matrix3D;
-    public var rgba : Int;
+    public var rgba : Int = 0;
     
     public var sorted : Bool;
     

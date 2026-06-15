@@ -692,10 +692,10 @@ class OpCode
     
     
     
-    public var _emitCode : Int;
-    public var _flags : Int;
+    public var _emitCode : Int = 0;
+    public var _flags : Int = 0;
     public var _name : String;
-    public var _numRegister : Int;
+    public var _numRegister : Int = 0;
     
     
     
@@ -751,11 +751,11 @@ class Register
     
     
     
-    public var _emitCode : Int;
+    public var _emitCode : Int = 0;
     public var _name : String;
     public var _longName : String;
-    public var _flags : Int;
-    public var _range : Int;
+    public var _flags : Int = 0;
+    public var _range : Int = 0;
     
     
     
@@ -814,8 +814,8 @@ class Sampler
     
     
     
-    public var _flag : Int;
-    public var _mask : Int;
+    public var _flag : Int = 0;
+    public var _mask : Int = 0;
     public var _name : String;
     
     

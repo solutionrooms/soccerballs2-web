@@ -19,8 +19,8 @@ class UIPreLevelScreen extends UIScreenInstance
     {
         titleMC = new PreLevelScreen();
         var l : Level = Game.GetCurrentLevel();
-        (untyped titleMC).textDescription.text = l.description;
-        (untyped titleMC).textName.text = l.name;
+        (untyped titleMC).textDescription.text = Std.string(l.description);
+        (untyped titleMC).textName.text = Std.string(l.name);
         UI.AddMCButton(titleMC.buttonOK, buttonOKPressed);
     }
     public static function buttonOKPressed(e : MouseEvent)

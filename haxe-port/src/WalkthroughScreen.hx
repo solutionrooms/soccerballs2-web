@@ -28,10 +28,10 @@ class WalkthroughScreen
         SetThumbSize(Std.int(thumbW), Std.int(thumbW * ratio));
     }
     
-    public var screenW : Int;
-    public var screenH : Int;
-    public var thumbW : Int;
-    public var thumbH : Int;
+    public var screenW : Int = 0;
+    public var screenH : Int = 0;
+    public var thumbW : Int = 0;
+    public var thumbH : Int = 0;
     
     public function SetScreenSize(w : Int, h : Int)
     {

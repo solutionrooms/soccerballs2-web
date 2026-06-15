@@ -41,8 +41,8 @@ class FractalGeometryGenerator
     
     
     public var m_context3D : Context3D;
-    public var m_levels : Int;
-    public var m_nObjs : Int;
+    public var m_levels : Int = 0;
+    public var m_nObjs : Int = 0;
     
     public var m_matrix : Matrix3D;
     public var m_red : Float;
@@ -51,8 +51,8 @@ class FractalGeometryGenerator
     public var m_alpha : Float;
     
     public var m_program : Program3D;
-    public var m_indexBufferSize : Int;
-    public var m_vertexBufferSize : Int;
+    public var m_indexBufferSize : Int = 0;
+    public var m_vertexBufferSize : Int = 0;
     
     public var m_indexBuffer : IndexBuffer3D;
     public var m_vertexBuffer : VertexBuffer3D;

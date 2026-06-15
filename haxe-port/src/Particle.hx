@@ -19,7 +19,7 @@ class Particle
     public var xvel : Float;
     public var yvel : Float;
     public var yacc : Float;
-    public var graphicID : Int;
+    public var graphicID : Int = 0;
     public var frame : Float;
     public var frameVel : Float;
     public var speed : Float;
@@ -28,13 +28,13 @@ class Particle
     public var dirVel : Float;
     public var alpha : Float;
     public var alphaAdd : Float;
-    public var maxframe : Int;
-    public var counter : Int;
+    public var maxframe : Int = 0;
+    public var counter : Int = 0;
     public var visible : Bool;
     public var updateFunction : Function;
-    public var mode : Int;
-    public var color : Int;
-    public var psize : Int;
+    public var mode : Int = 0;
+    public var color : Int = 0;
+    public var psize : Int = 0;
     public var angle : Float;
     public var anglevel : Float;
     public var dobj : DisplayObj;

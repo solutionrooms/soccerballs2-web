@@ -26,13 +26,13 @@ class EditModeBase
         editSubMode = 0;
     }
     
-    public var editSubMode : Int;
-    public var mx : Int;
-    public var my : Int;
+    public var editSubMode : Int = 0;
+    public var mx : Int = 0;
+    public var my : Int = 0;
     public var sx : Float;
     public var sy : Float;
-    public var mxs : Int;
-    public var mys : Int;
+    public var mxs : Int = 0;
+    public var mys : Int = 0;
     
     public function GetMousePositions(e : MouseEvent)
     {

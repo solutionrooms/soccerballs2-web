@@ -231,7 +231,7 @@ class Achievements
                         
                         Utils.paramNames = test.precalcedParamNames;
                         Utils.paramValues = test.precalcedParamValues;
-                        var result : Bool = Reflect.field(testFunctions, testFuncName)();
+                        var result : Bool = Reflect.callMethod(testFunctions, Reflect.field(testFunctions, testFuncName), []); // bind `this`
                         if (result)
                         {
                             numCorrect++;

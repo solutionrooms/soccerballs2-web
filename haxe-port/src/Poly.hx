@@ -18,14 +18,14 @@ class Poly
     
     public var boundingRectangle : Rectangle;
     public var active : Bool;
-    public var type : Int;
+    public var type : Int = 0;
     public var name : String;
     public var lineList : Array<Dynamic>;
     public var pointList : Array<Dynamic>;
     public var hitCallback : Dynamic;
     public var param0 : String;
     public var param1 : String;
-    public var iparam0 : Int;
+    public var iparam0 : Int = 0;
     public var typeName : String;
     public var subTypeName : String;
     public var closed : Bool;

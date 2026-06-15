@@ -12,10 +12,10 @@ import flash.geom.Rectangle;
 	 */
 class EdLine extends EditableObjectBase
 {
-    public var index : Int;
-    public var type : Int;
+    public var index : Int = 0;
+    public var type : Int = 0;
     public var points : Array<Dynamic>;
-    public var fill : Int;
+    public var fill : Int = 0;
     public var fillScaleX : Float;
     public var fillScaleY : Float;
     public var centrex : Float;

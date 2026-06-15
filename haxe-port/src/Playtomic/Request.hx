@@ -23,7 +23,7 @@ import flash.utils.ByteArray;
     public var handled : Bool;
     public var logging : Bool;
     public var postdata : Dynamic;
-    public var time : Int;
+    public var time : Int = 0;
     
     @:allow(playtomic)
     public static function Initialise() : Void

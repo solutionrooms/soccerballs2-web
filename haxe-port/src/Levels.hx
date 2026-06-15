@@ -10,7 +10,7 @@ import flash.geom.Point;
 	 */
 class Levels
 {
-    public static var currentIndex : Int;
+    public static var currentIndex : Int = 0;
     public static var list : Array<Level>;
     
     public function new()

@@ -35,7 +35,16 @@ class Main extends MovieClip
     
     public static var theRoot : MovieClip;
     public static var theStage : Stage;
-    
+
+    // DEBUG hook (exposed to JS as window.sb2LoadLevel) so a level can be started without clicking
+    // through the menu — used to reproduce/diagnose the gamescreen transition headlessly.
+    @:expose("sb2LoadLevel")
+    public static function sb2LoadLevel(i : Int) : Void
+    {
+        Levels.currentIndex = i;
+        UI.StartTransition("gamescreen", null, "");
+    }
+
     public function new()
     {
         super();
@@ -51,6 +60,9 @@ class Main extends MovieClip
     }
     public function NewInit4()
     {
+        // Force the generated SWF symbol classes to be compiled+kept (they are otherwise only resolved
+        // dynamically by name and stripped by DCE). Referencing the array makes Haxe load KeepSymbols.
+        if (KeepSymbols.symbols == null) return;
         theRoot = this;
         theStage = this.root.stage;
         // In the original SWF the Preloader (the [Frame(factoryClass="Preloader")] document factory)

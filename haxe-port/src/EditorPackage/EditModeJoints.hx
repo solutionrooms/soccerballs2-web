@@ -14,7 +14,7 @@ import flash.geom.Rectangle;
 class EditModeJoints extends EditModeBase
 {
     public var addlineActive : Bool;
-    public var newLineType : Int;
+    public var newLineType : Int = 0;
     public var hoveredObj : EditableObjectBase;
     public var selectedJoint : EdJoint;
     public var copiedParameters : ObjParameters;

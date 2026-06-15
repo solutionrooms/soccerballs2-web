@@ -73,11 +73,11 @@ class UILevelSelect extends UIScreenInstance
         GameVars.InitCoinBoxClip((untyped titleMC).coinBox);
     }
     
-    public var selectedLevel : Int;
+    public var selectedLevel : Int = 0;
     
-    public var numPages : Int;
+    public var numPages : Int = 0;
     public var numPerPage : Int = 9;
-    public var currentPage : Int;
+    public var currentPage : Int = 0;
     
     public function InitPage()
     {
@@ -140,7 +140,7 @@ class UILevelSelect extends UIScreenInstance
                 
                 if (Game.usedebug)
                 {
-                    (untyped mc).textLevelCreator.text = l.creator;
+                    (untyped mc).textLevelCreator.text = Std.string(l.creator);
                 }
                 else
                 {
@@ -262,7 +262,7 @@ class UILevelSelect extends UIScreenInstance
         else
         {
             var level : Level = Levels.GetLevel(selectedLevel);
-            (untyped titleMC).textInfo.text = level.displayName;
+            (untyped titleMC).textInfo.text = Std.string(level.displayName);
         }
     }
     public function levelOut(e : MouseEvent)
@@ -318,14 +318,14 @@ class UILevelSelect extends UIScreenInstance
     {
         var levelID : Int = (untyped e.currentTarget).levelID;
         var l : Level = Levels.GetLevel(levelID);
-        (untyped titleMC).levelNameText.text = l.name;
+        (untyped titleMC).levelNameText.text = Std.string(l.name);
     }
     public function levelHovered(e : MouseEvent)
     {
         var levelID : Int = (untyped e.currentTarget).levelID;
         selectedLevel = levelID;
         var l : Level = Levels.GetLevel(selectedLevel);
-        (untyped titleMC).textLevelName.text = l.name;
+        (untyped titleMC).textLevelName.text = Std.string(l.name);
     }
     public function levelPressed(e : MouseEvent)
     {

@@ -15,8 +15,8 @@ class UIHelpScreen extends UIScreenInstance
     override public function ExitScreen()
     {
     }
-    public static var helpPage : Int;
-    public static var numHelpPages : Int;
+    public static var helpPage : Int = 0;
+    public static var numHelpPages : Int = 0;
     override public function InitScreen()
     {
         UI.AddMCButton(titleMC.buttonPrev, PrevPressed);

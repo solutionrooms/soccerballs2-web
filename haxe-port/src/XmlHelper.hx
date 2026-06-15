@@ -21,23 +21,23 @@ class XmlHelper
     }
     public static function GetAttrNumber(x : Dynamic, defaultvalue : Float = 0) : Float
     {
-        var val : Float = defaultvalue;
-        if (x != null)
-        {
-            var s : String = Std.string(x);
-            val = as3hx.Compat.parseFloat(x);
-        }
-        return val;
+        // The lenient FastXML returns "" (not null) for a MISSING attribute, so the original
+        // `if (x != null)` guard no longer catches it and parseFloat("")=NaN slips through. NaN here
+        // poisons shape/joint geometry (Nape asserts "Vec2 components cannot be NaN"; the original
+        // Flash Nape silently tolerated it). Treat empty/non-numeric as missing -> default.
+        if (x == null) return defaultvalue;
+        var s : String = Std.string(x);
+        if (s == "") return defaultvalue;
+        var val : Float = as3hx.Compat.parseFloat(s);
+        return if (Math.isNaN(val)) defaultvalue else val;
     }
-    
+
     public static function GetAttrInt(x : Dynamic, defaultvalue : Int = 0) : Int
     {
-        var val : Int = defaultvalue;
-        if (x != null)
-        {
-            val = as3hx.Compat.parseInt(x);
-        }
-        return as3hx.Compat.parseInt(val);
+        if (x == null) return defaultvalue;
+        var s : String = Std.string(x);
+        if (s == "") return defaultvalue; // missing attr (lenient FastXML returns "") -> default
+        return as3hx.Compat.parseInt(s);
     }
     public static function GetAttrBoolean(x : Dynamic, defaultvalue : Bool = false) : Bool
     {

@@ -7,9 +7,9 @@ class Particles
 {
     public static inline var type_dust = 0;
     
-    public static var max : Int;
+    public static var max : Int = 0;
     public static var list : Array<Particle>;
-    public static var nextIndex : Int;
+    public static var nextIndex : Int = 0;
     
     public static function InitOnce(_max : Int) : Void
     {

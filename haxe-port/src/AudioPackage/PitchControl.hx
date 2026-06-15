@@ -104,7 +104,7 @@ class PitchControl
     }
     
     public var firstTime : Bool;
-    public var mp3length : Int;
+    public var mp3length : Int = 0;
     public var ba : ByteArray;
     
     public var volume : Float;

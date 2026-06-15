@@ -8,16 +8,16 @@ import uIPackage.UI;
 	 */
 class GameVars
 {
-    public static var gameMode : Int;
-    public static var gameTimer : Int;
-    public static var gameTimerMax : Int;
+    public static var gameMode : Int = 0;
+    public static var gameTimer : Int = 0;
+    public static var gameTimerMax : Int = 0;
     
-    public static var numPigsActive : Int;
-    public static var totalGoals : Int;
-    public static var numGoalsScored : Int;
-    public static var numRefsHit : Int;
-    public static var totalRefs : Int;
-    public static var numAnimalsKilled : Int;
+    public static var numPigsActive : Int = 0;
+    public static var totalGoals : Int = 0;
+    public static var numGoalsScored : Int = 0;
+    public static var numRefsHit : Int = 0;
+    public static var totalRefs : Int = 0;
+    public static var numAnimalsKilled : Int = 0;
     public static var bossDefeated : Bool;
     
     public static var shadowOffset : Int = 6;
@@ -31,7 +31,7 @@ class GameVars
     public static inline var gravity : Float = 300;
     public static inline var gravity_GO : Float = 0.2;
     
-    public static var pigsUsed : Int;
+    public static var pigsUsed : Int = 0;
     
     public static var SnakeReloadTimeNormal : Int = Std.int(Defs.fps * 1);
     public static var SnakeReloadTimeSuper : Int = 0;
@@ -53,7 +53,7 @@ class GameVars
     
     public static var ballTimerShowTimerMax : Int = Std.int(Defs.fps * 4);
     public static var ballTimerMax : Int = Std.int(Defs.fps * 6);
-    public static var numKicks : Int;
+    public static var numKicks : Int = 0;
     
     public static var hasPlayedIntro : Bool;
     public static var introGoToLevelSelect : Bool;
@@ -64,10 +64,10 @@ class GameVars
     
     public static inline var fastForward_numskips : Int = 4;
     public static var doingFastForward : Bool;
-    public static var fastforwardoffset : Int;
+    public static var fastforwardoffset : Int = 0;
     
-    public static var maxKicks : Int;
-    public static var goldKicks : Int;
+    public static var maxKicks : Int = 0;
+    public static var goldKicks : Int = 0;
     
     public static var football_footOffsetX : Float = 10;
     public static var football_footOffsetY : Float = -9;
@@ -118,8 +118,8 @@ class GameVars
         return false;
     }
     
-    public static var grassFrame : Int;
-    public static var dirtFrame : Int;
+    public static var grassFrame : Int = 0;
+    public static var dirtFrame : Int = 0;
     
     public static var currentWalkthroughPage : Int = 0;
     
@@ -286,7 +286,7 @@ class GameVars
         takingADump = false;
     }
     
-    public static var renderDebugMode : Int;
+    public static var renderDebugMode : Int = 0;
     public static var renderDebugModeMax : Int = 5;
     
     public static var patrolMarkers : Array<GameObj>;
@@ -294,8 +294,8 @@ class GameVars
     public static var runMarkers : Array<GameObj>;
     public static var footballGO : GameObj;
     
-    public static var numHierarchiesRendered : Int;
-    public static var numHierarchiesClipped : Int;
+    public static var numHierarchiesRendered : Int = 0;
+    public static var numHierarchiesClipped : Int = 0;
     public static function ExitForFrame()
     {
     }
@@ -352,8 +352,8 @@ class GameVars
         return teams[index];
     }
     
-    public static var playerTeam : Int;
-    public static var opponentTeam : Int;
+    public static var playerTeam : Int = 0;
+    public static var opponentTeam : Int = 0;
     
     public static function GetKitColorRGBArrayByIndex(index : Int) : Array<Dynamic>
     {

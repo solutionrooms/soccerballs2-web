@@ -232,7 +232,7 @@ class OtherGames
                     var ro : Dynamic = Reflect.field(otherGamesList, Std.string(list[i]));
                     
                     var button : MovieClip = try cast(mc.getChildByName("game" + as3hx.Compat.parseInt(i + 1)), MovieClip) catch(e:Dynamic) null;
-                    (untyped button).nameText.text = ro.display;
+                    (untyped button).nameText.text = Std.string(ro.display);
                     button.useHandCursor = true;
                     button.buttonMode = true;
                     (untyped button).linkName = ro.name;

@@ -10,17 +10,17 @@ class LevelBase
     public var name : String;
     public var displayName : String;
     public var description : String;
-    public var category : Int;
-    public var bgFrame : Int;
-    public var music : Int;
+    public var category : Int = 0;
+    public var bgFrame : Int = 0;
+    public var music : Int = 0;
     public var instances : Array<Dynamic>;
     public var joints : Array<Dynamic>;
     public var helpscreenFrames : Array<Dynamic>;
     public var lines : Array<Dynamic>;
     
-    public var fillFrame : Int;
-    public var surfaceFrame : Int;
-    public var surfaceThickness : Int;
+    public var fillFrame : Int = 0;
+    public var surfaceFrame : Int = 0;
+    public var surfaceThickness : Int = 0;
     
     public var owned : Bool;
     
@@ -29,33 +29,33 @@ class LevelBase
     public var markedAsJustUnlocked : Bool;
     public var available : Bool;
     public var complete : Bool;
-    public var numRockets : Int;
+    public var numRockets : Int = 0;
     
-    public var exclusiveChar : Int;
+    public var exclusiveChar : Int = 0;
     public var eventType : String;
     public var eventOpponentsString : String;
     public var eventWinParam : Float;
     
-    public var endLightColor : Int;
+    public var endLightColor : Int = 0;
     
-    public var cost : Int;
+    public var cost : Int = 0;
     public var locked : Bool;
     
-    public var bestShots : Int;
-    public var bestScore : Int;
-    public var levelScore : Int;
+    public var bestShots : Int = 0;
+    public var bestScore : Int = 0;
+    public var levelScore : Int = 0;
     
     public var percentage : Float;
     public var bestPercentage : Float;
-    public var rating : Int;
-    public var lastTime : Int;
-    public var lastPlace : Int;
-    public var lastTimeTotal : Int;
-    public var bestPlace : Int;
-    public var bestTime : Int;
-    public var bestTimeTotal : Int;
-    public var goldTime : Int;
-    public var silverTime : Int;
+    public var rating : Int = 0;
+    public var lastTime : Int = 0;
+    public var lastPlace : Int = 0;
+    public var lastTimeTotal : Int = 0;
+    public var bestPlace : Int = 0;
+    public var bestTime : Int = 0;
+    public var bestTimeTotal : Int = 0;
+    public var goldTime : Int = 0;
+    public var silverTime : Int = 0;
     
     public var aiCarMaxSpeed : Float;
     public var aiCarMinSpeed : Float;
@@ -64,12 +64,12 @@ class LevelBase
     public var levelFunctionName : String;
     
     public var map : Array<Dynamic>;
-    public var mapCellW : Int;
-    public var mapCellH : Int;
-    public var mapMinX : Int;
-    public var mapMinY : Int;
-    public var mapMaxX : Int;
-    public var mapMaxY : Int;
+    public var mapCellW : Int = 0;
+    public var mapCellH : Int = 0;
+    public var mapMinX : Int = 0;
+    public var mapMinY : Int = 0;
+    public var mapMaxX : Int = 0;
+    public var mapMaxY : Int = 0;
     
     public var fullyLoaded : Bool;
     public var creator : String;

@@ -38,7 +38,7 @@ class UIWalkthrough extends UIScreenInstance
         UI.RemoveAllButtons();
     }
     
-    public var page : Int;
+    public var page : Int = 0;
     
     public var adMC : MovieClip;
     
@@ -117,7 +117,7 @@ class UIWalkthrough extends UIScreenInstance
     }
     
     
-    public var numPages : Int;
+    public var numPages : Int = 0;
     public var numPerPage : Int = 9;
     
     public function InitPage()
@@ -147,7 +147,7 @@ class UIWalkthrough extends UIScreenInstance
         }
     }
     
-    public var selectedLevel : Int;
+    public var selectedLevel : Int = 0;
     public var icons : Array<Dynamic>;
     
     public function PopulatePage()
@@ -182,7 +182,7 @@ class UIWalkthrough extends UIScreenInstance
                 
                 if (Game.usedebug)
                 {
-                    (untyped mc).textLevelCreator.text = l.creator;
+                    (untyped mc).textLevelCreator.text = Std.string(l.creator);
                 }
                 else
                 {
@@ -203,7 +203,7 @@ class UIWalkthrough extends UIScreenInstance
                 }
                 (untyped mc).cup.gotoAndStop(l.trophyIndex);
                 
-                (untyped mc).coinpercent.text = l.totalCoins;
+                (untyped mc).coinpercent.text = Std.string(l.totalCoins);
                 
                 if (l.available)
                 {
@@ -261,7 +261,7 @@ class UIWalkthrough extends UIScreenInstance
     }
     
     
-    public var currentScreenshot : Int;
+    public var currentScreenshot : Int = 0;
     public function SaveScreenshots()
     {
         currentScreenshot = 0;
@@ -314,7 +314,7 @@ class UIWalkthrough extends UIScreenInstance
         var levelID : Int = (untyped e.currentTarget).levelID;
         selectedLevel = levelID;
         var l : Level = Levels.GetLevel(selectedLevel);
-        (untyped titleMC).textLevelName.text = l.name;
+        (untyped titleMC).textLevelName.text = Std.string(l.name);
     }
     public function levelPressed(e : MouseEvent)
     {

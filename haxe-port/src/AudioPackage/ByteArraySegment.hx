@@ -26,8 +26,8 @@ import flash.utils.ByteArray;
 
 class ByteArraySegment
 {
-    public var start : Int;
-    public var length : Int;
+    public var start : Int = 0;
+    public var length : Int = 0;
     public var byteArray : ByteArray;
     @:allow(audioPackage)
     public function new(ba : ByteArray, start : Int, length : Int)

@@ -168,7 +168,7 @@ class PhysicsBase
     public static function InitLines(addGameObjectsPerPoly : Bool = true)
     {
         var b : Body = null;        
-        var p : Point = null;        var p0 : Point = null;        var p1 : Point = null;        var p2 : Point = null;        var p3 : Point = null;        var i : Int;
+        var p : Point = null;        var p0 : Point = null;        var p1 : Point = null;        var p2 : Point = null;        var p3 : Point = null;        var i : Int = 0;
         
         var ud : PhysObjBodyUserData = new PhysObjBodyUserData();
         ud.bodyName = "wall";
@@ -763,7 +763,7 @@ class PhysicsBase
             {
                 jointGO = GameObjects.AddObj(0, 0, 0);
                 jointGO.id = joint.id;
-                Reflect.field(jointGO, gameObjInitName)(cons);
+                Reflect.callMethod(jointGO, Reflect.field(jointGO, gameObjInitName), [cons]); // bind `this`
                 jointGOControlIndex = jointGO.controlIndex;
             }
         }

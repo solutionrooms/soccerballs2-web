@@ -7,7 +7,7 @@ import flash.geom.Point;
 class PhysObjGraphic
 {
     public var graphicName : String;
-    public var frame : Int;
+    public var frame : Int = 0;
     public var offset : Point;
     public var rot : Float;
     public var goInitFuntion : String;

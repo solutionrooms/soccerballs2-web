@@ -6,7 +6,7 @@ import flash.geom.Point;
 	 */
 class ObjColBody
 {
-    public var type : Int;
+    public var type : Int = 0;
     public var shapes : Array<Dynamic>;
     public function new()
     {

@@ -25,9 +25,9 @@ import nape.shape.Shape;
 
 class GameObjBase
 {
-    public var listIndex : Int;
-    public var activeListIndex : Int;
-    public var inactiveListIndex : Int;
+    public var listIndex : Int = 0;
+    public var activeListIndex : Int = 0;
+    public var inactiveListIndex : Int = 0;
     
     public var miniMapRenderFunction : Function;
     public var preRenderFunction : Function;
@@ -72,12 +72,12 @@ class GameObjBase
     public var starty : Float;
     public var startx : Float;
     public var startz : Float;
-    public var type : Int;
-    public var subtype : Int;
-    public var state : Int;
-    public var state1 : Int;
-    public var nextState : Int;
-    public var controlIndex : Int;
+    public var type : Int = 0;
+    public var subtype : Int = 0;
+    public var state : Int = 0;
+    public var state1 : Int = 0;
+    public var nextState : Int = 0;
+    public var controlIndex : Int = 0;
     public var xoffset : Float;
     public var yoffset : Float;
     public var origxvel : Float;
@@ -109,7 +109,7 @@ class GameObjBase
     
     public var isPolyObject : Bool;
     public var polyMaterial : PolyMaterial;
-    public var clickTestType : Int;
+    public var clickTestType : Int = 0;
     
     public var radius : Float;
     public var colOffsetX : Float;
@@ -130,17 +130,17 @@ class GameObjBase
     public var toPosY : Float;
     public var speed : Float;
     public var origspeed : Float;
-    public var count : Int;
+    public var count : Int = 0;
     public var hitTimer : Float;
-    public var minFrame : Int;
-    public var maxFrame : Int;
+    public var minFrame : Int = 0;
+    public var maxFrame : Int = 0;
     public var rotVel : Float;
     public var dist : Float;
-    public var flashTimer : Int;
-    public var flashTimerMax : Int;
+    public var flashTimer : Int = 0;
+    public var flashTimerMax : Int = 0;
     public var flashFlag : Bool;
     public var xflip : Bool;
-    public var healthBarTimer : Int;
+    public var healthBarTimer : Int = 0;
     public var health : Float;
     public var maxHealth : Float;
     
@@ -160,7 +160,7 @@ class GameObjBase
     public var collisionExtra : String;
     public var scale : Float;
     public var scale1 : Float;
-    public var uniqueID : Int;
+    public var uniqueID : Int = 0;
     public var isPhysObj : Bool;
     public var alpha : Float;
     public var alphaVel : Float;
@@ -170,7 +170,7 @@ class GameObjBase
     
     public var sortByY : Bool;
     public var isVehicle : Bool;
-    public var soundTimer : Int;
+    public var soundTimer : Int = 0;
     
     public var onHitSceneryFunction : Function;
     public var onHitExplosionFunction : Function;
@@ -192,7 +192,7 @@ class GameObjBase
     
     public var isIndependant : Bool;
     
-    public var s3dTriListIndex : Int;
+    public var s3dTriListIndex : Int = 0;
     public var m3d : Matrix3D;
     public var ct : ColorTransform;
     
@@ -940,7 +940,7 @@ class GameObjBase
     
     
     
-    public var switch_timer : Int;
+    public var switch_timer : Int = 0;
     public var switchType : String;
     public function InitGameObj_Switch()
     {
@@ -1155,8 +1155,8 @@ class GameObjBase
     }
     
     
-    public var numAnims : Int;
-    public var currentAnim : Int;
+    public var numAnims : Int = 0;
+    public var currentAnim : Int = 0;
     public function Init_PlayAnimList()
     {
         Utils.print("Init_PlayAnimList");
@@ -1271,7 +1271,7 @@ class GameObjBase
     
     public var lineLinearPos : Float;
     public var lineSpeed : Float;
-    public var lineIndex : Int;
+    public var lineIndex : Int = 0;
     public var lineLoop : Bool;
     public var lineResetAtEnd : Bool;
     public var lineSpline : Bool;
@@ -2049,8 +2049,8 @@ class GameObjBase
     
     
     
-    public var pathSwitchTimer : Int;
-    public var pathSwitchControlMode : Int;
+    public var pathSwitchTimer : Int = 0;
+    public var pathSwitchControlMode : Int = 0;
     public var pathSwitchDoneOnce : Bool;
     public function InitPhysObj_PathSwitch()
     {
@@ -2156,7 +2156,7 @@ class GameObjBase
     
     public var pathEaseName : String;
     public var pathEaseValue : Float;
-    public var pathControlMode : Int;
+    public var pathControlMode : Int = 0;
     public function InitPhysObj_Path_Old()
     {
         useMultiplePhysicsUpdates = true;
@@ -2766,10 +2766,10 @@ class GameObjBase
     
     
     public var lineRender_Mode : String;
-    public var lineRender_Color : Int;
-    public var lineRender_Color0 : Int;
-    public var lineRender_Color1 : Int;
-    public var lineRender_LineColor : Int;
+    public var lineRender_Color : Int = 0;
+    public var lineRender_Color0 : Int = 0;
+    public var lineRender_Color1 : Int = 0;
+    public var lineRender_LineColor : Int = 0;
     public var lineRender_LineAlpha : Float;
     public var lineRender_lineThickness : Float;
     
@@ -2804,7 +2804,7 @@ class GameObjBase
         
         if (initFunc != null && initFunc != "")
         {
-            Reflect.field(this, initFunc)();
+            Reflect.callMethod(this, Reflect.field(this, initFunc), []); // bind `this` (AS3 this[initFunc]())
         }
     }
     
@@ -2844,7 +2844,7 @@ class GameObjBase
         
         if (initFunc != null && initFunc != "")
         {
-            Reflect.field(this, initFunc)();
+            Reflect.callMethod(this, Reflect.field(this, initFunc), []); // bind `this` (AS3 this[initFunc]())
         }
     }
     
@@ -2877,8 +2877,8 @@ class GameObjBase
 		*/
     
     
-    public var invisibleTimer : Int;
-    public var invisibleTimerMax : Int;
+    public var invisibleTimer : Int = 0;
+    public var invisibleTimerMax : Int = 0;
     public function UpdateInvisibleTimer() : Bool
     {
         if (invisibleTimer == 0)

@@ -33,8 +33,8 @@ class EditParamEditItemNumber extends EditParamEditItemBase
         
         (untyped mc).editorItem = this;
         
-        (untyped mc).displayText.text = op.name;
-        (untyped mc).inputText.text = op.value;
+        (untyped mc).displayText.text = Std.string(op.name);
+        (untyped mc).inputText.text = Std.string(op.value);
         
         (untyped mc).displayText.mouseEnabled = false;
         

@@ -124,13 +124,13 @@ class HintPopups
             popup.active = true;
             popup.mc = new MovieClip();
             UI.AddAnimatedMCButton((untyped popup.mc).inner.buttonNoMore, buttonNoMorePressed);
-            (untyped popup.mc).inner.hint_text.text = popup.text;
+            (untyped popup.mc).inner.hint_text.text = Std.string(popup.text);
             Game.main.addChild(popup.mc);
             popup.mc.gotoAndPlay("on");
         }
         else
         {
-            (untyped popup.mc).inner.hint_text.text = popup.text;
+            (untyped popup.mc).inner.hint_text.text = Std.string(popup.text);
             popup.timer--;
             if (popup.timer == 0)
             {

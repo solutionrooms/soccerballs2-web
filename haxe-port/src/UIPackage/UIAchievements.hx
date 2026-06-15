@@ -39,7 +39,7 @@ class UIAchievements extends UIScreenInstance
         {
             var mc : MovieClip = try cast(titleMC.getChildByName("ach" + i), MovieClip) catch(e:Dynamic) null;
             var item : Achievement = Achievements.list[i + first];
-            (untyped mc).textTitle.text = item.name;
+            (untyped mc).textTitle.text = Std.string(item.name);
             (untyped mc).textTick.visible = false;
             (untyped mc).achievement = item;
             if (item.complete)
@@ -61,7 +61,7 @@ class UIAchievements extends UIScreenInstance
         {
             return;
         }
-        (untyped titleMC).textDescription.text = item.toUnlockText;
+        (untyped titleMC).textDescription.text = Std.string(item.toUnlockText);
     }
     
     

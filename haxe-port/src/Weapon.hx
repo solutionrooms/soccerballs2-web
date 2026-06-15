@@ -5,7 +5,7 @@
 	 */
 class Weapon
 {
-    public var fireRate : Int;
+    public var fireRate : Int = 0;
     public var objName : String;
     public var name : String;
     public var isStraight : Bool;

@@ -61,8 +61,8 @@ class UIMatchSelect extends UIScreenInstance
         team1 = GameVars.GetTeam(GameVars.opponentTeam);
         
         
-        (untyped titleMC).textTeamName0.text = team0.teamName;
-        (untyped titleMC).textTeamName1.text = team1.teamName;
+        (untyped titleMC).textTeamName0.text = Std.string(team0.teamName);
+        (untyped titleMC).textTeamName1.text = Std.string(team1.teamName);
         
         RenderPlayers();
     }

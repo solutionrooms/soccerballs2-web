@@ -12,8 +12,8 @@ class GrassItem
     public var gf : GrassFrame;
     public var visible : Bool;
     public var rot : Float;
-    public var timer : Int;
-    public var frameIndex : Int;
+    public var timer : Int = 0;
+    public var frameIndex : Int = 0;
     
     public function new(_x : Float, _y : Float, _gf : GrassFrame, _frameIndex : Int)
     {

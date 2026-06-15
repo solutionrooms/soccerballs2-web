@@ -127,7 +127,7 @@ class UILevelComplete extends UIScreenInstance
         GameVars.InitTrophiesClip((untyped titleMC).trophies);
         GameVars.InitCoinBoxClip((untyped titleMC).coinBox);
         
-        (untyped titleMC.levelName).textDescription.text = l.name;
+        (untyped titleMC.levelName).textDescription.text = Std.string(l.name);
         (untyped titleMC.scoreText1).textDescription.text = "";
         (untyped titleMC).scoreText1.textValue.text = "";
         (untyped titleMC).scoreText1.textAll.text = TextStrings.GetLocalisedText("Kicks") + ": " + GameVars.numKicks;

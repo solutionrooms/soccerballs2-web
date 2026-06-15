@@ -13,7 +13,7 @@ class AnimHierarchyFramePart
     public var dobjName : String;
     public var scale : Float;
     public var colorTransform : ColorTransform;
-    public var frame : Int;
+    public var frame : Int = 0;
     public var visible : Bool;
     public var interpolate : Bool;
     

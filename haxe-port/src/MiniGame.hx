@@ -18,9 +18,9 @@ class MiniGame
     public static var screenB : Bitmap;
     public static var titleMC : MovieClip;
     
-    public static var highscore : Int;
-    public static var score : Int;
-    public static var lives : Int;
+    public static var highscore : Int = 0;
+    public static var score : Int = 0;
+    public static var lives : Int = 0;
     
     public static function Exit()
     {

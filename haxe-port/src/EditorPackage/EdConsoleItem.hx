@@ -8,7 +8,7 @@ package editorPackage;
 class EdConsoleItem
 {
     public var text : String;
-    public var timer : Int;
+    public var timer : Int = 0;
     
     public function new(_text : String, _timer : Int = 30)
     {

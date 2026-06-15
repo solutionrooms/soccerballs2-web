@@ -173,8 +173,8 @@ class HudController
             poo = true;
             goldRemainingKicks = 0;
         }
-        (untyped hudMC).mainArea.kicksText.text = remainingKicks;
-        (untyped hudMC).mainArea.starText.text = goldRemainingKicks;
+        (untyped hudMC).mainArea.kicksText.text = Std.string(remainingKicks);
+        (untyped hudMC).mainArea.starText.text = Std.string(goldRemainingKicks);
         (untyped hudMC).mainArea.coinsText.text = GameVars.numLevelCoinsCollected + "/" + GameVars.totalLevelCoins;
         (untyped hudMC).mainArea.goldKicksFail.visible = false;
         if (poo)
@@ -184,7 +184,7 @@ class HudController
         
         
         TextStrings.ReplaceTextFieldText((untyped hudMC).mainArea.textScoreName, "score");
-        (untyped hudMC.mainArea).textScore.text = Game.currentScore;
+        (untyped hudMC.mainArea).textScore.text = Std.string(Game.currentScore);
         
         var ballGO : GameObj = GameVars.footballGO;
         

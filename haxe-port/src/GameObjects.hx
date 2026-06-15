@@ -17,9 +17,9 @@ class GameObjects
     public static var activeIndices : Array<Int>;
     public static var inactiveIndices : Array<Int>;
     public static var zorder : Array<Dynamic>;
-    public static var numActive : Int;
-    public static var numInactive : Int;
-    public static var numobjs : Int;
+    public static var numActive : Int = 0;
+    public static var numInactive : Int = 0;
+    public static var numobjs : Int = 0;
     
     public static function InitOnce(_numObjs : Int)
     {
@@ -66,7 +66,7 @@ class GameObjects
     }
     
     
-    public static var lastGenIndex : Int;
+    public static var lastGenIndex : Int = 0;
     public static function AddObj(_xpos : Float, _ypos : Float, _zpos : Float) : GameObj
     /*
 			var nextAvailableIndex:int = inactiveIndices[numInactive-1];
@@ -145,7 +145,7 @@ class GameObjects
     
     public static function RenderZposBelow(bd : BitmapData, zpos)
     {
-        var go : GameObj = null;        var i : Int;
+        var go : GameObj = null;        var i : Int = 0;
         
         EngineDebug.StartTimer("sort");
         
@@ -175,7 +175,7 @@ class GameObjects
     }
     public static function RenderZposAboveEqual(bd : BitmapData, zpos)
     {
-        var go : GameObj = null;        var i : Int;
+        var go : GameObj = null;        var i : Int = 0;
         
         EngineDebug.StartTimer("sort");
         
@@ -207,7 +207,7 @@ class GameObjects
     
     public static function Render(bd : BitmapData) : Void
     {
-        var go : GameObj = null;        var i : Int;
+        var go : GameObj = null;        var i : Int = 0;
         
         EngineDebug.StartTimer("sort");
         

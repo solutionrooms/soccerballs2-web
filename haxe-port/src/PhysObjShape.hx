@@ -10,12 +10,12 @@ class PhysObjShape
     public static inline var Type_Poly : Int = 0;
     public static inline var Type_Circle : Int = 1;
     
-    public var type : Int;
+    public var type : Int = 0;
     public var name : String;
-    public var collisionCategory : Int;
-    public var collisionMask : Int;
-    public var sensorCategory : Int;
-    public var sensorMask : Int;
+    public var collisionCategory : Int = 0;
+    public var collisionMask : Int = 0;
+    public var sensorCategory : Int = 0;
+    public var sensorMask : Int = 0;
     
     public var materialName : String;
     

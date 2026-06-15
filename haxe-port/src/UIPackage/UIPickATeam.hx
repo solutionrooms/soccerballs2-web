@@ -91,7 +91,7 @@ class UIPickATeam extends UIScreenInstance
             var mc : MovieClip = try cast(titleMC.getChildByName("team" + as3hx.Compat.parseInt(i + 1)), MovieClip) catch(e:Dynamic) null;
             UI.AddAnimatedMCButton((untyped mc).btn_yes, PickClicked);
             UI.AddAnimatedMCButton((untyped mc).btn_modify, ModifyClicked);
-            (untyped mc).textTeamName.text = tm.teamName;
+            (untyped mc).textTeamName.text = Std.string(tm.teamName);
             (untyped mc.btn_yes).teamIndex = i;
             (untyped mc.btn_modify).teamIndex = i;
             InitShirt(mc, tm);
@@ -193,7 +193,7 @@ class UIPickATeam extends UIScreenInstance
     
     public function InitColorButtons(parentMC : MovieClip, itemIndex : Int, title : String)
     {
-        (untyped parentMC).title.text = title;
+        (untyped parentMC).title.text = Std.string(title);
         for (i in 0...16)
         {
             var mc : MovieClip = try cast(parentMC.getChildByName("color" + as3hx.Compat.parseInt(i + 1)), MovieClip) catch(e:Dynamic) null;

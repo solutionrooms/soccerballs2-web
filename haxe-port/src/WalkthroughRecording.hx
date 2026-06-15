@@ -7,8 +7,8 @@ class WalkthroughRecording
 {
     public var levelName : String;
     public var list : Array<WalkthroughRecordingPoint>;
-    public var time : Int;
-    public var playbackPos : Int;
+    public var time : Int = 0;
+    public var playbackPos : Int = 0;
     
     public function new(_levelName : String)
     {

@@ -28,8 +28,8 @@ class LicAds
     
     
     public static var intro : MovieClip;
-    public static var cx : Int;
-    public static var cy : Int;
+    public static var cx : Int = 0;
+    public static var cy : Int = 0;
     public static var oldFrameRate : Int = 0;
     
     
@@ -259,8 +259,8 @@ class LicAds
             cpmStarTimer.start();
         }
     }
-    public static var cpmStarLoadTimer : Int;
-    public static var cpmStarLoaderCounter : Int;
+    public static var cpmStarLoadTimer : Int = 0;
+    public static var cpmStarLoaderCounter : Int = 0;
     public static var cpmStarTimer : Timer;
     public static var ad : DisplayObject = null;
     

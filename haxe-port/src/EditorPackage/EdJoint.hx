@@ -23,7 +23,7 @@ class EdJoint extends EditableObjectBase
     public static inline var Type_Weld : Int = 7;
     
     
-    public var type : Int;
+    public var type : Int = 0;
     public var name : String;
     public var obj0Name : String;
     public var obj1Name : String;

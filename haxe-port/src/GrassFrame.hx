@@ -7,7 +7,7 @@ import achievementPackage.Achievement;
 class GrassFrame
 {
     public var mcName : String;
-    public var frameIndex : Int;
+    public var frameIndex : Int = 0;
     public var dof : DisplayObjFrame;
     public var dofs : Array<DisplayObjFrame>;
     public var scales : Array<Float>;

@@ -15,21 +15,24 @@ class GameLayers
     {
     }
     
+    // nameDictionary is written via array access (nameDictionary[gl.name]=gl in InitOnce); as3hx
+    // converted these reads to Reflect.field, which doesn't interoperate with array writes on a
+    // Map-backed Dictionary. Use consistent array access.
     public static function GetZPosByName(name : String) : Float
     {
-        if (Reflect.field(nameDictionary, name) == null)
+        if (nameDictionary[name] == null)
         {
             return 0;
         }
-        return Reflect.field(nameDictionary, name).zpos;
+        return nameDictionary[name].zpos;
     }
     public static function GetByName(name : String) : GameLayer
     {
-        if (Reflect.field(nameDictionary, name) == null)
+        if (nameDictionary[name] == null)
         {
             return null;
         }
-        return Reflect.field(nameDictionary, name);
+        return nameDictionary[name];
     }
     public static function InitOnce(x : FastXML)
     {

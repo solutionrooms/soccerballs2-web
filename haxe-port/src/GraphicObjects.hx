@@ -113,7 +113,11 @@ class GraphicObjects
     {
         var dob : DisplayObj = null;        
         
-        dob = Reflect.field(dict, _name);
+        // dict is written via array access (dict[origName]=dobj when parsing the atlas layout);
+        // as3hx converted this read to Reflect.field, which doesn't interoperate with the array
+        // writes on a Map-backed Dictionary, so every atlas object fell through to Add() and failed
+        // ("can't find obj"). Use consistent array access.
+        dob = dict[_name];
         if (dob != null)
         {
             return dob;
@@ -135,7 +139,7 @@ class GraphicObjects
         var fontDobj : DisplayObj = null;        fontDobj = new DisplayObj(null, 0, "", null, _name);
         fontDobj.CreateFont(tf);
         
-        Reflect.setField(dict, _name, fontDobj);
+        dict[_name] = fontDobj; // array access, consistent with the atlas loader / GetDisplayObjByName
         displayObjs.push(fontDobj);
     }
     
@@ -180,10 +184,17 @@ class GraphicObjects
         }
         
         var classRef : Class<Dynamic> = null;
-        
+
         try
         {
-            classRef = Type.getClass(Type.resolveClass(mcName));
+            classRef = Type.resolveClass(mcName);
+            if (classRef == null && mcName.length > 0)
+            {
+                // openfl-swf names generated symbol classes from the library name with the first
+                // letter capitalised (woodenCrate1 -> WoodenCrate1, wormhole_small -> Wormhole_small),
+                // whereas the game data requests the original lowercase linkage name. Try that form.
+                classRef = Type.resolveClass(mcName.charAt(0).toUpperCase() + mcName.substr(1));
+            }
         }
         catch (e : Error)
         {
@@ -194,7 +205,7 @@ class GraphicObjects
             var mc : MovieClip = try cast(Type.createInstance(classRef, []), MovieClip) catch(e:Dynamic) null;
             
             var dispobj : DisplayObj = new DisplayObj(mc, 1, flags, null, _instName);
-            Reflect.setField(dict, _instName, dispobj);
+            dict[_instName] = dispobj; // array access, consistent with the atlas loader / GetDisplayObjByName
             displayObjs.push(dispobj);
             return dispobj;
         }

@@ -214,6 +214,26 @@ perl -i -pe 's/point\.x = x\.att\.point\.x;/point.x = 0;/; s/point\.y = x\.att\.
 # document factory). OpenFL runs Main directly and ignores that, so LicDef.stg stays null and the
 # UI's pervasive LicDef.GetStage().stage access crashes. Wire the on-stage root here (theRoot=this).
 perl -i -pe 's/^(\s*)theRoot = this;/$1theRoot = this;\n$1licPackage.LicDef.stg = this;/' "$DIR/Main.hx" 2>/dev/null || true
+
+# --- Dictionary array-access consistency ------------------------------------------------------
+# flash.utils.Dictionary resolves to openfl.utils.Dictionary (Map-backed). as3hx converted some
+# `dict[key]` to array access and others to Reflect.field/setField; on a Map these don't interoperate,
+# so a dict written via array access and read via Reflect.field (or vice-versa) silently misses every
+# entry (lost localised text; "Graphic Objects - can't find obj"; null game-layer z-order). Normalise
+# the mixed-access dicts to array access (the intended Dictionary API).
+perl -i -pe 's/Reflect\.field\(dict, ([^,()]+)\)/dict[$1]/g; s/Reflect\.setField\(dict, ([^,()]+), ([^()]+?)\);/dict[$1] = $2;/g;' "$DIR/GraphicObjects.hx" 2>/dev/null || true
+perl -i -pe 's/Reflect\.field\(dict, str\)/dict[str.toLowerCase()]/g;' "$DIR/textPackage/TextStrings.hx" 2>/dev/null || true
+perl -i -pe 's/Reflect\.field\(nameDictionary, ([^,()]+)\)/nameDictionary[$1]/g;' "$DIR/editorPackage/GameLayers.hx" 2>/dev/null || true
+# TextString: English text is in the `name` attr (en="" in data); make the fallback array-access +
+# null-safe, and guarantee GetLocalisedText() never returns null (else TextField.text=null -> #2007).
+perl -0777 -i -pe 's/if \(Reflect\.field\(dictionary, "en"\) == ""\)\s*\{\s*Reflect\.setField\(dictionary, "en", name\);\s*\}/if (dictionary["en"] == "" || dictionary["en"] == null)\n        {\n            dictionary["en"] = name;\n        }/s' "$DIR/textPackage/TextString.hx" 2>/dev/null || true
+perl -0777 -i -pe 's/return dictionary\[TextStrings\.languageLabels\[TextStrings\.currentLanguage\]\];/var s : String = dictionary[TextStrings.languageLabels[TextStrings.currentLanguage]];\n        if (s == null) s = dictionary["en"];\n        if (s == null) s = name;\n        return s;/s' "$DIR/textPackage/TextString.hx" 2>/dev/null || true
+# GraphicObjects/GameObjects symbol lookup: original `Type.getClass(Type.resolveClass(name))` always
+# returns null (getClass wants an instance). Resolve the class directly, and fall back to the
+# first-letter-capitalised name openfl-swf gives generated symbol classes (woodenCrate1 -> WoodenCrate1).
+perl -0777 -i -pe 's/classRef = Type\.getClass\(Type\.resolveClass\(mcName\)\);/classRef = Type.resolveClass(mcName);\n            if (classRef == null \&\& mcName.length > 0) classRef = Type.resolveClass(mcName.charAt(0).toUpperCase() + mcName.substr(1));/g' "$DIR/GraphicObjects.hx" 2>/dev/null || true
+# UpdateGeneric: AS3 implicit int->String text coercion lost under untyped (#2007 on null).
+perl -i -pe 's/\.textScore\.text = Game\.currentScore;/.textScore.text = Std.string(Game.currentScore);/' "$DIR/uIPackage/UI.hx" 2>/dev/null || true
 # AS3 String.search(literal) -> indexOf
 perl -i -pe 's/type\.search\("pickup_trophy_"\)/type.indexOf("pickup_trophy_")/' "$DIR/Levels.hx" 2>/dev/null || true
 # LoadLevel: AS3 hoists a later bare `var level:Level;` to the top, so it is the SAME var already

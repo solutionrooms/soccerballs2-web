@@ -96,8 +96,7 @@ class EngineDebug
         var totalTime : Float = timerTimes[0];
         var y : Int = 100;
         var x : Int = 10;
-        var s : String;
-        var i : Int;
+        var s : String = null;        var i : Int;
         for (i in 0...timerNames.length)
         {
             var percent : Float = 100 / totalTime * timerTimes[i];
@@ -122,8 +121,7 @@ class EngineDebug
         var totalTime : Float = timerTimes[0];
         var y : Int = 100;
         var x : Int = 10;
-        var s : String;
-        var i : Int;
+        var s : String = null;        var i : Int;
         for (i in 0...timerNames.length)
         {
             var percent : Float = 100 / totalTime * timerTimes[i];
@@ -222,8 +220,7 @@ class EngineDebug
         var lev : Level = Levels.GetCurrent();
         for (line/* AS3HX WARNING could not determine type for var: line exp: EField(EIdent(lev),lines) type: null */ in lev.lines)
         {
-            var i : Int;
-            var count : Int = line.points.length;
+            var i : Int = 0;            var count : Int = line.points.length;
             for (i in 0...count - 1)
             {
                 var x0 : Float = line.points[i + 0].x - sx;

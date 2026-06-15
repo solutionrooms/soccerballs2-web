@@ -19,8 +19,7 @@ class ObjectParameters
     
     public static function GetObjParamString(paramList : Array<Dynamic>, defaultsList : Array<Dynamic>) : String
     {
-        var i : Int;
-        var num : Int = paramList.length;
+        var i : Int = 0;        var num : Int = paramList.length;
         var s : String = "";
         for (i in 0...num)
         {

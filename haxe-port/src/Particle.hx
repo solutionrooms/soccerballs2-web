@@ -823,8 +823,7 @@ class Particle
         psize = Utils.RandBetweenInt(1, 3);
         
         var d : Float = Utils.RandCircle();
-        var v : Float;
-        
+        var v : Float = Math.NaN;        
         xpos += Utils.RandBetweenFloat(-6, 6);
         ypos += Utils.RandBetweenFloat(-6, 6);
         
@@ -906,8 +905,7 @@ class Particle
     {
         psize = 2;
         var d : Float = Utils.RandCircle();
-        var v : Float;
-        if (_type == 0)
+        var v : Float = Math.NaN;        if (_type == 0)
         {
             v = Utils.RandBetweenFloat(2, 5);
             color = 0xffffffff;

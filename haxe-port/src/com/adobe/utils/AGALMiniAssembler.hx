@@ -103,8 +103,7 @@ class AGALMiniAssembler
         var lines : Array<Dynamic> = new as3hx.Compat.Regex('[\\f\\n\\r\\v]+', "g").replace(source, "\n").split("\n");
         var nest : Int = 0;
         var nops : Int = 0;
-        var i : Int;
-        var lng : Int = lines.length;
+        var i : Int = 0;        var lng : Int = lines.length;
         
         i = 0;
         while (i < lng && _error == "")
@@ -120,8 +119,7 @@ class AGALMiniAssembler
             
             
             var optsi : Int = line.search(new as3hx.Compat.Regex('<.*>', "g"));
-            var opts : Array<Dynamic>;
-            if (optsi != -1)
+            var opts : Array<Dynamic> = null;            if (optsi != -1)
             {
                 opts = line.substring(optsi).match(new as3hx.Compat.Regex('([\\w\\.\\-\\+]+)', "gi"));
                 line = line.substring(0, optsi);
@@ -287,8 +285,7 @@ class AGALMiniAssembler
                 if (maskmatch != null)
                 {
                     regmask = 0;
-                    var cv : Int;
-                    var maskLength : Int = maskmatch[0].length;
+                    var cv : Int = 0;                    var maskLength : Int = maskmatch[0].length;
                     for (k in 1...maskLength)
                     {
                         cv = as3hx.Compat.parseInt(maskmatch[0].charCodeAt(k) - "x".charCodeAt(0));

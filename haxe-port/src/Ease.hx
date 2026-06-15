@@ -80,8 +80,7 @@ class Ease
     
     public static function easeIn(t : Float, b : Float, c : Float, d : Float, a : Float = 0, p : Float = 0) : Float
     {
-        var s : Float;
-        if (t == 0)
+        var s : Float = Math.NaN;        if (t == 0)
         {
             return b;
         }if ((t /= d) == 1)
@@ -103,8 +102,7 @@ class Ease
     }
     public static function easeOut(t : Float, b : Float, c : Float, d : Float, a : Float = 0, p : Float = 0) : Float
     {
-        var s : Float;
-        if (t == 0)
+        var s : Float = Math.NaN;        if (t == 0)
         {
             return b;
         }if ((t /= d) == 1)
@@ -126,8 +124,7 @@ class Ease
     }
     public static function easeInOut(t : Float, b : Float, c : Float, d : Float, a : Float = 0, p : Float = 0) : Float
     {
-        var s : Float;
-        if (t == 0)
+        var s : Float = Math.NaN;        if (t == 0)
         {
             return b;
         }if ((t /= d * 0.5) == 2)

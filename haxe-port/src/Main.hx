@@ -104,8 +104,7 @@ class Main extends MovieClip
     
     public function ClearStage()
     {
-        var i : Int;
-        i = as3hx.Compat.parseInt(this.numChildren - 1);
+        var i : Int = 0;        i = as3hx.Compat.parseInt(this.numChildren - 1);
         while (i >= 0)
         {
             removeChildAt(i);
@@ -116,8 +115,7 @@ class Main extends MovieClip
     
     public function DisplayStageNames()
     {
-        var i : Int;
-        i = as3hx.Compat.parseInt(this.numChildren - 1);
+        var i : Int = 0;        i = as3hx.Compat.parseInt(this.numChildren - 1);
         while (i >= 0)
         {
             var dob : DisplayObject = getChildAt(i);

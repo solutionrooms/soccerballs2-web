@@ -671,8 +671,7 @@ class EditModeLines extends EditModeBase
     }
     override public function RenderHud(x : Int, y : Int) : Int
     {
-        var s : String;
-        s = "I: Line ID: ";
+        var s : String = null;        s = "I: Line ID: ";
         if (currentLineIndex != -1)
         {
             var line : EdLine = GetCurrentLevel().lines[currentLineIndex];
@@ -850,8 +849,7 @@ class EditModeLines extends EditModeBase
         var numPoints = l.lines[currentLineIndex].points.length;
         var a0 : Array<Dynamic> = l.lines[currentLineIndex].points;
         
-        var i : Int;
-        for (i in 0...numPoints - 1)
+        var i : Int = 0;        for (i in 0...numPoints - 1)
         {
             var p0 : Point = a0[i];
             var p1 : Point = a0[i + 1];
@@ -1052,8 +1050,7 @@ class EditModeLines extends EditModeBase
         {
             var a0 : Array<Dynamic> = l.lines[selectedLineIndex].points;
             var a1 : Array<Dynamic> = [];
-            var i : Int;
-            for (i in 0...a0.length)
+            var i : Int = 0;            for (i in 0...a0.length)
             {
                 if (i != selectedPointIndex)
                 {
@@ -1208,8 +1205,7 @@ class EditModeLines extends EditModeBase
         currentLineIndex = -1;
         for (line/* AS3HX WARNING could not determine type for var: line exp: EField(EIdent(l),lines) type: null */ in l.lines)
         {
-            var i : Int;
-            var a0 : Array<Dynamic> = line.points;
+            var i : Int = 0;            var a0 : Array<Dynamic> = line.points;
             var numPoints : Int = line.points.length;
             for (i in 0...numPoints)
             {
@@ -1303,8 +1299,7 @@ class EditModeLines extends EditModeBase
         var points : Array<Dynamic> = l.lines[currentLineIndex].points;
         
         var maxd : Float = 100;
-        var d : Float;
-        
+        var d : Float = Math.NaN;        
         
         for (p in points)
         {
@@ -1368,8 +1363,7 @@ class EditModeLines extends EditModeBase
             
             var newpoints : Array<Dynamic> = [];
             
-            var i : Int;
-            var points : Array<Dynamic> = l.lines[selectedLineIndex].points;
+            var i : Int = 0;            var points : Array<Dynamic> = l.lines[selectedLineIndex].points;
             for (i in p0...p1)
             {
                 var pt0 : Point = points[i].clone();

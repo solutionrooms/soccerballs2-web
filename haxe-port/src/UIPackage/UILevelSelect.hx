@@ -125,8 +125,7 @@ class UILevelSelect extends UIScreenInstance
         var l0 : Int = as3hx.Compat.parseInt(currentPage * numPerPage);
         var l1 : Int = as3hx.Compat.parseInt(l0 + (numPerPage - 1));
         
-        var mc : MovieClip;
-        
+        var mc : MovieClip = null;        
         var index : Int = 0;
         for (i in l0...l1 + 1)
         {
@@ -286,8 +285,7 @@ class UILevelSelect extends UIScreenInstance
         {
             return;
         }
-        var i : Int;
-        for (i in 0...Levels.list.length)
+        var i : Int = 0;        for (i in 0...Levels.list.length)
         {
             var mc : MovieClip = try cast(titleMC.getChildByName("track" + i), MovieClip) catch(e:Dynamic) null;
             mc.removeEventListener(MouseEvent.CLICK, levelPressed);

@@ -125,9 +125,7 @@ class MP3Parser extends EventDispatcher
     public function getNextFrame() : ByteArraySegment
     {
         mp3Data.position = currentPosition;
-        var headerByte : Int;
-        var frameSize : Int;
-        while (true)
+        var headerByte : Int = 0;        var frameSize : Int = 0;        while (true)
         {
             if (currentPosition > (mp3Data.length - 4))
             {

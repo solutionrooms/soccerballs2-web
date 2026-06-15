@@ -167,14 +167,8 @@ class PhysicsBase
     
     public static function InitLines(addGameObjectsPerPoly : Bool = true)
     {
-        var b : Body;
-        
-        var p : Point;
-        var p0 : Point;
-        var p1 : Point;
-        var p2 : Point;
-        var p3 : Point;
-        var i : Int;
+        var b : Body = null;        
+        var p : Point = null;        var p0 : Point = null;        var p1 : Point = null;        var p2 : Point = null;        var p3 : Point = null;        var i : Int;
         
         var ud : PhysObjBodyUserData = new PhysObjBodyUserData();
         ud.bodyName = "wall";
@@ -297,8 +291,7 @@ class PhysicsBase
     
     public static function AddPhysObjAt(objName : String, _x : Float, _y : Float, _rotDeg : Float, scale : Float, instanceName : String = "", initParams : String = "", _id : String = "", independantGO : Bool = false) : GameObj
     {
-        var go : GameObj;
-        
+        var go : GameObj = null;        
         if (independantGO == false)
         {
             go = GameObjects.AddObj(_x, _y, 0);
@@ -348,13 +341,9 @@ class PhysicsBase
         
         
         
-        var jointxoff : Float;
-        var jointyoff : Float;
-        
-        var i : Int;
-        
-        var b : Body;
-        
+        var jointxoff : Float = Math.NaN;        var jointyoff : Float = Math.NaN;        
+        var i : Int = 0;        
+        var b : Body = null;        
         var m : Matrix = new Matrix();
         m.rotate(rot);
         m.scale(scale, scale);
@@ -552,9 +541,7 @@ class PhysicsBase
     {
         var jb0 : Body = null; var jb1 : Body = null;
         var go0 : GameObj = null; var go0a : GameObj = null; var go1 : GameObj = null; var go1a : GameObj = null;
-        var p : Point;
-        var p1 : Point;
-        var joinedBodiesCollide : Bool = joint.objParameters.GetValueBoolean("collide_joined");
+        var p : Point = null;        var p1 : Point = null;        var joinedBodiesCollide : Bool = joint.objParameters.GetValueBoolean("collide_joined");
         var joinedBodiesIgnoreCollision : Bool = (joinedBodiesCollide == false);
         
         var cons : Array<Constraint> = [];

@@ -243,8 +243,7 @@ class LicDef
     public static function InitSkus() : Void
     {
         skus = [];
-        var sku : LicSku;
-        
+        var sku : LicSku = null;        
         
         sku = new LicSku(LICENSOR_BEGAMER, "Begamer");
         sku.introName = "Intro_Begamer";

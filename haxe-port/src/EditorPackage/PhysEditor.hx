@@ -316,8 +316,7 @@ class PhysEditor
     
     public static function ClearInfoMC()
     {
-        var i : Int;
-        i = as3hx.Compat.parseInt(infoMC.numChildren - 1);
+        var i : Int = 0;        i = as3hx.Compat.parseInt(infoMC.numChildren - 1);
         while (i >= 0)
         {
             infoMC.removeChildAt(i);
@@ -474,8 +473,7 @@ class PhysEditor
         var mys : Int = as3hx.Compat.parseInt(my + sy);
         
         
-        var physObj : PhysObj;
-        var l : Level = GetCurrentLevel();
+        var physObj : PhysObj = null;        var l : Level = GetCurrentLevel();
         
         Lines_GetCurrentPointUnderCursor(mxs, mys);
         
@@ -812,10 +810,7 @@ class PhysEditor
     public static function RenderPanel_Editor()
     {
         ClearInfoMC();
-        var x : Float;
-        var y : Float;
-        var s : String;
-        var w : Float;
+        var x : Float = Math.NaN;        var y : Float = Math.NaN;        var s : String = null;        var w : Float;
         
         x = Defs.editor_area_w - 100;
         y = Defs.displayarea_h - 20;
@@ -910,10 +905,11 @@ class PhysEditor
     }
     public static function CreateNewUniqueID() : String
     {
+        var s : String = "";
         var unique : Bool = false;
         do
         {
-            var s : String = "uid_";
+            s = "uid_";
             for (i in 0...6)
             {
                 s += Utils.RandBetweenInt(0, 9);
@@ -995,8 +991,7 @@ class PhysEditor
         AddEntryMC();
         
         AddTextEntry_Callback = _cb;
-        var f : TextFormat;
-        
+        var f : TextFormat = null;        
         f = new TextFormat();
         f.size = 20;
         (untyped f).color = 0x0;
@@ -1112,11 +1107,7 @@ class PhysEditor
     {
         linesScreen.graphics.clear();
         
-        var gfxid : Int;
-        var numf : Int;
-        var px : Float;
-        var s : String;
-        
+        var gfxid : Int = 0;        var numf : Int = 0;        var px : Float = Math.NaN;        var s : String = null;        
         var bd : BitmapData = screenBD;
         
         var mx : Int = Std.int(MouseControl.x);
@@ -1208,9 +1199,7 @@ class PhysEditor
         var g : Graphics = linesScreen.graphics;
         g.lineStyle(1, 0xff808080, 1);
         
-        var x : Int;
-        var y : Int;
-        
+        var x : Int = 0;        var y : Int = 0;        
         var sx : Float = scrollX;
         var sy : Float = scrollY;
         
@@ -1232,8 +1221,7 @@ class PhysEditor
     
     public static function SnapToObjects(x : Float, y : Float) : Point
     {
-        var physObj : PhysObj;
-        
+        var physObj : PhysObj = null;        
         if (currentPieceList.length != 1)
         {
             return null;
@@ -1286,11 +1274,7 @@ class PhysEditor
     public static function Editor_GetNearbyGuidelines(origObject : EdObj, x : Float, y : Float, maxd1 : Float = 50)
     {
         var maxd2 : Float = 3;
-        var body : PhysObjBody;
-        var shape : PhysObjShape;
-        var p : Point;
-        var p1 : Point;
-        
+        var body : PhysObjBody = null;        var shape : PhysObjShape = null;        var p : Point = null;        var p1 : Point = null;        
         var level_instances : Array<Dynamic> = GetCurrentLevelInstances();
         var m : Matrix = new Matrix();
         
@@ -1303,11 +1287,11 @@ class PhysEditor
             {
                 for (body/* AS3HX WARNING could not determine type for var: body exp: EField(EIdent(origPO),bodies) type: null */ in origPO.bodies)
                 {
-                    for (shape/* AS3HX WARNING could not determine type for var: shape exp: EField(EIdent(body),shapes) type: null */ in body.shapes)
+                    for (shape/* AS3HX WARNING could not determine type for var: shape exp: EField(EIdent(body),shapes) type: null */ in (body.shapes : Array<Dynamic>))
                     {
                         if (shape.type == PhysObjShape.Type_Poly)
                         {
-                            for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EIdent(shape),poly_points) type: null */ in shape.poly_points)
+                            for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EIdent(shape),poly_points) type: null */ in (shape.poly_points : Array<Dynamic>))
                             {
                                 m.identity();
                                 m.rotate(Utils.DegToRad(origObject.rot));
@@ -1337,11 +1321,11 @@ class PhysEditor
                 {
                     for (body/* AS3HX WARNING could not determine type for var: body exp: EField(EIdent(po),bodies) type: null */ in po.bodies)
                     {
-                        for (shape/* AS3HX WARNING could not determine type for var: shape exp: EField(EIdent(body),shapes) type: null */ in body.shapes)
+                        for (shape/* AS3HX WARNING could not determine type for var: shape exp: EField(EIdent(body),shapes) type: null */ in (body.shapes : Array<Dynamic>))
                         {
                             if (shape.type == PhysObjShape.Type_Poly)
                             {
-                                for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EIdent(shape),poly_points) type: null */ in shape.poly_points)
+                                for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EIdent(shape),poly_points) type: null */ in (shape.poly_points : Array<Dynamic>))
                                 {
                                     m.identity();
                                     m.rotate(Utils.DegToRad(poi.rot));
@@ -1606,8 +1590,7 @@ class PhysEditor
     
     public static function SortInstancesByZ(list : Array<Dynamic>) : Array<Dynamic>
     {
-        var poi : EdObj;
-        for (poi in list)
+        var poi : EdObj = null;        for (poi in list)
         {
             poi.sortZ = 0;
             var po : PhysObj = Game.objectDefs.FindByName(poi.typeName);
@@ -1620,7 +1603,7 @@ class PhysEditor
             
             for (body/* AS3HX WARNING could not determine type for var: body exp: EField(EIdent(po),bodies) type: null */ in po.bodies)
             {
-                for (graphic/* AS3HX WARNING could not determine type for var: graphic exp: EField(EIdent(body),graphics) type: null */ in body.graphics)
+                for (graphic/* AS3HX WARNING could not determine type for var: graphic exp: EField(EIdent(body),graphics) type: null */ in (body.graphics : Array<Dynamic>))
                 {
                     poi.sortZ = graphic.zoffset;
                 }
@@ -1708,9 +1691,7 @@ class PhysEditor
     
     public static function RenderRevJoint(bd : BitmapData, joint : EdJoint)
     {
-        var zp : Point;
-        var zp1 : Point;
-        
+        var zp : Point = null;        var zp1 : Point = null;        
         zp = GetMapPos(Std.int(joint.rev_pos.x), Std.int(joint.rev_pos.y));
         
         Utils.RenderCircle(bd, zp.x, zp.y, 10, 0xffffffff);
@@ -1748,9 +1729,7 @@ class PhysEditor
     }
     public static function RenderDistanceJoint(bd : BitmapData, joint : EdJoint)
     {
-        var zp : Point;
-        var zp1 : Point;
-        
+        var zp : Point = null;        var zp1 : Point = null;        
         zp = GetMapPos(Std.int(joint.dist_pos0.x), Std.int(joint.dist_pos0.y));
         zp1 = GetMapPos(Std.int(joint.dist_pos1.x), Std.int(joint.dist_pos1.y));
         
@@ -1823,8 +1802,7 @@ class PhysEditor
     public static function ExportAllLevelsAsXml()
     {
         var sss : String = "";
-        var i : Int;
-        var cl : Int = currentLevel;
+        var i : Int = 0;        var cl : Int = currentLevel;
         for (i in 0...Levels.list.length)
         {
             currentLevel = i;
@@ -1953,7 +1931,7 @@ class PhysEditor
         
         var level_instances : Array<Dynamic> = GetCurrentLevelInstances();
         
-        for (libfilter/* AS3HX WARNING could not determine type for var: libfilter exp: EField(EIdent(editModeObj_Library),libraryFilters) type: null */ in editModeObj_Library.libraryFilters)
+        for (libfilter/* AS3HX WARNING could not determine type for var: libfilter exp: EField(EIdent(editModeObj_Library),libraryFilters) type: null */ in (editModeObj_Library.libraryFilters : Array<Dynamic>))
         {
             var active : Bool = false;
             for (poi in level_instances)
@@ -2003,12 +1981,9 @@ class PhysEditor
         ss += s + "\n";
         Utils.print(s);
         
-        var i : Int;
-        var j : Int;
+        var i : Int = 0;        var j : Int = 0;        
         
-        
-        var point : Point;
-        
+        var point : Point = null;        
         for (line/* AS3HX WARNING could not determine type for var: line exp: EField(EIdent(l),lines) type: null */ in l.lines)
         {
             var paramString : String = line.GetParameterListForExport();
@@ -2018,9 +1993,7 @@ class PhysEditor
             ss += s + "\n";
             Utils.print(s);
             
-            var i : Int;
-            var j : Int;
-            
+            var i : Int = 0;            var j : Int = 0;            
             var points : Array<Dynamic> = line.points;
             
             var numPoints : Int = points.length;
@@ -2135,7 +2108,7 @@ class PhysEditor
         var a1 : Array<Dynamic> = GetCurrentLevel().lines;
         var a2 : Array<Dynamic> = GetCurrentLevel().instances;
         var a : Array<Dynamic> = a0.concat(a1);
-        a = (a + a2);
+        a = a.concat(a2);
         return a;
     }
     
@@ -2149,7 +2122,7 @@ class PhysEditor
         var a2 : Array<Dynamic> = ObjectsHitTestRectangle(r);
         
         var a : Array<Dynamic> = a0.concat(a1);
-        a = (a + a2);
+        a = a.concat(a2);
         
         return a;
     }
@@ -2226,8 +2199,7 @@ class PhysEditor
     {
         var level_instances : Array<Dynamic> = GetCurrentLevelInstances();
         
-        var i : Int;
-        i = as3hx.Compat.parseInt(level_instances.length - 1);
+        var i : Int = 0;        i = as3hx.Compat.parseInt(level_instances.length - 1);
         while (i >= 0)
         {
             var poi : EdObj = level_instances[i];
@@ -2372,8 +2344,7 @@ class PhysEditor
     public static function GetMapPosRect(r : Rectangle) : Rectangle
     {
         var r1 : Rectangle = r.clone();
-        var p : Point;
-        p = GetMapPos(Std.int(r.x), Std.int(r.y));
+        var p : Point = null;        p = GetMapPos(Std.int(r.x), Std.int(r.y));
         r1.x = p.x;
         r1.y = p.y;
         p = GetPos(Std.int(r.width), Std.int(r.height));

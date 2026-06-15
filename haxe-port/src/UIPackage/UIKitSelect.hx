@@ -137,8 +137,7 @@ class UIKitSelect extends UIScreenInstance
             (untyped titleMC.btn_shirtHoops).selected.visible = true;
         }
         
-        var a : Array<Dynamic>;
-        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
+        var a : Array<Dynamic> = null;        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
         var ct0 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
         a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShorts);
         var ct1 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);

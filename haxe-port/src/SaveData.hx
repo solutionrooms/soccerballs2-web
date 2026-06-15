@@ -101,8 +101,7 @@ class SaveData
         {
             return;
         }
-        var i : Int;
-        var so : SharedObject = SharedObject.getLocal(id);
+        var i : Int = 0;        var so : SharedObject = SharedObject.getLocal(id);
         if (so == null)
         {
             trace("SO null");

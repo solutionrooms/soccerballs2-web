@@ -31,8 +31,7 @@ class CustomCursor
     {
         return;
         
-        var cursorData : MouseCursorData;
-        
+        var cursorData : MouseCursorData = null;        
         var dobj : DisplayObj = GraphicObjects.GetDisplayObjByName("Cursor_Pointer");
         cursorData = new MouseCursorData();
         cursorData.hotSpot = new Point(5, 2);

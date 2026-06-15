@@ -31,8 +31,7 @@ class EditModePlacement extends EditModeBase
         
         var posx : Float = mxs;
         var posy : Float = mys;
-        var physObj : PhysObj;
-        
+        var physObj : PhysObj = null;        
         for (ob/* AS3HX WARNING could not determine type for var: ob exp: EField(EIdent(PhysEditor),currentPieceList) type: null */ in PhysEditor.currentPieceList)
         {
             physObj = Game.objectDefs.GetByIndex(ob.id);
@@ -175,8 +174,7 @@ class EditModePlacement extends EditModeBase
         PhysEditor.Editor_RenderJoints(bd);
         PhysEditor.Editor_RenderMiniMap();
         
-        var physObj : PhysObj;
-        
+        var physObj : PhysObj = null;        
         for (ob/* AS3HX WARNING could not determine type for var: ob exp: EField(EIdent(PhysEditor),currentPieceList) type: null */ in PhysEditor.currentPieceList)
         {
             physObj = Game.objectDefs.GetByIndex(ob.id);

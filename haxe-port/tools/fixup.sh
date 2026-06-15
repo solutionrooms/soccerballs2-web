@@ -210,8 +210,37 @@ perl -i -pe 's/function SortArea\(x : DisplayObjFrame, y : DisplayObjFrame\) : F
 find "$DIR" -name '*.hx' -exec perl -0777 -i -pe '1 while s/(\w+)\.push\(((?:[^()]++|(\([^()]*\)))*,(?:[^()]++|(\([^()]*\)))*)\)/$1 = $1.concat([$2])/g' {} +
 
 echo "==> fixup: more individual as3hx artefacts (inherited static const, array concat, fn-ref, etc.)"
-# AS3 lets a subclass name a base static const unqualified; Haxe needs the qualifier
-find "$DIR" -name '*.hx' -exec perl -i -pe 's/(?<![.\w])HIGHLIGHT_HOVER\b/EditableObjectBase.HIGHLIGHT_HOVER/g unless /var HIGHLIGHT_HOVER/' {} +
+# AS3 lets a subclass name a base static const unqualified; Haxe needs the qualifier (all HIGHLIGHT_*)
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/(?<![.\w])(HIGHLIGHT_\w+)\b/EditableObjectBase.$1/g unless /var HIGHLIGHT_/' {} +
+# iterate over Dynamic-typed PhysObjBody array fields
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/ in body\.(shapes|graphics)\)/ in (body.$1 : Array<Dynamic>))/g' {} +
+# AS3 obj[strKey] dynamic child/dispatch -> Reflect (property reads, and calls with/without args)
+find "$DIR" -name '*.hx' -exec perl -i -pe '
+  s/\bmc\[(o|ro)\.button\]/Reflect.field(mc, $1.button)/g;
+  s/\btestFunctions\[ach\.completeFunction\]\(\)/Reflect.callMethod(testFunctions, Reflect.field(testFunctions, ach.completeFunction), [])/g;
+  s/\brenderer\[po\.editorRenderFunctionName\]\(po, this\)/Reflect.callMethod(renderer, Reflect.field(renderer, po.editorRenderFunctionName), [po, this])/g;
+' {} +
+# AS3 array '+' -> concat
+perl -i -pe 's/\ba = \(a \+ a2\);/a = a.concat(a2);/' "$DIR/editorPackage/PhysEditor.hx" 2>/dev/null || true
+# stored Function callback into addEventListener -> cast to the listener type
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/addEventListener\((MouseEvent\.\w+), clickCallback\b/addEventListener($1, cast clickCallback/g' {} +
+# AS3 casts Type(x) for fl stubs / Object -> Haxe cast
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/\bList\(event\.target\)/cast(event.target, List)/g; s/\bComboBox\(event\.target\)/cast(event.target, ComboBox)/g; s/\bDynamic\(([^()]*)\)/($1 : Dynamic)/g' {} +
+# function return types as3hx mis-inferred
+perl -i -pe 's/function CreateSeparates\((.*)xflip : Bool = false\)/function CreateSeparates($1xflip : Bool = false) : Array<Dynamic>/' "$DIR/AnimHierarchy.hx" 2>/dev/null || true
+perl -i -pe 's/function UpdatePhysObj_Path_New\(\)/function UpdatePhysObj_Path_New() : Void/; s/^(\s*)return new Point\(0, 0\);/$1return;/' "$DIR/GameObjBase.hx" 2>/dev/null || true
+# switch-hit handlers: AS3 bare 'return;' in a Bool-returning fn -> 'return false;' (undefined coerces false).
+# Line-by-line state (a function flag) — avoids resetting capture vars with an inner s/// in an /e replacement.
+perl -i -pe 'if(/function InitGameObjLine_Switch_Hit\(/){$in=1} elsif($in && /^\s*(?:public |private )?function /){$in=0} s/\breturn;/return false;/ if $in;' "$DIR/GameObj.hx" 2>/dev/null || true
+perl -i -pe 'if(/function Switch\w*Hit\w*\(goHitter : GameObj\)/){$in=1} elsif($in && /^\s*(?:public |private )?function /){$in=0} s/\breturn;/return false;/ if $in;' "$DIR/GameObjBase.hx" 2>/dev/null || true
+# hoist AS3 function-scoped vars used after their block
+perl -i -pe 's/^(\s*)xp = parentObj\.xpos/$1var xp : Float = parentObj.xpos/; s/^(\s*)yp = parentObj\.ypos/$1var yp : Float = parentObj.ypos/' "$DIR/GameObj.hx" 2>/dev/null || true
+perl -i -pe 's/^(\s*)i = 0;\n(\s*while \(i <= 2\))/$1var i : Int = 0;\n$2/' "$DIR/editorPackage/EdLine.hx" 2>/dev/null || true
+perl -0777 -i -pe 's/(var unique : Bool = false;\s*\n\s*do\s*\{)/var s : String = "";\n        $1/; s/(do\s*\{\s*\n\s*)var s : String = "uid_";/$1s = "uid_";/' "$DIR/editorPackage/PhysEditor.hx" 2>/dev/null || true
+# RenderAt: dobj declared in the graphics loop but read after -> hoist to fn scope
+perl -0777 -i -pe 's/(function RenderAt\(physObj : PhysObj[^\n]*\)\s*\{)/$1\n        var dobj : DisplayObj = null;/; s/var dobj : DisplayObj = GraphicObjects\.GetDisplayObjByName/dobj = GraphicObjects.GetDisplayObjByName/' "$DIR/PhysObj.hx" 2>/dev/null || true
+# TrophiesCollected multi-arg push (10 falses, spans lines) -> push each
+perl -0777 -i -pe 's/TrophiesCollected\.push\(\s*(?:false,?\s*)+\)/for (_v in [false,false,false,false,false,false,false,false,false,false]) TrophiesCollected.push(_v)/s' "$DIR/GameVars.hx" 2>/dev/null || true
 # AS3 'array + array' (as3hx artefact) -> concat
 perl -i -pe 's/var a : Array<Dynamic> = \(a0 \+ a1\);/var a : Array<Dynamic> = a0.concat(a1);/' "$DIR/editorPackage/PhysEditor.hx" 2>/dev/null || true
 # openfl TextField.opaqueBackground is a colour (Null<Int>), not Bool
@@ -230,5 +259,22 @@ echo "==> fixup: decouple out-of-scope editor MODE subclasses from gameplay-reac
 MODES='EditModeLibrary|EditModePlacement|EditModeAdjust|EditModeLines|EditModeMap|EditModeJoints|EditModeObjCol|EditModePickPieceForLink|EditModePickLineForLink|EditModeMulti'
 # fields are Dynamic (gameplay accesses subclass-specific fields on them); instantiate the clean base
 perl -i -pe "s/: ($MODES);/: Dynamic;/g; s/new ($MODES)\(\)/new EditModeBase()/g" "$DIR/editorPackage/PhysEditor.hx" 2>/dev/null || true
+
+echo "==> fixup: last individual cases (more iterate casts, bare returns in typed fns, EdLine i)"
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/ in shape\.poly_points\)/ in (shape.poly_points : Array<Dynamic>))/g; s/ in editModeObj_Library\.libraryFilters\)/ in (editModeObj_Library.libraryFilters : Array<Dynamic>))/g' {} +
+# bare 'return;' in a non-Void-typed fn -> return the typed empty/null value
+perl -i -pe 'if(/function CreateSeparates\(/){$in=1} elsif($in && /^\s*(?:public |private )?function /){$in=0} s/\breturn;/return goList;/ if $in;' "$DIR/AnimHierarchy.hx" 2>/dev/null || true
+perl -i -pe 'if(/function UpdateLine\(/){$in=1} elsif($in && /^\s*(?:public |private )?function /){$in=0} s/\breturn;/return null;/ if $in;' "$DIR/GameObjBase.hx" 2>/dev/null || true
+# EdLine: dropped 'var' on a loop counter
+perl -i -pe 's/^(\s*)i = 0;\s*$/$1var i : Int = 0;\n/' "$DIR/editorPackage/EdLine.hx" 2>/dev/null || true
+# SwitchWeightHitPersist does side effects then falls through; now Bool-typed -> add the AS3 undefined(=false) return
+perl -0777 -i -pe 's/(timer = 4;\n)(\s*\}\n\s*public function SwitchWeightHit\b)/$1        return false;\n$2/' "$DIR/GameObjBase.hx" 2>/dev/null || true
+
+# Haxe requires definite assignment; AS3 object locals default to null. Initialise uninitialised
+# object-typed (uppercase / generic) local declarations to null. Value types (Int/Float/Bool/UInt)
+# are excluded (they cannot be null without Null<>); those were already handled as conversions.
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/^(\s*var \w+ : )(?!(?:Int|Float|Bool|UInt);)([\w.]+(?:<[^>\n]*>)?);\s*$/$1$2 = null;/' {} +
+# value-type locals -> AS3 defaults (Number=NaN, int/uint=0, Boolean=false)
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/^(\s*var \w+ : Float);\s*$/$1 = Math.NaN;/; s/^(\s*var \w+ : (?:Int|UInt));\s*$/$1 = 0;/; s/^(\s*var \w+ : Bool);\s*$/$1 = false;/' {} +
 
 echo "==> fixup done in $DIR"

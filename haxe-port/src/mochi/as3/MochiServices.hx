@@ -512,9 +512,7 @@ class MochiServices
     
     public static function flush(error : Bool) : Void
     {
-        var request : Dynamic;
-        var callback : Dynamic;
-        
+        var request : Dynamic = null;        var callback : Dynamic = null;        
         if (_clip != null)
         {
             if (_clip._queue != null)
@@ -647,8 +645,7 @@ class MochiServices
     public static function addLinkEvent(url : String, burl : String, btn : DisplayObjectContainer, onClick : Function = null) : Void
     {
         var vars : Dynamic = {};
-        var avm1Click : DisplayObject;
-        
+        var avm1Click : DisplayObject = null;        
         Reflect.setField(vars, "mav", getVersion());
         Reflect.setField(vars, "swfv", "9");
         Reflect.setField(vars, "swfurl", btn.loaderInfo.loaderURL);
@@ -722,8 +719,7 @@ class MochiServices
     public static function clickMovie(url : String, cb : Function) : MovieClip
     {
         var avm1_bytecode : Array<Dynamic> = [150, 21, 0, 7, 1, 0, 0, 0, 0, 98, 116, 110, 0, 7, 2, 0, 0, 0, 0, 116, 104, 105, 115, 0, 28, 150, 22, 0, 0, 99, 114, 101, 97, 116, 101, 69, 109, 112, 116, 121, 77, 111, 118, 105, 101, 67, 108, 105, 112, 0, 82, 135, 1, 0, 0, 23, 150, 13, 0, 4, 0, 0, 111, 110, 82, 101, 108, 101, 97, 115, 101, 0, 142, 8, 0, 0, 0, 0, 2, 42, 0, 114, 0, 150, 17, 0, 0, 32, 0, 7, 1, 0, 0, 0, 8, 0, 0, 115, 112, 108, 105, 116, 0, 82, 135, 1, 0, 1, 23, 150, 7, 0, 4, 1, 7, 0, 0, 0, 0, 78, 150, 8, 0, 0, 95, 98, 108, 97, 110, 107, 0, 154, 1, 0, 0, 150, 7, 0, 0, 99, 108, 105, 99, 107, 0, 150, 7, 0, 4, 1, 7, 1, 0, 0, 0, 78, 150, 27, 0, 7, 2, 0, 0, 0, 7, 0, 0, 0, 0, 0, 76, 111, 99, 97, 108, 67, 111, 110, 110, 101, 99, 116, 105, 111, 110, 0, 64, 150, 6, 0, 0, 115, 101, 110, 100, 0, 82, 79, 150, 15, 0, 4, 0, 0, 95, 97, 108, 112, 104, 97, 0, 7, 0, 0, 0, 0, 79, 150, 23, 0, 7, 255, 0, 255, 0, 7, 1, 0, 0, 0, 4, 0, 0, 98, 101, 103, 105, 110, 70, 105, 108, 108, 0, 82, 23, 150, 25, 0, 7, 0, 0, 0, 0, 7, 0, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 109, 111, 118, 101, 84, 111, 0, 82, 23, 150, 25, 0, 7, 100, 0, 0, 0, 7, 0, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 108, 105, 110, 101, 84, 111, 0, 82, 23, 150, 25, 0, 7, 100, 0, 0, 0, 7, 100, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 108, 105, 110, 101, 84, 111, 0, 82, 23, 150, 25, 0, 7, 0, 0, 0, 0, 7, 100, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 108, 105, 110, 101, 84, 111, 0, 82, 23, 150, 25, 0, 7, 0, 0, 0, 0, 7, 0, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 108, 105, 110, 101, 84, 111, 0, 82, 23, 150, 16, 0, 7, 0, 0, 0, 0, 4, 0, 0, 101, 110, 100, 70, 105, 108, 108, 0, 82, 23];
-        var b : Int;
-        var header : Array<Dynamic> = [
+        var b : Int = 0;        var header : Array<Dynamic> = [
         0x68, 0x00, 0x1f, 0x40, 0x00, 0x07, 0xd0, 0x00, 
         0x00, 0x0c, 0x01, 0x00, 0x43, 0x02, 0xff, 0xff, 
         0xff, 0x3f, 0x03

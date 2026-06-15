@@ -70,8 +70,7 @@ class TextRenderer
         
         stringCharX = x;
         stringCharY = y;
-        var i : Int;
-        for (i in 0...str.length)
+        var i : Int = 0;        for (i in 0...str.length)
         {
             var a : Int = as3hx.Compat.parseInt(str.charCodeAt(i));
             if (a < 0)
@@ -112,8 +111,7 @@ class TextRenderer
         var r : Rectangle = new Rectangle(0, 0, 1, 1);
         stringCharX = 0;
         stringCharY = 0;
-        var i : Int;
-        for (i in 0...str.length)
+        var i : Int = 0;        for (i in 0...str.length)
         {
             var a : Int = as3hx.Compat.parseInt(str.charCodeAt(i));
             if (a < 0)

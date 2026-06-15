@@ -103,8 +103,7 @@ class Utils
             return pointArray;
         }
         
-        var i : Int;
-        var num : Int = as3hx.Compat.parseInt(a.length / 2);
+        var i : Int = 0;        var num : Int = as3hx.Compat.parseInt(a.length / 2);
         for (i in 0...num)
         {
             var p : Point = new Point(0, 0);
@@ -125,8 +124,7 @@ class Utils
         }
         
         
-        var i : Int;
-        var num : Int = s.length;
+        var i : Int = 0;        var num : Int = s.length;
         for (i in 0...num)
         {
             var char : Int = as3hx.Compat.parseInt(s.charAt(i));
@@ -515,8 +513,7 @@ class Utils
     
     public static function RenderDotLine(bd : BitmapData, x0 : Float, y0 : Float, x1 : Float, y1 : Float, numP : Int, col : Int) : Void
     {
-        var i : Int;
-        var maxP : Int = numP;
+        var i : Int = 0;        var maxP : Int = numP;
         var dx : Float = (x1 - x0) / as3hx.Compat.parseFloat(maxP);
         var dy : Float = (y1 - y0) / as3hx.Compat.parseFloat(maxP);
         bd.setPixel32(as3hx.Compat.parseInt(x0), as3hx.Compat.parseInt(y0), col);
@@ -542,8 +539,7 @@ class Utils
     {
         var numP : Int = 50;
         var dx : Float = Math.PI * 2 / numP;
-        var i : Int;
-        var ang : Float = 0;
+        var i : Int = 0;        var ang : Float = 0;
         for (i in 0...numP)
         {
             var xp : Float = x + (Math.cos(ang) * rad);
@@ -720,12 +716,7 @@ class Utils
     
     public static function qsort(arr : Array<Float>, l : Int, r : Int) : Void
     {
-        var i : Int;
-        var j : Int;
-        var k : Int;
-        var vi : Int;
-        var v : Float;
-        
+        var i : Int = 0;        var j : Int = 0;        var k : Int = 0;        var vi : Int = 0;        var v : Float = Math.NaN;        
         if ((r - l) > 4)
         {
             i = as3hx.Compat.parseInt(r + l) >> 1;

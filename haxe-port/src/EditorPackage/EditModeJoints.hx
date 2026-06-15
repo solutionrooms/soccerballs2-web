@@ -226,8 +226,7 @@ class EditModeJoints extends EditModeBase
     {
         super.OnMouseDown(e);
         
-        var obj : EditableObjectBase;
-        
+        var obj : EditableObjectBase = null;        
         
         
         
@@ -506,9 +505,7 @@ class EditModeJoints extends EditModeBase
     {
         super.OnMouseUp(e);
         
-        var poi : EdObj;
-        var line : EdLine;
-    }
+        var poi : EdObj = null;        var line : EdLine = null;    }
     
     
     public var hoveredJoint : EditableObjectBase = null;
@@ -572,11 +569,8 @@ class EditModeJoints extends EditModeBase
     {
         super.OnMouseMove(e);
         
-        var obj : EditableObjectBase;
-        
-        var poi : EdObj;
-        var line : EdLine;
-        
+        var obj : EditableObjectBase = null;        
+        var poi : EdObj = null;        var line : EdLine = null;        
         var l : Level = GetCurrentLevel();
         
         ClearHoveredJoint();
@@ -941,8 +935,7 @@ class EditModeJoints extends EditModeBase
     }
     override public function RenderHud(x : Int, y : Int) : Int
     {
-        var s : String;
-        
+        var s : String = null;        
         s = "R: Add Revolute Joint";
         y += PhysEditor.AddInfoText("a", x, y, s);
         s = "D: Add Distance Joint";

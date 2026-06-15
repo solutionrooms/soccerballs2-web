@@ -120,8 +120,7 @@ class Base64
         var j : Int = 0;
         var r : Int = as3hx.Compat.parseInt(data.length % 3);
         var len : Int = as3hx.Compat.parseInt(data.length - r);
-        var c : Int;
-        while (i < len)
+        var c : Int = 0;        while (i < len)
         {
             c = as3hx.Compat.parseInt(data[i++] << 16 | data[i++] << 8) | data[i++];
             out[j++] = encodeChars[c >> 18] + encodeChars[as3hx.Compat.parseInt(c >> 12) & 0x3f] + encodeChars[as3hx.Compat.parseInt(c >> 6) & 0x3f] + encodeChars[c & 0x3f];
@@ -141,14 +140,7 @@ class Base64
     }
     public static function decode1(str : String) : ByteArray
     {
-        var c1 : Int;
-        var c2 : Int;
-        var c3 : Int;
-        var c4 : Int;
-        var i : Int;
-        var len : Int;
-        var out : ByteArray;
-        len = str.length;
+        var c1 : Int = 0;        var c2 : Int = 0;        var c3 : Int = 0;        var c4 : Int = 0;        var i : Int = 0;        var len : Int = 0;        var out : ByteArray = null;        len = str.length;
         i = 0;
         out = new ByteArray();
         while (i < len)

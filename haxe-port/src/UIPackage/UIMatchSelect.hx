@@ -78,8 +78,7 @@ class UIMatchSelect extends UIScreenInstance
     
     public function RenderPlayers()
     {
-        var team : TeamDef;
-        team = GameVars.GetTeam(GameVars.playerTeam);
+        var team : TeamDef = null;        team = GameVars.GetTeam(GameVars.playerTeam);
         RenderPlayer((untyped titleMC).homeTeam.player1, team);
         RenderPlayer((untyped titleMC).homeTeam.player2, team);
         RenderPlayer((untyped titleMC).homeTeam.player3, team);
@@ -94,8 +93,7 @@ class UIMatchSelect extends UIScreenInstance
     
     public function RenderPlayer(mc : MovieClip, team : TeamDef)
     {
-        var a : Array<Dynamic>;
-        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
+        var a : Array<Dynamic> = null;        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
         var ct0 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
         a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShorts);
         var ct1 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);

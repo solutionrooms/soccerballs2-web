@@ -33,11 +33,7 @@ class Line
     
     public function CalcBoundingRect() : Void
     {
-        var a : Float;
-        var b : Float;
-        var c : Float;
-        var d : Float;
-        
+        var a : Float = Math.NaN;        var b : Float = Math.NaN;        var c : Float = Math.NaN;        var d : Float = Math.NaN;        
         a = x0;
         b = x1;
         if (a > b)

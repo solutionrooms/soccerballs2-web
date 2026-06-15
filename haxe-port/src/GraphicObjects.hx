@@ -111,8 +111,7 @@ class GraphicObjects
     
     public static function GetDisplayObjByName(_name : String) : DisplayObj
     {
-        var dob : DisplayObj;
-        
+        var dob : DisplayObj = null;        
         
         dob = Reflect.field(dict, _name);
         if (dob != null)
@@ -133,8 +132,7 @@ class GraphicObjects
         tf.size = size;
         (untyped tf).color = color;
         
-        var fontDobj : DisplayObj;
-        fontDobj = new DisplayObj(null, 0, "", null, _name);
+        var fontDobj : DisplayObj = null;        fontDobj = new DisplayObj(null, 0, "", null, _name);
         fontDobj.CreateFont(tf);
         
         Reflect.setField(dict, _name, fontDobj);

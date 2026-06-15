@@ -88,15 +88,8 @@ class DisplayObj
     {
         frames = [];
         
-        var i : Int;
-        var j : Int;
-        var x0 : Int;
-        var y0 : Int;
-        var mat : Matrix = new Matrix();
-        var rect : Rectangle;
-        var B : Bitmap;
-        var BD : BitmapData;
-        
+        var i : Int = 0;        var j : Int = 0;        var x0 : Int = 0;        var y0 : Int = 0;        var mat : Matrix = new Matrix();
+        var rect : Rectangle = null;        var B : Bitmap = null;        var BD : BitmapData = null;        
         for (i in 0...255)
         {
             var t : TextField = new TextField();
@@ -149,17 +142,8 @@ class DisplayObj
         
         
         frames = [];
-        var i : Int;
-        var j : Int;
-        var x0 : Int;
-        var y0 : Int;
-        var mat : Matrix = new Matrix();
-        var rect : Rectangle;
-        var B : Bitmap;
-        var BD : BitmapData;
-        var B1 : Bitmap;
-        var BD1 : BitmapData;
-        
+        var i : Int = 0;        var j : Int = 0;        var x0 : Int = 0;        var y0 : Int = 0;        var mat : Matrix = new Matrix();
+        var rect : Rectangle = null;        var B : Bitmap = null;        var BD : BitmapData = null;        var B1 : Bitmap = null;        var BD1 : BitmapData = null;        
         mc.gotoAndStop(1);
         
         
@@ -279,17 +263,8 @@ class DisplayObj
     public function CreateBlankBitmapsFromMovieClip(mc : MovieClip, flags : Int, _frameCB : Function = null) : Void
     {
         frames = [];
-        var i : Int;
-        var j : Int;
-        var x0 : Int;
-        var y0 : Int;
-        var mat : Matrix = new Matrix();
-        var rect : Rectangle;
-        var B : Bitmap;
-        var BD : BitmapData;
-        var B1 : Bitmap;
-        var BD1 : BitmapData;
-        
+        var i : Int = 0;        var j : Int = 0;        var x0 : Int = 0;        var y0 : Int = 0;        var mat : Matrix = new Matrix();
+        var rect : Rectangle = null;        var B : Bitmap = null;        var BD : BitmapData = null;        var B1 : Bitmap = null;        var BD1 : BitmapData = null;        
         mc.gotoAndStop(1);
         
         for (i in 0...mc.totalFrames)
@@ -345,17 +320,8 @@ class DisplayObj
     
     public function CreateSingleBitmapdataFrame(frame : Int, _frameCB : Function = null) : Void
     {
-        var i : Int;
-        var j : Int;
-        var x0 : Int;
-        var y0 : Int;
-        var mat : Matrix = new Matrix();
-        var rect : Rectangle;
-        var B : Bitmap;
-        var BD : BitmapData;
-        var B1 : Bitmap;
-        var BD1 : BitmapData;
-        
+        var i : Int = 0;        var j : Int = 0;        var x0 : Int = 0;        var y0 : Int = 0;        var mat : Matrix = new Matrix();
+        var rect : Rectangle = null;        var B : Bitmap = null;        var BD : BitmapData = null;        var B1 : Bitmap = null;        var BD1 : BitmapData = null;        
         origMC.gotoAndStop(frame + 1);
         
         if (_frameCB != null)

@@ -24,12 +24,12 @@ class AnimHierarchy
     public static var p1 : Point = new Point(0, 0);
     
     
-    public function CreateSeparates(x : Float, y : Float, frame : Float, scale : Float, rot : Float, xflip : Bool = false)
+    public function CreateSeparates(x : Float, y : Float, frame : Float, scale : Float, rot : Float, xflip : Bool = false) : Array<Dynamic>
     {
         var goList : Array<Dynamic> = [];
         if (frames == null)
         {
-            return;
+            return goList;
         }
         var f : AnimHierarchyFrame = frames[as3hx.Compat.parseInt(frame)];
         

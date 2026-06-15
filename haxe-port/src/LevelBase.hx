@@ -115,8 +115,7 @@ class LevelBase
         creator = "";
         gotBonus = false;
         
-        var i : Int;
-        map = [];
+        var i : Int = 0;        map = [];
         mapCellW = 16;
         mapCellH = 16;
         mapMinX = 0;

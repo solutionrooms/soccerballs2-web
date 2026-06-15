@@ -62,12 +62,10 @@ class MiniGame
     {
         Particles.Reset();
         GameObjects.ClearAll();
-        var go : GameObj;
-        go = GameObjects.AddObj(0, 0, 0);
+        var go : GameObj = null;        go = GameObjects.AddObj(0, 0, 0);
         
         
-        var go : GameObj;
-        go = GameObjects.AddObj(0, 0, 0);
+        var go : GameObj = null;        go = GameObjects.AddObj(0, 0, 0);
         
         
         score = 0;

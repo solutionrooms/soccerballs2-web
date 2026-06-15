@@ -72,8 +72,7 @@ class Levels
     {
         var x : FastXML = ExternalData.levelsXml;
         x = x.nodes.level.get(l);
-        var level : Level;
-        level = new Level();
+        var level : Level = null;        level = new Level();
         
         level.fullyLoaded = false;
         
@@ -89,8 +88,7 @@ class Levels
         
         LoadGameSpecificLevelData(level, x);
         
-        var i : Int;
-        for (i in 0...x.nodes.helpscreen.length())
+        var i : Int = 0;        for (i in 0...x.nodes.helpscreen.length())
         {
             var xx : FastXML = x.nodes.helpscreen.get(i);
             level.helpscreenFrames.push(XmlHelper.GetAttrInt(xx.att.frame, 0));
@@ -111,9 +109,7 @@ class Levels
         level.hasTrophy = false;
         level.trophyIndex = 0;
         
-        var i : Int;
-        var j : Int;
-        for (j in 0...x.nodes.objgroup.length())
+        var i : Int = 0;        var j : Int = 0;        for (j in 0...x.nodes.objgroup.length())
         {
             var objgrx : FastXML = x.nodes.objgroup.get(j);
             for (i in 0...objgrx.nodes.obj.length())
@@ -137,8 +133,7 @@ class Levels
     
     public static function GetGameSpecificLevelDataXML(_level : Int) : String
     {
-        var s : String;
-        var l : Level = GetLevel(_level);
+        var s : String = null;        var l : Level = GetLevel(_level);
         s = "\t<soccerballs";
         s += " gold=\"" + l.goldKicks + "\"";
         s += " fail=\"" + l.failKicks + "\"";
@@ -160,17 +155,14 @@ class Levels
         var x : FastXML = ExternalData.levelsXml;
         x = x.nodes.level.get(l);
         
-        var level : Level;
-        
+        var level : Level = null;        
         
         level.Calculate();
         
         level.fullyLoaded = true;
         
         
-        var i : Int;
-        var j : Int;
-        
+        var i : Int = 0;        var j : Int = 0;        
         level.lines = [];
         
         for (i in 0...x.nodes.line.length())

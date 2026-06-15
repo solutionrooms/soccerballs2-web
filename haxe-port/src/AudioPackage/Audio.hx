@@ -128,8 +128,7 @@ class Audio
     
     public static function AddSound(_soundName : String) : SoundEffectDef
     {
-        var classRef : Class<Dynamic>;
-        
+        var classRef : Class<Dynamic> = null;        
         try
         {
             classRef = Type.getClass(Type.resolveClass(_soundName));

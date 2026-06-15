@@ -25,8 +25,7 @@ class ZombieHolder
     
     public static function Add(mc : MovieClip, _type : String, _cb : Function, _index0 : Int, _index1 : Int, _index2 : Int) : DisplayObj
     {
-        var zombieDobj : DisplayObj;
-        
+        var zombieDobj : DisplayObj = null;        
         var dictString : String = _type + _index0 + "_" + _index1 + "_" + _index2;
         
         

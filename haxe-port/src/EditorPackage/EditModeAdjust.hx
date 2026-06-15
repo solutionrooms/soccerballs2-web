@@ -74,8 +74,7 @@ class EditModeAdjust extends EditModeBase
         
         var z : Float = 1.0 / PhysEditor.zoom;
         Utils.print("HERE MouseDown");
-        var poi : EdObj;
-        
+        var poi : EdObj = null;        
         
         if (subMode == "place_rot")
         {
@@ -115,8 +114,7 @@ class EditModeAdjust extends EditModeBase
             
             var level_instances : Array<Dynamic> = PhysEditor.GetCurrentLevelInstances();
             
-            var physObj : PhysObj;
-            
+            var physObj : PhysObj = null;            
             if (currentPlacementObject != null)
             {
                 currentPlacementObject.xpos = mxs;
@@ -213,8 +211,7 @@ class EditModeAdjust extends EditModeBase
         var z : Float = 1.0 / PhysEditor.zoom;
         var z1 : Float = 1;
         
-        var poi : EdObj;
-        
+        var poi : EdObj = null;        
         if (subMode == "place")
         {
             SetCurrentPlacementObjectPosition();
@@ -292,8 +289,7 @@ class EditModeAdjust extends EditModeBase
     {
         if (currentAdjustObject != null)
         {
-            var index : Int;
-            if (delta > 0)
+            var index : Int = 0;            if (delta > 0)
             {
                 PhysEditor.UndoTakeSnapshot();
                 index = Game.objectDefs.FindIndexByName(currentAdjustObject.typeName);
@@ -319,8 +315,7 @@ class EditModeAdjust extends EditModeBase
         
         if (currentPlacementObject != null)
         {
-            var index : Int;
-            if (delta == 0)
+            var index : Int = 0;            if (delta == 0)
             {
                 return;
             }
@@ -744,8 +739,7 @@ class EditModeAdjust extends EditModeBase
         
         if (subMode == "place" || subMode == "place_rot" || subMode == "place_scale" || subMode == "place_change")
         {
-            var physObj : PhysObj;
-            if (currentPlacementObject != null)
+            var physObj : PhysObj = null;            if (currentPlacementObject != null)
             {
                 var ob : EdPlacementObj = currentPlacementObject;
                 physObj = Game.objectDefs.FindByName(ob.typeName);
@@ -757,8 +751,7 @@ class EditModeAdjust extends EditModeBase
     
     override public function RenderHud(x : Int, y : Int) : Int
     {
-        var s : String;
-        
+        var s : String = null;        
         y += PhysEditor.AddInfoText("a", x, y, "E: Pick obj to edit");
         y += PhysEditor.AddInfoText("a", x, y, "P: Pick obj to place");
         
@@ -927,8 +920,7 @@ class EditModeAdjust extends EditModeBase
     
     public function PickObject()
     {
-        var poi : EdObj;
-        
+        var poi : EdObj = null;        
         poi = PhysEditor.HitTestPhysObjGraphics(mx, my);
         if (poi != null)
         {
@@ -951,8 +943,7 @@ class EditModeAdjust extends EditModeBase
     
     public function PickEditPiece()
     {
-        var poi : EdObj;
-        
+        var poi : EdObj = null;        
         poi = PhysEditor.HitTestPhysObjGraphics(mx, my);
         SelectEditObject(poi);
         SetSubMode("edit");
@@ -979,8 +970,7 @@ class EditModeAdjust extends EditModeBase
             return;
         }
         
-        var poi : EdObj;
-        
+        var poi : EdObj = null;        
         var newpoi : EdObj = currentAdjustObject.Clone();
         
         var level_instances : Array<Dynamic> = PhysEditor.GetCurrentLevelInstances();

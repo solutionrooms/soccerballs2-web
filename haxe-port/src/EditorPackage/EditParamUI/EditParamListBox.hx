@@ -82,8 +82,7 @@ class EditParamListBox extends MovieClip
                 type = ob.type;
             }
             
-            var item : EditParamEditItemBase;
-            
+            var item : EditParamEditItemBase = null;            
             if (type == "text")
             {
                 item = new EditParamEditItemText();

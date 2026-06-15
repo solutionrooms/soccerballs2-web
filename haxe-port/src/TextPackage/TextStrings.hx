@@ -70,8 +70,7 @@ class TextStrings
         var num : Int = xml.nodes.textstring.length();
         for (i in 0...num)
         {
-            var x : FastXML;
-            x = xml.nodes.textstring.get(i);
+            var x : FastXML = null;            x = xml.nodes.textstring.get(i);
             var adt : TextString = new TextString();
             adt.FromXML(x);
             list.push(adt);
@@ -108,8 +107,7 @@ class TextStrings
         {
             return;
         }
-        var txt : TextString;
-        if (strName == null)
+        var txt : TextString = null;        if (strName == null)
         {
             if ((untyped mc).buttonName == null)
             {
@@ -133,8 +131,7 @@ class TextStrings
     
     public static function ReplaceTextFieldText(tf : TextField, strName : String = null)
     {
-        var txt : TextString;
-        if (strName == null)
+        var txt : TextString = null;        if (strName == null)
         {
             var s : String = tf.text.toLowerCase();
             s = StringTools.replace(s, "\r", "");
@@ -174,8 +171,7 @@ class TextStrings
         tf.text = StringTools.replace(tf.text, "\n", "");
         
         
-        var tFormat : TextFormat;
-        
+        var tFormat : TextFormat = null;        
         var carryOn : Bool = true;
         do
         {

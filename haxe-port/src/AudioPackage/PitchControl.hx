@@ -40,8 +40,7 @@ class PitchControl
         (untyped _mp3).extract(ba, _mp3.length * 44.1, 0);
         (untyped _mp3).extract(ba1, _mp3.length * 44.1, 0);
         
-        var i : Int;
-        ba1.position = 0;
+        var i : Int = 0;        ba1.position = 0;
         ba.position = ba.length;
         for (i in 0...Std.int(_mp3.length * 44.1))
         {
@@ -155,8 +154,7 @@ class PitchControl
         
         var read : Int = need;
         
-        var i : Int;
-        _target.position = 0;
+        var i : Int = 0;        _target.position = 0;
         ba.position = positionInt * 8;
         for (i in 0...need)
         {
@@ -168,11 +166,7 @@ class PitchControl
         
         var n : Int = (read == need) ? BLOCK_SIZE : Std.int(read / _rate);
         
-        var l0 : Float;
-        var r0 : Float;
-        var l1 : Float;
-        var r1 : Float;
-        
+        var l0 : Float = Math.NaN;        var r0 : Float = Math.NaN;        var l1 : Float = Math.NaN;        var r1 : Float = Math.NaN;        
         n -= 32;
         
         var v : Float = volume;

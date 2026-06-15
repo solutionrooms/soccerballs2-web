@@ -187,8 +187,7 @@ class EdJoint extends EditableObjectBase
     
     public function UpdateLinkages()
     {
-        var obj : EditableObjectBase;
-        if (type == EdJoint.Type_Rev)
+        var obj : EditableObjectBase = null;        if (type == EdJoint.Type_Rev)
         {
             obj = PhysEditor.GetAnyObjectByPreviousId(obj0Name);
             if (obj != null)
@@ -402,9 +401,7 @@ class EdJoint extends EditableObjectBase
     
     override public function HitTest(x : Int, y : Int) : Bool
     {
-        var zp : Point;
-        var zp1 : Point;
-        
+        var zp : Point = null;        var zp1 : Point = null;        
         if (type == EdJoint.Type_Rev)
         {
             var d : Float = Utils.DistBetweenPoints(x, y, rev_pos.x, rev_pos.y);
@@ -564,7 +561,7 @@ class EdJoint extends EditableObjectBase
             alpha = 1;
             radAdd = 3;
         }
-        else if (highlightType == HIGHLIGHT_SELECTED)
+        else if (highlightType == EditableObjectBase.HIGHLIGHT_SELECTED)
         {
             alpha = 1;
             radAdd = 1;
@@ -603,9 +600,7 @@ class EdJoint extends EditableObjectBase
     {
         var zoom : Float = PhysEditor.zoom;
         
-        var zp : Point;
-        var zp1 : Point;
-        
+        var zp : Point = null;        var zp1 : Point = null;        
         zp = PhysEditor.GetMapPos(Std.int(rev_pos.x), Std.int(rev_pos.y));
         PhysEditor.FillCircle(zp.x, zp.y, 6 + radAdd, 0xff0000, 1, alpha);
         PhysEditor.RenderCircle(zp.x, zp.y, 6 + radAdd, 0, 2, alpha);
@@ -637,18 +632,14 @@ class EdJoint extends EditableObjectBase
     
     public function RenderPrismaticJoint(alpha : Float, radAdd : Int = 0)
     {
-        var zp : Point;
-        var zp1 : Point;
-        zp = PhysEditor.GetMapPos(Std.int(prism_pos.x), Std.int(prism_pos.y));
+        var zp : Point = null;        var zp1 : Point = null;        zp = PhysEditor.GetMapPos(Std.int(prism_pos.x), Std.int(prism_pos.y));
         zp1 = PhysEditor.GetMapPos(Std.int(prism_pos1.x), Std.int(prism_pos1.y));
         
         PhysEditor.RenderLine(zp.x, zp.y, zp1.x, zp1.y, 0xffffff, 2 + radAdd, alpha);
     }
     public function RenderDistanceJoint(alpha : Float, radAdd : Int = 0)
     {
-        var zp : Point;
-        var zp1 : Point;
-        
+        var zp : Point = null;        var zp1 : Point = null;        
         zp = PhysEditor.GetMapPos(Std.int(dist_pos0.x), Std.int(dist_pos0.y));
         zp1 = PhysEditor.GetMapPos(Std.int(dist_pos1.x), Std.int(dist_pos1.y));
         
@@ -661,9 +652,7 @@ class EdJoint extends EditableObjectBase
     {
         var zoom : Float = PhysEditor.zoom;
         
-        var zp : Point;
-        var zp1 : Point;
-        
+        var zp : Point = null;        var zp1 : Point = null;        
         if (obj0Name != "" && obj1Name != "")
         {
             var inst : EditableObjectBase = PhysEditor.GetAnyObjectById(obj0Name);
@@ -683,9 +672,7 @@ class EdJoint extends EditableObjectBase
     {
         var zoom : Float = PhysEditor.zoom;
         
-        var zp : Point;
-        var zp1 : Point;
-        
+        var zp : Point = null;        var zp1 : Point = null;        
         if (obj0Name != "" && obj1Name != "")
         {
             var inst : EditableObjectBase = PhysEditor.GetAnyObjectById(obj0Name);
@@ -705,9 +692,7 @@ class EdJoint extends EditableObjectBase
     {
         var zoom : Float = PhysEditor.zoom;
         
-        var zp : Point;
-        var zp1 : Point;
-        
+        var zp : Point = null;        var zp1 : Point = null;        
         if (obj0Name != "" && obj1Name != "")
         {
             var inst : EditableObjectBase = PhysEditor.GetAnyObjectById(obj0Name);

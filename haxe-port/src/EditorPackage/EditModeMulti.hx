@@ -251,8 +251,7 @@ class EditModeMulti extends EditModeBase
     
     public function SelectInDragBox(updateParameters : Bool = true)
     {
-        var eob : EdObj;
-        var r : Rectangle = GetDragRectangle();
+        var eob : EdObj = null;        var r : Rectangle = GetDragRectangle();
         
         var a : Array<Dynamic> = PhysEditor.DragBoxAnyObject(r);
         
@@ -448,8 +447,7 @@ class EditModeMulti extends EditModeBase
     }
     override public function RenderHud(x : Int, y : Int) : Int
     {
-        var s : String;
-        s = "Click Objects To Select / unselect";
+        var s : String = null;        s = "Click Objects To Select / unselect";
         y += PhysEditor.AddInfoText("a", x, y, s);
         s = "CTRL: drag selected";
         y += PhysEditor.AddInfoText("a", x, y, s);

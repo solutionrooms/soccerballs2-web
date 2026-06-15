@@ -23,8 +23,7 @@ class Triangulate
         }
         var verts : Array<Dynamic> = [];
         /* we want a counter-clockwise polygon in verts */
-        var v : Int;
-        if (0.0 < area(contour))
+        var v : Int = 0;        if (0.0 < area(contour))
         {
             for (v in 0...n)
             {
@@ -41,8 +40,7 @@ class Triangulate
         var nv : Int = n;
         /*  remove nv-2 vertsertices, creating 1 triangle every time */
         var count : Int = as3hx.Compat.parseInt(2 * nv);  /* error detection */  
-        var m : Int;
-        m = 0;
+        var m : Int = 0;        m = 0;
 v = as3hx.Compat.parseInt(nv - 1);
         while (nv > 2)
         
@@ -67,12 +65,7 @@ v = as3hx.Compat.parseInt(nv - 1);
             }  /* next	 */  
             if (snip(contour, u, v, w, nv, verts))
             {
-                var a : Int;
-                var b : Int;
-                var c : Int;
-                var s : Int;
-                var t : Int;
-                /* true names of the vertices */
+                var a : Int = 0;                var b : Int = 0;                var c : Int = 0;                var s : Int = 0;                var t : Int = 0;                /* true names of the vertices */
                 a = verts[u];b = verts[v];c = verts[w];
                 /* output Triangle */
                 result.push(contour[a]);
@@ -111,22 +104,7 @@ t = as3hx.Compat.parseInt(v + 1);
     
     public function insideTriangle(ax : Float, ay : Float, bx : Float, by : Float, cx : Float, cy : Float, px : Float, py : Float) : Bool
     {
-        var aX : Float;
-        var aY : Float;
-        var bX : Float;
-        var bY : Float;
-        var cX : Float;
-        var cY : Float;
-        var apx : Float;
-        var apy : Float;
-        var bpx : Float;
-        var bpy : Float;
-        var cpx : Float;
-        var cpy : Float;
-        var cCROSSap : Float;
-        var bCROSScp : Float;
-        var aCROSSbp : Float;
-        aX = cx - bx;aY = cy - by;
+        var aX : Float = Math.NaN;        var aY : Float = Math.NaN;        var bX : Float = Math.NaN;        var bY : Float = Math.NaN;        var cX : Float = Math.NaN;        var cY : Float = Math.NaN;        var apx : Float = Math.NaN;        var apy : Float = Math.NaN;        var bpx : Float = Math.NaN;        var bpy : Float = Math.NaN;        var cpx : Float = Math.NaN;        var cpy : Float = Math.NaN;        var cCROSSap : Float = Math.NaN;        var bCROSScp : Float = Math.NaN;        var aCROSSbp : Float = Math.NaN;        aX = cx - bx;aY = cy - by;
         bX = ax - cx;bY = ay - cy;
         cX = bx - ax;cY = by - ay;
         apx = px - ax;apy = py - ay;
@@ -139,16 +117,7 @@ t = as3hx.Compat.parseInt(v + 1);
     }
     public function snip(contour : Array<Dynamic>, u : Int, v : Int, w : Int, n : Int, verts : Array<Dynamic>) : Bool
     {
-        var p : Int;
-        var ax : Float;
-        var ay : Float;
-        var bx : Float;
-        var by : Float;
-        var cx : Float;
-        var cy : Float;
-        var px : Float;
-        var py : Float;
-        ax = Reflect.field(contour, Std.string(verts[u])).x;
+        var p : Int = 0;        var ax : Float = Math.NaN;        var ay : Float = Math.NaN;        var bx : Float = Math.NaN;        var by : Float = Math.NaN;        var cx : Float = Math.NaN;        var cy : Float = Math.NaN;        var px : Float = Math.NaN;        var py : Float = Math.NaN;        ax = Reflect.field(contour, Std.string(verts[u])).x;
         ay = Reflect.field(contour, Std.string(verts[u])).y;
         bx = Reflect.field(contour, Std.string(verts[v])).x;
         by = Reflect.field(contour, Std.string(verts[v])).y;

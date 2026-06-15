@@ -276,10 +276,7 @@ class GameVars
         useFeature4 = false;
         InitKeeperActions();
         TrophiesCollected = [];
-        TrophiesCollected.push(
-                false, false, false, false, false, 
-                false, false, false, false, false
-        );
+        for (_v in [false,false,false,false,false,false,false,false,false,false]) TrophiesCollected.push(_v);
         
         playerTeam = 0;
         opponentTeam = 1;

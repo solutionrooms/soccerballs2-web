@@ -10,4 +10,5 @@ class List extends Sprite {
 	public function addItem(item:Dynamic):Void {}
 	public function removeAll():Void {}
 	public function addColumn(c:Dynamic):Dynamic { return null; }
+	public function itemToCellRenderer(item:Dynamic):Dynamic { return null; }
 }

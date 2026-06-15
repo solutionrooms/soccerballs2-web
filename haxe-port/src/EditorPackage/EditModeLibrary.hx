@@ -91,8 +91,7 @@ class EditModeLibrary extends EditModeBase
     {
         super.Render(bd);
         
-        var s : String;
-        bd.fillRect(Defs.screenRect, 0xff6040c0);
+        var s : String = null;        bd.fillRect(Defs.screenRect, 0xff6040c0);
         var x : Int = 0;
         var y : Int = 0;
         x = pickerRectangle.x;
@@ -142,14 +141,12 @@ class EditModeLibrary extends EditModeBase
     }
     override public function RenderHud(x : Int, y : Int) : Int
     {
-        var s : String;
-        s = "1: Filter [" + libraryFilter + "] " + as3hx.Compat.parseInt(libraryFilterIndex + 1) + "/" + libraryFilters.length;
+        var s : String = null;        s = "1: Filter [" + libraryFilter + "] " + as3hx.Compat.parseInt(libraryFilterIndex + 1) + "/" + libraryFilters.length;
         y += PhysEditor.AddInfoText("a", x, y, s);
         s = "2: Scale " + as3hx.Compat.parseInt(librarySizeIndex + 1) + "/" + numLibrarySizes;
         y += PhysEditor.AddInfoText("a", x, y, s);
         
-        var savedy : Int;
-        
+        var savedy : Int = 0;        
         var numPerPage : Int = as3hx.Compat.parseInt(boxNumW * boxNumH);
         
         var min : Int = as3hx.Compat.parseInt(library_page * numPerPage);

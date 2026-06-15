@@ -576,7 +576,7 @@ stop();
     {
         oEpicDisplay.x = 0;
         oEpicDisplay.y = 0;
-        oEpicContent = Dynamic(e.target.content);
+        oEpicContent = (e.target.content : Dynamic);
         
         oEpicContent.adServerConnect(oEpicUserInfo);
     }
@@ -590,8 +590,7 @@ stop();
     {
         AddIntroScreenAndSetUpButtons();
         
-        var id : String;
-        var num : Int = LicDef.CPMStarContentSpotIDs.length;
+        var id : String = null;        var num : Int = LicDef.CPMStarContentSpotIDs.length;
         if (num == 1)
         {
             id = LicDef.CPMStarContentSpotIDs[0];
@@ -694,8 +693,7 @@ stop();
             return;
         }
         var sku : LicSku = GetCurrentSku();
-        var logo : SimpleButton;
-        var num : Int = mc.numChildren;
+        var logo : SimpleButton = null;        var num : Int = mc.numChildren;
         for (i in 0...num)
         {
             logo = try cast(mc.getChildAt(i), SimpleButton) catch(e:Dynamic) null;
@@ -717,8 +715,7 @@ stop();
             return;
         }
         var sku : LicSku = GetCurrentSku();
-        var logo : SimpleButton;
-        var num : Int = mc.numChildren;
+        var logo : SimpleButton = null;        var num : Int = mc.numChildren;
         for (i in 0...num)
         {
             logo = try cast(mc.getChildAt(i), SimpleButton) catch(e:Dynamic) null;
@@ -793,7 +790,7 @@ stop();
         {
             trace("add button clickCallback = null");
         }
-        btn.addEventListener(MouseEvent.CLICK, clickCallback, false, 0, true);
+        btn.addEventListener(MouseEvent.CLICK, cast clickCallback, false, 0, true);
     }
     
     public static function buttonSkipCPMStarAdPressed(e : MouseEvent) : Void

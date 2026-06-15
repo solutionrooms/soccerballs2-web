@@ -243,8 +243,8 @@ class OtherGames
             {
                 for (o in otherGamesList)
                 {
-                    mc[o.button].visible = false;
-                    positions.push(new Point(mc[o.button].x, mc[o.button].y));
+                    Reflect.field(mc, o.button).visible = false;
+                    positions.push(new Point(Reflect.field(mc, o.button).x, Reflect.field(mc, o.button).y));
                 }
                 
                 for (i in 0...amount)
@@ -252,10 +252,10 @@ class OtherGames
                     var o : Dynamic = otherGamesList[i];
                     var ro : Dynamic = Reflect.field(otherGamesList, Std.string(list[i]));
                     
-                    mc[ro.button].visible = true;
-                    mc[ro.button].x = positions[i].x;
-                    mc[ro.button].y = positions[i].y;
-                    var buttonMC : MovieClip = mc[ro.button];
+                    Reflect.field(mc, ro.button).visible = true;
+                    Reflect.field(mc, ro.button).x = positions[i].x;
+                    Reflect.field(mc, ro.button).y = positions[i].y;
+                    var buttonMC : MovieClip = Reflect.field(mc, ro.button);
                     UI.AddMCButton(buttonMC, OtherGamesPanel_ClickGame, null, OtherGamesPanel_Hover, OtherGamesPanel_Out);
                     
                     (untyped buttonMC).nameHolder.visible = false;

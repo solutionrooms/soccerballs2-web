@@ -126,7 +126,7 @@ class EditParams
     public static function AddParameterListBox_changeHandler(event : ListEvent) : Void
     {
         event.stopImmediatePropagation();
-        var list : List = List(event.target);
+        var list : List = cast(event.target, List);
         if (list == null)
         {
             return;
@@ -344,7 +344,7 @@ class EditParams
     
     public static function AddComboBoxEntry_changeHandler(event : Event) : Void
     {
-        var selection : String = ComboBox(event.target).selectedItem.data;
+        var selection : String = cast(event.target, ComboBox).selectedItem.data;
         
         ComboBox_Close();
         
@@ -362,8 +362,7 @@ class EditParams
         AddEntryMC();
         
         AddTextEntry_Callback = _cb;
-        var f : TextFormat;
-        
+        var f : TextFormat = null;        
         f = new TextFormat();
         f.size = 20;
         (untyped f).color = 0x0;

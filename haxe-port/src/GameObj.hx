@@ -404,10 +404,7 @@ class GameObj extends GameObjBase
         fillScreenMCList = [];
         fillScreenMCListMiniMap = [];
         
-        var p0 : Point;
-        var p1 : Point;
-        var p2 : Point;
-        
+        var p0 : Point = null;        var p1 : Point = null;        var p2 : Point = null;        
         
         var num : Int = linkedPhysLine.points.length;
         
@@ -427,9 +424,7 @@ class GameObj extends GameObjBase
     
     public function RenderPhysicsLineObject_Surface_PointsList()
     {
-        var xp : Float;
-        var yp : Float;
-        xp = Game.camera.x;
+        var xp : Float = Math.NaN;        var yp : Float = Math.NaN;        xp = Game.camera.x;
         yp = Game.camera.y;
         
         
@@ -594,9 +589,7 @@ class GameObj extends GameObjBase
     
     public function RenderPhysicsLineObject_Surface_PointsList_Minimap()
     {
-        var xp : Float;
-        var yp : Float;
-        xp = Game.camera.x;
+        var xp : Float = Math.NaN;        var yp : Float = Math.NaN;        xp = Game.camera.x;
         yp = Game.camera.y;
         
         
@@ -684,10 +677,7 @@ class GameObj extends GameObjBase
         fillScreenMCList = [];
         fillScreenMCListMiniMap = [];
         
-        var p0 : Point;
-        var p1 : Point;
-        var p2 : Point;
-        
+        var p0 : Point = null;        var p1 : Point = null;        var p2 : Point = null;        
         
         var numSegs : Int = 60;
         
@@ -819,10 +809,7 @@ class GameObj extends GameObjBase
         var newpoints : Array<Dynamic> = [];
         var newpoints1 : Array<Dynamic> = [];
         var newpoints2 : Array<Dynamic> = [];
-        var p0 : Point;
-        var p1 : Point;
-        var p2 : Point;
-        
+        var p0 : Point = null;        var p1 : Point = null;        var p2 : Point = null;        
         for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EIdent(linkedPhysLine),points) type: null */ in linkedPhysLine.points)
         {
             p0 = p.clone();
@@ -917,10 +904,7 @@ class GameObj extends GameObjBase
         var newpoints : Array<Dynamic> = [];
         var newpoints1 : Array<Dynamic> = [];
         var newpoints2 : Array<Dynamic> = [];
-        var p0 : Point;
-        var p1 : Point;
-        var p2 : Point;
-        
+        var p0 : Point = null;        var p1 : Point = null;        var p2 : Point = null;        
         for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EIdent(linkedPhysLine),points) type: null */ in linkedPhysLine.points)
         {
             p0 = p.clone();
@@ -971,9 +955,7 @@ class GameObj extends GameObjBase
         var xadd : Float = xpos - sx;
         var yadd : Float = ypos - sy;
         
-        var xp : Float;
-        var yp : Float;
-        xp = xpos - Game.camera.x;
+        var xp : Float = Math.NaN;        var yp : Float = Math.NaN;        xp = xpos - Game.camera.x;
         yp = ypos - Game.camera.y;
         
         gmat.identity();
@@ -1006,9 +988,7 @@ class GameObj extends GameObjBase
         var xadd : Float = xpos - sx;
         var yadd : Float = ypos - sy;
         
-        var xp : Float;
-        var yp : Float;
-        xp = xpos - Game.camera.x;
+        var xp : Float = Math.NaN;        var yp : Float = Math.NaN;        xp = xpos - Game.camera.x;
         yp = ypos - Game.camera.y;
         
         
@@ -1116,9 +1096,7 @@ class GameObj extends GameObjBase
         var z : Int = Std.int(zpos);
         
         
-        var p0 : Point;
-        var p1 : Point;
-        
+        var p0 : Point = null;        var p1 : Point = null;        
         var newpoints : Array<Dynamic> = [];
         
         gmat.identity();
@@ -1228,8 +1206,7 @@ class GameObj extends GameObjBase
             pts = linkedPhysLine.GetCatmullRomPointsList(linkedPhysLine.points, 0, 0);
         }
         
-        var p0 : Point;
-        var index : Int = 0;
+        var p0 : Point = null;        var index : Int = 0;
         for (p in pts)
         {
             p0 = p.clone();
@@ -1302,9 +1279,7 @@ class GameObj extends GameObjBase
         var z : Int = Std.int(zpos);
         
         
-        var p0 : Point;
-        var p1 : Point;
-        
+        var p0 : Point = null;        var p1 : Point = null;        
         gmat.identity();
         gmat.rotate(dir);
         gmat.translate(xpos, ypos);
@@ -1438,9 +1413,7 @@ class GameObj extends GameObjBase
     public function PreRenderPhysicsLineObject_Movable_GrassSurface()
     {
         var newPoints : Array<Dynamic> = linkedPhysLine.points;
-        var p0 : Point;
-        var p1 : Point;
-        
+        var p0 : Point = null;        var p1 : Point = null;        
         for (i in 0...newPoints.length - 1)
         {
             p0 = newPoints[i].clone();
@@ -1525,7 +1498,7 @@ class GameObj extends GameObjBase
     {
         if (goHitter == null)
         {
-            return;
+            return false;
         }
         if (state != 0)
         {
@@ -1533,7 +1506,7 @@ class GameObj extends GameObjBase
         }
         if (goHitter.collisionType != "football" && goHitter.collisionType != "beachball")
         {
-            return;
+            return false;
         }
         state = 1;
         onHitFunction = null;
@@ -2553,8 +2526,7 @@ class GameObj extends GameObjBase
         
         var x : Float = xpos + p.x;
         var y : Float = ypos + p.y;
-        var go : GameObj;
-        
+        var go : GameObj = null;        
         
         var parentGO : GameObj = this;
         
@@ -2639,8 +2611,7 @@ class GameObj extends GameObjBase
         
         var pigType : Int = Utils.RandBetweenInt(1, GameVars.guineaPigTypesAllowed);
         
-        var pigGO : GameObj;
-        pigGO = PhysicsBase.AddPhysObjAt("guinea_pig_" + pigType, x, y, 0, 1, "", "", "");
+        var pigGO : GameObj = null;        pigGO = PhysicsBase.AddPhysObjAt("guinea_pig_" + pigType, x, y, 0, 1, "", "", "");
         pigGO.type = type;
         pigGO.id = PhysEditor.CreateNewUniqueID();
         
@@ -3142,8 +3113,7 @@ class GameObj extends GameObjBase
             for (def in breakable_piece_def_list)
             {
                 var r : Float = dir;
-                var go : GameObj;
-                
+                var go : GameObj = null;                
                 
                 
                 
@@ -4859,8 +4829,8 @@ class GameObj extends GameObjBase
             m.rotate(r);
             p = m.transformPoint(p);
             
-            xp = parentObj.xpos - Game.camera.x;
-            yp = parentObj.ypos - Game.camera.y;
+            var xp : Float = parentObj.xpos - Game.camera.x;
+            var yp : Float = parentObj.ypos - Game.camera.y;
             
             var kick_dist0 : Float = Vars.GetVarAsNumber("kick_dist0");
             var kick_dist1 : Float = Vars.GetVarAsNumber("kick_dist1");
@@ -5037,9 +5007,7 @@ class GameObj extends GameObjBase
                 PlayerUpdateIdleAnim();
                 
                 
-                var dx : Float;
-                var dy : Float;
-                if (Game.controlMode == 0)
+                var dx : Float = Math.NaN;                var dy : Float = Math.NaN;                if (Game.controlMode == 0)
                 {
                     dx = (mx) - ballGO.xpos;
                     dy = (my) - ballGO.ypos;
@@ -5343,8 +5311,7 @@ class GameObj extends GameObjBase
         
         team = GameVars.GetTeam(GameVars.playerTeam);
         
-        var a : Array<Dynamic>;
-        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
+        var a : Array<Dynamic> = null;        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
         var ct0 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
         a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShorts);
         var ct1 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
@@ -5683,8 +5650,7 @@ class GameObj extends GameObjBase
         
         team = GameVars.GetTeam(GameVars.opponentTeam);
         
-        var a : Array<Dynamic>;
-        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
+        var a : Array<Dynamic> = null;        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
         var ct0 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
         a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShorts);
         var ct1 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
@@ -5909,8 +5875,7 @@ class GameObj extends GameObjBase
         
         team = GameVars.GetTeam(GameVars.opponentTeam);
         
-        var a : Array<Dynamic>;
-        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
+        var a : Array<Dynamic> = null;        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
         var ct0 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
         a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShorts);
         var ct1 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
@@ -7044,8 +7009,7 @@ class GameObj extends GameObjBase
             }
             var dobj : DisplayObj = GraphicObjects.GetDisplayObjByName("FastForwardLines");
             var numf : Int = dobj.GetNumFrames();
-            var i : Int;
-            i = 50;
+            var i : Int = 0;            i = 50;
             while (i < 500)
             {
                 var f : Int = Utils.RandBetweenInt(0, numf - 1);
@@ -7083,8 +7047,7 @@ class GameObj extends GameObjBase
         
         team = GameVars.GetTeam(GameVars.opponentTeam);
         
-        var a : Array<Dynamic>;
-        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
+        var a : Array<Dynamic> = null;        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
         var ct0 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
         a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShorts);
         var ct1 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
@@ -7129,7 +7092,7 @@ class GameObj extends GameObjBase
 
 			var body:PhysObjBody = ballGO.physobj.bodies[0];
 
-			for each(var shape:PhysObjShape in body.shapes)
+			for each(var shape:PhysObjShape in (body.shapes : Array<Dynamic>))
 			{
 				var physMaterial:PhysObjMaterial = Game.GetPhysMaterialByName(shape.materialName);
 				if (shape.type == PhysObjShape.Type_Circle)

@@ -1481,9 +1481,7 @@ class GameObjBase
             return 0;
         }
         
-        var p0 : Point;
-        var p1 : Point;
-        if (lineLinearPos < 0.5)
+        var p0 : Point = null;        var p1 : Point = null;        if (lineLinearPos < 0.5)
         {
             p0 = line.GetInterpolatedPoint_SegmentRatio(lineLinearPos, lineLoop, lineSpline);
             p1 = line.GetInterpolatedPoint_SegmentRatio(lineLinearPos + 0.01, lineLoop, lineSpline);
@@ -1526,11 +1524,10 @@ class GameObjBase
         var line : EdLine = Levels.GetCurrent().lines[lineIndex];
         if (line == null)
         {
-            return new Point(0, 0);
+            return null;
         }
         
-        var p : Point;
-        
+        var p : Point = null;        
         
         
         
@@ -1797,9 +1794,7 @@ class GameObjBase
     
     public function GetBodyCollisionMask() : Int
     {
-        var body : Body;
-        var shape : Shape;
-        body = nape_bodies[0];
+        var body : Body = null;        var shape : Shape = null;        body = nape_bodies[0];
         for (s in 0...body.shapes.length)
         {
             shape = body.shapes.at(s);
@@ -1811,9 +1806,7 @@ class GameObjBase
     
     public function GetBodySensorMask() : Int
     {
-        var body : Body;
-        var shape : Shape;
-        body = nape_bodies[0];
+        var body : Body = null;        var shape : Shape = null;        body = nape_bodies[0];
         for (s in 0...body.shapes.length)
         {
             shape = body.shapes.at(s);
@@ -1824,9 +1817,7 @@ class GameObjBase
     
     public function SetBodyCollisionMask(_bodyIndex : Int = -1, _mask : Int = 0) : Void
     {
-        var body : Body;
-        var shape : Shape;
-        
+        var body : Body = null;        var shape : Shape = null;        
         if (_bodyIndex == -1)
         {
             for (i in 0...nape_bodies.length)
@@ -1847,9 +1838,7 @@ class GameObjBase
     
     public function SetBodyShapeCollisionMask(_bodyIndex : Int = 0, _shapeIndex : Int = 0, _mask : Int = 0) : Void
     {
-        var body : Body;
-        var shape : Shape;
-        
+        var body : Body = null;        var shape : Shape = null;        
         body = nape_bodies[_bodyIndex];
         shape = body.shapes.at(_shapeIndex);
         shape.filter.collisionMask = _mask;
@@ -1857,9 +1846,7 @@ class GameObjBase
     
     public function SetBodySensorMask(_bodyIndex : Int = -1, _mask : Int = 0) : Void
     {
-        var body : Body;
-        var shape : Shape;
-        
+        var body : Body = null;        var shape : Shape = null;        
         if (_bodyIndex == -1)
         {
             for (i in 0...nape_bodies.length)
@@ -2448,9 +2435,7 @@ class GameObjBase
         
         bmat.translate(-sx, -sy);
         
-        var p0 : Point;
-        var p1 : Point;
-        
+        var p0 : Point = null;        var p1 : Point = null;        
         var newpoints : Array<Dynamic> = [];
         
         var m : Matrix = new Matrix();
@@ -2725,9 +2710,7 @@ class GameObjBase
         var g : Graphics = Game.fillScreenMC.graphics;
         g.clear();
         
-        var p0 : Point;
-        var p1 : Point;
-        
+        var p0 : Point = null;        var p1 : Point = null;        
         var newpoints : Array<Dynamic> = [];
         
         var m : Matrix = new Matrix();
@@ -3008,7 +2991,7 @@ class GameObjBase
         }
         if (goHitter.collisionType != "football" && goHitter.collisionType != "beachball")
         {
-            return;
+            return false;
         }
         state = 1;
         frame = 1;
@@ -3044,7 +3027,7 @@ class GameObjBase
     {
         if (goHitter.collisionType != "football" && goHitter.collisionType != "beachball")
         {
-            return;
+            return false;
         }
         
         if (state != 0)
@@ -3053,7 +3036,7 @@ class GameObjBase
         }
         if (timer > 0)
         {
-            return;
+            return false;
         }
         
         timer = 3;
@@ -3113,11 +3096,11 @@ class GameObjBase
     {
         if (goHitter == null)
         {
-            return;
+            return false;
         }
         if (goHitter.physobj == null)
         {
-            return;
+            return false;
         }
         if (state != 2)
         {
@@ -3128,16 +3111,17 @@ class GameObjBase
         goHitter.nape_bodies[0].velocity.y -= 0.00000001;
         
         timer = 4;
+        return false;
     }
     public function SwitchWeightHit(goHitter : GameObj)
     {
         if (goHitter == null)
         {
-            return;
+            return false;
         }
         if (goHitter.physobj == null)
         {
-            return;
+            return false;
         }
         if (state != 0)
         {
@@ -3205,7 +3189,7 @@ class GameObjBase
         }
         if (goHitter.collisionType != "football" && goHitter.collisionType != "beachball")
         {
-            return;
+            return false;
         }
         
         state = 1;
@@ -3551,7 +3535,7 @@ function Init$(SelText)()
         pathPos.y = pos.y;
         SetBodyXForm(0, pos.x, pos.y, dir);
     }
-    public function UpdatePhysObj_Path_New()
+    public function UpdatePhysObj_Path_New() : Void
     {
         if (pathControlMode == 0)
         {
@@ -3621,11 +3605,10 @@ function Init$(SelText)()
             var line : EdLine = Levels.GetCurrent().lines[lineIndex];
             if (line == null)
             {
-                return new Point(0, 0);
+                return;
             }
             
-            var p : Point;
-            
+            var p : Point = null;            
             
             
             

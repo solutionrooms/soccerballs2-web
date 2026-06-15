@@ -359,8 +359,7 @@ class Game
     public static function LoadPhysMaterials()
     {
         physMaterials = [];
-        var i : Int;
-        var x : FastXML = ExternalData.xml;
+        var i : Int = 0;        var x : FastXML = ExternalData.xml;
         
         for (i in 0...x.nodes.material.length())
         {
@@ -758,8 +757,7 @@ class Game
     
     public static function SubmitStats()
     {
-        var l : Level;
-        
+        var l : Level = null;        
         
         
         
@@ -836,9 +834,7 @@ class Game
         var l : Level = Levels.GetCurrent();
         var jointList : Array<Dynamic> = Levels.GetCurrentLevelJoints();
         
-        var p : Point;
-        var p1 : Point;
-        
+        var p : Point = null;        var p1 : Point = null;        
         for (joint in jointList)
         {
             if (joint.type == EdJoint.Type_Switch)
@@ -941,8 +937,7 @@ class Game
         
         
         Mouse.show();
-        var go : GameObj;
-        
+        var go : GameObj = null;        
         KeyReader.InitOnce(main.stage);
         
         
@@ -1558,9 +1553,7 @@ class Game
         var scalex : Float = ScreenSize.fullScreenScale;
         var scaley : Float = ScreenSize.fullScreenScale;
         
-        var mx : Float;
-        var my : Float;
-        
+        var mx : Float = Math.NaN;        var my : Float = Math.NaN;        
         mouse_ox = mouse_x;
         mouse_oy = mouse_y;
         
@@ -1901,9 +1894,7 @@ class Game
         
         var playerPos : Point = new Point(go.xpos, go.ypos);
         
-        var dx : Float;
-        var dy : Float;
-        
+        var dx : Float = Math.NaN;        var dy : Float = Math.NaN;        
         var xoff : Float = Defs.displayarea_w / 2;
         var yoff : Float = Defs.displayarea_h / 2;
         var linv : Vec2 = go.GetBodyLinearVelocity(0);
@@ -2093,13 +2084,8 @@ class Game
         var screenBD : BitmapData = _bd;
         var bd : BitmapData = scrollScreenBD;
         
-        var gfxid : Int;
-        var numf : Int;
-        var px : Float;
-        
-        var x : Int;
-        var y : Int;
-        
+        var gfxid : Int = 0;        var numf : Int = 0;        var px : Float = Math.NaN;        
+        var x : Int = 0;        var y : Int = 0;        
         
         
         var level : Level = Levels.GetCurrent();
@@ -2150,13 +2136,8 @@ class Game
         var screenBD : BitmapData = _bd;
         var bd : BitmapData = scrollScreenBD;
         
-        var gfxid : Int;
-        var numf : Int;
-        var px : Float;
-        
-        var x : Int;
-        var y : Int;
-        
+        var gfxid : Int = 0;        var numf : Int = 0;        var px : Float = Math.NaN;        
+        var x : Int = 0;        var y : Int = 0;        
         
         
         var level : Level = Levels.GetCurrent();
@@ -2212,8 +2193,7 @@ class Game
     {
         var numP : Int = 50;
         var dx : Float = Math.PI * 2 / numP;
-        var i : Int;
-        var ang : Float = 0;
+        var i : Int = 0;        var ang : Float = 0;
         for (i in 0...numP)
         {
             var j : Int = as3hx.Compat.parseInt(i + 1);
@@ -2243,8 +2223,7 @@ class Game
     public static var zorder : Array<Dynamic>;
     public static function RenderNearGOs(bd : BitmapData) : Void
     {
-        var go : GameObj;
-        var i : Int = zorder.length;
+        var go : GameObj = null;        var i : Int = zorder.length;
         for (a in 0...i)
         {
             go = Reflect.field(zorder, Std.string(a));
@@ -2256,8 +2235,7 @@ class Game
     }
     public static function RenderFarGOs(bd : BitmapData) : Void
     {
-        var go : GameObj;
-        var i : Int;
+        var go : GameObj = null;        var i : Int;
         
         
         EngineDebug.StartTimer("sort");
@@ -2289,10 +2267,7 @@ class Game
     
     public static function RenderFloorGrass(bd : BitmapData) : Void
     {
-        var i : Int;
-        var p0 : Point;
-        var p1 : Point;
-        var l : Level = Levels.GetCurrent();
+        var i : Int = 0;        var p0 : Point = null;        var p1 : Point = null;        var l : Level = Levels.GetCurrent();
         
         var dobj_spikes : DisplayObj = GraphicObjects.GetDisplayObjByName("spikes");
         var numf_spikes : Int = dobj_spikes.GetNumFrames();
@@ -2316,8 +2291,7 @@ class Game
                     dx /= len;
                     dy /= len;
                     
-                    var k : Float;
-                    k = 0;
+                    var k : Float = Math.NaN;                    k = 0;
                     while (k < len)
                     {
                         var xx : Float = p0.x + (dx * k);
@@ -2344,8 +2318,7 @@ class Game
     
     public static function InitMessage(_message : String, x : Float = 320, y : Float = 100)
     {
-        var go : GameObj;
-        go = GameObjects.AddObj(0, 0, -500);
+        var go : GameObj = null;        go = GameObjects.AddObj(0, 0, -500);
         go.InitTextMessage(_message, x, y);
     }
     
@@ -2359,13 +2332,9 @@ class Game
         }
         
         
-        var x : Float;
-        var y : Float;
-        var s : String;
-        var w : Float;
+        var x : Float = Math.NaN;        var y : Float = Math.NaN;        var s : String = null;        var w : Float;
         
-        var f : Int;
-        x = 10;
+        var f : Int = 0;        x = 10;
         y = 35;
         
         
@@ -2475,8 +2444,7 @@ class Game
             MouseControl.buttonPressed = false;
             buttonClickedThisUpdate = true;
             
-            var go : GameObj;
-            var go : GameObj = HitTestPhysObjGraphics(mx, my);
+            var go : GameObj = null;            var go : GameObj = HitTestPhysObjGraphics(mx, my);
             if (go != null)
             {
                 if (go.onClickedFunction != null)
@@ -2502,8 +2470,7 @@ class Game
         var sy : Float = Math.round(Game.camera.y);
         var newpoints : Array<Dynamic> = [];
         
-        var p0 : Point;
-        
+        var p0 : Point = null;        
         var index : Int = 0;
         for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EField(EIdent(go),linkedPhysLine),points) type: null */ in go.linkedPhysLine.points)
         {
@@ -2725,8 +2692,7 @@ class Game
         
         g.moveTo(x, y);
         
-        var i : Int;
-        var count : Int = 0;
+        var i : Int = 0;        var count : Int = 0;
         for (i in 0...1700)
         {
             count--;
@@ -2888,8 +2854,7 @@ class Game
         
         var max : Int = 1000;
         
-        var i : Int;
-        var count : Int = 0;
+        var i : Int = 0;        var count : Int = 0;
         for (i in 0...max)
         {
             count--;

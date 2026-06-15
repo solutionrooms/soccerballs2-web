@@ -94,9 +94,7 @@ class FractalGeometryGenerator
     
     public function initProgram() : Void
     {
-        var vertexShaderAssembler : AGALMiniAssembler;
-        var fragmentShaderAssembler : AGALMiniAssembler;
-        
+        var vertexShaderAssembler : AGALMiniAssembler = null;        var fragmentShaderAssembler : AGALMiniAssembler = null;        
         vertexShaderAssembler = new AGALMiniAssembler();
         vertexShaderAssembler.assemble(Context3DProgramType.VERTEX, 
                 "dp4 op.x, va0, vc0		\n" +
@@ -121,8 +119,7 @@ class FractalGeometryGenerator
         var nobjsPerLevel : Int = 4;
         m_nObjs = 0;
         
-        var i : Int;
-        var objsOnLevel : Int = 1;
+        var i : Int = 0;        var objsOnLevel : Int = 1;
         
         for (i in 0...m_levels)
         {
@@ -231,8 +228,7 @@ class FractalGeometryGenerator
         
         if (level + 1 < m_levels)
         {
-            var obj : Dynamic;
-            
+            var obj : Dynamic = null;            
             obj = genLevel(level + 1, ox - s / 2, oy + s / 2, ii, vi);
             ii = obj.ii;
             vi = obj.vi;

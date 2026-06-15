@@ -109,18 +109,14 @@ class PhysObj
     
     public function FromXml(x : FastXML) : Void
     {
-        var i : Int;
-        var j : Int;
-        var k : Int;
-        
+        var i : Int = 0;        var j : Int = 0;        var k : Int = 0;        
         bodies = [];
         joints = [];
         graphics = [];
         instanceParams = [];
         instanceParamsDefaults = [];
         
-        var graphic : PhysObjGraphic;
-        
+        var graphic : PhysObjGraphic = null;        
         name = x.att.name;
         displayInLibrary = XmlHelper.GetAttrBoolean(x.att.inlibrary, false);
         initFunctionName = XmlHelper.GetAttrString(x.att.initfunction, null);
@@ -153,8 +149,7 @@ class PhysObj
         
         for (i in 0...x.nodes.body.length())
         {
-            var typename : String;
-            var bx : FastXML = x.nodes.body.get(i);
+            var typename : String = null;            var bx : FastXML = x.nodes.body.get(i);
             var body : PhysObjBody = new PhysObjBody();
             body.name = bx.att.name;
             body.fixed = BooleanFromString(bx.att.fixed);
@@ -214,7 +209,7 @@ class PhysObj
                     
                     if (true)
                     {
-                        for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EIdent(shape),poly_points) type: null */ in shape.poly_points)
+                        for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EIdent(shape),poly_points) type: null */ in (shape.poly_points : Array<Dynamic>))
                         {
                             p.x *= gs;
                             p.y *= gs;
@@ -345,8 +340,7 @@ class PhysObj
             return pointArray;
         }
         
-        var i : Int;
-        var num : Int = as3hx.Compat.parseInt(a.length / 2);
+        var i : Int = 0;        var num : Int = as3hx.Compat.parseInt(a.length / 2);
         for (i in 0...num)
         {
             var p : Point = new Point(0, 0);
@@ -424,22 +418,18 @@ class PhysObj
     
     public static function RenderAt(physObj : PhysObj, x : Float, y : Float, _rotDeg : Float, _scale : Float, bd : BitmapData, g : Graphics = null, _collision : Bool = false, destRect : Rectangle = null, maxDestRect : Rectangle = null, colorTransform : ColorTransform = null)
     {
+        var dobj : DisplayObj = null;
         var renderCollision : Bool = _collision;
         var scale : Float = _scale;
-        var xp : Float;
-        var yp : Float;
-        
-        var a : Matrix;
-        xp = x;
+        var xp : Float = Math.NaN;        var yp : Float = Math.NaN;        
+        var a : Matrix = null;        xp = x;
         yp = y;
         
-        var body : PhysObjBody;
-        var graphic : PhysObjGraphic;
-        var graphics : Array<Dynamic> = [];
+        var body : PhysObjBody = null;        var graphic : PhysObjGraphic = null;        var graphics : Array<Dynamic> = [];
         
         for (body/* AS3HX WARNING could not determine type for var: body exp: EField(EIdent(physObj),bodies) type: null */ in physObj.bodies)
         {
-            for (graphic/* AS3HX WARNING could not determine type for var: graphic exp: EField(EIdent(body),graphics) type: null */ in body.graphics)
+            for (graphic/* AS3HX WARNING could not determine type for var: graphic exp: EField(EIdent(body),graphics) type: null */ in (body.graphics : Array<Dynamic>))
             {
                 var o : Dynamic = {};
                 o.graphic = graphic;
@@ -462,7 +452,7 @@ class PhysObj
         for (o in graphics)
         {
             graphic = o.graphic;
-            var dobj : DisplayObj = GraphicObjects.GetDisplayObjByName(graphic.graphicName);
+            dobj = GraphicObjects.GetDisplayObjByName(graphic.graphicName);
             if (dobj != null)
             {
                 var gr_x : Float = o.x;
@@ -609,9 +599,7 @@ class PhysObj
                         }
                         
                         
-                        var i : Int;
-                        var j : Int;
-                        for (shape/* AS3HX WARNING could not determine type for var: shape exp: EField(EIdent(body),shapes) type: null */ in body.shapes)
+                        var i : Int = 0;                        var j : Int = 0;                        for (shape/* AS3HX WARNING could not determine type for var: shape exp: EField(EIdent(body),shapes) type: null */ in (body.shapes : Array<Dynamic>))
                         {
                             if (shape.type == PhysObjShape.Type_Circle)
                             {
@@ -692,12 +680,10 @@ class PhysObj
     
     public static function RenderOutline(physObj : PhysObj, x : Float, y : Float, _rotDeg : Float, g : Graphics)
     {
-        var graphic : PhysObjGraphic;
-        var graphics : Array<Dynamic> = [];
-        var body : PhysObjBody;
-        for (body/* AS3HX WARNING could not determine type for var: body exp: EField(EIdent(physObj),bodies) type: null */ in physObj.bodies)
+        var graphic : PhysObjGraphic = null;        var graphics : Array<Dynamic> = [];
+        var body : PhysObjBody = null;        for (body/* AS3HX WARNING could not determine type for var: body exp: EField(EIdent(physObj),bodies) type: null */ in physObj.bodies)
         {
-            for (graphic/* AS3HX WARNING could not determine type for var: graphic exp: EField(EIdent(body),graphics) type: null */ in body.graphics)
+            for (graphic/* AS3HX WARNING could not determine type for var: graphic exp: EField(EIdent(body),graphics) type: null */ in (body.graphics : Array<Dynamic>))
             {
                 graphics.push(graphic);
             }

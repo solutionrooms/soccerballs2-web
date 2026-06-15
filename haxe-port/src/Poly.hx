@@ -121,8 +121,7 @@ class Poly
         var offx = -pointList[0].x;
         var offy = -pointList[0].y;
         
-        var i : Int;
-        for (i in 0...pointList.length)
+        var i : Int = 0;        for (i in 0...pointList.length)
         {
             pointList[i].x += offx;
             pointList[i].y += offy;
@@ -141,14 +140,11 @@ class Poly
     
     public static function MakeSplineFromPointList(pts : Array<Dynamic>) : Poly
     {
-        var p : Point;
-        var p1 : Point;
-        p = pts[0];
+        var p : Point = null;        var p1 : Point = null;        p = pts[0];
         
         var poly : Poly = new Poly("", 0, p.x, p.y);
         var len : Int = pts.length;
-        var i : Int;
-        
+        var i : Int = 0;        
         for (i in 0...len - 1)
         {
             p = pts[i];
@@ -164,8 +160,7 @@ class Poly
     public function CalculateCatmullRomLength()
     {
         var l : Array<Dynamic> = [];
-        var i : Int;
-        
+        var i : Int = 0;        
         var np : Int = GetNumPoints();
         if (np < 4)
         {
@@ -173,8 +168,7 @@ class Poly
         }
         else
         {
-            var t1 : Float;
-            t1 = 0;
+            var t1 : Float = Math.NaN;            t1 = 0;
             while (t1 < 1.0)
             {
                 var pp : Point = GetPointOnCatmullRom(t1);
@@ -221,11 +215,7 @@ class Poly
         }
         var numSegs : Int = as3hx.Compat.parseInt(np - 1);
         
-        var p0 : Point;
-        var p1 : Point;
-        var p2 : Point;
-        var p3 : Point;
-        
+        var p0 : Point = null;        var p1 : Point = null;        var p2 : Point = null;        var p3 : Point = null;        
         var seg : Float = as3hx.Compat.parseFloat(numSegs) * t;
         var i : Int = as3hx.Compat.parseInt(seg);
         
@@ -271,8 +261,7 @@ class Poly
             return;
         }
         
-        var t1 : Float;
-        t1 = 0;
+        var t1 : Float = Math.NaN;        t1 = 0;
         while (t1 < 1.0)
         {
             var pp : Point = GetPointOnCatmullRom(t1);

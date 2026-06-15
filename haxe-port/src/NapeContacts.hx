@@ -41,9 +41,7 @@ class NapeContacts
         
         var go0 : GameObj = null;
         var go1 : GameObj = null;
-        var bud0 : PhysObjBodyUserData;
-        var bud1 : PhysObjBodyUserData;
-        if (Std.is(cb.int1.userData.data, PhysObjBodyUserData))
+        var bud0 : PhysObjBodyUserData = null;        var bud1 : PhysObjBodyUserData = null;        if (Std.is(cb.int1.userData.data, PhysObjBodyUserData))
         {
             bud0 = try cast(cb.int1.userData.data, PhysObjBodyUserData) catch(e:Dynamic) null;
             if (bud0 == null)

@@ -16,9 +16,7 @@ class Particles
         max = _max;
         nextIndex = 0;
         list = [];
-        var i : Int;
-        var j : Int;
-        for (i in 0...max)
+        var i : Int = 0;        var j : Int = 0;        for (i in 0...max)
         {
             list[i] = new Particle();
             list[i].active = false;
@@ -32,8 +30,7 @@ class Particles
     public static function CountActive() : Int
     {
         var numActive : Int = 0;
-        var i : Int;
-        for (i in 0...max)
+        var i : Int = 0;        for (i in 0...max)
         {
             if (list[i].active)
             {
@@ -51,8 +48,7 @@ class Particles
     public static function Reset()
     {
         nextIndex = 0;
-        var i : Int;
-        for (i in 0...max)
+        var i : Int = 0;        for (i in 0...max)
         {
             list[i].active = false;
         }
@@ -62,9 +58,7 @@ class Particles
     
     public static function Add(xpos : Float, ypos : Float) : Particle
     {
-        var vel : Float;
-        var ang : Float;
-        var p : Particle = list[nextIndex];
+        var vel : Float = Math.NaN;        var ang : Float = Math.NaN;        var p : Particle = list[nextIndex];
         nextIndex++;
         if (nextIndex >= max)
         {
@@ -85,8 +79,7 @@ class Particles
     
     public static function Update()
     {
-        var i : Int;
-        for (i in 0...max)
+        var i : Int = 0;        for (i in 0...max)
         {
             var p : Particle = list[i];
             if (p.active == true)
@@ -117,9 +110,7 @@ class Particles
         var y1 : Float = Defs.displayarea_h + 16;
         var sx : Float = Game.camera.x;
         var sy : Float = Game.camera.y;
-        var i : Int;
-        var j : Int;
-        for (i in 0...max)
+        var i : Int = 0;        var j : Int = 0;        for (i in 0...max)
         {
             var p : Particle = list[i];
             if (p.active && p.visible)

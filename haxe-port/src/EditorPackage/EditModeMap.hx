@@ -46,8 +46,7 @@ class EditModeMap extends EditModeBase
         mapCols.push(0xff0000);
         mapColNames.push("undefined");
         
-        var brush : Array<Dynamic>;
-        brushes = [];
+        var brush : Array<Dynamic> = null;        brushes = [];
         
         brush = [];
         brush.push(new Point(0, 0));
@@ -149,8 +148,7 @@ class EditModeMap extends EditModeBase
     }
     override public function RenderHud(x : Int, y : Int) : Int
     {
-        var s : String;
-        var l : Level = GetCurrentLevel();
+        var s : String = null;        var l : Level = GetCurrentLevel();
         s = "ScrollPos: " + Math.round(PhysEditor.scrollX) + " " + Math.round(PhysEditor.scrollY);
         y += PhysEditor.AddInfoText("a", x, y, s);
         s = "CursorPos: " + as3hx.Compat.parseInt(MouseControl.x + PhysEditor.scrollX) + " " + as3hx.Compat.parseInt(MouseControl.y + PhysEditor.scrollY);
@@ -179,8 +177,7 @@ class EditModeMap extends EditModeBase
     
     public function mapper_ExpandMap(mx : Int, my : Int)
     {
-        var newMap : Array<Dynamic>;
-        var l : Level = GetCurrentLevel();
+        var newMap : Array<Dynamic> = null;        var l : Level = GetCurrentLevel();
         
         
         var newMinX : Int = l.mapMinX;
@@ -216,8 +213,7 @@ class EditModeMap extends EditModeBase
         
         
         
-        var i : Int;
-        
+        var i : Int = 0;        
         var newW : Int = as3hx.Compat.parseInt((newMaxX - newMinX) + 1);
         var newH : Int = as3hx.Compat.parseInt((newMaxY - newMinY) + 1);
         var oldW : Int = as3hx.Compat.parseInt((l.mapMaxX - l.mapMinX) + 1);
@@ -230,9 +226,7 @@ class EditModeMap extends EditModeBase
         }
         
         
-        var y : Int;
-        var x : Int;
-        for (y in 0...oldH)
+        var y : Int = 0;        var x : Int = 0;        for (y in 0...oldH)
         {
             for (x in 0...oldW)
             {
@@ -439,9 +433,7 @@ class EditModeMap extends EditModeBase
         var trans : Float = Utils.ScaleTo(0, 1, 0, 5, mapper_transparency);
         
         var l : Level = GetCurrentLevel();
-        var cy : Int;
-        var cx : Int;
-        
+        var cy : Int = 0;        var cx : Int = 0;        
         var r : Rectangle = new Rectangle(0, 0, l.mapCellW - 1, l.mapCellH - 1);
         
         var oldW : Int = as3hx.Compat.parseInt((l.mapMaxX - l.mapMinX) + 1);

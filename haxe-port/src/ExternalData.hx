@@ -70,8 +70,7 @@ class ExternalData
     
     public static function XmlAllLoadedInternal()
     {
-        var i : Int;
-        FastXML.ignoreWhitespace = true;
+        var i : Int = 0;        FastXML.ignoreWhitespace = true;
         
         xml = try cast(new FastXML(Type.createInstance(class_Data, [])), FastXML) catch(e:Dynamic) null;
         
@@ -165,8 +164,7 @@ class ExternalData
     
     public static function dataXmlLoaded(e : Event)
     {
-        var i : Int;
-        FastXML.ignoreWhitespace = true;
+        var i : Int = 0;        FastXML.ignoreWhitespace = true;
         levelsXml = new FastXML(e.target.data);
         
         
@@ -175,8 +173,7 @@ class ExternalData
     }
     public static function levelXmlLoaded(e : Event)
     {
-        var i : Int;
-        FastXML.ignoreWhitespace = true;
+        var i : Int = 0;        FastXML.ignoreWhitespace = true;
         
         levelsXml = try cast(new FastXML(e.target.data), FastXML) catch(e:Dynamic) null;
         

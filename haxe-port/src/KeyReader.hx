@@ -115,8 +115,7 @@ class KeyReader
         keysDown = [];
         keysCleared = [];
         keysPressed = [];
-        var i : Int;
-        for (i in 0...256)
+        var i : Int = 0;        for (i in 0...256)
         {
             keysDown[i] = as3hx.Compat.parseInt(0);
             keysPressed[i] = false;
@@ -152,8 +151,7 @@ class KeyReader
         {
             return;
         }
-        var i : Int;
-        for (i in 0...256)
+        var i : Int = 0;        for (i in 0...256)
         {
             if (keysDown[i] == 1)
             {

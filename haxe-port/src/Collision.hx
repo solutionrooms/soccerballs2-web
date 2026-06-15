@@ -16,8 +16,7 @@ class Collision
     public static function PointInConvexPoly(x : Float, y : Float, poly : Array<Dynamic>) : Bool
     {
         var count : Int = poly.length;
-        var i : Int;
-        for (i in 0...count)
+        var i : Int = 0;        for (i in 0...count)
         {
             var line : Line = poly[i];
             
@@ -250,8 +249,7 @@ class Collision
         
         var radius2 : Float = rad * rad;
         
-        var i : Int;
-        for (i in 0...numIterations)
+        var i : Int = 0;        for (i in 0...numIterations)
         {
             x += dx;
             y += dy;
@@ -274,10 +272,8 @@ class Collision
         
         var collidedLines : Array<Dynamic> = [];
         var collidedDists : Array<Dynamic> = [];
-        var l : Line;
-        var sideOfLine : Bool;
-        var dist2ToLine : Float;
-        
+        var l : Line = null;        var sideOfLine : Bool;
+        var dist2ToLine : Float = Math.NaN;        
         var x : Float = go.xpos + xoff;
         var y : Float = go.ypos + yoff;
         var radius : Float = rad;
@@ -295,9 +291,7 @@ class Collision
                 }
             }
         }
-        var i : Int;
-        var j : Int;
-        var numCollided = collidedLines.length;
+        var i : Int = 0;        var j : Int = 0;        var numCollided = collidedLines.length;
         for (i in 0...numCollided - 1)
         {
             for (j in i...numCollided)
@@ -453,8 +447,7 @@ class Collision
         ProjectileList.splice(0, ProjectileList.length);
         PhysObjList.splice(0, PhysObjList.length);
         
-        var go : GameObj;
-        for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
+        var go : GameObj = null;        for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
         {
             if (go.active && go.colFlag_isBall)
             {

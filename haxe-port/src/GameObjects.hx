@@ -29,8 +29,7 @@ class GameObjects
         inactiveIndices = [];
         zorder = [];
         
-        var i : Dynamic;
-        for (i in 0...numobjs)
+        var i : Dynamic = null;        for (i in 0...numobjs)
         {
             objs[i] = new GameObj();
             objs[i].listIndex = i;
@@ -50,8 +49,7 @@ class GameObjects
     
     public static function ClearAll()
     {
-        var i : Int;
-        for (i in 0...numobjs)
+        var i : Int = 0;        for (i in 0...numobjs)
         {
             objs[i].active = false;
             objs[i].listIndex = i;
@@ -93,8 +91,7 @@ class GameObjects
     {
         
         
-        var i : Int;
-        for (i in 0...numobjs)
+        var i : Int = 0;        for (i in 0...numobjs)
         {
             if (objs[i].active == false)
             {
@@ -120,8 +117,7 @@ class GameObjects
     
     public static function ForEachActive(cb : Function) : Void
     {
-        var go : GameObj;
-        var list : Array<Dynamic> = [];
+        var go : GameObj = null;        var list : Array<Dynamic> = [];
         for (go in objs)
         {
             if (go.active)
@@ -149,8 +145,7 @@ class GameObjects
     
     public static function RenderZposBelow(bd : BitmapData, zpos)
     {
-        var go : GameObj;
-        var i : Int;
+        var go : GameObj = null;        var i : Int;
         
         EngineDebug.StartTimer("sort");
         
@@ -180,8 +175,7 @@ class GameObjects
     }
     public static function RenderZposAboveEqual(bd : BitmapData, zpos)
     {
-        var go : GameObj;
-        var i : Int;
+        var go : GameObj = null;        var i : Int;
         
         EngineDebug.StartTimer("sort");
         
@@ -213,8 +207,7 @@ class GameObjects
     
     public static function Render(bd : BitmapData) : Void
     {
-        var go : GameObj;
-        var i : Int;
+        var go : GameObj = null;        var i : Int;
         
         EngineDebug.StartTimer("sort");
         
@@ -251,8 +244,7 @@ class GameObjects
     public static function CountByName(_name : String) : Int
     {
         var count : Int = 0;
-        var i : Int;
-        for (i in 0...objs.length)
+        var i : Int = 0;        for (i in 0...objs.length)
         {
             if (objs[i].active == true && objs[i].name == _name)
             {
@@ -264,8 +256,7 @@ class GameObjects
     public static function CountActive() : Int
     {
         var count : Int = 0;
-        var i : Int;
-        for (i in 0...objs.length)
+        var i : Int = 0;        for (i in 0...objs.length)
         {
             if (objs[i].active == true)
             {
@@ -453,10 +444,8 @@ class GameObjects
     
     public static function GetNearestGameObjByName(name : String, x : Float, y : Float) : GameObj
     {
-        var nearestGO : GameObj;
-        var nearestD : Int = 999999;
-        var go : GameObj;
-        for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
+        var nearestGO : GameObj = null;        var nearestD : Int = 999999;
+        var go : GameObj = null;        for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
         {
             if (go.active && go.name == name)
             {
@@ -480,8 +469,7 @@ class GameObjects
     
     public static function UpdateGOsFromPhysics_Nape() : Void
     {
-        var go : GameObj;
-        
+        var go : GameObj = null;        
         var bodyList : BodyList = PhysicsBase.GetNapeSpace().bodies;
         
         for (i in 0...bodyList.length)

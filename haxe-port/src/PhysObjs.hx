@@ -18,8 +18,7 @@ class PhysObjs
     public function InitFromXml(x : FastXML) : Void
     {
         list = [];
-        var i : Int;
-        
+        var i : Int = 0;        
         for (i in 0...x.nodes.physobj.length())
         {
             var px : FastXML = x.nodes.physobj.get(i);

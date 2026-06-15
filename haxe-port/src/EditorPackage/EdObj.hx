@@ -92,7 +92,7 @@ class EdObj extends EditableObjectBase
             var ct : ColorTransform = new ColorTransform(1, 1, 1, 1, 255, 0, 0, 0);
             PhysObj.RenderAt(po, p.x, p.y, rot, scale * PhysEditor.zoom, PhysEditor.screenBD, PhysEditor.linesScreen.graphics, true, null, null, ct);
         }
-        else if (highlightType == HIGHLIGHT_SELECTED)
+        else if (highlightType == EditableObjectBase.HIGHLIGHT_SELECTED)
         {
             var ct : ColorTransform = new ColorTransform(1, 1, 1, 1, 128, 128, 128, 0);
             PhysObj.RenderAt(po, p.x, p.y, rot, scale * PhysEditor.zoom, PhysEditor.screenBD, PhysEditor.linesScreen.graphics, true, null, null, ct);
@@ -110,7 +110,7 @@ class EdObj extends EditableObjectBase
                 if (po.editorRenderFunctionName != null)
                 {
                     var renderer : EditorGameRenderer = new EditorGameRenderer();
-                    renderer[po.editorRenderFunctionName](po, this);
+                    Reflect.callMethod(renderer, Reflect.field(renderer, po.editorRenderFunctionName), [po, this]);
                 }
                 else
                 {

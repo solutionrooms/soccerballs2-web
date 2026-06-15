@@ -102,9 +102,7 @@ class Achievements
     
     public static function GetFullString(s : String, replaceLevel : Bool = true) : String
     {
-        var num : Int;
-        var s1 : String;
-        var a : Array<Dynamic> = [];
+        var num : Int = 0;        var s1 : String = null;        var a : Array<Dynamic> = [];
         a = s.split(" ");
         
         var newstring : String = "";
@@ -247,7 +245,7 @@ class Achievements
                     {
                         currentAch = ach;
                         Utils.GetParams(ach.completeFunctionParams);
-                        testFunctions[ach.completeFunction]();
+                        Reflect.callMethod(testFunctions, Reflect.field(testFunctions, ach.completeFunction), []);
                         ach.complete = true;
                         unlockedList.push(ach);
                     }

@@ -84,8 +84,7 @@ class PhysLine
     public var boundingRectangle : Rectangle;
     public function CalcBoundingRectangle()
     {
-        var p : Point;
-        p = points[0];
+        var p : Point = null;        p = points[0];
         boundingRectangle = new Rectangle(p.x, p.y, 1, 1);
         
         for (p in points)
@@ -95,8 +94,7 @@ class PhysLine
     }
     public static function inflateRectByPoint(r : Rectangle, p : Point) : Void
     {
-        var d : Float;
-        d = p.x - r.x;
+        var d : Float = Math.NaN;        d = p.x - r.x;
         if (d < 0)
         {
             r.x += d;
@@ -134,8 +132,7 @@ class PhysLine
         }
         
         var count : Int = points.length;
-        var i : Int;
-        for (i in 0...count)
+        var i : Int = 0;        for (i in 0...count)
         {
             var j : Int = as3hx.Compat.parseInt(i + 1);
             if (j >= count)
@@ -182,8 +179,7 @@ class PhysLine
     
     public function PointOnLine(x : Float, y : Float, dist : Float = 1) : Bool
     {
-        var i : Int;
-        var a0 : Array<Dynamic> = points;
+        var i : Int = 0;        var a0 : Array<Dynamic> = points;
         var numPoints : Int = points.length;
         for (i in 0...numPoints)
         {
@@ -211,8 +207,7 @@ class PhysLine
     public function PointInConvexPoly(x : Float, y : Float) : Bool
     {
         var count : Int = points.length;
-        var i : Int;
-        for (i in 0...count)
+        var i : Int = 0;        for (i in 0...count)
         {
             var j : Int = as3hx.Compat.parseInt(i + 1);
             if (j >= count)
@@ -295,8 +290,7 @@ class PhysLine
     public function CalculateCatmullRomLength()
     {
         var l : Array<Dynamic> = [];
-        var i : Int;
-        
+        var i : Int = 0;        
         var np : Int = GetNumPoints();
         if (np < 4)
         {
@@ -304,8 +298,7 @@ class PhysLine
         }
         else
         {
-            var t1 : Float;
-            t1 = 0;
+            var t1 : Float = Math.NaN;            t1 = 0;
             while (t1 < 1.0)
             {
                 var pp : Point = GetPointOnCatmullRom(t1, true);
@@ -351,11 +344,7 @@ class PhysLine
         }
         var numSegs : Int = np;
         
-        var p0 : Point;
-        var p1 : Point;
-        var p2 : Point;
-        var p3 : Point;
-        
+        var p0 : Point = null;        var p1 : Point = null;        var p2 : Point = null;        var p3 : Point = null;        
         var seg : Float = as3hx.Compat.parseFloat(numSegs) * t;
         if (seg >= numSegs)
         {
@@ -363,11 +352,7 @@ class PhysLine
         }
         var i : Int = as3hx.Compat.parseInt(seg);
         
-        var pt0 : Int;
-        var pt1 : Int;
-        var pt2 : Int;
-        var pt3 : Int;
-        
+        var pt0 : Int = 0;        var pt1 : Int = 0;        var pt2 : Int = 0;        var pt3 : Int = 0;        
         
         if (loop)
         {
@@ -421,8 +406,7 @@ class PhysLine
             return;
         }
         
-        var t1 : Float;
-        t1 = 0;
+        var t1 : Float = Math.NaN;        t1 = 0;
         while (t1 < 1.0)
         {
             var pp : Point = GetPointOnCatmullRom(t1, true);

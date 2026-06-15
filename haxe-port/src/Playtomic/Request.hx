@@ -160,8 +160,7 @@ import flash.utils.ByteArray;
     
     public static function TimeoutHandler(e : Event) : Void
     {
-        var request : Request;
-        
+        var request : Request = null;        
         var n : Int = as3hx.Compat.parseInt(Queue.length - 1);
         while (n > -1)
         {

@@ -947,7 +947,7 @@ class UI
         {
             Utils.print("add button clickCallback = null");
         }
-        btn.addEventListener(MouseEvent.CLICK, clickCallback, false, 0, true);
+        btn.addEventListener(MouseEvent.CLICK, cast clickCallback, false, 0, true);
     }
     public static function AddMCButton(btn : MovieClip, clickCallback : Function, text : String = null, hoverCallback : Function = null, outCallback : Function = null)
     {
@@ -1326,9 +1326,7 @@ class UI
     public static var colors1 : Array<Dynamic>;
     public static function AddLine(s0 : String, newline : Bool = true)
     {
-        var a : Int;
-        var b : Int;
-        
+        var a : Int = 0;        var b : Int = 0;        
         a = str0.length;
         str0 += s0;
         b = str0.length;

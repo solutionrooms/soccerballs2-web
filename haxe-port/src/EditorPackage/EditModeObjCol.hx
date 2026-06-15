@@ -321,8 +321,7 @@ class EditModeObjCol extends EditModeBase
         var centre : Point = ObjCol_GetCentrePos();
         
         var point : Point = new Point();
-        var s : String;
-        var ss : String = "";
+        var s : String = null;        var ss : String = "";
         
         
         
@@ -334,9 +333,7 @@ class EditModeObjCol extends EditModeBase
         
         var line : PhysLine = objLines[0];
         {
-            var i : Int;
-            var j : Int;
-            
+            var i : Int = 0;            var j : Int = 0;            
             var points : Array<Dynamic> = line.points;
             
             var numPoints : Int = points.length;
@@ -437,8 +434,7 @@ class EditModeObjCol extends EditModeBase
     }
     override public function RenderHud(x : Int, y : Int) : Int
     {
-        var s : String;
-        s = "I: Line ID: ";
+        var s : String = null;        s = "I: Line ID: ";
         if (currentLineIndex != -1)
         {
             var line : PhysLine = GetCurrentLevel().lines[currentLineIndex];
@@ -552,8 +548,7 @@ class EditModeObjCol extends EditModeBase
         var numPoints = objLines[currentLineIndex].points.length;
         var a0 : Array<Dynamic> = objLines[currentLineIndex].points;
         
-        var i : Int;
-        for (i in 0...numPoints - 1)
+        var i : Int = 0;        for (i in 0...numPoints - 1)
         {
             var p0 : Point = a0[i];
             var p1 : Point = a0[i + 1];
@@ -672,8 +667,7 @@ class EditModeObjCol extends EditModeBase
         {
             var a0 : Array<Dynamic> = objLines[selectedLineIndex].points;
             var a1 : Array<Dynamic> = [];
-            var i : Int;
-            for (i in 0...a0.length)
+            var i : Int = 0;            for (i in 0...a0.length)
             {
                 if (i != selectedPointIndex)
                 {
@@ -742,8 +736,7 @@ class EditModeObjCol extends EditModeBase
         currentLineIndex = -1;
         for (line in objLines)
         {
-            var i : Int;
-            var a0 : Array<Dynamic> = line.points;
+            var i : Int = 0;            var a0 : Array<Dynamic> = line.points;
             var numPoints : Int = line.points.length;
             for (i in 0...numPoints)
             {
@@ -801,8 +794,7 @@ class EditModeObjCol extends EditModeBase
         var points : Array<Dynamic> = objLines[currentLineIndex].points;
         
         var maxd : Float = 100;
-        var d : Float;
-        
+        var d : Float = Math.NaN;        
         
         for (p in points)
         {
@@ -866,8 +858,7 @@ class EditModeObjCol extends EditModeBase
             
             var newpoints : Array<Dynamic> = [];
             
-            var i : Int;
-            var points : Array<Dynamic> = objLines[selectedLineIndex].points;
+            var i : Int = 0;            var points : Array<Dynamic> = objLines[selectedLineIndex].points;
             for (i in p0...p1)
             {
                 var pt0 : Point = points[i].clone();
@@ -990,8 +981,7 @@ class EditModeObjCol extends EditModeBase
             }
             if (points.length >= 2)
             {
-                var i : Int;
-                for (i in 0...points.length - 1)
+                var i : Int = 0;                for (i in 0...points.length - 1)
                 {
                     p0 = points[i];
                     p1 = points[i + 1];
@@ -1044,8 +1034,7 @@ class EditModeObjCol extends EditModeBase
     
     public function RenderCurrentPiece(bd : BitmapData) : Void
     {
-        var physObj : PhysObj;
-        var cp : Point = ObjCol_GetCentrePos().clone();
+        var physObj : PhysObj = null;        var cp : Point = ObjCol_GetCentrePos().clone();
         cp.x -= PhysEditor.scrollX;
         cp.y -= PhysEditor.scrollY;
         if (PhysEditor.currentPieceList.length == 1)

@@ -64,8 +64,7 @@ class UIPickATeam extends UIScreenInstance
         {
             var tm : TeamDef = GameVars.GetTeam(i);
             
-            var s1 : String;
-            
+            var s1 : String = null;            
             s += "\t\t\tteams[" + i + "].teamName = '" + tm.teamName + "';";
             s += "\n";
             s += "\t\t\tteams[" + i + "].kitColorPattern = " + tm.kitColorPattern + ";";
@@ -101,8 +100,7 @@ class UIPickATeam extends UIScreenInstance
     
     public function InitShirt(mc : MovieClip, team : TeamDef)
     {
-        var a : Array<Dynamic>;
-        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
+        var a : Array<Dynamic> = null;        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
         var ct0 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
         a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorPattern);
         var ct3 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
@@ -167,8 +165,7 @@ class UIPickATeam extends UIScreenInstance
     {
         dobj = GraphicObjects.GetDisplayObjByName("player");
         
-        var a : Array<Dynamic>;
-        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
+        var a : Array<Dynamic> = null;        a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
         var ct0 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
         a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShorts);
         var ct1 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);

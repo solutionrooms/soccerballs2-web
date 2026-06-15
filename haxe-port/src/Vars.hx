@@ -57,8 +57,7 @@ class Vars
     {
         FastXML.ignoreWhitespace = true;
         list = [];
-        var i : Int;
-        var xml : FastXML = _xml;
+        var i : Int = 0;        var xml : FastXML = _xml;
         for (i in 0...xml.nodes.variable.length())
         {
             var vx : FastXML = xml.nodes.variable.get(i);

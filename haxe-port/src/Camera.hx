@@ -56,9 +56,7 @@ class Camera
         oldY = y;
         
         
-        var dx : Float;
-        var dy : Float;
-        
+        var dx : Float = Math.NaN;        var dy : Float = Math.NaN;        
         var xoff : Float = 320;
         var yoff : Float = 240;
         

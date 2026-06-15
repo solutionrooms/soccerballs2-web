@@ -167,8 +167,7 @@ class UIWalkthrough extends UIScreenInstance
         var l0 : Int = as3hx.Compat.parseInt(GameVars.currentWalkthroughPage * numPerPage);
         var l1 : Int = as3hx.Compat.parseInt(l0 + (numPerPage - 1));
         
-        var mc : MovieClip;
-        
+        var mc : MovieClip = null;        
         var index : Int = 0;
         for (i in l0...l1 + 1)
         {

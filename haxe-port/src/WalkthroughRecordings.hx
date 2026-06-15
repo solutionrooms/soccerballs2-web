@@ -47,9 +47,7 @@ class WalkthroughRecordings
     
     public static function LoadXML()
     {
-        var i : Int;
-        var j : Int;
-        var x : FastXML = ExternalData.levelsXml;
+        var i : Int = 0;        var j : Int = 0;        var x : FastXML = ExternalData.levelsXml;
         var num : Int = x.nodes.recording.length();
         for (i in 0...x.nodes.recording.length())
         {

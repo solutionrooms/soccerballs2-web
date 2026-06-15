@@ -14,7 +14,7 @@ class TextStrings
     
     @:meta(Embed(source="../../bin/TextStrings.xml",mimeType="application/octet-stream"))
 
-    public static var class_embedded_XML : Class<Dynamic>;
+    public static var class_embedded_XML : Class<Dynamic> = EmbedTextStrings;
     
     
     public static var xml : FastXML;

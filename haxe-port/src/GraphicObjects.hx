@@ -42,7 +42,7 @@ class GraphicObjects
     
     @:meta(Embed(source="../bin/GraphicObjectsLayout.xml",mimeType="application/octet-stream"))
 
-    public static var class_vars : Class<Dynamic>;
+    public static var class_vars : Class<Dynamic> = EmbedGraphicObjects;
     
     public static function Load()
     {

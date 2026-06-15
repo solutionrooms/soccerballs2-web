@@ -11,6 +11,6 @@
 	<haxelib name="openfl" />
 	<haxelib name="nape-haxe4" />
 
-	<!-- original game assets are wired in a later step -->
-	<!-- <assets path="assets" rename="assets" /> -->
+	<!-- original game data + texture pages, embedded like the release SWF -->
+	<assets path="assets" rename="assets" embed="true" />
 </project>

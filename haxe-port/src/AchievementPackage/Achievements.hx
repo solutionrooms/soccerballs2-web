@@ -11,7 +11,7 @@ class Achievements
     
     @:meta(Embed(source="../../bin/Achievements.xml",mimeType="application/octet-stream"))
 
-    public static var class_embedded_XML : Class<Dynamic>;
+    public static var class_embedded_XML : Class<Dynamic> = EmbedAchievements;
     
     public static var xml : FastXML;
     

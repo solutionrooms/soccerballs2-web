@@ -1,0 +1,568 @@
+<data>
+
+	
+<level id="1" name="ConveyorTest" displayname="undefined" category="0" desc="" bg="2" >
+	<soccerballs gold="10" fail="30" />
+	<objgroup name="machines">
+		<obj id="" type="Conveyor" x="444" y="332" rot="0" scale="1" params="conveyor_speed=10,editor_layer=1,game_layer=Centre,fixed=true" />
+	</objgroup>
+	<objgroup name="soccerballs">
+		<obj id="" type="player" x="290" y="446" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,fixed=true" />
+		<obj id="" type="ball_normal" x="309" y="438" rot="0" scale="1" params="game_layer=Balls,editor_layer=1,fixed=false" />
+		<obj id="" type="crateMetalLarge" x="487" y="228" rot="0" scale="1" params="game_layer=NormalObjects,editor_layer=1,fixed=false" />
+		<obj id="" type="crateMetalLarge" x="586" y="205" rot="0" scale="1" params="game_layer=NormalObjects,editor_layer=1,fixed=false" />
+		<obj id="" type="woodenpost_fixed" x="587" y="235" rot="89.8915851175015" scale="1" params="game_layer=Centre,editor_layer=1,fixed=true" />
+		<obj id="" type="woodenpost_fixed" x="488" y="256" rot="89.8915851175015" scale="1" params="game_layer=Centre,editor_layer=1,fixed=true" />
+		<obj id="" type="woodenpost_fixed" x="525" y="137" rot="89.8915851175015" scale="1" params="game_layer=Centre,editor_layer=1,fixed=true" />
+		<obj id="" type="ball_notplayerball" x="528" y="123" rot="0" scale="1" params="game_layer=Balls,editor_layer=1,fixed=false" />
+		<obj id="" type="ball_large" x="538" y="297" rot="0" scale="1" params="game_layer=Balls,editor_layer=1,fixed=false" />
+	</objgroup>
+	<joints>
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="-54,336, 43,447, 649,446, 809,342, 834,665, -179,640" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+	
+<level id="2" name="Headers" displayname="undefined" category="0" desc="" bg="5" >
+	<soccerballs gold="1" fail="40" />
+	<objgroup name="soccerballs">
+		<obj id="" type="player" x="114" y="422" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,fixed=true" />
+		<obj id="" type="ball_normal" x="158" y="450" rot="0" scale="1" params="game_layer=Balls,editor_layer=1,fixed=false" />
+		<obj id="" type="opponent_jump_when_near" x="315" y="427" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,fixed=false" />
+		<obj id="" type="opponent_jump_when_near" x="487" y="432" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,fixed=false" />
+	</objgroup>
+	<joints>
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="-185,242, 22,248, 40,422, 613,437, 769,264, 867,324, 879,693, -86,670" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+
+	
+<level id="1" name="Patrol platform test and trophies" displayname="undefined" category="0" desc="" bg="2" >
+	<soccerballs gold="1" silver="3" fail="10" />
+	<objgroup name="soccerballs">
+		<obj id="" type="player" x="90" y="469" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="ball_normal" x="91" y="465" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="uid_673590" type="opponent_patrol" x="373" y="473" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="player" x="794" y="411" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="player" x="120" y="212" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="player" x="291" y="275" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="player" x="323" y="474" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="player" x="507" y="291" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="referee" x="384" y="114" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="player" x="276" y="128" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="goal2" x="601" y="88" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="40" y="280" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="60" y="280" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="80" y="280" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="80" y="300" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="40" y="300" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="40" y="320" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="60" y="320" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="80" y="320" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="600" y="160" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="620" y="160" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="620" y="180" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="600" y="180" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="580" y="180" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="580" y="200" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="600" y="200" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="620" y="200" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="640" y="180" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="640" y="200" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="620" y="220" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_normal" x="600" y="220" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_trophy_1" x="178" y="447" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_trophy_2" x="223" y="447" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_trophy_3" x="265" y="448" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_trophy_4" x="308" y="450" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_trophy_5" x="350" y="450" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_trophy_6" x="397" y="455" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_trophy_7" x="439" y="451" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_trophy_8" x="492" y="452" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_trophy_9" x="529" y="452" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="pickup_trophy_10" x="570" y="451" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+	</objgroup>
+	<objgroup name="furniture">
+		<obj id="uid_124469" type="patrol_marker" x="141" y="338" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+		<obj id="uid_386901" type="patrol_marker" x="652" y="331" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+		<obj id="" type="jump_marker" x="452" y="466" rot="-57" scale="1.5100000000000005" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+		<obj id="" type="jump_marker" x="587" y="358" rot="-119" scale="1.5300000000000005" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+	</objgroup>
+	<joints>
+		<joint type="logic" id="" objid0="uid_386901" objid1="uid_673590" params="" />
+		<joint type="logic" id="" objid0="uid_124469" objid1="uid_673590" params="" />
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="-118,303, -27,319, 34,472, 664,479, 805,410, 841,456, 831,702, -141,666" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="100,333, 234,393, 229,409, 98,352" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="527,401, 661,338, 667,356, 542,412" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="270,275, 513,297, 513,309, 271,300, 220,298, 219,285" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="53,209, 149,213, 137,243, 51,235" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="239,134, 661,80, 661,103, 243,158" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_scrollarea,line_spline=false" >
+<points a="-205,-149, 960,-149, 966,784, -222,763" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+	
+	
+	
+<level id="1" name="SpikyTest" displayname="undefined" category="0" desc="" bg="2" >
+	<soccerballs gold="1" silver="3" fail="10" />
+	<objgroup name="soccerballs">
+		<obj id="" type="player" x="103" y="453" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="ball_normal" x="124" y="443" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="spikyball" x="244" y="393" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_large" x="414" y="427" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_verylarge" x="610" y="396" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="300" y="158" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="246" y="155" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="201" y="143" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="201" y="132" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="353" y="111" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="454" y="109" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="564" y="112" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="614" y="141" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="601" y="168" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="546" y="176" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="467" y="177" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="370" y="186" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="226" y="191" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="137" y="141" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="115" y="112" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="244" y="91" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="329" y="88" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="555" y="84" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="583" y="92" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="502" y="89" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="291" y="111" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="267" y="150" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="414" y="174" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="474" y="171" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_tiny" x="524" y="138" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+	</objgroup>
+	<joints>
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="-102,21, 24,15, 24,464, 689,460, 691,126, 745,133, 759,590, -109,596" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+	
+	
+<level id="1" name="Cannon" displayname="undefined" category="0" desc="" bg="2" >
+	<soccerballs gold="1" silver="3" fail="10" />
+	<objgroup name="soccerballs">
+		<obj id="" type="player" x="103" y="453" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="ball_normal" x="124" y="443" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="spikyball" x="244" y="393" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+	</objgroup>
+	<objgroup name="normal">
+		<obj id="" type="cannon" x="323" y="449" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="cannon" x="506" y="449" rot="23.561944901923443" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+	</objgroup>
+	<joints>
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="-102,21, 24,15, 24,464, 689,460, 691,126, 745,133, 759,590, -109,596" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+	
+	
+<level id="1" name="goal!" displayname="undefined" category="0" desc="" bg="2" >
+	<soccerballs gold="1" silver="3" fail="10" />
+	<objgroup name="soccerballs">
+		<obj id="" type="player" x="386" y="426" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="ball_normal" x="397" y="412" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="woodenpost_loose" x="227" y="384" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="woodenpost_loose" x="227" y="325" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="woodenpost_loose" x="227" y="267" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="uid_580072" type="metalpost_loose" x="539" y="399" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="uid_111345" type="metalpost_loose" x="539" y="339" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="uid_833900" type="metalpost_loose" x="539" y="279" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="uid_647924" type="cornerflag" x="539" y="250" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="ball_verylarge" x="244" y="96" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+	</objgroup>
+	<objgroup name="links">
+		<obj id="" type="helptext_text" x="385" y="276" rot="0" scale="1" params="game_layer=Near_Foreground,helptext_text=welcome1,helptext_initialdelay=0,editor_layer=1,game_layer=Near_Foreground" />
+		<obj id="" type="helptext_text" x="385" y="303" rot="0" scale="1" params="game_layer=Near_Foreground,helptext_text=welcome2,helptext_initialdelay=2,editor_layer=1,game_layer=Near_Foreground" />
+		<obj id="" type="helptext_text" x="228" y="258" rot="-24" scale="1" params="game_layer=Near_Foreground,helptext_text=welcome3,helptext_initialdelay=4,editor_layer=1,game_layer=Near_Foreground" />
+	</objgroup>
+	<joints>
+		<joint type="rev" id="uid_320533" objid0="uid_746047" objid1="uid_580072" x="539" y="425" params="collide_joined=false,rev_soft=false,rev_soft_frequency=10,rev_enablelimit=true,rev_lowerangle=-5,rev_upperangle=5,rev_enablemotor=false,rev_motorrate=0,rev_motorratio=0,rev_motormax=10000,joint_initfunction=InitGameObjJoint_Null" />
+		<joint type="rev" id="uid_564681" objid0="uid_580072" objid1="uid_111345" x="538" y="367" params="collide_joined=false,rev_soft=false,rev_soft_frequency=10,rev_enablelimit=true,rev_lowerangle=-5,rev_upperangle=5,rev_enablemotor=false,rev_motorrate=0,rev_motorratio=0,rev_motormax=10000,joint_initfunction=InitGameObjJoint_Null" />
+		<joint type="rev" id="" objid0="uid_111345" objid1="uid_833900" x="540" y="307" params="collide_joined=false,rev_soft=false,rev_soft_frequency=10,rev_enablelimit=true,rev_lowerangle=-5,rev_upperangle=5,rev_enablemotor=false,rev_motorrate=0,rev_motorratio=0,rev_motormax=10000,joint_initfunction=InitGameObjJoint_Null" />
+		<joint type="switch" id="" objid0="uid_564681" objid1="uid_320533" params="" />
+		<joint type="rev" id="" objid0="uid_833900" objid1="uid_647924" x="538" y="249" params="collide_joined=false,rev_soft=false,rev_soft_frequency=10,rev_enablelimit=true,rev_lowerangle=-5,rev_upperangle=5,rev_enablemotor=false,rev_motorrate=0,rev_motorratio=0,rev_motormax=10000,joint_initfunction=InitGameObjJoint_Null" />
+	</joints>
+<line type="0" id="uid_746047" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="70,197, 130,198, 133,411, 647,433, 669,171, 724,198, 712,545, 50,544" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="147,148, 316,172, 458,249, 457,265, 302,189, 150,172" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+
+
+	
+	
+<level id="1" name="Opponent Jump Test" displayname="undefined" category="0" desc="" bg="3" >
+	<soccerballs gold="1" silver="3" fail="10" />
+	<objgroup name="furniture">
+		<obj id="uid_958225" type="patrol_marker" x="134" y="467" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+		<obj id="uid_965521" type="patrol_marker" x="608" y="466" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+		<obj id="" type="jump_marker" x="302" y="463" rot="-50" scale="1.2500000000000002" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+		<obj id="" type="jump_marker" x="433" y="466" rot="-120" scale="1.2300000000000002" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+	</objgroup>
+	<objgroup name="soccerballs">
+		<obj id="" type="player" x="356" y="580" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="ball_normal" x="368" y="574" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="uid_059649" type="opponent_patrol" x="157" y="471" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="goal" x="95" y="477" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="goal2" x="664" y="474" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+	</objgroup>
+	<joints>
+		<joint type="logic" id="" objid0="uid_958225" objid1="uid_059649" params="" />
+		<joint type="logic" id="" objid0="uid_965521" objid1="uid_059649" params="" />
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="-27,213, 65,206, 67,478, 308,473, 306,584, 422,582, 425,476, 687,476, 692,227, 858,229" />
+<points a="852,773, -126,766" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="314,485, 352,447, 351,494, 315,506" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="385,497, 384,444, 417,476, 416,504" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+	
+	
+	
+<level id="1" name="Opponent Kick Test" displayname="undefined" category="0" desc="" bg="5" >
+	<soccerballs gold="1" silver="3" fail="10" />
+	<objgroup name="soccerballs">
+		<obj id="" type="player" x="431" y="468" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="opponent" x="649" y="454" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="opponent" x="210" y="452" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="goal" x="1090" y="475" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="keeper" x="1022" y="474" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="ball_normal" x="491" y="458" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+	</objgroup>
+	<joints>
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="-38,-14, 50,1, 46,437, 183,455, 287,455, 385,469, 496,469, 541,466, 628,455, 712,455" />
+<points a="782,457, 869,457, 973,473, 1040,475, 1252,469, 1227,-10, 1306,7, 1348,685, -167,696, -146,5" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="266,83, 402,54, 550,36, 640,35, 640,66, 327,152, 242,149, 231,116" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+	
+	
+<level id="1" name="Run Marker Test" displayname="undefined" category="0" desc="" bg="2" >
+	<soccerballs gold="1" silver="3" fail="10" />
+	<objgroup name="furniture">
+		<obj id="uid_219604" type="run_marker" x="433" y="468" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+		<obj id="uid_701834" type="run_marker" x="713" y="453" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+		<obj id="uid_392572" type="run_marker" x="104" y="180" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+		<obj id="uid_759747" type="run_marker" x="548" y="268" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+	</objgroup>
+	<objgroup name="soccerballs">
+		<obj id="uid_946183" type="player" x="440" y="466" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="goal" x="1162" y="467" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="ball_normal" x="491" y="458" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="uid_185485" type="player" x="541" y="266" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="referee" x="886" y="459" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="goal" x="608" y="34" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="player" x="273" y="80" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="crate" x="224" y="418" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+	</objgroup>
+	<joints>
+		<joint type="logic" id="" objid0="uid_701834" objid1="uid_946183" params="" />
+		<joint type="logic" id="" objid0="uid_219604" objid1="uid_946183" params="" />
+		<joint type="logic" id="" objid0="uid_759747" objid1="uid_185485" params="" />
+		<joint type="logic" id="" objid0="uid_392572" objid1="uid_185485" params="" />
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="-38,-14, 50,1, 46,437, 183,455, 287,455, 385,469, 496,469, 541,466, 628,455, 712,455" />
+<points a="782,457, 869,457, 973,473, 1040,475, 1252,469, 1227,-10, 1306,7, 1348,685, -167,696, -146,5" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="310,262, 584,269, 586,339, 262,346, 140,303, 77,185, 118,183, 158,211, 206,244, 253,258" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="266,83, 402,54, 550,36, 640,35, 640,66, 327,152, 242,149, 231,116" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+
+	
+<level id="1" name="boxes on weight switch test" displayname="undefined" category="0" desc="" bg="2" >
+	<soccerballs gold="1" silver="3" fail="10" />
+	<objgroup name="furniture">
+		<obj id="uid_994916" type="patrol_marker" x="264" y="470" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+		<obj id="uid_220295" type="patrol_marker" x="428" y="469" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre" />
+	</objgroup>
+	<objgroup name="normal">
+		<obj id="" type="switch_weight" x="204" y="488" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+	</objgroup>
+	<objgroup name="soccerballs">
+		<obj id="" type="player" x="546" y="444" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="ball_normal" x="546" y="435" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="goal" x="930" y="452" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_724227" type="metalpost_loose" x="636" y="320" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="uid_838662" type="opponent_patrol" x="341" y="469" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="crateMetalSmall" x="365" y="316" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="crateMetalSmall" x="341" y="316" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="crateMetalSmall" x="317" y="316" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+		<obj id="" type="crate" x="304" y="337" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="crate" x="351" y="337" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+	</objgroup>
+	<objgroup name="platform">
+		<obj id="uid_063798" type="path_object" x="727" y="233" rot="0" scale="1" params="path_startmode=start,path_endmode=bounce,path_switchmode=stop,path_line=uid_985296,path_speed=2,path_ease=power_inout,path_easevalue=2,path_startpos=0,path_rotatetopath=false,editor_layer=1,game_layer=Centre,fixed=true" />
+	</objgroup>
+	<joints>
+		<joint type="rev" id="" objid0="" objid1="uid_724227" x="641" y="324" params="collide_joined=false,rev_soft=false,rev_soft_frequency=0.5,rev_enablelimit=false,rev_lowerangle=0,rev_upperangle=0,rev_enablemotor=false,rev_motorrate=0,rev_motorratio=0,rev_motormax=10000,joint_initfunction=InitGameObjJoint_Null" />
+		<joint type="dist" id="" objid0="uid_724227" objid1="uid_063798" x0="643" y0="435" x1="727" y1="237" params="collide_joined=false,dist_soft=false,dist_soft_frequency=0.5,dist_limit=0,joint_initfunction=InitGameObjJoint_Null" />
+		<joint type="logic" id="" objid0="uid_220295" objid1="uid_838662" params="" />
+		<joint type="logic" id="" objid0="uid_994916" objid1="uid_838662" params="" />
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=true" >
+<points a="-209,-91, 290,-109, 285,-37, -47,-25, -40,399, 44,442, 190,466, 203,503, 255,506, 261,475" />
+<points a="352,473, 434,468, 499,450, 598,446, 679,459, 807,442, 838,610, -159,633" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=true" >
+<points a="51,262, 157,221, 368,230, 440,268, 523,221, 593,169, 632,235, 625,319, 353,287, 272,268" />
+<points a="145,325" />
+</line>
+<line type="0" id="uid_985296" params="editor_layer=1,game_layer=Centre,line_material=poly_path,line_spline=false" >
+<points a="728,232, 829,136" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="349,-84, 704,-80, 687,149, 633,205, 624,198, 651,144, 655,-6, 338,-53" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="700,113, 997,103, 1071,511, 880,513, 869,464, 992,452, 961,167, 700,144" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+
+
+<level id="1" name="Path switch styles test" displayname="undefined" category="0" desc="" bg="2" >
+	<soccerballs gold="1" silver="3" fail="10" />
+	<objgroup name="normal">
+		<obj id="uid_990991" type="switch_2way" x="286" y="441" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+	</objgroup>
+	<objgroup name="soccerballs">
+		<obj id="uid_875915" type="player" x="418" y="467" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=true" />
+		<obj id="" type="player" x="1200" y="511" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=true" />
+		<obj id="" type="goal" x="883" y="513" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=true" />
+		<obj id="" type="ball_normal" x="415" y="451" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=false" />
+	</objgroup>
+	<objgroup name="platform">
+		<obj id="uid_976513" type="path_object" x="203" y="331" rot="0" scale="1" params="path_startmode=start,path_endmode=loop,path_switchmode=toggle_dir,path_line=uid_363588,path_speed=3,path_ease=linear,path_easevalue=1,path_startpos=0,path_rotatetopath=false,editor_layer=1,game_layer=Centre,fixed=true" />
+	</objgroup>
+	<joints>
+		<joint type="logic" id="" objid0="uid_990991" objid1="uid_976513" params="" />
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="-56,252, 22,246, 32,427, 43,441, 57,452, 79,463, 90,469, 217,471, 470,464, 485,476" />
+<points a="486,504, 539,504, 536,479, 575,463, 653,444, 678,420, 684,388, 724,357, 762,357, 793,361" />
+<points a="810,403, 883,377, 906,378, 902,420, 876,423, 854,516, 1189,513, 1246,514, 1266,499, 1280,239" />
+<points a="1290,33, 1386,34, 1375,673, -70,655" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="-21,250, -1,-23, 447,-115, 1383,-24, 1380,29, 1277,33, 1077,59, 900,116, 836,180, 801,229" />
+<points a="774,250, 731,244, 706,221, 598,32, 392,18, 163,29, 90,107, 23,248" />
+</line>
+<line type="0" id="uid_363588" params="editor_layer=1,game_layer=Centre,line_material=poly_path,line_spline=true" >
+<points a="203,331, 352,232, 519,283, 394,385" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+
+
+<level id="1" name="Path Styles Test" displayname="undefined" category="0" desc="" bg="2" >
+	<soccerballs gold="1" silver="3" fail="10" />
+	<objgroup name="soccerballs">
+		<obj id="uid_875915" type="player" x="418" y="467" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=true" />
+		<obj id="" type="player" x="1200" y="511" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=true" />
+		<obj id="" type="goal" x="883" y="513" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=true" />
+		<obj id="" type="ball_normal" x="415" y="451" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=false" />
+	</objgroup>
+	<objgroup name="platform">
+		<obj id="" type="path_object" x="80" y="343" rot="0" scale="1" params="path_startmode=start,path_endmode=stop,path_switchmode=stop,path_line=uid_602937,path_speed=2,path_loop=true,path_spline=false,path_ease=power_inout,path_easevalue=2,path_endreset=false,path_startpos=0,path_2way=false,path_rotatetopath=false,path_startmoving=false,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="" type="path_object" x="80" y="253" rot="0" scale="1" params="path_startmode=start,path_endmode=bounce,path_switchmode=start,path_line=uid_757924,path_speed=2,path_loop=true,path_spline=false,path_ease=power_inout,path_easevalue=2,path_endreset=false,path_startpos=0,path_2way=false,path_rotatetopath=false,path_startmoving=false,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_152471" type="path_object" x="81" y="374" rot="0" scale="1" params="path_startmode=start,path_endmode=bounce,path_switchmode=stop,path_line=uid_013842,path_speed=2,path_loop=true,path_spline=false,path_ease=power_inout,path_easevalue=2,path_endreset=false,path_startpos=0,path_2way=false,path_rotatetopath=false,path_startmoving=false,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_281252" type="path_object" x="82" y="406" rot="0" scale="1" params="path_startmode=start,path_endmode=loop,path_switchmode=stop,path_line=uid_691126,path_speed=2,path_loop=true,path_spline=false,path_ease=power_inout,path_easevalue=2,path_endreset=false,path_startpos=0,path_2way=false,path_rotatetopath=false,path_startmoving=false,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_621304" type="path_object" x="463" y="323" rot="0" scale="1" params="path_startmode=start,path_endmode=stop,path_switchmode=stop,path_line=uid_397702,path_speed=2,path_loop=true,path_spline=false,path_ease=power_in,path_easevalue=2,path_endreset=false,path_startpos=0,path_2way=false,path_rotatetopath=false,path_startmoving=false,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_607919" type="path_object" x="464" y="345" rot="0" scale="1" params="path_startmode=start,path_endmode=bounce,path_switchmode=stop,path_line=uid_827663,path_speed=2,path_loop=true,path_spline=false,path_ease=power_in,path_easevalue=2,path_endreset=false,path_startpos=0,path_2way=false,path_rotatetopath=false,path_startmoving=false,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_511986" type="path_object" x="465" y="367" rot="0" scale="1" params="path_startmode=start,path_endmode=loop,path_switchmode=stop,path_line=uid_266478,path_speed=2,path_loop=true,path_spline=false,path_ease=power_in,path_easevalue=2,path_endreset=false,path_startpos=0,path_2way=false,path_rotatetopath=false,path_startmoving=false,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_727554" type="path_object" x="461" y="238" rot="0" scale="1" params="path_startmode=start,path_endmode=stop,path_switchmode=stop,path_line=uid_970051,path_speed=2,path_loop=true,path_spline=false,path_ease=power_out,path_easevalue=2,path_endreset=false,path_startpos=0,path_2way=false,path_rotatetopath=false,path_startmoving=false,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_757904" type="path_object" x="462" y="260" rot="0" scale="1" params="path_startmode=start,path_endmode=bounce,path_switchmode=stop,path_line=uid_430156,path_speed=2,path_loop=true,path_spline=false,path_ease=power_out,path_easevalue=2,path_endreset=false,path_startpos=0,path_2way=false,path_rotatetopath=false,path_startmoving=false,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_060941" type="path_object" x="463" y="282" rot="0" scale="1" params="path_startmode=start,path_endmode=loop,path_switchmode=stop,path_line=uid_196307,path_speed=2,path_loop=true,path_spline=false,path_ease=power_out,path_easevalue=2,path_endreset=false,path_startpos=0,path_2way=false,path_rotatetopath=false,path_startmoving=false,editor_layer=1,game_layer=Centre,fixed=true" />
+	</objgroup>
+	<joints>
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass" >
+<points a="-56,252, 22,246, 32,427, 43,441, 57,452, 79,463, 90,469, 217,471, 470,464, 485,476" />
+<points a="486,504, 539,504, 536,479, 575,463, 653,444, 678,420, 684,388, 724,357, 762,357, 793,361" />
+<points a="810,403, 883,377, 906,378, 902,420, 876,423, 854,516, 1189,513, 1246,514, 1266,499, 1280,239" />
+<points a="1290,33, 1386,34, 1375,673, -70,655" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass" >
+<points a="-21,250, -1,-23, 447,-115, 1383,-24, 1380,29, 1277,33, 1077,59, 900,116, 836,180, 801,229" />
+<points a="774,250, 731,244, 706,221, 598,32, 392,18, 163,29, 90,107, 23,248" />
+</line>
+<line type="0" id="uid_602937" params="editor_layer=1,game_layer=Centre,line_material=poly_path" >
+<points a="81,341, 245,341" />
+</line>
+<line type="0" id="uid_757924" params="editor_layer=1,game_layer=Centre,line_material=poly_path" >
+<points a="78,251, 246,250, 151,303" />
+</line>
+<line type="0" id="uid_013842" params="editor_layer=1,game_layer=Centre,line_material=poly_path" >
+<points a="82,372, 246,372" />
+</line>
+<line type="0" id="uid_691126" params="editor_layer=1,game_layer=Centre,line_material=poly_path" >
+<points a="83,404, 247,404" />
+</line>
+<line type="0" id="uid_397702" params="editor_layer=1,game_layer=Centre,line_material=poly_path" >
+<points a="464,321, 628,321" />
+</line>
+<line type="0" id="uid_827663" params="editor_layer=1,game_layer=Centre,line_material=poly_path" >
+<points a="465,343, 629,343" />
+</line>
+<line type="0" id="uid_266478" params="editor_layer=1,game_layer=Centre,line_material=poly_path" >
+<points a="466,365, 630,365" />
+</line>
+<line type="0" id="uid_970051" params="editor_layer=1,game_layer=Centre,line_material=poly_path" >
+<points a="462,236, 626,236" />
+</line>
+<line type="0" id="uid_430156" params="editor_layer=1,game_layer=Centre,line_material=poly_path" >
+<points a="463,258, 627,258" />
+</line>
+<line type="0" id="uid_196307" params="editor_layer=1,game_layer=Centre,line_material=poly_path" >
+<points a="464,280, 628,280" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+
+<level id="1" name="All switches test" displayname="undefined" category="0" desc="" bg="2" >
+	<soccerballs gold="1" silver="3" fail="10" />
+	<objgroup name="normal">
+		<obj id="uid_632969" type="switch_once" x="246" y="448" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_563597" type="switchable_block" x="227" y="298" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_704076" type="switch_2way" x="92" y="293" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_257914" type="switch_StopGo" x="331" y="358" rot="-47" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_376711" type="switch_timer" x="490" y="279" rot="0" scale="1" params="game_layer=Centre,switch_time=1.5,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_400647" type="switch_weight" x="485" y="482" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_013197" type="switchable_block" x="140" y="296" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_723649" type="switchable_block" x="530" y="276" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+		<obj id="uid_480908" type="switchable_block" x="497" y="403" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=true" />
+	</objgroup>
+	<objgroup name="soccerballs">
+		<obj id="uid_809800" type="player" x="129" y="468" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=true" />
+		<obj id="uid_875915" type="player" x="418" y="467" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=true" />
+		<obj id="" type="player" x="1200" y="511" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=true" />
+		<obj id="" type="goal" x="883" y="513" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=true" />
+		<obj id="" type="ball_normal" x="415" y="451" rot="0" scale="1" params="game_layer=Far_Foreground,editor_layer=1,game_layer=Far_Foreground,fixed=false" />
+		<obj id="uid_579910" type="crate" x="315" y="214" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,game_layer=Centre,fixed=false" />
+	</objgroup>
+	<objgroup name="platform">
+		<obj id="uid_388066" type="path_object" x="337" y="272" rot="0" scale="1" params="path_line=uid_581137,path_speed=5,path_loop=true,path_spline=false,path_ease=linear,path_easevalue=1,path_endreset=false,path_startpos=0,path_2way=false,path_rotatetopath=false,path_startmoving=true,editor_layer=1,game_layer=Centre,fixed=true" />
+	</objgroup>
+	<joints>
+		<joint type="logic" id="" objid0="uid_704076" objid1="" params="" />
+		<joint type="logic" id="" objid0="uid_704076" objid1="uid_013197" params="" />
+		<joint type="weld" id="" objid0="uid_388066" objid1="uid_579910" params="collide_joined=false,weld_soft=false,weld_soft_frequency=0.5" />
+		<joint type="logic" id="" objid0="uid_257914" objid1="uid_388066" params="" />
+		<joint type="logic" id="" objid0="uid_376711" objid1="uid_723649" params="" />
+		<joint type="logic" id="" objid0="uid_400647" objid1="uid_480908" params="" />
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass" >
+<points a="-56,252, 22,246, 32,427, 43,441, 57,452, 79,463, 90,469, 217,471, 470,464, 485,476" />
+<points a="486,504, 539,504, 536,479, 575,463, 653,444, 678,420, 684,388, 724,357, 762,357, 793,361" />
+<points a="810,403, 883,377, 906,378, 902,420, 876,423, 854,516, 1189,513, 1246,514, 1266,499, 1280,239" />
+<points a="1290,33, 1386,34, 1375,673, -70,655" />
+</line>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass" >
+<points a="-21,250, -1,-23, 447,-115, 1383,-24, 1380,29, 1277,33, 1077,59, 900,116, 836,180, 801,229" />
+<points a="774,250, 731,244, 706,221, 598,32, 392,18, 163,29, 90,107, 23,248" />
+</line>
+<line type="0" id="uid_581137" params="editor_layer=1,game_layer=Centre,line_material=poly_path" >
+<points a="337,272, 450,271" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+
+<level id="1" name="treesnap test" displayname="undefined" category="0" desc="" bg="2" >
+	<soccerballs gold="1" silver="3" fail="10" />
+	<objgroup name="soccerballs">
+		<obj id="" type="player" x="259" y="445" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,fixed=true" />
+		<obj id="" type="ball_normal" x="277" y="432" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,fixed=false" />
+	</objgroup>
+	<objgroup name="furniture">
+		<obj id="" type="tree_1" x="490" y="442" rot="0" scale="1" params="game_layer=SceneryObjects,editor_layer=1" />
+		<obj id="" type="tree_1" x="605" y="453" rot="0" scale="1" params="game_layer=SceneryObjects,editor_layer=1" />
+	</objgroup>
+	<joints>
+	</joints>
+<line type="0" id="" params="editor_layer=1,game_layer=Centre,line_material=poly_collide_grass,line_spline=false" >
+<points a="-23,179, 30,214, 53,465, 194,449, 372,434, 450,443, 571,433, 631,459, 724,439, 755,265" />
+<points a="816,264, 824,636, -81,630, -130,238" />
+</line>
+<map minx="0" maxx="0" miny="0" maxy="0" cellw="16" cellh="16" >
+<mapdata a=""/>
+</map>
+</level>
+	
+
+</data>

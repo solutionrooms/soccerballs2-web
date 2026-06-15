@@ -277,4 +277,10 @@ find "$DIR" -name '*.hx' -exec perl -i -pe 's/^(\s*var \w+ : )(?!(?:Int|Float|Bo
 # value-type locals -> AS3 defaults (Number=NaN, int/uint=0, Boolean=false)
 find "$DIR" -name '*.hx' -exec perl -i -pe 's/^(\s*var \w+ : Float);\s*$/$1 = Math.NaN;/; s/^(\s*var \w+ : (?:Int|UInt));\s*$/$1 = 0;/; s/^(\s*var \w+ : Bool);\s*$/$1 = false;/' {} +
 
+echo "==> fixup: point embedded-asset class fields at the real data (release SWF embedded these via [Embed])"
+perl -i -pe 's/(static var class_Data : Class<Dynamic>);/$1 = EmbedObjectsData;/; s/(static var class_Levels : Class<Dynamic>);/$1 = EmbedLevelsData;/; s/(static var class_Levels1 : Class<Dynamic>);/$1 = EmbedLevelsJulian;/; s/(static var class_Levels2 : Class<Dynamic>);/$1 = EmbedLevelsRob;/; s/(static var class_Levels3 : Class<Dynamic>);/$1 = EmbedLevelsTestbed;/' "$DIR/ExternalData.hx" 2>/dev/null || true
+perl -i -pe 's/(static var class_vars : Class<Dynamic>);/$1 = EmbedGraphicObjects;/' "$DIR/GraphicObjects.hx" 2>/dev/null || true
+perl -i -pe 's/(static var class_embedded_XML : Class<Dynamic>);/$1 = EmbedTextStrings;/' "$DIR/textPackage/TextStrings.hx" 2>/dev/null || true
+perl -i -pe 's/(static var class_embedded_XML : Class<Dynamic>);/$1 = EmbedAchievements;/' "$DIR/achievementPackage/Achievements.hx" 2>/dev/null || true
+
 echo "==> fixup done in $DIR"

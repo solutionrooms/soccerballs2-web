@@ -32,19 +32,19 @@ class ExternalData
     
     @:meta(Embed(source="../bin/SoccerBalls2_Objects_Data.xml",mimeType="application/octet-stream"))
 
-    public static var class_Data : Class<Dynamic>;
+    public static var class_Data : Class<Dynamic> = EmbedObjectsData;
     @:meta(Embed(source="../bin/SoccerBalls2_Levels_Data.xml",mimeType="application/octet-stream"))
 
-    public static var class_Levels : Class<Dynamic>;
+    public static var class_Levels : Class<Dynamic> = EmbedLevelsData;
     @:meta(Embed(source="../bin/SoccerBalls2_Levels_Julian_Data.xml",mimeType="application/octet-stream"))
 
-    public static var class_Levels1 : Class<Dynamic>;
+    public static var class_Levels1 : Class<Dynamic> = EmbedLevelsJulian;
     @:meta(Embed(source="../bin/SoccerBalls2_Levels_Rob_Data.xml",mimeType="application/octet-stream"))
 
-    public static var class_Levels2 : Class<Dynamic>;
+    public static var class_Levels2 : Class<Dynamic> = EmbedLevelsRob;
     @:meta(Embed(source="../bin/SoccerBalls2_Levels_Testbed_Data.xml",mimeType="application/octet-stream"))
 
-    public static var class_Levels3 : Class<Dynamic>;
+    public static var class_Levels3 : Class<Dynamic> = EmbedLevelsTestbed;
     
     
     public static var xmlLoader : URLLoader;

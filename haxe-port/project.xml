@@ -12,7 +12,7 @@
 	<haxelib name="nape-haxe4" />
 	<!-- original SWF library symbols (UI clips, character rigs, fonts) -->
 	<haxelib name="swf" />
-	<library path="assets/SoccerBalls2.swf" id="game" generate="true" preload="true" />
+	<library path="assets/SoccerBalls2.swf" generate="true" preload="true" />
 
 	<!-- original game data + texture pages, embedded like the release SWF -->
 	<assets path="assets" rename="assets" embed="true" />

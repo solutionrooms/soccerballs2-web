@@ -247,17 +247,17 @@ class EdLine extends EditableObjectBase
             }
             var p0 : Point = points[i];
             var p1 : Point = points[j];
-            var x0 : Int = p0.x;
-            var y0 : Int = p0.y;
-            var x1 : Int = p1.x;
-            var y1 : Int = p1.y;
+            var x0 : Int = Std.int(p0.x);
+            var y0 : Int = Std.int(p0.y);
+            var x1 : Int = Std.int(p1.x);
+            var y1 : Int = Std.int(p1.y);
             
             if (y1 < y0)
             {
-                x0 = p1.x;
-                y0 = p1.y;
-                x1 = p0.x;
-                y1 = p0.y;
+                x0 = Std.int(p1.x);
+                y0 = Std.int(p1.y);
+                x1 = Std.int(p0.x);
+                y1 = Std.int(p0.y);
             }
             
             if (y >= y0 && y <= y1)

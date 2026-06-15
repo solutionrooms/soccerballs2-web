@@ -17,8 +17,8 @@ class Defs
     public static inline var displayarea_w : Int = 700;
     public static inline var displayarea_h : Int = 525;
     public static inline var gamearea_h : Int = 525;
-    public static var displayarea_w2 : Int = 700 / 2;
-    public static var displayarea_h2 : Int = 525 / 2;
+    public static var displayarea_w2 : Int = Std.int(700 / 2);
+    public static var displayarea_h2 : Int = Std.int(525 / 2);
     public static var fps : Float = 60;
     public static inline var ui_fps : Float = 30;
     

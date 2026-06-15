@@ -33,7 +33,7 @@ class GameVars
     
     public static var pigsUsed : Int;
     
-    public static var SnakeReloadTimeNormal : Int = Defs.fps * 1;
+    public static var SnakeReloadTimeNormal : Int = Std.int(Defs.fps * 1);
     public static var SnakeReloadTimeSuper : Int = 0;
     
     public static var snakeUpgradeTexts : Array<Dynamic> = ["", "SuperRegen", "Spitter", "FastSwing", "PigChain"];
@@ -48,17 +48,17 @@ class GameVars
     public static var snakeUpgradeGO : GameObj = null;
     public static var snakeUpgrade : Int = 0;
     public static var upgradeTimer : Int = 0;
-    public static var upgradeTimerMax : Int = Defs.fps * 10;
+    public static var upgradeTimerMax : Int = Std.int(Defs.fps * 10);
     
     
-    public static var ballTimerShowTimerMax : Int = Defs.fps * 4;
+    public static var ballTimerShowTimerMax : Int = Std.int(Defs.fps * 4);
     public static var ballTimerMax : Int = Std.int(Defs.fps * 6);
     public static var numKicks : Int;
     
     public static var hasPlayedIntro : Bool;
     public static var introGoToLevelSelect : Bool;
     
-    public static var cannonHoldTime : Int = Defs.fps;
+    public static var cannonHoldTime : Int = Std.int(Defs.fps);
     
     public static inline var ballLineLength : Int = 80;
     
@@ -240,7 +240,7 @@ class GameVars
                 count++;
             }
         }
-        return count;
+        return Std.int(count);
     }
     public static function GetLevelProgress() : Float
     {
@@ -738,7 +738,7 @@ class GameVars
     
     public static function KeeperNextAction(name : String, index : Int) : Int
     {
-        for (i in 0...keeperActions.length / 2)
+        for (i in 0...Std.int(keeperActions.length / 2))
         {
             var s : String = keeperActions[(i * 2) + 0];
             var a : Array<Dynamic> = keeperActions[(i * 2) + 1];
@@ -755,7 +755,7 @@ class GameVars
     }
     public static function GetKeeperAction(name : String, index : Int) : Point
     {
-        for (i in 0...keeperActions.length / 2)
+        for (i in 0...Std.int(keeperActions.length / 2))
         {
             var s : String = keeperActions[(i * 2) + 0];
             var a : Array<Dynamic> = keeperActions[(i * 2) + 1];

@@ -106,10 +106,13 @@ find "$DIR" -name '*.hx' -exec perl -i -pe 's/new (\w+)\.TheClass\(\)/Type.creat
 
 echo "==> fixup: hoist AS3 function-scoped vars as3hx scoped to a block (jb0/jb1/go0.. used after their if-block)"
 perl -0777 -i -pe '
-  s/(function AddJoint_Nape\(joint : EdJoint\) : Array<Constraint>\s*\{)/$1\n        var jb0 : Body = null; var jb1 : Body = null;\n        var go0 : GameObj = null; var go0a : GameObj = null; var go1 : GameObj = null; var go1a : GameObj = null;/;
+  # strip the inner block-scoped decls to assignments FIRST (before inserting the hoisted decls,
+  # so the generic go-strip below does not also strip the var off our inserted declarations)
+  s/var (go0|go0a|go1|go1a) : GameObj = /$1 = /g;
   s/var jb0 : Body = PhysicsBase\.GetNapeSpace\(\)\.world;/jb0 = PhysicsBase.GetNapeSpace().world;/;
   s/var jb1 : Body = PhysicsBase\.GetNapeSpace\(\)\.world;/jb1 = PhysicsBase.GetNapeSpace().world;/;
-  s/var (go0|go0a|go1|go1a) : GameObj = /$1 = /g;
+  # then declare them all at function scope
+  s/(function AddJoint_Nape\(joint : EdJoint\) : Array<Constraint>\s*\{)/$1\n        var jb0 : Body = null; var jb1 : Body = null;\n        var go0 : GameObj = null; var go0a : GameObj = null; var go1 : GameObj = null; var go1a : GameObj = null;/;
 ' "$DIR/PhysicsBase.hx" 2>/dev/null || true
 
 echo "==> fixup: strip unused nape-internal import (api differs in nape-haxe4; only the public method is used)"

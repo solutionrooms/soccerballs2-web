@@ -70,7 +70,7 @@ class AchievementDisplayQueue
         {
             var popup : AchievementPopup = new AchievementPopup();
             (untyped popup).achievement = ach;
-            popup.timer = Defs.fps * 3;
+            popup.timer = Std.int(Defs.fps * 3);
             popup.active = false;
             displayQueue.push(popup);
         }

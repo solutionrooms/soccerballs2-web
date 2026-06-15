@@ -146,29 +146,29 @@ class Particles
                     }
                     else if (p.psize == 1)
                     {
-                        bd.setPixel32(xp1, yp1, (untyped p).color);
+                        bd.setPixel32(Std.int(xp1), Std.int(yp1), (untyped p).color);
                     }
                     else if (p.psize == 2)
                     {
-                        bd.setPixel32(xp1, yp1, (untyped p).color);
-                        bd.setPixel32(xp1 + 1, yp1, (untyped p).color);
-                        bd.setPixel32(xp1, yp1 + 1, (untyped p).color);
-                        bd.setPixel32(xp1 + 1, yp1 + 1, (untyped p).color);
+                        bd.setPixel32(Std.int(xp1), Std.int(yp1), (untyped p).color);
+                        bd.setPixel32(Std.int(xp1 + 1), Std.int(yp1), (untyped p).color);
+                        bd.setPixel32(Std.int(xp1), Std.int(yp1 + 1), (untyped p).color);
+                        bd.setPixel32(Std.int(xp1 + 1), Std.int(yp1 + 1), (untyped p).color);
                     }
                     else if (p.psize == 3)
                     {
                         var c : Int = (untyped p).color;
-                        c = c | as3hx.Compat.parseInt(p.alpha << 24);
+                        c = c | as3hx.Compat.parseInt(Std.int(p.alpha) << 24);
                         
-                        bd.setPixel32(xp1 - 1, yp1 - 1, c);
-                        bd.setPixel32(xp1, yp1 - 1, c);
-                        bd.setPixel32(xp1 + 1, yp1 - 1, c);
-                        bd.setPixel32(xp1 - 1, yp1, c);
-                        bd.setPixel32(xp1, yp1, c);
-                        bd.setPixel32(xp1 + 1, yp1, c);
-                        bd.setPixel32(xp1 - 1, yp1 + 1, c);
-                        bd.setPixel32(xp1, yp1 + 1, c);
-                        bd.setPixel32(xp1 + 1, yp1 + 1, c);
+                        bd.setPixel32(Std.int(xp1 - 1), Std.int(yp1 - 1), c);
+                        bd.setPixel32(Std.int(xp1), Std.int(yp1 - 1), c);
+                        bd.setPixel32(Std.int(xp1 + 1), Std.int(yp1 - 1), c);
+                        bd.setPixel32(Std.int(xp1 - 1), Std.int(yp1), c);
+                        bd.setPixel32(Std.int(xp1), Std.int(yp1), c);
+                        bd.setPixel32(Std.int(xp1 + 1), Std.int(yp1), c);
+                        bd.setPixel32(Std.int(xp1 - 1), Std.int(yp1 + 1), c);
+                        bd.setPixel32(Std.int(xp1), Std.int(yp1 + 1), c);
+                        bd.setPixel32(Std.int(xp1 + 1), Std.int(yp1 + 1), c);
                     }
                 }
             }

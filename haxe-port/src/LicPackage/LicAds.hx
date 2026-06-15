@@ -273,7 +273,7 @@ class LicAds
         }
         if ((untyped intro).loaderBar != null)
         {
-            var newVal : Int = ScaleTo(1, (untyped intro).loaderBar.totalFrames, 0, 1, val);
+            var newVal : Int = Std.int(ScaleTo(1, (untyped intro).loaderBar.totalFrames, 0, 1, val));
             (untyped intro).loaderBar.gotoAndStop(newVal);
         }
     }
@@ -343,7 +343,7 @@ class LicAds
         }
         
         var r : Int = RandBetweenInt(0, LicDef.authorLinks.length - 1);
-        r = LimitNumber(0, LicDef.authorLinks.length - 1, r);
+        r = Std.int(LimitNumber(0, LicDef.authorLinks.length - 1, r));
         DoLink(LicDef.authorLinks[r]);
     }
     public static function LimitNumber(f0 : Float, f1 : Float, n : Float) : Float

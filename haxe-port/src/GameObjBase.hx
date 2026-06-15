@@ -470,20 +470,20 @@ class GameObjBase
         {
             if (xflip)
             {
-                dobj.RenderAtRotScaled_Xflip(frame, bd, xp, yp, sc, dir, null, renderSmooth);
+                dobj.RenderAtRotScaled_Xflip(Std.int(frame), bd, xp, yp, sc, dir, null, renderSmooth);
             }
             else
             {
-                dobj.RenderAtRotScaled(frame, bd, xp, yp, sc, dir, null, renderSmooth);
+                dobj.RenderAtRotScaled(Std.int(frame), bd, xp, yp, sc, dir, null, renderSmooth);
             }
         }
         else if (xflip)
         {
-            dobj.RenderAtXFlip(frame, bd, xp, yp);
+            dobj.RenderAtXFlip(Std.int(frame), bd, xp, yp);
         }
         else
         {
-            dobj.RenderAt(frame, bd, xp, yp);
+            dobj.RenderAt(Std.int(frame), bd, xp, yp);
         }
     }
     

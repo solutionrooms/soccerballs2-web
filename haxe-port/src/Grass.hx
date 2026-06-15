@@ -326,7 +326,7 @@ class Grass
                 var total : Float = dx / 6;
                 dx /= total;
                 dy /= total;
-                for (j in 0...total)
+                for (j in 0...Std.int(total))
                 {
                     var f : Int = Utils.RandBetweenInt(0, numF - 1);
                     

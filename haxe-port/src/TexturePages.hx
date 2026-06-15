@@ -99,7 +99,7 @@ class TexturePages
                 var currentTP : TexturePage = new TexturePage(tfIndex++, txSize, txSize);
                 
                 var rect : Rectangle = mc.getBounds(null);
-                var BD : BitmapData = new BitmapData((rect.width), (rect.height), true, 0);
+                var BD : BitmapData = new BitmapData(Std.int((rect.width)), Std.int((rect.height)), true, 0);
                 BD.draw(mc, null, null, null, null, false);
                 currentTP.s3dTexture = s3d.context3D.createTexture(rect.width, rect.height, Context3DTextureFormat.BGRA, true);
                 currentTP.s3dTexture.uploadFromBitmapData(BD);
@@ -168,8 +168,8 @@ class TexturePages
             {
                 if (dof.flags == "separatetexturepage")
                 {
-                    var w : Int = dof.NearestSuperiorPow2(dof.sourceRect.width);
-                    var h : Int = dof.NearestSuperiorPow2(dof.sourceRect.height);
+                    var w : Int = dof.NearestSuperiorPow2(Std.int(dof.sourceRect.width));
+                    var h : Int = dof.NearestSuperiorPow2(Std.int(dof.sourceRect.height));
                     
                     currentTP = new TexturePage(tfIndex++, w, h);
                     currentPage = currentTP;

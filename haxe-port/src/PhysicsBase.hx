@@ -551,7 +551,7 @@ class PhysicsBase
     public static function AddJoint_Nape(joint : EdJoint) : Array<Constraint>
     {
         var jb0 : Body = null; var jb1 : Body = null;
-        go0 = null; go0a = null; go1 = null; go1a = null;
+        var go0 : GameObj = null; var go0a : GameObj = null; var go1 : GameObj = null; var go1a : GameObj = null;
         var p : Point;
         var p1 : Point;
         var joinedBodiesCollide : Bool = joint.objParameters.GetValueBoolean("collide_joined");

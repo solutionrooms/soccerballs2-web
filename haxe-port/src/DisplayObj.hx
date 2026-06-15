@@ -121,7 +121,7 @@ class DisplayObj
             dof.xoffset = 0;
             dof.yoffset = 0;
             
-            BD = new BitmapData(rect.width, rect.height, true, 0);
+            BD = new BitmapData(Std.int(rect.width), Std.int(rect.height), true, 0);
             BD.draw(t, mat, null, null, null, true);
             
             BD.applyFilter(BD, BD.rect, Defs.pointZero, new DropShadowFilter(3, 45, 0, 1, 2, 2, 3, 3));
@@ -417,12 +417,12 @@ class DisplayObj
     public function GetWidth(_frame : Int) : Int
     {
         var dof : DisplayObjFrame = frames[_frame];
-        return dof.sourceRect.width;
+        return Std.int(dof.sourceRect.width);
     }
     public function GetHeight(_frame : Int) : Int
     {
         var dof : DisplayObjFrame = frames[_frame];
-        return dof.sourceRect.height;
+        return Std.int(dof.sourceRect.height);
     }
     public function GetXOffset(_frame : Int) : Float
     {

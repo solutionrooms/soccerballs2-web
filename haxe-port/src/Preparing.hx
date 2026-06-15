@@ -31,7 +31,7 @@ class Preparing
     
     public static function Modify()
     {
-        for (i in 0...modifyList.length / 2)
+        for (i in 0...Std.int(modifyList.length / 2))
         {
             var s0 : String = modifyList[(i * 2)];
             var s1 : String = modifyList[(i * 2) + 1];

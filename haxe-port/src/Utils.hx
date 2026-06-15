@@ -35,7 +35,7 @@ class Utils
     }
     
     public var FASTRANDOMTOFLOAT(default, never) : Float = 1 / as3hx.Compat.INT_MAX;
-    public var fastrandomseed : Int = Math.random() * as3hx.Compat.INT_MAX;
+    public var fastrandomseed : Int = Std.int(Math.random() * as3hx.Compat.INT_MAX);
     public function fastRandom() : Float
     {
         fastrandomseed = fastrandomseed ^ as3hx.Compat.parseInt(fastrandomseed << 21);
@@ -207,7 +207,7 @@ class Utils
     {
         var s : String = "";
         
-        count /= Defs.fps;
+        count = Std.int(count / Defs.fps);
         
         var seconds : Int = as3hx.Compat.parseInt(count / as3hx.Compat.parseInt(60));
         var remainder : Int = as3hx.Compat.parseInt(count % as3hx.Compat.parseInt(60));
@@ -229,7 +229,7 @@ class Utils
         var ms : Int = as3hx.Compat.parseInt(count % Defs.fps);
         ms = as3hx.Compat.parseInt(100 * ms / Defs.fps);
         
-        count /= Defs.fps;
+        count = Std.int(count / Defs.fps);
         
         var seconds : Int = as3hx.Compat.parseInt(count / as3hx.Compat.parseInt(60));
         var remainder : Int = as3hx.Compat.parseInt(count % as3hx.Compat.parseInt(60));
@@ -731,28 +731,28 @@ class Utils
             i = as3hx.Compat.parseInt(r + l) >> 1;
             if (arr[l] > arr[i])
             {
-                vi = arr[l];
+                vi = Std.int(arr[l]);
                 arr[l] = arr[i];
                 arr[i] = vi;
             }
             
             if (arr[l] > arr[r])
             {
-                vi = arr[l];
+                vi = Std.int(arr[l]);
                 arr[l] = arr[r];
                 arr[r] = vi;
             }
             
             if (arr[l] > arr[r])
             {
-                vi = arr[i];
+                vi = Std.int(arr[i]);
                 arr[i] = arr[r];
                 arr[r] = vi;
             }
             
             j = as3hx.Compat.parseInt(r - 1);
             
-            vi = arr[i];
+            vi = Std.int(arr[i]);
             arr[i] = arr[j];
             arr[j] = vi;
             
@@ -773,12 +773,12 @@ class Utils
                     break;
                 }
                 
-                vi = arr[i];
+                vi = Std.int(arr[i]);
                 arr[i] = arr[j];
                 arr[j] = vi;
             }
             
-            vi = arr[i];
+            vi = Std.int(arr[i]);
             arr[i] = arr[(k = as3hx.Compat.parseInt(r - 1))];
             arr[k] = vi;
             

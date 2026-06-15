@@ -243,7 +243,7 @@ class UILevelSelect extends UIScreenInstance
         
         var maxf : Int = (untyped titleMC.progressBar).progressBar.totalFrames;
         
-        var f : Int = Utils.ScaleTo(1, maxf, 0, 1, progress);
+        var f : Int = Std.int(Utils.ScaleTo(1, maxf, 0, 1, progress));
         (untyped titleMC.progressBar).progressBar.gotoAndStop(f);
         (untyped titleMC).progressBar.percent.text = Math.round(progress * 100);
         (untyped titleMC).textNumGold.text = GameVars.GetNumBonusGold();

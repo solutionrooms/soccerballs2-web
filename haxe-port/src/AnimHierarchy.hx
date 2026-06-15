@@ -92,8 +92,8 @@ class AnimHierarchy
         var clip : Bool = false;
         if (dobj != null)
         {
-            var w : Float = dobj.GetWidth(frame) * scale;
-            var h : Float = dobj.GetHeight(frame) * scale;
+            var w : Float = dobj.GetWidth(Std.int(frame)) * scale;
+            var h : Float = dobj.GetHeight(Std.int(frame)) * scale;
             
             if (x > Defs.displayarea_w + w)
             {

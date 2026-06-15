@@ -23,7 +23,7 @@ class UIPreparingScreen extends UIScreenInstance
     }
     override public function InitScreen()
     {
-        mem1 = System.totalMemory / 1024;
+        mem1 = Std.int(System.totalMemory / 1024);
         
         titleMC = new ScreenPreparing();
         ScreenSize.ScaleMovieClip(titleMC);

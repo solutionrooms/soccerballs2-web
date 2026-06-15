@@ -893,8 +893,8 @@ class Game
     public static function GetMapData(x : Int, y : Int) : Int
     {
         var l : Level = Levels.GetCurrent();
-        x /= l.mapCellW;
-        y /= l.mapCellH;
+        x = Std.int(x / l.mapCellW);
+        y = Std.int(y / l.mapCellH);
         if (x < l.mapMinX || x > l.mapMaxX || y < l.mapMinY || y > l.mapMaxY)
         {
             return 0;
@@ -1406,7 +1406,7 @@ class Game
             {
                 if (walkthroughRecording != null)
                 {
-                    walkthroughRecording.Add(MouseControl.x, MouseControl.y, buttonClickedThisUpdate);
+                    walkthroughRecording.Add(Std.int(MouseControl.x), Std.int(MouseControl.y), buttonClickedThisUpdate);
                 }
             }
             
@@ -2305,7 +2305,7 @@ class Game
                 for (i in 0...line.points.length)
                 {
                     var j : Int = as3hx.Compat.parseInt(i + 1);
-                    j %= line.points.length;
+                    j = Std.int(j % line.points.length);
                     p0 = line.points[i].clone();
                     p1 = line.points[j].clone();
                     
@@ -2538,7 +2538,7 @@ class Game
             {
                 if (go.clickTestType == 1)
                 {
-                    if (HitTestGOLine(go, x, y))
+                    if (HitTestGOLine(go, Std.int(x), Std.int(y)))
                     {
                         return go;
                     }
@@ -2556,7 +2556,7 @@ class Game
                         
                         go.Render(bd);
                         
-                        var col : Int = bd.getPixel32(x, y);
+                        var col : Int = bd.getPixel32(Std.int(x), Std.int(y));
                         if (col != 0)
                         {
                             return go;

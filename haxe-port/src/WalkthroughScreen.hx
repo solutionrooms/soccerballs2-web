@@ -25,7 +25,7 @@ class WalkthroughScreen
         
         var thumbW : Float = 60;
         
-        SetThumbSize(thumbW, thumbW * ratio);
+        SetThumbSize(Std.int(thumbW), Std.int(thumbW * ratio));
     }
     
     public var screenW : Int;

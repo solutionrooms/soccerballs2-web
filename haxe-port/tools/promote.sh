@@ -11,3 +11,11 @@ rm -rf src
 cp -r src.staging src
 rm -rf src.staging
 echo "promoted src.staging -> src ($(find src -name '*.hx' | wc -l | tr -d ' ') .hx files)"
+
+# compiler-driven coercion fixer (Number->int, String->number) — deterministic, so reproducible.
+# Needs the lime-generated hxml; build it once if missing.
+[ -f bin/html5/haxe/release.hxml ] || haxelib run lime build html5 >/dev/null 2>&1 || true
+if [ -f bin/html5/haxe/release.hxml ]; then
+  echo "running numeric/string coercion autofix..."
+  python3 tools/autofix.py | tail -2
+fi

@@ -41,21 +41,21 @@ class DisplayObjFrame
     public function Load(x : FastXML)
     {
         flags = x.att.flags;
-        xoffset = x.att.xoffset;
-        yoffset = x.att.yoffset;
+        xoffset = as3hx.Compat.parseFloat(x.att.xoffset);
+        yoffset = as3hx.Compat.parseFloat(x.att.yoffset);
         sourceRect = new Rectangle();
-        sourceRect.x = x.att.sourceRectX;
-        sourceRect.y = x.att.sourceRectY;
-        sourceRect.width = x.att.sourceRectW;
-        sourceRect.height = x.att.sourceRectH;
+        sourceRect.x = as3hx.Compat.parseFloat(x.att.sourceRectX);
+        sourceRect.y = as3hx.Compat.parseFloat(x.att.sourceRectY);
+        sourceRect.width = as3hx.Compat.parseFloat(x.att.sourceRectW);
+        sourceRect.height = as3hx.Compat.parseFloat(x.att.sourceRectH);
         point = new Point();
         point.x = x.att.point.x;
         point.y = x.att.point.y;
-        s3dTexPageIndex = x.att.s3dTexPageIndex;
-        u0 = x.att.u0;
-        v0 = x.att.v0;
-        u1 = x.att.u1;
-        v1 = x.att.v1;
+        s3dTexPageIndex = as3hx.Compat.parseInt(x.att.s3dTexPageIndex);
+        u0 = as3hx.Compat.parseFloat(x.att.u0);
+        v0 = as3hx.Compat.parseFloat(x.att.v0);
+        u1 = as3hx.Compat.parseFloat(x.att.u1);
+        v1 = as3hx.Compat.parseFloat(x.att.v1);
         
         s3dTexture = TexturePages.pages[s3dTexPageIndex].s3dTexture;
         

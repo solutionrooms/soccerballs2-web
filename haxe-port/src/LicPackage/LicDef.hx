@@ -165,7 +165,7 @@ class LicDef
         var url : String = stg.loaderInfo.url;
         var urlStart : Float = url.indexOf("://") + 3;
         var urlEnd : Float = url.indexOf("/", urlStart);
-        var dom : String = url.substring(urlStart, urlEnd);
+        var dom : String = url.substring(Std.int(urlStart), urlEnd);
         var LastDot : Float = dom.lastIndexOf(".") - 1;
         var domEnd : Float = dom.lastIndexOf(".", LastDot) + 1;
         dom = dom.substring(domEnd, dom.length);

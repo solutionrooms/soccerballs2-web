@@ -69,7 +69,7 @@ class HintPopups
         h.shown = true;
         
         var popup : HintPopup = h.Clone();
-        popup.timer = Defs.fps * 5;
+        popup.timer = Std.int(Defs.fps * 5);
         popup.active = false;
         displayQueue.push(popup);
     }

@@ -30,7 +30,7 @@ class LicAds
     public static var intro : MovieClip;
     public static var cx : Int;
     public static var cy : Int;
-    private static var oldFrameRate : Int = 0;
+    public static var oldFrameRate : Int = 0;
     
     
     public static function GetLicensor() : Int
@@ -158,7 +158,7 @@ class LicAds
         return false;
     }
     
-    private static var showAdFinishedCallback : Function;
+    public static var showAdFinishedCallback : Function;
     public static function ShowAd(_showAdFinishedCallback : Function)
     {
         oldFrameRate = 0;
@@ -212,7 +212,7 @@ class LicAds
     
     
     
-    private static function CPMStarLoadingEventCallback(event : Event) : Void
+    public static function CPMStarLoadingEventCallback(event : Event) : Void
     {
         var bytestotal = LicDef.GetStage().stage.loaderInfo.bytesTotal;
         var bytesloaded = LicDef.GetStage().stage.loaderInfo.bytesLoaded;
@@ -227,15 +227,15 @@ class LicAds
         }
     }
     
-    private static function CPMStarCompleteCallback() : Void
+    public static function CPMStarCompleteCallback() : Void
     {
         if (cpmStarLoaderCounter >= 2)
         {
-            if (intro.loaderBar != null)
+            if ((untyped intro).loaderBar != null)
             {
-                intro.loaderBar.visible = false;
+                (untyped intro).loaderBar.visible = false;
             }
-            intro.buttonSkipCPMStarAd.visible = true;
+            (untyped intro).buttonSkipCPMStarAd.visible = true;
             
             if (LicDef.GetCurrentSku().skipPreloaderContinueButton)
             {
@@ -245,7 +245,7 @@ class LicAds
     }
     
     
-    private static function CPMStarTimerCallback(e : TimerEvent) : Void
+    public static function CPMStarTimerCallback(e : TimerEvent) : Void
     {
         cpmStarLoadTimer++;
         if (cpmStarLoadTimer >= LicDef.CPMStarFixedTime)
@@ -259,22 +259,22 @@ class LicAds
             cpmStarTimer.start();
         }
     }
-    private static var cpmStarLoadTimer : Int;
-    private static var cpmStarLoaderCounter : Int;
-    private static var cpmStarTimer : Timer;
-    private static var ad : DisplayObject = null;
+    public static var cpmStarLoadTimer : Int;
+    public static var cpmStarLoaderCounter : Int;
+    public static var cpmStarTimer : Timer;
+    public static var ad : DisplayObject = null;
     
     
-    private static function RenderLoaderBar(val : Float) : Void
+    public static function RenderLoaderBar(val : Float) : Void
     {
         if (intro == null)
         {
             return;
         }
-        if (intro.loaderBar != null)
+        if ((untyped intro).loaderBar != null)
         {
-            var newVal : Int = ScaleTo(1, intro.loaderBar.totalFrames, 0, 1, val);
-            intro.loaderBar.gotoAndStop(newVal);
+            var newVal : Int = ScaleTo(1, (untyped intro).loaderBar.totalFrames, 0, 1, val);
+            (untyped intro).loaderBar.gotoAndStop(newVal);
         }
     }
     public static function ScaleTo(f0 : Float, f1 : Float, o0 : Float, o1 : Float, val : Float) : Float
@@ -297,7 +297,7 @@ class LicAds
     
     
     
-    private static function AddIntroScreenAndSetUpButtons()
+    public static function AddIntroScreenAndSetUpButtons()
     {
         intro = new Preloader();
         intro.x = 0;
@@ -307,18 +307,18 @@ class LicAds
         
         LicDef.GetStage().addChild(intro);
         
-        MainLogoButton(intro.mainLogo);
+        MainLogoButton((untyped intro).mainLogo);
         
-        intro.logo_soccerballs.gotoAndStop(1);
+        (untyped intro).logo_soccerballs.gotoAndStop(1);
         if (LicDef.GetLicensor() == LicDef.LICENSOR_MOUSEBREAKER)
         {
-            intro.logo_soccerballs.gotoAndStop(2);
+            (untyped intro).logo_soccerballs.gotoAndStop(2);
         }
         
         
-        UI.AddAnimatedMCButton(intro.buttonSkipCPMStarAd, buttonSkipCPMStarAdPressed);
-        AuthorButton(intro.turboBtn);
-        intro.buttonSkipCPMStarAd.visible = false;
+        UI.AddAnimatedMCButton((untyped intro).buttonSkipCPMStarAd, buttonSkipCPMStarAdPressed);
+        AuthorButton((untyped intro).turboBtn);
+        (untyped intro).buttonSkipCPMStarAd.visible = false;
     }
     
     public static function AuthorButton(mc : SimpleButton) : Void
@@ -335,7 +335,7 @@ class LicAds
         }
         mc.addEventListener(MouseEvent.CLICK, AuthorLinkPressed, false, 0, true);
     }
-    private static function AuthorLinkPressed(e : MouseEvent) : Void
+    public static function AuthorLinkPressed(e : MouseEvent) : Void
     {
         if (LicDef.authorLinks.length == 0)
         {
@@ -367,14 +367,14 @@ class LicAds
         var adItem : AdItem = AdHolder.GetPreAdItem();
         if (adItem != null)
         {
-            ad = AdHolder.GetPreAdCustomMC(intro.adBox);
-            intro.adBox.addChild(ad);
+            ad = AdHolder.GetPreAdCustomMC((untyped intro).adBox);
+            (untyped intro).adBox.addChild(ad);
             
             if (adItem.url != "")
             {
-                intro.adBox.addEventListener(MouseEvent.CLICK, AdHolder.PreAdClicked);
-                intro.adBox.buttonMode = true;
-                intro.adBox.useHandCursor = true;
+                (untyped intro).adBox.addEventListener(MouseEvent.CLICK, AdHolder.PreAdClicked);
+                (untyped intro).adBox.buttonMode = true;
+                (untyped intro).adBox.useHandCursor = true;
             }
         }
         
@@ -501,17 +501,17 @@ stop();
 
 */
     
-    private static var myEpicGameAdsPublisherCode : String = "3run02qoxt";
-    private static var myEpicGameAdsGameID : String = "1";
+    public static var myEpicGameAdsPublisherCode : String = "3run02qoxt";
+    public static var myEpicGameAdsGameID : String = "1";
     
-    private static var myEpicGameAdsBgSolid : Int = 0;
-    private static var myEpicGameAdsBgColor : Int = 0x000000;
-    private static var myEpicGameAdsFadeIn : Int = 1;
-    private static var myEpicGameAdsFadeFrames : Int = 24;
-    private static var epicGameAds : Loader;
-    private static var oEpicContent : Dynamic;
-    private static var oEpicDisplay : DisplayObject;
-    private static var oEpicUserInfo : Dynamic;
+    public static var myEpicGameAdsBgSolid : Int = 0;
+    public static var myEpicGameAdsBgColor : Int = 0x000000;
+    public static var myEpicGameAdsFadeIn : Int = 1;
+    public static var myEpicGameAdsFadeFrames : Int = 24;
+    public static var epicGameAds : Loader;
+    public static var oEpicContent : Dynamic;
+    public static var oEpicDisplay : DisplayObject;
+    public static var oEpicUserInfo : Dynamic;
     
     public static function ShowEpicGameAd() : Void
     {
@@ -547,7 +547,7 @@ stop();
         loader.contentLoaderInfo.addEventListener(Event.COMPLETE, epicLoadComplete, false, 0, true);
         loader.load(request);
         
-        oEpicDisplay = intro.adBox.addChild(loader);
+        oEpicDisplay = (untyped intro).adBox.addChild(loader);
         
         cpmStarLoaderCounter = 0;
         LicDef.GetStage().addEventListener(Event.ENTER_FRAME, CPMStarLoadingEventCallback);
@@ -556,23 +556,23 @@ stop();
         cpmStarTimer.start();
     }
     
-    private static function unloadEpicGameAds()
+    public static function unloadEpicGameAds()
     {
         epicGameAds.unloadAndStop();
     }
     
-    private static function onEpicConIOError(e : IOErrorEvent)
+    public static function onEpicConIOError(e : IOErrorEvent)
     {
         trace(e.text);
     }
     
-    private static function epicLoadProgress(e : ProgressEvent) : Void
+    public static function epicLoadProgress(e : ProgressEvent) : Void
     {
         var percentLoaded : Float = e.bytesLoaded / e.bytesTotal;
         percentLoaded = Math.round(percentLoaded * 100);
     }
     
-    private static function epicLoadComplete(e : Event) : Void
+    public static function epicLoadComplete(e : Event) : Void
     {
         oEpicDisplay.x = 0;
         oEpicDisplay.y = 0;
@@ -610,7 +610,7 @@ stop();
         }
         
         ad = new cPMStar.AdLoader(id);
-        intro.adBox.addChild(ad);
+        (untyped intro).adBox.addChild(ad);
         
         
         cpmStarLoadTimer = 0;
@@ -635,7 +635,7 @@ stop();
     }
     
     
-    private static function ShowMochiAd_Preload_LoadingEventCallback(event : Event)
+    public static function ShowMochiAd_Preload_LoadingEventCallback(event : Event)
     {
         var bytestotal = LicDef.GetStage().stage.loaderInfo.bytesTotal;
         var bytesloaded = LicDef.GetStage().stage.loaderInfo.bytesLoaded;
@@ -680,14 +680,14 @@ stop();
         AddIntroScreenAndSetUpButtons();
         
         
-        intro.adBox.visible = false;
+        (untyped intro).adBox.visible = false;
         
         cpmStarLoadTimer = 0;
         cpmStarLoaderCounter = 1;
         LicDef.GetStage().addEventListener(Event.ENTER_FRAME, CPMStarLoadingEventCallback);
     }
     
-    private static function RemoveMainLogoButton(mc : MovieClip) : Void
+    public static function RemoveMainLogoButton(mc : MovieClip) : Void
     {
         if (mc == null)
         {
@@ -760,12 +760,12 @@ stop();
         }
     }
     
-    private static function ClickedLinkURL(e : MouseEvent)
+    public static function ClickedLinkURL(e : MouseEvent)
     {
         var sku : LicSku = GetCurrentSku();
         DoLink(sku.linkURL);
     }
-    private static function ClickedMainLogoURL(e : MouseEvent)
+    public static function ClickedMainLogoURL(e : MouseEvent)
     {
         var sku : LicSku = GetCurrentSku();
         DoLink(sku.mainLogoLinkURL);
@@ -796,11 +796,11 @@ stop();
         btn.addEventListener(MouseEvent.CLICK, clickCallback, false, 0, true);
     }
     
-    private static function buttonSkipCPMStarAdPressed(e : MouseEvent) : Void
+    public static function buttonSkipCPMStarAdPressed(e : MouseEvent) : Void
     {
         if (ad != null)
         {
-            intro.adBox.removeChild(ad);
+            (untyped intro).adBox.removeChild(ad);
         }
         
         LicDef.GetStage().removeChild(intro);

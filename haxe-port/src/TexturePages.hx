@@ -9,11 +9,11 @@ import flash.geom.Rectangle;
 	 */
 class TexturePages
 {
-    private static var pages : Array<TexturePage>;
-    private static var dobjFrames : Array<DisplayObjFrame>;
+    public static var pages : Array<TexturePage>;
+    public static var dobjFrames : Array<DisplayObjFrame>;
     
     
-    private static var txSize : Int = 2048;
+    public static var txSize : Int = 2048;
     public static var doBestFit : Bool = true;
     
     
@@ -23,8 +23,8 @@ class TexturePages
     
     public static function InitOnce()
     {
-        pages = new Array<TexturePage>();
-        dobjFrames = new Array<DisplayObjFrame>();
+        pages = [];
+        dobjFrames = [];
     }
     
     public static function AddDobjFrame(_dobj : DisplayObjFrame)

@@ -9,7 +9,7 @@ import flash.utils.Dictionary;
 	 */
 class ZombieHolder
 {
-    private static var dictionary : Dictionary<Dynamic, Dynamic>;
+    public static var dictionary : Dictionary<Dynamic, Dynamic>;
     
     
     

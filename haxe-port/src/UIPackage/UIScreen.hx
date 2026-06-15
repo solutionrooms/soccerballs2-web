@@ -7,10 +7,10 @@ package uIPackage;
 	 */
 class UIScreen
 {
-    private var name : String;
-    private var overlay : Bool;
-    private var theClass : Class<Dynamic>;
-    private var params : Dynamic;
+    public var name : String;
+    public var overlay : Bool;
+    public var theClass : Class<Dynamic>;
+    public var params : Dynamic;
     
     public function new(_name : String, _overlay : Bool, _className : Class<Dynamic>, _params)
     {

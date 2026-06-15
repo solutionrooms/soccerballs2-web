@@ -8,8 +8,8 @@ import flash.utils.Dictionary;
 	 */
 class GameLayers
 {
-    private static var layers : Array<GameLayer>;
-    private static var nameDictionary : Dictionary<Dynamic, Dynamic>;
+    public static var layers : Array<GameLayer>;
+    public static var nameDictionary : Dictionary<Dynamic, Dynamic>;
     
     public function new()
     {
@@ -33,7 +33,7 @@ class GameLayers
     }
     public static function InitOnce(x : FastXML)
     {
-        layers = new Array<GameLayer>();
+        layers = [];
         nameDictionary = new Dictionary<Dynamic, Dynamic>();
         for (i in 0...x.nodes.gamelayer.length())
         {

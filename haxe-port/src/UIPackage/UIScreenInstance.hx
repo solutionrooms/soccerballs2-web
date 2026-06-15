@@ -12,10 +12,10 @@ import flash.ui.MouseCursor;
 	 */
 class UIScreenInstance
 {
-    private var template : UIScreen;
-    private var active : Bool;
-    private var titleMC : MovieClip;
-    private var onTransitionCompleteFunction : Function = null;
+    public var template : UIScreen;
+    public var active : Bool;
+    public var titleMC : MovieClip;
+    public var onTransitionCompleteFunction : Function = null;
     
     
     

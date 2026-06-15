@@ -32,8 +32,8 @@ class TextRenderer
     public static var stringCharX : Float;
     public static var stringCharY : Float;
     public static var stringCharBitmapData : BitmapData;
-    private static var m : Matrix = new Matrix();
-    private static var p : Point = new Point(0, 0);
+    public static var m : Matrix = new Matrix();
+    public static var p : Point = new Point(0, 0);
     public static function RenderAt(screenBD : BitmapData, x : Float, y : Float, str : String, dir : Float = 0, scale : Float = 1, justify : Int = JUSTIFY_CENTRE, ct : ColorTransform = null)
     {
         if (Game.use_localisation)

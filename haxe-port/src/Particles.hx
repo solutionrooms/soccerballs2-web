@@ -7,15 +7,15 @@ class Particles
 {
     public static inline var type_dust = 0;
     
-    private static var max : Int;
-    private static var list : Array<Particle>;
-    private static var nextIndex : Int;
+    public static var max : Int;
+    public static var list : Array<Particle>;
+    public static var nextIndex : Int;
     
     public static function InitOnce(_max : Int) : Void
     {
         max = _max;
         nextIndex = 0;
-        list = new Array<Particle>();
+        list = [];
         var i : Int;
         var j : Int;
         for (i in 0...max)
@@ -146,18 +146,18 @@ class Particles
                     }
                     else if (p.psize == 1)
                     {
-                        bd.setPixel32(xp1, yp1, p.color);
+                        bd.setPixel32(xp1, yp1, (untyped p).color);
                     }
                     else if (p.psize == 2)
                     {
-                        bd.setPixel32(xp1, yp1, p.color);
-                        bd.setPixel32(xp1 + 1, yp1, p.color);
-                        bd.setPixel32(xp1, yp1 + 1, p.color);
-                        bd.setPixel32(xp1 + 1, yp1 + 1, p.color);
+                        bd.setPixel32(xp1, yp1, (untyped p).color);
+                        bd.setPixel32(xp1 + 1, yp1, (untyped p).color);
+                        bd.setPixel32(xp1, yp1 + 1, (untyped p).color);
+                        bd.setPixel32(xp1 + 1, yp1 + 1, (untyped p).color);
                     }
                     else if (p.psize == 3)
                     {
-                        var c : Int = p.color;
+                        var c : Int = (untyped p).color;
                         c = c | as3hx.Compat.parseInt(p.alpha << 24);
                         
                         bd.setPixel32(xp1 - 1, yp1 - 1, c);

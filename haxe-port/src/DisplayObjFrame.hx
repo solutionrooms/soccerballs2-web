@@ -101,16 +101,16 @@ class DisplayObjFrame
         }
     }
     
-    private function MakeVertexBuffer()
+    public function MakeVertexBuffer()
     {
         var currentV : Int = 0;
         var currentVE : Int = 0;
         var currentI : Int = 0;
         
-        vertices = new Array<Float>();
-        vertices_transformed = new Array<Float>();
-        vertices_extra = new Array<Float>();
-        indices = new Array<Int>();
+        vertices = [];
+        vertices_transformed = [];
+        vertices_extra = [];
+        indices = [];
         
         
         
@@ -160,7 +160,7 @@ class DisplayObjFrame
         indices[currentI++] = 2;
     }
     
-    private function NearestSuperiorPow2(i : Int) : Int
+    public function NearestSuperiorPow2(i : Int) : Int
     {
         var a : Int = 2;
         for (x in 0...12)
@@ -194,7 +194,7 @@ class DisplayObjFrame
     }
     
     
-    private var m3d : Matrix3D = new Matrix3D();
+    public var m3d : Matrix3D = new Matrix3D();
     public function RenderAt(screenBD : BitmapData, xpos : Float, ypos : Float) : Void
     {
         point.x = xpos + xoffset;
@@ -250,7 +250,7 @@ class DisplayObjFrame
         }
     }
     
-    private static var z_azis : Vector3D = new Vector3D(0, 0, 1);
+    public static var z_azis : Vector3D = new Vector3D(0, 0, 1);
     
     public function RenderAtRotScaled(screenBD : BitmapData, xpos : Float, ypos : Float, scale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false) : Void
     {

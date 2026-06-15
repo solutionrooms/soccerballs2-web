@@ -42,34 +42,34 @@ class UITitleScreen extends UIScreenInstance
         ScreenSize.ScaleMovieClip(titleMC);
         titleMC.gotoAndStop(1);
         
-        UI.AddAnimatedMCButton(titleMC.btn_playgame, buttonContinuePressed, null, true);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_playgame, buttonContinuePressed, null, true);
         UI.AddAnimatedMCButton(titleMC.btn_credits, buttonCreditsPressed, null, true);
         UI.AddAnimatedMCButton(titleMC.btn_clearSaveGame, buttonClearDataPopupPressed, null, true);
         UI.AddMCButton(titleMC.btn_language, buttonLanguageSelectPressed);
         
         
-        titleMC.logo_soccerballs.gotoAndStop(1);
+        (untyped titleMC).logo_soccerballs.gotoAndStop(1);
         if (LicDef.GetLicensor() == LicDef.LICENSOR_MOUSEBREAKER)
         {
-            titleMC.logo_soccerballs.gotoAndStop(2);
-            titleMC.btn_prequel.buttonName.text = "Red Card 1";
+            (untyped titleMC).logo_soccerballs.gotoAndStop(2);
+            (untyped titleMC.btn_prequel).buttonName.text = "Red Card 1";
         }
         
         UI.AddAnimatedMCButton(titleMC.btn_clearSaveGame, buttonClearDataPopupPressed, null, true);
         
-        Lic.AnimatedMCPrequelButton(titleMC.btn_prequel);
+        Lic.AnimatedMCPrequelButton((untyped titleMC).btn_prequel);
         
         
         
         UI.AddGeneric(titleMC);
         
-        Lic.AnimatedMCMoreGamesButton(titleMC.btn_moregames, "title");
-        Lic.MainLogoButton(titleMC.mainLogo);
+        Lic.AnimatedMCMoreGamesButton((untyped titleMC).btn_moregames, "title");
+        Lic.MainLogoButton((untyped titleMC).mainLogo);
         
         if (LicDef.GetLicensor() == LicDef.LICENSOR_KIZI)
         {
             titleMC.btn_credits.visible = false;
-            titleMC.mainLogo.visible = false;
+            (untyped titleMC).mainLogo.visible = false;
             KiziStuff.AddLogoAt(titleMC, 230, 190, 0.6);
         }
         if (LicDef.GetLicensor() == LicDef.LICENSOR_BEGAMER)
@@ -78,7 +78,7 @@ class UITitleScreen extends UIScreenInstance
         }
         
         
-        Lic.AuthorButton(titleMC.turboBtn);
+        Lic.AuthorButton((untyped titleMC).turboBtn);
         
         
         
@@ -93,7 +93,7 @@ class UITitleScreen extends UIScreenInstance
         }
     }
     
-    private var endMovieAvailable : Bool;
+    public var endMovieAvailable : Bool;
     
     
     public function buttonDownloadGamePressed(e : MouseEvent)

@@ -187,14 +187,14 @@ class EditModeLibrary extends EditModeBase
     }
     
     
-    private var pickerRectangle : Rectangle = new Rectangle(0, 0, Defs.displayarea_w, Defs.displayarea_h);
-    private var boxNumW : Float = 5;
-    private var boxNumH : Float = 4;
-    private var boxSizeW : Float = Defs.displayarea_w / boxNumW;
-    private var boxSizeH : Float = Defs.displayarea_h / boxNumH;
+    public var pickerRectangle : Rectangle = new Rectangle(0, 0, Defs.displayarea_w, Defs.displayarea_h);
+    public var boxNumW : Float = 5;
+    public var boxNumH : Float = 4;
+    public var boxSizeW : Float = Defs.displayarea_w / 5;
+    public var boxSizeH : Float = Defs.displayarea_h / 4;
     
-    private var library_page : Int = 0;
-    private function Library_PickPiece()
+    public var library_page : Int = 0;
+    public function Library_PickPiece()
     {
         var mx : Int = MouseControl.x;
         var my : Int = MouseControl.y;
@@ -228,7 +228,7 @@ class EditModeLibrary extends EditModeBase
     
     
     public var library_hoverPieceName : String = "";
-    private function Library_GetHoverPieceName()
+    public function Library_GetHoverPieceName()
     {
         library_hoverPieceName = "";
         var mx : Int = MouseControl.x;
@@ -256,14 +256,14 @@ class EditModeLibrary extends EditModeBase
         library_hoverPieceName = po.name;
     }
     
-    private var libraryFilter : String = "";
-    private var libraryFilterIndex : Int = 0;
+    public var libraryFilter : String = "";
+    public var libraryFilterIndex : Int = 0;
     public var libraryFilters : Array<Dynamic>;
-    private var librarySizeIndex : Int;
-    private var numLibrarySizes : Int;
-    private var librarySizes : Array<Dynamic>;
+    public var librarySizeIndex : Int;
+    public var numLibrarySizes : Int;
+    public var librarySizes : Array<Dynamic>;
     
-    private function DoesLibraryFilterListContain(filter : String) : Bool
+    public function DoesLibraryFilterListContain(filter : String) : Bool
     {
         for (s in libraryFilters)
         {
@@ -274,17 +274,17 @@ class EditModeLibrary extends EditModeBase
         }
         return false;
     }
-    private function InitLibraryFilter()
+    public function InitLibraryFilter()
     {
         pickerRectangle = new Rectangle(0, 60, Defs.displayarea_w, Defs.displayarea_h - 80);
         
         libraryFilterIndex = -1;
         libraryFilter = "";
-        libraryFilters = new Array<Dynamic>();
+        libraryFilters = [];
         libraryFilters.push("");
         librarySizeIndex = -1;
         
-        librarySizes = new Array<Dynamic>();
+        librarySizes = [];
         librarySizes.push(new Point(4, 3));
         librarySizes.push(new Point(5, 4));
         librarySizes.push(new Point(7, 5));
@@ -314,7 +314,7 @@ class EditModeLibrary extends EditModeBase
         NextLibrarySize();
     }
     
-    private function TestLibraryFilter(filter : String) : Bool
+    public function TestLibraryFilter(filter : String) : Bool
     {
         if (libraryFilter == "")
         {
@@ -327,7 +327,7 @@ class EditModeLibrary extends EditModeBase
         return false;
     }
     
-    private function NextLibrarySize()
+    public function NextLibrarySize()
     {
         librarySizeIndex++;
         if (librarySizeIndex >= numLibrarySizes)
@@ -349,7 +349,7 @@ class EditModeLibrary extends EditModeBase
         
         GetLibraryPieces();
     }
-    private function NextLibraryFilter()
+    public function NextLibraryFilter()
     {
         libraryFilterIndex++;
         if (libraryFilterIndex >= libraryFilters.length)
@@ -362,10 +362,10 @@ class EditModeLibrary extends EditModeBase
     }
     
     
-    private var libraryPieces : Array<Dynamic>;
-    private function GetLibraryPieces()
+    public var libraryPieces : Array<Dynamic>;
+    public function GetLibraryPieces()
     {
-        libraryPieces = new Array<Dynamic>();
+        libraryPieces = [];
         for (po/* AS3HX WARNING could not determine type for var: po exp: EField(EField(EIdent(Game),objectDefs),list) type: null */ in Game.objectDefs.list)
         {
             if (po.displayInLibrary && TestLibraryFilter(po.libraryClass))
@@ -375,7 +375,7 @@ class EditModeLibrary extends EditModeBase
         }
     }
     
-    private function CountLibraryPieces() : Int
+    public function CountLibraryPieces() : Int
     {
         var count : Int = 0;
         for (po/* AS3HX WARNING could not determine type for var: po exp: EField(EField(EIdent(Game),objectDefs),list) type: null */ in Game.objectDefs.list)
@@ -388,7 +388,7 @@ class EditModeLibrary extends EditModeBase
         return count;
     }
     
-    private function GetNumLibraryPages() : Int
+    public function GetNumLibraryPages() : Int
     {
         var numPerPage : Int = as3hx.Compat.parseInt(boxNumW * boxNumH);
         

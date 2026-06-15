@@ -81,10 +81,10 @@ class LevelBase
         name = "";
         displayName = "";
         description = "";
-        instances = new Array<Dynamic>();
-        joints = new Array<Dynamic>();
-        helpscreenFrames = new Array<Dynamic>();
-        lines = new Array<Dynamic>();
+        instances = [];
+        joints = [];
+        helpscreenFrames = [];
+        lines = [];
         music = 0;
         category = 0;
         fillFrame = 1;
@@ -116,7 +116,7 @@ class LevelBase
         gotBonus = false;
         
         var i : Int;
-        map = new Array<Dynamic>();
+        map = [];
         mapCellW = 16;
         mapCellH = 16;
         mapMinX = 0;

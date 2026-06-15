@@ -8,10 +8,10 @@ import flash.display.MovieClip;
 	 */
 class AchievementPopup
 {
-    private var achievement : Achievement;
-    private var timer : Int;
-    private var active : Bool;
-    private var mc : MovieClip;
+    public var achievement : Achievement;
+    public var timer : Int;
+    public var active : Bool;
+    public var mc : MovieClip;
     public function new()
     {
     }

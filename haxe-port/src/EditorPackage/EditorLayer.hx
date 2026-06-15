@@ -10,12 +10,12 @@ import uIPackage.UI;
 	 */
 class EditorLayer
 {
-    private var name : String;
-    private var index : Int;
-    private var visible : Bool;
-    private var locked : Bool;
-    private var active : Bool;
-    private var mc : EditorEditItemLayer;
+    public var name : String;
+    public var index : Int;
+    public var visible : Bool;
+    public var locked : Bool;
+    public var active : Bool;
+    public var mc : EditorEditItemLayer;
     
     public function new(_index : Int, _name : String)
     {
@@ -26,33 +26,33 @@ class EditorLayer
         active = false;
         mc = new EditorEditItemLayer();
         
-        mc.editorLayer = this;
-        mc.displayText.text = "LAYER " + as3hx.Compat.parseInt(index + 1);
+        (untyped mc).editorLayer = this;
+        (untyped mc).displayText.text = "LAYER " + as3hx.Compat.parseInt(index + 1);
         
-        UI.AddBarebonesMCButton(mc.buttonVisible, clickedVisible);
-        UI.AddBarebonesMCButton(mc.buttonLocked, clickedLocked);
-        UI.AddBarebonesMCButton(mc.buttonSelected, clickedSelected);
+        UI.AddBarebonesMCButton((untyped mc).buttonVisible, clickedVisible);
+        UI.AddBarebonesMCButton((untyped mc).buttonLocked, clickedLocked);
+        UI.AddBarebonesMCButton((untyped mc).buttonSelected, clickedSelected);
         
-        UI.SetNonPropagateMouse(mc.buttonVisible);
-        UI.SetNonPropagateMouse(mc.buttonLocked);
-        UI.SetNonPropagateMouse(mc.buttonSelected);
+        UI.SetNonPropagateMouse((untyped mc).buttonVisible);
+        UI.SetNonPropagateMouse((untyped mc).buttonLocked);
+        UI.SetNonPropagateMouse((untyped mc).buttonSelected);
     }
     
-    private function clickedVisible(e : MouseEvent)
+    public function clickedVisible(e : MouseEvent)
     {
         e.stopPropagation();
         e.stopImmediatePropagation();
         ToggleVisibility();
         UpdateUI();
     }
-    private function clickedLocked(e : MouseEvent)
+    public function clickedLocked(e : MouseEvent)
     {
         e.stopPropagation();
         e.stopImmediatePropagation();
         ToggleLocked();
         UpdateUI();
     }
-    private function clickedSelected(e : MouseEvent)
+    public function clickedSelected(e : MouseEvent)
     {
         e.stopPropagation();
         e.stopImmediatePropagation();
@@ -62,21 +62,21 @@ class EditorLayer
     
     public function UpdateUI()
     {
-        mc.buttonVisible.cross.visible = true;
-        mc.buttonLocked.cross.visible = true;
-        mc.buttonSelected.cross.visible = true;
+        (untyped mc).buttonVisible.cross.visible = true;
+        (untyped mc).buttonLocked.cross.visible = true;
+        (untyped mc).buttonSelected.cross.visible = true;
         
         if (visible)
         {
-            mc.buttonVisible.cross.visible = false;
+            (untyped mc).buttonVisible.cross.visible = false;
         }
         if (locked)
         {
-            mc.buttonLocked.cross.visible = false;
+            (untyped mc).buttonLocked.cross.visible = false;
         }
         if (active)
         {
-            mc.buttonSelected.cross.visible = false;
+            (untyped mc).buttonSelected.cross.visible = false;
         }
     }
     

@@ -14,27 +14,27 @@ import flash.utils.ByteArray;
 	 */
 class TexturePage
 {
-    private var items : Array<DisplayObjFrame>;
-    private var width : Int;
-    private var height : Int;
-    private var index : Int;
+    public var items : Array<DisplayObjFrame>;
+    public var width : Int;
+    public var height : Int;
+    public var index : Int;
     
-    private var cellSize : Int;
-    private var currentCellX : Int;
-    private var currentCellY : Int;
+    public var cellSize : Int;
+    public var currentCellX : Int;
+    public var currentCellY : Int;
     
-    private var bd : BitmapData;
-    private var s3dTexture : Texture;
+    public var bd : BitmapData;
+    public var s3dTexture : Texture;
     
     public function new(_index : Int, _w : Int, _h : Int)
     {
         width = _w;
         height = _h;
-        items = new Array<DisplayObjFrame>();
+        items = [];
         index = _index;
     }
     
-    private var firstNode : TexturePageNode = null;
+    public var firstNode : TexturePageNode = null;
     
     
     

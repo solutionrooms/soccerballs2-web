@@ -26,18 +26,18 @@ class EditModeBase
         editSubMode = 0;
     }
     
-    private var editSubMode : Int;
-    private var mx : Int;
-    private var my : Int;
-    private var sx : Float;
-    private var sy : Float;
-    private var mxs : Int;
-    private var mys : Int;
+    public var editSubMode : Int;
+    public var mx : Int;
+    public var my : Int;
+    public var sx : Float;
+    public var sy : Float;
+    public var mxs : Int;
+    public var mys : Int;
     
-    private function GetMousePositions(e : MouseEvent)
+    public function GetMousePositions(e : MouseEvent)
     {
-        mx = e.stageX;
-        my = e.stageY;
+        mx = Std.int(e.stageX);
+        my = Std.int(e.stageY);
         
         if (PhysEditor.gridMode_active)
         {
@@ -89,23 +89,23 @@ class EditModeBase
     }
     
     
-    private function GetCurrentLevel() : Level
+    public function GetCurrentLevel() : Level
     {
         return PhysEditor.GetCurrentLevel();
     }
-    private function GetCurrentLevelJoints() : Array<Dynamic>
+    public function GetCurrentLevelJoints() : Array<Dynamic>
     {
         return PhysEditor.GetCurrentLevel().joints;
     }
-    private function GetCurrentLevelInstances() : Array<Dynamic>
+    public function GetCurrentLevelInstances() : Array<Dynamic>
     {
         return PhysEditor.GetCurrentLevelInstances();
     }
-    private function GetCurrentLevelLines() : Array<Dynamic>
+    public function GetCurrentLevelLines() : Array<Dynamic>
     {
         return PhysEditor.GetCurrentLevelLines();
     }
-    private function SetCurrentLevelInstances(instances : Array<Dynamic>) : Void
+    public function SetCurrentLevelInstances(instances : Array<Dynamic>) : Void
     {
         PhysEditor.SetCurrentLevelInstances(instances);
     }

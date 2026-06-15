@@ -4,7 +4,6 @@ import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.system.System;
 import org.flashdevelop.utils.FlashConnect;
-import org.flashdevelop.utils.TraceLevel;
 
 /**
 	* ...
@@ -35,8 +34,8 @@ class Utils
         return newct;
     }
     
-    private var FASTRANDOMTOFLOAT(default, never) : Float = 1 / as3hx.Compat.INT_MAX;
-    private var fastrandomseed : Int = Math.random() * as3hx.Compat.INT_MAX;
+    public var FASTRANDOMTOFLOAT(default, never) : Float = 1 / as3hx.Compat.INT_MAX;
+    public var fastrandomseed : Int = Math.random() * as3hx.Compat.INT_MAX;
     public function fastRandom() : Float
     {
         fastrandomseed = fastrandomseed ^ as3hx.Compat.parseInt(fastrandomseed << 21);
@@ -94,7 +93,7 @@ class Utils
     
     public static function PointArrayFromString(s : String) : Array<Dynamic>
     {
-        var pointArray : Array<Dynamic> = new Array<Dynamic>();
+        var pointArray : Array<Dynamic> = [];
         
         var a : Array<Dynamic> = s.split(",");
         
@@ -119,7 +118,7 @@ class Utils
     
     public static function HexArrayFromString(s : String) : Array<Dynamic>
     {
-        var hexArray : Array<Dynamic> = new Array<Dynamic>();
+        var hexArray : Array<Dynamic> = [];
         if (s.length == 0)
         {
             return hexArray;
@@ -406,17 +405,17 @@ class Utils
     }
     
     
-    private static function RandSetSeed(_seed : Int)
+    public static function RandSetSeed(_seed : Int)
     {
         SeededRandom.SetSeed(_seed);
     }
-    private static function RandBetweenFloat_Seeded(r0 : Float, r1 : Float) : Float
+    public static function RandBetweenFloat_Seeded(r0 : Float, r1 : Float) : Float
     {
         var r : Float = SeededRandom.GetNumber() * (r1 - r0);
         r += r0;
         return r;
     }
-    private static function RandBetweenInt_Seeded(r0 : Int, r1 : Int) : Int
+    public static function RandBetweenInt_Seeded(r0 : Int, r1 : Int) : Int
     {
         var r : Int = as3hx.Compat.parseInt(SeededRandom.GetNumber() * ((r1 - r0) + 1));
         r += r0;
@@ -603,8 +602,8 @@ class Utils
     }
     public static function GetParams(params : String) : Void
     {
-        paramNames = new Array<Dynamic>();
-        paramValues = new Array<Dynamic>();
+        paramNames = [];
+        paramValues = [];
         
         if (params == null)
         {
@@ -795,8 +794,8 @@ class Utils
     }
     public static function GetPlacePostfixString(place : Int) : String
     {
-        var a : Array<Dynamic> = new Array<Dynamic>(
-        "st", "nd", "rd", "th");
+        var a : Array<Dynamic> = [
+        "st", "nd", "rd", "th"];
         
         if (place < 0)
         {

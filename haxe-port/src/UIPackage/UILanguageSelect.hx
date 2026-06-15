@@ -44,15 +44,15 @@ class UILanguageSelect extends UIScreenInstance
         ScreenSize.ScaleMovieClip(titleMC);
         titleMC.gotoAndStop(1);
         
-        UI.AddAnimatedMCButton(titleMC.btn_back, buttonBackPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_back, buttonBackPressed);
         
-        TextStrings.ReplaceTextFieldText(titleMC.textTitle);
+        TextStrings.ReplaceTextFieldText((untyped titleMC).textTitle);
         
         AddFlags();
         UpdateFlags();
     }
     
-    private function GetFlagFrameFromName(name : String) : Int
+    public function GetFlagFrameFromName(name : String) : Int
     {
         var i : Int = 1;
         for (s/* AS3HX WARNING could not determine type for var: s exp: EIdent(availableFlags) type: null */ in availableFlags)
@@ -66,7 +66,7 @@ class UILanguageSelect extends UIScreenInstance
         return 1;
     }
     
-    private var availableFlags : Array<Dynamic> = new Array<Dynamic>(
+    public var availableFlags : Array<Dynamic> = [
         "en", 
         "es", 
         "de", 
@@ -75,7 +75,7 @@ class UILanguageSelect extends UIScreenInstance
         "pt", 
         "tr", 
         "se", 
-        "it");
+        "it"];
     
     
     
@@ -85,25 +85,25 @@ class UILanguageSelect extends UIScreenInstance
     
     
     
-    private var flagMCs : Array<Dynamic>;
+    public var flagMCs : Array<Dynamic>;
     
-    private function UpdateFlags()
+    public function UpdateFlags()
     {
         for (mc in flagMCs)
         {
-            if (mc.languageID == TextStrings.currentLanguage)
+            if ((untyped mc).languageID == TextStrings.currentLanguage)
             {
-                mc.selected.visible = true;
+                (untyped mc).selected.visible = true;
             }
             else
             {
-                mc.selected.visible = false;
+                (untyped mc).selected.visible = false;
             }
         }
     }
-    private function AddFlags()
+    public function AddFlags()
     {
-        flagMCs = new Array<Dynamic>();
+        flagMCs = [];
         var supported : Array<Dynamic> = TextStrings.supportedLanguages;
         
         var ox : Int = 50;
@@ -113,7 +113,7 @@ class UILanguageSelect extends UIScreenInstance
         for (languageID in supported)
         {
             var mc : MovieClip = new LanguageFlags();
-            mc.languageID = languageID;
+            (untyped mc).languageID = languageID;
             mc.gotoAndStop(GetFlagFrameFromName(TextStrings.languageLabels[languageID]));
             titleMC.addChild(mc);
             UI.AddBarebonesMCButton(mc, flagClicked);
@@ -132,20 +132,20 @@ class UILanguageSelect extends UIScreenInstance
     }
     
     
-    private function flagClicked(e : MouseEvent)
+    public function flagClicked(e : MouseEvent)
     {
         var mc : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        TextStrings.currentLanguage = mc.languageID;
+        TextStrings.currentLanguage = (untyped mc).languageID;
         
-        Tracking.Event("language", TextStrings.GetLabelFromIndex(mc.languageID));
+        Tracking.Event("language", TextStrings.GetLabelFromIndex((untyped mc).languageID));
         
         
         UpdateFlags();
-        TextStrings.ReplaceTextFieldText(titleMC.textTitle, "languages");
+        TextStrings.ReplaceTextFieldText((untyped titleMC).textTitle, "languages");
         SaveData.Save();
         UI.StartTransition("title");
     }
-    private function buttonBackPressed(e : MouseEvent)
+    public function buttonBackPressed(e : MouseEvent)
     {
         UI.StartTransition("title");
     }

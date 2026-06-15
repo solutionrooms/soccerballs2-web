@@ -30,7 +30,7 @@ class PhysLine
     {
         id = "";
         type = 0;
-        points = new Array<Dynamic>();
+        points = [];
         fill = 0;
         fillScaleX = 1;
         fillScaleY = 1;
@@ -81,8 +81,8 @@ class PhysLine
     }
     
     
-    private var boundingRectangle : Rectangle;
-    private function CalcBoundingRectangle()
+    public var boundingRectangle : Rectangle;
+    public function CalcBoundingRectangle()
     {
         var p : Point;
         p = points[0];
@@ -237,9 +237,9 @@ class PhysLine
     
     
     
-    private var catmullRomLength : Float;
-    private var segmentLengths : Array<Dynamic>;
-    private var segmentRatios : Array<Dynamic>;
+    public var catmullRomLength : Float;
+    public var segmentLengths : Array<Dynamic>;
+    public var segmentRatios : Array<Dynamic>;
     public function CalculateLength(loop : Bool = false) : Float
     {
         segmentLengths = null;
@@ -257,8 +257,8 @@ class PhysLine
             np--;
         }
         
-        segmentLengths = new Array<Dynamic>();
-        segmentRatios = new Array<Dynamic>();
+        segmentLengths = [];
+        segmentRatios = [];
         for (i in 0...np)
         {
             var j : Int = as3hx.Compat.parseInt(i + 1);
@@ -294,7 +294,7 @@ class PhysLine
     }
     public function CalculateCatmullRomLength()
     {
-        var l : Array<Dynamic> = new Array<Dynamic>();
+        var l : Array<Dynamic> = [];
         var i : Int;
         
         var np : Int = GetNumPoints();

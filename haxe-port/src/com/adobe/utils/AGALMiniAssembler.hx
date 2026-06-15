@@ -43,21 +43,21 @@ class AGALMiniAssembler
     
     
     
-    private var _agalcode : ByteArray = null;
-    private var _error : String = "";
+    public var _agalcode : ByteArray = null;
+    public var _error : String = "";
     
-    private var debugEnabled : Bool = false;
+    public var debugEnabled : Bool = false;
     
-    private static var initialized : Bool = false;
-    
-    
+    public static var initialized : Bool = false;
     
     
-    private function get_error() : String
+    
+    
+    public function get_error() : String
     {
         return _error;
     }
-    private function get_agalcode() : ByteArray
+    public function get_agalcode() : ByteArray
     {
         return _agalcode;
     }
@@ -489,7 +489,7 @@ class AGALMiniAssembler
         return agalcode;
     }
     
-    private static function init() : Void
+    public static function init() : Void
     {
         initialized = true;
         
@@ -569,112 +569,112 @@ class AGALMiniAssembler
     
     
     
-    private static var OPMAP : Dictionary<Dynamic, Dynamic> = new Dictionary<Dynamic, Dynamic>();
-    private static var REGMAP : Dictionary<Dynamic, Dynamic> = new Dictionary<Dynamic, Dynamic>();
-    private static var SAMPLEMAP : Dictionary<Dynamic, Dynamic> = new Dictionary<Dynamic, Dynamic>();
+    public static var OPMAP : Dictionary<Dynamic, Dynamic> = new Dictionary<Dynamic, Dynamic>();
+    public static var REGMAP : Dictionary<Dynamic, Dynamic> = new Dictionary<Dynamic, Dynamic>();
+    public static var SAMPLEMAP : Dictionary<Dynamic, Dynamic> = new Dictionary<Dynamic, Dynamic>();
     
-    private static inline var MAX_NESTING : Int = 4;
-    private static inline var MAX_OPCODES : Int = 256;
+    public static inline var MAX_NESTING : Int = 4;
+    public static inline var MAX_OPCODES : Int = 256;
     
-    private static inline var FRAGMENT : String = "fragment";
-    private static inline var VERTEX : String = "vertex";
-    
-    
-    private static inline var SAMPLER_DIM_SHIFT : Int = 12;
-    private static inline var SAMPLER_SPECIAL_SHIFT : Int = 16;
-    private static inline var SAMPLER_REPEAT_SHIFT : Int = 20;
-    private static inline var SAMPLER_MIPMAP_SHIFT : Int = 24;
-    private static inline var SAMPLER_FILTER_SHIFT : Int = 28;
+    public static inline var FRAGMENT : String = "fragment";
+    public static inline var VERTEX : String = "vertex";
     
     
-    private static inline var REG_WRITE : Int = 0x1;
-    private static inline var REG_READ : Int = 0x2;
-    private static inline var REG_FRAG : Int = 0x20;
-    private static inline var REG_VERT : Int = 0x40;
+    public static inline var SAMPLER_DIM_SHIFT : Int = 12;
+    public static inline var SAMPLER_SPECIAL_SHIFT : Int = 16;
+    public static inline var SAMPLER_REPEAT_SHIFT : Int = 20;
+    public static inline var SAMPLER_MIPMAP_SHIFT : Int = 24;
+    public static inline var SAMPLER_FILTER_SHIFT : Int = 28;
     
     
-    private static inline var OP_SCALAR : Int = 0x1;
-    private static inline var OP_INC_NEST : Int = 0x2;
-    private static inline var OP_DEC_NEST : Int = 0x4;
-    private static inline var OP_SPECIAL_TEX : Int = 0x8;
-    private static inline var OP_SPECIAL_MATRIX : Int = 0x10;
-    private static inline var OP_FRAG_ONLY : Int = 0x20;
-    private static inline var OP_VERT_ONLY : Int = 0x40;
-    private static inline var OP_NO_DEST : Int = 0x80;
+    public static inline var REG_WRITE : Int = 0x1;
+    public static inline var REG_READ : Int = 0x2;
+    public static inline var REG_FRAG : Int = 0x20;
+    public static inline var REG_VERT : Int = 0x40;
     
     
-    private static inline var MOV : String = "mov";
-    private static inline var ADD : String = "add";
-    private static inline var SUB : String = "sub";
-    private static inline var MUL : String = "mul";
-    private static inline var DIV : String = "div";
-    private static inline var RCP : String = "rcp";
-    private static inline var MIN : String = "min";
-    private static inline var MAX : String = "max";
-    private static inline var FRC : String = "frc";
-    private static inline var SQT : String = "sqt";
-    private static inline var RSQ : String = "rsq";
-    private static inline var POW : String = "pow";
-    private static inline var LOG : String = "log";
-    private static inline var EXP : String = "exp";
-    private static inline var NRM : String = "nrm";
-    private static inline var SIN : String = "sin";
-    private static inline var COS : String = "cos";
-    private static inline var CRS : String = "crs";
-    private static inline var DP3 : String = "dp3";
-    private static inline var DP4 : String = "dp4";
-    private static inline var ABS : String = "abs";
-    private static inline var NEG : String = "neg";
-    private static inline var SAT : String = "sat";
-    private static inline var M33 : String = "m33";
-    private static inline var M44 : String = "m44";
-    private static inline var M34 : String = "m34";
-    private static inline var IFZ : String = "ifz";
-    private static inline var INZ : String = "inz";
-    private static inline var IFE : String = "ife";
-    private static inline var INE : String = "ine";
-    private static inline var IFG : String = "ifg";
-    private static inline var IFL : String = "ifl";
-    private static inline var IEG : String = "ieg";
-    private static inline var IEL : String = "iel";
-    private static inline var ELS : String = "els";
-    private static inline var EIF : String = "eif";
-    private static inline var REP : String = "rep";
-    private static inline var ERP : String = "erp";
-    private static inline var BRK : String = "brk";
-    private static inline var KIL : String = "kil";
-    private static inline var TEX : String = "tex";
-    private static inline var SGE : String = "sge";
-    private static inline var SLT : String = "slt";
-    private static inline var SGN : String = "sgn";
+    public static inline var OP_SCALAR : Int = 0x1;
+    public static inline var OP_INC_NEST : Int = 0x2;
+    public static inline var OP_DEC_NEST : Int = 0x4;
+    public static inline var OP_SPECIAL_TEX : Int = 0x8;
+    public static inline var OP_SPECIAL_MATRIX : Int = 0x10;
+    public static inline var OP_FRAG_ONLY : Int = 0x20;
+    public static inline var OP_VERT_ONLY : Int = 0x40;
+    public static inline var OP_NO_DEST : Int = 0x80;
     
     
-    private static inline var VA : String = "va";
-    private static inline var VC : String = "vc";
-    private static inline var VT : String = "vt";
-    private static inline var OP : String = "op";
-    private static inline var V : String = "v";
-    private static inline var FC : String = "fc";
-    private static inline var FT : String = "ft";
-    private static inline var FS : String = "fs";
-    private static inline var OC : String = "oc";
+    public static inline var MOV : String = "mov";
+    public static inline var ADD : String = "add";
+    public static inline var SUB : String = "sub";
+    public static inline var MUL : String = "mul";
+    public static inline var DIV : String = "div";
+    public static inline var RCP : String = "rcp";
+    public static inline var MIN : String = "min";
+    public static inline var MAX : String = "max";
+    public static inline var FRC : String = "frc";
+    public static inline var SQT : String = "sqt";
+    public static inline var RSQ : String = "rsq";
+    public static inline var POW : String = "pow";
+    public static inline var LOG : String = "log";
+    public static inline var EXP : String = "exp";
+    public static inline var NRM : String = "nrm";
+    public static inline var SIN : String = "sin";
+    public static inline var COS : String = "cos";
+    public static inline var CRS : String = "crs";
+    public static inline var DP3 : String = "dp3";
+    public static inline var DP4 : String = "dp4";
+    public static inline var ABS : String = "abs";
+    public static inline var NEG : String = "neg";
+    public static inline var SAT : String = "sat";
+    public static inline var M33 : String = "m33";
+    public static inline var M44 : String = "m44";
+    public static inline var M34 : String = "m34";
+    public static inline var IFZ : String = "ifz";
+    public static inline var INZ : String = "inz";
+    public static inline var IFE : String = "ife";
+    public static inline var INE : String = "ine";
+    public static inline var IFG : String = "ifg";
+    public static inline var IFL : String = "ifl";
+    public static inline var IEG : String = "ieg";
+    public static inline var IEL : String = "iel";
+    public static inline var ELS : String = "els";
+    public static inline var EIF : String = "eif";
+    public static inline var REP : String = "rep";
+    public static inline var ERP : String = "erp";
+    public static inline var BRK : String = "brk";
+    public static inline var KIL : String = "kil";
+    public static inline var TEX : String = "tex";
+    public static inline var SGE : String = "sge";
+    public static inline var SLT : String = "slt";
+    public static inline var SGN : String = "sgn";
     
     
-    private static inline var D2 : String = "2d";
-    private static inline var D3 : String = "3d";
-    private static inline var CUBE : String = "cube";
-    private static inline var MIPNEAREST : String = "mipnearest";
-    private static inline var MIPLINEAR : String = "miplinear";
-    private static inline var MIPNONE : String = "mipnone";
-    private static inline var NOMIP : String = "nomip";
-    private static inline var NEAREST : String = "nearest";
-    private static inline var LINEAR : String = "linear";
-    private static inline var CENTROID : String = "centroid";
-    private static inline var SINGLE : String = "single";
-    private static inline var DEPTH : String = "depth";
-    private static inline var REPEAT : String = "repeat";
-    private static inline var WRAP : String = "wrap";
-    private static inline var CLAMP : String = "clamp";
+    public static inline var VA : String = "va";
+    public static inline var VC : String = "vc";
+    public static inline var VT : String = "vt";
+    public static inline var OP : String = "op";
+    public static inline var V : String = "v";
+    public static inline var FC : String = "fc";
+    public static inline var FT : String = "ft";
+    public static inline var FS : String = "fs";
+    public static inline var OC : String = "oc";
+    
+    
+    public static inline var D2 : String = "2d";
+    public static inline var D3 : String = "3d";
+    public static inline var CUBE : String = "cube";
+    public static inline var MIPNEAREST : String = "mipnearest";
+    public static inline var MIPLINEAR : String = "miplinear";
+    public static inline var MIPNONE : String = "mipnone";
+    public static inline var NOMIP : String = "nomip";
+    public static inline var NEAREST : String = "nearest";
+    public static inline var LINEAR : String = "linear";
+    public static inline var CENTROID : String = "centroid";
+    public static inline var SINGLE : String = "single";
+    public static inline var DEPTH : String = "depth";
+    public static inline var REPEAT : String = "repeat";
+    public static inline var WRAP : String = "wrap";
+    public static inline var CLAMP : String = "clamp";
 }
 
 
@@ -695,27 +695,27 @@ class OpCode
     
     
     
-    private var _emitCode : Int;
-    private var _flags : Int;
-    private var _name : String;
-    private var _numRegister : Int;
+    public var _emitCode : Int;
+    public var _flags : Int;
+    public var _name : String;
+    public var _numRegister : Int;
     
     
     
     
-    private function get_emitCode() : Int
+    public function get_emitCode() : Int
     {
         return _emitCode;
     }
-    private function get_flags() : Int
+    public function get_flags() : Int
     {
         return _flags;
     }
-    private function get_name() : String
+    public function get_name() : String
     {
         return _name;
     }
-    private function get_numRegister() : Int
+    public function get_numRegister() : Int
     {
         return _numRegister;
     }
@@ -754,32 +754,32 @@ class Register
     
     
     
-    private var _emitCode : Int;
-    private var _name : String;
-    private var _longName : String;
-    private var _flags : Int;
-    private var _range : Int;
+    public var _emitCode : Int;
+    public var _name : String;
+    public var _longName : String;
+    public var _flags : Int;
+    public var _range : Int;
     
     
     
     
-    private function get_emitCode() : Int
+    public function get_emitCode() : Int
     {
         return _emitCode;
     }
-    private function get_longName() : String
+    public function get_longName() : String
     {
         return _longName;
     }
-    private function get_name() : String
+    public function get_name() : String
     {
         return _name;
     }
-    private function get_flags() : Int
+    public function get_flags() : Int
     {
         return _flags;
     }
-    private function get_range() : Int
+    public function get_range() : Int
     {
         return _range;
     }
@@ -817,22 +817,22 @@ class Sampler
     
     
     
-    private var _flag : Int;
-    private var _mask : Int;
-    private var _name : String;
+    public var _flag : Int;
+    public var _mask : Int;
+    public var _name : String;
     
     
     
     
-    private function get_flag() : Int
+    public function get_flag() : Int
     {
         return _flag;
     }
-    private function get_mask() : Int
+    public function get_mask() : Int
     {
         return _mask;
     }
-    private function get_name() : String
+    public function get_name() : String
     {
         return _name;
     }

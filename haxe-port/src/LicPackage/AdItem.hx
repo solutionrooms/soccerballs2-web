@@ -23,7 +23,7 @@ class AdItem
     public var loader : Loader;
     public var fullScreen : Bool;
     
-    private function CompareSwfUrlWith(adItem : AdItem) : Bool
+    public function CompareSwfUrlWith(adItem : AdItem) : Bool
     {
         if (swfurl != adItem.swfurl)
         {

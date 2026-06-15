@@ -18,7 +18,7 @@ class OtherGames
     public function new()
     {
     }
-    private static var otherGamesList : Array<Dynamic>;
+    public static var otherGamesList : Array<Dynamic>;
     
     public static function GetOtherGamesMC(amount : Int = 4, type : Int = 0) : MovieClip
     {
@@ -39,7 +39,7 @@ class OtherGames
         
         if (LicDef.AreOtherGamesAdsAllowed())
         {
-            otherGamesList = new Array<Dynamic>();
+            otherGamesList = [];
             otherGamesList.push({
                         button : "game1",
                         name : "DriftRunners2",
@@ -211,9 +211,9 @@ class OtherGames
                         select : true
                     });
             
-            var positions : Array<Dynamic> = new Array<Dynamic>();
+            var positions : Array<Dynamic> = [];
             
-            var list : Array<Dynamic> = new Array<Dynamic>();
+            var list : Array<Dynamic> = [];
             for (i in 0...otherGamesList.length)
             {
                 if (otherGamesList[i].select == true)
@@ -267,12 +267,12 @@ class OtherGames
         return null;
     }
     
-    private static function OtherGamesPanel_Hover(e : MouseEvent)
+    public static function OtherGamesPanel_Hover(e : MouseEvent)
     {
         var buttonMC : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
         buttonMC.nameHolder.visible = true;
     }
-    private static function OtherGamesPanel_Out(e : MouseEvent)
+    public static function OtherGamesPanel_Out(e : MouseEvent)
     {
         var buttonMC : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
         buttonMC.nameHolder.visible = false;
@@ -285,7 +285,7 @@ class OtherGames
         return r;
     }
     
-    private static function ShuffleIntList(a : Array<Dynamic>, amount : Int = 100) : Array<Dynamic>
+    public static function ShuffleIntList(a : Array<Dynamic>, amount : Int = 100) : Array<Dynamic>
     {
         var len : Int = a.length;
         for (i in 0...amount)
@@ -301,7 +301,7 @@ class OtherGames
     }
     
     
-    private static function DoLinkFromName(name : String)
+    public static function DoLinkFromName(name : String)
     {
         if (name == "CycloManiacs")
         {
@@ -454,19 +454,19 @@ class OtherGames
         }
     }
     
-    private static function DoLink(_url : String, _from : String)
+    public static function DoLink(_url : String, _from : String)
     {
         flash.Lib.getURL(new URLRequest(_url), "_blank");
     }
     
-    private static function OtherGamesPanel_ClickGameText(e : MouseEvent)
+    public static function OtherGamesPanel_ClickGameText(e : MouseEvent)
     {
         var name : String = e.currentTarget.linkName;
         DoLinkFromName(name);
     }
     
     
-    private static function OtherGamesPanel_ClickGame(e : MouseEvent)
+    public static function OtherGamesPanel_ClickGame(e : MouseEvent)
     {
         var name : String = e.currentTarget.name;
         

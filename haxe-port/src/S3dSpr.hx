@@ -7,29 +7,29 @@ import flash.geom.Matrix3D;
 	 */
 class S3dSpr
 {
-    private var type : Int;
+    public var type : Int;
     
     public var indices : Array<Int>;
     public var vertices : Array<Float>;
     public var verticesTransformed : Array<Float>;
     public var verticesExtra : Array<Float>;
     
-    private var texture : Texture;
-    private var x0 : Float;
-    private var x1 : Float;
-    private var y0 : Float;
-    private var y1 : Float;
-    private var rot : Float;
-    private var u0 : Float;
-    private var v0 : Float;
-    private var u1 : Float;
-    private var v1 : Float;
-    private var tintR : Float;
-    private var tintG : Float;
-    private var tintB : Float;
+    public var texture : Texture;
+    public var x0 : Float;
+    public var x1 : Float;
+    public var y0 : Float;
+    public var y1 : Float;
+    public var rot : Float;
+    public var u0 : Float;
+    public var v0 : Float;
+    public var u1 : Float;
+    public var v1 : Float;
+    public var tintR : Float;
+    public var tintG : Float;
+    public var tintB : Float;
     public var z : Float;
     public var matrix : Matrix3D;
-    private var rgba : Int;
+    public var rgba : Int;
     
     public var sorted : Bool;
     
@@ -79,26 +79,26 @@ class S3dSpr
         type = 1;
     }
     
-    private var qx0 : Float;
-    private var qy0 : Float;
-    private var qz0 : Float;
-    private var qu0 : Float;
-    private var qv0 : Float;
-    private var qx1 : Float;
-    private var qy1 : Float;
-    private var qz1 : Float;
-    private var qu1 : Float;
-    private var qv1 : Float;
-    private var qx2 : Float;
-    private var qy2 : Float;
-    private var qz2 : Float;
-    private var qu2 : Float;
-    private var qv2 : Float;
-    private var qx3 : Float;
-    private var qy3 : Float;
-    private var qz3 : Float;
-    private var qu3 : Float;
-    private var qv3 : Float;
+    public var qx0 : Float;
+    public var qy0 : Float;
+    public var qz0 : Float;
+    public var qu0 : Float;
+    public var qv0 : Float;
+    public var qx1 : Float;
+    public var qy1 : Float;
+    public var qz1 : Float;
+    public var qu1 : Float;
+    public var qv1 : Float;
+    public var qx2 : Float;
+    public var qy2 : Float;
+    public var qz2 : Float;
+    public var qu2 : Float;
+    public var qv2 : Float;
+    public var qx3 : Float;
+    public var qy3 : Float;
+    public var qz3 : Float;
+    public var qu3 : Float;
+    public var qv3 : Float;
     public function InitQuad(_tx : Texture, _z : Float,
             _qx0 : Float, _qy0 : Float, _qz0 : Float, _qu0 : Float, _qv0 : Float,
             _qx1 : Float, _qy1 : Float, _qz1 : Float, _qu1 : Float, _qv1 : Float,

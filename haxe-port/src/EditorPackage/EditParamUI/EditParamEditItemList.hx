@@ -15,8 +15,8 @@ import uIPackage.UI;
 	 */
 class EditParamEditItemList extends EditParamEditItemBase
 {
-    private var popup : MovieClip;
-    private var popupList : Array<Dynamic>;
+    public var popup : MovieClip;
+    public var popupList : Array<Dynamic>;
     
     public function new()
     {
@@ -34,10 +34,10 @@ class EditParamEditItemList extends EditParamEditItemBase
         
         mc.editorItem = this;
         
-        mc.displayText.text = op.name;
+        (untyped mc).displayText.text = op.name;
         mc.inputText.text = op.value;
         
-        mc.displayText.mouseEnabled = false;
+        (untyped mc).displayText.mouseEnabled = false;
         mc.inputText.mouseEnabled = false;
         
         UI.AddButton(mc.buttonElipsis, ElipsisPressed);
@@ -51,17 +51,17 @@ class EditParamEditItemList extends EditParamEditItemBase
         PostSetup();
     }
     
-    private function ElipsisPressed(e : MouseEvent)
+    public function ElipsisPressed(e : MouseEvent)
     {
         InitListPopup();
     }
     
-    private function CloseListPopup()
+    public function CloseListPopup()
     {
         mc.parent.removeChild(popup);
         popup = null;
     }
-    private function InitListPopup()
+    public function InitListPopup()
     {
         Utils.print("InitListPopup");
         popup = new MovieClip();
@@ -70,7 +70,7 @@ class EditParamEditItemList extends EditParamEditItemBase
         popup.graphics.drawRect(-1000, -1000, Defs.displayarea_w + 1000, Defs.displayarea_h + 1000);
         popup.graphics.endFill();
         
-        popupList = new Array<Dynamic>();
+        popupList = [];
         
         var ob : ObjParam = ObjectParameters.GetObjectParamByName(op.name);
         
@@ -80,7 +80,7 @@ class EditParamEditItemList extends EditParamEditItemBase
             var itemString : String = ob.valueList[i];
             
             var item : MovieClip = new EditorEditItemListItem();
-            item.displayText.text = itemString;
+            (untyped item).displayText.text = itemString;
             item.listIndex = i;
             item.buttonMode = true;
             item.useHandCursor = true;
@@ -88,11 +88,11 @@ class EditParamEditItemList extends EditParamEditItemBase
             
             item.displayBox.visible = false;
             
-            item.displayText.mouseEnabled = false;
-            item.highlight.visible = false;
+            (untyped item).displayText.mouseEnabled = false;
+            (untyped item).highlight.visible = false;
             if (itemString == op.value)
             {
-                item.highlight.visible = true;
+                (untyped item).highlight.visible = true;
             }
             
             popupList.push(item);
@@ -105,13 +105,13 @@ class EditParamEditItemList extends EditParamEditItemBase
         mc.parent.addChild(popup);
     }
     
-    private function PopupClicked(e : MouseEvent)
+    public function PopupClicked(e : MouseEvent)
     {
         var item : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
         Utils.print("pressed " + item.listIndex);
         CloseListPopup();
         
-        mc.inputText.text = item.displayText.text;
+        mc.inputText.text = (untyped item).displayText.text;
         CopyValueToParameter();
     }
 }

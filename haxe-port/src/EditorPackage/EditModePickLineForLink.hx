@@ -13,7 +13,7 @@ class EditModePickLineForLink extends EditModeBase
     
     public var pickedLine : EdLine;
     public var returnFunction : Function;
-    private var hoveredLine : EdLine;
+    public var hoveredLine : EdLine;
     
     public function new()
     {

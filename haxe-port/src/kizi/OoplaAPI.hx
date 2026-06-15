@@ -32,12 +32,12 @@ class KiziAPI
     public static var api : Dynamic;
     public static var gameState : KiziGameState;
     public static var vault : KiziVault;
-    private static var apiLoader : Loader;
-    private static var loaderTimeout : Timer;
-    private static var authtoken : String;
-    private static var gid : String;
-    private static var _stage : DisplayObjectContainer;
-    private static var loaderInfo : LoaderInfo;
+    public static var apiLoader : Loader;
+    public static var loaderTimeout : Timer;
+    public static var authtoken : String;
+    public static var gid : String;
+    public static var _stage : DisplayObjectContainer;
+    public static var loaderInfo : LoaderInfo;
     
     /**
 		 * Manually sets the API context to a specific game/user. Useful while developing a game.
@@ -90,13 +90,13 @@ class KiziAPI
         loaderTimeout.start();
     }
     
-    private static function loadTimedOut(e : TimerEvent) : Void
+    public static function loadTimedOut(e : TimerEvent) : Void
     {
         KiziLogger.error("API loading has timed out");
         apiLoader.close();
     }
     
-    private static function loadComplete(e : Event) : Void
+    public static function loadComplete(e : Event) : Void
     {
         loaderTimeout.stop();
         KiziLogger.debug("API swf loaded succesfully");
@@ -105,17 +105,17 @@ class KiziAPI
         api.init(_stage, loaderInfo, KiziLogger.logLevel, apiVersion, authtoken, gid, ApiGateway, loaderInfo.url);
     }
     
-    private static function get_apiLoaded() : Bool
+    public static function get_apiLoaded() : Bool
     {
         return (api != null && api.apiReady);
     }
     
-    private static function get_showingOverlay() : Bool
+    public static function get_showingOverlay() : Bool
     {
         return (api != null && api.showingOverlay);
     }
     
-    private static function errorHandler(e : Event) : Void
+    public static function errorHandler(e : Event) : Void
     {
         KiziLogger.error("Error caught:", e);
     }

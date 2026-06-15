@@ -11,25 +11,25 @@ import flash.utils.ByteArray;
 
 @:final class Request extends URLLoader
 {
-    private static var Pool : Array<Request>;
-    private static var Queue : Array<Request>;
-    private static var URLStub : String;
-    private static var URLTail : String;
-    private static var URL : String;
+    public static var Pool : Array<Request>;
+    public static var Queue : Array<Request>;
+    public static var URLStub : String;
+    public static var URLTail : String;
+    public static var URL : String;
     
-    private var urlRequest : URLRequest = new URLRequest();
-    private var complete : Function;
-    private var callback : Function;
-    private var handled : Bool;
-    private var logging : Bool;
-    private var postdata : Dynamic;
-    private var time : Int;
+    public var urlRequest : URLRequest = new URLRequest();
+    public var complete : Function;
+    public var callback : Function;
+    public var handled : Bool;
+    public var logging : Bool;
+    public var postdata : Dynamic;
+    public var time : Int;
     
     @:allow(playtomic)
-    private static function Initialise() : Void
+    public static function Initialise() : Void
     {
-        Pool = new Array<Request>();
-        Queue = new Array<Request>();
+        Pool = [];
+        Queue = [];
         URLStub = "http://g" + Log.GUID + ".api.playtomic.com";
         URLTail = "swfid=" + Log.SWFID;
         URL = URLStub + "/v3/api.aspx?" + URLTail;
@@ -45,7 +45,7 @@ import flash.utils.ByteArray;
     }
     
     @:allow(playtomic)
-    private static function SendStatistics(complete : Function, url : String) : Void
+    public static function SendStatistics(complete : Function, url : String) : Void
     {
         var request : Request = (Pool.length > 0) ? Pool.pop() : new Request();
         request.time = 0;
@@ -62,7 +62,7 @@ import flash.utils.ByteArray;
     }
     
     @:allow(playtomic)
-    private static function Load(section : String, action : String, complete : Function, callback : Function, postdata : Dynamic = null) : Void
+    public static function Load(section : String, action : String, complete : Function, callback : Function, postdata : Dynamic = null) : Void
     {
         var request : Request = (Pool.length > 0) ? Pool.pop() : new Request();
         request.time = 0;
@@ -77,7 +77,7 @@ import flash.utils.ByteArray;
         
         
         
-        var pd : Array<Dynamic> = new Array<Dynamic>();
+        var pd : Array<Dynamic> = [];
         pd.push("nonce=" + nonce);
         pd.push("timestamp=" + timestamp);
         
@@ -123,7 +123,7 @@ import flash.utils.ByteArray;
         Queue.push(request);
     }
     
-    private static function Escape(str : String) : String
+    public static function Escape(str : String) : String
     {
         if (str == null)
         {
@@ -148,7 +148,7 @@ import flash.utils.ByteArray;
         return str;
     }
     
-    private static function GenerateKey(name : String, key : String, arr : Array<Dynamic>) : Void
+    public static function GenerateKey(name : String, key : String, arr : Array<Dynamic>) : Void
     {
         arr.sort();
         
@@ -158,7 +158,7 @@ import flash.utils.ByteArray;
         arr.push(name + "=" + Encode.MD5(arr.join("&") + key));
     }
     
-    private static function TimeoutHandler(e : Event) : Void
+    public static function TimeoutHandler(e : Event) : Void
     {
         var request : Request;
         
@@ -205,7 +205,7 @@ import flash.utils.ByteArray;
         addEventListener("complete", Complete);
     }
     
-    private static function Complete(e : Event) : Void
+    public static function Complete(e : Event) : Void
     {
         var request : Request = try cast(e.target, Request) catch(e:Dynamic) null;
         
@@ -231,7 +231,7 @@ import flash.utils.ByteArray;
         request.complete(request.callback, request.postdata, data, new Response(status, errorcode));
     }
     
-    private static function Fail(e : Event) : Void
+    public static function Fail(e : Event) : Void
     {
         var request : Request = try cast(e.target, Request) catch(e:Dynamic) null;
         
@@ -252,11 +252,11 @@ import flash.utils.ByteArray;
         }
     }
     
-    private static function HTTPStatusIgnore(e : Event) : Void
+    public static function HTTPStatusIgnore(e : Event) : Void
     {
     }
     
-    private static function Dispose(request : Request) : Void
+    public static function Dispose(request : Request) : Void
     {
         if (!request.handled)
         {

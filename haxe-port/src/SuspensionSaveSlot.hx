@@ -11,7 +11,7 @@ class SuspensionSaveSlot
     
     public function new(_index : Int)
     {
-        sliderLevels = new Array<Dynamic>(50, 50, 50, 50, 50, 50);
+        sliderLevels = [50, 50, 50, 50, 50, 50];
         name = "empty";
         index = _index;
     }
@@ -21,7 +21,7 @@ class SuspensionSaveSlot
     {
         index = o.index;
         name = o.name;
-        sliderLevels = new Array<Dynamic>(50, 50, 50, 50, 50, 50);
+        sliderLevels = [50, 50, 50, 50, 50, 50];
         for (i in 0...6)
         {
             sliderLevels[i] = o.sliderLevels[i];
@@ -32,7 +32,7 @@ class SuspensionSaveSlot
     {
         var c : SuspensionSaveSlot = new SuspensionSaveSlot(index);
         c.name = name;
-        c.sliderLevels = new Array<Dynamic>(50, 50, 50, 50, 50, 50);
+        c.sliderLevels = [50, 50, 50, 50, 50, 50];
         for (i in 0...6)
         {
             c.sliderLevels[i] = sliderLevels[i];

@@ -40,24 +40,24 @@ class FractalGeometryGenerator
     
     
     
-    private var m_context3D : Context3D;
-    private var m_levels : Int;
-    private var m_nObjs : Int;
+    public var m_context3D : Context3D;
+    public var m_levels : Int;
+    public var m_nObjs : Int;
     
-    private var m_matrix : Matrix3D;
-    private var m_red : Float;
-    private var m_green : Float;
-    private var m_blue : Float;
-    private var m_alpha : Float;
+    public var m_matrix : Matrix3D;
+    public var m_red : Float;
+    public var m_green : Float;
+    public var m_blue : Float;
+    public var m_alpha : Float;
     
-    private var m_program : Program3D;
-    private var m_indexBufferSize : Int;
-    private var m_vertexBufferSize : Int;
+    public var m_program : Program3D;
+    public var m_indexBufferSize : Int;
+    public var m_vertexBufferSize : Int;
     
-    private var m_indexBuffer : IndexBuffer3D;
-    private var m_vertexBuffer : VertexBuffer3D;
-    private var m_indexData : Array<Int>;
-    private var m_vertexData : Array<Float>;
+    public var m_indexBuffer : IndexBuffer3D;
+    public var m_vertexBuffer : VertexBuffer3D;
+    public var m_indexData : Array<Int>;
+    public var m_vertexData : Array<Float>;
     
     public function setColor(r : Float, g : Float, b : Float, a : Float) : Void
     {
@@ -92,7 +92,7 @@ class FractalGeometryGenerator
         genGeom();
     }
     
-    private function initProgram() : Void
+    public function initProgram() : Void
     {
         var vertexShaderAssembler : AGALMiniAssembler;
         var fragmentShaderAssembler : AGALMiniAssembler;
@@ -116,7 +116,7 @@ class FractalGeometryGenerator
         m_program.upload(vertexShaderAssembler.agalcode, fragmentShaderAssembler.agalcode);
     }
     
-    private function genGeom() : Void
+    public function genGeom() : Void
     {
         var nobjsPerLevel : Int = 4;
         m_nObjs = 0;
@@ -136,8 +136,8 @@ class FractalGeometryGenerator
         m_indexBuffer = m_context3D.createIndexBuffer(m_indexBufferSize);
         m_vertexBuffer = m_context3D.createVertexBuffer(m_vertexBufferSize, 2);
         
-        m_indexData = new Array<Int>();
-        m_vertexData = new Array<Float>();
+        m_indexData = [];
+        m_vertexData = [];
         
         genLevel(0, 0, 0, 0, 0);
         
@@ -145,7 +145,7 @@ class FractalGeometryGenerator
         m_vertexBuffer.uploadFromVector(m_vertexData, 0, 8 * m_nObjs);
     }
     
-    private function genLevel(level : Int, ox : Float, oy : Float, indexindex : Int, vertexindex : Int) : Dynamic
+    public function genLevel(level : Int, ox : Float, oy : Float, indexindex : Int, vertexindex : Int) : Dynamic
     {
         var ii : Int = indexindex;
         var vi : Int = vertexindex;

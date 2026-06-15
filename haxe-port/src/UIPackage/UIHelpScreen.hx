@@ -15,8 +15,8 @@ class UIHelpScreen extends UIScreenInstance
     override public function ExitScreen()
     {
     }
-    private static var helpPage : Int;
-    private static var numHelpPages : Int;
+    public static var helpPage : Int;
+    public static var numHelpPages : Int;
     override public function InitScreen()
     {
         UI.AddMCButton(titleMC.buttonPrev, PrevPressed);
@@ -28,7 +28,7 @@ class UIHelpScreen extends UIScreenInstance
         
         InitHelp_Update();
     }
-    private static function InitHelp_Update()
+    public static function InitHelp_Update()
     {
         titleMC.gotoAndStop(helpPage + 1);
         titleMC.textPage.text = as3hx.Compat.parseInt(helpPage + 1) + "/" + as3hx.Compat.parseInt(numHelpPages);

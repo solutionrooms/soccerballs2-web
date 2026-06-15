@@ -45,14 +45,14 @@ class UIGiftShop extends UIScreenInstance
         
         titleMC.intro_text.visible = true;
         
-        titleMC.textNumGold.text = GameVars.GetNumBonusGold();
+        (untyped titleMC).textNumGold.text = GameVars.GetNumBonusGold();
         InitGifts();
     }
     
-    private function InitGifts()
+    public function InitGifts()
     {
         var numGold : Int = GameVars.GetNumBonusGold();
-        var costs : Array<Dynamic> = new Array<Dynamic>(10, 15, 25, 50);
+        var costs : Array<Dynamic> = [10, 15, 25, 50];
         for (i in 1...4)
         {
             var mc : MovieClip = try cast(titleMC.getChildByName("gift" + i), MovieClip) catch(e:Dynamic) null;
@@ -69,7 +69,7 @@ class UIGiftShop extends UIScreenInstance
         }
     }
     
-    private function DownloadFile(url : String)
+    public function DownloadFile(url : String)
     {
         flash.Lib.getURL(new URLRequest(url), "_blank");
     }

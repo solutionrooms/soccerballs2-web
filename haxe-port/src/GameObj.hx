@@ -46,11 +46,11 @@ class GameObj extends GameObjBase
     
     
     
-    private function ShowHealthBar()
+    public function ShowHealthBar()
     {
         healthBarTimer = Defs.fps * 1;
     }
-    private function RenderHealthBar(_xoff : Int, _yoff : Int) : Void
+    public function RenderHealthBar(_xoff : Int, _yoff : Int) : Void
     {
         if (healthBarTimer > 0)
         {
@@ -79,8 +79,8 @@ class GameObj extends GameObjBase
     
     
     
-    private var textMessage : String;
-    private var textMessage1 : String;
+    public var textMessage : String;
+    public var textMessage1 : String;
     public function InitTextMessage(_message : String, _x : Float, _y : Float) : Void
     {
         textMessage = _message;
@@ -95,12 +95,12 @@ class GameObj extends GameObjBase
         zvel = 0.1;
         alpha = 1;
     }
-    private function RenderTextMessage()
+    public function RenderTextMessage()
     {
         var x : Float = xpos;
         var y : Float = ypos;
     }
-    private function UpdateTextMessage()
+    public function UpdateTextMessage()
     {
         yvel -= 0.02;
         ypos += yvel;
@@ -140,9 +140,9 @@ class GameObj extends GameObjBase
             RemoveObject();
         }
     }
-    private var scaleVel : Float;
-    private var scaleAcc : Float;
-    private var scaleMax : Float;
+    public var scaleVel : Float;
+    public var scaleAcc : Float;
+    public var scaleMax : Float;
     public function InitScoreOverlay(_frame : Int) : Void
     {
         ypos -= 50;
@@ -165,7 +165,7 @@ class GameObj extends GameObjBase
         frame = _type;
         dobj = GraphicObjects.GetDisplayObjByName("StartRaceText");
     }
-    private function UpdateMessage()
+    public function UpdateMessage()
     {
         xpos = 320 + Game.camera.x;
         ypos = 100 + Game.camera.y;
@@ -370,11 +370,11 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function InitPhysObj_Path_Normal()
+    public function InitPhysObj_Path_Normal()
     {
         InitPhysObj_Path();
     }
-    private function InitPhysObj_Path_Deadly()
+    public function InitPhysObj_Path_Deadly()
     {
         InitPhysObj_Path();
         name = "death";
@@ -383,26 +383,26 @@ class GameObj extends GameObjBase
     
     
     
-    private var fillScreenMCListMiniMap : Array<Shape>;
-    private var fillScreenMCList : Array<Shape>;
-    private var fillScreenMC : Shape;
-    private var fillScreenMCMiniMap : Shape;
+    public var fillScreenMCListMiniMap : Array<Shape>;
+    public var fillScreenMCList : Array<Shape>;
+    public var fillScreenMC : Shape;
+    public var fillScreenMCMiniMap : Shape;
     
-    private var surfacePointsList0 : Array<Point>;
-    private var surfacePointsList1 : Array<Point>;
+    public var surfacePointsList0 : Array<Point>;
+    public var surfacePointsList1 : Array<Point>;
     
     
-    private function PreRenderPhysicsLineObject_Surface_PointsList()
+    public function PreRenderPhysicsLineObject_Surface_PointsList()
     {
-        surfacePointsList0 = new Array<Point>();
-        surfacePointsList1 = new Array<Point>();
+        surfacePointsList0 = [];
+        surfacePointsList1 = [];
         
         fillScreenMC = new Shape();
         fillScreenMC.x = 0;
         fillScreenMC.y = 0;
         
-        fillScreenMCList = new Array<Shape>();
-        fillScreenMCListMiniMap = new Array<Shape>();
+        fillScreenMCList = [];
+        fillScreenMCListMiniMap = [];
         
         var p0 : Point;
         var p1 : Point;
@@ -425,7 +425,7 @@ class GameObj extends GameObjBase
         s3dTriListIndex = -1;
     }
     
-    private function RenderPhysicsLineObject_Surface_PointsList()
+    public function RenderPhysicsLineObject_Surface_PointsList()
     {
         var xp : Float;
         var yp : Float;
@@ -592,7 +592,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function RenderPhysicsLineObject_Surface_PointsList_Minimap()
+    public function RenderPhysicsLineObject_Surface_PointsList_Minimap()
     {
         var xp : Float;
         var yp : Float;
@@ -679,10 +679,10 @@ class GameObj extends GameObjBase
     }
     
     
-    private function PreRenderPhysicsLineObject_Surface_MultiPartAAAAA()
+    public function PreRenderPhysicsLineObject_Surface_MultiPartAAAAA()
     {
-        fillScreenMCList = new Array<Shape>();
-        fillScreenMCListMiniMap = new Array<Shape>();
+        fillScreenMCList = [];
+        fillScreenMCListMiniMap = [];
         
         var p0 : Point;
         var p1 : Point;
@@ -699,9 +699,9 @@ class GameObj extends GameObjBase
         
         for (seg in 0...numSegs)
         {
-            var newpoints : Array<Dynamic> = new Array<Dynamic>();
-            var newpoints1 : Array<Dynamic> = new Array<Dynamic>();
-            var newpoints2 : Array<Dynamic> = new Array<Dynamic>();
+            var newpoints : Array<Dynamic> = [];
+            var newpoints1 : Array<Dynamic> = [];
+            var newpoints2 : Array<Dynamic> = [];
             
             var aa : Int = as3hx.Compat.parseInt(num / numSegs);
             var first : Int = as3hx.Compat.parseInt(seg * aa);
@@ -814,11 +814,11 @@ class GameObj extends GameObjBase
     }
     
     
-    private function PreRenderPhysicsLineObject_Surface()
+    public function PreRenderPhysicsLineObject_Surface()
     {
-        var newpoints : Array<Dynamic> = new Array<Dynamic>();
-        var newpoints1 : Array<Dynamic> = new Array<Dynamic>();
-        var newpoints2 : Array<Dynamic> = new Array<Dynamic>();
+        var newpoints : Array<Dynamic> = [];
+        var newpoints1 : Array<Dynamic> = [];
+        var newpoints2 : Array<Dynamic> = [];
         var p0 : Point;
         var p1 : Point;
         var p2 : Point;
@@ -912,11 +912,11 @@ class GameObj extends GameObjBase
     }
     
     
-    private function PreRenderPhysicsLineObject_Background()
+    public function PreRenderPhysicsLineObject_Background()
     {
-        var newpoints : Array<Dynamic> = new Array<Dynamic>();
-        var newpoints1 : Array<Dynamic> = new Array<Dynamic>();
-        var newpoints2 : Array<Dynamic> = new Array<Dynamic>();
+        var newpoints : Array<Dynamic> = [];
+        var newpoints1 : Array<Dynamic> = [];
+        var newpoints2 : Array<Dynamic> = [];
         var p0 : Point;
         var p1 : Point;
         var p2 : Point;
@@ -954,16 +954,16 @@ class GameObj extends GameObjBase
     }
     
     
-    private function RenderPhysicsLineObject_Surface_MiniMap()
+    public function RenderPhysicsLineObject_Surface_MiniMap()
     {
     }
     
-    private function RenderPhysicsLineObject_Surface_MiniMap_MultiPart()
+    public function RenderPhysicsLineObject_Surface_MiniMap_MultiPart()
     {
     }
     
     
-    private function RenderPhysicsLineObject_Surface_MultiPart()
+    public function RenderPhysicsLineObject_Surface_MultiPart()
     {
         var sx : Float = Math.round(Game.camera.x);
         var sy : Float = Math.round(Game.camera.y);
@@ -998,7 +998,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function RenderPhysicsLineObject_Surface()
+    public function RenderPhysicsLineObject_Surface()
     {
         var sx : Float = Math.round(Game.camera.x);
         var sy : Float = Math.round(Game.camera.y);
@@ -1022,7 +1022,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function InitGameObjLine_Surface()
+    public function InitGameObjLine_Surface()
     {
         name = "surface";
         state = 0;
@@ -1035,7 +1035,7 @@ class GameObj extends GameObjBase
         zpos = 0;
     }
     
-    private function InitGameObjLine_Background()
+    public function InitGameObjLine_Background()
     {
         name = "background";
         state = 0;
@@ -1052,7 +1052,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function InitGameObjLine_Null()
+    public function InitGameObjLine_Null()
     {
         lineRender_Color0 = 0x000000;
         lineRender_Color1 = 0xff0000;
@@ -1062,14 +1062,14 @@ class GameObj extends GameObjBase
     }
     
     
-    private function InitPhysObj_Death()
+    public function InitPhysObj_Death()
     {
         health = maxHealth = 100;
         name = "death";
         collisionType = "killzombie_all";
     }
     
-    private function InitGameObjLine_Sticky()
+    public function InitGameObjLine_Sticky()
     {
         name = "sticky";
         Utils.print("InitGameObjLine_Sticky");
@@ -1084,7 +1084,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function PreRenderPhysicsLineObject_Movable()
+    public function PreRenderPhysicsLineObject_Movable()
     {
         if (false == false)
         {
@@ -1102,7 +1102,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function RenderPhysicsLineObject_Movable()
+    public function RenderPhysicsLineObject_Movable()
     {
         var x : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var y : Float = Math.round(ypos) - Math.round(Game.camera.y);
@@ -1119,7 +1119,7 @@ class GameObj extends GameObjBase
         var p0 : Point;
         var p1 : Point;
         
-        var newpoints : Array<Dynamic> = new Array<Dynamic>();
+        var newpoints : Array<Dynamic> = [];
         
         gmat.identity();
         gmat.rotate(dir);
@@ -1216,11 +1216,11 @@ class GameObj extends GameObjBase
     }
     
     
-    private var staticLinePoints : Array<Point>;
-    private var staticLineRectangle : Rectangle;
-    private function PreRenderPhysicsLineObject_Static()
+    public var staticLinePoints : Array<Point>;
+    public var staticLineRectangle : Rectangle;
+    public function PreRenderPhysicsLineObject_Static()
     {
-        staticLinePoints = new Array<Point>();
+        staticLinePoints = [];
         
         var pts : Array<Dynamic> = linkedPhysLine.points;
         if (linkedPhysLine.IsSpline())
@@ -1271,7 +1271,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function RenderPhysicsLineObject_Static()
+    public function RenderPhysicsLineObject_Static()
     {
         if (staticLineRectangle.right < Game.camera.x)
         {
@@ -1341,7 +1341,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function RenderGrass()
+    public function RenderGrass()
     {
         if (GameVars.renderDebugMode == 1)
         {
@@ -1349,11 +1349,11 @@ class GameObj extends GameObjBase
         }
         Grass.RenderAll(bd);
     }
-    private function UpdateGrass()
+    public function UpdateGrass()
     {
         Grass.Update();
     }
-    private function InitGrass()
+    public function InitGrass()
     {
         updateFunction = UpdateGrass;
         renderFunction = RenderGrass;
@@ -1361,7 +1361,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function InitGameObjLine_Movable()
+    public function InitGameObjLine_Movable()
     {
         InitGameObjLine_Standard();
         name = "movable";
@@ -1369,26 +1369,26 @@ class GameObj extends GameObjBase
         
         renderFunction = RenderPhysicsLineObject_Static;
     }
-    private function InitGameObjLine_Standard_KeepActive()
+    public function InitGameObjLine_Standard_KeepActive()
     {
         InitGameObjLine_Standard();
         keepAwakeFunction = KeepAwake_Constant;
     }
     
-    private function InitGameObjLine_Path()
+    public function InitGameObjLine_Path()
     {
         RemoveObject();
     }
     
-    private function InitGameObjLine_Death()
+    public function InitGameObjLine_Death()
     {
         InitGameObjLine_Standard();
         collisionType = "death";
     }
-    private function DoNoRender()
+    public function DoNoRender()
     {
     }
-    private function InitGameObjLine_Standard()
+    public function InitGameObjLine_Standard()
     {
         collisionType = "normal";
         preRenderFunction = null;
@@ -1409,7 +1409,7 @@ class GameObj extends GameObjBase
         dobj2 = GraphicObjects.GetDisplayObjByName("FillEdge");
     }
     
-    private function InitGameObjLine_Mud()
+    public function InitGameObjLine_Mud()
     {
         collisionType = "normal";
         preRenderFunction = null;
@@ -1422,7 +1422,7 @@ class GameObj extends GameObjBase
         
         state = 0;
     }
-    private function InitGameObjLine_Decor()
+    public function InitGameObjLine_Decor()
     {
         collisionType = "normal";
         preRenderFunction = null;
@@ -1433,9 +1433,9 @@ class GameObj extends GameObjBase
         frame = GameVars.dirtFrame;
     }
     
-    private var grassName : String;
+    public var grassName : String;
     
-    private function PreRenderPhysicsLineObject_Movable_GrassSurface()
+    public function PreRenderPhysicsLineObject_Movable_GrassSurface()
     {
         var newPoints : Array<Dynamic> = linkedPhysLine.points;
         var p0 : Point;
@@ -1450,18 +1450,18 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function InitGameObjLine_UpperSurface()
+    public function InitGameObjLine_UpperSurface()
     {
         renderFunction = RenderPhysicsLineObject_Movable;
         name = "grass";
         state = 0;
     }
     
-    private function InitGameObjLine_Grassy()
+    public function InitGameObjLine_Grassy()
     {
         InitGameObjLine_Wood();
     }
-    private function InitGameObjLine_Wood()
+    public function InitGameObjLine_Wood()
     {
         name = "grass";
         Utils.print("InitGameObjLine_Wood");
@@ -1476,21 +1476,21 @@ class GameObj extends GameObjBase
         
         lineRender_Color = 0x2B4314;
     }
-    private function InitGameObjLine_Smooth()
+    public function InitGameObjLine_Smooth()
     {
         Utils.print("InitGameObjLine_Smooth");
         state = 0;
         frame = 2;
         SetPolysMaterial_Nape("smooth");
     }
-    private function InitGameObjLine_Bouncy()
+    public function InitGameObjLine_Bouncy()
     {
         Utils.print("InitGameObjLine_Bouncy");
         state = 0;
         frame = 2;
         SetPolysMaterial_Nape("bouncy");
     }
-    private function InitGameObjLine_Icy()
+    public function InitGameObjLine_Icy()
     {
         Utils.print("InitGameObjLine_Icy");
         state = 0;
@@ -1500,12 +1500,12 @@ class GameObj extends GameObjBase
     
     
     
-    private function InitGameObjLine_NonCollision()
+    public function InitGameObjLine_NonCollision()
     {
         SetBodyCollisionMask(0, 0);
     }
     
-    private function InitGameObjLine_ScrollArea()
+    public function InitGameObjLine_ScrollArea()
     {
         visible = false;
         
@@ -1514,14 +1514,14 @@ class GameObj extends GameObjBase
     }
     
     
-    private function InitGameObjLine_Invisible()
+    public function InitGameObjLine_Invisible()
     {
         visible = false;
     }
     
     
     
-    private function InitGameObjLine_Switch_Hit(goHitter : GameObj)
+    public function InitGameObjLine_Switch_Hit(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -1539,7 +1539,7 @@ class GameObj extends GameObjBase
         onHitFunction = null;
         return true;
     }
-    private function InitGameObjLine_Switch()
+    public function InitGameObjLine_Switch()
     {
         name = "invisible_switch";
         
@@ -1571,7 +1571,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function RenderPhysObj_Generic()
+    public function RenderPhysObj_Generic()
     {
         RenderDispObjNormally();
     }
@@ -1585,11 +1585,11 @@ class GameObj extends GameObjBase
     
     
     
-    private function RenderBackground()
+    public function RenderBackground()
     {
     }
     
-    private function UpdateBackground()
+    public function UpdateBackground()
     {
         timer--;
         if (timer <= 0)
@@ -1597,7 +1597,7 @@ class GameObj extends GameObjBase
             timer = 0;
         }
     }
-    private function InitBackground()
+    public function InitBackground()
     {
         renderFunction = RenderBackground;
         updateFunction = UpdateBackground;
@@ -1641,13 +1641,13 @@ class GameObj extends GameObjBase
             return;
         }
     }
-    private function onSwitchedDoorSwitch()
+    public function onSwitchedDoorSwitch()
     {
     }
     
     
     
-    private function TryLinkedDoorSwtiches()
+    public function TryLinkedDoorSwtiches()
     {
         if (doorSwitch_linkid == 0)
         {
@@ -1666,13 +1666,13 @@ class GameObj extends GameObjBase
     }
     
     
-    private function OnClickedDoorSwitch()
+    public function OnClickedDoorSwitch()
     {
         OnClickedDoorSwitch_Inner();
         TryLinkedDoorSwtiches();
     }
     
-    private function OnClickedDoorSwitch_Inner()
+    public function OnClickedDoorSwitch_Inner()
     {
         if (doorSwitch_2Way)
         {
@@ -1701,7 +1701,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function UpdateDoorSwitch()
+    public function UpdateDoorSwitch()
     {
         var b : Body = GetBody(0);
         b.type = BodyType.KINEMATIC;
@@ -1745,22 +1745,22 @@ class GameObj extends GameObjBase
     }
     
     
-    private function AddJoint_Nape(joint : EdJoint)
+    public function AddJoint_Nape(joint : EdJoint)
     {
         PhysicsBase.AddJoint_Nape(joint);
     }
     
-    private var minAng : Float;
-    private var maxAng : Float;
-    private var origAng : Float;
-    private var doorSwitch_angAdd : Float;
-    private var doorSwitch_rotvel : Float;
-    private var doorSwitch_2Way : Bool;
-    private var doorSwitch_ccw : Bool;
-    private var doorSwitch_linkid : Int;
-    private var doorSwitch_parentGO : GameObj;
-    private var doorSwitch_parentOffsetX : Float;
-    private var doorSwitch_parentOffsetY : Float;
+    public var minAng : Float;
+    public var maxAng : Float;
+    public var origAng : Float;
+    public var doorSwitch_angAdd : Float;
+    public var doorSwitch_rotvel : Float;
+    public var doorSwitch_2Way : Bool;
+    public var doorSwitch_ccw : Bool;
+    public var doorSwitch_linkid : Int;
+    public var doorSwitch_parentGO : GameObj;
+    public var doorSwitch_parentOffsetX : Float;
+    public var doorSwitch_parentOffsetY : Float;
     public function InitDoorSwitch()
     {
         name = "doorswitch";
@@ -1848,7 +1848,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function InitGameObjLine_Clicker()
+    public function InitGameObjLine_Clicker()
     {
         initParams = "doorswitch_openangle=90,doorswitch_2way=true,doorswitch_ccw=false";
         InitDoorSwitch();
@@ -1862,7 +1862,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHit_Wind(goHitter : GameObj)
+    public function OnHit_Wind(goHitter : GameObj)
     {
         if (goHitter.collisionType != "football" && goHitter.collisionType != "beachball")
         {
@@ -1879,7 +1879,7 @@ class GameObj extends GameObjBase
         goHitter.ApplyForce(dx, dy);
     }
     
-    private function UpdateWind()
+    public function UpdateWind()
     {
         var ang : Float = GetBodyAngle(0);
         ang -= Math.PI / 2;
@@ -1901,7 +1901,7 @@ class GameObj extends GameObjBase
             go.InitWindPart(dir);
         }
     }
-    private function InitWind()
+    public function InitWind()
     {
         name = "wind";
         timer = Utils.RandBetweenInt(10, 30);
@@ -1916,14 +1916,14 @@ class GameObj extends GameObjBase
         }
         visible = false;
     }
-    private var force_strength : Float;
-    private var initial_force_strength : Float;
+    public var force_strength : Float;
+    public var initial_force_strength : Float;
     
     
     
     
     
-    private function RenderWindPart()
+    public function RenderWindPart()
     {
         var xp : Float = as3hx.Compat.parseInt(xpos) - as3hx.Compat.parseInt(Game.camera.x);
         var yp : Float = as3hx.Compat.parseInt(ypos) - as3hx.Compat.parseInt(Game.camera.y);
@@ -1934,7 +1934,7 @@ class GameObj extends GameObjBase
         bd.setPixel32(xp, yp + 1, c);
         bd.setPixel32(xp, yp - 1, c);
     }
-    private function UpdateWindPart()
+    public function UpdateWindPart()
     {
         xvel *= 1.1;
         yvel *= 1.1;
@@ -1946,7 +1946,7 @@ class GameObj extends GameObjBase
             RemoveObject();
         }
     }
-    private function InitWindPart(_ang : Float)
+    public function InitWindPart(_ang : Float)
     {
         state = 0;
         updateFunction = UpdateWindPart;
@@ -2007,17 +2007,17 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function Spawner_GenerateObjectsCallback(o : Dynamic)
+    public function Spawner_GenerateObjectsCallback(o : Dynamic)
     {
         var go : GameObj = PhysicsBase.AddPhysObjAt(o.name, o.xpos, o.ypos, 0, 1, "", "", "");
     }
     
     
-    private var spawner_initialdelay : Int;
-    private var spawner_frequency : Int;
-    private var spawner_total : Int;
-    private var spawner_spawncount : Int;
-    private var spawner_spawnobjectList : Array<Dynamic>;
+    public var spawner_initialdelay : Int;
+    public var spawner_frequency : Int;
+    public var spawner_total : Int;
+    public var spawner_spawncount : Int;
+    public var spawner_spawnobjectList : Array<Dynamic>;
     public function OnClickedSpawner()
     {
     }
@@ -2038,7 +2038,7 @@ class GameObj extends GameObjBase
         spawner_initialdelay = as3hx.Compat.parseInt(Utils.GetParamNumber("spawner_initialdelay", 0) * Defs.fps);
         spawner_frequency = as3hx.Compat.parseInt(Utils.GetParamNumber("spawner_frequency", 3) * Defs.fps);
         spawner_total = Utils.GetParamInt("spawner_totalamount", 10);
-        spawner_spawnobjectList = new Array<Dynamic>();
+        spawner_spawnobjectList = [];
         var s : String = Utils.GetParamString("spawner_spawnobject", "");
         spawner_spawnobjectList = s.split("+");
         
@@ -2087,7 +2087,7 @@ class GameObj extends GameObjBase
         frame = 0;
     }
     
-    private function AddScore(sc : Int)
+    public function AddScore(sc : Int)
     {
         Game.AddScore(sc);
     }
@@ -2176,7 +2176,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private var portalExitGO : GameObj;
+    public var portalExitGO : GameObj;
     
     public function PortalInSetSparks()
     {
@@ -2266,7 +2266,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnClickSnake()
+    public function OnClickSnake()
     {
         if (GameVars.snakeUpgrade == GameVars.snakeUpgrade_Spitter && GameVars.snakeUpgradeGO == this)
         {
@@ -2278,15 +2278,15 @@ class GameObj extends GameObjBase
             state1 = 1;
         }
     }
-    private function OnHitSnake(goHitter : GameObj)
+    public function OnHitSnake(goHitter : GameObj)
     {
         if (goHitter == null)
         {
             return;
         }
     }
-    private var spitTimer : Int = 0;
-    private function UpdateSnake()
+    public var spitTimer : Int = 0;
+    public function UpdateSnake()
     {
         var mx : Float = MouseControl.x;
         var my : Float = MouseControl.y;
@@ -2430,21 +2430,21 @@ class GameObj extends GameObjBase
         }
     }
     
-    private var snakeObjList : Array<Dynamic>;
+    public var snakeObjList : Array<Dynamic>;
     
     
     
-    private function InitSnake1_Normal()
+    public function InitSnake1_Normal()
     {
         InitSnake(0, 5, 13, 0.8, 10, 8);
     }
-    private function InitSnake2_Normal()
+    public function InitSnake2_Normal()
     {
         InitSnake(0, 7, 13, 1, 10, 8);
     }
     
     
-    private function SwitchSnake2_Normal_Invisible()
+    public function SwitchSnake2_Normal_Invisible()
     {
         visible = true;
         for (go in snakeObjList)
@@ -2453,7 +2453,7 @@ class GameObj extends GameObjBase
         }
         snake_pigGO.visible = true;
     }
-    private function InitSnake2_Normal_Invisible()
+    public function InitSnake2_Normal_Invisible()
     {
         InitSnake2_Normal();
         visible = false;
@@ -2467,39 +2467,39 @@ class GameObj extends GameObjBase
         snake_pigGO.visible = false;
     }
     
-    private function InitSnake3_Normal()
+    public function InitSnake3_Normal()
     {
         InitSnake(0, 9, 13, 1.2, 10, 8);
     }
-    private function InitSnake1_Floater()
+    public function InitSnake1_Floater()
     {
         InitSnake(1, 5, 13, 0.8, 10, 8);
     }
-    private function InitSnake2_Floater()
+    public function InitSnake2_Floater()
     {
         InitSnake(1, 7, 13, 1, 10, 8);
     }
-    private function InitSnake3_Floater()
+    public function InitSnake3_Floater()
     {
         InitSnake(1, 9, 13, 1.1, 10, 8);
     }
-    private function InitSnake1_Sticker()
+    public function InitSnake1_Sticker()
     {
         InitSnake(2, 5, 13, 0.8, 10, 8);
     }
-    private function InitSnake2_Sticker()
+    public function InitSnake2_Sticker()
     {
         InitSnake(2, 7, 13, 1, 10, 8);
     }
-    private function InitSnake3_Sticker()
+    public function InitSnake3_Sticker()
     {
         InitSnake(2, 9, 13, 1.1, 10, 8);
     }
     
-    private var snake_swingForce : Float;
-    private var mouseOverDobj : DisplayObj;
-    private var mouseOverFrame : Float;
-    private function RenderSnake()
+    public var snake_swingForce : Float;
+    public var mouseOverDobj : DisplayObj;
+    public var mouseOverFrame : Float;
+    public function RenderSnake()
     {
         RenderDispObjNormally();
         if (mouseOverDobj == null)
@@ -2508,11 +2508,11 @@ class GameObj extends GameObjBase
         }
         RenderDispObjAt(xpos, ypos, mouseOverDobj, mouseOverFrame);
     }
-    private function InitSnake(_type : Int, _numBits : Int, _angLimit : Float, _swingTimer : Float, _force : Float = 10, yoffset : Float = 10)
+    public function InitSnake(_type : Int, _numBits : Int, _angLimit : Float, _swingTimer : Float, _force : Float = 10, yoffset : Float = 10)
     {
         name = "snake";
         snake_pigGO = null;
-        snakeObjList = new Array<Dynamic>();
+        snakeObjList = [];
         onClickedFunction = OnClickSnake;
         onHitFunction = OnHitSnake;
         updateFunction = UpdateSnake;
@@ -2618,15 +2618,15 @@ class GameObj extends GameObjBase
         
         Snake_AddPig();
     }
-    private function Snake_ReleasePig()
+    public function Snake_ReleasePig()
     {
     }
     
-    private var snake_pigGO : GameObj;
-    private var snake_pigGOJoint : Constraint;
-    private var snake_pigGOJoint1 : Constraint;
+    public var snake_pigGO : GameObj;
+    public var snake_pigGOJoint : Constraint;
+    public var snake_pigGOJoint1 : Constraint;
     
-    private function Snake_AddPig()
+    public function Snake_AddPig()
     {
         var go : GameObj = snakeObjList[snakeObjList.length - 1];
         
@@ -2708,7 +2708,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitGuineaPig(goHitter : GameObj)
+    public function OnHitGuineaPig(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -2736,8 +2736,8 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private var stillTimer : Int;
-    private function GuineaPigStartBlow()
+    public var stillTimer : Int;
+    public function GuineaPigStartBlow()
     {
         if (state == 0)
         {
@@ -2762,7 +2762,7 @@ class GameObj extends GameObjBase
             zpos = GameLayers.GetZPosByName("Bubbles");
         }
     }
-    private function RemoveGuineaPig()
+    public function RemoveGuineaPig()
     {
         state = 100;
     }
@@ -2770,7 +2770,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function GuineaPig_BubblePops(numBits : Int = 32, time : Int = 6)
+    public function GuineaPig_BubblePops(numBits : Int = 32, time : Int = 6)
     {
         if (type == 2)
         {
@@ -2810,7 +2810,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitBubbleBit(goHitter : GameObj)
+    public function OnHitBubbleBit(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -2832,11 +2832,11 @@ class GameObj extends GameObjBase
             state = 1;
         }
     }
-    private function BubbleBit_StopIt()
+    public function BubbleBit_StopIt()
     {
         state = 1;
     }
-    private function UpdateBubbleBit()
+    public function UpdateBubbleBit()
     {
         if (state == 0)
         {
@@ -2862,11 +2862,11 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function RenderCallback_Alpha()
+    public function RenderCallback_Alpha()
     {
         RenderDispObjNormallyAlpha();
     }
-    private function InitBubbleBit()
+    public function InitBubbleBit()
     {
         collisionType = "bubble";
         onHitFunction = OnHitBubbleBit;
@@ -2877,7 +2877,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function UpdateBubbleBitDense()
+    public function UpdateBubbleBitDense()
     {
         timer--;
         if (timer <= 0)
@@ -2885,7 +2885,7 @@ class GameObj extends GameObjBase
             RemoveObject(RemovePhysObj);
         }
     }
-    private function InitBubbleBitDense()
+    public function InitBubbleBitDense()
     {
         updateFunction = UpdateBubbleBitDense;
         timer = 12;
@@ -2893,7 +2893,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitSpitRock(hitterGO : GameObj)
+    public function OnHitSpitRock(hitterGO : GameObj)
     {
         if (hitterGO == null)
         {
@@ -2901,7 +2901,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function UpdateSpitRock()
+    public function UpdateSpitRock()
     {
         timer--;
         if (timer <= 0)
@@ -2909,7 +2909,7 @@ class GameObj extends GameObjBase
             RemoveObject(RemovePhysObj);
         }
     }
-    private function InitSpitRock()
+    public function InitSpitRock()
     {
         updateFunction = UpdateSpitRock;
         onHitFunction = OnHitSpitRock;
@@ -2922,7 +2922,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitAnimalGold(goHitter : GameObj)
+    public function OnHitAnimalGold(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -2939,7 +2939,7 @@ class GameObj extends GameObjBase
             SFX_OneShot("sfx_pickup_gold");
         }
     }
-    private function UpdateAnimalGold()
+    public function UpdateAnimalGold()
     {
         if (state == 0)
         {
@@ -2953,7 +2953,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function InitAnimalGold()
+    public function InitAnimalGold()
     {
         name = "goldanimal";
         collisionType = "goldanimal";
@@ -2969,7 +2969,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitIcecreamVan(hitterGO : GameObj)
+    public function OnHitIcecreamVan(hitterGO : GameObj)
     {
         if (hitterGO == null)
         {
@@ -2983,7 +2983,7 @@ class GameObj extends GameObjBase
         timer = as3hx.Compat.parseInt(Defs.fps * 5);
         SFX_OneShot("sfx_icecreamvan");
     }
-    private function UpdateIcecreamVan()
+    public function UpdateIcecreamVan()
     {
         if (state == 1)
         {
@@ -2994,7 +2994,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function InitIcecreamVan()
+    public function InitIcecreamVan()
     {
         updateFunction = UpdateIcecreamVan;
         onHitFunction = OnHitIcecreamVan;
@@ -3002,7 +3002,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitSandBlock(hitterGO : GameObj)
+    public function OnHitSandBlock(hitterGO : GameObj)
     {
         if (hitterGO == null)
         {
@@ -3020,7 +3020,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function UpdateSandBlock()
+    public function UpdateSandBlock()
     {
         if (state == 1)
         {
@@ -3030,7 +3030,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function InitSandBlock()
+    public function InitSandBlock()
     {
         onHitFunction = OnHitSandBlock;
         updateFunction = UpdateSandBlock;
@@ -3038,11 +3038,11 @@ class GameObj extends GameObjBase
     }
     
     
-    private function InitBreakable_WoodenCrate()
+    public function InitBreakable_WoodenCrate()
     {
         var x : Float = -18;
         var y : Float = -16;
-        var list : Array<Dynamic> = new Array<Dynamic>();
+        var list : Array<Dynamic> = [];
         list.push(new BreakablePieceDef(x + 7, y + 5, "woodenCrate1_part1"));
         list.push(new BreakablePieceDef(x + 30, y + 4, "woodenCrate1_part2"));
         list.push(new BreakablePieceDef(x + 42, y + 9, "woodenCrate1_part3"));
@@ -3054,18 +3054,18 @@ class GameObj extends GameObjBase
         Init_Breakable_Pieces(list);
     }
     
-    private function InitBreakable_WoodenPost()
+    public function InitBreakable_WoodenPost()
     {
-        var list : Array<Dynamic> = new Array<Dynamic>();
+        var list : Array<Dynamic> = [];
         list.push(new BreakablePieceDef(0, -20, "woodPost0_part3"));
         list.push(new BreakablePieceDef(0, -1, "woodPost0_part2"));
         list.push(new BreakablePieceDef(0, 19, "woodPost0_part1"));
         Init_Breakable_Pieces(list);
     }
     
-    private function InitBreakable_Block()
+    public function InitBreakable_Block()
     {
-        var list : Array<Dynamic> = new Array<Dynamic>();
+        var list : Array<Dynamic> = [];
         list.push(new BreakablePieceDef(-20, 0, "Block_part1"));
         list.push(new BreakablePieceDef(-7, 19, "Block_part2"));
         list.push(new BreakablePieceDef(18, 10, "Block_part3"));
@@ -3078,9 +3078,9 @@ class GameObj extends GameObjBase
     }
     
     
-    private function InitBreakable_Wood()
+    public function InitBreakable_Wood()
     {
-        var list : Array<Dynamic> = new Array<Dynamic>();
+        var list : Array<Dynamic> = [];
         list.push(new BreakablePieceDef(-32, 0, "Wood_part1"));
         list.push(new BreakablePieceDef(-9, 1, "Wood_part2"));
         list.push(new BreakablePieceDef(8, 5, "Wood_part3"));
@@ -3095,10 +3095,10 @@ class GameObj extends GameObjBase
     }
     
     
-    private function InitBreakable_SwitchCover()
+    public function InitBreakable_SwitchCover()
     {
         name = "switch_cover";
-        var list : Array<Dynamic> = new Array<Dynamic>();
+        var list : Array<Dynamic> = [];
         list.push(new BreakablePieceDef(2, 4, "lever_part1"));
         list.push(new BreakablePieceDef(19, -10, "lever_part2"));
         list.push(new BreakablePieceDef(12, 5, "lever_part3"));
@@ -3113,8 +3113,8 @@ class GameObj extends GameObjBase
     }
     
     
-    private var breakable_piece_def_list : Array<Dynamic>;
-    private function Init_Breakable_Pieces(_list : Array<Dynamic>)
+    public var breakable_piece_def_list : Array<Dynamic>;
+    public function Init_Breakable_Pieces(_list : Array<Dynamic>)
     {
         breakable_piece_def_list = _list;
         updateFunction = Update_Breakable_Pieces;
@@ -3122,7 +3122,7 @@ class GameObj extends GameObjBase
         frame = 0;
         health = maxHealth = 1;
     }
-    private function Update_Breakable_Pieces()
+    public function Update_Breakable_Pieces()
     {
         if (state == 0)
         {
@@ -3168,7 +3168,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function OnHit_Breakable_Pieces(hitterGO : GameObj)
+    public function OnHit_Breakable_Pieces(hitterGO : GameObj)
     {
         if (hitterGO == null)
         {
@@ -3287,7 +3287,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitSpringboard(goHitter : GameObj)
+    public function OnHitSpringboard(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -3300,7 +3300,7 @@ class GameObj extends GameObjBase
         state = 1;
         frame = 0;
     }
-    private function UpdateSpringboard()
+    public function UpdateSpringboard()
     {
         if (state == 1)
         {
@@ -3310,7 +3310,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function InitSpringboard()
+    public function InitSpringboard()
     {
         onHitFunction = OnHitSpringboard;
         updateFunction = UpdateSpringboard;
@@ -3323,11 +3323,11 @@ class GameObj extends GameObjBase
     
     
     
-    private function UpdateCycleAnimation()
+    public function UpdateCycleAnimation()
     {
         CycleAnimation();
     }
-    private function InitCycleAnimation()
+    public function InitCycleAnimation()
     {
         updateFunction = UpdateCycleAnimation;
     }
@@ -3340,7 +3340,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitPickup(goHitter : GameObj)
+    public function OnHitPickup(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -3366,7 +3366,7 @@ class GameObj extends GameObjBase
             GameVars.CollectCoin(type);
         }
     }
-    private function UpdatePickup()
+    public function UpdatePickup()
     {
         if (state == 0)
         {
@@ -3380,7 +3380,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function RenderPickup()
+    public function RenderPickup()
     {
         RenderDispObjNormally();
         if (state == 1)
@@ -3390,13 +3390,13 @@ class GameObj extends GameObjBase
     }
     
     
-    private function UpdatePickup_InWalkthrough()
+    public function UpdatePickup_InWalkthrough()
     {
         timer++;
         scale = 1 + (Math.cos(timer * 0.1) * 0.1);
     }
     
-    private function InitPickup()
+    public function InitPickup()
     {
         dobj1 = null;
         frameVel = 0.5;
@@ -3426,7 +3426,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitPickupTrophy(goHitter : GameObj)
+    public function OnHitPickupTrophy(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -3447,17 +3447,17 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function RenderWalkthroughTrophy()
+    public function RenderWalkthroughTrophy()
     {
         RenderDispObjNormally();
         RenderDispObjAt(xpos - 25, ypos - 25, GraphicObjects.GetDisplayObjByName("walkthroughMarker"), 0, null, 0, 1);
     }
-    private function UpdateWalkthroughTrophy()
+    public function UpdateWalkthroughTrophy()
     {
         timer++;
         scale = 1 + (Math.cos(timer * 0.1) * 0.1);
     }
-    private function InitPickupTrophy(_trophyID : Int)
+    public function InitPickupTrophy(_trophyID : Int)
     {
         type = _trophyID;
         if (GameVars.HasTrophy(type))
@@ -3478,49 +3478,49 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function InitPickupTrophy1()
+    public function InitPickupTrophy1()
     {
         InitPickupTrophy(0);
     }
-    private function InitPickupTrophy2()
+    public function InitPickupTrophy2()
     {
         InitPickupTrophy(1);
     }
-    private function InitPickupTrophy3()
+    public function InitPickupTrophy3()
     {
         InitPickupTrophy(2);
     }
-    private function InitPickupTrophy4()
+    public function InitPickupTrophy4()
     {
         InitPickupTrophy(3);
     }
-    private function InitPickupTrophy5()
+    public function InitPickupTrophy5()
     {
         InitPickupTrophy(4);
     }
-    private function InitPickupTrophy6()
+    public function InitPickupTrophy6()
     {
         InitPickupTrophy(5);
     }
-    private function InitPickupTrophy7()
+    public function InitPickupTrophy7()
     {
         InitPickupTrophy(6);
     }
-    private function InitPickupTrophy8()
+    public function InitPickupTrophy8()
     {
         InitPickupTrophy(7);
     }
-    private function InitPickupTrophy9()
+    public function InitPickupTrophy9()
     {
         InitPickupTrophy(8);
     }
-    private function InitPickupTrophy10()
+    public function InitPickupTrophy10()
     {
         InitPickupTrophy(9);
     }
     
     
-    private function PickupCollected(goHitter : GameObj)
+    public function PickupCollected(goHitter : GameObj)
     {
         if (type == 1)
         {
@@ -3535,22 +3535,22 @@ class GameObj extends GameObjBase
         {
         }
     }
-    private function InitPickup1()
+    public function InitPickup1()
     {
         InitPickup();
         type = 1;
     }
-    private function InitPickup2()
+    public function InitPickup2()
     {
         InitPickup();
         type = 2;
     }
-    private function InitPickup3()
+    public function InitPickup3()
     {
         InitPickup();
         type = 3;
     }
-    private function InitPickup4()
+    public function InitPickup4()
     {
         InitPickup();
         type = 4;
@@ -3558,9 +3558,9 @@ class GameObj extends GameObjBase
     
     
     
-    private var gunBombNumBits : Int;
-    private var gunBombTime : Int;
-    private function OnHitGumBomb(goHitter : GameObj)
+    public var gunBombNumBits : Int;
+    public var gunBombTime : Int;
+    public function OnHitGumBomb(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -3574,7 +3574,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function UpdateGumBomb()
+    public function UpdateGumBomb()
     {
         if (state == 1)
         {
@@ -3583,20 +3583,20 @@ class GameObj extends GameObjBase
             RemoveObject(RemovePhysObj);
         }
     }
-    private function InitGumBomb()
+    public function InitGumBomb()
     {
         onHitFunction = OnHitGumBomb;
         updateFunction = UpdateGumBomb;
     }
     
-    private function InitGumBombSmall()
+    public function InitGumBombSmall()
     {
         InitGumBomb();
         gunBombNumBits = 32;
         gunBombTime = 6;
     }
     
-    private function InitGumBombLarge()
+    public function InitGumBombLarge()
     {
         InitGumBomb();
         gunBombNumBits = 64;
@@ -3607,7 +3607,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitMagnet(goHitter : GameObj)
+    public function OnHitMagnet(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -3626,15 +3626,15 @@ class GameObj extends GameObjBase
             goHitter.ApplyForce(-v.X(), -v.Y());
         }
     }
-    private function UpdateMagnetPull()
+    public function UpdateMagnetPull()
     {
         CycleAnimation();
     }
-    private function UpdateMagnet()
+    public function UpdateMagnet()
     {
         CycleAnimation();
     }
-    private function InitMagnet()
+    public function InitMagnet()
     {
         Audio.Loop("sfx_magnet", 99999, 0, 1, true);
         
@@ -3644,12 +3644,12 @@ class GameObj extends GameObjBase
         frame = 0;
     }
     
-    private function InitMagnetPush()
+    public function InitMagnetPush()
     {
         InitMagnet();
         type = 1;
     }
-    private function InitMagnetPull()
+    public function InitMagnetPull()
     {
         InitMagnet();
         updateFunction = UpdateMagnetPull;
@@ -3658,15 +3658,15 @@ class GameObj extends GameObjBase
     
     
     
-    private var conveyor_speed : Float;
-    private function OnHitConveyor(goHitter : GameObj)
+    public var conveyor_speed : Float;
+    public function OnHitConveyor(goHitter : GameObj)
     {
         if (goHitter == null)
         {
             return;
         }
     }
-    private function SwitchedConveyor()
+    public function SwitchedConveyor()
     {
         conveyor_speed = -conveyor_speed;
         var conveyor_speedA : Float = Math.abs(conveyor_speed);
@@ -3685,11 +3685,11 @@ class GameObj extends GameObjBase
         
         b.surfaceVel = new Vec2(p.x, p.y);
     }
-    private function UpdateConveyor()
+    public function UpdateConveyor()
     {
         CycleAnimation();
     }
-    private function InitConveyor()
+    public function InitConveyor()
     {
         Utils.GetParams(initParams);
         
@@ -3722,7 +3722,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function UpdateGameObjJoint_SwitchedDistance()
+    public function UpdateGameObjJoint_SwitchedDistance()
     {
         var dj : DistanceJoint = try cast(jointController_joints[0], DistanceJoint) catch(e:Dynamic) null;
         
@@ -3737,24 +3737,24 @@ class GameObj extends GameObjBase
         }
         dj.jointMin = dj.jointMax;
     }
-    private function SwitchGameObjJoint_SwitchedDistance()
+    public function SwitchGameObjJoint_SwitchedDistance()
     {
         yvel *= -1;
     }
     
-    private var jointMinDist : Float;
-    private var jointMaxDist : Float;
-    private function InitGameObjJoint_SwitchedDistance1(cons : Array<Constraint>)
+    public var jointMinDist : Float;
+    public var jointMaxDist : Float;
+    public function InitGameObjJoint_SwitchedDistance1(cons : Array<Constraint>)
     {
         InitGameObjJoint_SwitchedDistance(cons);
         jointMinDist = jointMaxDist / 2;
     }
     
     
-    private function InitGameObjJoint_SwitchedDistance(cons : Array<Constraint>)
+    public function InitGameObjJoint_SwitchedDistance(cons : Array<Constraint>)
     {
         yvel = 2;
-        jointController_joints = new Array<Constraint>();
+        jointController_joints = [];
         for (c in cons)
         {
             jointController_joints.push(c);
@@ -3795,7 +3795,7 @@ class GameObj extends GameObjBase
         jointMinDist = jointMaxDist / 4;
     }
     
-    private function UpdateJoint_RotateSwitch()
+    public function UpdateJoint_RotateSwitch()
     {
         var minAng : Float = 0;
         var maxAng : Float = 0;
@@ -3832,11 +3832,11 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function SwitchJoint_RotateSwitch()
+    public function SwitchJoint_RotateSwitch()
     {
         rotVel *= -1;
     }
-    private function InitJoint_RotateSwitch(cons : Array<Constraint>)
+    public function InitJoint_RotateSwitch(cons : Array<Constraint>)
     {
         rotVel = 5;
         CopyJointDataToGO(cons);
@@ -3845,7 +3845,7 @@ class GameObj extends GameObjBase
         visible = false;
     }
     
-    private function UpdateJoint_RotateSwitch_StopGo()
+    public function UpdateJoint_RotateSwitch_StopGo()
     {
         dir += rotVel;
         
@@ -3861,7 +3861,7 @@ class GameObj extends GameObjBase
         jointObjBody.setVelocityFromTarget(new Vec2((xpos + p.x), (ypos + p.y)), dir, dt);
     }
     
-    private function SwitchJoint_RotateSwitch_StopGo()
+    public function SwitchJoint_RotateSwitch_StopGo()
     {
         switchFlag = (switchFlag == false);
         if (switchFlag == false)
@@ -3874,10 +3874,10 @@ class GameObj extends GameObjBase
         }
     }
     
-    private var jointObjBody : Body;
-    private var jointObjBody_xoff : Float;
-    private var jointObjBody_yoff : Float;
-    private function InitJoint_RotateSwitch_StopGo(cons : Array<Constraint>)
+    public var jointObjBody : Body;
+    public var jointObjBody_xoff : Float;
+    public var jointObjBody_yoff : Float;
+    public function InitJoint_RotateSwitch_StopGo(cons : Array<Constraint>)
     {
         name = "poocock2";
         rotVel = 0.02;
@@ -3919,20 +3919,20 @@ class GameObj extends GameObjBase
     
     
     
-    private function CopyJointDataToGO(cons : Array<Constraint>)
+    public function CopyJointDataToGO(cons : Array<Constraint>)
     {
-        jointController_joints = new Array<Constraint>();
+        jointController_joints = [];
         for (c in cons)
         {
             jointController_joints.push(c);
         }
     }
-    private function InitJoint_Render(cons : Array<Constraint>)
+    public function InitJoint_Render(cons : Array<Constraint>)
     {
         CopyJointDataToGO(cons);
         renderFunction = RenderJointRenderer;
     }
-    private function JointObject_JointRemoved(j : Constraint)
+    public function JointObject_JointRemoved(j : Constraint)
     {
         for (c/* AS3HX WARNING could not determine type for var: c exp: EIdent(jointController_joints) type: null */ in jointController_joints)
         {
@@ -4227,7 +4227,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function RenderRain()
+    public function RenderRain()
     {
         for (i in 0...20)
         {
@@ -4237,10 +4237,10 @@ class GameObj extends GameObjBase
             dobj.RenderAt(frame, bd, x, y);
         }
     }
-    private function UpdateRain()
+    public function UpdateRain()
     {
     }
-    private function InitRain()
+    public function InitRain()
     {
         renderFunction = RenderRain;
         updateFunction = UpdateRain;
@@ -4249,7 +4249,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function RenderWidescreen()
+    public function RenderWidescreen()
     {
         if (false)
         {
@@ -4262,7 +4262,7 @@ class GameObj extends GameObjBase
         r.y = Defs.displayarea_h - ypos;
         bd.fillRect(r, 0xff000000);
     }
-    private function UpdateWidescreen()
+    public function UpdateWidescreen()
     {
         if (state == 0)
         {
@@ -4300,7 +4300,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function InitWidescreen()
+    public function InitWidescreen()
     {
         renderFunction = RenderWidescreen;
         updateFunction = UpdateWidescreen;
@@ -4317,7 +4317,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function MiniGamePickup_Collected()
+    public function MiniGamePickup_Collected()
     {
         state = 1;
         
@@ -4327,7 +4327,7 @@ class GameObj extends GameObjBase
         frame = 0;
         SFX_OneShot("sfx_pickup_gold");
     }
-    private function UpdateMiniGamePickup()
+    public function UpdateMiniGamePickup()
     {
         if (state == 0)
         {
@@ -4351,7 +4351,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function InitMiniGamePickup()
+    public function InitMiniGamePickup()
     {
         name = "pickup";
         updateFunction = UpdateMiniGamePickup;
@@ -4372,24 +4372,24 @@ class GameObj extends GameObjBase
     
     
     
-    private function UpdatePlaybackCursor()
+    public function UpdatePlaybackCursor()
     {
     }
-    private function InitPlaybackCursor()
+    public function InitPlaybackCursor()
     {
         updateFunction = UpdatePlaybackCursor;
         dobj = GraphicObjects.GetDisplayObjByName("Cursor_Walkthrough_Pointer");
         frame = 0;
     }
     
-    private function UpdatePlaybackClick()
+    public function UpdatePlaybackClick()
     {
         if (PlayAnimation())
         {
             RemoveObject();
         }
     }
-    private function InitPlaybackClick()
+    public function InitPlaybackClick()
     {
         updateFunction = UpdatePlaybackClick;
         dobj = GraphicObjects.GetDisplayObjByName("Walkthrough_click");
@@ -4508,18 +4508,18 @@ class GameObj extends GameObjBase
     
     
     
-    private var ballLaunch_vec : Vec;
-    private var ballLaunch_dist : Float;
+    public var ballLaunch_vec : Vec;
+    public var ballLaunch_dist : Float;
     
-    private var football_CannonObj : GameObj = null;
-    private function Football_InitHoldInCannon(goCannon : GameObj)
+    public var football_CannonObj : GameObj = null;
+    public function Football_InitHoldInCannon(goCannon : GameObj)
     {
         football_CannonObj = goCannon;
         state = 200;
         timer = GameVars.cannonHoldTime;
     }
     
-    private function Football_CanSnapToPlayer(_go : GameObj) : Bool
+    public function Football_CanSnapToPlayer(_go : GameObj) : Bool
     {
         if (state == 200)
         {
@@ -4551,7 +4551,7 @@ class GameObj extends GameObjBase
         return true;
     }
     
-    private function Football_SnapToPlayer(_go : GameObj)
+    public function Football_SnapToPlayer(_go : GameObj)
     {
         football_playerGO = _go;
         football_playerGO.Player_SetHasFootball(this);
@@ -4563,7 +4563,7 @@ class GameObj extends GameObjBase
         SetBodyLinearVelocity(0, 0, 0);
         PhysicsSetStationary();
     }
-    private function Football_DribbleWithPlayer()
+    public function Football_DribbleWithPlayer()
     {
         state = 1;
         xpos = football_playerGO.xpos;
@@ -4575,7 +4575,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function Football_MoveToPlayer(_go : GameObj)
+    public function Football_MoveToPlayer(_go : GameObj)
     {
         SFX_OneShot("sfx_ball_return");
         SetBodyCollisionMask(-1, 0);
@@ -4594,7 +4594,7 @@ class GameObj extends GameObjBase
         PhysicsSetStationary();
     }
     
-    private function Football_Launch(_v : Vec)
+    public function Football_Launch(_v : Vec)
     {
         PhysicsSetMovable();
         SetBodyAngularVelocity(0, 0);
@@ -4606,10 +4606,10 @@ class GameObj extends GameObjBase
         ballTimer = 0;
         footballHitSomthing = false;
     }
-    private var football_lastPlayerToHaveBall : GameObj;
-    private var football_playerGO : GameObj;
-    private var previousVel : Vec2;
-    private function Football_GenerateSmokePuff()
+    public var football_lastPlayerToHaveBall : GameObj;
+    public var football_playerGO : GameObj;
+    public var previousVel : Vec2;
+    public function Football_GenerateSmokePuff()
     {
         var go : GameObj = GameObjects.AddObj(xpos, ypos, zpos - 10);
         go.InitSmokePuff();
@@ -4630,7 +4630,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function UpdateFootball()
+    public function UpdateFootball()
     {
         previousVel = GetBodyLinearVelocity(0).copy();
         if (state == 0)
@@ -4753,8 +4753,8 @@ class GameObj extends GameObjBase
         }
     }
     
-    private var footballHitSomthing : Bool;
-    private function OnHit_Football(hitterGO : GameObj)
+    public var footballHitSomthing : Bool;
+    public function OnHit_Football(hitterGO : GameObj)
     {
         if (hitterGO == null)
         {
@@ -4777,21 +4777,21 @@ class GameObj extends GameObjBase
             footballHitSomthing = true;
         }
     }
-    private function RenderFootball()
+    public function RenderFootball()
     {
         RenderDispObjNormally();
     }
-    private var ballTimer : Int;
-    private function InitFootball_Beachball()
+    public var ballTimer : Int;
+    public function InitFootball_Beachball()
     {
         InitFootball();
         collisionType = "beachball";
     }
     
-    private var origSensorMask : Int;
-    private var origCollisionMask : Int;
+    public var origSensorMask : Int;
+    public var origCollisionMask : Int;
     
-    private function InitFootball()
+    public function InitFootball()
     {
         origCollisionMask = GetBodyCollisionMask();
         origSensorMask = GetBodySensorMask();
@@ -4820,7 +4820,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function RenderFootballOverlayObject()
+    public function RenderFootballOverlayObject()
     {
         if (Game.controlMode == 0)
         {
@@ -4884,13 +4884,13 @@ class GameObj extends GameObjBase
             parentObj.dobj1.RenderAt(f, bd, xp, yp - 20);
         }
     }
-    private function InitFootballOverlayObject()
+    public function InitFootballOverlayObject()
     {
         renderFunction = RenderFootballOverlayObject;
     }
     
     
-    private function OnHitPlayer(goHitter : GameObj)
+    public function OnHitPlayer(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -4909,7 +4909,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function PlayerFaceToBall()
+    public function PlayerFaceToBall()
     {
         var ballGO : GameObj = GameVars.footballGO;
         xflip = false;
@@ -4918,14 +4918,14 @@ class GameObj extends GameObjBase
             xflip = true;
         }
     }
-    private function Player_InitRunToMarker(_x : Float)
+    public function Player_InitRunToMarker(_x : Float)
     {
         state = 10;
         SetAnimRangeSingle("run1");
         toPosX = _x;
         xvel = 3;
     }
-    private function UpdatePlayer()
+    public function UpdatePlayer()
     {
         var ballGO : GameObj = GameVars.footballGO;
         
@@ -5214,20 +5214,20 @@ class GameObj extends GameObjBase
         playerHeadAngle = playerHeadToAngle;
     }
     
-    private function PlayerStartCelebration()
+    public function PlayerStartCelebration()
     {
         SetAnimRangeSingle("goal" + Utils.RandBetweenInt(1, 1));
         state = 20;
     }
-    private var idleTimer : Int = 0;
-    private var idleState : Int = 0;
-    private function PlayerStartIdleAnim()
+    public var idleTimer : Int = 0;
+    public var idleState : Int = 0;
+    public function PlayerStartIdleAnim()
     {
         idleTimer = 0;
         idleState = 0;
         SetAnimRangeSingle("idle" + Utils.RandBetweenInt(1, 3));
     }
-    private function PlayerUpdateIdleAnim()
+    public function PlayerUpdateIdleAnim()
     {
         if (idleState == 0)
         {
@@ -5248,7 +5248,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function PlayerHeadFollowPoint(x : Float, y : Float)
+    public function PlayerHeadFollowPoint(x : Float, y : Float)
     {
         var head_dx : Float = (x) - xpos;
         var head_dy : Float = (y) - (ypos - 70);
@@ -5285,14 +5285,14 @@ class GameObj extends GameObjBase
     }
     
     
-    private function Player_SetHasFootball(go : GameObj)
+    public function Player_SetHasFootball(go : GameObj)
     {
         PlayerStartIdleAnim();
         state = 1;
         player_currentFootball = go;
     }
-    private var player_currentFootball : GameObj;
-    private function RenderRef()
+    public var player_currentFootball : GameObj;
+    public function RenderRef()
     {
         var xp : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
@@ -5301,7 +5301,7 @@ class GameObj extends GameObjBase
         animHierarchy.RenderAt(bd, xp, yp, frame, scale, dir, xflip);
         animHierarchy.Frame_SetPartRot("head", frame, oldRot);
     }
-    private function RenderPlayer()
+    public function RenderPlayer()
     {
         var xp : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
@@ -5323,11 +5323,11 @@ class GameObj extends GameObjBase
     
     
     
-    private var team : TeamDef;
+    public var team : TeamDef;
     
-    private var playerHeadToAngle : Float;
-    private var playerHeadAngle : Float;
-    private function InitPlayer()
+    public var playerHeadToAngle : Float;
+    public var playerHeadAngle : Float;
+    public function InitPlayer()
     {
         playerHeadToAngle = playerHeadAngle = 0;
         
@@ -5360,7 +5360,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function Opponent_KickBall(ok : OppoKick)
+    public function Opponent_KickBall(ok : OppoKick)
     {
         var ballGO : GameObj = GameVars.footballGO;
         var dx : Float = ballGO.xpos - xpos;
@@ -5369,19 +5369,19 @@ class GameObj extends GameObjBase
         movementVec.speed = 150;
         ballGO.ApplyImpulse(movementVec.X(), movementVec.Y());
     }
-    private function Opponent_InitKick()
+    public function Opponent_InitKick()
     {
         SetAnimRangeSingle("kick1");
         state = 1;
     }
     
-    private function Opponent_InitHeader()
+    public function Opponent_InitHeader()
     {
         SetAnimRangeSingle("jump_start");
         state = 20;
     }
     
-    private function OpponentStartCommiseration()
+    public function OpponentStartCommiseration()
     {
         if (state == 0)
         {
@@ -5390,7 +5390,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function RenderOpponent()
+    public function RenderOpponent()
     {
         var xp : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
@@ -5406,7 +5406,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function UpdateOpponent()
+    public function UpdateOpponent()
     {
         var ballGO : GameObj = GameVars.footballGO;
         var distToBall : Float = Utils.DistBetweenPoints(xpos, ypos, ballGO.xpos, ballGO.ypos);
@@ -5634,7 +5634,7 @@ class GameObj extends GameObjBase
         
         SetBodyXForm(0, xpos, ypos, 0);
     }
-    private function OnHitOpponent(goHitter : GameObj)
+    public function OnHitOpponent(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -5648,7 +5648,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function Opponent_InitHitByFootball(goHitter : GameObj)
+    public function Opponent_InitHitByFootball(goHitter : GameObj)
     {
         var dy : Float = ypos - goHitter.ypos;
         
@@ -5666,7 +5666,7 @@ class GameObj extends GameObjBase
         }
         state = 10;
     }
-    private function InitOpponent()
+    public function InitOpponent()
     {
         oppo_canJumpWhenNear = false;
         oppo_canKickWhenNear = false;
@@ -5700,14 +5700,14 @@ class GameObj extends GameObjBase
     }
     
     
-    private var keeperActionIndex : Int;
-    private var keeperActionName : String;
+    public var keeperActionIndex : Int;
+    public var keeperActionName : String;
     
-    private function KeeperNextAction()
+    public function KeeperNextAction()
     {
         keeperActionIndex = GameVars.KeeperNextAction(keeperActionName, keeperActionIndex);
     }
-    private function KeeperStartAction()
+    public function KeeperStartAction()
     {
         var p : Point = GameVars.GetKeeperAction(keeperActionName, keeperActionIndex);
         if (p.x == 0)
@@ -5739,7 +5739,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function RenderKeeper()
+    public function RenderKeeper()
     {
         var xp : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
@@ -5755,8 +5755,8 @@ class GameObj extends GameObjBase
         }
     }
     
-    private var showTimer : Bool;
-    private function UpdateKeeper()
+    public var showTimer : Bool;
+    public function UpdateKeeper()
     {
         var ballGO : GameObj = GameVars.footballGO;
         var distToBall : Float = Utils.DistBetweenPoints(xpos, ypos, ballGO.xpos, ballGO.ypos);
@@ -5885,7 +5885,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function InitKeeper()
+    public function InitKeeper()
     {
         showTimer = false;
         playerHeadToAngle = playerHeadAngle = 0;
@@ -5926,10 +5926,10 @@ class GameObj extends GameObjBase
     
     
     
-    private var patrol_x0 : Float;
-    private var patrol_x1 : Float;
+    public var patrol_x0 : Float;
+    public var patrol_x1 : Float;
     
-    private function RaycastBelow(snap : Bool) : Bool
+    public function RaycastBelow(snap : Bool) : Bool
     {
         var highestY : Float = 99999;
         
@@ -5953,9 +5953,9 @@ class GameObj extends GameObjBase
         return false;
     }
     
-    private var oppo_canJumpWhenNear : Bool;
-    private var oppo_canKickWhenNear : Bool;
-    private function InitOpponent_JumpWhenNear()
+    public var oppo_canJumpWhenNear : Bool;
+    public var oppo_canKickWhenNear : Bool;
+    public function InitOpponent_JumpWhenNear()
     {
         InitOpponent();
         state = 0;
@@ -5968,7 +5968,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function InitOpponent_Patrol()
+    public function InitOpponent_Patrol()
     {
         InitOpponent();
         state = 100;
@@ -5986,16 +5986,16 @@ class GameObj extends GameObjBase
     
     
     
-    private var player_Race : Int;
-    private var player_Head : Int;
+    public var player_Race : Int;
+    public var player_Head : Int;
     
-    private var ct_shirt : ColorTransform;
-    private var ct_shorts : ColorTransform;
-    private var ct_socks : ColorTransform;
-    private var ct_pattern : ColorTransform;
-    private var kitStyle : Int;
+    public var ct_shirt : ColorTransform;
+    public var ct_shorts : ColorTransform;
+    public var ct_socks : ColorTransform;
+    public var ct_pattern : ColorTransform;
+    public var kitStyle : Int;
     
-    private function AddHierarchy_Player(_ct_shirt : ColorTransform, _ct_shorts : ColorTransform, _ct_socks : ColorTransform, _ct_pattern : ColorTransform, _style : Int)
+    public function AddHierarchy_Player(_ct_shirt : ColorTransform, _ct_shorts : ColorTransform, _ct_socks : ColorTransform, _ct_pattern : ColorTransform, _style : Int)
     {
         ct_shirt = _ct_shirt;
         ct_shorts = _ct_shorts;
@@ -6066,7 +6066,7 @@ class GameObj extends GameObjBase
         animHierarchy.SetPartInterpolate("head", false);
     }
     
-    private function AddHierarchy_Keeper(_ct_shirt : ColorTransform, _ct_shorts : ColorTransform, _ct_socks : ColorTransform, _ct_pattern : ColorTransform, _style : Int)
+    public function AddHierarchy_Keeper(_ct_shirt : ColorTransform, _ct_shorts : ColorTransform, _ct_socks : ColorTransform, _ct_pattern : ColorTransform, _style : Int)
     {
         ct_shirt = _ct_shirt;
         ct_shorts = _ct_shorts;
@@ -6100,7 +6100,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitRef(goHitter : GameObj)
+    public function OnHitRef(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -6116,7 +6116,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function Ref_HitByFootball()
+    public function Ref_HitByFootball()
     {
         state = 1;
         SetAnimRangeSingle("redcard");
@@ -6134,7 +6134,7 @@ class GameObj extends GameObjBase
         
         Game.AddScore(100);
     }
-    private function UpdateRefPiece()
+    public function UpdateRefPiece()
     {
         xpos += xvel;
         ypos += yvel;
@@ -6146,7 +6146,7 @@ class GameObj extends GameObjBase
             RemoveObject();
         }
     }
-    private function InitRefPiece()
+    public function InitRefPiece()
     {
         updateFunction = UpdateRefPiece;
         timer = 300;
@@ -6159,7 +6159,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function UpdateRef()
+    public function UpdateRef()
     {
         var ballGO : GameObj = GameVars.footballGO;
         
@@ -6308,13 +6308,13 @@ class GameObj extends GameObjBase
     }
     
     
-    private function RefStartIdleAnim()
+    public function RefStartIdleAnim()
     {
         idleTimer = 0;
         idleState = 0;
         SetAnimRangeSingle("idle" + Utils.RandBetweenInt(1, 3));
     }
-    private function RefUpdateIdleAnim()
+    public function RefUpdateIdleAnim()
     {
         if (idleState == 0)
         {
@@ -6336,7 +6336,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function UpdateRefLoose()
+    public function UpdateRefLoose()
     {
         var ballGO : GameObj = GameVars.footballGO;
         
@@ -6370,13 +6370,13 @@ class GameObj extends GameObjBase
             CycleAnimationEx();
         }
     }
-    private function InitRef_Loose()
+    public function InitRef_Loose()
     {
         InitRef();
         PhysicsSetMovable();
         updateFunction = UpdateRefLoose;
     }
-    private function InitRef()
+    public function InitRef()
     {
         playerHeadToAngle = playerHeadAngle = 0;
         
@@ -6394,7 +6394,7 @@ class GameObj extends GameObjBase
         frameVel = 0.5;
     }
     
-    private function InitRef_Patrol()
+    public function InitRef_Patrol()
     {
         InitRef();
         state = 100;
@@ -6411,7 +6411,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function AddHierarchy_Ref()
+    public function AddHierarchy_Ref()
     {
         player_Head = Utils.RandBetweenInt(0, 2);
         
@@ -6425,7 +6425,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function UpdateGoalPopup()
+    public function UpdateGoalPopup()
     {
         timer--;
         if (timer <= 0)
@@ -6437,12 +6437,12 @@ class GameObj extends GameObjBase
         scale = f * scaleMax;
         dir += 0.1;
     }
-    private function RenderGoalPopup()
+    public function RenderGoalPopup()
     {
         RenderDispObjAt(xpos, ypos, dobj, 0, null, dir, scale * 0.8);
         RenderDispObjAt(xpos, ypos, dobj1, 0, null, 0, scale);
     }
-    private function InitGoalPopup()
+    public function InitGoalPopup()
     {
         updateFunction = UpdateGoalPopup;
         renderFunction = RenderGoalPopup;
@@ -6451,7 +6451,7 @@ class GameObj extends GameObjBase
         timerMax = timer = as3hx.Compat.parseInt(Defs.fps * 2);
         scaleMax = 1.5;
     }
-    private function InitRedcardPopup()
+    public function InitRedcardPopup()
     {
         updateFunction = UpdateGoalPopup;
         renderFunction = RenderGoalPopup;
@@ -6460,7 +6460,7 @@ class GameObj extends GameObjBase
         timerMax = timer = as3hx.Compat.parseInt(Defs.fps * 2);
         scaleMax = 1;
     }
-    private function InitTrophyPopup()
+    public function InitTrophyPopup()
     {
         updateFunction = UpdateGoalPopup;
         renderFunction = RenderGoalPopup;
@@ -6470,7 +6470,7 @@ class GameObj extends GameObjBase
         scaleMax = 1;
     }
     
-    private function UpdatePopPopup()
+    public function UpdatePopPopup()
     {
         timer--;
         if (timer <= 0)
@@ -6481,7 +6481,7 @@ class GameObj extends GameObjBase
         f = Ease.Spring_Out(f);
         scale = f * scaleMax;
     }
-    private function InitPopPopup()
+    public function InitPopPopup()
     {
         updateFunction = UpdatePopPopup;
         dobj = GraphicObjects.GetDisplayObjByName("popup_pop");
@@ -6489,7 +6489,7 @@ class GameObj extends GameObjBase
         scaleMax = 1;
     }
     
-    private function InitPlusOnePopup()
+    public function InitPlusOnePopup()
     {
         updateFunction = UpdatePopPopup;
         dobj = GraphicObjects.GetDisplayObjByName("plusOneShot");
@@ -6497,7 +6497,7 @@ class GameObj extends GameObjBase
         scaleMax = 1;
     }
     
-    private function OnHitGoal(goHitter : GameObj)
+    public function OnHitGoal(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -6549,7 +6549,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function InitGoal()
+    public function InitGoal()
     {
         GameVars.totalGoals++;
         
@@ -6559,17 +6559,17 @@ class GameObj extends GameObjBase
     
     
     
-    private function PhysicsUpdateNull(b : Body)
+    public function PhysicsUpdateNull(b : Body)
     {
         b.position.x = xpos;
         b.position.y = ypos;
     }
     
-    private function PhysicsSetStationary()
+    public function PhysicsSetStationary()
     {
         updateFromPhysicsFunction = PhysicsUpdateNull;
     }
-    private function PhysicsSetMovable()
+    public function PhysicsSetMovable()
     {
         updateFromPhysicsFunction = null;
     }
@@ -6578,7 +6578,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function UpdateSpikyBall()
+    public function UpdateSpikyBall()
     {
         if (state == 0)
         {
@@ -6614,7 +6614,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function InitSpikyBall()
+    public function InitSpikyBall()
     {
         ballLaunch_vec = new Vec();
         
@@ -6625,7 +6625,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitBurstableBall(goHitter : GameObj)
+    public function OnHitBurstableBall(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -6655,7 +6655,7 @@ class GameObj extends GameObjBase
             RemoveObject(RemovePhysObj);
         }
     }
-    private function InitBurstableBall()
+    public function InitBurstableBall()
     {
         collisionType = "football";
         name = "burstable";
@@ -6666,7 +6666,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function InitRunMarker()
+    public function InitRunMarker()
     {
         name = "run_marker";
         visible = false;
@@ -6676,7 +6676,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function InitPatrolMarker()
+    public function InitPatrolMarker()
     {
         name = "patrol_marker";
         visible = false;
@@ -6686,7 +6686,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function InitJumpMarker()
+    public function InitJumpMarker()
     {
         name = "jump_marker";
         visible = false;
@@ -6699,7 +6699,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function UpdateCloud()
+    public function UpdateCloud()
     {
         var fov : Float = 100;
         
@@ -6729,11 +6729,11 @@ class GameObj extends GameObjBase
             xpos1 = xpos2;
         }
     }
-    private function RenderCloud()
+    public function RenderCloud()
     {
         RenderDispObjNormally(false);
     }
-    private function InitCloud()
+    public function InitCloud()
     {
         updateFunction = UpdateCloud;
         renderFunction = RenderCloud;
@@ -6771,7 +6771,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function SwitchedCog()
+    public function SwitchedCog()
     {
         if (state == 0)
         {
@@ -6782,7 +6782,7 @@ class GameObj extends GameObjBase
             state = 0;
         }
     }
-    private function UpdateCog()
+    public function UpdateCog()
     {
         if (state == 0)
         {
@@ -6801,7 +6801,7 @@ class GameObj extends GameObjBase
             }
         }
     }
-    private function InitCog()
+    public function InitCog()
     {
         updateFunction = UpdateCog;
         switchFunction = SwitchedCog;
@@ -6814,7 +6814,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function OnHitFlyingBird(goHitter : GameObj)
+    public function OnHitFlyingBird(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -6839,7 +6839,7 @@ class GameObj extends GameObjBase
     }
     
     
-    private function UpdateFlyingBird()
+    public function UpdateFlyingBird()
     {
         if (state == 0)
         {
@@ -6879,7 +6879,7 @@ class GameObj extends GameObjBase
             SetBodyXForm_Immediate(0, xpos, ypos, 0);
         }
     }
-    private function InitFlyingBird()
+    public function InitFlyingBird()
     {
         useMultiplePhysicsUpdates = true;
         onHitFunction = OnHitFlyingBird;
@@ -6897,7 +6897,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function FootballGenerateSparkle()
+    public function FootballGenerateSparkle()
     {
         for (i in 0...1)
         {
@@ -6905,7 +6905,7 @@ class GameObj extends GameObjBase
             p.InitFeather("fx_sparkles_gold", i);
         }
     }
-    private function BirdGenerateFeathers()
+    public function BirdGenerateFeathers()
     {
         for (i in 0...6)
         {
@@ -6914,7 +6914,7 @@ class GameObj extends GameObjBase
         }
     }
     
-    private function OnHitBird(goHitter : GameObj)
+    public function OnHitBird(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -6926,7 +6926,7 @@ class GameObj extends GameObjBase
             BirdGenerateFeathers();
         }
     }
-    private function UpdateBird()
+    public function UpdateBird()
     {
         if (state == 0 || state == 1)
         {
@@ -6985,11 +6985,11 @@ class GameObj extends GameObjBase
             SetBodyXForm_Immediate(0, xpos, ypos, 0);
         }
     }
-    private function UpdatePhysicsNull(b : Body)
+    public function UpdatePhysicsNull(b : Body)
     {
     }
-    private var birdWatchDist2 : Float;
-    private function InitBird()
+    public var birdWatchDist2 : Float;
+    public function InitBird()
     {
         useMultiplePhysicsUpdates = true;
         onHitFunction = OnHitBird;
@@ -7007,7 +7007,7 @@ class GameObj extends GameObjBase
     
     
     
-    private function UpdateSmokePuff()
+    public function UpdateSmokePuff()
     {
         yvel = -0.3;
         
@@ -7018,7 +7018,7 @@ class GameObj extends GameObjBase
             RemoveObject();
         }
     }
-    private function InitSmokePuff()
+    public function InitSmokePuff()
     {
         updateFunction = UpdateSmokePuff;
         timer = Defs.fps;
@@ -7061,14 +7061,14 @@ class GameObj extends GameObjBase
     }
     
     
-    private function OnHitBallboy(goHitter : GameObj)
+    public function OnHitBallboy(goHitter : GameObj)
     {
         if (goHitter.name == "football")
         {
             goHitter.Football_MoveToPlayer(goHitter.football_playerGO);
         }
     }
-    private function InitBallboy()
+    public function InitBallboy()
     {
         dobj = GraphicObjects.GetDisplayObjByName("player");
         playerHeadToAngle = playerHeadAngle = 0;
@@ -7103,14 +7103,14 @@ class GameObj extends GameObjBase
     
     
     
-    private function UpdateAnimatedWhenMoving()
+    public function UpdateAnimatedWhenMoving()
     {
         CycleAnimation();
         var v : Float = GetBodyLinearVelocity(0).length;
         
         frameVel = Utils.ScaleToPreLimit(0, 2, 0, 100, v);
     }
-    private function InitAnimatedWhenMoving()
+    public function InitAnimatedWhenMoving()
     {
         updateFunction = UpdateAnimatedWhenMoving;
         frameVel = 0;
@@ -7118,11 +7118,11 @@ class GameObj extends GameObjBase
     
     
     
-    private function AddDummyBall()
+    public function AddDummyBall()
     {
     }
     
-    private function DoBallLine(x : Float, y : Float, dx : Float, dy : Float, ballGO : GameObj)
+    public function DoBallLine(x : Float, y : Float, dx : Float, dy : Float, ballGO : GameObj)
     {  /*
 			PhysicsBase.SetCurrentSpace(1);
 			var b:Body = new Body();

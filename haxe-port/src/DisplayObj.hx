@@ -37,8 +37,8 @@ class DisplayObj
         name = x.att.name;
         origName = x.att.origName;
         origMC = null;
-        labels = new Array<Dynamic>();
-        frames = new Array<DisplayObjFrame>();
+        labels = [];
+        frames = [];
         
         for (i in 0...x.nodes.frame.length())
         {
@@ -71,7 +71,7 @@ class DisplayObj
     
     public function new(mc : MovieClip, scale : Float, _flags : String = "", _frameCB : Function = null, _name : String = "")
     {
-        labels = new Array<Dynamic>();
+        labels = [];
         flags = _flags;
         frame = 0;
         if (mc != null)
@@ -86,7 +86,7 @@ class DisplayObj
     
     public function CreateFont(tf : TextFormat) : Void
     {
-        frames = new Array<DisplayObjFrame>();
+        frames = [];
         
         var i : Int;
         var j : Int;
@@ -148,7 +148,7 @@ class DisplayObj
         
         
         
-        frames = new Array<DisplayObjFrame>();
+        frames = [];
         var i : Int;
         var j : Int;
         var x0 : Int;
@@ -202,8 +202,8 @@ class DisplayObj
                 rect.height += 4;
             }
             
-            x0 = rect.left;
-            y0 = rect.top;
+            x0 = Std.int(rect.left);
+            y0 = Std.int(rect.top);
             mat.identity();
             mat.scale(scale, scale);
             mat.translate(-x0, -y0);
@@ -214,7 +214,7 @@ class DisplayObj
             {
                 if (Game.use_texturepages == false || flags == "separatetexturepage")
                 {
-                    BD = new BitmapData((rect.width), (rect.height), true, 0);
+                    BD = new BitmapData(Std.int(rect.width), Std.int(rect.height), true, 0);
                     BD.draw(mc, mat, null, null, null, false);
                     
                     dof.bitmapData = BD;
@@ -223,7 +223,7 @@ class DisplayObj
                 else
                 {
                     mat.scale(scl, scl);
-                    BD = new BitmapData((rect.width * scl), (rect.height * scl), true, 0);
+                    BD = new BitmapData(Std.int(rect.width * scl), Std.int(rect.height * scl), true, 0);
                     BD.draw(mc, mat, null, null, null, false);
                     
                     dof.bitmapData = BD;
@@ -253,7 +253,7 @@ class DisplayObj
         }
     }
     
-    private function NearestSuperiorPow2(i : Int) : Int
+    public function NearestSuperiorPow2(i : Int) : Int
     {
         var a : Int = 2;
         for (x in 0...12)
@@ -278,7 +278,7 @@ class DisplayObj
     
     public function CreateBlankBitmapsFromMovieClip(mc : MovieClip, flags : Int, _frameCB : Function = null) : Void
     {
-        frames = new Array<DisplayObjFrame>();
+        frames = [];
         var i : Int;
         var j : Int;
         var x0 : Int;
@@ -315,8 +315,8 @@ class DisplayObj
             rect.width = Math.ceil(rect.width);
             rect.height = Math.ceil(rect.height);
             
-            x0 = rect.left;
-            y0 = rect.top;
+            x0 = Std.int(rect.left);
+            y0 = Std.int(rect.top);
             mat.identity();
             mat.translate(-x0, -y0);
             dof.xoffset = as3hx.Compat.parseFloat(x0);
@@ -372,8 +372,8 @@ class DisplayObj
         rect.width = Math.ceil(rect.width);
         rect.height = Math.ceil(rect.height);
         
-        x0 = rect.left;
-        y0 = rect.top;
+        x0 = Std.int(rect.left);
+        y0 = Std.int(rect.top);
         mat.identity();
         mat.translate(-x0, -y0);
         dof.xoffset = as3hx.Compat.parseFloat(x0);
@@ -382,7 +382,7 @@ class DisplayObj
         
         if (origMC.width != 0 && origMC.height != 0)
         {
-            BD = new BitmapData((rect.width), (rect.height), true, 0);
+            BD = new BitmapData(Std.int(rect.width), Std.int(rect.height), true, 0);
             BD.draw(origMC, mat);
             dof.bitmapData = BD;
             dof.sourceRect = new Rectangle(0, 0, BD.width, BD.height);
@@ -482,7 +482,7 @@ class DisplayObj
     }
     
     
-    private var mat : Matrix = new Matrix();
+    public var mat : Matrix = new Matrix();
     public function RenderAtRotScaled_Vector(_frame : Int, screenBD : BitmapData, xpos : Float, ypos : Float, renderScale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false, xflip : Bool = false)
     {
         origMC.gotoAndStop(_frame + 1);
@@ -499,7 +499,7 @@ class DisplayObj
     }
     
     
-    private var sprite : Sprite = new Sprite();
+    public var sprite : Sprite = new Sprite();
     public function RenderAtRotScaled_VectorSprite(_frame : Int, screenBD : BitmapData, xpos : Float, ypos : Float, renderScale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false, xflip : Bool = false)
     {
         origMC.gotoAndStop(_frame + 1);

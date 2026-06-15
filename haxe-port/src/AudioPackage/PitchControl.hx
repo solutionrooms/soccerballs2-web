@@ -11,16 +11,16 @@ class PitchControl
 {
     public var rate(get, set) : Float;
 
-    private var BLOCK_SIZE(default, never) : Int = 2048;
+    public var BLOCK_SIZE(default, never) : Int = 2048;
     
-    private var _mp3 : Sound;
-    private var _sound : Sound;
+    public var _mp3 : Sound;
+    public var _sound : Sound;
     
-    private var _target : ByteArray;
-    private var _position : Float;
-    private var _rate : Float;
+    public var _target : ByteArray;
+    public var _position : Float;
+    public var _rate : Float;
     
-    private var active : Bool = false;
+    public var active : Bool = false;
     
     public function new(soundName : String)
     {
@@ -104,18 +104,18 @@ class PitchControl
         active = false;
     }
     
-    private var firstTime : Bool;
-    private var mp3length : Int;
-    private var ba : ByteArray;
+    public var firstTime : Bool;
+    public var mp3length : Int;
+    public var ba : ByteArray;
     
     public var volume : Float;
     
-    private function get_rate() : Float
+    public function get_rate() : Float
     {
         return _rate;
     }
     
-    private function set_rate(value : Float) : Float
+    public function set_rate(value : Float) : Float
     {
         if (value < 0.0)
         {
@@ -126,12 +126,12 @@ class PitchControl
         return value;
     }
     
-    private function complete(event : Event) : Void
+    public function complete(event : Event) : Void
     {
         _position = 0;
     }
     
-    private function sampleData(event : SampleDataEvent) : Void
+    public function sampleData(event : SampleDataEvent) : Void
     {
         _target.position = 0;
         
@@ -166,7 +166,7 @@ class PitchControl
         
         
         
-        var n : Int = (read == need) ? BLOCK_SIZE : read / _rate;
+        var n : Int = (read == need) ? BLOCK_SIZE : Std.int(read / _rate);
         
         var l0 : Float;
         var r0 : Float;

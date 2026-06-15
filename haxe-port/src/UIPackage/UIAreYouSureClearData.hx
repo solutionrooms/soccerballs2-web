@@ -23,10 +23,10 @@ class UIAreYouSureClearData extends UIScreenInstance
     {
         UI.StartAddButtons();
         titleMC = new ScreenClearSave();
-        UI.AddAnimatedMCButton(titleMC.btn_yes, buttonOKPressed);
-        UI.AddAnimatedMCButton(titleMC.btn_no, buttonCancelPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_yes, buttonOKPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_no, buttonCancelPressed);
         
-        TextStrings.ReplaceTextFieldText(titleMC.textTitle);
+        TextStrings.ReplaceTextFieldText((untyped titleMC).textTitle);
     }
     public function buttonOKPressed(e : MouseEvent)
     {

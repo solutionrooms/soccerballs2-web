@@ -19,9 +19,9 @@ class Screenshot
     }
     
     
-    private static var currentDrawScreenAbsoluteRectangle : Rectangle;
+    public static var currentDrawScreenAbsoluteRectangle : Rectangle;
     
-    private static var bitmaps : Array<Dynamic>;
+    public static var bitmaps : Array<Dynamic>;
     
     public static function Level_Dump()
     {
@@ -58,7 +58,7 @@ class Screenshot
         Utils.print("saved level screenshot " + name + "  " + bRect);
     }
     
-    private static function Level_Dump_OneComplete(e : Event)
+    public static function Level_Dump_OneComplete(e : Event)
     {
         EngineDebug.StopImmediateTimer("Level_Dump");
     }

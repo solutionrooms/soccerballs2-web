@@ -10,14 +10,14 @@ import flash.display.MovieClip;
 class EditParamEditItemBase
 {
     
-    private var op : ObjParameter;
-    private var parent : MovieClip;
-    private var mc : MovieClip;
-    private var selected : Bool;
-    private var parent_index : Int;
+    public var op : ObjParameter;
+    public var parent : MovieClip;
+    public var mc : MovieClip;
+    public var selected : Bool;
+    public var parent_index : Int;
     
-    private var x : Float;
-    private var y : Float;
+    public var x : Float;
+    public var y : Float;
     
     public function new()
     {
@@ -51,9 +51,9 @@ class EditParamEditItemBase
         if (parent != null)
         {
             parent.addChild(mc);
-        }if (mc.highlight != null)
+        }if ((untyped mc).highlight != null)
         {
-            mc.highlight.visible = false;
+            (untyped mc).highlight.visible = false;
         }
     }
     

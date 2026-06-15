@@ -23,7 +23,7 @@ class KiziStuff
     {
     }
     
-    private static var coinBalanceCB : Function;
+    public static var coinBalanceCB : Function;
     public static function RemoveCoinBalanceCB(cb : Function)
     {
         coinBalanceCB = null;
@@ -169,10 +169,10 @@ class KiziStuff
     }
     
     
-    private static var addLogo_xpos : Int;
-    private static var addLogo_ypos : Int;
-    private static var addLogo_mc : MovieClip;
-    private static var addLogo_scale : Float;
+    public static var addLogo_xpos : Int;
+    public static var addLogo_ypos : Int;
+    public static var addLogo_mc : MovieClip;
+    public static var addLogo_scale : Float;
     public static function AddLogoAt(mc : MovieClip, xpos : Int, ypos : Int, scale : Float)
     {
         addLogo_mc = mc;
@@ -187,7 +187,7 @@ class KiziStuff
         mLoader.load(mRequest);
     }
     
-    private static function AddLogoAt_onCompleteHandler(loadEvent : Event)
+    public static function AddLogoAt_onCompleteHandler(loadEvent : Event)
     {
         loadEvent.currentTarget.content.x = addLogo_xpos;
         loadEvent.currentTarget.content.y = addLogo_ypos;
@@ -195,7 +195,7 @@ class KiziStuff
         loadEvent.currentTarget.content.scaleY = addLogo_scale;
         addLogo_mc.addChild(loadEvent.currentTarget.content);
     }
-    private static function AddLogoAt_onError(loadEvent : Event)
+    public static function AddLogoAt_onError(loadEvent : Event)
     {
         trace("KiziStuff.AddLogoAt error");
     }

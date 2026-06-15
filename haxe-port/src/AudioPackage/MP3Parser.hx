@@ -36,17 +36,17 @@ import flash.utils.ByteArray;
 
 class MP3Parser extends EventDispatcher
 {
-    private var mp3Data : ByteArray;
-    private var loader : URLLoader;
-    private var currentPosition : Int;
-    private var sampleRate : Int;
-    private var channels : Int;
-    private var version : Int;
-    private static var bitRates : Array<Dynamic> = [-1, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, -1, -1, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160, -1];
-    private static var versions : Array<Dynamic> = [2.5, -1, 2, 1];
-    private static var samplingRates : Array<Dynamic> = [44100, 48000, 32000];
+    public var mp3Data : ByteArray;
+    public var loader : URLLoader;
+    public var currentPosition : Int;
+    public var sampleRate : Int;
+    public var channels : Int;
+    public var version : Int;
+    public static var bitRates : Array<Dynamic> = [-1, 32, 40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 224, 256, 320, -1, -1, 8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160, -1];
+    public static var versions : Array<Dynamic> = [2.5, -1, 2, 1];
+    public static var samplingRates : Array<Dynamic> = [44100, 48000, 32000];
     @:allow(audioPackage)
-    private function new()
+    public function new()
     {
         super();
         
@@ -55,30 +55,30 @@ class MP3Parser extends EventDispatcher
         loader.addEventListener(Event.COMPLETE, loaderCompleteHandler);
     }
     @:allow(audioPackage)
-    private function load(url : String) : Void
+    public function load(url : String) : Void
     {
         var req : URLRequest = new URLRequest(url);
         loader.load(req);
     }
     @:allow(audioPackage)
-    private function loadFileRef(fileRef : FileReference) : Void
+    public function loadFileRef(fileRef : FileReference) : Void
     {
         fileRef.addEventListener(Event.COMPLETE, loaderCompleteHandler);
         fileRef.addEventListener(IOErrorEvent.IO_ERROR, errorHandler);
         
         fileRef.load();
     }
-    private function errorHandler(ev : IOErrorEvent) : Void
+    public function errorHandler(ev : IOErrorEvent) : Void
     {
         trace("error\n" + ev.text);
     }
-    private function loaderCompleteHandler(ev : Event) : Void
+    public function loaderCompleteHandler(ev : Event) : Void
     {
         mp3Data = try cast(ev.currentTarget.data, ByteArray) catch(e:Dynamic) null;
         currentPosition = getFirstHeaderPosition();
         dispatchEvent(ev);
     }
-    private function getFirstHeaderPosition() : Int
+    public function getFirstHeaderPosition() : Int
     {
         mp3Data.position = 0;
         
@@ -122,7 +122,7 @@ class MP3Parser extends EventDispatcher
         throw (new Error("Could not locate first header. This isn't an MP3 file"));
     }
     @:allow(audioPackage)
-    private function getNextFrame() : ByteArraySegment
+    public function getNextFrame() : ByteArraySegment
     {
         mp3Data.position = currentPosition;
         var headerByte : Int;
@@ -157,12 +157,12 @@ class MP3Parser extends EventDispatcher
         return new ByteArraySegment(mp3Data, mp3Data.position, frameSize);
     }
     @:allow(audioPackage)
-    private function writeSwfFormatByte(byteArray : ByteArray) : Void
+    public function writeSwfFormatByte(byteArray : ByteArray) : Void
     {
         var sampleRateIndex : Int = as3hx.Compat.parseInt(4 - (44100 / sampleRate));
         byteArray.writeByte((2 << 4) + (sampleRateIndex << 2) + (1 << 1) + (channels - 1));
     }
-    private function parseHeader(headerBytes : Int) : Void
+    public function parseHeader(headerBytes : Int) : Void
     {
         var channelMode : Int = getModeIndex(headerBytes);
         version = getVersionIndex(headerBytes);
@@ -179,7 +179,7 @@ class MP3Parser extends EventDispatcher
                 sampleRate /= 4;
         }
     }
-    private function getFrameSize(headerBytes : Int) : Int
+    public function getFrameSize(headerBytes : Int) : Int
     {
         var version : Int = getVersionIndex(headerBytes);
         var bitRate : Int = getBitrateIndex(headerBytes);
@@ -205,7 +205,7 @@ class MP3Parser extends EventDispatcher
         return frameLength;
     }
     
-    private function isValidHeader(headerBits : Int) : Bool
+    public function isValidHeader(headerBits : Int) : Bool
     {
         return (((getFrameSync(headerBits) & 2047) == 2047) &&
         ((getVersionIndex(headerBits) & 3) != 1) &&
@@ -216,42 +216,42 @@ class MP3Parser extends EventDispatcher
         ((getEmphasisIndex(headerBits) & 3) != 2));
     }
     
-    private function getFrameSync(headerBits : Int) : Int
+    public function getFrameSync(headerBits : Int) : Int
     {
         return as3hx.Compat.parseInt(as3hx.Compat.parseInt(headerBits >> 21) & 2047);
     }
     
-    private function getVersionIndex(headerBits : Int) : Int
+    public function getVersionIndex(headerBits : Int) : Int
     {
         return as3hx.Compat.parseInt(as3hx.Compat.parseInt(headerBits >> 19) & 3);
     }
     
-    private function getLayerIndex(headerBits : Int) : Int
+    public function getLayerIndex(headerBits : Int) : Int
     {
         return as3hx.Compat.parseInt(as3hx.Compat.parseInt(headerBits >> 17) & 3);
     }
     
-    private function getBitrateIndex(headerBits : Int) : Int
+    public function getBitrateIndex(headerBits : Int) : Int
     {
         return as3hx.Compat.parseInt(as3hx.Compat.parseInt(headerBits >> 12) & 15);
     }
     
-    private function getFrequencyIndex(headerBits : Int) : Int
+    public function getFrequencyIndex(headerBits : Int) : Int
     {
         return as3hx.Compat.parseInt(as3hx.Compat.parseInt(headerBits >> 10) & 3);
     }
     
-    private function getPaddingBit(headerBits : Int) : Int
+    public function getPaddingBit(headerBits : Int) : Int
     {
         return as3hx.Compat.parseInt(as3hx.Compat.parseInt(headerBits >> 9) & 1);
     }
     
-    private function getModeIndex(headerBits : Int) : Int
+    public function getModeIndex(headerBits : Int) : Int
     {
         return as3hx.Compat.parseInt(as3hx.Compat.parseInt(headerBits >> 6) & 3);
     }
     
-    private function getEmphasisIndex(headerBits : Int) : Int
+    public function getEmphasisIndex(headerBits : Int) : Int
     {
         return as3hx.Compat.parseInt(headerBits & 3);
     }

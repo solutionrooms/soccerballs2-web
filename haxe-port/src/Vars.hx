@@ -8,7 +8,7 @@ import flash.net.URLRequest;
 	 */
 class Vars
 {
-    private static var list : Array<Var>;
+    public static var list : Array<Var>;
     
     
     
@@ -31,7 +31,7 @@ class Vars
         }
     }
     
-    private static var xmlLoader : URLLoader;
+    public static var xmlLoader : URLLoader;
     
     
     public static function ReloadXML()
@@ -53,10 +53,10 @@ class Vars
         var xml : FastXML = try cast(new FastXML(e.target.data), FastXML) catch(e:Dynamic) null;
         DecodeXML(xml);
     }
-    private static function DecodeXML(_xml : FastXML)
+    public static function DecodeXML(_xml : FastXML)
     {
         FastXML.ignoreWhitespace = true;
-        list = new Array<Var>();
+        list = [];
         var i : Int;
         var xml : FastXML = _xml;
         for (i in 0...xml.nodes.variable.length())

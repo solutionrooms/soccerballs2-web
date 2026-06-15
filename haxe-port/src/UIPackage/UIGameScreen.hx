@@ -21,7 +21,7 @@ class UIGameScreen extends UIScreenInstance
         
         
         {
-            titleMC.removeChild(Game.main.screenB);
+            titleMC.removeChild((untyped Game.main).screenB);
         }
     }
     
@@ -30,13 +30,13 @@ class UIGameScreen extends UIScreenInstance
         LicDef.GetStage().stage.frameRate = Defs.fps;
         LicDef.GetStage().stage.quality = StageQuality.MEDIUM;
         
-        Game.main.screenB.bitmapData.fillRect(Defs.screenRect, 0);
+        (untyped Game.main).screenB.bitmapData.fillRect(Defs.screenRect, 0);
         titleMC = new MovieClip();
-        titleMC.addChild(Game.main.screenB);
+        titleMC.addChild((untyped Game.main).screenB);
         
         Game.currentMC = titleMC;
-        Game.main.screenB.x = 0;
-        Game.main.screenB.y = 0;
+        (untyped Game.main).screenB.x = 0;
+        (untyped Game.main).screenB.y = 0;
         Game.StartLevel();
     }
 }

@@ -43,32 +43,32 @@ class UIKitSelect extends UIScreenInstance
         ScreenSize.ScaleMovieClip(titleMC);
         titleMC.gotoAndStop(1);
         
-        UI.AddAnimatedMCButton(titleMC.btn_back, buttonBackPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_back, buttonBackPressed);
         
         
-        TextStrings.ReplaceTextFieldText(titleMC.textTitle);
+        TextStrings.ReplaceTextFieldText((untyped titleMC).textTitle);
         
-        UI.AddBarebonesMCButton(titleMC.btn_shirtPlain, buttonStylePressed);
-        UI.AddBarebonesMCButton(titleMC.btn_shirtStripes, buttonStylePressed);
-        UI.AddBarebonesMCButton(titleMC.btn_shirtHoops, buttonStylePressed);
-        titleMC.btn_shirtPlain.style = 0;
-        titleMC.btn_shirtStripes.style = 1;
-        titleMC.btn_shirtHoops.style = 2;
+        UI.AddBarebonesMCButton((untyped titleMC).btn_shirtPlain, buttonStylePressed);
+        UI.AddBarebonesMCButton((untyped titleMC).btn_shirtStripes, buttonStylePressed);
+        UI.AddBarebonesMCButton((untyped titleMC).btn_shirtHoops, buttonStylePressed);
+        (untyped titleMC).btn_shirtPlain.style = 0;
+        (untyped titleMC).btn_shirtStripes.style = 1;
+        (untyped titleMC).btn_shirtHoops.style = 2;
         
-        UI.AddAnimatedMCButton(titleMC.btn_shirt, buttonKitPressed);
-        UI.AddAnimatedMCButton(titleMC.btn_pattern, buttonKitPressed);
-        UI.AddAnimatedMCButton(titleMC.btn_shorts, buttonKitPressed);
-        UI.AddAnimatedMCButton(titleMC.btn_socks, buttonKitPressed);
-        titleMC.btn_shirt.kit_part = 0;
-        titleMC.btn_shorts.kit_part = 1;
-        titleMC.btn_socks.kit_part = 2;
-        titleMC.btn_pattern.kit_part = 3;
-        
-        
+        UI.AddAnimatedMCButton((untyped titleMC).btn_shirt, buttonKitPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_pattern, buttonKitPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_shorts, buttonKitPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_socks, buttonKitPressed);
+        (untyped titleMC).btn_shirt.kit_part = 0;
+        (untyped titleMC).btn_shorts.kit_part = 1;
+        (untyped titleMC).btn_socks.kit_part = 2;
+        (untyped titleMC).btn_pattern.kit_part = 3;
         
         
         
-        InitColorButtons(titleMC.palette, 0, "shirt");
+        
+        
+        InitColorButtons((untyped titleMC).palette, 0, "shirt");
         
         team = GameVars.GetTeam(GameVars.currentEditTeamIndex);
         
@@ -77,64 +77,64 @@ class UIKitSelect extends UIScreenInstance
         
         UpdateKit();
         
-        UpdateColorButtons(titleMC.palette, team.kitColorShirt);
+        UpdateColorButtons((untyped titleMC).palette, team.kitColorShirt);
         
-        titleMC.textTeamName.text = team.teamName;
+        (untyped titleMC).textTeamName.text = team.teamName;
     }
     
-    private var team : TeamDef;
+    public var team : TeamDef;
     
-    private var currentKitPart : Int = 0;
-    private function buttonKitPressed(e : MouseEvent)
+    public var currentKitPart : Int = 0;
+    public function buttonKitPressed(e : MouseEvent)
     {
         currentKitPart = e.currentTarget.kit_part;
         Utils.print("kit part " + currentKitPart);
         UpdateKit();
     }
-    private function UpdateKit()
+    public function UpdateKit()
     {
-        UpdateColorButtons(titleMC.palette, team.kitColorShirt);
+        UpdateColorButtons((untyped titleMC).palette, team.kitColorShirt);
         
         
         
         
         
         
-        titleMC.btn_shirt.hilight.visible = false;
-        titleMC.btn_shorts.hilight.visible = false;
-        titleMC.btn_socks.hilight.visible = false;
-        titleMC.btn_pattern.hilight.visible = false;
+        (untyped titleMC).btn_shirt.hilight.visible = false;
+        (untyped titleMC).btn_shorts.hilight.visible = false;
+        (untyped titleMC).btn_socks.hilight.visible = false;
+        (untyped titleMC).btn_pattern.hilight.visible = false;
         if (currentKitPart == 0)
         {
-            titleMC.btn_shirt.hilight.visible = true;
+            (untyped titleMC).btn_shirt.hilight.visible = true;
         }
         if (currentKitPart == 1)
         {
-            titleMC.btn_shorts.hilight.visible = true;
+            (untyped titleMC).btn_shorts.hilight.visible = true;
         }
         if (currentKitPart == 2)
         {
-            titleMC.btn_socks.hilight.visible = true;
+            (untyped titleMC).btn_socks.hilight.visible = true;
         }
         if (currentKitPart == 3)
         {
-            titleMC.btn_pattern.hilight.visible = true;
+            (untyped titleMC).btn_pattern.hilight.visible = true;
         }
         
-        titleMC.btn_shirtPlain.selected.visible = false;
-        titleMC.btn_shirtStripes.selected.visible = false;
-        titleMC.btn_shirtHoops.selected.visible = false;
+        (untyped titleMC.btn_shirtPlain).selected.visible = false;
+        (untyped titleMC.btn_shirtStripes).selected.visible = false;
+        (untyped titleMC.btn_shirtHoops).selected.visible = false;
         if (team.kitStyle == 0)
         {
-            titleMC.btn_shirtPlain.selected.visible = true;
+            (untyped titleMC.btn_shirtPlain).selected.visible = true;
         }
         if (team.kitStyle == 1)
         {
-            titleMC.btn_shirtStripes.selected.visible = true;
+            (untyped titleMC.btn_shirtStripes).selected.visible = true;
         }
         if (team.kitStyle == 2)
         {
-            titleMC.btn_shirtHoops.selected.visible = true;
+            (untyped titleMC.btn_shirtHoops).selected.visible = true;
         }
         
         var a : Array<Dynamic>;
@@ -148,119 +148,119 @@ class UIKitSelect extends UIScreenInstance
         var ct3 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
         
         
-        titleMC.btn_shirtPlain.base.transform.colorTransform = ct0;
-        titleMC.btn_shirtStripes.base.transform.colorTransform = ct0;
-        titleMC.btn_shirtStripes.stripes.transform.colorTransform = ct3;
-        titleMC.btn_shirtHoops.base.transform.colorTransform = ct0;
-        titleMC.btn_shirtHoops.stripes.transform.colorTransform = ct3;
+        (untyped titleMC).btn_shirtPlain.base.transform.colorTransform = ct0;
+        (untyped titleMC).btn_shirtStripes.base.transform.colorTransform = ct0;
+        (untyped titleMC.btn_shirtStripes).stripes.transform.colorTransform = ct3;
+        (untyped titleMC).btn_shirtHoops.base.transform.colorTransform = ct0;
+        (untyped titleMC.btn_shirtHoops).stripes.transform.colorTransform = ct3;
         
-        titleMC.kit.shirt.base.transform.colorTransform = ct0;
-        titleMC.kit.shorts.transform.colorTransform = ct1;
-        titleMC.kit.socks.transform.colorTransform = ct2;
-        titleMC.kit.shirt.hoops.transform.colorTransform = ct3;
-        titleMC.kit.shirt.stripes.transform.colorTransform = ct3;
+        (untyped titleMC.kit).shirt.base.transform.colorTransform = ct0;
+        (untyped titleMC.kit).shorts.transform.colorTransform = ct1;
+        (untyped titleMC.kit).socks.transform.colorTransform = ct2;
+        (untyped titleMC.kit.shirt).hoops.transform.colorTransform = ct3;
+        (untyped titleMC.kit.shirt).stripes.transform.colorTransform = ct3;
         
         if (team.kitStyle == 0)
         {
-            titleMC.kit.shirt.hoops.visible = false;
-            titleMC.kit.shirt.stripes.visible = false;
+            (untyped titleMC.kit.shirt).hoops.visible = false;
+            (untyped titleMC.kit.shirt).stripes.visible = false;
         }
         if (team.kitStyle == 2)
         {
-            titleMC.kit.shirt.hoops.visible = false;
-            titleMC.kit.shirt.stripes.visible = true;
+            (untyped titleMC.kit.shirt).hoops.visible = false;
+            (untyped titleMC.kit.shirt).stripes.visible = true;
         }
         if (team.kitStyle == 1)
         {
-            titleMC.kit.shirt.hoops.visible = true;
-            titleMC.kit.shirt.stripes.visible = false;
+            (untyped titleMC.kit.shirt).hoops.visible = true;
+            (untyped titleMC.kit.shirt).stripes.visible = false;
         }
     }
     
-    private function UpdateHeads()
+    public function UpdateHeads()
     {
         for (i in 0...7)
         {
             var mc : MovieClip = try cast(titleMC.getChildByName("player" + as3hx.Compat.parseInt(i + 1)), MovieClip) catch(e:Dynamic) null;
-            mc.head.gotoAndStop(team.playerHeads[i] + 1);
+            (untyped mc).head.gotoAndStop(team.playerHeads[i] + 1);
         }
     }
-    private function InitHeads()
+    public function InitHeads()
     {
         for (i in 0...7)
         {
             var mc : MovieClip = try cast(titleMC.getChildByName("player" + as3hx.Compat.parseInt(i + 1)), MovieClip) catch(e:Dynamic) null;
-            UI.AddAnimatedMCButton(mc.btn_head, HeadClicked);
-            mc.textName.text = team.playerNames[i];
-            mc.headIndex = i;
-            mc.btn_head.headIndex = i;
+            UI.AddAnimatedMCButton((untyped mc).btn_head, HeadClicked);
+            (untyped mc).textName.text = team.playerNames[i];
+            (untyped mc).headIndex = i;
+            (untyped mc.btn_head).headIndex = i;
         }
     }
     
     
-    private function HeadClicked(e : MouseEvent)
+    public function HeadClicked(e : MouseEvent)
     {
         var mc : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        var i : Int = team.playerHeads[mc.headIndex];
+        var i : Int = team.playerHeads[(untyped mc).headIndex];
         i++;
         if (i >= 10)
         {
             i = 0;
         }
-        team.playerHeads[mc.headIndex] = i;
+        team.playerHeads[(untyped mc).headIndex] = i;
         UpdateHeads();
     }
     
     
     
     
-    private var dobj : DisplayObj;
-    private var animHierarchy : AnimHierarchy;
-    private var player_Race : Int = 0;
-    private var player_Head : Int = 0;
+    public var dobj : DisplayObj;
+    public var animHierarchy : AnimHierarchy;
+    public var player_Race : Int = 0;
+    public var player_Head : Int = 0;
     
     
     
-    private var bd : BitmapData;
-    private var b : Bitmap;
+    public var bd : BitmapData;
+    public var b : Bitmap;
     
-    private function InitColorButtons(parentMC : MovieClip, itemIndex : Int, title : String)
+    public function InitColorButtons(parentMC : MovieClip, itemIndex : Int, title : String)
     {
         for (i in 0...16)
         {
             var mc : MovieClip = try cast(parentMC.getChildByName("color" + as3hx.Compat.parseInt(i + 1)), MovieClip) catch(e:Dynamic) null;
             UI.AddAnimatedMCButton(mc, ColorClicked);
-            mc.colorIndex = i;
-            mc.itemIndex = itemIndex;
+            (untyped mc).colorIndex = i;
+            (untyped mc).itemIndex = itemIndex;
             var a : Array<Dynamic> = GameVars.GetKitColorRGBArrayByIndex(i);
-            mc.color.transform.colorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2]);
+            (untyped mc).color.transform.colorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2]);
         }
     }
     
-    private function ColorClicked(e : MouseEvent)
+    public function ColorClicked(e : MouseEvent)
     {
         var mc : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
         if (currentKitPart == 0)
         {
-            team.kitColorShirt = mc.colorIndex;
+            team.kitColorShirt = (untyped mc).colorIndex;
         }
         else if (currentKitPart == 1)
         {
-            team.kitColorShorts = mc.colorIndex;
+            team.kitColorShorts = (untyped mc).colorIndex;
         }
         else if (currentKitPart == 2)
         {
-            team.kitColorSocks = mc.colorIndex;
+            team.kitColorSocks = (untyped mc).colorIndex;
         }
         else
         {
-            team.kitColorPattern = mc.colorIndex;
+            team.kitColorPattern = (untyped mc).colorIndex;
         }
-        UpdateColorButtons(titleMC.palette, team.kitColorShirt);
+        UpdateColorButtons((untyped titleMC).palette, team.kitColorShirt);
         UpdateKit();
     }
     
-    private function UpdateColorButtons(parentMC : MovieClip, selectedIndex : Int)
+    public function UpdateColorButtons(parentMC : MovieClip, selectedIndex : Int)
     {
         if (currentKitPart == 0)
         {
@@ -282,15 +282,15 @@ class UIKitSelect extends UIScreenInstance
         for (i in 0...16)
         {
             var mc : MovieClip = try cast(parentMC.getChildByName("color" + as3hx.Compat.parseInt(i + 1)), MovieClip) catch(e:Dynamic) null;
-            mc.highlight.visible = false;
+            (untyped mc).highlight.visible = false;
             if (i == selectedIndex)
             {
-                mc.highlight.visible = true;
+                (untyped mc).highlight.visible = true;
             }
         }
     }
     
-    private function buttonStylePressed(e : MouseEvent)
+    public function buttonStylePressed(e : MouseEvent)
     {
         team.kitStyle = e.currentTarget.style;
         
@@ -301,9 +301,9 @@ class UIKitSelect extends UIScreenInstance
     
     
     
-    private function buttonBackPressed(e : MouseEvent)
+    public function buttonBackPressed(e : MouseEvent)
     {
-        team.teamName = titleMC.textTeamName.text;
+        team.teamName = (untyped titleMC).textTeamName.text;
         SaveData.Save();
         
         
@@ -311,7 +311,7 @@ class UIKitSelect extends UIScreenInstance
     }
     
     
-    private function AddHierarchy_Player(ct_shirt : ColorTransform, ct_shorts : ColorTransform, ct_socks : ColorTransform, ct_pattern : ColorTransform)
+    public function AddHierarchy_Player(ct_shirt : ColorTransform, ct_shorts : ColorTransform, ct_socks : ColorTransform, ct_pattern : ColorTransform)
     {
         player_Race = 0;
         player_Head = 0;

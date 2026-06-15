@@ -11,19 +11,19 @@ class AchievementTestFunctions
     public function new()
     {
     }
-    private function AchPass_Null() : Void
+    public function AchPass_Null() : Void
     {
         Achievements.currentAch.popupFrame = 37;
     }
     
-    private function AchPass_Cash() : Void
+    public function AchPass_Cash() : Void
     {
         var num : Int = Utils.GetParamInt("cash");
         
         Game.currentScore += num;
     }
     
-    private function AchPass_UnlockLevel() : Void
+    public function AchPass_UnlockLevel() : Void
     {
         var num : Int = Utils.GetParamInt("levelnum");
         Levels.GetLevel(num - 1).locked = false;
@@ -37,7 +37,7 @@ class AchievementTestFunctions
     }
     
     
-    private function AchTest_Place() : Bool
+    public function AchTest_Place() : Bool
     {
         var reqPlace : Int = Utils.GetParamInt("place");
         if (race_place <= (reqPlace - 1))
@@ -47,17 +47,17 @@ class AchievementTestFunctions
         return false;
     }
     
-    private function AchTest_NotUsingSpecialCar() : Bool
+    public function AchTest_NotUsingSpecialCar() : Bool
     {
         return true;
     }
-    private function AchTest_UsingSpecialCar() : Bool
+    public function AchTest_UsingSpecialCar() : Bool
     {
         return false;
     }
     
     
-    private function AchTest_LevelTime() : Bool
+    public function AchTest_LevelTime() : Bool
     {
         var time : Int = as3hx.Compat.parseInt(Utils.GetParamInt("time") * Defs.fps);
         if (Levels.GetCurrent().complete)
@@ -70,7 +70,7 @@ class AchievementTestFunctions
         }
         return false;
     }
-    private function AchTest_WinAllLevels() : Bool
+    public function AchTest_WinAllLevels() : Bool
     {
         var count : Int = 0;
         for (i in 0...Levels.list.length)
@@ -91,7 +91,7 @@ class AchievementTestFunctions
         return false;
     }
     
-    private function AchTest_CompleteAllLevels() : Bool
+    public function AchTest_CompleteAllLevels() : Bool
     {
         var count : Int = 0;
         for (i in 0...24)
@@ -109,7 +109,7 @@ class AchievementTestFunctions
         return false;
     }
     
-    private function AchTest_AllGreenLights() : Bool
+    public function AchTest_AllGreenLights() : Bool
     {
         var count : Int = 0;
         for (i in 0...24)
@@ -130,7 +130,7 @@ class AchievementTestFunctions
         return false;
     }
     
-    private function AchTest_LevelComplete() : Bool
+    public function AchTest_LevelComplete() : Bool
     {
         var num : Int = Utils.GetParamInt("levelnum");
         if (Levels.GetLevel(num - 1).complete)
@@ -141,7 +141,7 @@ class AchievementTestFunctions
     }
     
     
-    private function AchTest_IntGreaterOrEqual() : Bool
+    public function AchTest_IntGreaterOrEqual() : Bool
     {
         var varName : String = Utils.GetParamString("variable");
         var value : Int = Utils.GetParamInt("value");
@@ -154,7 +154,7 @@ class AchievementTestFunctions
         return false;
     }
     
-    private function AchTest_IntLessOrEqual() : Bool
+    public function AchTest_IntLessOrEqual() : Bool
     {
         var varName : String = Utils.GetParamString("variable");
         var value : Int = Utils.GetParamInt("value");
@@ -166,7 +166,7 @@ class AchievementTestFunctions
         return false;
     }
     
-    private function AchTest_FlagSet() : Bool
+    public function AchTest_FlagSet() : Bool
     {
         var flagName : String = Utils.GetParamString("flag");
         if (Reflect.field(this, flagName) == true)
@@ -176,7 +176,7 @@ class AchievementTestFunctions
         return false;
     }
     
-    private function AchTest_FlagNotSet() : Bool
+    public function AchTest_FlagNotSet() : Bool
     {
         var flagName : String = Utils.GetParamString("flag");
         if (Reflect.field(this, flagName) == false)
@@ -186,33 +186,33 @@ class AchievementTestFunctions
         return false;
     }
     
-    private function AchTest_Cones() : Bool
+    public function AchTest_Cones() : Bool
     {
         return false;
     }
-    private function AchTest_Nitros() : Bool
+    public function AchTest_Nitros() : Bool
     {
         return false;
     }
-    private function AchTest_CashPickup() : Bool
+    public function AchTest_CashPickup() : Bool
     {
         return false;
     }
-    private function AchTest_NitroOvertake() : Bool
+    public function AchTest_NitroOvertake() : Bool
     {
         return false;
     }
-    private function AchTest_DontHitSides() : Bool
+    public function AchTest_DontHitSides() : Bool
     {
         return true;
     }
     
-    private function AchTest_FinishPlace() : Bool
+    public function AchTest_FinishPlace() : Bool
     {
         return false;
     }
     
-    private function AchTest_FinishAll() : Bool
+    public function AchTest_FinishAll() : Bool
     {
         var num : Int = Utils.GetParamInt("place");
         num--;
@@ -232,12 +232,12 @@ class AchievementTestFunctions
     }
     
     
-    private function AchTest_FinishTime() : Bool
+    public function AchTest_FinishTime() : Bool
     {
         return false;
     }
     
-    private function AchTest_Falls() : Bool
+    public function AchTest_Falls() : Bool
     {
         return false;
     }

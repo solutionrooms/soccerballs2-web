@@ -32,7 +32,7 @@ class EdLine extends EditableObjectBase
         super();
         classType = "line";
         type = 0;
-        points = new Array<Dynamic>();
+        points = [];
         fill = 0;
         fillScaleX = 1;
         fillScaleY = 1;
@@ -75,8 +75,8 @@ class EdLine extends EditableObjectBase
         }
         
         
-        triangleList = new Array<Dynamic>();
-        uvList = new Array<Dynamic>();
+        triangleList = [];
+        uvList = [];
         
         var triangulate : Triangulate = new Triangulate();
         var triangulatedVerts : Array<Dynamic> = triangulate.process(pointsToTriangulate);
@@ -84,7 +84,7 @@ class EdLine extends EditableObjectBase
         if (triangulatedVerts == null)
         {
             Utils.traceerror("object failed triangulating: " + pointsToTriangulate.length);
-            triangulatedVerts = new Array<Dynamic>();
+            triangulatedVerts = [];
             for (p in pointsToTriangulate)
             {
                 triangulatedVerts.push(p.clone());
@@ -340,9 +340,9 @@ class EdLine extends EditableObjectBase
     
     
     
-    private var catmullRomLength : Float;
-    private var segmentLengths : Array<Dynamic>;
-    private var segmentRatios : Array<Dynamic>;
+    public var catmullRomLength : Float;
+    public var segmentLengths : Array<Dynamic>;
+    public var segmentRatios : Array<Dynamic>;
     public function CalculateLength(loop : Bool = false) : Float
     {
         segmentLengths = null;
@@ -360,8 +360,8 @@ class EdLine extends EditableObjectBase
             np--;
         }
         
-        segmentLengths = new Array<Dynamic>();
-        segmentRatios = new Array<Dynamic>();
+        segmentLengths = [];
+        segmentRatios = [];
         for (i in 0...np)
         {
             var j : Int = as3hx.Compat.parseInt(i + 1);
@@ -397,7 +397,7 @@ class EdLine extends EditableObjectBase
     }
     public function CalculateCatmullRomLength()
     {
-        var l : Array<Dynamic> = new Array<Dynamic>();
+        var l : Array<Dynamic> = [];
         var i : Int;
         
         var np : Int = GetNumPoints();
@@ -595,7 +595,7 @@ class EdLine extends EditableObjectBase
             return null;
         }
         
-        var a : Array<Dynamic> = new Array<Dynamic>();
+        var a : Array<Dynamic> = [];
         var t1 : Float;
         
         var numSubdivs : Int = as3hx.Compat.parseInt(np * 4);
@@ -870,14 +870,14 @@ class EdLine extends EditableObjectBase
             var thesePoints : Array<Dynamic> = points;
             if (lineIndex == selectedIndex && _useCursor && primitiveType == EdLine.PRIMITIVE_LINE)
             {
-                thesePoints = new Array<Dynamic>();
+                thesePoints = [];
                 for (p0 in points)
                 {
                     thesePoints.push(p0.clone());
                 }
                 thesePoints.push(new Point(PhysEditor.mxs, PhysEditor.mys));
             }
-            var points1 : Array<Dynamic> = new Array<Dynamic>();
+            var points1 : Array<Dynamic> = [];
             for (p in thesePoints)
             {
                 var zp : Point = PhysEditor.GetMapPos(p.x, p.y);

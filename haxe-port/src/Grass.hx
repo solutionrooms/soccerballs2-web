@@ -15,9 +15,9 @@ import nape.geom.Vec2;
 	 */
 class Grass
 {
-    private static var list : Array<GrassItem>;
-    private static var segmentList : Array<GrassSegment>;
-    private static var frames : Array<GrassFrame>;
+    public static var list : Array<GrassItem>;
+    public static var segmentList : Array<GrassSegment>;
+    public static var frames : Array<GrassFrame>;
     
     public function new()
     {
@@ -25,14 +25,14 @@ class Grass
     
     public static function InitOnce()
     {
-        list = new Array<GrassItem>();
+        list = [];
         
-        frames = new Array<GrassFrame>();
+        frames = [];
         AddFrames("grass_fairway");
         AddFrames("grass_rough");
     }
     
-    private static function GetGrassFrame(mcName : String, f : Int) : GrassFrame
+    public static function GetGrassFrame(mcName : String, f : Int) : GrassFrame
     {
         for (gf in frames)
         {
@@ -44,13 +44,13 @@ class Grass
         return null;
     }
     
-    private static function AddFrames(mcName : String)
+    public static function AddFrames(mcName : String)
     {
     }
     
     public static function InitForLevel()
     {
-        list = new Array<GrassItem>();
+        list = [];
     }
     
     
@@ -137,12 +137,12 @@ class Grass
     public static var maxY : Float;
     public static function PreRenderLines()
     {
-        segmentList = new Array<GrassSegment>();
+        segmentList = [];
         for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
         {
             if (go.active && go.preRenderFunction1 != null)
             {
-                list = new Array<GrassItem>();
+                list = [];
                 go.preRenderFunction1();
                 
                 minX = 9999999;
@@ -198,7 +198,7 @@ class Grass
         }
     }
     
-    private static function Update()
+    public static function Update()
     {
         var cx : Float = Game.camera.x;
         var cy : Float = Game.camera.y;
@@ -292,7 +292,7 @@ class Grass
             }
         }
     }
-    private static function RemoveHiddenGrass()
+    public static function RemoveHiddenGrass()
     {
         PhysicsBase.SetCurrentSpace(1);
         for (g in list)

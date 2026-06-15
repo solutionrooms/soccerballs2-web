@@ -44,8 +44,8 @@ class LicSku
         name = _name;
         introFunction = null;
         secondaryIntroFunction = null;
-        sitelocks = new Array<Dynamic>();
-        blackList = new Array<Dynamic>();
+        sitelocks = [];
+        blackList = [];
         adtype = 0;
         mainLogoName = "";
         facebookLinkURL = "";

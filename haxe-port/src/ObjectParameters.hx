@@ -5,7 +5,7 @@
 	 */
 class ObjectParameters
 {
-    private static var objparamList : Array<Dynamic>;
+    public static var objparamList : Array<Dynamic>;
     
     public function new()
     {
@@ -111,7 +111,7 @@ class ObjectParameters
     
     public static function LoadObjectParams()
     {
-        objparamList = new Array<Dynamic>();
+        objparamList = [];
         var x : FastXML = ExternalData.xml;
         var num = x.nodes.objparam.length();
         for (i in 0...num)

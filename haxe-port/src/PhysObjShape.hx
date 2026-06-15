@@ -33,7 +33,7 @@ class PhysObjShape
     {
         type = 0;
         name = "";
-        poly_points = new Array<Dynamic>();
+        poly_points = [];
         circle_pos = new Point();
         circle_radius = 0;
         poly_rot = 0;
@@ -48,7 +48,7 @@ class PhysObjShape
         {
             var m : Matrix = new Matrix();
             m.rotate(poly_rot);
-            var newpts : Array<Dynamic> = new Array<Dynamic>();
+            var newpts : Array<Dynamic> = [];
             for (p in poly_points)
             {
                 var p1 : Point = m.transformPoint(p);

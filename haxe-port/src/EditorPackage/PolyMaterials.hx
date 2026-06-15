@@ -7,7 +7,7 @@ package editorPackage;
 	 */
 class PolyMaterials
 {
-    private static var list : Array<PolyMaterial>;
+    public static var list : Array<PolyMaterial>;
     
     public function new()
     {
@@ -47,7 +47,7 @@ class PolyMaterials
     }
     public static function InitOnce(x : FastXML)
     {
-        list = new Array<PolyMaterial>();
+        list = [];
         
         for (i in 0...x.nodes.polymat.length())
         {

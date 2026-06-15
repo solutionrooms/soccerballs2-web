@@ -19,8 +19,8 @@ import uIPackage.UI;
 	*/
 class PauseMenu
 {
-    private static var active : Bool;
-    private static var pauseMC : MovieClip;
+    public static var active : Bool;
+    public static var pauseMC : MovieClip;
     
     public static function InitOnce() : Void
     {
@@ -37,11 +37,11 @@ class PauseMenu
         ScreenSize.ScaleMovieClip(pauseMC);
         Game.main.addChild(pauseMC);
         
-        TextStrings.ReplaceTextFieldText(pauseMC.textTitle);
+        TextStrings.ReplaceTextFieldText((untyped pauseMC).textTitle);
         
-        UI.AddAnimatedMCButton(pauseMC.ButtonContinue, pressed_buttonContinue);
-        UI.AddAnimatedMCButton(pauseMC.ButtonRestart, pressed_buttonRestartLevel);
-        UI.AddAnimatedMCButton(pauseMC.ButtonQuit, pressed_buttonQuit);
+        UI.AddAnimatedMCButton((untyped pauseMC).ButtonContinue, pressed_buttonContinue);
+        UI.AddAnimatedMCButton((untyped pauseMC).ButtonRestart, pressed_buttonRestartLevel);
+        UI.AddAnimatedMCButton((untyped pauseMC).ButtonQuit, pressed_buttonQuit);
         
         
         /*			pauseMC.buttonSFX.addEventListener(MouseEvent.CLICK,pressed_buttonSFX);
@@ -79,7 +79,7 @@ class PauseMenu
     
     
     
-    private static function AddMovieClip(x : Float, y : Float, mc : MovieClip) : MovieClip
+    public static function AddMovieClip(x : Float, y : Float, mc : MovieClip) : MovieClip
     {
         mc.x = x;
         mc.y = y;

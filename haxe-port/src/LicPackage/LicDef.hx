@@ -79,11 +79,11 @@ class LicDef
     public static var referralString : String = "?haref=soccerballs2&src=spon&cm=soccerballs2";
     
     
-    public static var authorLinks : Array<Dynamic> = new Array<Dynamic>();
+    public static var authorLinks : Array<Dynamic> = [];
     
     
-    public static var CPMStarContentSpotIDs : Array<Dynamic> = new Array<Dynamic>();
-    public static var CPMStarIntersitialsSpotIDs : Array<Dynamic> = new Array<Dynamic>();
+    public static var CPMStarContentSpotIDs : Array<Dynamic> = [];
+    public static var CPMStarIntersitialsSpotIDs : Array<Dynamic> = [];
     
     public static var CPMStarFixedTime : Int = 10;
     
@@ -115,7 +115,7 @@ class LicDef
         return null;
     }
     
-    private static function IsOnCorrectSite() : Bool
+    public static function IsOnCorrectSite() : Bool
     {
         if (false)
         {
@@ -172,7 +172,7 @@ class LicDef
         return dom;
     }
     
-    private static function SkuModify() : Void
+    public static function SkuModify() : Void
     {
         if (LicDef.localTest == true)
         {
@@ -238,11 +238,11 @@ class LicDef
         return false;
     }
     
-    private static var skus : Array<Dynamic>;
+    public static var skus : Array<Dynamic>;
     
     public static function InitSkus() : Void
     {
-        skus = new Array<Dynamic>();
+        skus = [];
         var sku : LicSku;
         
         
@@ -477,7 +477,7 @@ class LicDef
         sku.adtype = ADTYPE_CPMSTAR;
         skus.push(sku);
     }
-    private static var LicDef_static_initializer = {
+    public static var LicDef_static_initializer = {
         authorLinks.push("http://www.turbonuke.com");
         CPMStarContentSpotIDs.push(Std.string("8122QBE1BD8F0"));
         true;

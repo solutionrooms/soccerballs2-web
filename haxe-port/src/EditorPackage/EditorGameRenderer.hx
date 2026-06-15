@@ -18,7 +18,7 @@ class EditorGameRenderer
     }
     
     
-    private function RenderHelpText(po : PhysObj, poi : EdObj)
+    public function RenderHelpText(po : PhysObj, poi : EdObj)
     {
         var bd : BitmapData = PhysEditor.screenBD;
         var p : Point = PhysEditor.GetMapPos(poi.x, poi.y);
@@ -32,7 +32,7 @@ class EditorGameRenderer
         TextRenderer.RenderAt(bd, p.x, p.y, s, Utils.DegToRad(poi.rot), poi.scale, TextRenderer.JUSTIFY_CENTRE, ct);
     }
     
-    private function RenderHelpTextWithMarker(po : PhysObj, poi : EdObj)
+    public function RenderHelpTextWithMarker(po : PhysObj, poi : EdObj)
     {
         var bd : BitmapData = PhysEditor.screenBD;
         var p : Point = PhysEditor.GetMapPos(poi.x, poi.y);

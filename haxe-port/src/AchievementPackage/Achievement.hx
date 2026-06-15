@@ -18,7 +18,7 @@ class Achievement
     public var specificLevel : Int;
     public var specificLevelName : String;
     
-    private var popupFrame : Int;
+    public var popupFrame : Int;
     
     public function new()
     {
@@ -31,7 +31,7 @@ class Achievement
         specificLevel = -1;
         specificLevelName = "";
         
-        testList = new Array<AchievementTest>();
+        testList = [];
     }
 }
 

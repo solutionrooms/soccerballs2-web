@@ -24,12 +24,12 @@ class GameObjects
     public static function InitOnce(_numObjs : Int)
     {
         numobjs = _numObjs;
-        objs = new Array<GameObj>();
-        activeIndices = new Array<Int>();
-        inactiveIndices = new Array<Int>();
-        zorder = new Array<Dynamic>(numobjs);
+        objs = [];
+        activeIndices = [];
+        inactiveIndices = [];
+        zorder = [];
         
-        var i;
+        var i : Dynamic;
         for (i in 0...numobjs)
         {
             objs[i] = new GameObj();
@@ -121,7 +121,7 @@ class GameObjects
     public static function ForEachActive(cb : Function) : Void
     {
         var go : GameObj;
-        var list : Array<Dynamic> = new Array<Dynamic>();
+        var list : Array<Dynamic> = [];
         for (go in objs)
         {
             if (go.active)
@@ -132,7 +132,7 @@ class GameObjects
     }
     
     
-    private var v : Array<GameObj> = new Array<GameObj>();
+    public var v : Array<GameObj> = [];
     
     public static function zcompare(x : Point, y : Point) : Float
     {
@@ -155,7 +155,7 @@ class GameObjects
         EngineDebug.StartTimer("sort");
         
         i = 0;
-        zorder = new Array<Dynamic>();
+        zorder = [];
         for (go in objs)
         {
             if (go.active && go.visible)
@@ -186,7 +186,7 @@ class GameObjects
         EngineDebug.StartTimer("sort");
         
         i = 0;
-        zorder = new Array<Dynamic>();
+        zorder = [];
         for (go in objs)
         {
             if (go.active && go.visible)
@@ -312,7 +312,7 @@ class GameObjects
     }
     public static function KillObjects() : Void
     {
-        var deleteList : Array<Dynamic> = new Array<Dynamic>();
+        var deleteList : Array<Dynamic> = [];
         for (go in objs)
         {
             if (go.active == true && go.killed)
@@ -331,7 +331,7 @@ class GameObjects
         }
     }
     
-    private static var addList : Array<Dynamic>;
+    public static var addList : Array<Dynamic>;
     public static function DoAddList() : Void
     {
         for (o1 in addList)
@@ -341,7 +341,7 @@ class GameObjects
     }
     public static function ClearAddList() : Void
     {
-        addList = new Array<Dynamic>();
+        addList = [];
     }
     
     public static function AddToAddList(_fn : Function, ob : Dynamic) : Void
@@ -354,9 +354,9 @@ class GameObjects
     
     
     
-    private static function GetGameObjListByNameList(names : String) : Array<Dynamic>
+    public static function GetGameObjListByNameList(names : String) : Array<Dynamic>
     {
-        var list : Array<Dynamic> = new Array<Dynamic>();
+        var list : Array<Dynamic> = [];
         
         var nameList : Array<Dynamic> = names.split(",");
         for (name in nameList)
@@ -372,9 +372,9 @@ class GameObjects
     }
     
     
-    private static function GetGameObjListByName(name : String) : Array<Dynamic>
+    public static function GetGameObjListByName(name : String) : Array<Dynamic>
     {
-        var list : Array<Dynamic> = new Array<Dynamic>();
+        var list : Array<Dynamic> = [];
         for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
         {
             if (go.active == true && go.name == name)
@@ -384,9 +384,9 @@ class GameObjects
         }
         return list;
     }
-    private static function GetGameObjVectorByName(name : String) : Array<GameObj>
+    public static function GetGameObjVectorByName(name : String) : Array<GameObj>
     {
-        var list : Array<GameObj> = new Array<GameObj>();
+        var list : Array<GameObj> = [];
         for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
         {
             if (go.active == true && go.name == name)
@@ -397,7 +397,7 @@ class GameObjects
         return list;
     }
     
-    private static function GetGameObjByName(name : String) : GameObj
+    public static function GetGameObjByName(name : String) : GameObj
     {
         for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
         {
@@ -410,7 +410,7 @@ class GameObjects
     }
     
     
-    private static function GetGameObjById(id : String) : GameObj
+    public static function GetGameObjById(id : String) : GameObj
     {
         for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
         {
@@ -422,7 +422,7 @@ class GameObjects
         return null;
     }
     
-    private static function GetGameObjByLineName(name : String) : GameObj
+    public static function GetGameObjByLineName(name : String) : GameObj
     {
         for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
         {
@@ -438,9 +438,9 @@ class GameObjects
     }
     
     
-    private static function GetGameObjListByFlag(name : String) : Array<Dynamic>
+    public static function GetGameObjListByFlag(name : String) : Array<Dynamic>
     {
-        var list : Array<Dynamic> = new Array<Dynamic>();
+        var list : Array<Dynamic> = [];
         for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
         {
             if (go.active == true && Reflect.field(go, name) == true)
@@ -451,7 +451,7 @@ class GameObjects
         return list;
     }
     
-    private static function GetNearestGameObjByName(name : String, x : Float, y : Float) : GameObj
+    public static function GetNearestGameObjByName(name : String, x : Float, y : Float) : GameObj
     {
         var nearestGO : GameObj;
         var nearestD : Int = 999999;
@@ -472,13 +472,13 @@ class GameObjects
     }
     
     
-    private static function UpdateSingleGOsFromPhysics(go : GameObj) : Void
+    public static function UpdateSingleGOsFromPhysics(go : GameObj) : Void
     {
         go.xpos = go.nape_bodies[0].position.x;
         go.ypos = go.nape_bodies[0].position.y;
     }
     
-    private static function UpdateGOsFromPhysics_Nape() : Void
+    public static function UpdateGOsFromPhysics_Nape() : Void
     {
         var go : GameObj;
         
@@ -513,7 +513,7 @@ class GameObjects
         }
     }
     
-    private static function PreUpdateGOsBeforePhysics() : Void
+    public static function PreUpdateGOsBeforePhysics() : Void
     {
         for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
         {

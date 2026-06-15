@@ -9,35 +9,35 @@ import flash.geom.Point;
 class Particle
 {
     public var active : Bool;
-    private var xpos : Float;
-    private var ypos : Float;
-    private var xpos1 : Float;
-    private var ypos1 : Float;
-    private var startx : Float;
-    private var starty : Float;
-    private var timer : Float;
+    public var xpos : Float;
+    public var ypos : Float;
+    public var xpos1 : Float;
+    public var ypos1 : Float;
+    public var startx : Float;
+    public var starty : Float;
+    public var timer : Float;
     public var xvel : Float;
     public var yvel : Float;
-    private var yacc : Float;
-    private var graphicID : Int;
-    private var frame : Float;
-    private var frameVel : Float;
-    private var speed : Float;
-    private var dir : Float;
-    private var radius : Float;
-    private var dirVel : Float;
-    private var alpha : Float;
-    private var alphaAdd : Float;
-    private var maxframe : Int;
-    private var counter : Int;
-    private var visible : Bool;
-    private var updateFunction : Function;
-    private var mode : Int;
-    private var color : Int;
-    private var psize : Int;
-    private var angle : Float;
-    private var anglevel : Float;
-    private var dobj : DisplayObj;
+    public var yacc : Float;
+    public var graphicID : Int;
+    public var frame : Float;
+    public var frameVel : Float;
+    public var speed : Float;
+    public var dir : Float;
+    public var radius : Float;
+    public var dirVel : Float;
+    public var alpha : Float;
+    public var alphaAdd : Float;
+    public var maxframe : Int;
+    public var counter : Int;
+    public var visible : Bool;
+    public var updateFunction : Function;
+    public var mode : Int;
+    public var color : Int;
+    public var psize : Int;
+    public var angle : Float;
+    public var anglevel : Float;
+    public var dobj : DisplayObj;
     
     
     
@@ -45,7 +45,7 @@ class Particle
     
     
     
-    private function UpdateVelsTimer()
+    public function UpdateVelsTimer()
     {
         xpos += xvel;
         ypos += yvel;
@@ -55,7 +55,7 @@ class Particle
             active = false;
         }
     }
-    private function UpdateAnimAndStop()
+    public function UpdateAnimAndStop()
     {
         xpos += xvel;
         ypos += yvel;
@@ -116,7 +116,7 @@ class Particle
         }
     }
     
-    private function RenderBloodSplat(x : Int, y : Int)
+    public function RenderBloodSplat(x : Int, y : Int)
     {
         var xx : Int = x;
         var yy : Int = y;
@@ -128,7 +128,7 @@ class Particle
         }
     }
     
-    private function UpdateBloodSplat() : Void
+    public function UpdateBloodSplat() : Void
     {
         yvel += GameVars.gravity_GO;
         xpos += xvel;
@@ -195,7 +195,7 @@ class Particle
         frame = Utils.RandBetweenInt(0, dobj.GetNumFrames() - 1);
     }
     
-    private function UpdateTextBloodSplat() : Void
+    public function UpdateTextBloodSplat() : Void
     {
         yvel += 0.1;
         xpos += xvel;
@@ -232,7 +232,7 @@ class Particle
     }
     
     
-    private function UpdateSmoke() : Void
+    public function UpdateSmoke() : Void
     {
         xvel *= 0.9;
         yvel *= 0.9;
@@ -274,7 +274,7 @@ class Particle
     
     
     
-    private function UpdateDivot() : Void
+    public function UpdateDivot() : Void
     {
         yvel += 0.3;
         xpos += xvel;
@@ -315,7 +315,7 @@ class Particle
     
     
     
-    private function UpdateSandShower() : Void
+    public function UpdateSandShower() : Void
     {
         yvel += 0.3;
         xpos += xvel;
@@ -356,7 +356,7 @@ class Particle
     
     
     
-    private function UpdateCloudShower() : Void
+    public function UpdateCloudShower() : Void
     {
         yvel += 0.3;
         xpos += xvel;
@@ -395,7 +395,7 @@ class Particle
     
     
     
-    private function UpdateStarShower() : Void
+    public function UpdateStarShower() : Void
     {
         yvel += 0.3;
         xpos += xvel;
@@ -432,7 +432,7 @@ class Particle
     
     
     
-    private function UpdateFeather() : Void
+    public function UpdateFeather() : Void
     {
         xpos += xvel;
         ypos += yvel;
@@ -468,7 +468,7 @@ class Particle
     
     
     
-    private function UpdateSparkle() : Void
+    public function UpdateSparkle() : Void
     {
         xpos += xvel;
         ypos += yvel;
@@ -506,7 +506,7 @@ class Particle
     
     
     
-    private function UpdateBubble() : Void
+    public function UpdateBubble() : Void
     {
         xpos += xvel;
         ypos += yvel;
@@ -542,7 +542,7 @@ class Particle
     
     
     
-    private function UpdateBubble1() : Void
+    public function UpdateBubble1() : Void
     {
         xpos += xvel;
         ypos += yvel;
@@ -601,7 +601,7 @@ class Particle
         frame = 0;
     }
     
-    private function UpdateExplosion() : Void
+    public function UpdateExplosion() : Void
     {
         if (PlayAnimation())
         {
@@ -623,7 +623,7 @@ class Particle
         angle += dirVel;
     }
     
-    private var velmul : Float;
+    public var velmul : Float;
     public function InitShard(_type : Int, _r : Float) : Void
     {
         if (_type == 0)
@@ -759,7 +759,7 @@ class Particle
     
     
     
-    private function UpdateMultiplier() : Void
+    public function UpdateMultiplier() : Void
     {
         var xd : Float = Math.cos(dir) * radius;
         var yd : Float = Math.sin(dir) * radius;
@@ -797,7 +797,7 @@ class Particle
     
     
     
-    private function UpdatePandaEaten() : Void
+    public function UpdatePandaEaten() : Void
     {
         var xd : Float = Math.cos(dir) * speed;
         var yd : Float = Math.sin(dir) * speed;
@@ -843,7 +843,7 @@ class Particle
     
     
     
-    private function UpdatePandaFireTrail() : Void
+    public function UpdatePandaFireTrail() : Void
     {
         yvel += yacc;
         ypos += yvel;
@@ -883,7 +883,7 @@ class Particle
     
     
     
-    private function UpdatePandaLaunch() : Void
+    public function UpdatePandaLaunch() : Void
     {
         yvel += 0.1;
         xpos += xvel;
@@ -927,7 +927,7 @@ class Particle
     
     
     
-    private function UpdateAddScore() : Void
+    public function UpdateAddScore() : Void
     {
         yvel += 0.1;
         xpos += xvel;
@@ -947,7 +947,7 @@ class Particle
     
     
     
-    private function PlayAnimation() : Bool
+    public function PlayAnimation() : Bool
     {
         frame = frame + frameVel;
         if (frame >= maxframe)
@@ -957,7 +957,7 @@ class Particle
         }
         return false;
     }
-    private function CycleAnimation() : Bool
+    public function CycleAnimation() : Bool
     {
         frame = frame + frameVel;
         if (frame >= maxframe)

@@ -8,7 +8,7 @@ import flash.display.MovieClip;
 	 */
 class LevelDobjCache
 {
-    private static var list : Array<DisplayObj>;
+    public static var list : Array<DisplayObj>;
     
     
     public function new()
@@ -17,7 +17,7 @@ class LevelDobjCache
     
     public static function InitOnce()
     {
-        list = new Array<DisplayObj>();
+        list = [];
     }
     
     

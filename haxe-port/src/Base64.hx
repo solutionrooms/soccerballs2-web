@@ -2,7 +2,7 @@ import flash.utils.ByteArray;
 
 class Base64
 {
-    private static var encodeChars : Array<Dynamic> = 
+    public static var encodeChars : Array<Dynamic> = 
         ["A", "B", "C", "D", "E", "F", "G", "H", 
         "I", "J", "K", "L", "M", "N", "O", "P", 
         "Q", "R", "S", "T", "U", "V", "W", "X", 
@@ -12,7 +12,7 @@ class Base64
         "w", "x", "y", "z", "0", "1", "2", "3", 
         "4", "5", "6", "7", "8", "9", "+", "/"
     ];
-    private static var decodeChars : Array<Dynamic> = 
+    public static var decodeChars : Array<Dynamic> = 
         [-1, -1, -1, -1, -1, -1, -1, -1, 
         -1, -1, -1, -1, -1, -1, -1, -1, 
         -1, -1, -1, -1, -1, -1, -1, -1, 
@@ -72,7 +72,7 @@ class Base64
     
     public static function ByteToHex(b : Int) : String
     {
-        var hex : Array<Dynamic> = new Array<Dynamic>("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F");
+        var hex : Array<Dynamic> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
         var u : Int = b >> 4;
         u = u & 0xf;
         var s : String = "";
@@ -84,7 +84,7 @@ class Base64
     
     public static function HexToByte(str : String) : Int
     {
-        var hex : Array<Dynamic> = new Array<Dynamic>("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F");
+        var hex : Array<Dynamic> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"];
         
         if (str == null)
         {

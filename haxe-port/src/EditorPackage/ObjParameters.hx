@@ -11,7 +11,7 @@ class ObjParameters
     
     public function new()
     {
-        list = new Array<ObjParameter>();
+        list = [];
     }
     
     public function AddMultiParameters(otherParams : ObjParameters)
@@ -51,7 +51,7 @@ class ObjParameters
     {
         var op : ObjParameters = new ObjParameters();
         
-        op.list = new Array<ObjParameter>();
+        op.list = [];
         for (p in list)
         {
             op.list.push(p.Clone());
@@ -65,7 +65,7 @@ class ObjParameters
     }
     public function ClearAll()
     {
-        list = new Array<ObjParameter>();
+        list = [];
     }
     public function AddOrSet(name : String, value : String)
     {
@@ -189,7 +189,7 @@ class ObjParameters
     
     
     
-    private function Exists(param : String) : Bool
+    public function Exists(param : String) : Bool
     {
         for (i in 0...list.length)
         {
@@ -201,7 +201,7 @@ class ObjParameters
         }
         return false;
     }
-    private function GetParam(param : String) : String
+    public function GetParam(param : String) : String
     {
         for (i in 0...list.length)
         {
@@ -214,7 +214,7 @@ class ObjParameters
         return "";
     }
     
-    private function SetParam(param : String, val : String) : String
+    public function SetParam(param : String, val : String) : String
     {
         for (i in 0...list.length)
         {

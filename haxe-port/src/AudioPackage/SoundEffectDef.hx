@@ -8,9 +8,9 @@ import flash.media.Sound;
 	 */
 class SoundEffectDef
 {
-    private var name : String;
-    private var looped : Bool;
-    private var flashSound : Sound;
+    public var name : String;
+    public var looped : Bool;
+    public var flashSound : Sound;
     
     public function new()
     {

@@ -26,8 +26,8 @@ import uIPackage.UI;
 
 class Main extends MovieClip
 {
-    private var ftime : Float;
-    private var currentTime : Float = 0;
+    public var ftime : Float;
+    public var currentTime : Float = 0;
     
     public var screenBD : BitmapData;
     public var screenB : Bitmap;
@@ -42,14 +42,14 @@ class Main extends MovieClip
         addEventListener(Event.ADDED_TO_STAGE, added_to_stage, false, 0, true);
     }
     
-    private function added_to_stage(e : Event)
+    public function added_to_stage(e : Event)
     {
         removeEventListener(Event.ADDED_TO_STAGE, added_to_stage);
         Lic.InitFromMain();
         Lic.Playtomic_Log();
         Lic.ShowIntro(NewInit4);
     }
-    private function NewInit4()
+    public function NewInit4()
     {
         theRoot = this;
         theStage = this.root.stage;
@@ -57,7 +57,7 @@ class Main extends MovieClip
     }
     
     
-    private function InitDrawScreen() : Void
+    public function InitDrawScreen() : Void
     {
         if (false)
         {
@@ -68,12 +68,12 @@ class Main extends MovieClip
     }
     
     
-    private function SetEverythingUpOnce() : Void
+    public function SetEverythingUpOnce() : Void
     {
         SetEverythingUpOnce2();
     }
     
-    private function SetEverythingUpOnce2() : Void
+    public function SetEverythingUpOnce2() : Void
     {
         MobileSpecific.Init();
         
@@ -95,7 +95,7 @@ class Main extends MovieClip
         ExternalData.Load(SetEverythingUpOnce4);
     }
     
-    private function SetEverythingUpOnce4()
+    public function SetEverythingUpOnce4()
     {
         ClearStage();
         Game.InitOnce(this);
@@ -128,15 +128,15 @@ class Main extends MovieClip
     
     
     
-    private function Render(bd : BitmapData)
+    public function Render(bd : BitmapData)
     {
         this.x = 0;
         this.y = 0;
         Game.Render(bd);
     }
     
-    private var timeForFrame : Float;
-    private function calcFrameTime()
+    public var timeForFrame : Float;
+    public function calcFrameTime()
     {
         var oldTime : Float = currentTime;
         currentTime = Math.round(haxe.Timer.stamp() * 1000);
@@ -165,19 +165,19 @@ class Main extends MovieClip
         }
     }
     public var fps : Float;
-    private var framecounter : Int = 0;
-    private var secondCounter : Float = 0.0;
+    public var framecounter : Int = 0;
+    public var secondCounter : Float = 0.0;
     
     
     
     
-    private var renderCount : Int = 0;
-    private var frameSkipCount : Int = 0;
+    public var renderCount : Int = 0;
+    public var frameSkipCount : Int = 0;
     
     public var timeForUpdate : Float = 0;
-    private var renderSkip : Bool = false;
+    public var renderSkip : Bool = false;
     
-    private function RunLevel()
+    public function RunLevel()
     {
         var oldTime : Float = Math.round(haxe.Timer.stamp() * 1000);
         
@@ -245,9 +245,9 @@ class Main extends MovieClip
         timeForUpdate = Math.round(haxe.Timer.stamp() * 1000) - oldTime;
     }
     
-    private var useFrameSkip : Bool = true;
+    public var useFrameSkip : Bool = true;
     
-    private function MainLoop(e : Event) : Void
+    public function MainLoop(e : Event) : Void
     {
         KeyReader.UpdateOncePerFrame();
         Audio.UpdateOncePerFrame();

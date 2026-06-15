@@ -511,7 +511,7 @@ class EdJoint extends EditableObjectBase
         return false;
     }
     
-    private function CollideWithLine(x0 : Float, y0 : Float, x1 : Float, y1 : Float, x : Float, y : Float, dist : Float) : Bool
+    public function CollideWithLine(x0 : Float, y0 : Float, x1 : Float, y1 : Float, x : Float, y : Float, dist : Float) : Bool
     {
         var t : Float = Collision.ClosestPointOnLine(x0, y0, x1, y1, x, y);
         if (t >= 0.0 && t <= 1)
@@ -599,7 +599,7 @@ class EdJoint extends EditableObjectBase
     }
     
     
-    private function RenderRevJoint(alpha : Float, radAdd : Int = 0)
+    public function RenderRevJoint(alpha : Float, radAdd : Int = 0)
     {
         var zoom : Float = PhysEditor.zoom;
         
@@ -635,7 +635,7 @@ class EdJoint extends EditableObjectBase
         }
     }
     
-    private function RenderPrismaticJoint(alpha : Float, radAdd : Int = 0)
+    public function RenderPrismaticJoint(alpha : Float, radAdd : Int = 0)
     {
         var zp : Point;
         var zp1 : Point;
@@ -644,7 +644,7 @@ class EdJoint extends EditableObjectBase
         
         PhysEditor.RenderLine(zp.x, zp.y, zp1.x, zp1.y, 0xffffff, 2 + radAdd, alpha);
     }
-    private function RenderDistanceJoint(alpha : Float, radAdd : Int = 0)
+    public function RenderDistanceJoint(alpha : Float, radAdd : Int = 0)
     {
         var zp : Point;
         var zp1 : Point;
@@ -657,7 +657,7 @@ class EdJoint extends EditableObjectBase
         PhysEditor.FillCircle(zp1.x, zp1.y, 5 + radAdd, 0x00cccc, alpha);
     }
     
-    private function RenderSwitchJoint(alpha : Float, radAdd : Int = 0)
+    public function RenderSwitchJoint(alpha : Float, radAdd : Int = 0)
     {
         var zoom : Float = PhysEditor.zoom;
         
@@ -679,7 +679,7 @@ class EdJoint extends EditableObjectBase
         }
     }
     
-    private function RenderLogicLinkJoint(alpha : Float, radAdd : Int = 0)
+    public function RenderLogicLinkJoint(alpha : Float, radAdd : Int = 0)
     {
         var zoom : Float = PhysEditor.zoom;
         
@@ -701,7 +701,7 @@ class EdJoint extends EditableObjectBase
         }
     }
     
-    private function RenderWeldJoint(alpha : Float, radAdd : Int = 0)
+    public function RenderWeldJoint(alpha : Float, radAdd : Int = 0)
     {
         var zoom : Float = PhysEditor.zoom;
         

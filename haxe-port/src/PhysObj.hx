@@ -34,8 +34,8 @@ class PhysObj
     public var wakeFunctionName : String;
     
     
-    private var sfx_break : String;
-    private var sfx_hit : String;
+    public var sfx_break : String;
+    public var sfx_hit : String;
     
     
     
@@ -72,7 +72,7 @@ class PhysObj
         return s;
     }
     
-    private function GetGraphic(gx : FastXML) : PhysObjGraphic
+    public function GetGraphic(gx : FastXML) : PhysObjGraphic
     {
         var graphic : PhysObjGraphic = new PhysObjGraphic();
         graphic.goInitFuntion = gx.att.gameobjfunction;
@@ -88,7 +88,7 @@ class PhysObj
         return graphic;
     }
     
-    private function GetSfx(sx : FastXML)
+    public function GetSfx(sx : FastXML)
     {
         sfx_break = "";
         sfx_hit = "";
@@ -102,7 +102,7 @@ class PhysObj
     }
     
     
-    private function GetGameSpecific(sx : FastXML)
+    public function GetGameSpecific(sx : FastXML)
     {
     }
     
@@ -113,11 +113,11 @@ class PhysObj
         var j : Int;
         var k : Int;
         
-        bodies = new Array<Dynamic>();
-        joints = new Array<Dynamic>();
-        graphics = new Array<Dynamic>();
-        instanceParams = new Array<Dynamic>();
-        instanceParamsDefaults = new Array<Dynamic>();
+        bodies = [];
+        joints = [];
+        graphics = [];
+        instanceParams = [];
+        instanceParamsDefaults = [];
         
         var graphic : PhysObjGraphic;
         
@@ -311,7 +311,7 @@ class PhysObj
     }
     
     
-    private function PointFromString(s : String, defaultValue : String = "0,0") : Point
+    public function PointFromString(s : String, defaultValue : String = "0,0") : Point
     {
         if (s == null || s == "")
         {
@@ -333,9 +333,9 @@ class PhysObj
         return p;
     }
     
-    private function PointArrayFromString(s : String) : Array<Dynamic>
+    public function PointArrayFromString(s : String) : Array<Dynamic>
     {
-        var pointArray : Array<Dynamic> = new Array<Dynamic>();
+        var pointArray : Array<Dynamic> = [];
         
         var a : Array<Dynamic> = s.split(",");
         
@@ -358,7 +358,7 @@ class PhysObj
         return pointArray;
     }
     
-    private function BooleanFromString(s : String) : Bool
+    public function BooleanFromString(s : String) : Bool
     {
         var retval : Bool = false;
         
@@ -417,10 +417,10 @@ class PhysObj
         return null;
     }
     
-    private static var renderPoint : Point = new Point();
-    private static var renderMatrix : Matrix = new Matrix();
-    private static var p0 : Point = new Point();
-    private static var p1 : Point = new Point();
+    public static var renderPoint : Point = new Point();
+    public static var renderMatrix : Matrix = new Matrix();
+    public static var p0 : Point = new Point();
+    public static var p1 : Point = new Point();
     
     public static function RenderAt(physObj : PhysObj, x : Float, y : Float, _rotDeg : Float, _scale : Float, bd : BitmapData, g : Graphics = null, _collision : Bool = false, destRect : Rectangle = null, maxDestRect : Rectangle = null, colorTransform : ColorTransform = null)
     {
@@ -435,7 +435,7 @@ class PhysObj
         
         var body : PhysObjBody;
         var graphic : PhysObjGraphic;
-        var graphics : Array<Dynamic> = new Array<Dynamic>();
+        var graphics : Array<Dynamic> = [];
         
         for (body/* AS3HX WARNING could not determine type for var: body exp: EField(EIdent(physObj),bodies) type: null */ in physObj.bodies)
         {
@@ -670,18 +670,18 @@ class PhysObj
         }
     }
     
-    private static function RenderCircle(g : Graphics, x : Float, y : Float, radius : Float, col : Int, thickness : Float = 1, alpha : Float = 1)
+    public static function RenderCircle(g : Graphics, x : Float, y : Float, radius : Float, col : Int, thickness : Float = 1, alpha : Float = 1)
     {
         g.lineStyle(thickness, col, alpha);
         g.drawCircle(x, y, radius);
     }
-    private static function RenderLine(g : Graphics, x0 : Float, y0 : Float, x1 : Float, y1 : Float, col : Int, thickness : Float = 1, alpha : Float = 1)
+    public static function RenderLine(g : Graphics, x0 : Float, y0 : Float, x1 : Float, y1 : Float, col : Int, thickness : Float = 1, alpha : Float = 1)
     {
         g.lineStyle(thickness, col, alpha);
         g.moveTo(x0, y0);
         g.lineTo(x1, y1);
     }
-    private static function RenderRectangle(g : Graphics, r : Rectangle, col : Int, thickness : Float = 1, alpha : Float = 1)
+    public static function RenderRectangle(g : Graphics, r : Rectangle, col : Int, thickness : Float = 1, alpha : Float = 1)
     {
         RenderLine(g, r.left, r.top, r.right, r.top, col, thickness, alpha);
         RenderLine(g, r.left, r.bottom, r.right, r.bottom, col, thickness, alpha);
@@ -693,7 +693,7 @@ class PhysObj
     public static function RenderOutline(physObj : PhysObj, x : Float, y : Float, _rotDeg : Float, g : Graphics)
     {
         var graphic : PhysObjGraphic;
-        var graphics : Array<Dynamic> = new Array<Dynamic>();
+        var graphics : Array<Dynamic> = [];
         var body : PhysObjBody;
         for (body/* AS3HX WARNING could not determine type for var: body exp: EField(EIdent(physObj),bodies) type: null */ in physObj.bodies)
         {

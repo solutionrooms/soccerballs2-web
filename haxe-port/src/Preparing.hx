@@ -27,7 +27,7 @@ class Preparing
     }
     
     
-    private static var isInitialised : Bool = false;
+    public static var isInitialised : Bool = false;
     
     public static function Modify()
     {
@@ -106,7 +106,7 @@ class Preparing
     }
     
     
-    private static var modifyList : Array<Dynamic> = [
+    public static var modifyList : Array<Dynamic> = [
         "backgrounds", "separatetexturepage", 
         "FillSoil", "separatetexturepage", 
         "FillEdge", "separatetexturepage", 

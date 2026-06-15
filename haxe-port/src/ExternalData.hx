@@ -11,7 +11,7 @@ import flash.system.System;
 	*/
 class ExternalData
 {
-    private static var loadExternalLevels : Bool = false;
+    public static var loadExternalLevels : Bool = false;
     
     
     public function new()
@@ -32,23 +32,23 @@ class ExternalData
     
     @:meta(Embed(source="../bin/SoccerBalls2_Objects_Data.xml",mimeType="application/octet-stream"))
 
-    private static var class_Data : Class<Dynamic>;
+    public static var class_Data : Class<Dynamic>;
     @:meta(Embed(source="../bin/SoccerBalls2_Levels_Data.xml",mimeType="application/octet-stream"))
 
-    private static var class_Levels : Class<Dynamic>;
+    public static var class_Levels : Class<Dynamic>;
     @:meta(Embed(source="../bin/SoccerBalls2_Levels_Julian_Data.xml",mimeType="application/octet-stream"))
 
-    private static var class_Levels1 : Class<Dynamic>;
+    public static var class_Levels1 : Class<Dynamic>;
     @:meta(Embed(source="../bin/SoccerBalls2_Levels_Rob_Data.xml",mimeType="application/octet-stream"))
 
-    private static var class_Levels2 : Class<Dynamic>;
+    public static var class_Levels2 : Class<Dynamic>;
     @:meta(Embed(source="../bin/SoccerBalls2_Levels_Testbed_Data.xml",mimeType="application/octet-stream"))
 
-    private static var class_Levels3 : Class<Dynamic>;
+    public static var class_Levels3 : Class<Dynamic>;
     
     
-    private static var xmlLoader : URLLoader;
-    private static var cb : Function;
+    public static var xmlLoader : URLLoader;
+    public static var cb : Function;
     public static function Load(_cb : Function)
     {
         cb = _cb;
@@ -68,7 +68,7 @@ class ExternalData
         }
     }
     
-    private static function XmlAllLoadedInternal()
+    public static function XmlAllLoadedInternal()
     {
         var i : Int;
         FastXML.ignoreWhitespace = true;
@@ -120,13 +120,13 @@ class ExternalData
             for (i in 0...num)
             {
                 var xl : FastXML = levelsXml1.nodes.level.get(i);
-                levelsXml.node.appendChild.innerData(xl);
+                levelsXml.appendChild(xl.x);
             }
             var num = levelsXml2.nodes.level.length();
             for (i in 0...num)
             {
                 var xl : FastXML = levelsXml2.nodes.level.get(i);
-                levelsXml.node.appendChild.innerData(xl);
+                levelsXml.appendChild(xl.x);
             }
         }
         
@@ -147,18 +147,18 @@ class ExternalData
     public static function GetConstants()
     {
         constants = {};
-        var num = xml.node.constants.innerData.node.constant.innerData.length();
+        var num = xml.node.constants.nodes.constant.length();
         for (i in 0...num)
         {
-            var vx : FastXML = xml.nodes.constants.node.constant.innerData[i];
+            var vx : FastXML = xml.node.constants.nodes.constant.get(i);
             Reflect.setField(constants, Std.string(vx.att.name), vx.att.value);
         }
         
         gameconstants = {};
-        var num = xml.node.gameconstants.innerData.node.constant.innerData.length();
+        var num = xml.node.gameconstants.nodes.constant.length();
         for (i in 0...num)
         {
-            var vx : FastXML = xml.nodes.gameconstants.node.constant.innerData[i];
+            var vx : FastXML = xml.node.gameconstants.nodes.constant.get(i);
             Reflect.setField(gameconstants, Std.string(vx.att.name), vx.att.value);
         }
     }
@@ -184,7 +184,7 @@ class ExternalData
         
         cb();
     }
-    private static var ExternalData_static_initializer = {
+    public static var ExternalData_static_initializer = {
         if (false == true)
         {
             loadExternalLevels = true;

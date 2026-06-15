@@ -58,22 +58,22 @@ class PhysEditor
     
     
     public static var currentLevel : Int = 0;
-    private static var updateTimer : Int = 0;
+    public static var updateTimer : Int = 0;
     public static var oldEditMode : Int = 0;
     public static var editMode : Int = 0;
-    private static var editSubMode : Int = 0;
-    private static var prevEditMode : Int = 0;
+    public static var editSubMode : Int = 0;
+    public static var prevEditMode : Int = 0;
     public static var scrollX : Float = 0;
     public static var scrollY : Float = 0;
     
-    private static var renderMiniMap : Bool = false;
-    private static var renderObjects : Bool = true;
+    public static var renderMiniMap : Bool = false;
+    public static var renderObjects : Bool = true;
     
-    private static var gridsnap : Int = 20;
-    private static var gridMode_active : Bool = false;
-    private static var gridMode_renderGrid : Bool = false;
+    public static var gridsnap : Int = 20;
+    public static var gridMode_active : Bool = false;
+    public static var gridMode_renderGrid : Bool = false;
     
-    private static var objectZSortMode : Bool = false;
+    public static var objectZSortMode : Bool = false;
     
     public static var infoTextFormat : TextFormat;
     public static var infoTextFormat_Cursor : TextFormat;
@@ -83,7 +83,7 @@ class PhysEditor
     public static var editorMC : MovieClip;
     public static var linesScreen : MovieClip;
     
-    private static var currentPieceList : Array<Dynamic>;
+    public static var currentPieceList : Array<Dynamic>;
     
     
     public static var hoverLineIndex : Int;
@@ -92,7 +92,7 @@ class PhysEditor
     public static var zoom : Float;
     public static var linZoom : Float;
     
-    private static var undoList : Array<Dynamic>;
+    public static var undoList : Array<Dynamic>;
     
     public static var currentModeObject : EditModeBase = new EditModeBase();
     public static var editModeObj_Library : EditModeLibrary;
@@ -179,7 +179,7 @@ class PhysEditor
         PhysicsBase.Init();
         GameObjects.ClearAll();
         updateTimer = 0;
-        currentPieceList = new Array<Dynamic>();
+        currentPieceList = [];
         
         AddCurrentPiece(0, 0, 0, 0, 0, 0);
         
@@ -189,7 +189,7 @@ class PhysEditor
         
         MouseControl.SetWheelHandler(EditorWheelHandler);
         
-        undoList = new Array<Dynamic>();
+        undoList = [];
         
         linesScreen = new MovieClip();
         linesScreen.graphics.clear();
@@ -234,9 +234,9 @@ class PhysEditor
         SetEditMode(editMode);
     }
     
-    private static var layersMC : MovieClip;
+    public static var layersMC : MovieClip;
     
-    private static var firstTime : Bool = true;
+    public static var firstTime : Bool = true;
     public static function InitEditorOnce() : Void
     {
         firstTime = false;
@@ -244,7 +244,7 @@ class PhysEditor
         PhysicsBase.Init();
         GameObjects.ClearAll();
         updateTimer = 0;
-        currentPieceList = new Array<Dynamic>();
+        currentPieceList = [];
         
         AddCurrentPiece(0, 0, 0, 0, 0, 0);
         
@@ -279,7 +279,7 @@ class PhysEditor
         
         
         
-        undoList = new Array<Dynamic>();
+        undoList = [];
         
         linesScreen = new MovieClip();
         linesScreen.graphics.clear();
@@ -294,7 +294,7 @@ class PhysEditor
     }
     
     
-    private static function CloseEditor()
+    public static function CloseEditor()
     {
         editorMC.removeEventListener(Event.ENTER_FRAME, OnEnterFrame);
         editorMC.removeEventListener(MouseEvent.MOUSE_DOWN, Editor_OnMouseDown);
@@ -314,7 +314,7 @@ class PhysEditor
     }
     
     
-    private static function ClearInfoMC()
+    public static function ClearInfoMC()
     {
         var i : Int;
         i = as3hx.Compat.parseInt(infoMC.numChildren - 1);
@@ -325,7 +325,7 @@ class PhysEditor
         }
     }
     
-    private static function OnEnterFrame(e : Event)
+    public static function OnEnterFrame(e : Event)
     {
         var g : Graphics = Game.fillScreenMC.graphics;
         g.clear();
@@ -341,7 +341,7 @@ class PhysEditor
     
     
     
-    private static function GetInstanceById(id : String) : EdObj
+    public static function GetInstanceById(id : String) : EdObj
     {
         var level_instances : Array<Dynamic> = GetCurrentLevelInstances();
         for (inst in level_instances)
@@ -389,25 +389,25 @@ class PhysEditor
     
     
     
-    private static function Editor_OnMouseDown(e : MouseEvent) : Void
+    public static function Editor_OnMouseDown(e : MouseEvent) : Void
     {
         currentModeObject.OnMouseDown(e);
     }
-    private static function Editor_OnMouseUp(e : MouseEvent) : Void
+    public static function Editor_OnMouseUp(e : MouseEvent) : Void
     {
         currentModeObject.OnMouseUp(e);
     }
-    private static function Editor_OnMouseMove(e : MouseEvent) : Void
+    public static function Editor_OnMouseMove(e : MouseEvent) : Void
     {
         currentModeObject.OnMouseMove(e);
     }
     
     
-    private static function ClearCurrentPieces() : Void
+    public static function ClearCurrentPieces() : Void
     {
-        currentPieceList = new Array<Dynamic>();
+        currentPieceList = [];
     }
-    private static function AddCurrentPiece(id : Int, rot : Float, xoff : Float, yoff : Float, _origX : Float = 0, _origY : Float = 0, _initParams : String = "")
+    public static function AddCurrentPiece(id : Int, rot : Float, xoff : Float, yoff : Float, _origX : Float = 0, _origY : Float = 0, _initParams : String = "")
     {
         var piece : Dynamic = {};
         piece.id = id;
@@ -421,7 +421,7 @@ class PhysEditor
         currentPieceList.push(piece);
     }
     
-    private static function GetCurrentPieceInitialPos() : Point
+    public static function GetCurrentPieceInitialPos() : Point
     {
         if (currentPieceList.length == 0)
         {
@@ -447,8 +447,8 @@ class PhysEditor
         EdConsole.UpdateOncePerFrame();
         
         updateTimer++;
-        var mx : Int = MouseControl.x;
-        var my : Int = MouseControl.y;
+        var mx : Int = Std.int(MouseControl.x);
+        var my : Int = Std.int(MouseControl.y);
         
         CursorText_SetPos(mx, my);
         
@@ -659,13 +659,13 @@ class PhysEditor
     
     
     
-    private static function EditorWheelHandler(delta : Int)
+    public static function EditorWheelHandler(delta : Int)
     {
         currentModeObject.OnMouseWheel(delta);
     }
     
     
-    private static function Lines_GetCurrentPointUnderCursor(x : Float, y : Float)
+    public static function Lines_GetCurrentPointUnderCursor(x : Float, y : Float)
     {
         var l : Level = GetCurrentLevel();
         var lineIndex : Int = 0;
@@ -688,7 +688,7 @@ class PhysEditor
         }
     }
     
-    private static function UpdateScroll()
+    public static function UpdateScroll()
     {
         if (KeyReader.Down(KeyReader.KEY_SHIFT) == false)
         {
@@ -724,7 +724,7 @@ class PhysEditor
     }
     
     
-    private static var cursorTF : TextField;
+    public static var cursorTF : TextField;
     public static function CursorText_Set(s : String)
     {
         cursorTF.text = s;
@@ -764,7 +764,7 @@ class PhysEditor
         editorMC.addChild(cursorTF);
     }
     
-    private static function AddInfoText(fieldName : String, x : Int, y : Int, s : String, justify : String = "left", extra : String = null) : Int
+    public static function AddInfoText(fieldName : String, x : Int, y : Int, s : String, justify : String = "left", extra : String = null) : Int
     {
         tf = new TextField();
         tf.type = TextFieldType.DYNAMIC;
@@ -797,19 +797,19 @@ class PhysEditor
         return as3hx.Compat.parseInt(tf.height - 6);
     }
     
-    private static function InitInfoTextFormat()
+    public static function InitInfoTextFormat()
     {
         infoTextFormat = new TextFormat();
         infoTextFormat.size = 10;
-        infoTextFormat.color = 0xffffff;
+        (untyped infoTextFormat).color = 0xffffff;
         infoTextFormat.font = "Arial";
         
         infoTextFormat_Cursor = new TextFormat();
         infoTextFormat_Cursor.size = 10;
-        infoTextFormat_Cursor.color = 0xffffff;
+        (untyped infoTextFormat_Cursor).color = 0xffffff;
         infoTextFormat_Cursor.font = "Arial";
     }
-    private static function RenderPanel_Editor()
+    public static function RenderPanel_Editor()
     {
         ClearInfoMC();
         var x : Float;
@@ -822,16 +822,16 @@ class PhysEditor
         var memused : Int = as3hx.Compat.parseInt(System.totalMemory / 1024);
         
         s = "FPS: " + Std.string(Utils.DP2(Game.main.fps)) + "  Mem: " + memused;
-        AddInfoText("fps", x, y, s, "right");
+        AddInfoText("fps", Std.int(x), Std.int(y), s, "right");
         x = Defs.editor_x + 10;
         s = "Level: " + currentLevel + "   [ " + GetCurrentLevel().id + "  " + GetCurrentLevel().name + " ]";
-        AddInfoText("level", x, y, s);
+        AddInfoText("level", Std.int(x), Std.int(y), s);
         
         
         x = Defs.editor_area_w - 150;
         y = 0;
         s = "F1:MultiAdjust | F2:Library | F5:Objects | F6:Lines | F7:Joints | F8:Save | F9:Save&Quit";
-        AddInfoText("level", x, y, s, "right");
+        AddInfoText("level", Std.int(x), Std.int(y), s, "right");
         
         
         
@@ -878,12 +878,12 @@ class PhysEditor
         }
         x = Defs.editor_x + 10;
         y = 10;
-        y += AddInfoText("a", x, y, s);
+        y += AddInfoText("a", Std.int(x), Std.int(y), s);
         
-        y = currentModeObject.RenderHud(x, y);
+        y = currentModeObject.RenderHud(Std.int(x), Std.int(y));
     }
     
-    private static function CheckIDForUniqueness(_id : String) : Bool
+    public static function CheckIDForUniqueness(_id : String) : Bool
     {
         var match : Bool = false;
         var l : Level = GetCurrentLevel();
@@ -943,7 +943,7 @@ class PhysEditor
         return poi.id;
     }
     
-    private static function CurrentAdjustObject_ParameterPickObjectLink()
+    public static function CurrentAdjustObject_ParameterPickObjectLink()
     {
         if (editModeObj_Adjust.currentAdjustObject == null)
         {
@@ -962,7 +962,7 @@ class PhysEditor
         }
         SetEditMode(editMode_PickPieceForLink);
     }
-    private static function CurrentAdjustObject_ParameterPickLineLink()
+    public static function CurrentAdjustObject_ParameterPickLineLink()
     {
         if (editModeObj_Adjust.currentAdjustObject == null)
         {
@@ -986,11 +986,11 @@ class PhysEditor
     
     
     
-    private static var pickedPieceForLink : EdObj = null;
+    public static var pickedPieceForLink : EdObj = null;
     public static var isEntering : Bool = false;
-    private static var tf : TextField;
-    private static var AddTextEntry_Callback : Function;
-    private static function AddTextEntry(xpos : Int, ypos : Int, title : String, text : String, _cb : Function)
+    public static var tf : TextField;
+    public static var AddTextEntry_Callback : Function;
+    public static function AddTextEntry(xpos : Int, ypos : Int, title : String, text : String, _cb : Function)
     {
         AddEntryMC();
         
@@ -999,7 +999,7 @@ class PhysEditor
         
         f = new TextFormat();
         f.size = 20;
-        f.color = 0x0;
+        (untyped f).color = 0x0;
         
         tf = new TextField();
         tf.name = "tf";
@@ -1021,20 +1021,20 @@ class PhysEditor
         isEntering = true;
     }
     
-    private static function AddDataGrid(xpos : Int, ypos : Int)
+    public static function AddDataGrid(xpos : Int, ypos : Int)
     {
     }
     
-    private static var listBox : List = null;
-    private static var listBoxContainer : MovieClip = null;
+    public static var listBox : List = null;
+    public static var listBoxContainer : MovieClip = null;
     
     
-    private static function PreventPropogationHandler(e : MouseEvent)
+    public static function PreventPropogationHandler(e : MouseEvent)
     {
         e.stopImmediatePropagation();
     }
     
-    private static function ParameterListBox_SetSelectedIndex()
+    public static function ParameterListBox_SetSelectedIndex()
     {
         if (listBoxContainer != null)
         {
@@ -1044,8 +1044,8 @@ class PhysEditor
     
     
     
-    private static var entryMC : MovieClip;
-    private static function RemoveEntryMC()
+    public static var entryMC : MovieClip;
+    public static function RemoveEntryMC()
     {
         if (entryMC != null)
         {
@@ -1053,7 +1053,7 @@ class PhysEditor
             entryMC = null;
         }
     }
-    private static function AddEntryMC()
+    public static function AddEntryMC()
     {
         RemoveEntryMC();
         entryMC = new MovieClip();
@@ -1071,7 +1071,7 @@ class PhysEditor
     
     
     
-    private static function keyDownHandler(e : KeyboardEvent)
+    public static function keyDownHandler(e : KeyboardEvent)
     {
         if (isEntering == false)
         {
@@ -1108,7 +1108,7 @@ class PhysEditor
     
     
     
-    private static function RenderEditor()
+    public static function RenderEditor()
     {
         linesScreen.graphics.clear();
         
@@ -1119,8 +1119,8 @@ class PhysEditor
         
         var bd : BitmapData = screenBD;
         
-        var mx : Int = MouseControl.x;
-        var my : Int = MouseControl.y;
+        var mx : Int = Std.int(MouseControl.x);
+        var my : Int = Std.int(MouseControl.y);
         
         if (gridMode_active)
         {
@@ -1169,7 +1169,7 @@ class PhysEditor
     
     
     
-    private static function RenderBackground(bd : BitmapData)
+    public static function RenderBackground(bd : BitmapData)
     {
         var p0 : Point = GetMapPos(0, 0);
         var w : Float = Defs.displayarea_w * zoom;
@@ -1179,7 +1179,7 @@ class PhysEditor
     }
     
     
-    private static function Editor_RenderGrid(bd : BitmapData)
+    public static function Editor_RenderGrid(bd : BitmapData)
     {
         if (gridMode_active == false)
         {
@@ -1230,7 +1230,7 @@ class PhysEditor
         }
     }
     
-    private static function SnapToObjects(x : Float, y : Float) : Point
+    public static function SnapToObjects(x : Float, y : Float) : Point
     {
         var physObj : PhysObj;
         
@@ -1282,8 +1282,8 @@ class PhysEditor
         return null;
     }
     
-    private static var guideLines : Array<Dynamic>;
-    private static function Editor_GetNearbyGuidelines(origObject : EdObj, x : Float, y : Float, maxd1 : Float = 50)
+    public static var guideLines : Array<Dynamic>;
+    public static function Editor_GetNearbyGuidelines(origObject : EdObj, x : Float, y : Float, maxd1 : Float = 50)
     {
         var maxd2 : Float = 3;
         var body : PhysObjBody;
@@ -1294,7 +1294,7 @@ class PhysEditor
         var level_instances : Array<Dynamic> = GetCurrentLevelInstances();
         var m : Matrix = new Matrix();
         
-        var origPoints : Array<Dynamic> = new Array<Dynamic>();
+        var origPoints : Array<Dynamic> = [];
         
         if (origObject != null)
         {
@@ -1327,7 +1327,7 @@ class PhysEditor
             origPoints.push(new Point(x, y));
         }
         
-        guideLines = new Array<Dynamic>();
+        guideLines = [];
         for (poi in level_instances)
         {
             if (poi != origObject)
@@ -1386,7 +1386,7 @@ class PhysEditor
         }
     }
     
-    private static function Editor_RenderNearbyGuidelines()
+    public static function Editor_RenderNearbyGuidelines()
     {
         var bd : BitmapData = screenBD;
         for (gl in guideLines)
@@ -1402,7 +1402,7 @@ class PhysEditor
     
     
     
-    private static function Editor_RenderMiniMap()
+    public static function Editor_RenderMiniMap()
     {
         if (renderMiniMap == false)
         {
@@ -1420,7 +1420,7 @@ class PhysEditor
             }
         }
     }
-    private static function FillPoly(poly : Array<Dynamic>, col : Int, alpha : Float)
+    public static function FillPoly(poly : Array<Dynamic>, col : Int, alpha : Float)
     {
         if (poly.length <= 2)
         {
@@ -1446,7 +1446,7 @@ class PhysEditor
     }
     
     
-    private static function FillPolyBitmap(bd : BitmapData, poly : Array<Dynamic>)
+    public static function FillPolyBitmap(bd : BitmapData, poly : Array<Dynamic>)
     {
         if (poly.length <= 2)
         {
@@ -1472,7 +1472,7 @@ class PhysEditor
     }
     
     
-    private static function RenderLine(x0 : Float, y0 : Float, x1 : Float, y1 : Float, col : Int, thickness : Float = 1, alpha : Float = 1, normal : Bool = false, directionArrow : Bool = false)
+    public static function RenderLine(x0 : Float, y0 : Float, x1 : Float, y1 : Float, col : Int, thickness : Float = 1, alpha : Float = 1, normal : Bool = false, directionArrow : Bool = false)
     {
         var sx0 : Float = 0;
         var sx1 : Float = sx0 + Defs.displayarea_w;
@@ -1524,14 +1524,14 @@ class PhysEditor
             g.lineTo(x2, y2);
         }
     }
-    private static function RenderCircle(x : Float, y : Float, r : Float, col : Int, thickness : Float = 1, alpha : Float = 1)
+    public static function RenderCircle(x : Float, y : Float, r : Float, col : Int, thickness : Float = 1, alpha : Float = 1)
     {
         var g : Graphics = linesScreen.graphics;
         g.lineStyle(thickness, col, alpha);
         g.drawCircle(x, y, r);
     }
     
-    private static function FillCircle(x : Float, y : Float, r : Float, col : Int, thickness : Float = 1, alpha : Float = 1)
+    public static function FillCircle(x : Float, y : Float, r : Float, col : Int, thickness : Float = 1, alpha : Float = 1)
     {
         var g : Graphics = linesScreen.graphics;
         g.lineStyle(null, 0, 0);
@@ -1540,7 +1540,7 @@ class PhysEditor
         g.endFill();
     }
     
-    private static function RenderRectangle(r : Rectangle, col : Int, thickness : Float = 1, alpha : Float = 1)
+    public static function RenderRectangle(r : Rectangle, col : Int, thickness : Float = 1, alpha : Float = 1)
     {
         var sx0 : Float = 0;
         var sx1 : Float = sx0 + Defs.displayarea_w;
@@ -1570,7 +1570,7 @@ class PhysEditor
         RenderLine(r.right, r.top, r.right, r.bottom, col, thickness, alpha);
     }
     
-    private static function FillRectangle(r : Rectangle, col : Int, thickness : Float = 1, alpha : Float = 1)
+    public static function FillRectangle(r : Rectangle, col : Int, thickness : Float = 1, alpha : Float = 1)
     {
         var sx0 : Float = 0;
         var sx1 : Float = sx0 + Defs.displayarea_w;
@@ -1604,7 +1604,7 @@ class PhysEditor
         g.endFill();
     }
     
-    private static function SortInstancesByZ(list : Array<Dynamic>) : Array<Dynamic>
+    public static function SortInstancesByZ(list : Array<Dynamic>) : Array<Dynamic>
     {
         var poi : EdObj;
         for (poi in list)
@@ -1632,7 +1632,7 @@ class PhysEditor
     
     
     
-    private static function Editor_RenderPickedObjectsHilight() : Void
+    public static function Editor_RenderPickedObjectsHilight() : Void
     {
         if (renderObjects == false)
         {
@@ -1696,17 +1696,17 @@ class PhysEditor
         PhysEditor.screenBD.draw(PhysEditor.linesScreen);
     }
     
-    private static function RemoveEverything()
+    public static function RemoveEverything()
     {
         editModeObj_Joints.RemoveAllJoints();
-        PhysEditor.GetCurrentLevel().instances = new Array<Dynamic>();
+        PhysEditor.GetCurrentLevel().instances = [];
         
-        PhysEditor.GetCurrentLevel().lines = new Array<Dynamic>();
+        PhysEditor.GetCurrentLevel().lines = [];
         editModeObj_Lines.currentLineIndex = -1;
         editModeObj_Lines.currentPointIndex = -1;
     }
     
-    private static function RenderRevJoint(bd : BitmapData, joint : EdJoint)
+    public static function RenderRevJoint(bd : BitmapData, joint : EdJoint)
     {
         var zp : Point;
         var zp1 : Point;
@@ -1738,7 +1738,7 @@ class PhysEditor
             }
         }
     }
-    private static function RenderPrismaticJoint(bd : BitmapData, joint : EdJoint)
+    public static function RenderPrismaticJoint(bd : BitmapData, joint : EdJoint)
     {
         var sx : Float = scrollX;
         var sy : Float = scrollY;
@@ -1746,7 +1746,7 @@ class PhysEditor
         var v1 : Point = joint.prism_pos1.clone();
         Utils.RenderDotLine(bd, v0.x - sx, v0.y - sy, v1.x - sx, v1.y - sy, 100, 0xffffffff);
     }
-    private static function RenderDistanceJoint(bd : BitmapData, joint : EdJoint)
+    public static function RenderDistanceJoint(bd : BitmapData, joint : EdJoint)
     {
         var zp : Point;
         var zp1 : Point;
@@ -1764,7 +1764,7 @@ class PhysEditor
     
     public static function RenderSortedEdObjs()
     {
-        var sortList : Array<Dynamic> = new Array<Dynamic>();
+        var sortList : Array<Dynamic> = [];
         var l : Level = GetCurrentLevel();
         var level_instances : Array<Dynamic> = GetCurrentLevelInstances();
         
@@ -1800,7 +1800,7 @@ class PhysEditor
     }
     
     
-    private static function Editor_RenderObjects()
+    public static function Editor_RenderObjects()
     {
         if (renderObjects == false)
         {
@@ -1843,9 +1843,9 @@ class PhysEditor
         var l : Level = GetCurrentLevel();
         
         var undo : Dynamic = {};
-        var lines : Array<Dynamic> = new Array<Dynamic>();
-        var objs : Array<Dynamic> = new Array<Dynamic>();
-        var joints : Array<Dynamic> = new Array<Dynamic>();
+        var lines : Array<Dynamic> = [];
+        var objs : Array<Dynamic> = [];
+        var joints : Array<Dynamic> = [];
         
         for (line/* AS3HX WARNING could not determine type for var: line exp: EField(EIdent(l),lines) type: null */ in l.lines)
         {
@@ -1888,7 +1888,7 @@ class PhysEditor
         var lines : Array<Dynamic> = undo.lines;
         var objects : Array<Dynamic> = undo.objects;
         
-        l.lines = new Array<Dynamic>();
+        l.lines = [];
         
         for (line in lines)
         {
@@ -1898,7 +1898,7 @@ class PhysEditor
         
         if (objects.length != 0)
         {
-            var level_instances : Array<Dynamic> = new Array<Dynamic>();
+            var level_instances : Array<Dynamic> = [];
             for (poi in objects)
             {
                 var newpoi : EdObj = poi.Clone();
@@ -1907,7 +1907,7 @@ class PhysEditor
             Levels.list[currentLevel].instances = level_instances;
         }
         
-        l.joints = new Array<Dynamic>();
+        l.joints = [];
         for (joint in joints)
         {
             var newjoint : EdJoint = joint.Clone();
@@ -2154,9 +2154,9 @@ class PhysEditor
         return a;
     }
     
-    private static function ObjectsHitTestRectangle(r : Rectangle) : Array<Dynamic>
+    public static function ObjectsHitTestRectangle(r : Rectangle) : Array<Dynamic>
     {
-        var a : Array<Dynamic> = new Array<Dynamic>();
+        var a : Array<Dynamic> = [];
         var level_instances : Array<Dynamic> = GetCurrentLevelInstances();
         for (obj in level_instances)
         {
@@ -2266,23 +2266,23 @@ class PhysEditor
     
     
     
-    private static function GetCurrentLevelLines() : Array<Dynamic>
+    public static function GetCurrentLevelLines() : Array<Dynamic>
     {
         return Levels.list[currentLevel].lines;
     }
-    private static function GetCurrentLevelJoints() : Array<Dynamic>
+    public static function GetCurrentLevelJoints() : Array<Dynamic>
     {
         return Levels.list[currentLevel].joints;
     }
-    private static function GetCurrentLevelInstances() : Array<Dynamic>
+    public static function GetCurrentLevelInstances() : Array<Dynamic>
     {
         return Levels.list[currentLevel].instances;
     }
-    private static function SetCurrentLevelInstances(instances : Array<Dynamic>) : Void
+    public static function SetCurrentLevelInstances(instances : Array<Dynamic>) : Void
     {
         Levels.list[currentLevel].instances = instances;
     }
-    private static function GetCurrentLevel() : Level
+    public static function GetCurrentLevel() : Level
     {
         return Levels.GetLevel(currentLevel);
     }
@@ -2322,7 +2322,7 @@ class PhysEditor
     public static function RemoveFromLevelInstances(poi : EdObj)
     {
         var level_instances : Array<Dynamic> = GetCurrentLevelInstances();
-        var list1 : Array<Dynamic> = new Array<Dynamic>();
+        var list1 : Array<Dynamic> = [];
         for (p in level_instances)
         {
             if (p == poi)
@@ -2337,7 +2337,7 @@ class PhysEditor
         Levels.list[currentLevel].instances = level_instances;
     }
     
-    private static function Editor_RenderLineToCursor()
+    public static function Editor_RenderLineToCursor()
     {
         linesScreen.graphics.clear();
         if (editModeObj_Lines.addlineActive == false)
@@ -2369,7 +2369,7 @@ class PhysEditor
     }
     
     
-    private static function GetMapPosRect(r : Rectangle) : Rectangle
+    public static function GetMapPosRect(r : Rectangle) : Rectangle
     {
         var r1 : Rectangle = r.clone();
         var p : Point;
@@ -2381,9 +2381,9 @@ class PhysEditor
         r1.height = p.y;
         return r1;
     }
-    private static function GetMapPosPoints(a : Array<Dynamic>) : Array<Dynamic>
+    public static function GetMapPosPoints(a : Array<Dynamic>) : Array<Dynamic>
     {
-        var b : Array<Dynamic> = new Array<Dynamic>();
+        var b : Array<Dynamic> = [];
         for (p in a)
         {
             var p1 : Point = GetMapPos(p.x, p.y);
@@ -2405,14 +2405,14 @@ class PhysEditor
         return p;
     }
     
-    private static var mx : Int;
-    private static var my : Int;
-    private static var sx : Float;
-    private static var sy : Float;
-    private static var mxs : Int;
-    private static var mys : Int;
+    public static var mx : Int;
+    public static var my : Int;
+    public static var sx : Float;
+    public static var sy : Float;
+    public static var mxs : Int;
+    public static var mys : Int;
     
-    private static function GetMousePositions()
+    public static function GetMousePositions()
     {
         mx = MouseControl.x;
         my = MouseControl.y;
@@ -2439,7 +2439,7 @@ class PhysEditor
     }
     
     
-    private static function Editor_RenderLines1(_useCursor : Bool = false)
+    public static function Editor_RenderLines1(_useCursor : Bool = false)
     {
         var l : Level = GetCurrentLevel();
         var i : Int = 0;
@@ -2577,7 +2577,7 @@ class PhysEditor
 		}
 		*/
     
-    private static function HighlightLinePoly(line : EdLine)
+    public static function HighlightLinePoly(line : EdLine)
     {
         if (line == null)
         {

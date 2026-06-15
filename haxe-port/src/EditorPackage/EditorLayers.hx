@@ -8,8 +8,8 @@ import flash.display.MovieClip;
 	 */
 class EditorLayers
 {
-    private static var layers : Array<EditorLayer>;
-    private static var layersMC : MovieClip;
+    public static var layers : Array<EditorLayer>;
+    public static var layersMC : MovieClip;
     
     public function new()
     {
@@ -17,7 +17,7 @@ class EditorLayers
     
     public static function InitOnce()
     {
-        layers = new Array<EditorLayer>();
+        layers = [];
         layers.push(new EditorLayer(0, "Layer 1"));
         layers.push(new EditorLayer(1, "Layer 2"));
         layers.push(new EditorLayer(2, "Layer 3"));

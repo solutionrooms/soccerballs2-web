@@ -39,17 +39,17 @@ class UIWalkthroughScreen extends UIScreenInstance
         titleMC = new ScreenWalkthrough();
         titleMC.gotoAndStop(1);
         
-        Lic.MainLogoButton(titleMC.mainLogo);
+        Lic.MainLogoButton((untyped titleMC).mainLogo);
         
-        TextStrings.ReplaceTextFieldText(titleMC.textTitle);
-        
-        
-        
-        UI.AddAnimatedMCButton(titleMC.buttonBack, backClicked);
+        TextStrings.ReplaceTextFieldText((untyped titleMC).textTitle);
         
         
         
-        titleMC.textLevelName.text = Levels.GetCurrent().name;
+        UI.AddAnimatedMCButton((untyped titleMC).buttonBack, backClicked);
+        
+        
+        
+        (untyped titleMC).textLevelName.text = Levels.GetCurrent().name;
         
         var w : WalkthroughScreen = Walkthrough.walkthroughScreens[Levels.currentIndex];
         w.InitPlayback(titleMC);
@@ -59,7 +59,7 @@ class UIWalkthroughScreen extends UIScreenInstance
     }
     
     
-    private function backClicked(e : MouseEvent)
+    public function backClicked(e : MouseEvent)
     {
         var w : WalkthroughScreen = Walkthrough.walkthroughScreens[Levels.currentIndex];
         w.StopPlayback();

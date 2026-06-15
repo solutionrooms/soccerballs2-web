@@ -15,8 +15,8 @@ class PolyDefs
     
     public static function InitOnce()
     {
-        instanceParams = new Array<Dynamic>();
-        instanceParamsDefaults = new Array<Dynamic>();
+        instanceParams = [];
+        instanceParamsDefaults = [];
         
         ObjectParameters.AddParam("line_material", "materiallist", PolyMaterials.GetNameByIndex(0), PolyMaterials.GetMaterialNameList());
         ObjectParameters.AddParamBool("line_spline", false);

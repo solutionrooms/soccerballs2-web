@@ -33,39 +33,39 @@ class UIAchievements extends UIScreenInstance
         
         var first : Int = 33;
         
-        UI.AddAnimatedMCButton(titleMC.btn_continue, buttonBackPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_continue, buttonBackPressed);
         
         for (i in 0...10)
         {
             var mc : MovieClip = try cast(titleMC.getChildByName("ach" + i), MovieClip) catch(e:Dynamic) null;
             var item : Achievement = Achievements.list[i + first];
-            mc.textTitle.text = item.name;
-            mc.textTick.visible = false;
-            mc.achievement = item;
+            (untyped mc).textTitle.text = item.name;
+            (untyped mc).textTick.visible = false;
+            (untyped mc).achievement = item;
             if (item.complete)
             {
-                mc.textTick.visible = true;
+                (untyped mc).textTick.visible = true;
             }
             mc.addEventListener(MouseEvent.MOUSE_OVER, achievementOver, false, 0, true);
             mc.buttonMode = true;
             mc.useHandCursor = true;
         }
         
-        titleMC.textDescription.text = "";
+        (untyped titleMC).textDescription.text = "";
     }
     
-    private function achievementOver(e : MouseEvent)
+    public function achievementOver(e : MouseEvent)
     {
-        var item : Achievement = e.currentTarget.achievement;
+        var item : Achievement = (untyped e.currentTarget).achievement;
         if (item == null)
         {
             return;
         }
-        titleMC.textDescription.text = item.toUnlockText;
+        (untyped titleMC).textDescription.text = item.toUnlockText;
     }
     
     
-    private function buttonBackPressed(e : MouseEvent) : Void
+    public function buttonBackPressed(e : MouseEvent) : Void
     {
         UI.StartTransition(UI.returnScreenName);
     }

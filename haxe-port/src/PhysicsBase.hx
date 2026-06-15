@@ -6,7 +6,6 @@ import editorPackage.GameLayers;
 import editorPackage.ObjParameters;
 import editorPackage.PolyMaterial;
 import editorPackage.PolyMaterials;
-import flash.Boot;
 import flash.geom.Matrix;
 import flash.geom.Point;
 import nape.callbacks.CbEvent;
@@ -36,10 +35,10 @@ class PhysicsBase
     public static var useNape : Bool = true;
     
     
-    private static var nape_space0 : Space;
-    private static var nape_space1 : Space;
-    private static var nape_space2 : Space;
-    public static var nape_debug : BitmapDebug;
+    public static var nape_space0 : Space;
+    public static var nape_space1 : Space;
+    public static var nape_space2 : Space;
+    public static var nape_debug : Dynamic;
     public static var nape_cbtype_default : CbType;
     public static var nape_timeStep : Float = 1 / 60;
     public static var nape_velIterations : Float = 10;
@@ -48,7 +47,7 @@ class PhysicsBase
     public static var nape_Gravity : Float = 300;
     public static var nape_oneOverTimeStep : Float = 1 / nape_timeStep;
     
-    private static var current_space : Space;
+    public static var current_space : Space;
     
     public static function SetCurrentSpace(index : Int)
     {
@@ -67,10 +66,10 @@ class PhysicsBase
     }
     
     
-    private static var interactionListener : InteractionListener;
-    private static var interactionListener1 : InteractionListener;
-    private static var interactionListener2 : InteractionListener;
-    private static var interactionListener3 : InteractionListener;
+    public static var interactionListener : InteractionListener;
+    public static var interactionListener1 : InteractionListener;
+    public static var interactionListener2 : InteractionListener;
+    public static var interactionListener3 : InteractionListener;
     
     public static function AddListenersA() : Void
     {
@@ -98,7 +97,6 @@ class PhysicsBase
     }
     public static function InitNape() : Void
     {
-        var a = new flash.Boot();
         
         nape_space0 = new Space(new Vec2(0, nape_Gravity), null);
         nape_space1 = new Space(new Vec2(0, nape_Gravity), null);
@@ -130,7 +128,7 @@ class PhysicsBase
         GetNapeSpace().step(nape_timeStep, 10, 10);
     }
     
-    private static function InitObjectParameters()
+    public static function InitObjectParameters()
     {
         ObjectParameters.AddParamBool("fixed", true);
         
@@ -167,7 +165,7 @@ class PhysicsBase
     
     
     
-    private static function InitLines(addGameObjectsPerPoly : Bool = true)
+    public static function InitLines(addGameObjectsPerPoly : Bool = true)
     {
         var b : Body;
         
@@ -227,7 +225,7 @@ class PhysicsBase
                     {
                         var cx : Float = 0;
                         var cy : Float = 0;
-                        var nape_points : Array<Dynamic> = new Array<Dynamic>();
+                        var nape_points : Array<Dynamic> = [];
                         for (pt in points)
                         {
                             nape_points.push(new Vec2(pt.x, pt.y));
@@ -297,7 +295,7 @@ class PhysicsBase
     
     
     
-    private static function AddPhysObjAt(objName : String, _x : Float, _y : Float, _rotDeg : Float, scale : Float, instanceName : String = "", initParams : String = "", _id : String = "", independantGO : Bool = false) : GameObj
+    public static function AddPhysObjAt(objName : String, _x : Float, _y : Float, _rotDeg : Float, scale : Float, instanceName : String = "", initParams : String = "", _id : String = "", independantGO : Bool = false) : GameObj
     {
         var go : GameObj;
         
@@ -322,8 +320,8 @@ class PhysicsBase
         
         var rot : Float = Utils.DegToRad(_rotDeg);
         
-        go.nape_bodies = new Array<Body>();
-        go.nape_joints = new Array<Constraint>();
+        go.nape_bodies = [];
+        go.nape_joints = [];
         go.initParams = initParams;
         go.id = _id;
         
@@ -405,7 +403,7 @@ class PhysicsBase
             
             
             
-            for (shape/* AS3HX WARNING could not determine type for var: shape exp: EField(EIdent(body),shapes) type: null */ in body.shapes)
+            for (shape/* AS3HX WARNING could not determine type for var: shape exp: EField(EIdent(body),shapes) type: null */ in (body.shapes : Array<Dynamic>))
             {
                 var physMaterial : PhysObjMaterial = Game.GetPhysMaterialByName(shape.materialName);
                 
@@ -424,7 +422,7 @@ class PhysicsBase
                         
                         var points : Array<Dynamic> = shape.poly_points;
                         
-                        var localVerts : Array<Dynamic> = new Array<Dynamic>();
+                        var localVerts : Array<Dynamic> = [];
                         for (pt in points)
                         {
                             localVerts.push(Vec2.fromPoint(pt));
@@ -528,7 +526,7 @@ class PhysicsBase
             GameObjects.UpdateSingleGOsFromPhysics(go);
             if (physobj.initFunctionName != "")
             {
-                go[physobj.initFunctionName]();
+                Reflect.callMethod(go, Reflect.field(go, physobj.initFunctionName), []);
             }
         }
         catch (err : Error)
@@ -552,17 +550,19 @@ class PhysicsBase
     
     public static function AddJoint_Nape(joint : EdJoint) : Array<Constraint>
     {
+        var jb0 : Body = null; var jb1 : Body = null;
+        go0 = null; go0a = null; go1 = null; go1a = null;
         var p : Point;
         var p1 : Point;
         var joinedBodiesCollide : Bool = joint.objParameters.GetValueBoolean("collide_joined");
         var joinedBodiesIgnoreCollision : Bool = (joinedBodiesCollide == false);
         
-        var cons : Array<Constraint> = new Array<Constraint>();
+        var cons : Array<Constraint> = [];
         
         if (joint.type == EdJoint.Type_LogicLink)
         {
-            var go0 : GameObj = GameObjects.GetGameObjById(joint.obj0Name);
-            var go1 : GameObj = GameObjects.GetGameObjById(joint.obj1Name);
+            go0 = GameObjects.GetGameObjById(joint.obj0Name);
+            go1 = GameObjects.GetGameObjById(joint.obj1Name);
             go0.logicLink0 = null;
             go0.logicLink1 = go1;
             go1.logicLink0 = go0;
@@ -570,15 +570,15 @@ class PhysicsBase
         }
         else if (joint.type != EdJoint.Type_Switch)
         {
-            var jb0 : Body = PhysicsBase.GetNapeSpace().world;
-            var jb1 : Body = PhysicsBase.GetNapeSpace().world;
+            jb0 = PhysicsBase.GetNapeSpace().world;
+            jb1 = PhysicsBase.GetNapeSpace().world;
             if (joint.obj0Name == "")
             {
             }
             else
             {
-                var go0 : GameObj = GameObjects.GetGameObjById(joint.obj0Name);
-                var go0a : GameObj = GameObjects.GetGameObjByLineName(joint.obj0Name);
+                go0 = GameObjects.GetGameObjById(joint.obj0Name);
+                go0a = GameObjects.GetGameObjByLineName(joint.obj0Name);
                 if (go0 != null)
                 {
                     if (go0.nape_bodies == null)
@@ -605,8 +605,8 @@ class PhysicsBase
             }
             else
             {
-                var go1 : GameObj = GameObjects.GetGameObjById(joint.obj1Name);
-                var go1a : GameObj = GameObjects.GetGameObjByLineName(joint.obj1Name);
+                go1 = GameObjects.GetGameObjById(joint.obj1Name);
+                go1a = GameObjects.GetGameObjByLineName(joint.obj1Name);
                 if (go1 != null)
                 {
                     jb1 = go1.nape_bodies[0];
@@ -785,7 +785,7 @@ class PhysicsBase
         return cons;
     }
     
-    private static function AddConstraintsToGameObj(go : GameObj, cons : Array<Constraint>)
+    public static function AddConstraintsToGameObj(go : GameObj, cons : Array<Constraint>)
     {
         if (go == null)
         {
@@ -793,7 +793,7 @@ class PhysicsBase
         }
         if (go.nape_joints == null)
         {
-            go.nape_joints = new Array<Constraint>();
+            go.nape_joints = [];
         }
         for (con in cons)
         {

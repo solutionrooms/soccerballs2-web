@@ -5,10 +5,10 @@
 	 */
 class WalkthroughRecordingPoint
 {
-    private var x : Int;
-    private var y : Int;
-    private var mouseButton : Bool;
-    private var time : Int;
+    public var x : Int;
+    public var y : Int;
+    public var mouseButton : Bool;
+    public var time : Int;
     
     public function new(_x : Int, _y : Int, _button : Bool, _time : Int)
     {

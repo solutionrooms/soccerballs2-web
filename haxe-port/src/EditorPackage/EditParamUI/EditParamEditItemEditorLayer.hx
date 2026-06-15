@@ -32,8 +32,8 @@ class EditParamEditItemEditorLayer extends EditParamEditItemBase
         
         mc.editorItem = this;
         
-        mc.displayText.text = op.name;
-        mc.displayText.mouseEnabled = false;
+        (untyped mc).displayText.text = op.name;
+        (untyped mc).displayText.mouseEnabled = false;
         
         
         UI.AddBarebonesMCButton(mc.button1, Pressed1);
@@ -52,50 +52,50 @@ class EditParamEditItemEditorLayer extends EditParamEditItemBase
         PostSetup();
     }
     
-    private function UpdateButtons()
+    public function UpdateButtons()
     {
-        mc.button1.highlight.visible = false;
-        mc.button2.highlight.visible = false;
-        mc.button3.highlight.visible = false;
-        mc.button4.highlight.visible = false;
+        (untyped mc.button1).highlight.visible = false;
+        (untyped mc.button2).highlight.visible = false;
+        (untyped mc.button3).highlight.visible = false;
+        (untyped mc.button4).highlight.visible = false;
         
         if (op.value == "1")
         {
-            mc.button1.highlight.visible = true;
+            (untyped mc.button1).highlight.visible = true;
         }
         if (op.value == "2")
         {
-            mc.button2.highlight.visible = true;
+            (untyped mc.button2).highlight.visible = true;
         }
         if (op.value == "3")
         {
-            mc.button3.highlight.visible = true;
+            (untyped mc.button3).highlight.visible = true;
         }
         if (op.value == "4")
         {
-            mc.button4.highlight.visible = true;
+            (untyped mc.button4).highlight.visible = true;
         }
     }
     
-    private function Pressed1(e : MouseEvent)
+    public function Pressed1(e : MouseEvent)
     {
         op.value = "1";
         EditParams.DoChangedCallback(op);
         UpdateButtons();
     }
-    private function Pressed2(e : MouseEvent)
+    public function Pressed2(e : MouseEvent)
     {
         op.value = "2";
         EditParams.DoChangedCallback(op);
         UpdateButtons();
     }
-    private function Pressed3(e : MouseEvent)
+    public function Pressed3(e : MouseEvent)
     {
         op.value = "3";
         EditParams.DoChangedCallback(op);
         UpdateButtons();
     }
-    private function Pressed4(e : MouseEvent)
+    public function Pressed4(e : MouseEvent)
     {
         op.value = "4";
         EditParams.DoChangedCallback(op);

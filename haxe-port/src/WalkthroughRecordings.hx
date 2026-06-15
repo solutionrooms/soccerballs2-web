@@ -5,7 +5,7 @@
 	 */
 class WalkthroughRecordings
 {
-    private static var list : Array<WalkthroughRecording>;
+    public static var list : Array<WalkthroughRecording>;
     
     public function new()
     {
@@ -13,7 +13,7 @@ class WalkthroughRecordings
     
     public static function InitOnce()
     {
-        list = new Array<WalkthroughRecording>();
+        list = [];
         LoadXML();
     }
     
@@ -21,7 +21,7 @@ class WalkthroughRecordings
     {
         for (r in list)
         {
-            if (r.levelName == name)
+            if ((untyped r).levelName == name)
             {
                 return r;
             }
@@ -34,7 +34,7 @@ class WalkthroughRecordings
         var i : Int = 0;
         for (rr in list)
         {
-            if (rr.levelName == r.levelName)
+            if ((untyped rr).levelName == (untyped r).levelName)
             {
                 list[i] = r;
                 
@@ -81,7 +81,7 @@ class WalkthroughRecordings
             var gotit : Bool = false;
             for (r in list)
             {
-                if (r.levelName == l.name)
+                if ((untyped r).levelName == l.name)
                 {
                     gotit = true;
                 }
@@ -97,7 +97,7 @@ class WalkthroughRecordings
         
         for (r in list)
         {
-            sss += "<recording level=\"" + r.levelName + "\"";
+            sss += "<recording level=\"" + (untyped r).levelName + "\"";
             sss += " poss=\"";
             
             var i : Int = 0;

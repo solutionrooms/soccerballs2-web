@@ -111,7 +111,7 @@ class Vec
         return dot;
     }
     
-    private function NormalizeRot() : Void
+    public function NormalizeRot() : Void
     {
         while (rot < 0)
         {
@@ -124,7 +124,7 @@ class Vec
     }
     
     
-    private function RotateToRequiredRot(rv : Float, xpos : Float, ypos : Float, toPosX : Float, toPosY : Float) : Bool
+    public function RotateToRequiredRot(rv : Float, xpos : Float, ypos : Float, toPosX : Float, toPosY : Float) : Bool
     {
         var requiredRot : Float = Math.atan2(toPosY - ypos, toPosX - xpos);
         

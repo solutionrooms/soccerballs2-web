@@ -6,13 +6,13 @@ import flash.geom.Point;
 	 */
 class ObjCol
 {
-    private var bodies : Array<Dynamic>;
-    private var joints : Array<Dynamic>;
+    public var bodies : Array<Dynamic>;
+    public var joints : Array<Dynamic>;
     
     public function new()
     {
-        bodies = new Array<Dynamic>();
-        joints = new Array<Dynamic>();
+        bodies = [];
+        joints = [];
     }
     
     public function AddJoint(_x : Float, _y : Float, _type : Int, b0 : Int, b1 : Int, vals : Array<Dynamic>)

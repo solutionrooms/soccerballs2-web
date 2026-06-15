@@ -6,12 +6,12 @@ import flash.geom.Rectangle;
 	 */
 class TexturePageNode
 {
-    private var child : Array<TexturePageNode>;
-    private var theDof : DisplayObjFrame;
-    private var rect : Rectangle;
+    public var child : Array<TexturePageNode>;
+    public var theDof : DisplayObjFrame;
+    public var rect : Rectangle;
     public function new()
     {
-        child = new Array<TexturePageNode>();
+        child = [];
         child.push(null);
         child.push(null);
         
@@ -19,7 +19,7 @@ class TexturePageNode
         rect = new Rectangle(0, 0, 1, 1);
     }
     
-    private function DofFitsIntoRect(dof : DisplayObjFrame) : Bool
+    public function DofFitsIntoRect(dof : DisplayObjFrame) : Bool
     {
         if (
             (dof.bitmapData.width <= rect.width) &&
@@ -29,7 +29,7 @@ class TexturePageNode
         }
         return false;
     }
-    private function DofFitsIntoRectPerfectly(dof : DisplayObjFrame) : Bool
+    public function DofFitsIntoRectPerfectly(dof : DisplayObjFrame) : Bool
     {
         if (
             (dof.bitmapData.width == rect.width) &&

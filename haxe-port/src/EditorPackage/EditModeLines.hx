@@ -13,15 +13,15 @@ import flash.geom.Rectangle;
 	 */
 class EditModeLines extends EditModeBase
 {
-    private var addlineActive : Bool;
-    private var hoveredLineIndex : Int;
-    private var hoveredPointIndex : Int;
-    private var hoveredPointLineIndex : Int;
-    private var dragPoint : Point;
-    private var lastLineSelectedIndex : Int;
-    private var copiedParameters : ObjParameters;
+    public var addlineActive : Bool;
+    public var hoveredLineIndex : Int;
+    public var hoveredPointIndex : Int;
+    public var hoveredPointLineIndex : Int;
+    public var dragPoint : Point;
+    public var lastLineSelectedIndex : Int;
+    public var copiedParameters : ObjParameters;
     
-    private var freeLine_MinDist : Int = 10;
+    public var freeLine_MinDist : Int = 10;
     
     public function new()
     {
@@ -29,7 +29,7 @@ class EditModeLines extends EditModeBase
     }
     
     
-    private function CopyParameters()
+    public function CopyParameters()
     {
         var l : EdLine = GetCurrentLine();
         if (l == null)
@@ -38,7 +38,7 @@ class EditModeLines extends EditModeBase
         }
         copiedParameters = l.objParameters.Clone();
     }
-    private function PasteParameters()
+    public function PasteParameters()
     {
         var l : EdLine = GetCurrentLine();
         if (l == null)
@@ -155,7 +155,7 @@ class EditModeLines extends EditModeBase
         }
     }
     
-    private function GetHoveredLine()
+    public function GetHoveredLine()
     {
         var li : Int = currentLineIndex;
         var pi : Int = currentPointIndex;
@@ -277,7 +277,7 @@ class EditModeLines extends EditModeBase
     }
     
     
-    private function UpdateObjectsWhichSnapToLines()
+    public function UpdateObjectsWhichSnapToLines()
     {
         var l : Level = GetCurrentLevel();
         var line : EdLine = l.lines[currentLineIndex];
@@ -317,9 +317,9 @@ class EditModeLines extends EditModeBase
             var y1 : Float = p1.y;
             
             
-            var list : Array<Dynamic> = new Array<Dynamic>();
-            var percents : Array<Dynamic> = new Array<Dynamic>();
-            var yoffs : Array<Dynamic> = new Array<Dynamic>();
+            var list : Array<Dynamic> = [];
+            var percents : Array<Dynamic> = [];
+            var yoffs : Array<Dynamic> = [];
             
             var level_instances : Array<Dynamic> = GetCurrentLevelInstances();
             for (obj in level_instances)
@@ -382,8 +382,8 @@ class EditModeLines extends EditModeBase
     {
     }
     
-    private var subMode : String;
-    private function SetSubMode(s : String)
+    public var subMode : String;
+    public function SetSubMode(s : String)
     {
         subMode = s;
         
@@ -536,7 +536,7 @@ class EditModeLines extends EditModeBase
             {
                 PhysEditor.RemoveEverything();
             }
-            PhysEditor.GetCurrentLevel().lines = new Array<Dynamic>();
+            PhysEditor.GetCurrentLevel().lines = [];
             currentLineIndex = -1;
             currentPointIndex = -1;
         }
@@ -621,7 +621,7 @@ class EditModeLines extends EditModeBase
         }
     }
     
-    private function AddLineParameterListBoxOrClear(l : EdLine)
+    public function AddLineParameterListBoxOrClear(l : EdLine)
     {
         if (l == null)
         {
@@ -739,7 +739,7 @@ class EditModeLines extends EditModeBase
     public var currentLineIndex : Int;
     public var currentPointIndex : Int;
     
-    private function GetCurrentLinePrimitiveType() : String
+    public function GetCurrentLinePrimitiveType() : String
     {
         if (GetCurrentLine() == null)
         {
@@ -748,7 +748,7 @@ class EditModeLines extends EditModeBase
         return GetCurrentLine().primitiveType;
     }
     
-    private function GetCurrentLine() : EdLine
+    public function GetCurrentLine() : EdLine
     {
         if (currentLineIndex == -1)
         {
@@ -759,7 +759,7 @@ class EditModeLines extends EditModeBase
         return line;
     }
     
-    private function Lines_EnterID()
+    public function Lines_EnterID()
     {
         if (currentLineIndex == -1)
         {
@@ -769,7 +769,7 @@ class EditModeLines extends EditModeBase
         var line : EdLine = l.lines[currentLineIndex];
         PhysEditor.AddTextEntry(100, 100, "line id ", line.id, Lines_EnterID_Done);
     }
-    private function Lines_EnterID_Done(text : String)
+    public function Lines_EnterID_Done(text : String)
     {
         var l : Level = GetCurrentLevel();
         var line : EdLine = l.lines[currentLineIndex];
@@ -777,7 +777,7 @@ class EditModeLines extends EditModeBase
     }
     
     
-    private function Lines_Reverse()
+    public function Lines_Reverse()
     {
         if (currentLineIndex == -1)
         {
@@ -791,7 +791,7 @@ class EditModeLines extends EditModeBase
         
         l.lines[currentLineIndex].points = newpts;
     }
-    private function Lines_MinDistanceBetweenPoints(dist : Float)
+    public function Lines_MinDistanceBetweenPoints(dist : Float)
     {
         if (currentLineIndex == -1)
         {
@@ -799,7 +799,7 @@ class EditModeLines extends EditModeBase
         }
         var l : Level = GetCurrentLevel();
         var pts : Array<Dynamic> = l.lines[currentLineIndex].points;
-        var newpts : Array<Dynamic> = new Array<Dynamic>();
+        var newpts : Array<Dynamic> = [];
         var removecount : Int = 0;
         
         for (i in 0...pts.length)
@@ -826,7 +826,7 @@ class EditModeLines extends EditModeBase
         l.lines[currentLineIndex].points = newpts;
         Utils.print("removecount " + removecount);
     }
-    private function Lines_AddPoint(x : Float, y : Float)
+    public function Lines_AddPoint(x : Float, y : Float)
     {
         if (currentLineIndex == -1)
         {
@@ -839,7 +839,7 @@ class EditModeLines extends EditModeBase
         l.lines[currentLineIndex].points = pts;
     }
     
-    private function Lines_InsertPointAtMousePos(x : Float, y : Float)
+    public function Lines_InsertPointAtMousePos(x : Float, y : Float)
     {
         var l : Level = GetCurrentLevel();
         if (currentLineIndex == -1)
@@ -869,7 +869,7 @@ class EditModeLines extends EditModeBase
         }
     }
     
-    private function Lines_InsertPointOnCurrentLine(x : Float, y : Float)
+    public function Lines_InsertPointOnCurrentLine(x : Float, y : Float)
     {
         var l : Level = GetCurrentLevel();
         
@@ -893,7 +893,7 @@ class EditModeLines extends EditModeBase
     }
     
     
-    private function Lines_InsertPoint(x : Float, y : Float)
+    public function Lines_InsertPoint(x : Float, y : Float)
     {
         var l : Level = GetCurrentLevel();
         
@@ -928,14 +928,14 @@ class EditModeLines extends EditModeBase
     }
     
     
-    private function Lines_PickPieceForObjCol()
+    public function Lines_PickPieceForObjCol()
     {
         PhysEditor.oldEditMode = PhysEditor.editMode;
         PhysEditor.editModeObj_PickPieceForLink.returnFunction = PickObjectForObjColReturnFunction;
         PhysEditor.SetEditMode(PhysEditor.editMode_PickPieceForLink, false);
         PhysEditor.CursorText_Set("Pick Object For ObjCol");
     }
-    private function PickObjectForObjColReturnFunction(poi : EdObj)
+    public function PickObjectForObjColReturnFunction(poi : EdObj)
     {
         var id : String = "";
         if (poi != null)
@@ -946,9 +946,9 @@ class EditModeLines extends EditModeBase
         PhysEditor.CursorText_Set("");
     }
     
-    private function CreateObjLineCollision(poi : EdObj) : Void
+    public function CreateObjLineCollision(poi : EdObj) : Void
     {
-        var a : Array<Dynamic> = new Array<Dynamic>();
+        var a : Array<Dynamic> = [];
         var l : EdLine = GetCurrentLine();
         if (l == null)
         {
@@ -979,7 +979,7 @@ class EditModeLines extends EditModeBase
     }
     
     
-    private function Lines_DuplicateSelectedLine()
+    public function Lines_DuplicateSelectedLine()
     {
         var l : Level = GetCurrentLevel();
         if (currentLineIndex != -1)
@@ -999,7 +999,7 @@ class EditModeLines extends EditModeBase
     }
     
     
-    private function Lines_DeleteSelectedLine()
+    public function Lines_DeleteSelectedLine()
     {
         var l : Level = GetCurrentLevel();
         if (currentLineIndex != -1)
@@ -1008,7 +1008,7 @@ class EditModeLines extends EditModeBase
             PhysEditor.editModeObj_Joints.UpdateJoints_ObjectDeleted(edLine.id);
             
             
-            var a2 : Array<Dynamic> = new Array<Dynamic>();
+            var a2 : Array<Dynamic> = [];
             var index : Int = 0;
             for (line/* AS3HX WARNING could not determine type for var: line exp: EField(EIdent(l),lines) type: null */ in l.lines)
             {
@@ -1026,7 +1026,7 @@ class EditModeLines extends EditModeBase
     
     
     
-    private function Lines_DeletePoint(x : Float, y : Float)
+    public function Lines_DeletePoint(x : Float, y : Float)
     {
         var l : Level = GetCurrentLevel();
         var lineIndex : Int = 0;
@@ -1051,7 +1051,7 @@ class EditModeLines extends EditModeBase
         if (selectedLineIndex != -1 && selectedPointIndex != -1)
         {
             var a0 : Array<Dynamic> = l.lines[selectedLineIndex].points;
-            var a1 : Array<Dynamic> = new Array<Dynamic>();
+            var a1 : Array<Dynamic> = [];
             var i : Int;
             for (i in 0...a0.length)
             {
@@ -1062,7 +1062,7 @@ class EditModeLines extends EditModeBase
             }
             l.lines[selectedLineIndex].points = a1;
             
-            var a2 : Array<Dynamic> = new Array<Dynamic>();
+            var a2 : Array<Dynamic> = [];
             for (line/* AS3HX WARNING could not determine type for var: line exp: EField(EIdent(l),lines) type: null */ in l.lines)
             {
                 if (line.points.length != 0)
@@ -1078,7 +1078,7 @@ class EditModeLines extends EditModeBase
             currentPointIndex = -1;
         }
     }
-    private function Lines_ScrollToFirstPointOfSelectedLine()
+    public function Lines_ScrollToFirstPointOfSelectedLine()
     {
         if (currentLineIndex == -1)
         {
@@ -1091,7 +1091,7 @@ class EditModeLines extends EditModeBase
         PhysEditor.scrollY = p.y - (Defs.displayarea_h * 0.5);
     }
     
-    private function Lines_ScrollToLastPointOfSelectedLine()
+    public function Lines_ScrollToLastPointOfSelectedLine()
     {
         if (currentLineIndex == -1)
         {
@@ -1105,7 +1105,7 @@ class EditModeLines extends EditModeBase
     }
     
     
-    private function Lines_DragRect(x : Int, y : Int)
+    public function Lines_DragRect(x : Int, y : Int)
     {
         if (currentLineIndex == -1)
         {
@@ -1125,7 +1125,7 @@ class EditModeLines extends EditModeBase
     }
     
     
-    private function Lines_NewRect()
+    public function Lines_NewRect()
     {
         var line : EdLine = new EdLine();
         line.type = 0;
@@ -1157,7 +1157,7 @@ class EditModeLines extends EditModeBase
     
     public function HitTestRectangle(r : Rectangle) : Array<Dynamic>
     {
-        var a : Array<Dynamic> = new Array<Dynamic>();
+        var a : Array<Dynamic> = [];
         var list : Array<Dynamic> = GetCurrentLevelLines();
         for (line in list)
         {
@@ -1170,7 +1170,7 @@ class EditModeLines extends EditModeBase
     }
     
     
-    private function Lines_NewLine()
+    public function Lines_NewLine()
     {
         var prevLine : EdLine = GetCurrentLevel().GetLineByIndex(lastLineSelectedIndex);
         
@@ -1190,7 +1190,7 @@ class EditModeLines extends EditModeBase
         lastLineSelectedIndex = currentLineIndex;
     }
     
-    private function Lines_GetLineByIndex(_index : Int) : EdLine
+    public function Lines_GetLineByIndex(_index : Int) : EdLine
     {
         if (_index == -1)
         {
@@ -1236,7 +1236,7 @@ class EditModeLines extends EditModeBase
         }
     }
     
-    private function Lines_SelectLineByPoint(x : Float, y : Float)
+    public function Lines_SelectLineByPoint(x : Float, y : Float)
     {
         var l : Level = GetCurrentLevel();
         var lineIndex : Int = 0;
@@ -1256,7 +1256,7 @@ class EditModeLines extends EditModeBase
         }
     }
     
-    private function Lines_SelectLineByArea(x : Float, y : Float)
+    public function Lines_SelectLineByArea(x : Float, y : Float)
     {
         var l : Level = GetCurrentLevel();
         var lineIndex : Int = 0;
@@ -1293,7 +1293,7 @@ class EditModeLines extends EditModeBase
         }
     }
     
-    private function Lines_MovePoints(x : Float, y : Float)
+    public function Lines_MovePoints(x : Float, y : Float)
     {
         if (currentLineIndex == -1)
         {
@@ -1325,7 +1325,7 @@ class EditModeLines extends EditModeBase
         }
     }
     
-    private function Lines_Subdivide(x : Float, y : Float)
+    public function Lines_Subdivide(x : Float, y : Float)
     {
         if (currentLineIndex == -1 || currentPointIndex == -1)
         {
@@ -1366,7 +1366,7 @@ class EditModeLines extends EditModeBase
                 p0 = p2;
             }
             
-            var newpoints : Array<Dynamic> = new Array<Dynamic>();
+            var newpoints : Array<Dynamic> = [];
             
             var i : Int;
             var points : Array<Dynamic> = l.lines[selectedLineIndex].points;
@@ -1379,7 +1379,7 @@ class EditModeLines extends EditModeBase
                 newpoints.push(pt1);
             }
             
-            var ps : Array<Dynamic> = new Array<Dynamic>();
+            var ps : Array<Dynamic> = [];
             for (i in 0...p0 + 1)
             {
                 ps.push(points[i].clone());
@@ -1399,15 +1399,15 @@ class EditModeLines extends EditModeBase
     
     
     
-    private var scaleCentreX : Float;
-    private var scaleCentreY : Float;
-    private var scalePositions : Array<Dynamic>;
+    public var scaleCentreX : Float;
+    public var scaleCentreY : Float;
+    public var scalePositions : Array<Dynamic>;
     
-    private function Lines_StartScale(x : Float, y : Float)
+    public function Lines_StartScale(x : Float, y : Float)
     {
         scaleCentreX = x;
         scaleCentreY = y;
-        scalePositions = new Array<Dynamic>();
+        scalePositions = [];
         
         var l : Level = GetCurrentLevel();
         if (currentLineIndex != -1)
@@ -1418,7 +1418,7 @@ class EditModeLines extends EditModeBase
             }
         }
     }
-    private function Lines_Scale(scale : Float)
+    public function Lines_Scale(scale : Float)
     {
         var l : Level = GetCurrentLevel();
         if (currentLineIndex != -1)
@@ -1433,11 +1433,11 @@ class EditModeLines extends EditModeBase
         }
     }
     
-    private var rotateCentreX : Float;
-    private var rotateCentreY : Float;
-    private var rotatePositions : Array<Dynamic>;
+    public var rotateCentreX : Float;
+    public var rotateCentreY : Float;
+    public var rotatePositions : Array<Dynamic>;
     
-    private function Lines_StartRotate(x : Float, y : Float)
+    public function Lines_StartRotate(x : Float, y : Float)
     {
         var line : EdLine = GetCurrentLevel().GetLineByIndex(currentLineIndex);
         if (line == null)
@@ -1447,14 +1447,14 @@ class EditModeLines extends EditModeBase
         
         rotateCentreX = x;
         rotateCentreY = y;
-        rotatePositions = new Array<Dynamic>();
+        rotatePositions = [];
         
         for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EIdent(line),points) type: null */ in line.points)
         {
             rotatePositions.push(p.clone());
         }
     }
-    private function Lines_Rotate(rot : Float)
+    public function Lines_Rotate(rot : Float)
     {
         var line : EdLine = GetCurrentLevel().GetLineByIndex(currentLineIndex);
         if (line == null)
@@ -1476,7 +1476,7 @@ class EditModeLines extends EditModeBase
     
     
     
-    private function Lines_SplitPoly(lineIndex : Int, p0Index : Int, p1Index : Int)
+    public function Lines_SplitPoly(lineIndex : Int, p0Index : Int, p1Index : Int)
     {
         if (lineIndex == -1)
         {
@@ -1550,7 +1550,7 @@ class EditModeLines extends EditModeBase
     }
     
     
-    private function Lines_SelectPoint(x : Float, y : Float)
+    public function Lines_SelectPoint(x : Float, y : Float)
     {
         var l : Level = GetCurrentLevel();
         var lineIndex : Int = 0;
@@ -1593,17 +1593,17 @@ class EditModeLines extends EditModeBase
         }
     }
     
-    private function FreeLine_Start()
+    public function FreeLine_Start()
     {
         PhysEditor.UndoTakeSnapshot();
         addlineActive = false;
         Lines_AddPoint(mxs, mys);
     }
-    private function FreeLine_Move()
+    public function FreeLine_Move()
     {
         Lines_AddPoint(mxs, mys);
     }
-    private function FreeLine_End()
+    public function FreeLine_End()
     {
         Lines_MinDistanceBetweenPoints(freeLine_MinDist);
         SetSubMode("addpoint");

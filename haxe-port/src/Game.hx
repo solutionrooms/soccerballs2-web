@@ -81,8 +81,8 @@ class Game
     
     
     
-    private static var debugPrint : Bool = false;
-    private static var debugPrintError : Bool = true;
+    public static var debugPrint : Bool = false;
+    public static var debugPrintError : Bool = true;
     
     public static var recordPlayer : Bool = false;
     
@@ -103,20 +103,20 @@ class Game
     public static inline var gameState_Play = 1;
     public static inline var gameState_Walkthrough = 2;
     
-    private static inline var levelState_LevelStart = 0;
-    private static inline var levelState_Play = 1;
-    private static inline var levelState_Null = 2;
-    private static inline var levelState_Editor = 3;
-    private static inline var levelState_Complete = 4;
-    private static inline var levelState_EndScreen = 5;
-    private static inline var levelState_BonusSectionStart = 6;
-    private static inline var levelState_BonusSection = 7;
-    private static inline var levelState_PlayerDead = 8;
+    public static inline var levelState_LevelStart = 0;
+    public static inline var levelState_Play = 1;
+    public static inline var levelState_Null = 2;
+    public static inline var levelState_Editor = 3;
+    public static inline var levelState_Complete = 4;
+    public static inline var levelState_EndScreen = 5;
+    public static inline var levelState_BonusSectionStart = 6;
+    public static inline var levelState_BonusSection = 7;
+    public static inline var levelState_PlayerDead = 8;
     
     
-    private static var debugPlayerInvulnerable : Bool = false;
+    public static var debugPlayerInvulnerable : Bool = false;
     
-    private static var currentGameMusic : Int;
+    public static var currentGameMusic : Int;
     
     public static var frameSkip : Int = 1;
     
@@ -181,7 +181,7 @@ class Game
     public static var goCursor : GameObj;
     public static var goMarker : GameObj;
     
-    private static var hudController : HudController;
+    public static var hudController : HudController;
     
     
     
@@ -228,14 +228,13 @@ class Game
         s3d.InitOnce(InitOnceA);
     }
     
-    private static function InitOnceA()
+    public static function InitOnceA()
     {
-        s3d.SetVisible(false);
         InitGame();
     }
     
     
-    private static function InitBitmaps()
+    public static function InitBitmaps()
     {
         polyScreenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
         backgroundScreenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
@@ -316,7 +315,7 @@ class Game
         StartTitleScreen();
     }
     
-    private static function FindObjInInstances(l : Level, name : String) : Bool
+    public static function FindObjInInstances(l : Level, name : String) : Bool
     {
         for (inst/* AS3HX WARNING could not determine type for var: inst exp: EField(EIdent(l),instances) type: null */ in l.instances)
         {
@@ -329,24 +328,24 @@ class Game
     }
     
     
-    private static function ReloadData()
+    public static function ReloadData()
     {
         ExternalData.Load(ReloadData_Done);
     }
-    private static function ReloadData_Done()
+    public static function ReloadData_Done()
     {
     }
     
     
     
-    private static function Reload(_func : Function)
+    public static function Reload(_func : Function)
     {
         ExternalData.Load(_func);
     }
     
     
     
-    private static function GetPhysMaterialByName(name : String) : PhysObjMaterial
+    public static function GetPhysMaterialByName(name : String) : PhysObjMaterial
     {
         for (mat in physMaterials)
         {
@@ -358,9 +357,9 @@ class Game
         Utils.traceerror("ERROR, missing physics material: " + name);
         return new PhysObjMaterial();
     }
-    private static function LoadPhysMaterials()
+    public static function LoadPhysMaterials()
     {
-        physMaterials = new Array<Dynamic>();
+        physMaterials = [];
         var i : Int;
         var x : FastXML = ExternalData.xml;
         
@@ -374,7 +373,7 @@ class Game
     }
     
     
-    private static function AddGameObjectAt(objName : String, _x : Float, _y : Float, _rotDeg : Float, _scale : Float, instanceName : String = "", initParams : String = "", _id : String = "") : GameObj
+    public static function AddGameObjectAt(objName : String, _x : Float, _y : Float, _rotDeg : Float, _scale : Float, instanceName : String = "", initParams : String = "", _id : String = "") : GameObj
     {
         var go : GameObj = null;
         var physobj : PhysObj = objectDefs.FindByName(objName);
@@ -397,7 +396,7 @@ class Game
             if (graphic.goInitFuntion != "")
             {
                 go.initFunctionVarString = graphic.goInitFuntionVarString;
-                go[graphic.goInitFuntion]();
+                Reflect.callMethod(go, Reflect.field(go, graphic.goInitFuntion), []);
             }
         }
         try
@@ -405,7 +404,7 @@ class Game
             if (physobj.initFunctionName != "")
             {
                 go.initFunctionVarString = physobj.initFunctionParameters;
-                go[physobj.initFunctionName]();
+                Reflect.callMethod(go, Reflect.field(go, physobj.initFunctionName), []);
             }
         }
         catch (err : Error)
@@ -420,9 +419,9 @@ class Game
     
     
     
-    private static function GetLineListByType(_type : Int) : Array<Dynamic>
+    public static function GetLineListByType(_type : Int) : Array<Dynamic>
     {
-        var list : Array<Dynamic> = new Array<Dynamic>();
+        var list : Array<Dynamic> = [];
         var l : Level = Levels.GetCurrent();
         for (line/* AS3HX WARNING could not determine type for var: line exp: EField(EIdent(l),lines) type: null */ in l.lines)
         {
@@ -434,7 +433,7 @@ class Game
         return list;
     }
     
-    private static function GetNumLinesByType(_type : Int) : Int
+    public static function GetNumLinesByType(_type : Int) : Int
     {
         var count : Int = 0;
         var l : Level = Levels.GetCurrent();
@@ -449,7 +448,7 @@ class Game
     }
     
     
-    private static function GetNearestPathLine(x : Float, y : Float) : Int
+    public static function GetNearestPathLine(x : Float, y : Float) : Int
     {
         var nearestD : Float = 999999;
         var nearestL : Int = 0;
@@ -472,7 +471,7 @@ class Game
         return nearestL;
     }
     
-    private static function GetLineIndexByTypeIndex(_type : Int, _typeIndex : Int) : Int
+    public static function GetLineIndexByTypeIndex(_type : Int, _typeIndex : Int) : Int
     {
         var count : Int = 0;
         var lcount : Int = 0;
@@ -493,7 +492,7 @@ class Game
     }
     
     
-    private static function GetLineByIndex(_index : Int) : EdLine
+    public static function GetLineByIndex(_index : Int) : EdLine
     {
         var l : Level = Levels.GetCurrent();
         return l.lines[_index];
@@ -522,7 +521,7 @@ class Game
     
     
     
-    private static function scoreOverlay_EnterFrame(e : Event)
+    public static function scoreOverlay_EnterFrame(e : Event)
     {
         var mc : MovieClip = try cast(e.target, MovieClip) catch(e:Dynamic) null;
         if (mc.currentFrame == mc.totalFrames)
@@ -533,7 +532,7 @@ class Game
     }
     
     
-    private static function UpdateLevel()
+    public static function UpdateLevel()
     {
     }
     
@@ -562,7 +561,7 @@ class Game
 					go = GameObjects.AddObj(x*PhysicsBase.p2w, y*PhysicsBase.p2w, _zpos+zsortoffset);
 					go.InitPhysicsObject(_gid, _frame,graphic.offset.x,graphic.offset.y,graphic.goInitFuntionVarString,graphic.hasShadow);
 					go.initFunctionVarString = graphic.goInitFuntionVarString;
-					go[graphic.goInitFuntion]();
+					Reflect.callMethod(go, Reflect.field(go, graphic.goInitFuntion), []);
 				}
 			}
 			lastGeneratedGameObj = go;
@@ -634,7 +633,7 @@ class Game
     }
     
     
-    private static function LevelFailed()
+    public static function LevelFailed()
     {
         InitLevelState(levelState_Null);
         UI.StartTransition("levelfailed");
@@ -668,7 +667,7 @@ class Game
     public static var endLevelScore : Int;
     
     
-    private static function DoEndLevelStuff()
+    public static function DoEndLevelStuff()
     {
         if (levelTimer < 0)
         {
@@ -706,7 +705,7 @@ class Game
         {
             levelJustUnlocked = false;
             l.levelScore = levelScore;
-            var l1 : Level = Levels.GetLevel(levelID - 1);
+            var l1 : Level = Levels.GetLevel(Std.int(levelID - 1));
             if (l1 != null)
             {
                 if (l1.available == false)
@@ -754,11 +753,11 @@ class Game
         SubmitStats();
     }
     
-    private static function SubmitMinigameStats()
+    public static function SubmitMinigameStats()
     {
     }
     
-    private static function SubmitStats()
+    public static function SubmitStats()
     {
         var l : Level;
         
@@ -788,7 +787,7 @@ class Game
     }
     
     
-    private static function GetHighestScore() : Int
+    public static function GetHighestScore() : Int
     {
         var bestScore : Int = 0;
         for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(Levels),list) type: null */ in Levels.list)
@@ -801,7 +800,7 @@ class Game
         return bestScore;
     }
     
-    private static function GetNumLevelsUnlocked() : Int
+    public static function GetNumLevelsUnlocked() : Int
     {
         var num : Int = 0;
         for (l/* AS3HX WARNING could not determine type for var: l exp: EField(EIdent(Levels),list) type: null */ in Levels.list)
@@ -891,7 +890,7 @@ class Game
     
     
     
-    private static function GetMapData(x : Int, y : Int) : Int
+    public static function GetMapData(x : Int, y : Int) : Int
     {
         var l : Level = Levels.GetCurrent();
         x /= l.mapCellW;
@@ -907,8 +906,8 @@ class Game
     }
     
     
-    private static var goBackground : GameObj;
-    private static var goPolyLayer : GameObj;
+    public static var goBackground : GameObj;
+    public static var goPolyLayer : GameObj;
     
     
     
@@ -918,11 +917,10 @@ class Game
         LevelDobjCache.ExitForLevel();
         Audio.StopAllSFX();
         gameState = gameState_UI;
-        s3d.SetVisible(false);
     }
     
     
-    private static var doingWalkthrough : Bool;
+    public static var doingWalkthrough : Bool;
     public static function StartLevel(_doingWalkthrough : Bool = false) : Void
     {
         doingWalkthrough = _doingWalkthrough;
@@ -933,7 +931,6 @@ class Game
     }
     public static function StartLevelA() : Void
     {
-        s3d.SetVisible(true);
         
         
         LevelDobjCache.InitForLevel();
@@ -1001,7 +998,7 @@ class Game
         
         
         
-        if (l.name.match("Boss"))
+        if (new EReg("Boss", "").match(l.name))
         {
             Audio.PlayMusic("music_boss");
         }
@@ -1152,10 +1149,10 @@ class Game
     public static var walkthroughCursorGO : GameObj;
     public static var walkthroughRecording : WalkthroughRecording;
     
-    private static var backgroundsMC : MovieClip = null;
+    public static var backgroundsMC : MovieClip = null;
     
     
-    private static function InitClouds()
+    public static function InitClouds()
     {
         var totalClouds : Int = 30;
         for (i in 0...totalClouds)
@@ -1166,7 +1163,7 @@ class Game
     }
     
     
-    private static function PreRenderPolys()
+    public static function PreRenderPolys()
     {
         camera.x = 0;
         camera.y = 0;
@@ -1186,21 +1183,21 @@ class Game
         }
     }
     
-    private static function InitBackgroundSounds()
+    public static function InitBackgroundSounds()
     {
     }
     
-    private static function QuietAllSounds()
-    {
-    }
-    
-    
-    private static function StopAllLoops()
+    public static function QuietAllSounds()
     {
     }
     
     
-    private static function StartLevelSounds()
+    public static function StopAllLoops()
+    {
+    }
+    
+    
+    public static function StartLevelSounds()
     {
     }
     
@@ -1514,19 +1511,19 @@ class Game
     }
     
     
-    private static function InitCreateForegroundBitmaps()
+    public static function InitCreateForegroundBitmaps()
     {
     }
     
-    private static var createdForegroundBitmaps : Bool = false;
-    private static var scrollFirstTime : Bool;
-    private static function InitScroll()
+    public static var createdForegroundBitmaps : Bool = false;
+    public static var scrollFirstTime : Bool;
+    public static function InitScroll()
     {
         scrollFirstTime = true;
     }
     
     
-    private static function UpdateScroll_Garage()
+    public static function UpdateScroll_Garage()
     {
         var go : GameObj = GameObjects.GetGameObjByName("player");
         if (go == null)
@@ -1539,17 +1536,17 @@ class Game
     }
     
     
-    private static var scrollMode : Int = 0;
-    private static var scrollDragX : Float;
-    private static var scrollDragY : Float;
-    private static var doKick : Bool = false;
+    public static var scrollMode : Int = 0;
+    public static var scrollDragX : Float;
+    public static var scrollDragY : Float;
+    public static var doKick : Bool = false;
     
-    private static var mouse_ox : Float = 0;
-    private static var mouse_oy : Float = 0;
-    private static var mouse_x : Float = 0;
-    private static var mouse_y : Float = 0;
-    private static var mouse_dx : Float = 0;
-    private static var mouse_dy : Float = 0;
+    public static var mouse_ox : Float = 0;
+    public static var mouse_oy : Float = 0;
+    public static var mouse_x : Float = 0;
+    public static var mouse_y : Float = 0;
+    public static var mouse_dx : Float = 0;
+    public static var mouse_dy : Float = 0;
     
     public static function MouseMoveHandler(event : MouseEvent) : Void
     {
@@ -1678,7 +1675,7 @@ class Game
     
     
     
-    private static function UpdateScroll_Walkthrough()
+    public static function UpdateScroll_Walkthrough()
     {
         mouse_x = MouseControl.x;
         mouse_y = MouseControl.y;
@@ -1706,7 +1703,7 @@ class Game
             camera.y = boundingRectangle.bottom - Defs.displayarea_h;
         }
     }
-    private static function UpdateScroll()
+    public static function UpdateScroll()
     {
         if (controlMode == 1)
         {
@@ -1950,9 +1947,9 @@ class Game
         camera.y = Math.round(camera.y);
     }
     
-    private static var shakeX : Float = 0;
-    private static var shakeY : Float = 0;
-    private static function UpdateShake()
+    public static var shakeX : Float = 0;
+    public static var shakeY : Float = 0;
+    public static function UpdateShake()
     {
         shakeX = 0;
         shakeY = 0;
@@ -2056,7 +2053,7 @@ class Game
     }
     
     
-    private static var addedNapeDisplay : Bool = false;
+    public static var addedNapeDisplay : Bool = false;
     
     public static function Render(_bd : BitmapData)
     {
@@ -2207,12 +2204,12 @@ class Game
     }
     
     
-    private static var currentDisplayTexture : Int = -1;
+    public static var currentDisplayTexture : Int = -1;
     
-    private static var gm : Matrix = new Matrix();
+    public static var gm : Matrix = new Matrix();
     
     
-    private static function RenderCircle(g : Graphics, x : Float, y : Float, rad : Float, col : Int) : Void
+    public static function RenderCircle(g : Graphics, x : Float, y : Float, rad : Float, col : Int) : Void
     {
         var numP : Int = 50;
         var dx : Float = Math.PI * 2 / numP;
@@ -2239,12 +2236,12 @@ class Game
     }
     
     
-    private static function RenderCursor(bd : BitmapData)
+    public static function RenderCursor(bd : BitmapData)
     {
     }
     
     
-    private static var zorder : Array<Dynamic>;
+    public static var zorder : Array<Dynamic>;
     public static function RenderNearGOs(bd : BitmapData) : Void
     {
         var go : GameObj;
@@ -2267,7 +2264,7 @@ class Game
         EngineDebug.StartTimer("sort");
         
         i = 0;
-        zorder = new Array<Dynamic>();
+        zorder = [];
         for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
         {
             if (go.active && go.visible)
@@ -2291,7 +2288,7 @@ class Game
     }
     
     
-    private static function RenderFloorGrass(bd : BitmapData) : Void
+    public static function RenderFloorGrass(bd : BitmapData) : Void
     {
         var i : Int;
         var p0 : Point;
@@ -2353,7 +2350,7 @@ class Game
         go.InitTextMessage(_message, x, y);
     }
     
-    private static function RenderPanel(bd : BitmapData)
+    public static function RenderPanel(bd : BitmapData)
     {
         var l : Level = Levels.GetCurrent();
         if (l == null)
@@ -2382,11 +2379,11 @@ class Game
         }
     }
     
-    private static function InitControl()
+    public static function InitControl()
     {
     }
     
-    private static function InitShot()
+    public static function InitShot()
     {
     }
     
@@ -2409,23 +2406,23 @@ class Game
     
     
     
-    private static function InitDrag()
+    public static function InitDrag()
     {
         dragState = 0;
     }
     
-    private static var dragState : Int = 0;
-    private static var dragPosX : Float = 0;
-    private static var dragPosY : Float = 0;
+    public static var dragState : Int = 0;
+    public static var dragPosX : Float = 0;
+    public static var dragPosY : Float = 0;
     
-    private static var buttonClickedThisUpdate : Bool;
+    public static var buttonClickedThisUpdate : Bool;
     
-    private static function UpdateControl()
+    public static function UpdateControl()
     {
         buttonClickedThisUpdate = false;
     }
     
-    private static function DoOnClickedControl()
+    public static function DoOnClickedControl()
     {
         var curs : String = "pointer";
         
@@ -2496,7 +2493,7 @@ class Game
     }
     
     
-    private static function HitTestGOLine(go : GameObj, mx : Int, my : Int) : Bool
+    public static function HitTestGOLine(go : GameObj, mx : Int, my : Int) : Bool
     {
         var x : Float = Math.round(go.xpos);
         var y : Float = Math.round(go.ypos);
@@ -2504,7 +2501,7 @@ class Game
         y -= Math.round(Game.camera.y);
         var sx : Float = Math.round(Game.camera.x);
         var sy : Float = Math.round(Game.camera.y);
-        var newpoints : Array<Dynamic> = new Array<Dynamic>();
+        var newpoints : Array<Dynamic> = [];
         
         var p0 : Point;
         
@@ -2679,27 +2676,27 @@ class Game
         return place;
     }
     
-    private static var ballpath_grav : Float = 0.1;
-    private static var ballpath_mult : Float = 0.07300000000000005;
-    private static var renderBallPathTimer : Float = 0;
-    private static var ballpath_dx : Float;
-    private static var ballpath_dy : Float;
-    private static var ballpath_mass : Float;
-    private static var ballpath_scaler : Float = 1;
-    private static var ballpath_doit : Bool;
+    public static var ballpath_grav : Float = 0.1;
+    public static var ballpath_mult : Float = 0.07300000000000005;
+    public static var renderBallPathTimer : Float = 0;
+    public static var ballpath_dx : Float;
+    public static var ballpath_dy : Float;
+    public static var ballpath_mass : Float;
+    public static var ballpath_scaler : Float = 1;
+    public static var ballpath_doit : Bool;
     
-    private static var prevBallPath_dx : Float;
-    private static var prevBallPath_dy : Float;
-    private static var prevBallPath_x : Float;
-    private static var prevBallPath_y : Float;
-    private static var prevBallPath_doIt : Bool;
+    public static var prevBallPath_dx : Float;
+    public static var prevBallPath_dy : Float;
+    public static var prevBallPath_x : Float;
+    public static var prevBallPath_y : Float;
+    public static var prevBallPath_doIt : Bool;
     
-    private static function InitBallPathForLevel()
+    public static function InitBallPathForLevel()
     {
         prevBallPath_doIt = false;
     }
     
-    private static function RenderPreviousBallPath(bd : BitmapData)
+    public static function RenderPreviousBallPath(bd : BitmapData)
     {
         if (prevBallPath_doIt == false)
         {
@@ -2776,10 +2773,10 @@ class Game
         bd.draw(fillScreenMC, null, null, null, null, false);
     }
     
-    private static var positions : Array<Dynamic> = new Array<Dynamic>();
-    private static function RenderBallPath_calcPositions(_x : Float, _y : Float)
+    public static var positions : Array<Dynamic> = [];
+    public static function RenderBallPath_calcPositions(_x : Float, _y : Float)
     {
-        positions = new Array<Dynamic>();
+        positions = [];
         
         
         var v1 : Point = new Point(0, 0);
@@ -2810,7 +2807,7 @@ class Game
             v.y = v1.y;
         }
     }
-    private static function RenderBallPath(bd : BitmapData, _x : Float, _y : Float, _dx : Float, _dy : Float)
+    public static function RenderBallPath(bd : BitmapData, _x : Float, _y : Float, _dx : Float, _dy : Float)
     {
         if (ballpath_doit == false)
         {
@@ -2839,7 +2836,7 @@ class Game
         bd.draw(fillScreenMC, null, null, null, null, false);
     }
     
-    private static function RenderBallPathOld(bd : BitmapData, _x : Float, _y : Float, _dx : Float, _dy : Float)
+    public static function RenderBallPathOld(bd : BitmapData, _x : Float, _y : Float, _dx : Float, _dy : Float)
     {
         if (ballpath_doit == false)
         {
@@ -2942,7 +2939,7 @@ class Game
     public function new()
     {
     }
-    private static var Game_static_initializer = {
+    public static var Game_static_initializer = {
         if (false)
         {
             doWalkthrough = true;

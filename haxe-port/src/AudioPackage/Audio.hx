@@ -18,15 +18,15 @@ import org.flashdevelop.utils.FlashConnect;
 	 */
 class Audio
 {
-    private static var soundDefs : Array<SoundEffectDef>;
-    private static var activeSounds : Array<ActiveSoundEffectItem>;
+    public static var soundDefs : Array<SoundEffectDef>;
+    public static var activeSounds : Array<ActiveSoundEffectItem>;
     
-    private static var muteSFX : Bool;
-    private static var muteMusic : Bool;
+    public static var muteSFX : Bool;
+    public static var muteMusic : Bool;
     
-    private static var soundAllowed : Bool;
+    public static var soundAllowed : Bool;
     
-    private static var isInitialised : Bool = false;
+    public static var isInitialised : Bool = false;
     
     
     public function new()
@@ -49,8 +49,8 @@ class Audio
             muteMusic = true;
         }
         
-        soundDefs = new Array<SoundEffectDef>();
-        activeSounds = new Array<ActiveSoundEffectItem>();
+        soundDefs = [];
+        activeSounds = [];
         for (i in 0...32)
         {
             activeSounds.push(new ActiveSoundEffectItem());
@@ -113,7 +113,7 @@ class Audio
     }
     
     
-    private static function GetSoundDefByName(name : String)
+    public static function GetSoundDefByName(name : String)
     {
         for (def in soundDefs)
         {
@@ -126,7 +126,7 @@ class Audio
     }
     
     
-    private static function AddSound(_soundName : String) : SoundEffectDef
+    public static function AddSound(_soundName : String) : SoundEffectDef
     {
         var classRef : Class<Dynamic>;
         
@@ -158,7 +158,7 @@ class Audio
     }
     
     
-    private static function GetFreeActiveSound() : ActiveSoundEffectItem
+    public static function GetFreeActiveSound() : ActiveSoundEffectItem
     {
         for (act in activeSounds)
         {
@@ -171,7 +171,7 @@ class Audio
         return null;
     }
     
-    private static function GetActiveMusic() : ActiveSoundEffectItem
+    public static function GetActiveMusic() : ActiveSoundEffectItem
     {
         for (act in activeSounds)
         {
@@ -184,7 +184,7 @@ class Audio
     }
     
     
-    private static function GetActiveSoundByName(_name : String) : ActiveSoundEffectItem
+    public static function GetActiveSoundByName(_name : String) : ActiveSoundEffectItem
     {
         for (act in activeSounds)
         {
@@ -217,7 +217,7 @@ class Audio
     }
     
     
-    private static function SetCurrentMusicToFadeOut()
+    public static function SetCurrentMusicToFadeOut()
     {
         for (act in activeSounds)
         {
@@ -265,7 +265,7 @@ class Audio
             var st : SoundTransform = new SoundTransform();
             st.volume = volume;
             st.pan = 0;
-            var sc : SoundChannel = def.flashSound.play(0, 9999999999, st);
+            var sc : SoundChannel = def.flashSound.play(0, Std.int(9999999999), st);
             act.StartMusic(name, sc);
         }
     }
@@ -432,11 +432,11 @@ class Audio
     
     
     
-    private static var loadedMP3 : Sound;
-    private static var loadedSoundChannel : SoundChannel;
-    private static var playingLocalFileCallback : Function;
+    public static var loadedMP3 : Sound;
+    public static var loadedSoundChannel : SoundChannel;
+    public static var playingLocalFileCallback : Function;
     public static var playingLocalFile : Bool;
-    private static var fr : FileReference;
+    public static var fr : FileReference;
     
     public static function StopLocalFilePlayback()
     {
@@ -466,9 +466,9 @@ class Audio
         var loader : URLLoader = new URLLoader();
         fr.addEventListener(Event.SELECT, selectHandler);
         fr.addEventListener(Event.CANCEL, cancelHandler);
-        fr.browse(new Array<Dynamic>(ff));
+        fr.browse([ff]);
     }
-    private static function cancelHandler(e : Event)
+    public static function cancelHandler(e : Event)
     {
         FlashConnect.trace("cancelled");
         if (playingLocalFileCallback != null)
@@ -476,14 +476,14 @@ class Audio
             playingLocalFileCallback();
         }
     }
-    private static function selectHandler(e : Event)
+    public static function selectHandler(e : Event)
     {
         var frl : MP3FileReferenceLoader = new MP3FileReferenceLoader();
         
         frl.addEventListener(MP3SoundEvent.COMPLETE, MP3Loaded);
         frl.getSound(fr);
     }
-    private static function MP3Loaded(e : MP3SoundEvent)
+    public static function MP3Loaded(e : MP3SoundEvent)
     {
         StopAllMusic();
         StopLocalFilePlayback();
@@ -500,7 +500,7 @@ class Audio
             playingLocalFileCallback();
         }
     }
-    private static function onLoadError(e : Event)
+    public static function onLoadError(e : Event)
     {
         FlashConnect.trace("load error");
         if (playingLocalFileCallback != null)
@@ -508,7 +508,7 @@ class Audio
             playingLocalFileCallback();
         }
     }
-    private static function completeHandler(e : Event)
+    public static function completeHandler(e : Event)
     {
         FlashConnect.trace("complete handler");
         if (playingLocalFileCallback != null)

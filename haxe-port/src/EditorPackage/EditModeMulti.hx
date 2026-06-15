@@ -20,7 +20,7 @@ class EditModeMulti extends EditModeBase
     public var selectedObjects : Array<EditableObjectBase>;
     public var hoveredObj : EditableObjectBase;
     
-    private var selectedParameters : ObjParameters;
+    public var selectedParameters : ObjParameters;
     
     public function AfterUndo()
     {
@@ -46,7 +46,7 @@ class EditModeMulti extends EditModeBase
         EditParams.AddParameterListBox(selectedParameters, ParameterChanged);
     }
     
-    private function SetSelectedParameters()
+    public function SetSelectedParameters()
     {
         if (selectedObjects.length == 0)
         {
@@ -66,25 +66,25 @@ class EditModeMulti extends EditModeBase
         }
     }
     
-    private function SelectAll(updateParameters : Bool = true)
+    public function SelectAll(updateParameters : Bool = true)
     {
-        selectedObjects = new Array<EditableObjectBase>();
+        selectedObjects = [];
         var a : Array<Dynamic> = PhysEditor.GetAllObjectsList();
         for (eo in a)
         {
             AddToSelected(eo, updateParameters);
         }
     }
-    private function ClearSelected()
+    public function ClearSelected()
     {
-        selectedObjects = new Array<EditableObjectBase>();
+        selectedObjects = [];
         EditParams.ClearParameterListBox();
     }
     
     
     
     
-    private function SetAllLevelsAllObjectsDefaultGameLayers()
+    public function SetAllLevelsAllObjectsDefaultGameLayers()
     {
         Utils.print("SetAllLevelsAllObjectsDefaultGameLayers");
         var oldCurrentLevel : Int = Levels.currentIndex;
@@ -103,7 +103,7 @@ class EditModeMulti extends EditModeBase
         Levels.currentIndex = oldCurrentLevel;
         PhysEditor.currentLevel = oldCurrentLevel1;
     }
-    private function SetDefaultGameLayers()
+    public function SetDefaultGameLayers()
     {
         for (eo in selectedObjects)
         {
@@ -134,7 +134,7 @@ class EditModeMulti extends EditModeBase
     }
     
     
-    private function AddToSelected(obj : EditableObjectBase, updateParameters : Bool = true)
+    public function AddToSelected(obj : EditableObjectBase, updateParameters : Bool = true)
     {
         if (obj == null)
         {
@@ -150,7 +150,7 @@ class EditModeMulti extends EditModeBase
             SetSelectedParameters();
         }
     }
-    private function RemoveFromSelected(obj : EditableObjectBase)
+    public function RemoveFromSelected(obj : EditableObjectBase)
     {
         if (obj == null)
         {
@@ -163,7 +163,7 @@ class EditModeMulti extends EditModeBase
         }
         SetSelectedParameters();
     }
-    private function IsInSelectedList(obj : EditableObjectBase) : Bool
+    public function IsInSelectedList(obj : EditableObjectBase) : Bool
     {
         if (obj == null)
         {
@@ -173,7 +173,7 @@ class EditModeMulti extends EditModeBase
         return (a != -1);
     }
     
-    private function ToggleSelected(obj : EditableObjectBase)
+    public function ToggleSelected(obj : EditableObjectBase)
     {
         if (obj == null)
         {
@@ -195,7 +195,7 @@ class EditModeMulti extends EditModeBase
     }
     override public function InitOnce() : Void
     {
-        selectedObjects = new Array<EditableObjectBase>();
+        selectedObjects = [];
         hoveredObj = null;
     }
     override public function EnterMode() : Void
@@ -204,14 +204,14 @@ class EditModeMulti extends EditModeBase
         PhysEditor.CursorText_Set("");
         SetSubMode("null");
         
-        selectedObjects = new Array<EditableObjectBase>();
+        selectedObjects = [];
         hoveredObj = null;
     }
     
-    private var dragRot_WorldCentreX : Float;
-    private var dragRot_CentreX : Float;
-    private var dragRot_WorldCentreY : Float;
-    private var dragRot_CentreY : Float;
+    public var dragRot_WorldCentreX : Float;
+    public var dragRot_CentreX : Float;
+    public var dragRot_WorldCentreY : Float;
+    public var dragRot_CentreY : Float;
     
     override public function OnMouseDown(e : MouseEvent) : Void
     {
@@ -249,7 +249,7 @@ class EditModeMulti extends EditModeBase
         }
     }
     
-    private function SelectInDragBox(updateParameters : Bool = true)
+    public function SelectInDragBox(updateParameters : Bool = true)
     {
         var eob : EdObj;
         var r : Rectangle = GetDragRectangle();
@@ -319,7 +319,7 @@ class EditModeMulti extends EditModeBase
         }
     }
     
-    private function getClass(obj : Dynamic) : Class<Dynamic>
+    public function getClass(obj : Dynamic) : Class<Dynamic>
     {
         return Class(Type.resolveClass(Type.getClassName(obj)));
     }
@@ -402,8 +402,8 @@ class EditModeMulti extends EditModeBase
         }
     }
     
-    private var drag_mouseX : Float = 0;
-    private var drag_mouseY : Float = 0;
+    public var drag_mouseX : Float = 0;
+    public var drag_mouseY : Float = 0;
     
     override public function Render(bd : BitmapData) : Void
     {
@@ -467,8 +467,8 @@ class EditModeMulti extends EditModeBase
         return y;
     }
     
-    private var subMode : String;
-    private function SetSubMode(s : String)
+    public var subMode : String;
+    public function SetSubMode(s : String)
     {
         subMode = s;
         
@@ -493,7 +493,7 @@ class EditModeMulti extends EditModeBase
         }
     }
     
-    private function GetDragRectangle() : Rectangle
+    public function GetDragRectangle() : Rectangle
     {
         var x0 : Int = dragRectX0;
         var x1 : Int = dragRectX1;
@@ -514,7 +514,7 @@ class EditModeMulti extends EditModeBase
         return r;
     }
     
-    private function DeleteSelectedObjects()
+    public function DeleteSelectedObjects()
     {
         for (obj in selectedObjects)
         {
@@ -534,13 +534,13 @@ class EditModeMulti extends EditModeBase
         ClearSelected();
         hoveredObj = null;
     }
-    private function DuplicateSelectedObjects()
+    public function DuplicateSelectedObjects()
     {
-        var paramsToChange : Array<Dynamic> = new Array<Dynamic>();
+        var paramsToChange : Array<Dynamic> = [];
         
         PhysEditor.ClearAllPreviousIDs();
         
-        var a : Array<Dynamic> = new Array<Dynamic>();
+        var a : Array<Dynamic> = [];
         for (obj in selectedObjects)
         {
             var obj1 : EditableObjectBase = obj.Duplicate();

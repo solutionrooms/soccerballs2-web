@@ -48,12 +48,12 @@ class EditModeAdjust extends EditModeBase
     }
     
     
-    private function PickSinglePlacementObject(obj : EdPlacementObj)
+    public function PickSinglePlacementObject(obj : EdPlacementObj)
     {
         currentPlacementObject = obj;
     }
     
-    private function SelectEditObject(poi : EdObj)
+    public function SelectEditObject(poi : EdObj)
     {
         if (poi != null)
         {
@@ -350,10 +350,10 @@ class EditModeAdjust extends EditModeBase
         }
     }
     
-    private var keypressModes : Array<Dynamic>;
-    private function InitKeypressModes()
+    public var keypressModes : Array<Dynamic>;
+    public function InitKeypressModes()
     {
-        keypressModes = new Array<Dynamic>();
+        keypressModes = [];
         keypressModes.push(new EditSubModeData("null", false, 0, ""));
         keypressModes.push(new EditSubModeData("place", true, 0, "Place Object"));
         keypressModes.push(new EditSubModeData("place_scale", true, KeyReader.KEY_S, "Drag to Scale Place Object"));
@@ -370,7 +370,7 @@ class EditModeAdjust extends EditModeBase
         keypressModes.push(new EditSubModeData("pasteparams", false, KeyReader.KEY_V, ""));
     }
     
-    private function SetCursorTextFromKeypressName(modeName : String)
+    public function SetCursorTextFromKeypressName(modeName : String)
     {
         for (mode in keypressModes)
         {
@@ -384,7 +384,7 @@ class EditModeAdjust extends EditModeBase
         }
     }
     
-    private function HandleKeypressModifier(modeName : String, func : Function = null)
+    public function HandleKeypressModifier(modeName : String, func : Function = null)
     {
         for (mode in keypressModes)
         {
@@ -408,7 +408,7 @@ class EditModeAdjust extends EditModeBase
             }
         }
     }
-    private function HandleKeypressModifierNotHeld(modeName : String, newMode : String)
+    public function HandleKeypressModifierNotHeld(modeName : String, newMode : String)
     {
         for (mode in keypressModes)
         {
@@ -423,7 +423,7 @@ class EditModeAdjust extends EditModeBase
     }
     
     
-    private function HandleKeypress(modeName : String, held : Bool, func : Function = null)
+    public function HandleKeypress(modeName : String, held : Bool, func : Function = null)
     {
         for (mode in keypressModes)
         {
@@ -524,7 +524,7 @@ class EditModeAdjust extends EditModeBase
             {
                 PhysEditor.RemoveEverything();
             }
-            PhysEditor.GetCurrentLevel().instances = new Array<Dynamic>();
+            PhysEditor.GetCurrentLevel().instances = [];
         }
         
         
@@ -665,7 +665,7 @@ class EditModeAdjust extends EditModeBase
         }
     }
     
-    private function AddCurrentPlacementObject(amt : Int)
+    public function AddCurrentPlacementObject(amt : Int)
     {
         if (amt < 0)
         {
@@ -689,8 +689,8 @@ class EditModeAdjust extends EditModeBase
         }
     }
     
-    private var copiedParameters : ObjParameters = null;
-    private function CopyParameters()
+    public var copiedParameters : ObjParameters = null;
+    public function CopyParameters()
     {
         if (currentAdjustObject != null)
         {
@@ -698,7 +698,7 @@ class EditModeAdjust extends EditModeBase
             EdConsole.Add("Copy Parameters");
         }
     }
-    private function PasteParameters()
+    public function PasteParameters()
     {
         if (copiedParameters == null)
         {
@@ -832,7 +832,7 @@ class EditModeAdjust extends EditModeBase
     
     
     
-    private function Editor_RenderObjects_AdjustMode(bd : BitmapData)
+    public function Editor_RenderObjects_AdjustMode(bd : BitmapData)
     {
         var level_instances : Array<Dynamic> = GetCurrentLevelInstances();
         
@@ -878,7 +878,7 @@ class EditModeAdjust extends EditModeBase
     
     
     
-    private function GetDragRectangle() : Rectangle
+    public function GetDragRectangle() : Rectangle
     {
         var x0 : Int = dragRectX0;
         var x1 : Int = dragRectX1;
@@ -899,12 +899,12 @@ class EditModeAdjust extends EditModeBase
     }
     
     
-    private function ClearCurrentAdjustObject()
+    public function ClearCurrentAdjustObject()
     {
         currentAdjustObject = null;
     }
     
-    private function CurrentAdjustObject_EnterID()
+    public function CurrentAdjustObject_EnterID()
     {
         if (currentAdjustObject == null)
         {
@@ -912,20 +912,20 @@ class EditModeAdjust extends EditModeBase
         }
         PhysEditor.AddTextEntry(100, 100, "object ID ", currentAdjustObject.id, CurrentAdjustObject_EnterID_Done);
     }
-    private function CurrentAdjustObject_EnterID_Done(text : String)
+    public function CurrentAdjustObject_EnterID_Done(text : String)
     {
         Utils.print("here " + text);
         currentAdjustObject.id = text;
     }
     
-    private var subMode : String;
-    private function SetSubMode(s : String)
+    public var subMode : String;
+    public function SetSubMode(s : String)
     {
         subMode = s;
         SetCursorTextFromKeypressName(s);
     }
     
-    private function PickObject()
+    public function PickObject()
     {
         var poi : EdObj;
         
@@ -949,7 +949,7 @@ class EditModeAdjust extends EditModeBase
         }
     }
     
-    private function PickEditPiece()
+    public function PickEditPiece()
     {
         var poi : EdObj;
         
@@ -958,7 +958,7 @@ class EditModeAdjust extends EditModeBase
         SetSubMode("edit");
     }
     
-    private function DeleteEditObject()
+    public function DeleteEditObject()
     {
         if (currentAdjustObject == null)
         {
@@ -972,7 +972,7 @@ class EditModeAdjust extends EditModeBase
         PickSinglePlacementObject(null);
     }
     
-    private function DuplicateEditObject()
+    public function DuplicateEditObject()
     {
         if (currentAdjustObject == null)
         {
@@ -994,7 +994,7 @@ class EditModeAdjust extends EditModeBase
         PickSinglePlacementObject(null);
     }
     
-    private function SetCurrentPlacementObjectPosition()
+    public function SetCurrentPlacementObjectPosition()
     {
         if (currentPlacementObject != null)
         {

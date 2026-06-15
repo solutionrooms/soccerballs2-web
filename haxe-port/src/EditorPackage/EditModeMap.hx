@@ -11,12 +11,12 @@ import flash.geom.Rectangle;
 	 */
 class EditModeMap extends EditModeBase
 {
-    private var mapper_transparency : Int = 5;
-    private var mapper_currentCell : Int = 1;
-    private var mapper_brushType : Int = 0;
-    private var brushes : Array<Dynamic>;
-    private var mapCols : Array<Dynamic>;
-    private var mapColNames : Array<Dynamic>;
+    public var mapper_transparency : Int = 5;
+    public var mapper_currentCell : Int = 1;
+    public var mapper_brushType : Int = 0;
+    public var brushes : Array<Dynamic>;
+    public var mapCols : Array<Dynamic>;
+    public var mapColNames : Array<Dynamic>;
     
     public function new()
     {
@@ -24,8 +24,8 @@ class EditModeMap extends EditModeBase
     }
     override public function InitOnce() : Void
     {
-        mapCols = new Array<Dynamic>();
-        mapColNames = new Array<Dynamic>();
+        mapCols = [];
+        mapColNames = [];
         mapCols.push(0);
         
         mapColNames.push("blank");
@@ -47,20 +47,20 @@ class EditModeMap extends EditModeBase
         mapColNames.push("undefined");
         
         var brush : Array<Dynamic>;
-        brushes = new Array<Dynamic>();
+        brushes = [];
         
-        brush = new Array<Dynamic>();
+        brush = [];
         brush.push(new Point(0, 0));
         brushes.push(brush);
         
-        brush = new Array<Dynamic>();
+        brush = [];
         brush.push(new Point(0, 0));
         brush.push(new Point(1, 0));
         brush.push(new Point(0, 1));
         brush.push(new Point(1, 1));
         brushes.push(brush);
         
-        brush = new Array<Dynamic>();
+        brush = [];
         brush.push(new Point(0, 0));
         brush.push(new Point(-1, 0));
         brush.push(new Point(1, 0));
@@ -68,7 +68,7 @@ class EditModeMap extends EditModeBase
         brush.push(new Point(0, -1));
         brushes.push(brush);
         
-        brush = new Array<Dynamic>();
+        brush = [];
         brush.push(new Point(-1, 0));
         brush.push(new Point(0, 0));
         brush.push(new Point(1, 0));
@@ -177,7 +177,7 @@ class EditModeMap extends EditModeBase
     
     
     
-    private function mapper_ExpandMap(mx : Int, my : Int)
+    public function mapper_ExpandMap(mx : Int, my : Int)
     {
         var newMap : Array<Dynamic>;
         var l : Level = GetCurrentLevel();
@@ -223,7 +223,7 @@ class EditModeMap extends EditModeBase
         var oldW : Int = as3hx.Compat.parseInt((l.mapMaxX - l.mapMinX) + 1);
         var oldH : Int = as3hx.Compat.parseInt((l.mapMaxY - l.mapMinY) + 1);
         
-        newMap = new Array<Dynamic>(newW * newH);
+        newMap = [];
         for (i in 0...newW * newH)
         {
             newMap[i] = 0;
@@ -250,7 +250,7 @@ class EditModeMap extends EditModeBase
     }
     
     
-    private function Mapper_IncCurrentCell()
+    public function Mapper_IncCurrentCell()
     {
         mapper_currentCell++;
         if (mapper_currentCell >= mapCols.length)
@@ -258,7 +258,7 @@ class EditModeMap extends EditModeBase
             mapper_currentCell = 0;
         }
     }
-    private function Mapper_CycleTransparency()
+    public function Mapper_CycleTransparency()
     {
         mapper_transparency++;
         if (mapper_transparency >= 6)
@@ -266,7 +266,7 @@ class EditModeMap extends EditModeBase
             mapper_transparency = 0;
         }
     }
-    private function Mapper_CycleBrush()
+    public function Mapper_CycleBrush()
     {
         mapper_brushType++;
         if (mapper_brushType >= brushes.length)
@@ -274,7 +274,7 @@ class EditModeMap extends EditModeBase
             mapper_brushType = 0;
         }
     }
-    private function Mapper_DecCurrentCell()
+    public function Mapper_DecCurrentCell()
     {
         mapper_currentCell--;
         if (mapper_currentCell < 0)
@@ -284,12 +284,12 @@ class EditModeMap extends EditModeBase
     }
     
     
-    private var fillList : Array<Dynamic>;
-    private var fillList1 : Array<Dynamic>;
+    public var fillList : Array<Dynamic>;
+    public var fillList1 : Array<Dynamic>;
     
-    private var fillOrigCell : Int;
+    public var fillOrigCell : Int;
     
-    private function Mapper_Fill(cellID : Int)
+    public function Mapper_Fill(cellID : Int)
     {
         var l : Level = GetCurrentLevel();
         var mx : Int = MouseControl.x;
@@ -299,7 +299,7 @@ class EditModeMap extends EditModeBase
         mx /= l.mapCellW;
         my /= l.mapCellH;
         
-        fillList = new Array<Dynamic>();
+        fillList = [];
         
         fillOrigCell = Mapper_GetCell(mx, my);
         
@@ -313,7 +313,7 @@ class EditModeMap extends EditModeBase
         
         do
         {
-            fillList1 = new Array<Dynamic>();
+            fillList1 = [];
             for (o in fillList)
             {
                 Mapper_PutFillCell(o.x - 1, o.y, cellID, fillList1);
@@ -333,7 +333,7 @@ class EditModeMap extends EditModeBase
         while ((done == false));
     }
     
-    private function Mapper_PutFillCell(mx : Int, my : Int, cellID : Int, fl : Array<Dynamic>)
+    public function Mapper_PutFillCell(mx : Int, my : Int, cellID : Int, fl : Array<Dynamic>)
     {
         var l : Level = GetCurrentLevel();
         if (mx < l.mapMinX)
@@ -378,7 +378,7 @@ class EditModeMap extends EditModeBase
         fl.push(o);
     }
     
-    private function Mapper_GetCell(mx : Int, my : Int) : Int
+    public function Mapper_GetCell(mx : Int, my : Int) : Int
     {
         var l : Level = GetCurrentLevel();
         var oldW : Int = as3hx.Compat.parseInt((l.mapMaxX - l.mapMinX) + 1);
@@ -386,7 +386,7 @@ class EditModeMap extends EditModeBase
         my -= l.mapMinY;
         return l.map[mx + (my * oldW)];
     }
-    private function Mapper_PutCell(mx : Int, my : Int, cellID : Int)
+    public function Mapper_PutCell(mx : Int, my : Int, cellID : Int)
     {
         var l : Level = GetCurrentLevel();
         var oldW : Int = as3hx.Compat.parseInt((l.mapMaxX - l.mapMinX) + 1);
@@ -397,7 +397,7 @@ class EditModeMap extends EditModeBase
     
     
     
-    private function Mapper_PlotCell(cellID : Int)
+    public function Mapper_PlotCell(cellID : Int)
     {
         var brush : Array<Dynamic> = brushes[mapper_brushType];
         
@@ -430,7 +430,7 @@ class EditModeMap extends EditModeBase
         }
     }
     
-    private function Mapper_RenderMap()
+    public function Mapper_RenderMap()
     {
         if (mapper_transparency == 0)
         {
@@ -466,7 +466,7 @@ class EditModeMap extends EditModeBase
     }
     
     
-    private function Mapper_RenderCursor()
+    public function Mapper_RenderCursor()
     {
         var l : Level = GetCurrentLevel();
         var brush : Array<Dynamic> = brushes[mapper_brushType];

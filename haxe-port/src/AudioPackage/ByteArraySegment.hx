@@ -30,7 +30,7 @@ class ByteArraySegment
     public var length : Int;
     public var byteArray : ByteArray;
     @:allow(audioPackage)
-    private function new(ba : ByteArray, start : Int, length : Int)
+    public function new(ba : ByteArray, start : Int, length : Int)
     {
         byteArray = ba;
         this.start = start;

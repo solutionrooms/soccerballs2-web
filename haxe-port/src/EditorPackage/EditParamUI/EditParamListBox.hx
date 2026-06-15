@@ -14,9 +14,9 @@ import flash.events.TextEvent;
 	 */
 class EditParamListBox extends MovieClip
 {
-    private var objParameters : ObjParameters;
-    private var items : Array<Dynamic>;
-    private var closed_function : Function;
+    public var objParameters : ObjParameters;
+    public var items : Array<Dynamic>;
+    public var closed_function : Function;
     
     public function new()
     {
@@ -39,10 +39,10 @@ class EditParamListBox extends MovieClip
 			addChild(bg);
 			*/
         
-        items = new Array<Dynamic>();
+        items = [];
     }
     
-    private function TextInputKeyDown(e : KeyboardEvent)
+    public function TextInputKeyDown(e : KeyboardEvent)
     {
         var code : Int = e.keyCode;
         if (code == KeyReader.KEY_ESCAPE)
@@ -55,7 +55,7 @@ class EditParamListBox extends MovieClip
         }
     }
     
-    private function PreventPropogationHandler(e : MouseEvent)
+    public function PreventPropogationHandler(e : MouseEvent)
     {
         e.stopImmediatePropagation();
     }
@@ -67,7 +67,7 @@ class EditParamListBox extends MovieClip
     }
     public function SetParameters(_objParameters : ObjParameters)
     {
-        items = new Array<Dynamic>();
+        items = [];
         objParameters = _objParameters;
         
         var y : Int = 0;

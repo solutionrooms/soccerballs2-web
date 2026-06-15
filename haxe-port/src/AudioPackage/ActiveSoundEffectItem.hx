@@ -13,16 +13,16 @@ class ActiveSoundEffectItem
 {
     
     
-    private var active : Bool;
-    private var sc : SoundChannel;
-    private var name : String;
-    private var st : SoundTransform;
-    private var volume : Float;
-    private var isMusic : Bool;
-    private var isPitchControl : Bool;
-    private var fadeVel : Float = 0;
-    private var fadeLevel : Float = 1;
-    private var pitchControl : PitchControl = null;
+    public var active : Bool;
+    public var sc : SoundChannel;
+    public var name : String;
+    public var st : SoundTransform;
+    public var volume : Float;
+    public var isMusic : Bool;
+    public var isPitchControl : Bool;
+    public var fadeVel : Float = 0;
+    public var fadeLevel : Float = 1;
+    public var pitchControl : PitchControl = null;
     
     public function new()
     {
@@ -101,12 +101,12 @@ class ActiveSoundEffectItem
     }
     
     
-    private function soundCompleteHandler(e : Event)
+    public function soundCompleteHandler(e : Event)
     {
         Stop();
     }
     
-    private function Stop()
+    public function Stop()
     {
         if (active)
         {
@@ -128,7 +128,7 @@ class ActiveSoundEffectItem
             name = "";
         }
     }
-    private function Mute()
+    public function Mute()
     {
         st = sc.soundTransform;
         volume = st.volume;
@@ -141,7 +141,7 @@ class ActiveSoundEffectItem
         }
     }
     
-    private function UnMute()
+    public function UnMute()
     {
         st = sc.soundTransform;
         st.volume = volume;
@@ -153,7 +153,7 @@ class ActiveSoundEffectItem
         }
     }
     
-    private function UpdateVolume()
+    public function UpdateVolume()
     {
         if (isPitchControl)
         {
@@ -166,7 +166,7 @@ class ActiveSoundEffectItem
             sc.soundTransform = st;
         }
     }
-    private function SetVolume(_volume : Float)
+    public function SetVolume(_volume : Float)
     {
         st = sc.soundTransform;
         volume = _volume;
@@ -182,18 +182,18 @@ class ActiveSoundEffectItem
         }
     }
     
-    private function SetPan(pan : Float)
+    public function SetPan(pan : Float)
     {
         st = sc.soundTransform;
         st.pan = pan;
         sc.soundTransform = st;
     }
     
-    private function StartFadeOut()
+    public function StartFadeOut()
     {
         fadeVel = -0.05;
     }
-    private function StartFadeIn()
+    public function StartFadeIn()
     {
         fadeVel = 0.05;
     }

@@ -109,7 +109,7 @@ class GameObjBase
     
     public var isPolyObject : Bool;
     public var polyMaterial : PolyMaterial;
-    private var clickTestType : Int;
+    public var clickTestType : Int;
     
     public var radius : Float;
     public var colOffsetX : Float;
@@ -117,9 +117,9 @@ class GameObjBase
     
     public var movementVec : Vec;
     public var driveVec : Vec;
-    private var initParams : String;
-    private var initFunctionVarString : String;
-    private var linkedPhysLine : EdLine;
+    public var initParams : String;
+    public var initFunctionVarString : String;
+    public var linkedPhysLine : EdLine;
     
     public var useMultiplePhysicsUpdates : Bool;
     
@@ -132,69 +132,69 @@ class GameObjBase
     public var origspeed : Float;
     public var count : Int;
     public var hitTimer : Float;
-    private var minFrame : Int;
-    private var maxFrame : Int;
-    private var rotVel : Float;
-    private var dist : Float;
-    private var flashTimer : Int;
-    private var flashTimerMax : Int;
-    private var flashFlag : Bool;
-    private var xflip : Bool;
-    private var healthBarTimer : Int;
-    private var health : Float;
-    private var maxHealth : Float;
+    public var minFrame : Int;
+    public var maxFrame : Int;
+    public var rotVel : Float;
+    public var dist : Float;
+    public var flashTimer : Int;
+    public var flashTimerMax : Int;
+    public var flashFlag : Bool;
+    public var xflip : Bool;
+    public var healthBarTimer : Int;
+    public var health : Float;
+    public var maxHealth : Float;
     
-    private var logicLink0 : GameObj;
-    private var logicLink1 : GameObj;
+    public var logicLink0 : GameObj;
+    public var logicLink1 : GameObj;
     
-    private var path : Poly;
-    private var maxSpeed : Float;
-    private var currentMaxSpeed : Float;
-    private var parentObj : GameObj;
+    public var path : Poly;
+    public var maxSpeed : Float;
+    public var currentMaxSpeed : Float;
+    public var parentObj : GameObj;
     
-    private var updateInWalkthrough : Bool;
-    private var respawnArea : Bool;
-    private var inFrontZone : Poly;
+    public var updateInWalkthrough : Bool;
+    public var respawnArea : Bool;
+    public var inFrontZone : Poly;
     public var name : String;
     public var collisionType : String;
     public var collisionExtra : String;
-    private var scale : Float;
-    private var scale1 : Float;
-    private var uniqueID : Int;
-    private var isPhysObj : Bool;
-    private var alpha : Float;
-    private var alphaVel : Float;
-    private var renderSmooth : Bool;
+    public var scale : Float;
+    public var scale1 : Float;
+    public var uniqueID : Int;
+    public var isPhysObj : Bool;
+    public var alpha : Float;
+    public var alphaVel : Float;
+    public var renderSmooth : Bool;
     
-    private var currentPoly : Poly;
+    public var currentPoly : Poly;
     
-    private var sortByY : Bool;
-    private var isVehicle : Bool;
-    private var soundTimer : Int;
+    public var sortByY : Bool;
+    public var isVehicle : Bool;
+    public var soundTimer : Int;
     
-    private var onHitSceneryFunction : Function;
-    private var onHitExplosionFunction : Function;
-    private var onHitFunction : Function;
-    private var onHitPersistFunction : Function;
-    private var onHitRemoveFunction : Function;
-    private var removeFunction : Function;
-    private var nape_bodies : Array<Body>;
-    private var nape_joints : Array<Constraint>;
-    private var joints : Array<Dynamic>;
-    private var physobj : PhysObj;
-    private var scoreType : String;
-    private var hit_sfx_name : String;
-    private var break_sfx_name : String;
-    private var singleHitResponse : Bool;
+    public var onHitSceneryFunction : Function;
+    public var onHitExplosionFunction : Function;
+    public var onHitFunction : Function;
+    public var onHitPersistFunction : Function;
+    public var onHitRemoveFunction : Function;
+    public var removeFunction : Function;
+    public var nape_bodies : Array<Body>;
+    public var nape_joints : Array<Constraint>;
+    public var joints : Array<Dynamic>;
+    public var physobj : PhysObj;
+    public var scoreType : String;
+    public var hit_sfx_name : String;
+    public var break_sfx_name : String;
+    public var singleHitResponse : Bool;
     
-    private var jointList : Array<Dynamic>;
-    private var hitShapeName : String;
+    public var jointList : Array<Dynamic>;
+    public var hitShapeName : String;
     
-    private var isIndependant : Bool;
+    public var isIndependant : Bool;
     
-    private var s3dTriListIndex : Int;
-    private var m3d : Matrix3D;
-    private var ct : ColorTransform;
+    public var s3dTriListIndex : Int;
+    public var m3d : Matrix3D;
+    public var ct : ColorTransform;
     
     public function new()
     {
@@ -288,7 +288,7 @@ class GameObjBase
         
         clickTestType = 0;
         
-        jointList = new Array<Dynamic>();
+        jointList = [];
         
         physobj = null;
         onHitSceneryFunction = null;
@@ -300,7 +300,7 @@ class GameObjBase
         
         linkedPhysLine = null;
         
-        joints = new Array<Dynamic>();
+        joints = [];
         polyMaterial = null;
         isPolyObject = false;
         respawnArea = false;
@@ -343,7 +343,7 @@ class GameObjBase
     public var colFlag_isGoPhysObj : Bool;
     public var colFlag_isRemovable : Bool;
     
-    private function ClearColFlags()
+    public function ClearColFlags()
     {
         colFlag_jumpon = false;
         colFlag_killPlayer = false;
@@ -371,7 +371,7 @@ class GameObjBase
     
     
     
-    private var bd : BitmapData;
+    public var bd : BitmapData;
     public function Render(_bd : BitmapData) : Void
     {
         bd = _bd;
@@ -416,9 +416,9 @@ class GameObjBase
         }
     }
     
-    private var shadowCT : ColorTransform = new ColorTransform(1, 1, 1, 1, -255, -255, -255, -128);
+    public var shadowCT : ColorTransform = new ColorTransform(1, 1, 1, 1, -255, -255, -255, -128);
     
-    private function RenderDispObjShadow(_useScroll : Bool = true)
+    public function RenderDispObjShadow(_useScroll : Bool = true)
     {
         var xp : Float = Math.round(xpos);
         var yp : Float = Math.round(ypos);
@@ -436,7 +436,7 @@ class GameObjBase
     
     
     
-    private function RenderDispObjNormally(_useScroll : Bool = true)
+    public function RenderDispObjNormally(_useScroll : Bool = true)
     {
         var sc : Float = scale;
         
@@ -488,7 +488,7 @@ class GameObjBase
     }
     
     
-    private function RenderDispObjNormally_Vector(_useScroll : Bool = true)
+    public function RenderDispObjNormally_Vector(_useScroll : Bool = true)
     {
         var sc : Float = scale;
         
@@ -511,7 +511,7 @@ class GameObjBase
     }
     
     
-    private function RenderDO_Vector(_dispObj : DisplayObj, x : Float, y : Float, _frame : Float, _rot : Float, _scale : Float, _useScroll : Bool = true)
+    public function RenderDO_Vector(_dispObj : DisplayObj, x : Float, y : Float, _frame : Float, _rot : Float, _scale : Float, _useScroll : Bool = true)
     {
         var xp : Float = Math.round(x);
         var yp : Float = Math.round(y);
@@ -531,7 +531,7 @@ class GameObjBase
         _dispObj.RenderAtRotScaled_Vector(_frame, bd, xp, yp, _scale, _rot);
     }
     
-    private function RenderDO_VectorSprite(x : Float, y : Float, _dispObj : DisplayObj, _frame : Float, _ct : ColorTransform, _rot : Float, _scale : Float, _useScroll : Bool = true)
+    public function RenderDO_VectorSprite(x : Float, y : Float, _dispObj : DisplayObj, _frame : Float, _ct : ColorTransform, _rot : Float, _scale : Float, _useScroll : Bool = true)
     {
         var xp : Float = Math.round(x);
         var yp : Float = Math.round(y);
@@ -543,7 +543,7 @@ class GameObjBase
         _dispObj.RenderAtRotScaled_VectorSprite(_frame, bd, xp, yp, _scale, _rot);
     }
     
-    private function RenderDispObjNormallyAlpha()
+    public function RenderDispObjNormallyAlpha()
     {
         if (alpha == 1)
         {
@@ -570,7 +570,7 @@ class GameObjBase
     }
     
     
-    private function RenderDispObjAt(_xpos : Float, _ypos : Float, _dobj : DisplayObj, _frame : Int, _ct : ColorTransform = null, _dir : Float = 0, _scale : Float = 1, _useScroll : Bool = true, _doClip : Bool = true)
+    public function RenderDispObjAt(_xpos : Float, _ypos : Float, _dobj : DisplayObj, _frame : Int, _ct : ColorTransform = null, _dir : Float = 0, _scale : Float = 1, _useScroll : Bool = true, _doClip : Bool = true)
     {
         var sc : Float = _scale;
         
@@ -615,7 +615,7 @@ class GameObjBase
         }
     }
     
-    private function RenderCollision() : Void
+    public function RenderCollision() : Void
     {
         if (EngineDebug.IsSet(1) == false)
         {
@@ -646,7 +646,7 @@ class GameObjBase
     
     
     
-    private function IsInWorld(radius : Float) : Bool
+    public function IsInWorld(radius : Float) : Bool
     {
         if (xpos < 0 - radius)
         {
@@ -848,25 +848,25 @@ class GameObjBase
         {
             if (physobj.wakeFunctionName != "")
             {
-                keepAwakeFunction = this[physobj.wakeFunctionName];
+                keepAwakeFunction = Reflect.field(this, physobj.wakeFunctionName);
             }
         }
     }
     
     
     
-    private function KeepAwake_Constant()
+    public function KeepAwake_Constant()
     {
         WakeUp_Nape();
     }
-    private function KeepAwake_ConstantAndNearby()
+    public function KeepAwake_ConstantAndNearby()
     {
         WakeUp_Nape();
         WakeUpNearbyObjects(20);
     }
     
     
-    private function WakeUpNearbyObjects(radius : Int = 50)
+    public function WakeUpNearbyObjects(radius : Int = 50)
     {
         var r2 : Float = radius * radius;
         for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
@@ -884,7 +884,7 @@ class GameObjBase
         }
     }
     
-    private function WakeUp_Nape()
+    public function WakeUp_Nape()
     {
         if (nape_bodies != null)
         {
@@ -895,7 +895,7 @@ class GameObjBase
     }
     
     
-    private function WakeUp_B2D()
+    public function WakeUp_B2D()
     {  /*
 			if (bodies != null)
 			{
@@ -908,7 +908,7 @@ class GameObjBase
         
     }
     
-    private function Sleep_B2D()
+    public function Sleep_B2D()
     {  /*
 			if (bodies != null)
 			{
@@ -921,7 +921,7 @@ class GameObjBase
         
     }
     
-    private function Sleep_Nape()
+    public function Sleep_Nape()
     {
         if (nape_bodies != null)
         {
@@ -940,9 +940,9 @@ class GameObjBase
     
     
     
-    private var switch_timer : Int;
-    private var switchType : String;
-    private function InitGameObj_Switch()
+    public var switch_timer : Int;
+    public var switchType : String;
+    public function InitGameObj_Switch()
     {
         colFlag_isSwitch = true;
         name = "switch";
@@ -977,12 +977,12 @@ class GameObjBase
             frame = dobj.GetFrameIndexLabel("on");
             state = 0;
         }
-        switchContactList = new Array<Dynamic>();
+        switchContactList = [];
     }
     
-    private var switchContactList : Array<Dynamic>;
+    public var switchContactList : Array<Dynamic>;
     
-    private function Switch_IsInContactList(go : GameObj) : Bool
+    public function Switch_IsInContactList(go : GameObj) : Bool
     {
         if (Lambda.indexOf(switchContactList, go) == -1)
         {
@@ -990,16 +990,16 @@ class GameObjBase
         }
         return true;
     }
-    private function Switch_AddToContactList(go : GameObj)
+    public function Switch_AddToContactList(go : GameObj)
     {
         switchContactList.push(go);
     }
-    private function Switch_RemoveFromContactList(go : GameObj)
+    public function Switch_RemoveFromContactList(go : GameObj)
     {
         var index : Int = Lambda.indexOf(switchContactList, go);
         switchContactList.splice(index, 1);
     }
-    private function Switch_IsDown() : Bool
+    public function Switch_IsDown() : Bool
     {
         if (switchType == "once")
         {
@@ -1031,7 +1031,7 @@ class GameObjBase
     
     
     
-    private function SwitchedGameObj_TwoWaySwitch() : Bool
+    public function SwitchedGameObj_TwoWaySwitch() : Bool
     {
         if (state == 0)
         {
@@ -1050,7 +1050,7 @@ class GameObjBase
     
     
     
-    private function UpdateGameObj_TwoWaySwitch()
+    public function UpdateGameObj_TwoWaySwitch()
     {  /*
 			if (controlMode == 0)
 			{
@@ -1067,7 +1067,7 @@ class GameObjBase
     
     
     
-    private function SwitchedGameObj_Switch() : Bool
+    public function SwitchedGameObj_Switch() : Bool
     {
         if (state == 1)
         {
@@ -1085,7 +1085,7 @@ class GameObjBase
     }
     
     
-    private function UpdateGameObj_TimedSwitch()
+    public function UpdateGameObj_TimedSwitch()
     {
         if (state == 1)
         {
@@ -1100,7 +1100,7 @@ class GameObjBase
     
     
     
-    private function SwitchedGameObj_TimedSwitch() : Bool
+    public function SwitchedGameObj_TimedSwitch() : Bool
     {
         var retval : Bool = true;
         
@@ -1119,14 +1119,14 @@ class GameObjBase
     
     
     
-    private function Update_SimpleRotator()
+    public function Update_SimpleRotator()
     {
         dir += rotVel;
         dir = Utils.NormalizeRot(dir);
     }
     
     
-    private function Init_SimpleRotator()
+    public function Init_SimpleRotator()
     {
         Utils.print("Init_SimpleRotator");
         Utils.GetParams(initParams);
@@ -1138,7 +1138,7 @@ class GameObjBase
     
     
     
-    private function Update_PlayAnimList()
+    public function Update_PlayAnimList()
     {
         if (PlayAnimationEx())
         {
@@ -1155,9 +1155,9 @@ class GameObjBase
     }
     
     
-    private var numAnims : Int;
-    private var currentAnim : Int;
-    private function Init_PlayAnimList()
+    public var numAnims : Int;
+    public var currentAnim : Int;
+    public function Init_PlayAnimList()
     {
         Utils.print("Init_PlayAnimList");
         Utils.GetParams(initFunctionVarString);
@@ -1175,7 +1175,7 @@ class GameObjBase
     
     
     
-    private function Set_SwitchedAnim(_mode : Int)
+    public function Set_SwitchedAnim(_mode : Int)
     {
         state = _mode;
         if (state == 0)
@@ -1195,7 +1195,7 @@ class GameObjBase
             SetAnimRange("on_off_start", "on_off_end", true);
         }
     }
-    private function Update_SwitchedAnim()
+    public function Update_SwitchedAnim()
     {
         if (state == 0)
         {
@@ -1221,7 +1221,7 @@ class GameObjBase
         }
     }
     
-    private function SwitchFunction_SwitchedAnim()
+    public function SwitchFunction_SwitchedAnim()
     {
         if (state == 0)
         {
@@ -1247,7 +1247,7 @@ class GameObjBase
         }
     }
     
-    private function Init_SwitchedAnim()
+    public function Init_SwitchedAnim()
     {
         Utils.print("Init SwitchedAnim");
         Utils.GetParams(initParams);
@@ -1269,21 +1269,21 @@ class GameObjBase
     
     
     
-    private var lineLinearPos : Float;
-    private var lineSpeed : Float;
-    private var lineIndex : Int;
-    private var lineLoop : Bool;
-    private var lineResetAtEnd : Bool;
-    private var lineSpline : Bool;
-    private var lineRotateToPath : Bool;
+    public var lineLinearPos : Float;
+    public var lineSpeed : Float;
+    public var lineIndex : Int;
+    public var lineLoop : Bool;
+    public var lineResetAtEnd : Bool;
+    public var lineSpline : Bool;
+    public var lineRotateToPath : Bool;
     
-    private var switchName : String;
-    private var switchName1 : String;
-    
-    
+    public var switchName : String;
+    public var switchName1 : String;
     
     
-    private function InitGameObj_Path()
+    
+    
+    public function InitGameObj_Path()
     {
         Utils.print("Init path object");
         
@@ -1353,7 +1353,7 @@ class GameObjBase
         }
     }
     
-    private function SwitchFunction_Path_2way()
+    public function SwitchFunction_Path_2way()
     {
         if (state == 0)
         {
@@ -1371,7 +1371,7 @@ class GameObjBase
         }
     }
     
-    private function UpdateObj_Path_2way()
+    public function UpdateObj_Path_2way()
     {
         if (lineRotateToPath)
         {
@@ -1405,7 +1405,7 @@ class GameObjBase
         }
     }
     
-    private function UpdateObj_Path_2way_switched()
+    public function UpdateObj_Path_2way_switched()
     {
         if (lineRotateToPath)
         {
@@ -1433,14 +1433,14 @@ class GameObjBase
     }
     
     
-    private function SwitchFunction_Path()
+    public function SwitchFunction_Path()
     {
         if (state == 0)
         {
             state = 1;
         }
     }
-    private function UpdateObj_Path()
+    public function UpdateObj_Path()
     {
         if (lineRotateToPath)
         {
@@ -1473,7 +1473,7 @@ class GameObjBase
             }
         }
     }
-    private function GetLineAngle() : Float
+    public function GetLineAngle() : Float
     {
         var line : EdLine = Levels.GetCurrent().lines[lineIndex];
         if (line == null)
@@ -1497,7 +1497,7 @@ class GameObjBase
         var ang : Float = Math.atan2(p1.y - p0.y, p1.x - p0.x);
         return ang;
     }
-    private function UpdateLine(_spd : Float) : Point
+    public function UpdateLine(_spd : Float) : Point
     {
         lineLinearPos += _spd;
         if (lineLinearPos > 1)
@@ -1556,32 +1556,32 @@ class GameObjBase
     
     
     
-    private function GameObj_InitInvisible() : Void
+    public function GameObj_InitInvisible() : Void
     {
         visible = false;
     }
     
     
-    private function GameObj_InitCycleAnim() : Void
+    public function GameObj_InitCycleAnim() : Void
     {
         updateFunction = GameObj_UpdateCycleAnim;
         frameVel = 1;
     }
-    private function GameObj_UpdateCycleAnim() : Void
+    public function GameObj_UpdateCycleAnim() : Void
     {
         CycleAnimation();
     }
     
-    private function GameObj_UpdateCycleAnimEx() : Void
+    public function GameObj_UpdateCycleAnimEx() : Void
     {
         CycleAnimationEx();
     }
-    private function GameObj_UpdatePlayAnimEx() : Void
+    public function GameObj_UpdatePlayAnimEx() : Void
     {
         CycleAnimationEx();
     }
     
-    private function InitSortByY() : Void
+    public function InitSortByY() : Void
     {
         sortByY = true;
     }
@@ -1590,13 +1590,13 @@ class GameObjBase
     
     
     
-    private function SetAnimRangeSingle(name : Dynamic, reset : Bool = true, _bounce : Bool = false)
+    public function SetAnimRangeSingle(name : Dynamic, reset : Bool = true, _bounce : Bool = false)
     {
         animBouncing = _bounce;
         
         SetAnimRange(name, name + "_end", reset, _bounce);
     }
-    private function SetAnimRange(fr0Name : String, fr1Name : String, reset : Bool = true, _bounce : Bool = false)
+    public function SetAnimRange(fr0Name : String, fr1Name : String, reset : Bool = true, _bounce : Bool = false)
     {
         animBouncing = _bounce;
         minFrame = dobj.GetFrameIndexLabel(fr0Name);
@@ -1616,8 +1616,8 @@ class GameObjBase
     }
     
     
-    private var anims : Array<Dynamic>;
-    private function SetAnim(name : String, reset : Bool = true, _bounce : Bool = false)
+    public var anims : Array<Dynamic>;
+    public function SetAnim(name : String, reset : Bool = true, _bounce : Bool = false)
     {
         dobj = GraphicObjects.GetDisplayObjByName(name);
         minFrame = 0;
@@ -1696,15 +1696,15 @@ class GameObjBase
                 }
             }
         }
-        nape_joints = new Array<Constraint>();
+        nape_joints = [];
         for (b in nape_bodies)
         {
             PhysicsBase.GetNapeSpace().bodies.remove(b);
         }
-        nape_bodies = new Array<Body>();
+        nape_bodies = [];
     }
     
-    private function RemoveObject(_func : Function = null)
+    public function RemoveObject(_func : Function = null)
     {
         if (_func != null)
         {
@@ -1880,16 +1880,16 @@ class GameObjBase
     
     
     
-    private var hitInteractionCallback_Nape : InteractionCallback;
-    private var hitContactPoint_Nape : Contact;
-    private var hitUserData_Nape : Contact;
+    public var hitInteractionCallback_Nape : InteractionCallback;
+    public var hitContactPoint_Nape : Contact;
+    public var hitUserData_Nape : Contact;
     
     
     
     
     
     
-    private function HitPhysObj_HitSwitch(goHitter : GameObj)
+    public function HitPhysObj_HitSwitch(goHitter : GameObj)
     {
         if (goHitter.name != "missile")
         {
@@ -1905,13 +1905,13 @@ class GameObjBase
             }
         }
     }
-    private function InitPhysObj_HitSwitch()
+    public function InitPhysObj_HitSwitch()
     {
         InitPhysObj_Switch();
         onHitFunction = HitPhysObj_HitSwitch;
     }
     
-    private function InitPhysObj_Switch()
+    public function InitPhysObj_Switch()
     {
         Utils.GetParams(initParams);
         
@@ -1943,7 +1943,7 @@ class GameObjBase
         frame = 0;
     }
     
-    private function SwitchedPhysObj_TwoWaySwitch() : Bool
+    public function SwitchedPhysObj_TwoWaySwitch() : Bool
     {
         if (state == 0)
         {
@@ -1955,7 +1955,7 @@ class GameObjBase
     }
     
     
-    private function SwitchedPhysObj_TwoWaySwitch_Anim() : Bool
+    public function SwitchedPhysObj_TwoWaySwitch_Anim() : Bool
     {
         if (state == 0)
         {
@@ -1980,7 +1980,7 @@ class GameObjBase
     
     
     
-    private function UpdatePhysObj_TwoWaySwitch()
+    public function UpdatePhysObj_TwoWaySwitch()
     {
         if (state == 0)
         {
@@ -2000,7 +2000,7 @@ class GameObjBase
     
     
     
-    private function SwitchedPhysObj_Switch() : Bool
+    public function SwitchedPhysObj_Switch() : Bool
     {
         Utils.print("SwitchedPhysObj_Switch");
         
@@ -2018,7 +2018,7 @@ class GameObjBase
     }
     
     
-    private function UpdatePhysObj_SwitchOnce()
+    public function UpdatePhysObj_SwitchOnce()
     {
         if (state == 0)
         {
@@ -2028,7 +2028,7 @@ class GameObjBase
             frame = 1;
         }
     }
-    private function UpdatePhysObj_TimedSwitch()
+    public function UpdatePhysObj_TimedSwitch()
     {
         if (state == 1)
         {
@@ -2043,7 +2043,7 @@ class GameObjBase
     
     
     
-    private function SwitchedPhysObj_TimedSwitch() : Bool
+    public function SwitchedPhysObj_TimedSwitch() : Bool
     {
         var retval : Bool = true;
         
@@ -2062,10 +2062,10 @@ class GameObjBase
     
     
     
-    private var pathSwitchTimer : Int;
-    private var pathSwitchControlMode : Int;
-    private var pathSwitchDoneOnce : Bool;
-    private function InitPhysObj_PathSwitch()
+    public var pathSwitchTimer : Int;
+    public var pathSwitchControlMode : Int;
+    public var pathSwitchDoneOnce : Bool;
+    public function InitPhysObj_PathSwitch()
     {
         InitPhysObj_Path();
         onHitFunction = HitPhysObj_HitSwitch;
@@ -2100,7 +2100,7 @@ class GameObjBase
             updateFunction = UpdatePhysObj_PathSwitch_TwoWay;
         }
     }
-    private function SwitchedPhysObj_PathSwitch_TwoWay() : Bool
+    public function SwitchedPhysObj_PathSwitch_TwoWay() : Bool
     {
         if (pathSwitchControlMode != 0)
         {
@@ -2111,7 +2111,7 @@ class GameObjBase
         
         return true;
     }
-    private function SwitchedPhysObj_PathSwitch_Once() : Bool
+    public function SwitchedPhysObj_PathSwitch_Once() : Bool
     {
         if (pathSwitchDoneOnce)
         {
@@ -2128,7 +2128,7 @@ class GameObjBase
         pathSwitchDoneOnce = true;
         return true;
     }
-    private function UpdatePhysObj_PathSwitch_TwoWay()
+    public function UpdatePhysObj_PathSwitch_TwoWay()
     {
         updateFunction1();
         if (pathSwitchControlMode == 0)
@@ -2145,7 +2145,7 @@ class GameObjBase
             }
         }
     }
-    private function UpdatePhysObj_PathSwitch_Once()
+    public function UpdatePhysObj_PathSwitch_Once()
     {
         updateFunction1();
         if (pathSwitchControlMode == 0)
@@ -2167,10 +2167,10 @@ class GameObjBase
     }
     
     
-    private var pathEaseName : String;
-    private var pathEaseValue : Float;
-    private var pathControlMode : Int;
-    private function InitPhysObj_Path_Old()
+    public var pathEaseName : String;
+    public var pathEaseValue : Float;
+    public var pathControlMode : Int;
+    public function InitPhysObj_Path_Old()
     {
         useMultiplePhysicsUpdates = true;
         
@@ -2258,14 +2258,14 @@ class GameObjBase
         }
     }
     
-    private var pathPos : Point;
+    public var pathPos : Point;
     
-    private function RenderPathDebug()
+    public function RenderPathDebug()
     {
         Utils.RenderCircle(bd, pathPos.x, pathPos.y, 10, 0xffffffff);
     }
     
-    private function SwitchFunction_PhysObj_Path_2way()
+    public function SwitchFunction_PhysObj_Path_2way()
     {
         if (pathControlMode == 0)
         {
@@ -2281,7 +2281,7 @@ class GameObjBase
         }
     }
     
-    private function UpdatePhysObj_Path_2way()
+    public function UpdatePhysObj_Path_2way()
     {
         if (lineRotateToPath)
         {
@@ -2317,7 +2317,7 @@ class GameObjBase
         }
     }
     
-    private function UpdatePhysObj_Path_2way_switched()
+    public function UpdatePhysObj_Path_2way_switched()
     {
         if (lineRotateToPath)
         {
@@ -2348,7 +2348,7 @@ class GameObjBase
     }
     
     
-    private function SwitchFunction_PhysObj_Path()
+    public function SwitchFunction_PhysObj_Path()
     {
         if (pathControlMode == 0)
         {
@@ -2360,7 +2360,7 @@ class GameObjBase
         }
     }
     
-    private function UpdatePhysObj_Path()
+    public function UpdatePhysObj_Path()
     {
         if (lineRotateToPath)
         {
@@ -2399,7 +2399,7 @@ class GameObjBase
     
     
     
-    private function GetLineIndexByName(name : String) : Int
+    public function GetLineIndexByName(name : String) : Int
     {
         var l : Level = Levels.GetCurrent();
         var index : Int = 0;
@@ -2416,11 +2416,11 @@ class GameObjBase
     
     
     
-    private function RenderPhysicsLineObjectInner_Surface()
+    public function RenderPhysicsLineObjectInner_Surface()
     {
     }
     
-    private function RenderPhysicsLineObjectInner()
+    public function RenderPhysicsLineObjectInner()
     {
         if (Game.gameState == Game.gameState_UI)
         {
@@ -2451,7 +2451,7 @@ class GameObjBase
         var p0 : Point;
         var p1 : Point;
         
-        var newpoints : Array<Dynamic> = new Array<Dynamic>();
+        var newpoints : Array<Dynamic> = [];
         
         var m : Matrix = new Matrix();
         m.rotate(dir);
@@ -2515,11 +2515,11 @@ class GameObjBase
         
         
         
-        g.beginBitmapFill(dobj.GetBitmapData(frame), bmat, true);
+        g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame)), bmat, true);
         
-        var gradientColors : Array<Dynamic> = new Array<Dynamic>(lineRender_Color0, lineRender_Color1);
-        var gradientAlphas : Array<Dynamic> = new Array<Dynamic>(1, 1);
-        var gradientRatios : Array<Dynamic> = new Array<Dynamic>(0, 255);
+        var gradientColors : Array<Dynamic> = [lineRender_Color0, lineRender_Color1];
+        var gradientAlphas : Array<Dynamic> = [1, 1];
+        var gradientRatios : Array<Dynamic> = [0, 255];
         var gradientMatrix : Matrix = new Matrix();
         gradientMatrix.createGradientBox(r.width, r.height, 0, r.x, r.y);
         
@@ -2585,7 +2585,7 @@ class GameObjBase
         {
             var dob : DisplayObj = GraphicObjects.GetDisplayObjByName("terrainSpikes");
             var numf : Int = as3hx.Compat.parseInt(dob.GetNumFrames() - 1);
-            Utils.RandSetSeed(123456789101112);
+            Utils.RandSetSeed(Std.int(123456789101112));
             
             for (j in 0...newpoints.length)
             {
@@ -2631,7 +2631,7 @@ class GameObjBase
         {
             var dob : DisplayObj = GraphicObjects.GetDisplayObjByName("grass");
             var numf : Int = as3hx.Compat.parseInt(dob.GetNumFrames() - 1);
-            Utils.RandSetSeed(123456789101112);
+            Utils.RandSetSeed(Std.int(123456789101112));
             
             for (j in 0...newpoints.length)
             {
@@ -2688,8 +2688,8 @@ class GameObjBase
                         p.x += Utils.RandBetweenFloat_Seeded(-1, 1);
                         p.y += Utils.RandBetweenFloat_Seeded(0, 2);
                         
-                        var xx : Int = p.x;
-                        var yy : Int = p.y;
+                        var xx : Int = Std.int(p.x);
+                        var yy : Int = Std.int(p.y);
                         var rand : Int = Utils.RandBetweenInt(1, 2);
                         
                         if (rand == 0)
@@ -2716,7 +2716,7 @@ class GameObjBase
         }
     }
     
-    private function RenderPhysicsLineObjectInner_Shadow()
+    public function RenderPhysicsLineObjectInner_Shadow()
     {
         return;
         var x : Float = xpos - Game.camera.x;
@@ -2728,7 +2728,7 @@ class GameObjBase
         var p0 : Point;
         var p1 : Point;
         
-        var newpoints : Array<Dynamic> = new Array<Dynamic>();
+        var newpoints : Array<Dynamic> = [];
         
         var m : Matrix = new Matrix();
         m.rotate(dir);
@@ -2760,7 +2760,7 @@ class GameObjBase
     }
     
     
-    private function RenderPhysicsLineObjectShadow()
+    public function RenderPhysicsLineObjectShadow()
     {
         RenderPhysicsLineObjectInner();
         var shadowMat : Matrix = new Matrix();
@@ -2769,7 +2769,7 @@ class GameObjBase
         bd.draw(Game.fillScreenMC, shadowMat, shadowCT, null, null, false);
     }
     
-    private function RenderPhysicsLineObject()
+    public function RenderPhysicsLineObject()
     {
         if (invisibleTimer == 0)
         {
@@ -2777,20 +2777,20 @@ class GameObjBase
         }
         RenderInvisibleBar(0, 0);
     }
-    private function UpdatePhysicsLineObject()
+    public function UpdatePhysicsLineObject()
     {
     }
     
     
-    private var lineRender_Mode : String;
-    private var lineRender_Color : Int;
-    private var lineRender_Color0 : Int;
-    private var lineRender_Color1 : Int;
-    private var lineRender_LineColor : Int;
-    private var lineRender_LineAlpha : Float;
-    private var lineRender_lineThickness : Float;
+    public var lineRender_Mode : String;
+    public var lineRender_Color : Int;
+    public var lineRender_Color0 : Int;
+    public var lineRender_Color1 : Int;
+    public var lineRender_LineColor : Int;
+    public var lineRender_LineAlpha : Float;
+    public var lineRender_lineThickness : Float;
     
-    private function InitPhysicsLineObject(_line : EdLine)
+    public function InitPhysicsLineObject(_line : EdLine)
     {
         isPolyObject = true;
         linkedPhysLine = _line;
@@ -2825,10 +2825,10 @@ class GameObjBase
         }
     }
     
-    private function InitPhysicsLineObject_Nape(_line : EdLine, _body : Body)
+    public function InitPhysicsLineObject_Nape(_line : EdLine, _body : Body)
     {
         isPolyObject = true;
-        nape_bodies = new Array<Body>();
+        nape_bodies = [];
         if (_body != null)
         {
             nape_bodies.push(_body);
@@ -2866,7 +2866,7 @@ class GameObjBase
     }
     
     
-    private function SetPolysMaterial_Nape(materialName : String)
+    public function SetPolysMaterial_Nape(materialName : String)
     {
         var physMaterial : PhysObjMaterial = Game.GetPhysMaterialByName(materialName);
         
@@ -2894,9 +2894,9 @@ class GameObjBase
 		*/
     
     
-    private var invisibleTimer : Int;
-    private var invisibleTimerMax : Int;
-    private function UpdateInvisibleTimer() : Bool
+    public var invisibleTimer : Int;
+    public var invisibleTimerMax : Int;
+    public function UpdateInvisibleTimer() : Bool
     {
         if (invisibleTimer == 0)
         {
@@ -2910,15 +2910,15 @@ class GameObjBase
         }
         return false;
     }
-    private function InitInvisibleTimer()
+    public function InitInvisibleTimer()
     {
         invisibleTimer = invisibleTimerMax = 0;
     }
-    private function SetInvisibleTimer(time : Int)
+    public function SetInvisibleTimer(time : Int)
     {
         invisibleTimer = invisibleTimerMax = time;
     }
-    private function RenderInvisibleBar(x : Float, y : Float)
+    public function RenderInvisibleBar(x : Float, y : Float)
     {
         if (invisibleTimer == 0)
         {
@@ -2936,8 +2936,8 @@ class GameObjBase
         bd.fillRect(r, 0xffff0000);
     }
     
-    private var jointController_joints : Array<Constraint>;
-    private function InitGameObjJoint_Null(cons : Array<Constraint>)
+    public var jointController_joints : Array<Constraint>;
+    public function InitGameObjJoint_Null(cons : Array<Constraint>)
     {
         jointController_joints = null;
         visible = false;
@@ -2946,7 +2946,7 @@ class GameObjBase
     
     
     
-    private function RenderJointRenderer()
+    public function RenderJointRenderer()
     {
         if (false)
         {
@@ -3000,7 +3000,7 @@ class GameObjBase
     
     
     
-    private function SwitchOnceHit(goHitter : GameObj)
+    public function SwitchOnceHit(goHitter : GameObj)
     {
         if (state != 0)
         {
@@ -3014,7 +3014,7 @@ class GameObjBase
         frame = 1;
         return true;
     }
-    private function UpdateSwitchOnce()
+    public function UpdateSwitchOnce()
     {
         if (state == 0)
         {
@@ -3028,7 +3028,7 @@ class GameObjBase
     }
     
     
-    private function InitSwitch_Once()
+    public function InitSwitch_Once()
     {
         Utils.GetParams(initParams);
         switchType = "once";
@@ -3040,7 +3040,7 @@ class GameObjBase
     
     
     
-    private function Switch2WayHit(goHitter : GameObj)
+    public function Switch2WayHit(goHitter : GameObj)
     {
         if (goHitter.collisionType != "football" && goHitter.collisionType != "beachball")
         {
@@ -3067,7 +3067,7 @@ class GameObjBase
         }
         return true;
     }
-    private function UpdateSwitch2Way()
+    public function UpdateSwitch2Way()
     {
         if (state == 0)
         {
@@ -3094,7 +3094,7 @@ class GameObjBase
     }
     
     
-    private function InitSwitch_2Way()
+    public function InitSwitch_2Way()
     {
         Utils.GetParams(initParams);
         switchType = "once";
@@ -3109,7 +3109,7 @@ class GameObjBase
     
     
     
-    private function SwitchWeightHitPersist(goHitter : GameObj)
+    public function SwitchWeightHitPersist(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -3129,7 +3129,7 @@ class GameObjBase
         
         timer = 4;
     }
-    private function SwitchWeightHit(goHitter : GameObj)
+    public function SwitchWeightHit(goHitter : GameObj)
     {
         if (goHitter == null)
         {
@@ -3156,7 +3156,7 @@ class GameObjBase
         }
         return true;
     }
-    private function UpdateSwitchWeight()
+    public function UpdateSwitchWeight()
     {
         if (state == 0)
         {
@@ -3183,7 +3183,7 @@ class GameObjBase
     }
     
     
-    private function InitSwitch_Weight()
+    public function InitSwitch_Weight()
     {
         Utils.GetParams(initParams);
         switchType = "2way";
@@ -3197,7 +3197,7 @@ class GameObjBase
     
     
     
-    private function SwitchTimerHit(goHitter : GameObj)
+    public function SwitchTimerHit(goHitter : GameObj)
     {
         if (state != 0)
         {
@@ -3213,7 +3213,7 @@ class GameObjBase
         
         return true;
     }
-    private function UpdateSwitchTimer()
+    public function UpdateSwitchTimer()
     {
         if (state == 0)
         {
@@ -3248,7 +3248,7 @@ class GameObjBase
     }
     
     
-    private function InitSwitch_Timer()
+    public function InitSwitch_Timer()
     {
         Utils.GetParams(initParams);
         switch_timer = as3hx.Compat.parseInt(Utils.GetParamNumber("switch_time") * Defs.fps);
@@ -3264,7 +3264,7 @@ class GameObjBase
     
     
     
-    private function Switchable_Disappear_Switched()
+    public function Switchable_Disappear_Switched()
     {
         if (state != 0)
         {
@@ -3279,7 +3279,7 @@ class GameObjBase
             state = 2;
         }
     }
-    private function UpdateSwitchable_Disappear()
+    public function UpdateSwitchable_Disappear()
     {
         if (state == 0)
         {
@@ -3300,7 +3300,7 @@ class GameObjBase
             frameVel = -1;
         }
     }
-    private function InitSwitchable_Disappear()
+    public function InitSwitchable_Disappear()
     {
         frameVel = -1;
         Utils.GetParams(initParams);
@@ -3310,12 +3310,12 @@ class GameObjBase
         switchFlag = false;
     }
     
-    private function InitJointRenderer()
+    public function InitJointRenderer()
     {
         visible = false;
     }
     
-    private function ClipTest(rad : Float = 40) : Bool
+    public function ClipTest(rad : Float = 40) : Bool
     {
         if (GameVars.takingADump)
         {
@@ -3341,7 +3341,7 @@ class GameObjBase
     }
     
     
-    private function LimitVelocity_Nape(max : Float)
+    public function LimitVelocity_Nape(max : Float)
     {
         var b : Body = nape_bodies[0];
         var vel : Vec2 = b.velocity;
@@ -3356,7 +3356,7 @@ class GameObjBase
         }
     }
     
-    private function LimitVelocity_B2D(max : Float)
+    public function LimitVelocity_B2D(max : Float)
     {  /*
 			var b:b2Body = bodies[0];
 			var vel:b2Vec2 = b.GetLinearVelocity();
@@ -3372,7 +3372,7 @@ class GameObjBase
         
     }
     
-    private function LimitXVelocity_B2D(max : Float)
+    public function LimitXVelocity_B2D(max : Float)
     {  /*
 			var b:b2Body = bodies[0];
 			var vel:b2Vec2 = b.GetLinearVelocity();
@@ -3391,7 +3391,7 @@ class GameObjBase
 			*/  
         
     }
-    private function GetUniqueId()
+    public function GetUniqueId()
     {
         var s : String = "uidig_";
         for (i in 0...6)
@@ -3424,7 +3424,7 @@ function Init$(SelText)()
 
 		*/
     
-    private function SFX_OneShot(name : String, _positional : Bool = true, _volume : Float = 1)
+    public function SFX_OneShot(name : String, _positional : Bool = true, _volume : Float = 1)
     {
         var x : Float = xpos - Game.camera.x;
         x = Utils.LimitNumber(0, Defs.displayarea_w, x);
@@ -3435,10 +3435,10 @@ function Init$(SelText)()
     }
     
     
-    private var path_startmode : String;
-    private var path_endmode : String;
-    private var path_switchmode : String;
-    private function InitPhysObj_Path()
+    public var path_startmode : String;
+    public var path_endmode : String;
+    public var path_switchmode : String;
+    public function InitPhysObj_Path()
     {
         Utils.GetParams(initParams);
         
@@ -3511,7 +3511,7 @@ function Init$(SelText)()
     }
     
     
-    private function SwitchFunction_PhysObj_Path_New()
+    public function SwitchFunction_PhysObj_Path_New()
     {
         if (path_switchmode == "start")
         {
@@ -3544,14 +3544,14 @@ function Init$(SelText)()
         }
     }
     
-    private function UpdatePhysObj_Path_SetPos()
+    public function UpdatePhysObj_Path_SetPos()
     {
         var pos : Point = UpdateLine(0);
         pathPos.x = pos.x;
         pathPos.y = pos.y;
         SetBodyXForm(0, pos.x, pos.y, dir);
     }
-    private function UpdatePhysObj_Path_New()
+    public function UpdatePhysObj_Path_New()
     {
         if (pathControlMode == 0)
         {

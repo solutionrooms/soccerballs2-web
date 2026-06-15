@@ -33,10 +33,10 @@ class EditParamEditItemNumber extends EditParamEditItemBase
         
         mc.editorItem = this;
         
-        mc.displayText.text = op.name;
+        (untyped mc).displayText.text = op.name;
         mc.inputText.text = op.value;
         
-        mc.displayText.mouseEnabled = false;
+        (untyped mc).displayText.mouseEnabled = false;
         
         
         mc.inputText.addEventListener(TextEvent.TEXT_INPUT, TextInputDone, false, 0, true);
@@ -56,9 +56,9 @@ class EditParamEditItemNumber extends EditParamEditItemBase
     }
     
     
-    private function PlusPressed(e : MouseEvent)
+    public function PlusPressed(e : MouseEvent)
     {
-        var ob : ObjParam = ObjectParameters.GetObjectParamByName(mc.displayText.text);
+        var ob : ObjParam = ObjectParameters.GetObjectParamByName((untyped mc).displayText.text);
         var inc : Float = ob.number_step;
         var val : Float = as3hx.Compat.parseFloat(mc.inputText.text);
         val += inc;
@@ -68,9 +68,9 @@ class EditParamEditItemNumber extends EditParamEditItemBase
         CopyValueToParameter();
     }
     
-    private function MinusPressed(e : MouseEvent)
+    public function MinusPressed(e : MouseEvent)
     {
-        var ob : ObjParam = ObjectParameters.GetObjectParamByName(mc.displayText.text);
+        var ob : ObjParam = ObjectParameters.GetObjectParamByName((untyped mc).displayText.text);
         var inc : Float = -ob.number_step;
         var val : Float = as3hx.Compat.parseFloat(mc.inputText.text);
         val += inc;
@@ -81,10 +81,10 @@ class EditParamEditItemNumber extends EditParamEditItemBase
         CopyValueToParameter();
     }
     
-    private function CheckRange()
+    public function CheckRange()
     {
         var val : Float = as3hx.Compat.parseFloat(mc.inputText.text);
-        var ob : ObjParam = ObjectParameters.GetObjectParamByName(mc.displayText.text);
+        var ob : ObjParam = ObjectParameters.GetObjectParamByName((untyped mc).displayText.text);
         if (ob.number_useRangeMin)
         {
             if (val < ob.number_min)
@@ -102,12 +102,12 @@ class EditParamEditItemNumber extends EditParamEditItemBase
         mc.inputText.text = Std.string(val);
     }
     
-    private function TextInputLoseFocus(e : FocusEvent)
+    public function TextInputLoseFocus(e : FocusEvent)
     {
         PhysEditor.isEntering = false;
         CopyValueToParameter();
     }
-    private function TextInputKeyDown(e : KeyboardEvent)
+    public function TextInputKeyDown(e : KeyboardEvent)
     {
         PhysEditor.isEntering = true;
         var code : Int = e.keyCode;
@@ -124,7 +124,7 @@ class EditParamEditItemNumber extends EditParamEditItemBase
             mc.stage.focus = null;
         }
     }
-    private function TextInputDone(e : TextEvent)
+    public function TextInputDone(e : TextEvent)
     {
         Utils.print("TextInputDone " + e.text);
     }

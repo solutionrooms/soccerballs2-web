@@ -17,7 +17,7 @@ class TeamDef
     
     public function new()
     {
-        var names : Array<Dynamic> = new Array<Dynamic>(
+        var names : Array<Dynamic> = [
         "Clemence", 
         "Callaghan", 
         "Fairclough", 
@@ -28,10 +28,10 @@ class TeamDef
         "Keegan", 
         "Thompson", 
         "Neil", 
-        "Hughes");
+        "Hughes"];
         
-        playerNames = new Array<Dynamic>();
-        playerHeads = new Array<Dynamic>();
+        playerNames = [];
+        playerHeads = [];
         for (i in 0...11)
         {
             playerHeads.push(i);

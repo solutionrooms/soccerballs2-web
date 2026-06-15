@@ -9,7 +9,7 @@ import flash.utils.Proxy;
 	 */
 class KiziGameState extends Proxy
 {
-    override private function getProperty(name : Dynamic) : Dynamic
+    override public function getProperty(name : Dynamic) : Dynamic
     {
         if (KiziAPI.apiLoaded && KiziAPI.api.gameState)
         {
@@ -21,7 +21,7 @@ class KiziGameState extends Proxy
         }
     }
     
-    override private function setProperty(name : Dynamic, value : Dynamic) : Void
+    override public function setProperty(name : Dynamic, value : Dynamic) : Void
     {
         if (KiziAPI.apiLoaded && KiziAPI.api.gameState)
         {

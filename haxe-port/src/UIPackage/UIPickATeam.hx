@@ -43,9 +43,9 @@ class UIPickATeam extends UIScreenInstance
         ScreenSize.ScaleMovieClip(titleMC);
         titleMC.gotoAndStop(1);
         
-        UI.AddAnimatedMCButton(titleMC.btn_back, buttonBackPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_back, buttonBackPressed);
         
-        TextStrings.ReplaceTextFieldText(titleMC.textTitle);
+        TextStrings.ReplaceTextFieldText((untyped titleMC).textTitle);
         
         
         
@@ -57,7 +57,7 @@ class UIPickATeam extends UIScreenInstance
             ExportKits();
         }
     }
-    private function ExportKits()
+    public function ExportKits()
     {
         var s : String = "";
         for (i in 0...9)
@@ -84,22 +84,22 @@ class UIPickATeam extends UIScreenInstance
         ExternalData.OutputString(s);
     }
     
-    private function InitTeamButtons()
+    public function InitTeamButtons()
     {
         for (i in 0...9)
         {
             var tm : TeamDef = GameVars.GetTeam(i);
             var mc : MovieClip = try cast(titleMC.getChildByName("team" + as3hx.Compat.parseInt(i + 1)), MovieClip) catch(e:Dynamic) null;
-            UI.AddAnimatedMCButton(mc.btn_yes, PickClicked);
-            UI.AddAnimatedMCButton(mc.btn_modify, ModifyClicked);
-            mc.textTeamName.text = tm.teamName;
-            mc.btn_yes.teamIndex = i;
-            mc.btn_modify.teamIndex = i;
+            UI.AddAnimatedMCButton((untyped mc).btn_yes, PickClicked);
+            UI.AddAnimatedMCButton((untyped mc).btn_modify, ModifyClicked);
+            (untyped mc).textTeamName.text = tm.teamName;
+            (untyped mc.btn_yes).teamIndex = i;
+            (untyped mc.btn_modify).teamIndex = i;
             InitShirt(mc, tm);
         }
     }
     
-    private function InitShirt(mc : MovieClip, team : TeamDef)
+    public function InitShirt(mc : MovieClip, team : TeamDef)
     {
         var a : Array<Dynamic>;
         a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
@@ -108,31 +108,31 @@ class UIPickATeam extends UIScreenInstance
         var ct3 : ColorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2], 0);
         
         
-        mc.shirt.base.transform.colorTransform = ct0;
-        mc.shirt.hoops.transform.colorTransform = ct3;
-        mc.shirt.stripes.transform.colorTransform = ct3;
+        (untyped mc).shirt.base.transform.colorTransform = ct0;
+        (untyped mc.shirt).hoops.transform.colorTransform = ct3;
+        (untyped mc.shirt).stripes.transform.colorTransform = ct3;
         
         if (team.kitStyle == 0)
         {
-            mc.shirt.hoops.visible = false;
-            mc.shirt.stripes.visible = false;
+            (untyped mc.shirt).hoops.visible = false;
+            (untyped mc.shirt).stripes.visible = false;
         }
         if (team.kitStyle == 2)
         {
-            mc.shirt.hoops.visible = false;
-            mc.shirt.stripes.visible = true;
+            (untyped mc.shirt).hoops.visible = false;
+            (untyped mc.shirt).stripes.visible = true;
         }
         if (team.kitStyle == 1)
         {
-            mc.shirt.hoops.visible = true;
-            mc.shirt.stripes.visible = false;
+            (untyped mc.shirt).hoops.visible = true;
+            (untyped mc.shirt).stripes.visible = false;
         }
     }
     
-    private function PickClicked(e : MouseEvent)
+    public function PickClicked(e : MouseEvent)
     {
         var mc : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        GameVars.currentEditTeamIndex = mc.teamIndex;
+        GameVars.currentEditTeamIndex = (untyped mc).teamIndex;
         if (GameVars.currentPickTeam == 0)
         {
             GameVars.playerTeam = GameVars.currentEditTeamIndex;
@@ -143,10 +143,10 @@ class UIPickATeam extends UIScreenInstance
         }
         UI.WaitAndStartTransition(titleMC, "matchselect");
     }
-    private function ModifyClicked(e : MouseEvent)
+    public function ModifyClicked(e : MouseEvent)
     {
         var mc : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        GameVars.currentEditTeamIndex = mc.teamIndex;
+        GameVars.currentEditTeamIndex = (untyped mc).teamIndex;
         if (GameVars.currentPickTeam == 0)
         {
             GameVars.playerTeam = GameVars.currentEditTeamIndex;
@@ -159,11 +159,11 @@ class UIPickATeam extends UIScreenInstance
     }
     
     
-    private var team : TeamDef;
-    private var team0 : TeamDef;
-    private var team1 : TeamDef;
+    public var team : TeamDef;
+    public var team0 : TeamDef;
+    public var team1 : TeamDef;
     
-    private function RenderPlayer()
+    public function RenderPlayer()
     {
         dobj = GraphicObjects.GetDisplayObjByName("player");
         
@@ -184,70 +184,70 @@ class UIPickATeam extends UIScreenInstance
     }
     
     
-    private var dobj : DisplayObj;
-    private var animHierarchy : AnimHierarchy;
-    private var player_Race : Int = 0;
-    private var player_Head : Int = 0;
+    public var dobj : DisplayObj;
+    public var animHierarchy : AnimHierarchy;
+    public var player_Race : Int = 0;
+    public var player_Head : Int = 0;
     
     
     
-    private var bd : BitmapData;
-    private var b : Bitmap;
+    public var bd : BitmapData;
+    public var b : Bitmap;
     
-    private function InitColorButtons(parentMC : MovieClip, itemIndex : Int, title : String)
+    public function InitColorButtons(parentMC : MovieClip, itemIndex : Int, title : String)
     {
-        parentMC.title.text = title;
+        (untyped parentMC).title.text = title;
         for (i in 0...16)
         {
             var mc : MovieClip = try cast(parentMC.getChildByName("color" + as3hx.Compat.parseInt(i + 1)), MovieClip) catch(e:Dynamic) null;
             UI.AddAnimatedMCButton(mc, ColorClicked);
-            mc.colorIndex = i;
-            mc.itemIndex = itemIndex;
+            (untyped mc).colorIndex = i;
+            (untyped mc).itemIndex = itemIndex;
             var a : Array<Dynamic> = GameVars.GetKitColorRGBArrayByIndex(i);
-            mc.color.transform.colorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2]);
+            (untyped mc).color.transform.colorTransform = new ColorTransform(1, 1, 1, 1, -255 + a[0], -255 + a[1], -255 + a[2]);
         }
     }
     
-    private function ColorClicked(e : MouseEvent)
+    public function ColorClicked(e : MouseEvent)
     {
         var mc : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        if (mc.itemIndex == 0)
+        if ((untyped mc).itemIndex == 0)
         {
-            team.kitColorShirt = mc.colorIndex;
+            team.kitColorShirt = (untyped mc).colorIndex;
         }
-        else if (mc.itemIndex == 1)
+        else if ((untyped mc).itemIndex == 1)
         {
-            team.kitColorShorts = mc.colorIndex;
+            team.kitColorShorts = (untyped mc).colorIndex;
         }
-        else if (mc.itemIndex == 2)
+        else if ((untyped mc).itemIndex == 2)
         {
-            team.kitColorSocks = mc.colorIndex;
+            team.kitColorSocks = (untyped mc).colorIndex;
         }
         else
         {
-            team.kitColorPattern = mc.colorIndex;
+            team.kitColorPattern = (untyped mc).colorIndex;
         }
-        UpdateColorButtons(titleMC.palette0, team.kitColorShirt);
-        UpdateColorButtons(titleMC.palette1, team.kitColorShorts);
-        UpdateColorButtons(titleMC.palette2, team.kitColorSocks);
-        UpdateColorButtons(titleMC.palette3, team.kitColorPattern);
+        UpdateColorButtons((untyped titleMC).palette0, team.kitColorShirt);
+        UpdateColorButtons((untyped titleMC).palette1, team.kitColorShorts);
+        UpdateColorButtons((untyped titleMC).palette2, team.kitColorSocks);
+        UpdateColorButtons((untyped titleMC).palette3, team.kitColorPattern);
         RenderPlayer();
     }
     
-    private function UpdateColorButtons(parentMC : MovieClip, selectedIndex : Int)
+    public function UpdateColorButtons(parentMC : MovieClip, selectedIndex : Int)
     {
         for (i in 0...16)
         {
             var mc : MovieClip = try cast(parentMC.getChildByName("color" + as3hx.Compat.parseInt(i + 1)), MovieClip) catch(e:Dynamic) null;
-            mc.selected.visible = false;
+            (untyped mc).selected.visible = false;
             if (i == selectedIndex)
             {
-                mc.selected.visible = true;
+                (untyped mc).selected.visible = true;
             }
         }
     }
     
-    private function buttonStylePressed(e : MouseEvent)
+    public function buttonStylePressed(e : MouseEvent)
     {
         team.kitStyle++;
         team.kitStyle %= 3;
@@ -255,22 +255,22 @@ class UIPickATeam extends UIScreenInstance
     }
     
     
-    private function buttonPick0Pressed(e : MouseEvent)
+    public function buttonPick0Pressed(e : MouseEvent)
     {
         UI.WaitAndStartTransition(titleMC, "kitselect");
     }
-    private function buttonPick1Pressed(e : MouseEvent)
+    public function buttonPick1Pressed(e : MouseEvent)
     {
         UI.WaitAndStartTransition(titleMC, "kitselect");
     }
     
-    private function buttonBackPressed(e : MouseEvent)
+    public function buttonBackPressed(e : MouseEvent)
     {
         UI.WaitAndStartTransition(titleMC, "matchselect");
     }
     
     
-    private function AddHierarchy_Player(ct_shirt : ColorTransform, ct_shorts : ColorTransform, ct_socks : ColorTransform, ct_pattern : ColorTransform)
+    public function AddHierarchy_Player(ct_shirt : ColorTransform, ct_shorts : ColorTransform, ct_socks : ColorTransform, ct_pattern : ColorTransform)
     {
         player_Race = 0;
         player_Head = 0;

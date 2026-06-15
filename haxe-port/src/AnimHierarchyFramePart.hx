@@ -6,16 +6,16 @@ import flash.geom.ColorTransform;
 	 */
 class AnimHierarchyFramePart
 {
-    private var x : Float;
-    private var y : Float;
-    private var r : Float;
-    private var partName : String;
-    private var dobjName : String;
-    private var scale : Float;
-    private var colorTransform : ColorTransform;
-    private var frame : Int;
-    private var visible : Bool;
-    private var interpolate : Bool;
+    public var x : Float;
+    public var y : Float;
+    public var r : Float;
+    public var partName : String;
+    public var dobjName : String;
+    public var scale : Float;
+    public var colorTransform : ColorTransform;
+    public var frame : Int;
+    public var visible : Bool;
+    public var interpolate : Bool;
     
     
     public function Clone() : AnimHierarchyFramePart

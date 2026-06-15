@@ -5,9 +5,9 @@
 	 */
 class Var
 {
-    private var name : String;
-    private var type : String;
-    private var valueString : String;
+    public var name : String;
+    public var type : String;
+    public var valueString : String;
     
     public function Trace()
     {

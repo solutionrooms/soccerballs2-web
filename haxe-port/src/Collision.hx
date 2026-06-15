@@ -40,7 +40,7 @@ class Collision
     
     
     
-    private static function GameObjectInPolyBoundingBox(go : GameObj, poly : Poly) : Bool
+    public static function GameObjectInPolyBoundingBox(go : GameObj, poly : Poly) : Bool
     {
         var rad : Float = go.radius + 50;
         var x : Float = go.xpos;
@@ -72,26 +72,26 @@ class Collision
         return true;
     }
     
-    private static function DistBetween(go0 : GameObj, go1 : GameObj) : Float
+    public static function DistBetween(go0 : GameObj, go1 : GameObj) : Float
     {
         var dx : Float = go1.xpos - go0.xpos;
         var dy : Float = go1.ypos - go0.ypos;
         return Math.sqrt((dx * dx) + (dy * dy));
     }
-    private static function Dist2Between(go0 : GameObj, go1 : GameObj) : Float
+    public static function Dist2Between(go0 : GameObj, go1 : GameObj) : Float
     {
         var dx : Float = go1.xpos - go0.xpos;
         var dy : Float = go1.ypos - go0.ypos;
         return (dx * dx) + (dy * dy);
     }
     
-    private static function DistBetweenPoints(x0 : Float, y0 : Float, x1 : Float, y1 : Float) : Float
+    public static function DistBetweenPoints(x0 : Float, y0 : Float, x1 : Float, y1 : Float) : Float
     {
         var dx : Float = x1 - x0;
         var dy : Float = y1 - y0;
         return Math.sqrt((dx * dx) + (dy * dy));
     }
-    private static function Dist2BetweenPoints(x0 : Float, y0 : Float, x1 : Float, y1 : Float) : Float
+    public static function Dist2BetweenPoints(x0 : Float, y0 : Float, x1 : Float, y1 : Float) : Float
     {
         var dx : Float = x1 - x0;
         var dy : Float = y1 - y0;
@@ -185,7 +185,7 @@ class Collision
     
     
     
-    private static function DistToLine(lx0 : Float, ly0 : Float, lx1 : Float, ly1 : Float, x : Float, y : Float) : Float
+    public static function DistToLine(lx0 : Float, ly0 : Float, lx1 : Float, ly1 : Float, x : Float, y : Float) : Float
     {
         ClosestPointOnLine(lx0, ly0, lx1, ly1, x, y);
         
@@ -194,7 +194,7 @@ class Collision
         var dist : Float = Math.sqrt((dx * dx) + (dy * dy));
         return dist;
     }
-    private static function Dist2ToLine(lx0 : Float, ly0 : Float, lx1 : Float, ly1 : Float, x : Float, y : Float) : Float
+    public static function Dist2ToLine(lx0 : Float, ly0 : Float, lx1 : Float, ly1 : Float, x : Float, y : Float) : Float
     {
         ClosestPointOnLine(lx0, ly0, lx1, ly1, x, y);
         
@@ -205,7 +205,7 @@ class Collision
     
     
     
-    private static function SideOfLine(lx0 : Float, ly0 : Float, lx1 : Float, ly1 : Float, x : Float, y : Float) : Bool
+    public static function SideOfLine(lx0 : Float, ly0 : Float, lx1 : Float, ly1 : Float, x : Float, y : Float) : Bool
     {
         var dot : Float = DotProduct(lx1 - lx0, ly1 - ly0, x - lx0, y - ly0);
         if (dot < 0.0)
@@ -216,7 +216,7 @@ class Collision
     }
     
     
-    private static function SideOfLine1(l : Line, x : Float, y : Float) : Bool
+    public static function SideOfLine1(l : Line, x : Float, y : Float) : Bool
     {
         var dot : Float = DotProduct(l.x1 - l.x0, l.y1 - l.y0, x - l.x0, y - l.y0);
         if (dot < 0.0)
@@ -228,7 +228,7 @@ class Collision
     
     
     
-    private static function DotProduct(x0 : Float, y0 : Float, x1 : Float, y1 : Float) : Float
+    public static function DotProduct(x0 : Float, y0 : Float, x1 : Float, y1 : Float) : Float
     {
         var dot : Float = (x0 * x1) + (y0 * y1);
         return dot;
@@ -236,7 +236,7 @@ class Collision
     
     
     
-    private static function Intersected(go : GameObj, l : Line, intersectionPointX : Float, intersectionPointY : Float, xoff : Float, yoff : Float, rad : Float) : Void
+    public static function Intersected(go : GameObj, l : Line, intersectionPointX : Float, intersectionPointY : Float, xoff : Float, yoff : Float, rad : Float) : Void
     {
         var numIterations : Int = 50;
         var dx : Float = (go.oldxpos + xoff) - intersectionPointX;
@@ -267,13 +267,13 @@ class Collision
     
     
     
-    private static var PolyCollision_LineHit : Line;
-    private static function PolyCollision(go : GameObj, poly : Poly, xoff : Float, yoff : Float, rad : Float) : Bool
+    public static var PolyCollision_LineHit : Line;
+    public static function PolyCollision(go : GameObj, poly : Poly, xoff : Float, yoff : Float, rad : Float) : Bool
     {
         stats_numPolyCollisionTests++;
         
-        var collidedLines : Array<Dynamic> = new Array<Dynamic>();
-        var collidedDists : Array<Dynamic> = new Array<Dynamic>();
+        var collidedLines : Array<Dynamic> = [];
+        var collidedDists : Array<Dynamic> = [];
         var l : Line;
         var sideOfLine : Bool;
         var dist2ToLine : Float;
@@ -340,10 +340,10 @@ class Collision
     
     
     
-    private static function PlayerPickupCollision()
+    public static function PlayerPickupCollision()
     {
         var bugs : Array<Dynamic> = GameObjects.GetGameObjListByName("bug");
-        var pickups : Array<Dynamic> = new Array<Dynamic>();
+        var pickups : Array<Dynamic> = [];
         for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameObjects),objs) type: null */ in GameObjects.objs)
         {
             if (go.active == true && go.colFlag_canBePickedUp)
@@ -370,7 +370,7 @@ class Collision
         }
     }
     
-    private static function PlayerSwitchCollision()
+    public static function PlayerSwitchCollision()
     {
         var bugs : Array<Dynamic> = GameObjects.GetGameObjListByName("bug");
         var switches : Array<Dynamic> = GameObjects.GetGameObjListByName("switch");
@@ -402,7 +402,7 @@ class Collision
             }
         }
         
-        var removeList : Array<Dynamic> = new Array<Dynamic>();
+        var removeList : Array<Dynamic> = [];
         for (go1 in switches)
         {
             for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(go1),switchContactList) type: null */ in go1.switchContactList)
@@ -418,7 +418,7 @@ class Collision
             }
         }
     }
-    private static function ProjectileGoPhysObjCollision()
+    public static function ProjectileGoPhysObjCollision()
     {
         for (goVehicle/* AS3HX WARNING could not determine type for var: goVehicle exp: EIdent(ProjectileList) type: null */ in ProjectileList)
         {
@@ -445,8 +445,8 @@ class Collision
         }
     }
     
-    private static var ProjectileList : Array<GameObj> = new Array<GameObj>();
-    private static var PhysObjList : Array<GameObj> = new Array<GameObj>();
+    public static var ProjectileList : Array<GameObj> = [];
+    public static var PhysObjList : Array<GameObj> = [];
     
     public static function MakeLists()
     {

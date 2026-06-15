@@ -8,8 +8,8 @@ import flash.utils.Dictionary;
 	 */
 class TextString
 {
-    private var name : String;
-    private var dictionary : Dictionary<Dynamic, Dynamic>;
+    public var name : String;
+    public var dictionary : Dictionary<Dynamic, Dynamic>;
     
     public function new()
     {
@@ -19,18 +19,13 @@ class TextString
         dictionary = new Dictionary<Dynamic, Dynamic>();
         
         name = XmlHelper.GetAttrString(x.att.name, "");
-        var attrs : FastXMLList = x.node.attributes.innerData();
-        for (label/* AS3HX WARNING could not determine type for var: label exp: EField(EIdent(TextStrings),languageLabels) type: null */ in TextStrings.languageLabels)
+        for (label in TextStrings.languageLabels)
         {
-            for (attr in attrs)
+            var lbl : String = Std.string(label);
+            if (x.x.exists(lbl))
             {
-                if (attr.node.name.innerData() == label)
-                {
-                    var s : String = attr.node.valueOf.innerData();
-                    s = StringTools.replace(s, "ß", "ss");
-                    
-                    dictionary[label] = s;
-                }
+                var s : String = StringTools.replace(x.x.get(lbl), "ß", "ss");
+                dictionary[lbl] = s;
             }
         }
         

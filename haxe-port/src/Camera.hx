@@ -6,22 +6,22 @@ import flash.geom.Point;
 	 */
 class Camera
 {
-    private var x : Float;
-    private var y : Float;
+    public var x : Float;
+    public var y : Float;
     
-    private var oldX : Float;
-    private var oldY : Float;
-    private var cx : Float;
-    private var cy : Float;
-    private var maxX : Float;
-    private var maxY : Float;
-    private var minX : Float;
-    private var minY : Float;
-    private var toDX : Float;
-    private var toDY : Float;
-    private var toX : Float;
-    private var toY : Float;
-    private var scale : Float;
+    public var oldX : Float;
+    public var oldY : Float;
+    public var cx : Float;
+    public var cy : Float;
+    public var maxX : Float;
+    public var maxY : Float;
+    public var minX : Float;
+    public var minY : Float;
+    public var toDX : Float;
+    public var toDY : Float;
+    public var toX : Float;
+    public var toY : Float;
+    public var scale : Float;
     
     
     public function new()
@@ -29,8 +29,8 @@ class Camera
         Reset();
     }
     
-    private var savedx : Float;
-    private var savedy : Float;
+    public var savedx : Float;
+    public var savedy : Float;
     public function PushPos()
     {
         savedx = x;
@@ -131,15 +131,15 @@ class Camera
         toY = 0;
     }
     
-    private static var shakeCamToX : Float = 0;
-    private static var shakeCamToY : Float = 0;
-    private static var shakeCamX : Float = 0;
-    private static var shakeCamY : Float = 0;
-    private static var shakeCamDX : Float = 0;
-    private static var shakeCamDY : Float = 0;
-    private static var shakeCamTimer : Int = 50;
-    private static var shakeCamTimerMax : Int = 50;
-    private static function UpdateShakeCam(speed : Float) : Void
+    public static var shakeCamToX : Float = 0;
+    public static var shakeCamToY : Float = 0;
+    public static var shakeCamX : Float = 0;
+    public static var shakeCamY : Float = 0;
+    public static var shakeCamDX : Float = 0;
+    public static var shakeCamDY : Float = 0;
+    public static var shakeCamTimer : Int = 50;
+    public static var shakeCamTimerMax : Int = 50;
+    public static function UpdateShakeCam(speed : Float) : Void
     {
         shakeCamTimer--;
         if (shakeCamTimer <= 0)

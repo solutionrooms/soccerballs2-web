@@ -13,7 +13,7 @@ class AchievementDisplayQueue
     public function new()
     {
     }
-    private var displayQueue : Array<AchievementPopup>;
+    public var displayQueue : Array<AchievementPopup>;
     
     public function IsDisplayQueueActive() : Bool
     {
@@ -36,17 +36,17 @@ class AchievementDisplayQueue
             Audio.OneShot("sfx_got_achievement");
             popup.active = true;
             popup.mc = new MovieClip();
-            popup.mc.inner.achievementName.text = popup.achievement.name;
-            popup.mc.inner.achievement_text.text = popup.achievement.description;
-            popup.mc.inner.icon.descendants("gotoAndStop")(popup.achievement.popupFrame);
+            (untyped popup.mc).inner.achievementName.text = (untyped popup).achievement.name;
+            (untyped popup.mc).inner.achievement_text.text = (untyped popup).achievement.description;
+            (untyped popup.mc).inner.icon.descendants("gotoAndStop")((untyped popup).achievement.popupFrame);
             Game.main.addChild(popup.mc);
             popup.mc.gotoAndPlay("on");
         }
         else
         {
-            popup.mc.inner.achievementName.text = popup.achievement.name;
-            popup.mc.inner.achievement_text.text = popup.achievement.description;
-            popup.mc.inner.icon.descendants("gotoAndStop")(popup.achievement.popupFrame);
+            (untyped popup.mc).inner.achievementName.text = (untyped popup).achievement.name;
+            (untyped popup.mc).inner.achievement_text.text = (untyped popup).achievement.description;
+            (untyped popup.mc).inner.icon.descendants("gotoAndStop")((untyped popup).achievement.popupFrame);
             popup.timer--;
             if (popup.timer == 0)
             {
@@ -69,15 +69,15 @@ class AchievementDisplayQueue
         for (ach in unlockedList)
         {
             var popup : AchievementPopup = new AchievementPopup();
-            popup.achievement = ach;
+            (untyped popup).achievement = ach;
             popup.timer = Defs.fps * 3;
             popup.active = false;
             displayQueue.push(popup);
         }
     }
-    private function Reset()
+    public function Reset()
     {
-        displayQueue = new Array<AchievementPopup>();
+        displayQueue = [];
     }
 }
 

@@ -3,13 +3,13 @@
 @:final class MochiDigits
 {
     public var value(get, set) : Float;
-private var Fragment : Float;private var Sibling : MochiDigits;private var Encoder : Float;  /**         * Method: MochiDigits         * Construct and initialize the value of a MochiDigit         * @param   digit: initialization value         * @param   index: internal use only         */  public function new(digit : Float = 0, index : Int = 0)
+public var Fragment : Float;public var Sibling : MochiDigits;public var Encoder : Float;  /**         * Method: MochiDigits         * Construct and initialize the value of a MochiDigit         * @param   digit: initialization value         * @param   index: internal use only         */  public function new(digit : Float = 0, index : Int = 0)
     {
         Encoder = 0;setValue(digit, index);
-    }private function get_value() : Float
+    }public function get_value() : Float
     {
         return as3hx.Compat.parseFloat(Std.string(this));
-    }private function set_value(v : Float) : Float
+    }public function set_value(v : Float) : Float
     {
         setValue(v);
         return v;

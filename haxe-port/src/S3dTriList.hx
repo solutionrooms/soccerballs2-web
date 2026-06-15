@@ -14,9 +14,9 @@ class S3dTriList
     
     public function Init(numTriangles : Int, vertSize : Int, vertSize1 : Int)
     {
-        indices = new Array<Int>();
-        vertices = new Array<Float>();
-        vertices_extra = new Array<Float>();
+        indices = [];
+        vertices = [];
+        vertices_extra = [];
     }
 }
 

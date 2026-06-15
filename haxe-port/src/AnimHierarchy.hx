@@ -12,21 +12,21 @@ import flash.geom.Point;
 	 */
 class AnimHierarchy
 {
-    private var dobj : DisplayObj;
-    private var frames : Array<AnimHierarchyFrame> = null;
+    public var dobj : DisplayObj;
+    public var frames : Array<AnimHierarchyFrame> = null;
     
     public function new()
     {
     }
     
-    private static var m : Matrix = new Matrix();
-    private static var p : Point = new Point(0, 0);
-    private static var p1 : Point = new Point(0, 0);
+    public static var m : Matrix = new Matrix();
+    public static var p : Point = new Point(0, 0);
+    public static var p1 : Point = new Point(0, 0);
     
     
     public function CreateSeparates(x : Float, y : Float, frame : Float, scale : Float, rot : Float, xflip : Bool = false)
     {
-        var goList : Array<Dynamic> = new Array<Dynamic>();
+        var goList : Array<Dynamic> = [];
         if (frames == null)
         {
             return;
@@ -219,7 +219,7 @@ class AnimHierarchy
     }
     
     
-    private function ForAllPartsMatchingGame(partName : String, fn : Function)
+    public function ForAllPartsMatchingGame(partName : String, fn : Function)
     {
         for (f in frames)
         {
@@ -234,7 +234,7 @@ class AnimHierarchy
     }
     
     
-    private function Frame_ForAllPartsMatchingGame(partName : String, frame : Int, fn : Function)
+    public function Frame_ForAllPartsMatchingGame(partName : String, frame : Int, fn : Function)
     {
         var f : AnimHierarchyFrame = frames[frame];
         for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EIdent(f),parts) type: null */ in f.parts)
@@ -313,7 +313,7 @@ class AnimHierarchy
     {
         var h : AnimHierarchy = new AnimHierarchy();
         h.dobj = dobj;
-        h.frames = new Array<AnimHierarchyFrame>();
+        h.frames = [];
         for (f in frames)
         {
             h.frames.push(f.Clone());
@@ -324,7 +324,7 @@ class AnimHierarchy
     public function Init(_dobj : DisplayObj, origMC : MovieClip, parts : Array<Dynamic>, clips : Array<Dynamic>)
     {
         dobj = _dobj;
-        frames = new Array<AnimHierarchyFrame>();
+        frames = [];
         
         var mc : MovieClip = origMC;
         var totalFrames : Int = mc.totalFrames;

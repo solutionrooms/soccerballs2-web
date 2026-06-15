@@ -38,9 +38,9 @@ class UIWalkthrough extends UIScreenInstance
         UI.RemoveAllButtons();
     }
     
-    private var page : Int;
+    public var page : Int;
     
-    private var adMC : MovieClip;
+    public var adMC : MovieClip;
     
     override public function InitScreen()
     {
@@ -49,11 +49,11 @@ class UIWalkthrough extends UIScreenInstance
         titleMC = new ScreenWalkthroughMain();
         titleMC.gotoAndStop(1);
         
-        Lic.MainLogoButton(titleMC.mainLogo);
-        Lic.AuthorButton(titleMC.turboBtn);
+        Lic.MainLogoButton((untyped titleMC).mainLogo);
+        Lic.AuthorButton((untyped titleMC).turboBtn);
         
-        UI.AddAnimatedMCButton(titleMC.prevPage, PrevPageClicked);
-        UI.AddAnimatedMCButton(titleMC.nextPage, NextPageClicked);
+        UI.AddAnimatedMCButton((untyped titleMC).prevPage, PrevPageClicked);
+        UI.AddAnimatedMCButton((untyped titleMC).nextPage, NextPageClicked);
         
         numPages = 4;
         
@@ -99,7 +99,7 @@ class UIWalkthrough extends UIScreenInstance
                     mc.gotoAndStop(i + 1);
                     
                     
-                    mc.screenIndex = i;
+                    (untyped mc).screenIndex = i;
                     mc.x = 10 + (x * (w.thumbW + spaceX));
                     mc.y = 120 + (y * (w.thumbH + spaceY));
                     titleMC.addChild(mc);
@@ -117,12 +117,12 @@ class UIWalkthrough extends UIScreenInstance
     }
     
     
-    private var numPages : Int;
-    private var numPerPage : Int = 9;
+    public var numPages : Int;
+    public var numPerPage : Int = 9;
     
-    private function InitPage()
+    public function InitPage()
     {
-        icons = new Array<Dynamic>();
+        icons = [];
         
         var ox : Int = 145;
         var x : Int = ox;
@@ -147,20 +147,20 @@ class UIWalkthrough extends UIScreenInstance
         }
     }
     
-    private var selectedLevel : Int;
-    private var icons : Array<Dynamic>;
+    public var selectedLevel : Int;
+    public var icons : Array<Dynamic>;
     
-    private function PopulatePage()
+    public function PopulatePage()
     {
-        titleMC.prevPage.visible = true;
-        titleMC.nextPage.visible = true;
+        (untyped titleMC).prevPage.visible = true;
+        (untyped titleMC).nextPage.visible = true;
         if (GameVars.currentWalkthroughPage == 0)
         {
-            titleMC.prevPage.visible = false;
+            (untyped titleMC).prevPage.visible = false;
         }
         if (GameVars.currentWalkthroughPage == numPages - 1)
         {
-            titleMC.nextPage.visible = false;
+            (untyped titleMC).nextPage.visible = false;
         }
         
         
@@ -178,50 +178,50 @@ class UIWalkthrough extends UIScreenInstance
             {
                 mc.visible = true;
                 var l : Level = Levels.GetLevel(i);
-                mc.levelID = i;
-                mc.levelNumber.text = Std.string(as3hx.Compat.parseInt(i + 1));
+                (untyped mc).levelID = i;
+                (untyped mc).levelNumber.text = Std.string(as3hx.Compat.parseInt(i + 1));
                 
                 if (Game.usedebug)
                 {
-                    mc.textLevelCreator.text = l.creator;
+                    (untyped mc).textLevelCreator.text = l.creator;
                 }
                 else
                 {
-                    mc.textLevelCreator.text = "";
+                    (untyped mc).textLevelCreator.text = "";
                 }
                 
                 
-                mc.canPress = false;
+                (untyped mc).canPress = false;
                 
-                mc.coins.gotoAndStop(1);
-                mc.gold.gotoAndStop(1);
-                mc.gold.visible = false;
-                mc.greystar.visible = false;
-                mc.cup.visible = false;
+                (untyped mc).coins.gotoAndStop(1);
+                (untyped mc).gold.gotoAndStop(1);
+                (untyped mc).gold.visible = false;
+                (untyped mc).greystar.visible = false;
+                (untyped mc).cup.visible = false;
                 if (l.hasTrophy)
                 {
-                    mc.cup.visible = true;
+                    (untyped mc).cup.visible = true;
                 }
-                mc.cup.gotoAndStop(l.trophyIndex);
+                (untyped mc).cup.gotoAndStop(l.trophyIndex);
                 
-                mc.coinpercent.text = l.totalCoins;
+                (untyped mc).coinpercent.text = l.totalCoins;
                 
                 if (l.available)
                 {
-                    mc.canPress = true;
+                    (untyped mc).canPress = true;
                     
-                    mc.levelNumber.visible = true;
+                    (untyped mc).levelNumber.visible = true;
                 }
                 else
                 {
-                    mc.levelNumber.visible = true;
+                    (untyped mc).levelNumber.visible = true;
                 }
                 
                 
-                mc.gold.visible = false;
+                (untyped mc).gold.visible = false;
                 if (l.rating > 0)
                 {
-                    mc.gold.visible = true;
+                    (untyped mc).gold.visible = true;
                 }
                 
                 /*
@@ -242,7 +242,7 @@ class UIWalkthrough extends UIScreenInstance
         }
     }
     
-    private function PrevPageClicked(e : MouseEvent)
+    public function PrevPageClicked(e : MouseEvent)
     {
         GameVars.currentWalkthroughPage--;
         if (GameVars.currentWalkthroughPage < 0)
@@ -251,7 +251,7 @@ class UIWalkthrough extends UIScreenInstance
         }
         PopulatePage();
     }
-    private function NextPageClicked(e : MouseEvent)
+    public function NextPageClicked(e : MouseEvent)
     {
         GameVars.currentWalkthroughPage++;
         if (GameVars.currentWalkthroughPage >= numPages)
@@ -262,14 +262,14 @@ class UIWalkthrough extends UIScreenInstance
     }
     
     
-    private var currentScreenshot : Int;
-    private function SaveScreenshots()
+    public var currentScreenshot : Int;
+    public function SaveScreenshots()
     {
         currentScreenshot = 0;
         SaveScreenshot();
     }
     
-    private function SaveScreenshot()
+    public function SaveScreenshot()
     {
         var w : WalkthroughScreen = Walkthrough.walkthroughScreens[currentScreenshot];
         
@@ -285,7 +285,7 @@ class UIWalkthrough extends UIScreenInstance
         Utils.print("saved level screenshot " + name);
     }
     
-    private function SaveScreenshots_CB(e : Event)
+    public function SaveScreenshots_CB(e : Event)
     {
         currentScreenshot++;
         if (currentScreenshot < 50)
@@ -295,32 +295,32 @@ class UIWalkthrough extends UIScreenInstance
     }
     
     
-    private function ScreenOver(e : MouseEvent)
+    public function ScreenOver(e : MouseEvent)
     {
         var mc : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        Levels.currentIndex = mc.screenIndex;
-        titleMC.textLevelName.text = Levels.GetCurrent().name;
+        Levels.currentIndex = (untyped mc).screenIndex;
+        (untyped titleMC).textLevelName.text = Levels.GetCurrent().name;
     }
-    private function ScreenClicked(e : MouseEvent)
+    public function ScreenClicked(e : MouseEvent)
     {
         var mc : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        Levels.currentIndex = mc.screenIndex;
+        Levels.currentIndex = (untyped mc).screenIndex;
         UI.StartTransition("walkthrough_screen");
     }
     
-    private var adHolder : MovieClip;
+    public var adHolder : MovieClip;
     
-    private function levelHovered(e : MouseEvent)
+    public function levelHovered(e : MouseEvent)
     {
-        var levelID : Int = e.currentTarget.levelID;
+        var levelID : Int = (untyped e.currentTarget).levelID;
         selectedLevel = levelID;
         var l : Level = Levels.GetLevel(selectedLevel);
-        titleMC.textLevelName.text = l.name;
+        (untyped titleMC).textLevelName.text = l.name;
     }
-    private function levelPressed(e : MouseEvent)
+    public function levelPressed(e : MouseEvent)
     {
         var mc : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        Levels.currentIndex = mc.levelID;
+        Levels.currentIndex = (untyped mc).levelID;
         UI.StartTransition("walkthrough_screen");
     }
 }

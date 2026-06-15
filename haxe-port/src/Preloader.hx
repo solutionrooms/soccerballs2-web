@@ -30,7 +30,7 @@ class Preloader extends MovieClip
         addEventListener(Event.ADDED_TO_STAGE, added_to_stage, false, 0, true);
     }
     
-    private function added_to_stage(e : Event)
+    public function added_to_stage(e : Event)
     {
         removeEventListener(Event.ADDED_TO_STAGE, added_to_stage);
         
@@ -80,26 +80,26 @@ class Preloader extends MovieClip
         }
     }
     
-    private function AdHolderInitOnceCB()
+    public function AdHolderInitOnceCB()
     {
         LicAds.ShowAd(LicAdsShowAdCB);
     }
-    private function LicAdsShowAdCB()
+    public function LicAdsShowAdCB()
     {
         addEventListener(Event.ENTER_FRAME, checkFrame);
         loaderInfo.addEventListener(ProgressEvent.PROGRESS, progress);
         loaderInfo.addEventListener(IOErrorEvent.IO_ERROR, ioError);
     }
     
-    private function ioError(e : IOErrorEvent) : Void
+    public function ioError(e : IOErrorEvent) : Void
     {
     }
     
-    private function progress(e : ProgressEvent) : Void
+    public function progress(e : ProgressEvent) : Void
     {
     }
     
-    private function checkFrame(e : Event) : Void
+    public function checkFrame(e : Event) : Void
     {
         if (currentFrame == totalFrames)
         {
@@ -108,7 +108,7 @@ class Preloader extends MovieClip
         }
     }
     
-    private function loadingFinished1() : Void
+    public function loadingFinished1() : Void
     {
         removeEventListener(Event.ENTER_FRAME, checkFrame);
         loaderInfo.removeEventListener(ProgressEvent.PROGRESS, progress);
@@ -116,18 +116,18 @@ class Preloader extends MovieClip
         
         loadingFinished2();
     }
-    private function loadingFinished2() : Void
+    public function loadingFinished2() : Void
     {
         startup();
     }
     
-    private function startup() : Void
+    public function startup() : Void
     {
         var mainClass : Class<Dynamic> = Type.getClass(Type.resolveClass("Main"));
         addChild(try cast(Type.createInstance(mainClass, []), DisplayObject) catch(e:Dynamic) null);
     }
     
-    private function startGame_Kizi() : Void
+    public function startGame_Kizi() : Void
     {
         KiziStuff.InitFromPreloader();
         
@@ -136,7 +136,7 @@ class Preloader extends MovieClip
         addChildAt(try cast(Type.createInstance(mainClass, []), DisplayObject) catch(e:Dynamic) null, 0);
     }
     
-    private function updateProgress_Kizi(e : Event) : Void
+    public function updateProgress_Kizi(e : Event) : Void
     {
         var total : Float = stage.loaderInfo.bytesTotal;
         var loaded : Float = stage.loaderInfo.bytesLoaded;

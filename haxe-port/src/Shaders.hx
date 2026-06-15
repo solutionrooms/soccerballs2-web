@@ -9,7 +9,7 @@ class Shaders
     
     @:meta(Embed(source="../bin/test.pbj",mimeType="application/octet-stream"))
 
-    private static var MyShaderClass : Class<Dynamic>;
+    public static var MyShaderClass : Class<Dynamic>;
     
     
     

@@ -6,12 +6,12 @@ import flash.geom.ColorTransform;
 	 */
 class AnimHierarchyFrame
 {
-    private var parts : Array<AnimHierarchyFramePart>;
+    public var parts : Array<AnimHierarchyFramePart>;
     
     public function Clone() : AnimHierarchyFrame
     {
         var f : AnimHierarchyFrame = new AnimHierarchyFrame();
-        f.parts = new Array<AnimHierarchyFramePart>();
+        f.parts = [];
         for (p in parts)
         {
             f.parts.push(p.Clone());
@@ -21,7 +21,7 @@ class AnimHierarchyFrame
     
     public function new()
     {
-        parts = new Array<AnimHierarchyFramePart>();
+        parts = [];
     }
 }
 

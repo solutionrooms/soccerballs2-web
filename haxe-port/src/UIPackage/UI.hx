@@ -29,33 +29,33 @@ import textPackage.TextStrings;
 	 */
 class UI
 {
-    private static var muteButtonReverse : Bool = true;
+    public static var muteButtonReverse : Bool = true;
     
-    private static var onTransitionCompleteFunction : Function = null;
-    private static var returnScreenName : String = "";
+    public static var onTransitionCompleteFunction : Function = null;
+    public static var returnScreenName : String = "";
     
-    private static var screenTemplates : Array<Dynamic>;
+    public static var screenTemplates : Array<Dynamic>;
     
     public function new()
     {
         InitOnce();
     }
     
-    private static var screenA : MovieClip = null;
-    private static var screenB : MovieClip = null;
+    public static var screenA : MovieClip = null;
+    public static var screenB : MovieClip = null;
     
-    private static var globalMC_help : MovieClip;
-    private static var globalMC_areYouSure : MovieClip;
+    public static var globalMC_help : MovieClip;
+    public static var globalMC_areYouSure : MovieClip;
     
     
     public static var lastCreatedScreen : MovieClip;
     
-    private static function AddScreen(mc : MovieClip) : MovieClip
+    public static function AddScreen(mc : MovieClip) : MovieClip
     {
         lastCreatedScreen = mc;
         return mc;
     }
-    private static function RemoveScreen(mc : MovieClip) : MovieClip
+    public static function RemoveScreen(mc : MovieClip) : MovieClip
     {
         lastCreatedScreen = null;
         return mc;
@@ -71,7 +71,7 @@ class UI
         
         currentScreen = null;
         
-        screenTemplates = new Array<Dynamic>();
+        screenTemplates = [];
         screenTemplates.push(new UIScreen("title", false, UITitleScreen, null));
         screenTemplates.push(new UIScreen("achievements", false, UIAchievements, null));
         screenTemplates.push(new UIScreen("levelselect", false, UILevelSelect, null));
@@ -90,7 +90,7 @@ class UI
         screenTemplates.push(new UIScreen("language", false, UILanguageSelect, null));
     }
     
-    private static var titleMC : MovieClip;
+    public static var titleMC : MovieClip;
     
     
     
@@ -120,7 +120,7 @@ class UI
             return;
         }
         
-        genericMC.textScore.text = Game.currentScore;
+        (untyped genericMC).textScore.text = Game.currentScore;
     }
     public static function AddGeneric(parent : MovieClip, removeStuff : Bool = false)
     {
@@ -135,9 +135,9 @@ class UI
         genericMC = new UiHud();
         parent.addChild(genericMC);
         
-        TextStrings.ReplaceTextFieldText(genericMC.textTitle);
-        AddAnimatedSFXMuteButton(genericMC.btn_sfxMute);
-        AddAnimatedMusicMuteButton(genericMC.btn_musicMute);
+        TextStrings.ReplaceTextFieldText((untyped genericMC).textTitle);
+        AddAnimatedSFXMuteButton((untyped genericMC).btn_sfxMute);
+        AddAnimatedMusicMuteButton((untyped genericMC).btn_musicMute);
         
         
         
@@ -153,7 +153,7 @@ class UI
     
     
     
-    private static var addButtonList : Array<Dynamic> = null;
+    public static var addButtonList : Array<Dynamic> = null;
     public static function ReorderButtonList(topMost : MovieClip)
     {
         if (addButtonList == null)
@@ -186,7 +186,7 @@ class UI
     }
     public static function StartAddButtons()
     {
-        addButtonList = new Array<Dynamic>();
+        addButtonList = [];
     }
     
     
@@ -201,7 +201,7 @@ class UI
     public static var nextScreen : UIScreenInstance;
     
     
-    private static function GetUIScreenTemplateByName(_name : String)
+    public static function GetUIScreenTemplateByName(_name : String)
     {
         for (template in screenTemplates)
         {
@@ -214,18 +214,18 @@ class UI
     }
     
     
-    private static function TransitionMakeInstance(_name : String) : UIScreenInstance
+    public static function TransitionMakeInstance(_name : String) : UIScreenInstance
     {
         var template : UIScreen = GetUIScreenTemplateByName(_name);
-        var inst : UIScreenInstance = new template.TheClass();
+        var inst : UIScreenInstance = Type.createInstance(template.theClass, []);
         inst.active = true;
         inst.template = template;
         inst.Start();
         return inst;
     }
     
-    private static var overlay_parent : UIScreenInstance;
-    private static function RemoveOverlay()
+    public static var overlay_parent : UIScreenInstance;
+    public static function RemoveOverlay()
     {
         nextScreen.Stop();
         Game.main.removeChild(nextScreen.titleMC);
@@ -272,9 +272,9 @@ class UI
     
     public static var isInTransition : Bool = false;
     
-    private static var exitScreenMC : MovieClip = null;
-    private static var exitScreenTimer : Int = 0;
-    private static var exitScreenLocation : String = "";
+    public static var exitScreenMC : MovieClip = null;
+    public static var exitScreenTimer : Int = 0;
+    public static var exitScreenLocation : String = "";
     public static function WaitAndExitScreenEnterFrame(e : Event)
     {
         exitScreenTimer++;
@@ -378,12 +378,12 @@ class UI
             globalMC_transition.gotoAndPlay(1);
             globalMC_transition.cacheAsBitmap = true;
             
-            globalMC_transition.screenA.addChild(transScreenA_B);
-            globalMC_transition.screenB.addChild(transScreenB_B);
+            (untyped globalMC_transition).screenA.addChild(transScreenA_B);
+            (untyped globalMC_transition).screenB.addChild(transScreenB_B);
         }
     }
     
-    private static function TransitionEnterFrame(e : Event)
+    public static function TransitionEnterFrame(e : Event)
     {
         if (globalMC_transition == null)
         {
@@ -399,12 +399,12 @@ class UI
             
             if (trans_screenA != null)
             {
-                globalMC_transition.screenA.removeChild(transScreenA_B);
+                (untyped globalMC_transition).screenA.removeChild(transScreenA_B);
                 trans_screenA = null;
             }
             if (trans_screenB != null)
             {
-                globalMC_transition.screenB.removeChild(transScreenB_B);
+                (untyped globalMC_transition).screenB.removeChild(transScreenB_B);
                 Game.main.addChild(trans_screenB);
             }
             
@@ -433,15 +433,15 @@ class UI
     
     
     
-    private static var globalMC_transition : MovieClip;
-    private static var trans_screenA : MovieClip;
-    private static var trans_screenB : MovieClip;
-    private static var trans_completeFunction : Function;
+    public static var globalMC_transition : MovieClip;
+    public static var trans_screenA : MovieClip;
+    public static var trans_screenB : MovieClip;
+    public static var trans_completeFunction : Function;
     
-    private static var transScreenA_BD : BitmapData;
-    private static var transScreenB_BD : BitmapData;
-    private static var transScreenA_B : Bitmap;
-    private static var transScreenB_B : Bitmap;
+    public static var transScreenA_BD : BitmapData;
+    public static var transScreenB_BD : BitmapData;
+    public static var transScreenA_B : Bitmap;
+    public static var transScreenB_B : Bitmap;
     
     
     
@@ -459,15 +459,15 @@ class UI
     
     public static function SetupAnimatedSFXMuteButton(mc : MovieClip)
     {
-        mc.toggleIcon.visible = true;
+        (untyped mc).toggleIcon.visible = true;
         if (Audio.IsMuteSFX())
         {
-            mc.toggleIcon.visible = false;
+            (untyped mc).toggleIcon.visible = false;
         }
         
         if (muteButtonReverse)
         {
-            mc.toggleIcon.visible = (mc.toggleIcon.visible == false);
+            (untyped mc).toggleIcon.visible = ((untyped mc).toggleIcon.visible == false);
         }
     }
     
@@ -478,7 +478,7 @@ class UI
             Utils.print("add MCbutton button = null");
         }
         
-        btn.helpText = text;
+        (untyped btn).helpText = text;
         
         SetupAnimatedSFXMuteButton(btn);
         
@@ -502,7 +502,7 @@ class UI
     }
     public static function AnimatedSFXMuteButton_Click(e : MouseEvent)
     {
-        e.currentTarget.buttonAnimation.gotoAndPlay("clicked");
+        (untyped e.currentTarget).buttonAnimation.gotoAndPlay("clicked");
         
         Audio.ToggleMuteSFX();
         SetupAnimatedSFXMuteButton(try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null);
@@ -513,8 +513,8 @@ class UI
         {
             return;
         }
-        e.currentTarget.buttonAnimation.gotoAndPlay("over");
-        if (e.currentTarget.helpText != null)
+        (untyped e.currentTarget).buttonAnimation.gotoAndPlay("over");
+        if ((untyped e.currentTarget).helpText != null)
         {
         }
     }
@@ -524,8 +524,8 @@ class UI
         {
             return;
         }
-        e.currentTarget.buttonAnimation.gotoAndPlay("out");
-        if (e.currentTarget.helpText != null)
+        (untyped e.currentTarget).buttonAnimation.gotoAndPlay("out");
+        if ((untyped e.currentTarget).helpText != null)
         {
         }
     }
@@ -536,14 +536,14 @@ class UI
     
     public static function SetupAnimatedMusicMuteButton(mc : MovieClip)
     {
-        mc.toggleIcon.visible = true;
+        (untyped mc).toggleIcon.visible = true;
         if (Audio.IsMuteMusic())
         {
-            mc.toggleIcon.visible = false;
+            (untyped mc).toggleIcon.visible = false;
         }
         if (muteButtonReverse)
         {
-            mc.toggleIcon.visible = (mc.toggleIcon.visible == false);
+            (untyped mc).toggleIcon.visible = ((untyped mc).toggleIcon.visible == false);
         }
     }
     
@@ -554,7 +554,7 @@ class UI
             Utils.print("add MCbutton button = null");
         }
         
-        btn.helpText = text;
+        (untyped btn).helpText = text;
         
         SetupAnimatedMusicMuteButton(btn);
         
@@ -578,7 +578,7 @@ class UI
     }
     public static function AnimatedMusicMuteButton_Click(e : MouseEvent)
     {
-        e.currentTarget.buttonAnimation.gotoAndPlay("clicked");
+        (untyped e.currentTarget).buttonAnimation.gotoAndPlay("clicked");
         
         Audio.ToggleMuteMusic();
         SetupAnimatedMusicMuteButton(try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null);
@@ -589,8 +589,8 @@ class UI
         {
             return;
         }
-        e.currentTarget.buttonAnimation.gotoAndPlay("over");
-        if (e.currentTarget.helpText != null)
+        (untyped e.currentTarget).buttonAnimation.gotoAndPlay("over");
+        if ((untyped e.currentTarget).helpText != null)
         {
         }
     }
@@ -600,8 +600,8 @@ class UI
         {
             return;
         }
-        e.currentTarget.buttonAnimation.gotoAndPlay("out");
-        if (e.currentTarget.helpText != null)
+        (untyped e.currentTarget).buttonAnimation.gotoAndPlay("out");
+        if ((untyped e.currentTarget).helpText != null)
         {
         }
     }
@@ -621,7 +621,7 @@ class UI
         btn.addEventListener(MouseEvent.MOUSE_UP, nonPropagate);
         btn.addEventListener(MouseEvent.MOUSE_MOVE, nonPropagate);
     }
-    private static function nonPropagate(e : MouseEvent)
+    public static function nonPropagate(e : MouseEvent)
     {
         StopPropagation(e);
     }
@@ -631,9 +631,9 @@ class UI
     
     public static function AddBarebonesMCButton(btn : MovieClip, clickCallback : Function, _overCB : Function = null, _outCB : Function = null, _text : String = null)
     {
-        btn._clickCB = clickCallback;
-        btn._overCB = _overCB;
-        btn._outCB = _outCB;
+        (untyped btn)._clickCB = clickCallback;
+        (untyped btn)._overCB = _overCB;
+        (untyped btn)._outCB = _outCB;
         btn.addEventListener(MouseEvent.CLICK, BarebonesMCButton_Click, false, 0, true);
         btn.addEventListener(MouseEvent.ROLL_OVER, BarebonesMCButton_Over, false, 0, true);
         btn.addEventListener(MouseEvent.ROLL_OUT, BarebonesMCButton_Out, false, 0, true);
@@ -647,33 +647,33 @@ class UI
         btn.removeEventListener(MouseEvent.ROLL_OUT, BarebonesMCButton_Out);
         btn.removeEventListener(MouseEvent.CLICK, BarebonesMCButton_Click);
     }
-    private static function BarebonesMCButton_Click(e : MouseEvent)
+    public static function BarebonesMCButton_Click(e : MouseEvent)
     {
         Audio.OneShot("sfx_click", 0, 0.2);
-        if (e.currentTarget._clickCB != null)
+        if ((untyped e.currentTarget)._clickCB != null)
         {
-            e.currentTarget._clickCB(e);
+            (untyped e.currentTarget)._clickCB(e);
         }
     }
-    private static function BarebonesMCButton_Over(e : MouseEvent)
+    public static function BarebonesMCButton_Over(e : MouseEvent)
     {
-        if (e.currentTarget._overCB != null)
+        if ((untyped e.currentTarget)._overCB != null)
         {
-            e.currentTarget._overCB(e);
+            (untyped e.currentTarget)._overCB(e);
         }
     }
-    private static function BarebonesMCButton_Out(e : MouseEvent)
+    public static function BarebonesMCButton_Out(e : MouseEvent)
     {
-        if (e.currentTarget._outCB != null)
+        if ((untyped e.currentTarget)._outCB != null)
         {
-            e.currentTarget._outCB(e);
+            (untyped e.currentTarget)._outCB(e);
         }
     }
     
     
     
     
-    public static function AddAnimatedMCButton_Mobile(btn : MovieClip, clickCallback : Function, text : String = null, reorderWhenOver : Bool = false, _hoverCallback)
+    public static function AddAnimatedMCButton_Mobile(btn : MovieClip, clickCallback : Function, text : String = null, reorderWhenOver : Bool = false, _hoverCallback : Dynamic = null)
     {
         if (btn == null)
         {
@@ -686,30 +686,30 @@ class UI
         
         
         
-        btn.reorderWhenOver = false;
-        btn.helpText = text;
+        (untyped btn).reorderWhenOver = false;
+        (untyped btn).helpText = text;
         if (text != null)
         {
-            btn.buttonName.text = text;
+            (untyped btn).buttonName.text = text;
         }
         
         
-        btn.clickCallback = clickCallback;
-        btn.hoverCallback = _hoverCallback;
+        (untyped btn).clickCallback = clickCallback;
+        (untyped btn).hoverCallback = _hoverCallback;
         
-        btn.buttonAnimation.gotoAndStop(1);
+        (untyped btn).buttonAnimation.gotoAndStop(1);
         
         if (false)
         {
-            btn.buttonAnimation.buttonText.buttonName.text = btn.buttonName.text;
-            btn.buttonName.visible = false;
-            btn.buttonAnimation.buttonText.visible = true;
-            btn.buttonAnimation.buttonText.mouseEnabled = false;
-            btn.buttonName.mouseEnabled = false;
+            (untyped btn.buttonAnimation.buttonText).buttonName.text = (untyped btn).buttonName.text;
+            (untyped btn).buttonName.visible = false;
+            (untyped btn.buttonAnimation).buttonText.visible = true;
+            (untyped btn.buttonAnimation).buttonText.mouseEnabled = false;
+            (untyped btn).buttonName.mouseEnabled = false;
         }
-        if (btn.buttonName != null)
+        if ((untyped btn).buttonName != null)
         {
-            btn.buttonName.mouseEnabled = false;
+            (untyped btn).buttonName.mouseEnabled = false;
         }
         
         
@@ -734,13 +734,13 @@ class UI
     
     public static function AnimatedMCButton_Mobile_Down(e : MouseEvent)
     {
-        e.currentTarget.buttonAnimation.gotoAndPlay("clicked");
+        (untyped e.currentTarget).buttonAnimation.gotoAndPlay("clicked");
         Audio.OneShot("sfx_click", 0, 0.2);
         
         
-        if (e.currentTarget.clickCallback != null)
+        if ((untyped e.currentTarget).clickCallback != null)
         {
-            e.currentTarget.clickCallback(e);
+            (untyped e.currentTarget).clickCallback(e);
         }
     }
     
@@ -750,20 +750,20 @@ class UI
     
     public static function AddInfoButton(btn : MovieClip, text : String)
     {
-        btn.popup.visible = false;
+        (untyped btn).popup.visible = false;
         btn.addEventListener(MouseEvent.ROLL_OVER, InfoButton_Over, false, 0, true);
         btn.addEventListener(MouseEvent.ROLL_OUT, InfoButton_Out, false, 0, true);
-        btn.popup.infoText.text = TextStrings.GetLocalisedText(text);
+        (untyped btn).popup.infoText.text = TextStrings.GetLocalisedText(text);
     }
     public static function InfoButton_Over(e : MouseEvent)
     {
         var btn : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        btn.popup.visible = true;
+        (untyped btn).popup.visible = true;
     }
     public static function InfoButton_Out(e : MouseEvent)
     {
         var btn : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        btn.popup.visible = false;
+        (untyped btn).popup.visible = false;
     }
     
     
@@ -772,21 +772,21 @@ class UI
     
     public static function GetAnimatedMCTickState(btn : MovieClip) : Bool
     {
-        return btn.tickState;
+        return (untyped btn).tickState;
     }
     public static function AnimatedMCTickButtonSetCanPress(btn : MovieClip, b : Bool)
     {
-        btn.canClick = b;
+        (untyped btn).canClick = b;
     }
     public static function AddAnimatedMCTickButton(btn : MovieClip, clickCallback : Function, text : String = null, reorderWhenOver : Bool = false, _hoverCallback : Dynamic = null, _initialTickState : Bool = false)
     {
         AddAnimatedMCButton(btn, clickCallback, text, reorderWhenOver, _hoverCallback);
-        btn.useTick = true;
-        btn.tickState = _initialTickState;
-        btn.tick.visible = btn.tickState;
+        (untyped btn).useTick = true;
+        (untyped btn).tickState = _initialTickState;
+        (untyped btn).tick.visible = (untyped btn).tickState;
     }
     
-    public static function AddAnimatedMCButton(btn : MovieClip, clickCallback : Function, text : String = null, reorderWhenOver : Bool = false, _hoverCallback)
+    public static function AddAnimatedMCButton(btn : MovieClip, clickCallback : Function, text : String = null, reorderWhenOver : Bool = false, _hoverCallback : Dynamic = null)
     {
         if (false)
         {
@@ -811,42 +811,42 @@ class UI
         
         btn.mouseChildren = false;
         
-        btn.canClick = true;
+        (untyped btn).canClick = true;
         
-        btn.reorderWhenOver = false;
-        btn.helpText = text;
+        (untyped btn).reorderWhenOver = false;
+        (untyped btn).helpText = text;
         if (text != null)
         {
             if (Game.use_localisation)
             {
                 text = TextStrings.GetLocalisedText(text);
             }
-            btn.buttonName.text = text;
+            (untyped btn).buttonName.text = text;
         }
         
         
-        btn.clickCallback = clickCallback;
-        btn.hoverCallback = _hoverCallback;
+        (untyped btn).clickCallback = clickCallback;
+        (untyped btn).hoverCallback = _hoverCallback;
         
-        btn.buttonAnimation.gotoAndStop(1);
+        (untyped btn).buttonAnimation.gotoAndStop(1);
         
-        if (btn.buttonName != null)
+        if ((untyped btn).buttonName != null)
         {
-            TextStrings.ReplaceTextFieldText(btn.buttonName);
+            TextStrings.ReplaceTextFieldText((untyped btn).buttonName);
             
-            if (btn.buttonAnimation.buttonText != null)
+            if ((untyped btn.buttonAnimation).buttonText != null)
             {
-                btn.buttonAnimation.buttonText.buttonName.text = btn.buttonName.text;
-                btn.buttonName.visible = false;
-                btn.buttonAnimation.buttonText.visible = true;
-                btn.buttonAnimation.buttonText.mouseEnabled = false;
-                btn.buttonName.mouseEnabled = false;
-                btn.buttonAnimation.buttonText.buttonName.setTextFormat(btn.buttonName.getTextFormat());
+                (untyped btn.buttonAnimation.buttonText).buttonName.text = (untyped btn).buttonName.text;
+                (untyped btn).buttonName.visible = false;
+                (untyped btn.buttonAnimation).buttonText.visible = true;
+                (untyped btn.buttonAnimation).buttonText.mouseEnabled = false;
+                (untyped btn).buttonName.mouseEnabled = false;
+                (untyped btn.buttonAnimation.buttonText).buttonName.setTextFormat((untyped btn).buttonName.getTextFormat());
             }
         }
-        if (btn.buttonName != null)
+        if ((untyped btn).buttonName != null)
         {
-            btn.buttonName.mouseEnabled = false;
+            (untyped btn).buttonName.mouseEnabled = false;
         }
         
         
@@ -871,20 +871,20 @@ class UI
     }
     public static function AnimatedMCButton_Click(e : MouseEvent)
     {
-        if (e.currentTarget.useTick)
+        if ((untyped e.currentTarget).useTick)
         {
-            if (e.currentTarget.canClick)
+            if ((untyped e.currentTarget).canClick)
             {
-                e.currentTarget.tickState = (e.currentTarget.tickState == false);
-                e.currentTarget.tick.visible = e.currentTarget.tickState;
+                (untyped e.currentTarget).tickState = ((untyped e.currentTarget).tickState == false);
+                (untyped e.currentTarget).tick.visible = (untyped e.currentTarget).tickState;
             }
         }
         
-        e.currentTarget.buttonAnimation.gotoAndPlay("clicked");
+        (untyped e.currentTarget).buttonAnimation.gotoAndPlay("clicked");
         Audio.OneShot("sfx_click", 0, 0.2);
-        if (e.currentTarget.clickCallback != null)
+        if ((untyped e.currentTarget).clickCallback != null)
         {
-            e.currentTarget.clickCallback(e);
+            (untyped e.currentTarget).clickCallback(e);
         }
     }
     public static function AnimatedMCButton_Over(e : MouseEvent)
@@ -894,17 +894,17 @@ class UI
             return;
         }
         
-        if (e.currentTarget.reorderWhenOver)
+        if ((untyped e.currentTarget).reorderWhenOver)
         {
             ReorderButtonList(try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null);
         }
         
-        if (e.currentTarget.hoverCallback != null)
+        if ((untyped e.currentTarget).hoverCallback != null)
         {
             e.currentTarget.descendants("hoverCallback")(e);
         }
         
-        e.currentTarget.buttonAnimation.gotoAndPlay("over");
+        (untyped e.currentTarget).buttonAnimation.gotoAndPlay("over");
     }
     public static function AnimatedMCButton_Out(e : MouseEvent)
     {
@@ -912,8 +912,8 @@ class UI
         {
             return;
         }
-        e.currentTarget.buttonAnimation.gotoAndPlay("out");
-        if (e.currentTarget.helpText != null)
+        (untyped e.currentTarget).buttonAnimation.gotoAndPlay("out");
+        if ((untyped e.currentTarget).helpText != null)
         {
         }
     }
@@ -960,7 +960,7 @@ class UI
             Utils.print("add MCbutton clickCallback = null");
         }
         
-        btn.helpText = text;
+        (untyped btn).helpText = text;
         
         btn.gotoAndStop(1);
         btn.addEventListener(MouseEvent.ROLL_OVER, MCButton_Over, false, 0, true);
@@ -970,8 +970,8 @@ class UI
         btn.useHandCursor = true;
         btn.buttonMode = true;
         
-        btn.clickCallback = clickCallback;
-        btn.hoverCallback = hoverCallback;
+        (untyped btn).clickCallback = clickCallback;
+        (untyped btn).hoverCallback = hoverCallback;
         btn.outCallback = outCallback;
         
         btn.addEventListener(MouseEvent.MOUSE_UP, MCButton_Click, false, 0, true);
@@ -988,7 +988,7 @@ class UI
     {
         Audio.OneShot("sfx_click", 0, 0.2);
         e.currentTarget.gotoAndStop(1);
-        e.currentTarget.clickCallback(e);
+        (untyped e.currentTarget).clickCallback(e);
     }
     public static function MCButton_Over(e : MouseEvent)
     {
@@ -997,16 +997,16 @@ class UI
             return;
         }
         
-        if (e.currentTarget.hoverCallback != null)
+        if ((untyped e.currentTarget).hoverCallback != null)
         {
-            e.currentTarget.hoverCallback(e);
+            (untyped e.currentTarget).hoverCallback(e);
         }
         
         if (e.currentTarget.currentFrame != 3)
         {
             e.currentTarget.gotoAndStop(2);
         }
-        if (e.currentTarget.helpText != null)
+        if ((untyped e.currentTarget).helpText != null)
         {
         }
     }
@@ -1021,7 +1021,7 @@ class UI
             e.currentTarget.outCallback(e);
         }
         e.currentTarget.gotoAndStop(1);
-        if (e.currentTarget.helpText != null)
+        if ((untyped e.currentTarget).helpText != null)
         {
         }
     }
@@ -1046,10 +1046,10 @@ class UI
     }
     public static function SetupSFXMuteButton(mc : MovieClip)
     {
-        mc.toggleIcon.visible = false;
+        (untyped mc).toggleIcon.visible = false;
         if (Audio.IsMuteSFX())
         {
-            mc.toggleIcon.visible = true;
+            (untyped mc).toggleIcon.visible = true;
         }
     }
     public static function InitSFXMuteButton(mc : MovieClip)
@@ -1089,10 +1089,10 @@ class UI
     }
     public static function SetupMusicMuteButton(mc : MovieClip)
     {
-        mc.toggleIcon.visible = false;
+        (untyped mc).toggleIcon.visible = false;
         if (Audio.IsMuteMusic())
         {
-            mc.toggleIcon.visible = true;
+            (untyped mc).toggleIcon.visible = true;
         }
     }
     public static function InitMusicMuteButton(mc : MovieClip)
@@ -1132,16 +1132,16 @@ class UI
     
     
     
-    private static var debugSkipMovies : Bool = false;
-    private static var playMovieMC : MovieClip = null;
-    private static var playMovieCallback : Function;
-    private static var playMovieButtonSkip : Bool;
-    private static var playMovieLoop : Bool;
-    private static function PlayMovie_Click(e : Event)
+    public static var debugSkipMovies : Bool = false;
+    public static var playMovieMC : MovieClip = null;
+    public static var playMovieCallback : Function;
+    public static var playMovieButtonSkip : Bool;
+    public static var playMovieLoop : Bool;
+    public static function PlayMovie_Click(e : Event)
     {
         PlayMovie_Close();
     }
-    private static function PlayMovie_Close()
+    public static function PlayMovie_Close()
     {
         playMovieMC.stop();
         if (playMovieButtonSkip)
@@ -1166,7 +1166,7 @@ class UI
         PlayMovie_Close();
     }
     
-    private static function PlayMovie_EnterFrame(e : Event)
+    public static function PlayMovie_EnterFrame(e : Event)
     {
         if (playMovieLoop)
         {
@@ -1180,7 +1180,7 @@ class UI
         {
         }
     }
-    private static function PlayMovie(movie : Dynamic, _cb : Function, _buttonSkip : Bool = false, _loop : Bool = false)
+    public static function PlayMovie(movie : Dynamic, _cb : Function, _buttonSkip : Bool = false, _loop : Bool = false)
     {
         playMovieButtonSkip = _buttonSkip;
         playMovieLoop = _loop;
@@ -1218,9 +1218,9 @@ class UI
     
     
     
-    private static var areYouSureDialog : MovieClip;
-    private static var areYouSureDialogParent : MovieClip;
-    private static var areYouSureDialogCallback : Function;
+    public static var areYouSureDialog : MovieClip;
+    public static var areYouSureDialogParent : MovieClip;
+    public static var areYouSureDialogCallback : Function;
     
     public static function AddAreYouSureDialog_Yes(e : MouseEvent)
     {
@@ -1247,16 +1247,16 @@ class UI
         
         areYouSureDialogCallback = cb;
         
-        areYouSureDialog.textQuestion.text = title;
-        AddAnimatedMCButton(areYouSureDialog.btn_yes, AddAreYouSureDialog_Yes);
-        AddAnimatedMCButton(areYouSureDialog.btn_no, AddAreYouSureDialog_No);
+        (untyped areYouSureDialog).textQuestion.text = title;
+        AddAnimatedMCButton((untyped areYouSureDialog).btn_yes, AddAreYouSureDialog_Yes);
+        AddAnimatedMCButton((untyped areYouSureDialog).btn_no, AddAreYouSureDialog_No);
     }
     
     
-    private static var helpPage : Int;
-    private static var numHelpPages : Int;
-    private static var helpOverlay : MovieClip;
-    private static var helpOverlayParent : MovieClip;
+    public static var helpPage : Int;
+    public static var numHelpPages : Int;
+    public static var helpOverlay : MovieClip;
+    public static var helpOverlayParent : MovieClip;
     public static function InitHelp(parent : MovieClip)
     {
         helpOverlayParent = parent;
@@ -1270,7 +1270,7 @@ class UI
         
         InitHelp_Update();
     }
-    private static function InitHelp_Update()
+    public static function InitHelp_Update()
     {
         helpOverlay.gotoAndStop(helpPage + 1);
         
@@ -1289,20 +1289,20 @@ class UI
     
     
     
-    private static function Help_CancelPressed(e : MouseEvent)
+    public static function Help_CancelPressed(e : MouseEvent)
     {
         helpOverlayParent.removeChild(helpOverlay);
         helpOverlay = null;
         Game.pause = false;
     }
     
-    private static function Help_NextPressed(e : MouseEvent)
+    public static function Help_NextPressed(e : MouseEvent)
     {
         helpPage++;
         helpPage = Utils.LimitNumber(0, numHelpPages - 1, helpPage);
         InitHelp_Update();
     }
-    private static function Help_PrevPressed(e : MouseEvent)
+    public static function Help_PrevPressed(e : MouseEvent)
     {
         helpPage--;
         helpPage = Utils.LimitNumber(0, numHelpPages - 1, helpPage);
@@ -1312,18 +1312,18 @@ class UI
     
     public static function StartColorLines()
     {
-        colors0 = new Array<Dynamic>();
-        colors1 = new Array<Dynamic>();
+        colors0 = [];
+        colors1 = [];
         str0 = "";
         str1 = "";
         lineColCount = 0;
     }
     
-    private static var str0 : String;
-    private static var str1 : String;
-    private static var lineColCount : Int;
-    private static var colors0 : Array<Dynamic>;
-    private static var colors1 : Array<Dynamic>;
+    public static var str0 : String;
+    public static var str1 : String;
+    public static var lineColCount : Int;
+    public static var colors0 : Array<Dynamic>;
+    public static var colors1 : Array<Dynamic>;
     public static function AddLine(s0 : String, newline : Bool = true)
     {
         var a : Int;
@@ -1367,7 +1367,7 @@ class UI
             }
         }
     }
-    private static var useFullTransition : Bool = true;
+    public static var useFullTransition : Bool = true;
 
 }
 

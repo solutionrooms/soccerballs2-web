@@ -49,7 +49,7 @@ class SeededRandom
     {
     }
     
-    private static function SetSeed(_seed : Int)
+    public static function SetSeed(_seed : Int)
     {
         seed = _seed;
     }
@@ -78,7 +78,7 @@ class SeededRandom
 		 * generator:
 		 * new-value = (old-value * 16807) mod (2^31 - 1)
 		 */
-    private static function gen() : Int
+    public static function gen() : Int
     {
         return seed = as3hx.Compat.parseInt((seed * 16807) % 2147483647);
     }

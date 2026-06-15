@@ -6,12 +6,12 @@ import nape.phys.Material;
 	 */
 class PhysObjMaterial
 {
-    private var name : String;
-    private var density : Float;
-    private var friction_dynamic : Float;
-    private var friction_static : Float;
-    private var friction_rolling : Float;
-    private var elasticity : Float;
+    public var name : String;
+    public var density : Float;
+    public var friction_dynamic : Float;
+    public var friction_static : Float;
+    public var friction_rolling : Float;
+    public var elasticity : Float;
     
     public function new()
     {

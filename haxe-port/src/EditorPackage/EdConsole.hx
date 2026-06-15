@@ -7,8 +7,8 @@ package editorPackage;
 	 */
 class EdConsole
 {
-    private static var lineList : Array<EdConsoleItem>;
-    private static var activeList : Array<EdConsoleItem>;
+    public static var lineList : Array<EdConsoleItem>;
+    public static var activeList : Array<EdConsoleItem>;
     
     
     public function new()
@@ -16,8 +16,8 @@ class EdConsole
     }
     public static function InitOnce()
     {
-        lineList = new Array<EdConsoleItem>();
-        activeList = new Array<EdConsoleItem>();
+        lineList = [];
+        activeList = [];
     }
     
     
@@ -30,7 +30,7 @@ class EdConsole
     
     public static function UpdateOncePerFrame()
     {
-        var removeList : Array<Dynamic> = new Array<Dynamic>();
+        var removeList : Array<Dynamic> = [];
         for (item in activeList)
         {
             item.timer--;

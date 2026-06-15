@@ -13,7 +13,7 @@ class SaveData
     {
     }
     
-    private static var id : String = "soccerballs2_9988";
+    public static var id : String = "soccerballs2_9988";
     
     
     

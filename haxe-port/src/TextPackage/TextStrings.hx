@@ -14,14 +14,14 @@ class TextStrings
     
     @:meta(Embed(source="../../bin/TextStrings.xml",mimeType="application/octet-stream"))
 
-    private static var class_embedded_XML : Class<Dynamic>;
+    public static var class_embedded_XML : Class<Dynamic>;
     
     
-    private static var xml : FastXML;
+    public static var xml : FastXML;
     public static var list : Array<TextString>;
     public static var dict : Dictionary<Dynamic, Dynamic>;
     
-    private static var initialised : Bool = false;
+    public static var initialised : Bool = false;
     
     public static var LANGUAGE_EN : Int = 0;
     public static var LANGUAGE_FR : Int = 1;
@@ -33,8 +33,8 @@ class TextStrings
     public static var LANGUAGE_SE : Int = 7;
     public static var LANGUAGE_IT : Int = 8;
     
-    public static var languageLabels = new Array<Dynamic>(
-        "en", "fr", "de", "pt", "es", "nl", "tr", "se", "it");
+    public static var languageLabels = [
+        "en", "fr", "de", "pt", "es", "nl", "tr", "se", "it"];
     
     
     public static var currentLanguage : Int = LANGUAGE_EN;
@@ -44,7 +44,7 @@ class TextStrings
         return languageLabels[index];
     }
     
-    public static var supportedLanguages : Array<Dynamic> = new Array<Dynamic>(
+    public static var supportedLanguages : Array<Dynamic> = [
         LANGUAGE_EN, 
         LANGUAGE_FR, 
         LANGUAGE_DE, 
@@ -53,7 +53,7 @@ class TextStrings
         LANGUAGE_NL, 
         
         LANGUAGE_SE, 
-        LANGUAGE_IT);
+        LANGUAGE_IT];
     
     public function new()
     {
@@ -61,7 +61,7 @@ class TextStrings
     
     public static function InitOnce()
     {
-        list = new Array<TextString>();
+        list = [];
         dict = new Dictionary<Dynamic, Dynamic>();
         
         FastXML.ignoreWhitespace = true;
@@ -111,11 +111,11 @@ class TextStrings
         var txt : TextString;
         if (strName == null)
         {
-            if (mc.buttonName == null)
+            if ((untyped mc).buttonName == null)
             {
                 return;
             }
-            var s : String = mc.buttonName.text.toLowerCase();
+            var s : String = (untyped mc).buttonName.text.toLowerCase();
             s = StringTools.replace(s, "\r", "");
             s = StringTools.replace(s, "\n", "");
             
@@ -127,7 +127,7 @@ class TextStrings
         }
         if (txt != null)
         {
-            mc.buttonName.text = txt.GetLocalisedText();
+            (untyped mc).buttonName.text = txt.GetLocalisedText();
         }
     }
     
@@ -170,8 +170,8 @@ class TextStrings
         {
             return;
         }
-        tf.text = tf.text.replace("\r", "");
-        tf.text = tf.text.replace("\n", "");
+        tf.text = StringTools.replace(tf.text, "\r", "");
+        tf.text = StringTools.replace(tf.text, "\n", "");
         
         
         var tFormat : TextFormat;
@@ -186,7 +186,7 @@ class TextStrings
                 
                 var size : Float = as3hx.Compat.parseFloat(tFormat.size);
                 size--;
-                tFormat.size = size;
+                tFormat.size = Std.int(size);
                 tf.setTextFormat(tFormat);
                 carryOn = false;
                 if (size < 8)

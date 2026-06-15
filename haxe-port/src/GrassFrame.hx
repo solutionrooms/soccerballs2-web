@@ -6,20 +6,20 @@ import achievementPackage.Achievement;
 	 */
 class GrassFrame
 {
-    private var mcName : String;
-    private var frameIndex : Int;
-    private var dof : DisplayObjFrame;
-    private var dofs : Array<DisplayObjFrame>;
-    private var scales : Array<Float>;
-    private var rots : Array<Int>;
+    public var mcName : String;
+    public var frameIndex : Int;
+    public var dof : DisplayObjFrame;
+    public var dofs : Array<DisplayObjFrame>;
+    public var scales : Array<Float>;
+    public var rots : Array<Int>;
     
     public function new(_index : Int, _name : String)
     {
         frameIndex = _index;
         mcName = _name;
-        dofs = new Array<DisplayObjFrame>();
-        scales = new Array<Float>();
-        rots = new Array<Int>();
+        dofs = [];
+        scales = [];
+        rots = [];
     }
     
     public function AddDof(dof : DisplayObjFrame, scale : Float, _rotint : Int)

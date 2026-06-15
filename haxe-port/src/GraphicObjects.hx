@@ -33,8 +33,8 @@ class GraphicObjects
 {
     
     
-    private static var dict : Dictionary<Dynamic, Dynamic>;
-    private static var displayObjs : Array<DisplayObj>;
+    public static var dict : Dictionary<Dynamic, Dynamic>;
+    public static var displayObjs : Array<DisplayObj>;
     
     public function new()
     {
@@ -42,7 +42,7 @@ class GraphicObjects
     
     @:meta(Embed(source="../bin/GraphicObjectsLayout.xml",mimeType="application/octet-stream"))
 
-    private static var class_vars : Class<Dynamic>;
+    public static var class_vars : Class<Dynamic>;
     
     public static function Load()
     {
@@ -99,7 +99,7 @@ class GraphicObjects
     
     public static function InitOnce() : Void
     {
-        displayObjs = new Array<DisplayObj>();
+        displayObjs = [];
         dict = new Dictionary<Dynamic, Dynamic>();
     }
     
@@ -131,7 +131,7 @@ class GraphicObjects
         var tf : TextFormat = new TextFormat();
         tf.font = font.fontName;
         tf.size = size;
-        tf.color = color;
+        (untyped tf).color = color;
         
         var fontDobj : DisplayObj;
         fontDobj = new DisplayObj(null, 0, "", null, _name);
@@ -160,7 +160,7 @@ class GraphicObjects
     public static function AddDobjEmptyBitmap(name : String, width : Int, height : Int, transparent : Bool) : DisplayObj
     {
         var dobj : DisplayObj = new DisplayObj(null, 1);
-        dobj.frames = new Array<DisplayObjFrame>();
+        dobj.frames = [];
         var dof : DisplayObjFrame = new DisplayObjFrame();
         dof.bitmapData = new BitmapData(width, height, transparent, 0);
         dof.xoffset = 0;

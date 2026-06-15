@@ -38,23 +38,23 @@ class MochiServices
     public static var connected(get, never) : Bool;
 
     
-    private static var _id : String;
-    private static var _container : Dynamic;
-    private static var _clip : MovieClip;
-    private static var _loader : Loader;
-    private static var _timer : Timer;
+    public static var _id : String;
+    public static var _container : Dynamic;
+    public static var _clip : MovieClip;
+    public static var _loader : Loader;
+    public static var _timer : Timer;
     
-    private static var _servicesURL : String = "http://www.mochiads.com/static/lib/services/services.swf";
+    public static var _servicesURL : String = "http://www.mochiads.com/static/lib/services/services.swf";
     
-    private static var _swfVersion : String;
+    public static var _swfVersion : String;
     
-    private static var _listenChannel : LocalConnection;
-    private static var _listenChannelName : String = "__ms_";
-    private static var _sendChannel : LocalConnection;
-    private static var _sendChannelName : String;
+    public static var _listenChannel : LocalConnection;
+    public static var _listenChannelName : String = "__ms_";
+    public static var _sendChannel : LocalConnection;
+    public static var _sendChannelName : String;
     
-    private static var _connecting : Bool = false;
-    private static var _connected : Bool = false;
+    public static var _connecting : Bool = false;
+    public static var _connected : Bool = false;
     
     public static var netup : Bool = true;
     public static var netupAttempted : Bool = false;
@@ -64,19 +64,19 @@ class MochiServices
     public static var widget : Bool = false;
     
     
-    private static function get_id() : String
+    public static function get_id() : String
     {
         return _id;
     }
     
     
-    private static function get_clip() : Dynamic
+    public static function get_clip() : Dynamic
     {
         return _container;
     }
     
     
-    private static function get_childClip() : Dynamic
+    public static function get_childClip() : Dynamic
     {
         return _clip;
     }
@@ -120,7 +120,7 @@ class MochiServices
     }
     
     
-    private static function set_comChannelName(val : String) : String
+    public static function set_comChannelName(val : String) : String
     {
         if (val != null)
         {
@@ -134,7 +134,7 @@ class MochiServices
     }
     
     
-    private static function get_connected() : Bool
+    public static function get_connected() : Bool
     {
         return _connected;
     }
@@ -281,7 +281,7 @@ class MochiServices
     
     
     
-    private static function init(id : String, clip : Dynamic) : Void
+    public static function init(id : String, clip : Dynamic) : Void
     {
         _id = id;
         if (clip != null)
@@ -315,7 +315,7 @@ class MochiServices
     
     
     
-    private static function loadCommunicator(id : String, clip : Dynamic) : MovieClip
+    public static function loadCommunicator(id : String, clip : Dynamic) : MovieClip
     {
         var clipname : String = "_mochiservices_com_" + id;
         
@@ -400,7 +400,7 @@ class MochiServices
     
     
     
-    private static function onStatus(event : StatusEvent) : Void
+    public static function onStatus(event : StatusEvent) : Void
     {
         var _sw1_ = (event.level);        
 
@@ -414,7 +414,7 @@ class MochiServices
     
     
     
-    private static function listen() : Void
+    public static function listen() : Void
     {
         _listenChannel = new LocalConnection();
         _listenChannel.client = _clip;
@@ -430,7 +430,7 @@ class MochiServices
     
     
     
-    private static function initComChannels() : Void
+    public static function initComChannels() : Void
     {
         if (!_connected)
         {
@@ -510,7 +510,7 @@ class MochiServices
     
     
     
-    private static function flush(error : Bool) : Void
+    public static function flush(error : Bool) : Void
     {
         var request : Dynamic;
         var callback : Dynamic;
@@ -544,7 +544,7 @@ class MochiServices
     
     
     
-    private static function handleError(args : Dynamic, callbackObject : Dynamic, callbackMethod : Dynamic) : Void
+    public static function handleError(args : Dynamic, callbackObject : Dynamic, callbackMethod : Dynamic) : Void
     {
         if (args != null)
         {
@@ -627,7 +627,7 @@ class MochiServices
         }
     }
     
-    private static function urlOptions(clip : Dynamic) : Dynamic
+    public static function urlOptions(clip : Dynamic) : Dynamic
     {
         var opts : Dynamic = { };
         var options : String = clip.loaderInfo.parameters.mochiad_options;
@@ -719,7 +719,7 @@ class MochiServices
     }
     
     
-    private static function clickMovie(url : String, cb : Function) : MovieClip
+    public static function clickMovie(url : String, cb : Function) : MovieClip
     {
         var avm1_bytecode : Array<Dynamic> = [150, 21, 0, 7, 1, 0, 0, 0, 0, 98, 116, 110, 0, 7, 2, 0, 0, 0, 0, 116, 104, 105, 115, 0, 28, 150, 22, 0, 0, 99, 114, 101, 97, 116, 101, 69, 109, 112, 116, 121, 77, 111, 118, 105, 101, 67, 108, 105, 112, 0, 82, 135, 1, 0, 0, 23, 150, 13, 0, 4, 0, 0, 111, 110, 82, 101, 108, 101, 97, 115, 101, 0, 142, 8, 0, 0, 0, 0, 2, 42, 0, 114, 0, 150, 17, 0, 0, 32, 0, 7, 1, 0, 0, 0, 8, 0, 0, 115, 112, 108, 105, 116, 0, 82, 135, 1, 0, 1, 23, 150, 7, 0, 4, 1, 7, 0, 0, 0, 0, 78, 150, 8, 0, 0, 95, 98, 108, 97, 110, 107, 0, 154, 1, 0, 0, 150, 7, 0, 0, 99, 108, 105, 99, 107, 0, 150, 7, 0, 4, 1, 7, 1, 0, 0, 0, 78, 150, 27, 0, 7, 2, 0, 0, 0, 7, 0, 0, 0, 0, 0, 76, 111, 99, 97, 108, 67, 111, 110, 110, 101, 99, 116, 105, 111, 110, 0, 64, 150, 6, 0, 0, 115, 101, 110, 100, 0, 82, 79, 150, 15, 0, 4, 0, 0, 95, 97, 108, 112, 104, 97, 0, 7, 0, 0, 0, 0, 79, 150, 23, 0, 7, 255, 0, 255, 0, 7, 1, 0, 0, 0, 4, 0, 0, 98, 101, 103, 105, 110, 70, 105, 108, 108, 0, 82, 23, 150, 25, 0, 7, 0, 0, 0, 0, 7, 0, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 109, 111, 118, 101, 84, 111, 0, 82, 23, 150, 25, 0, 7, 100, 0, 0, 0, 7, 0, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 108, 105, 110, 101, 84, 111, 0, 82, 23, 150, 25, 0, 7, 100, 0, 0, 0, 7, 100, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 108, 105, 110, 101, 84, 111, 0, 82, 23, 150, 25, 0, 7, 0, 0, 0, 0, 7, 100, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 108, 105, 110, 101, 84, 111, 0, 82, 23, 150, 25, 0, 7, 0, 0, 0, 0, 7, 0, 0, 0, 0, 7, 2, 0, 0, 0, 4, 0, 0, 108, 105, 110, 101, 84, 111, 0, 82, 23, 150, 16, 0, 7, 0, 0, 0, 0, 4, 0, 0, 101, 110, 100, 70, 105, 108, 108, 0, 82, 23];
         var b : Int;

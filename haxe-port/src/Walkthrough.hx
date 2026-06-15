@@ -15,7 +15,7 @@ class Walkthrough
     
     public static function InitScreens()
     {
-        walkthroughScreens = new Array<Dynamic>();
+        walkthroughScreens = [];
         for (i in 0...Levels.list.length)
         {
             var w : WalkthroughScreen = new WalkthroughScreen();
@@ -26,7 +26,7 @@ class Walkthrough
     
     public static function InitScreen()
     {
-        walkthroughScreens = new Array<Dynamic>();
+        walkthroughScreens = [];
         for (i in 0...Levels.list.length)
         {
             var w : WalkthroughScreen = new WalkthroughScreen();

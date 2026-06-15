@@ -34,10 +34,10 @@ class EditParamEditItemAngle extends EditParamEditItemBase
         
         mc.editorItem = this;
         
-        mc.displayText.text = op.name;
+        (untyped mc).displayText.text = op.name;
         mc.inputText.text = op.value;
         
-        mc.displayText.mouseEnabled = false;
+        (untyped mc).displayText.mouseEnabled = false;
         
         
         mc.inputText.addEventListener(TextEvent.TEXT_INPUT, TextInputDone, false, 0, true);
@@ -60,12 +60,12 @@ class EditParamEditItemAngle extends EditParamEditItemBase
     }
     
     
-    private function SetAngleArrow()
+    public function SetAngleArrow()
     {
         mc.anglePointer.pointer.rotation = as3hx.Compat.parseFloat(mc.inputText.text) - (Math.PI / 2);
     }
     
-    private function AngleDown(e : MouseEvent)
+    public function AngleDown(e : MouseEvent)
     {
         if (e.buttonDown == false)
         {
@@ -82,7 +82,7 @@ class EditParamEditItemAngle extends EditParamEditItemBase
         mc.inputText.text = degree;
         CopyValueToParameter();
     }
-    private function PlusPressed(e : MouseEvent)
+    public function PlusPressed(e : MouseEvent)
     {
         var inc : Float = 1;
         var val : Float = as3hx.Compat.parseFloat(mc.inputText.text);
@@ -92,7 +92,7 @@ class EditParamEditItemAngle extends EditParamEditItemBase
         SetAngleArrow();
     }
     
-    private function MinusPressed(e : MouseEvent)
+    public function MinusPressed(e : MouseEvent)
     {
         var inc : Float = -1;
         var val : Float = as3hx.Compat.parseFloat(mc.inputText.text);
@@ -102,12 +102,12 @@ class EditParamEditItemAngle extends EditParamEditItemBase
         SetAngleArrow();
     }
     
-    private function TextInputLoseFocus(e : FocusEvent)
+    public function TextInputLoseFocus(e : FocusEvent)
     {
         PhysEditor.isEntering = false;
         CopyValueToParameter();
     }
-    private function TextInputKeyDown(e : KeyboardEvent)
+    public function TextInputKeyDown(e : KeyboardEvent)
     {
         PhysEditor.isEntering = true;
         var code : Int = e.keyCode;
@@ -121,7 +121,7 @@ class EditParamEditItemAngle extends EditParamEditItemBase
             mc.stage.focus = null;
         }
     }
-    private function TextInputDone(e : TextEvent)
+    public function TextInputDone(e : TextEvent)
     {
         Utils.print("TextInputDone " + e.text);
     }

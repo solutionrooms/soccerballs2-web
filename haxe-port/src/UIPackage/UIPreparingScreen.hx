@@ -32,11 +32,11 @@ class UIPreparingScreen extends UIScreenInstance
         
         titleMC.addEventListener(Event.ENTER_FRAME, UpdatePreparingScreen, false, 0, true);
         
-        Lic.PlayWithScoresButton(titleMC.btn_PlayWithHighcores);
+        Lic.PlayWithScoresButton((untyped titleMC).btn_PlayWithHighcores);
         
         if (Game.doWalkthrough)
         {
-            titleMC.btn_PlayWithHighcores.visible = false;
+            (untyped titleMC).btn_PlayWithHighcores.visible = false;
         }
         
         
@@ -45,12 +45,12 @@ class UIPreparingScreen extends UIScreenInstance
         preparingGraphicsIndex = 0;
         PreparingScreenSetBar();
     }
-    private var preparingScreenDone : Bool = false;
-    private var preparingGraphicsTimer : Int;
+    public var preparingScreenDone : Bool = false;
+    public var preparingGraphicsTimer : Int;
     
-    private var preparingGraphicsIndex : Int;
+    public var preparingGraphicsIndex : Int;
     
-    private function UpdatePreparingScreen(e : Event)
+    public function UpdatePreparingScreen(e : Event)
     {
         if (titleMC == null)
         {
@@ -88,16 +88,16 @@ class UIPreparingScreen extends UIScreenInstance
             }
         }
     }
-    private function PreparingScreenSetBar()
+    public function PreparingScreenSetBar()
     {
         if (titleMC == null)
         {
             return;
         }
         var pc : Float = Utils.ScaleTo(0, 1, 0, Preparing.GetPreparingList().length - 1, preparingGraphicsIndex);
-        titleMC.loaderBar.loadBar.scaleX = pc;
+        (untyped titleMC).loaderBar.loadBar.scaleX = pc;
     }
-    private static var mem1 : Int;
+    public static var mem1 : Int;
 }
 
 

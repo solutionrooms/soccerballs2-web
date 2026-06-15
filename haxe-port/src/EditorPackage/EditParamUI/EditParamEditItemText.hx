@@ -32,10 +32,10 @@ class EditParamEditItemText extends EditParamEditItemBase
         
         mc.editorItem = this;
         
-        mc.displayText.text = op.name;
+        (untyped mc).displayText.text = op.name;
         mc.inputText.text = op.value;
         
-        mc.displayText.mouseEnabled = false;
+        (untyped mc).displayText.mouseEnabled = false;
         
         mc.inputText.addEventListener(TextEvent.TEXT_INPUT, TextInputDone, false, 0, true);
         mc.inputText.addEventListener(KeyboardEvent.KEY_DOWN, TextInputKeyDown, false, 0, true);
@@ -52,12 +52,12 @@ class EditParamEditItemText extends EditParamEditItemBase
     }
     
     
-    private function TextInputLoseFocus(e : FocusEvent)
+    public function TextInputLoseFocus(e : FocusEvent)
     {
         PhysEditor.isEntering = false;
         CopyValueToParameter();
     }
-    private function TextInputKeyDown(e : KeyboardEvent)
+    public function TextInputKeyDown(e : KeyboardEvent)
     {
         PhysEditor.isEntering = true;
         
@@ -70,7 +70,7 @@ class EditParamEditItemText extends EditParamEditItemBase
             mc.stage.focus = null;
         }
     }
-    private function TextInputDone(e : TextEvent)
+    public function TextInputDone(e : TextEvent)
     {
         Utils.print("TextInputDone " + e.text);
     }

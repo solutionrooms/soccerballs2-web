@@ -33,12 +33,12 @@ class EditParams
     }
     
     
-    private static var objParameters : ObjParameters;
-    private static var currentParamIndex : Int = 0;
+    public static var objParameters : ObjParameters;
+    public static var currentParamIndex : Int = 0;
     
     
-    private static var listBox : List = null;
-    private static var listBoxContainer : MovieClip = null;
+    public static var listBox : List = null;
+    public static var listBoxContainer : MovieClip = null;
     
     public static function ClearParameterListBox()
     {
@@ -81,7 +81,7 @@ class EditParams
         }
     }
     
-    private static var parameterChangedCallback : Function = null;
+    public static var parameterChangedCallback : Function = null;
     
     public static function AddParameterListBox(_objParameters : ObjParameters, callback : Function = null)
     {
@@ -216,22 +216,22 @@ class EditParams
             listBox.selectedIndex = currentParamIndex;
         }
     }
-    private static function CurrentAdjustObject_UpdateCurrentParameter(newValue : String) : Void
+    public static function CurrentAdjustObject_UpdateCurrentParameter(newValue : String) : Void
     {
         var param : ObjParameter = objParameters.GetByIndex(currentParamIndex);
         param.value = newValue;
     }
-    private static function CurrentAdjustObject_GetSelectedParameterName() : String
+    public static function CurrentAdjustObject_GetSelectedParameterName() : String
     {
         var param : ObjParameter = objParameters.GetByIndex(currentParamIndex);
         return param.name;
     }
-    private static function CurrentAdjustObject_GetSelectedParameterValue() : String
+    public static function CurrentAdjustObject_GetSelectedParameterValue() : String
     {
         var param : ObjParameter = objParameters.GetByIndex(currentParamIndex);
         return param.value;
     }
-    private static function CurrentAdjustObject_SelectNextParameter()
+    public static function CurrentAdjustObject_SelectNextParameter()
     {
         currentParamIndex++;
         if (currentParamIndex >= objParameters.list.length)
@@ -250,8 +250,8 @@ class EditParams
         return as3hx.Compat.parseInt(Defs.displayarea_h - 100);
     }
     
-    private static var instanceParamsStartY : Int;
-    private static var instanceParamsStartX : Int;
+    public static var instanceParamsStartY : Int;
+    public static var instanceParamsStartX : Int;
     public static function RemoveEntryMC()
     {
         if (entryMC != null)
@@ -276,8 +276,8 @@ class EditParams
         entryMC.addEventListener(MouseEvent.MOUSE_UP, PreventPropogationHandler);
     }
     
-    private static var entryMC : MovieClip = null;
-    private static var comboBox : ComboBox;
+    public static var entryMC : MovieClip = null;
+    public static var comboBox : ComboBox;
     public static function AddComboBoxEntry(xpos : Int, ypos : Int, title : String, text : String, inputList : Array<Dynamic>, _cb : Function)
     {
         AddEntryMC();
@@ -316,7 +316,7 @@ class EditParams
         
         Game.main.stage.focus = comboBox;
     }
-    private static function ComboBox_Close()
+    public static function ComboBox_Close()
     {
         Game.main.stage.focus = null;
         PhysEditor.isEntering = false;
@@ -324,12 +324,12 @@ class EditParams
         comboBox.close();
         RemoveEntryMC();
     }
-    private static function ComboBox_RemoveHandlers()
+    public static function ComboBox_RemoveHandlers()
     {
         comboBox.removeEventListener(Event.CHANGE, AddComboBoxEntry_changeHandler);
     }
     
-    private static function ComboBox_keyDownHandler(e : KeyboardEvent)
+    public static function ComboBox_keyDownHandler(e : KeyboardEvent)
     {
         if (PhysEditor.isEntering == false)
         {
@@ -342,7 +342,7 @@ class EditParams
         }
     }
     
-    private static function AddComboBoxEntry_changeHandler(event : Event) : Void
+    public static function AddComboBoxEntry_changeHandler(event : Event) : Void
     {
         var selection : String = ComboBox(event.target).selectedItem.data;
         
@@ -354,10 +354,10 @@ class EditParams
         }
     }
     
-    private static var pickedPieceForLink : EdObj = null;
-    private static var tf : TextField;
-    private static var AddTextEntry_Callback : Function;
-    private static function AddTextEntry(xpos : Int, ypos : Int, title : String, text : String, _cb : Function)
+    public static var pickedPieceForLink : EdObj = null;
+    public static var tf : TextField;
+    public static var AddTextEntry_Callback : Function;
+    public static function AddTextEntry(xpos : Int, ypos : Int, title : String, text : String, _cb : Function)
     {
         AddEntryMC();
         
@@ -366,7 +366,7 @@ class EditParams
         
         f = new TextFormat();
         f.size = 20;
-        f.color = 0x0;
+        (untyped f).color = 0x0;
         
         tf = new TextField();
         tf.name = "tf";
@@ -401,7 +401,7 @@ class EditParams
 		}
 		*/
     
-    private static function keyDownHandler(e : KeyboardEvent)
+    public static function keyDownHandler(e : KeyboardEvent)
     {
         if (PhysEditor.isEntering == false)
         {

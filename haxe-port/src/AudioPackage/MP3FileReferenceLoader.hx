@@ -45,7 +45,7 @@ import flash.utils.Endian;
 	 */
 class MP3FileReferenceLoader extends EventDispatcher
 {
-    private var mp3Parser : MP3Parser;
+    public var mp3Parser : MP3Parser;
     
     /**
 		 * Constructs an new MP3FileReferenceLoader instance
@@ -67,12 +67,12 @@ class MP3FileReferenceLoader extends EventDispatcher
     {
         mp3Parser.loadFileRef(fr);
     }
-    private function parserCompleteHandler(ev : Event) : Void
+    public function parserCompleteHandler(ev : Event) : Void
     {
         var parser : MP3Parser = try cast(ev.currentTarget, MP3Parser) catch(e:Dynamic) null;
         generateSound(parser);
     }
-    private function generateSound(mp3Source : MP3Parser) : Bool
+    public function generateSound(mp3Source : MP3Parser) : Bool
     {
         var swfBytes : ByteArray = new ByteArray();
         swfBytes.endian = Endian.LITTLE_ENDIAN;
@@ -137,7 +137,7 @@ class MP3FileReferenceLoader extends EventDispatcher
         swfBytesLoader.loadBytes(swfBytes);
         return true;
     }
-    private function swfCreated(ev : Event) : Void
+    public function swfCreated(ev : Event) : Void
     {
         var loaderInfo : LoaderInfo = try cast(ev.currentTarget, LoaderInfo) catch(e:Dynamic) null;
         var soundClass : Class<Dynamic> = Type.getClass(loaderInfo.applicationDomain.getDefinition("SoundClass"));

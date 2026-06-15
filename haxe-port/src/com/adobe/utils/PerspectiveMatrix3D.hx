@@ -238,12 +238,12 @@ class PerspectiveMatrix3D extends Matrix3D
             ]));
     }
     
-    private var _x : Vector3D = new Vector3D();
-    private var _y : Vector3D = new Vector3D();
-    private var _z : Vector3D = new Vector3D();
-    private var _w : Vector3D = new Vector3D();
+    public var _x : Vector3D = new Vector3D();
+    public var _y : Vector3D = new Vector3D();
+    public var _z : Vector3D = new Vector3D();
+    public var _w : Vector3D = new Vector3D();
     
-    private function _crossProductTo(a : Vector3D, b : Vector3D) : Void
+    public function _crossProductTo(a : Vector3D, b : Vector3D) : Void
     {
         _w.x = a.y * b.z - a.z * b.y;
         _w.y = a.z * b.x - a.x * b.z;

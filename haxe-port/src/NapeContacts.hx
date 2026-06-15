@@ -4,7 +4,6 @@ import nape.dynamics.Arbiter;
 import nape.dynamics.ArbiterList;
 import nape.dynamics.CollisionArbiter;
 import nape.dynamics.Contact;
-import zpp_nape.dynamics.ZPPSensorArbiter;
 
 /**
 	 * ...

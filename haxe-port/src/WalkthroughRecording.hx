@@ -5,15 +5,15 @@
 	 */
 class WalkthroughRecording
 {
-    private var levelName : String;
-    private var list : Array<WalkthroughRecordingPoint>;
-    private var time : Int;
-    private var playbackPos : Int;
+    public var levelName : String;
+    public var list : Array<WalkthroughRecordingPoint>;
+    public var time : Int;
+    public var playbackPos : Int;
     
     public function new(_levelName : String)
     {
         levelName = _levelName;
-        list = new Array<WalkthroughRecordingPoint>();
+        list = [];
         time = 0;
     }
     

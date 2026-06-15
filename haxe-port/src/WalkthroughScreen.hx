@@ -28,23 +28,23 @@ class WalkthroughScreen
         SetThumbSize(thumbW, thumbW * ratio);
     }
     
-    private var screenW : Int;
-    private var screenH : Int;
+    public var screenW : Int;
+    public var screenH : Int;
     public var thumbW : Int;
     public var thumbH : Int;
     
-    private function SetScreenSize(w : Int, h : Int)
+    public function SetScreenSize(w : Int, h : Int)
     {
         screenW = w;
         screenH = h;
     }
-    private function SetThumbSize(w : Int, h : Int)
+    public function SetThumbSize(w : Int, h : Int)
     {
         thumbW = w;
         thumbH = h;
     }
     
-    private var titleMC : MovieClip;
+    public var titleMC : MovieClip;
     public function InitPlayback(_titleMC : MovieClip)
     {
         Game.gameState = Game.gameState_Walkthrough;
@@ -56,7 +56,7 @@ class WalkthroughScreen
         titleMC.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
     }
     
-    private function OnEnterFrame(e : Event)
+    public function OnEnterFrame(e : Event)
     {
         UpdatePlayback();
     }

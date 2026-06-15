@@ -20,8 +20,8 @@ class PhysObjBody
     
     public function new()
     {
-        shapes = new Array<Dynamic>();
-        graphics = new Array<Dynamic>();
+        shapes = [];
+        graphics = [];
         name = "";
         pos = new Point();
         fixed = true;

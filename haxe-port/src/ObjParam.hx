@@ -21,7 +21,7 @@ class ObjParam
         name = "";
         type = "";
         defaultValue = "";
-        valueList = new Array<Dynamic>();
+        valueList = [];
         
         number_useRangeMin = false;
         number_useRangeMax = false;

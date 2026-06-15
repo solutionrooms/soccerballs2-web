@@ -17,7 +17,7 @@ import licPackage.LicDef;
 	 */
 class UIMovieScreen extends UIScreenInstance
 {
-    private var moviePlaying : Bool = false;
+    public var moviePlaying : Bool = false;
     
     public function new()
     {
@@ -52,9 +52,9 @@ class UIMovieScreen extends UIScreenInstance
         LicDef.GetStage().stage.frameRate = 24;
     }
     
-    private var lastFrame : Int;
+    public var lastFrame : Int;
     
-    private function StartMovie()
+    public function StartMovie()
     {
         lastFrame = -1;
         titleMC.addEventListener(Event.EXIT_FRAME, OnExitFrame, false, 0, true);
@@ -62,7 +62,7 @@ class UIMovieScreen extends UIScreenInstance
         titleMC.gotoAndPlay(1);
     }
     
-    private function OnClick(e : MouseEvent) : Void
+    public function OnClick(e : MouseEvent) : Void
     {
         titleMC.removeEventListener(Event.EXIT_FRAME, OnExitFrame);
         titleMC.removeEventListener(MouseEvent.CLICK, OnClick);
@@ -86,7 +86,7 @@ class UIMovieScreen extends UIScreenInstance
         }
     }
     
-    private function OnExitFrame(e : Event) : Void
+    public function OnExitFrame(e : Event) : Void
     {
         if (titleMC == null)
         {

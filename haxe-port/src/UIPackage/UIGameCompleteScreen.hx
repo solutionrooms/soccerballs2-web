@@ -31,12 +31,12 @@ class UIGameCompleteScreen extends UIScreenInstance
         
         titleMC = new Endmovie();
         
-        UI.AddAnimatedMCButton(titleMC.btn_next, buttonNextPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_next, buttonNextPressed);
         
-        Lic.MCMoreGamesButton(titleMC.btn_moregames, "gamecomplete", true);
+        Lic.MCMoreGamesButton((untyped titleMC).btn_moregames, "gamecomplete", true);
     }
     
-    private function buttonNextPressed(e : MouseEvent)
+    public function buttonNextPressed(e : MouseEvent)
     {
         UI.StartTransition("levelselect");
     }

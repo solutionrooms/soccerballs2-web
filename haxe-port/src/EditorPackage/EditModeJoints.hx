@@ -13,13 +13,13 @@ import flash.geom.Rectangle;
 	 */
 class EditModeJoints extends EditModeBase
 {
-    private var addlineActive : Bool;
-    private var newLineType : Int;
-    private var hoveredObj : EditableObjectBase;
-    private var selectedJoint : EdJoint;
-    private var copiedParameters : ObjParameters;
-    private var currentAdjustObject_mouseX : Int = 0;
-    private var currentAdjustObject_mouseY : Int = 0;
+    public var addlineActive : Bool;
+    public var newLineType : Int;
+    public var hoveredObj : EditableObjectBase;
+    public var selectedJoint : EdJoint;
+    public var copiedParameters : ObjParameters;
+    public var currentAdjustObject_mouseX : Int = 0;
+    public var currentAdjustObject_mouseY : Int = 0;
     
     public function new()
     {
@@ -48,7 +48,7 @@ class EditModeJoints extends EditModeBase
             return;
         }
         var jointList : Array<Dynamic> = GetCurrentLevelJoints();
-        var deleteList : Array<Dynamic> = new Array<Dynamic>();
+        var deleteList : Array<Dynamic> = [];
         for (joint in jointList)
         {
             if (joint.obj0Name == objID || joint.obj1Name == objID)
@@ -90,9 +90,9 @@ class EditModeJoints extends EditModeBase
     
     
     
-    private function RemoveAllJoints()
+    public function RemoveAllJoints()
     {
-        PhysEditor.GetCurrentLevel().joints = new Array<Dynamic>();
+        PhysEditor.GetCurrentLevel().joints = [];
     }
     
     
@@ -111,7 +111,7 @@ class EditModeJoints extends EditModeBase
     
     public function HitTestRectangle(r : Rectangle) : Array<Dynamic>
     {
-        var a : Array<Dynamic> = new Array<Dynamic>();
+        var a : Array<Dynamic> = [];
         var jointList : Array<Dynamic> = GetCurrentLevelJoints();
         for (joint in jointList)
         {
@@ -124,12 +124,12 @@ class EditModeJoints extends EditModeBase
     }
     
     
-    private function RemoveJoint(j : EdJoint)
+    public function RemoveJoint(j : EdJoint)
     {
         RemoveMarkedJoints(j);
         PhysEditor.DeleteJoint(j);
     }
-    private function AddRevoluteJoint(x : Float, y : Float) : EdJoint
+    public function AddRevoluteJoint(x : Float, y : Float) : EdJoint
     {
         var j : EdJoint = new EdJoint();
         j.SetType(EdJoint.Type_Rev);
@@ -142,7 +142,7 @@ class EditModeJoints extends EditModeBase
         return j;
     }
     
-    private function AddPrismaticJoint(x : Float, y : Float) : EdJoint
+    public function AddPrismaticJoint(x : Float, y : Float) : EdJoint
     {
         var j : EdJoint = new EdJoint();
         j.SetType(EdJoint.Type_Prismatic);
@@ -156,7 +156,7 @@ class EditModeJoints extends EditModeBase
         return j;
     }
     
-    private function AddDistanceJoint() : EdJoint
+    public function AddDistanceJoint() : EdJoint
     {
         var j : EdJoint = new EdJoint();
         j.SetType(EdJoint.Type_Distance);
@@ -167,7 +167,7 @@ class EditModeJoints extends EditModeBase
         return j;
     }
     
-    private function AddSwitchJoint() : EdJoint
+    public function AddSwitchJoint() : EdJoint
     {
         var j : EdJoint = new EdJoint();
         j.SetType(EdJoint.Type_Switch);
@@ -178,7 +178,7 @@ class EditModeJoints extends EditModeBase
         return j;
     }
     
-    private function AddLogicJoint() : EdJoint
+    public function AddLogicJoint() : EdJoint
     {
         var j : EdJoint = new EdJoint();
         j.SetType(EdJoint.Type_LogicLink);
@@ -189,7 +189,7 @@ class EditModeJoints extends EditModeBase
         return j;
     }
     
-    private function AddWeldJoint() : EdJoint
+    public function AddWeldJoint() : EdJoint
     {
         var j : EdJoint = new EdJoint();
         j.SetType(EdJoint.Type_Weld);
@@ -200,7 +200,7 @@ class EditModeJoints extends EditModeBase
         return j;
     }
     
-    private function CopyParameters(j : EdJoint)
+    public function CopyParameters(j : EdJoint)
     {
         if (j == null)
         {
@@ -208,7 +208,7 @@ class EditModeJoints extends EditModeBase
         }
         copiedParameters = j.objParameters.Clone();
     }
-    private function PasteParameters(j : EdJoint)
+    public function PasteParameters(j : EdJoint)
     {
         if (j == null)
         {
@@ -221,7 +221,7 @@ class EditModeJoints extends EditModeBase
         j.objParameters = copiedParameters.Clone();
     }
     
-    private var currentJoint : EdJoint = null;
+    public var currentJoint : EdJoint = null;
     override public function OnMouseDown(e : MouseEvent) : Void
     {
         super.OnMouseDown(e);
@@ -511,12 +511,12 @@ class EditModeJoints extends EditModeBase
     }
     
     
-    private var hoveredJoint : EditableObjectBase = null;
-    private function ClearHoveredJoint()
+    public var hoveredJoint : EditableObjectBase = null;
+    public function ClearHoveredJoint()
     {
         hoveredJoint = null;
     }
-    private function GetHoveredJoint()
+    public function GetHoveredJoint()
     {
         hoveredJoint = null;
         var obj : EditableObjectBase = PhysEditor.HitTestJoint(mxs, mys);
@@ -528,7 +528,7 @@ class EditModeJoints extends EditModeBase
             }
         }
     }
-    private function GetHoveredObj() : EditableObjectBase
+    public function GetHoveredObj() : EditableObjectBase
     {
         hoveredObj = null;
         var obj : EditableObjectBase = PhysEditor.HitTestAnyObjectNoJoints(mxs, mys, mx, my);
@@ -538,7 +538,7 @@ class EditModeJoints extends EditModeBase
         }
         return hoveredObj;
     }
-    private function GetHoveredObjIncludingJoints() : EditableObjectBase
+    public function GetHoveredObjIncludingJoints() : EditableObjectBase
     {
         hoveredObj = null;
         var obj : EditableObjectBase = PhysEditor.HitTestAnyObject(mxs, mys, mx, my);
@@ -549,12 +549,12 @@ class EditModeJoints extends EditModeBase
         return hoveredObj;
     }
     
-    private function GetCurrentObjIncludingJoints() : EditableObjectBase
+    public function GetCurrentObjIncludingJoints() : EditableObjectBase
     {
         var obj : EditableObjectBase = PhysEditor.HitTestAnyObject(mxs, mys, mx, my);
         return obj;
     }
-    private function GetCurrentObj() : EditableObjectBase
+    public function GetCurrentObj() : EditableObjectBase
     {
         var obj : EditableObjectBase = PhysEditor.HitTestAnyObjectNoJoints(mxs, mys, mx, my);
         if (obj != null)
@@ -738,8 +738,8 @@ class EditModeJoints extends EditModeBase
     {
     }
     
-    private var subMode : String;
-    private function SetSubMode(s : String)
+    public var subMode : String;
+    public function SetSubMode(s : String)
     {
         subMode = s;
         
@@ -902,7 +902,7 @@ class EditModeJoints extends EditModeBase
         }
     }
     
-    private function RemoveMarkedJoints(ob : EditableObjectBase)
+    public function RemoveMarkedJoints(ob : EditableObjectBase)
     {
         if (hoveredJoint == ob)
         {

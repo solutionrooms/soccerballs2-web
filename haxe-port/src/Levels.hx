@@ -57,7 +57,7 @@ class Levels
     
     public static function LoadAll()
     {
-        list = new Array<Level>();
+        list = [];
         var x : FastXML = ExternalData.levelsXml;
         var num = x.nodes.level.length();
         for (i in 0...num)
@@ -104,7 +104,7 @@ class Levels
     
     public static function LoadGameSpecificLevelData(level : Level, x : FastXML)
     {
-        level.goldKicks = XmlHelper.GetAttrInt(x.node.soccerballs.innerData.att.gold, 1);
+        level.goldKicks = XmlHelper.GetAttrInt((untyped x.node.soccerballs.innerData.att).gold, 1);
         level.failKicks = XmlHelper.GetAttrInt(x.node.soccerballs.innerData.att.fail, 3);
         
         level.totalCoins = 0;
@@ -149,7 +149,7 @@ class Levels
     
     public static function LoadLevel(l : Int, simple : Bool = true)
     {
-        level = list[l];
+        var level : Level = list[l];
         
         
         if (level.fullyLoaded)
@@ -171,7 +171,7 @@ class Levels
         var i : Int;
         var j : Int;
         
-        level.lines = new Array<Dynamic>();
+        level.lines = [];
         
         for (i in 0...x.nodes.line.length())
         {
@@ -246,10 +246,10 @@ class Levels
         }
         
         
-        level.joints = new Array<Dynamic>();
-        for (i in 0...x.node.joints.innerData.node.joint.innerData.length())
+        level.joints = [];
+        for (i in 0...x.node.joints.nodes.joint.length())
         {
-            var jx : FastXML = x.nodes.joints.node.joint.innerData[i];
+            var jx : FastXML = x.node.joints.nodes.joint.get(i);
             var joint : EdJoint = new EdJoint();
             
             joint.id = XmlHelper.GetAttrString(jx.att.id, "");
@@ -308,7 +308,7 @@ class Levels
         
         if (x.nodes.map.length() != 0)
         {
-            level.map = new Array<Dynamic>();
+            level.map = [];
             var xm : FastXML = x.nodes.map.get(0);
             level.mapMinX = XmlHelper.GetAttrInt(xm.att.minx, 0);
             level.mapMaxX = XmlHelper.GetAttrInt(xm.att.maxx, 0);
@@ -511,16 +511,16 @@ class Levels
     public static function ToSharedObject() : Dynamic
     {
         var o : Dynamic = {};
-        var a : Array<Dynamic> = new Array<Dynamic>();
-        var b : Array<Dynamic> = new Array<Dynamic>();
-        var c : Array<Dynamic> = new Array<Dynamic>();
-        var d : Array<Dynamic> = new Array<Dynamic>();
-        var e : Array<Dynamic> = new Array<Dynamic>();
-        var f : Array<Dynamic> = new Array<Dynamic>();
-        var g : Array<Dynamic> = new Array<Dynamic>();
-        var h : Array<Dynamic> = new Array<Dynamic>();
-        var i : Array<Dynamic> = new Array<Dynamic>();
-        var j : Array<Dynamic> = new Array<Dynamic>();
+        var a : Array<Dynamic> = [];
+        var b : Array<Dynamic> = [];
+        var c : Array<Dynamic> = [];
+        var d : Array<Dynamic> = [];
+        var e : Array<Dynamic> = [];
+        var f : Array<Dynamic> = [];
+        var g : Array<Dynamic> = [];
+        var h : Array<Dynamic> = [];
+        var i : Array<Dynamic> = [];
+        var j : Array<Dynamic> = [];
         for (l in list)
         {
             a.push(l.bestScore);

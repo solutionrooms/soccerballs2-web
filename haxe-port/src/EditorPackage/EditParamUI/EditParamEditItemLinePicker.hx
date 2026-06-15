@@ -38,10 +38,10 @@ class EditParamEditItemLinePicker extends EditParamEditItemBase
         
         mc.editorItem = this;
         
-        mc.displayText.text = op.name;
+        (untyped mc).displayText.text = op.name;
         mc.inputText.text = op.value;
         
-        mc.displayText.mouseEnabled = false;
+        (untyped mc).displayText.mouseEnabled = false;
         
         
         mc.inputText.addEventListener(TextEvent.TEXT_INPUT, TextInputDone, false, 0, true);
@@ -62,12 +62,12 @@ class EditParamEditItemLinePicker extends EditParamEditItemBase
         PostSetup();
     }
     
-    private function OnRollOut(e : MouseEvent)
+    public function OnRollOut(e : MouseEvent)
     {
         var g : Graphics = mc.graphics;
         g.clear();
     }
-    private function OnRollOver(e : MouseEvent)
+    public function OnRollOver(e : MouseEvent)
     {
         var obj : EditableObjectBase = PhysEditor.GetAnyObjectById(mc.inputText.text);
         if (obj != null)
@@ -83,7 +83,7 @@ class EditParamEditItemLinePicker extends EditParamEditItemBase
             g.lineTo(x1, y1);
         }
     }
-    private function ElipsisPressed(e : MouseEvent)
+    public function ElipsisPressed(e : MouseEvent)
     {
         PhysEditor.oldEditMode = PhysEditor.editMode;
         PhysEditor.editModeObj_PickLineForLink.returnFunction = PickLineReturnFunction;
@@ -105,12 +105,12 @@ class EditParamEditItemLinePicker extends EditParamEditItemBase
     }
     
     
-    private function TextInputLoseFocus(e : FocusEvent)
+    public function TextInputLoseFocus(e : FocusEvent)
     {
         PhysEditor.isEntering = false;
         CancelParameter();
     }
-    private function TextInputKeyDown(e : KeyboardEvent)
+    public function TextInputKeyDown(e : KeyboardEvent)
     {
         PhysEditor.isEntering = true;
         var code : Int = e.keyCode;
@@ -123,7 +123,7 @@ class EditParamEditItemLinePicker extends EditParamEditItemBase
             mc.stage.focus = null;
         }
     }
-    private function TextInputDone(e : TextEvent)
+    public function TextInputDone(e : TextEvent)
     {
         Utils.print("TextInputDone " + e.text);
     }

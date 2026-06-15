@@ -6,12 +6,12 @@ import flash.display.MovieClip;
 	 */
 class HintPopup
 {
-    private var text : String;
-    private var shown : Bool;
+    public var text : String;
+    public var shown : Bool;
     
-    private var timer : Int;
-    private var active : Bool;
-    private var mc : MovieClip;
+    public var timer : Int;
+    public var active : Bool;
+    public var mc : MovieClip;
     
     public function new(_text : String)
     {

@@ -9,7 +9,7 @@ class PhysObjs
     
     public function new()
     {
-        list = new Array<Dynamic>();
+        list = [];
     }
     
     
@@ -17,7 +17,7 @@ class PhysObjs
     
     public function InitFromXml(x : FastXML) : Void
     {
-        list = new Array<Dynamic>();
+        list = [];
         var i : Int;
         
         for (i in 0...x.nodes.physobj.length())

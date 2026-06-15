@@ -49,7 +49,7 @@ package audioPackage;
 @:final class SoundClassSwfByteCode
 {
     @:allow(audioPackage)
-    private static var silentMp3Frame : Array<Dynamic> = 
+    public static var silentMp3Frame : Array<Dynamic> = 
         [
         0xFF, 0xFA, 0x92, 0x40, 0x78, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 
         0x4B, 0x80, 0x00, 0x00, 0x08, 0x00, 0x00, 0x09, 0x70, 0x00, 0x00, 
@@ -91,12 +91,12 @@ package audioPackage;
         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
     ];
     @:allow(audioPackage)
-    private static var soundClassSwfBytes1 : Array<Dynamic> = 
+    public static var soundClassSwfBytes1 : Array<Dynamic> = 
         [
         0x46, 0x57, 0x53, 0x09
     ];
     @:allow(audioPackage)
-    private static var soundClassSwfBytes2 : Array<Dynamic> = 
+    public static var soundClassSwfBytes2 : Array<Dynamic> = 
         [
         0x78, 0x00, 0x05, 0x5F, 0x00, 0x00, 0x0F, 0xA0, 
         0x00, 0x00, 0x0C, 0x01, 0x00, 0x44, 0x11, 0x08, 
@@ -132,7 +132,7 @@ package audioPackage;
         0x03
     ];
     @:allow(audioPackage)
-    private static var soundClassSwfBytes3 : Array<Dynamic> = 
+    public static var soundClassSwfBytes3 : Array<Dynamic> = 
         [
         0x3F, 0x13, 0x0F, 0x00, 0x00, 0x00, 0x01, 0x00, 
         0x01, 0x00, 0x53, 0x6F, 0x75, 0x6E, 0x64, 0x43, 
@@ -141,7 +141,7 @@ package audioPackage;
     ];
 
     @:allow(audioPackage)
-    private function new()
+    public function new()
     {
     }
 }

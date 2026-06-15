@@ -31,7 +31,7 @@ class Line
         CalcBoundingRect();
     }
     
-    private function CalcBoundingRect() : Void
+    public function CalcBoundingRect() : Void
     {
         var a : Float;
         var b : Float;
@@ -55,7 +55,7 @@ class Line
         boundingRect = new Rectangle(a, c, (b - a) + 1, (d - c) + 1);
     }
     
-    private function CalcNormal() : Void
+    public function CalcNormal() : Void
     {
         dir = Math.atan2(y1 - y0, x1 - x0);
         normalDir = dir - (Math.PI * 0.5);

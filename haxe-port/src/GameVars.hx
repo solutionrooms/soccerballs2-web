@@ -36,7 +36,7 @@ class GameVars
     public static var SnakeReloadTimeNormal : Int = Defs.fps * 1;
     public static var SnakeReloadTimeSuper : Int = 0;
     
-    public static var snakeUpgradeTexts : Array<Dynamic> = new Array<Dynamic>("", "SuperRegen", "Spitter", "FastSwing", "PigChain");
+    public static var snakeUpgradeTexts : Array<Dynamic> = ["", "SuperRegen", "Spitter", "FastSwing", "PigChain"];
     
     public static var snakeUpgrade_None : Int = 0;
     public static var snakeUpgrade_SuperRegen : Int = 1;
@@ -52,7 +52,7 @@ class GameVars
     
     
     public static var ballTimerShowTimerMax : Int = Defs.fps * 4;
-    public static var ballTimerMax : Int = Defs.fps * 6;
+    public static var ballTimerMax : Int = Std.int(Defs.fps * 6);
     public static var numKicks : Int;
     
     public static var hasPlayedIntro : Bool;
@@ -132,68 +132,68 @@ class GameVars
     }
     
     
-    private static var unlockList : Array<Dynamic> = new Array<Dynamic>(
-        new Array<Dynamic>(1, 2), 
-        new Array<Dynamic>(2, 3), 
-        new Array<Dynamic>(3, 4), 
+    public static var unlockList : Array<Dynamic> = [
+        [1, 2], 
+        [2, 3], 
+        [3, 4], 
         
-        new Array<Dynamic>(4, 5, 6), 
-        new Array<Dynamic>(5, 7), 
-        new Array<Dynamic>(7, 9), 
+        [4, 5, 6], 
+        [5, 7], 
+        [7, 9], 
         
-        new Array<Dynamic>(6, 8), 
+        [6, 8], 
         
-        new Array<Dynamic>(8, 9), 
-        new Array<Dynamic>(9, 10), 
-        new Array<Dynamic>(10, 11), 
-        new Array<Dynamic>(11, 12), 
-        new Array<Dynamic>(12, 13), 
-        new Array<Dynamic>(13, 14), 
+        [8, 9], 
+        [9, 10], 
+        [10, 11], 
+        [11, 12], 
+        [12, 13], 
+        [13, 14], 
         
-        new Array<Dynamic>(14, 15, 16), 
+        [14, 15, 16], 
         
-        new Array<Dynamic>(16, 17, 19), 
-        new Array<Dynamic>(17, 18), 
+        [16, 17, 19], 
+        [17, 18], 
         
-        new Array<Dynamic>(19, 20), 
-        new Array<Dynamic>(20, 21), 
-        new Array<Dynamic>(21, 22), 
-        new Array<Dynamic>(22, 23), 
-        new Array<Dynamic>(23, 24), 
+        [19, 20], 
+        [20, 21], 
+        [21, 22], 
+        [22, 23], 
+        [23, 24], 
         
-        new Array<Dynamic>(24, 25, 27), 
-        new Array<Dynamic>(25, 26), 
-        new Array<Dynamic>(26, 29), 
-        new Array<Dynamic>(27, 28), 
-        new Array<Dynamic>(28, 29), 
+        [24, 25, 27], 
+        [25, 26], 
+        [26, 29], 
+        [27, 28], 
+        [28, 29], 
         
-        new Array<Dynamic>(29, 30), 
+        [29, 30], 
         
-        new Array<Dynamic>(30, 31, 34), 
-        new Array<Dynamic>(31, 32), 
-        new Array<Dynamic>(32, 33), 
+        [30, 31, 34], 
+        [31, 32], 
+        [32, 33], 
         
-        new Array<Dynamic>(34, 35), 
-        new Array<Dynamic>(35, 36), 
-        new Array<Dynamic>(36, 37), 
-        new Array<Dynamic>(37, 38), 
-        new Array<Dynamic>(38, 39), 
-        new Array<Dynamic>(39, 40, 43), 
-        new Array<Dynamic>(40, 41), 
-        new Array<Dynamic>(41, 42), 
+        [34, 35], 
+        [35, 36], 
+        [36, 37], 
+        [37, 38], 
+        [38, 39], 
+        [39, 40, 43], 
+        [40, 41], 
+        [41, 42], 
         
-        new Array<Dynamic>(43, 44), 
-        new Array<Dynamic>(44, 45), 
-        new Array<Dynamic>(45, 46), 
-        new Array<Dynamic>(46, 47), 
-        new Array<Dynamic>(47, 48), 
-        new Array<Dynamic>(48, 49), 
-        new Array<Dynamic>(49, 50));
+        [43, 44], 
+        [44, 45], 
+        [45, 46], 
+        [46, 47], 
+        [47, 48], 
+        [48, 49], 
+        [49, 50]];
     
     
     public static function GetUnlockedLevels(levelID : Int) : Array<Dynamic>
     {
-        var unlocked : Array<Dynamic> = new Array<Dynamic>();
+        var unlocked : Array<Dynamic> = [];
         for (a in unlockList)
         {
             if (Reflect.field(a, Std.string(0)) == levelID)
@@ -209,12 +209,12 @@ class GameVars
         return unlocked;
     }
     
-    private static var DumpBackToLevelMapLevels : Array<Dynamic> = new Array<Dynamic>(4, 5, 6, 7, 8, 
+    public static var DumpBackToLevelMapLevels : Array<Dynamic> = [4, 5, 6, 7, 8, 
         14, 15, 
         16, 17, 18, 
         24, 25, 26, 27, 28, 
         30, 31, 32, 33, 
-        39, 40, 41, 42);
+        39, 40, 41, 42];
     
     
     public static function ShouldDumpBackToLevelMap(levelID : Int) : Bool
@@ -275,7 +275,7 @@ class GameVars
         useFeature3 = false;
         useFeature4 = false;
         InitKeeperActions();
-        TrophiesCollected = new Array<Dynamic>();
+        TrophiesCollected = [];
         TrophiesCollected.push(
                 false, false, false, false, false, 
                 false, false, false, false, false
@@ -348,7 +348,7 @@ class GameVars
     public static var currentPickTeam : Int = 0;
     public static var currentEditTeamIndex : Int = 0;
     
-    private static var teams : Array<TeamDef>;
+    public static var teams : Array<TeamDef>;
     
     public static function GetTeam(index : Int) : TeamDef
     {
@@ -375,7 +375,7 @@ class GameVars
         
         
         
-        o.teams = new Array<Dynamic>();
+        o.teams = [];
         
         for (i in 0...teams.length)
         {
@@ -396,13 +396,13 @@ class GameVars
         o.useFeature3 = useFeature3;
         o.useFeature4 = useFeature4;
         
-        o.TrophiesCollected = new Array<Dynamic>();
+        o.TrophiesCollected = [];
         for (b/* AS3HX WARNING could not determine type for var: b exp: EIdent(TrophiesCollected) type: null */ in TrophiesCollected)
         {
             o.TrophiesCollected.push(b);
         }
         
-        o.coinsTable = new Array<Dynamic>();
+        o.coinsTable = [];
         for (i/* AS3HX WARNING could not determine type for var: i exp: EIdent(coinsTable) type: null */ in coinsTable)
         {
             o.coinsTable.push(i);
@@ -460,13 +460,13 @@ class GameVars
         useFeature3 = o.useFeature3;
         useFeature4 = o.useFeature4;
         
-        TrophiesCollected = new Array<Dynamic>();
+        TrophiesCollected = [];
         for (b/* AS3HX WARNING could not determine type for var: b exp: EField(EIdent(o),TrophiesCollected) type: null */ in o.TrophiesCollected)
         {
             TrophiesCollected.push(b);
         }
         
-        coinsTable = new Array<Dynamic>();
+        coinsTable = [];
         for (i/* AS3HX WARNING could not determine type for var: i exp: EField(EIdent(o),coinsTable) type: null */ in o.coinsTable)
         {
             coinsTable.push(i);
@@ -475,7 +475,7 @@ class GameVars
     
     
     
-    private static var parts_player : Array<Dynamic> = [
+    public static var parts_player : Array<Dynamic> = [
         "upperArmRight", 
         "upperArmRight.tint", 
         "upperArmRight.lines", 
@@ -514,7 +514,7 @@ class GameVars
     ];
     
     
-    private static var clips_player : Array<Dynamic> = [
+    public static var clips_player : Array<Dynamic> = [
         "player_upperArm", 
         "tint_topArm", 
         "player_toparmLines", 
@@ -553,7 +553,7 @@ class GameVars
     ];
     
     
-    private static var parts_ref : Array<Dynamic> = [
+    public static var parts_ref : Array<Dynamic> = [
         "upperArmRight", 
         "lowerArmRight", 
         "upperLegRight", 
@@ -567,7 +567,7 @@ class GameVars
     ];
     
     
-    private static var clips_ref : Array<Dynamic> = [
+    public static var clips_ref : Array<Dynamic> = [
         "ref_upperArm", 
         "ref_foreArm", 
         "ref_topLeg", 
@@ -580,7 +580,7 @@ class GameVars
         "ref_foreArm"
     ];
     
-    private static var parts_keeper : Array<Dynamic> = [
+    public static var parts_keeper : Array<Dynamic> = [
         "upperArmRight", 
         "lowerArmRight", 
         "upperLegRight", 
@@ -594,7 +594,7 @@ class GameVars
     ];
     
     
-    private static var clips_keeper : Array<Dynamic> = [
+    public static var clips_keeper : Array<Dynamic> = [
         "keeper_upperArm", 
         "keeper_foreArm", 
         "keeper_topLeg", 
@@ -608,7 +608,7 @@ class GameVars
     ];
     
     
-    private static function InitHierarchies()
+    public static function InitHierarchies()
     {
         hierarchy_player = new AnimHierarchy();
         hierarchy_player.Init(null, new Player(), parts_player, clips_player);
@@ -622,14 +622,14 @@ class GameVars
     public static var hierarchy_keeper : AnimHierarchy;
     
     
-    private static var oppo_kick_table : Array<Dynamic> = new Array<Dynamic>(
+    public static var oppo_kick_table : Array<Dynamic> = [
         new OppoKick(67, 14, -6), 
         new OppoKick(68, 23, -13), 
-        new OppoKick(69, 30, -26));
+        new OppoKick(69, 30, -26)];
     
     
     
-    private static var coinsTable : Array<Dynamic>;
+    public static var coinsTable : Array<Dynamic>;
     public static function InitCoinsForLevel()
     {
         totalLevelCoins = 0;
@@ -637,12 +637,12 @@ class GameVars
     }
     public static function InitCoinsOnce()
     {
-        coinsTable = new Array<Dynamic>();
+        coinsTable = [];
     }
     
-    public static var currentCoinIndex;
-    public static var numLevelCoinsCollected;
-    public static var totalLevelCoins;
+    public static var currentCoinIndex : Dynamic;
+    public static var numLevelCoinsCollected : Dynamic;
+    public static var totalLevelCoins : Dynamic;
     public static var totalGameCoins = 935;
     public static function CalculateNumCoinsInLevel()
     {
@@ -716,7 +716,7 @@ class GameVars
         var a : Int = GetTotalCoinsCollected();
         var b : Int = totalGameCoins;
         
-        coinBox.coinsCollected.text = a + "/" + b;
+        (untyped coinBox).coinsCollected.text = a + "/" + b;
     }
     public static function InitTrophiesClip(trophies : MovieClip)
     {
@@ -732,7 +732,7 @@ class GameVars
                 mc.filters = [UI.blackFilter];
             }
         }
-        trophies.numberText.text = Std.string(GetNumTrophies()) + "/10";
+        (untyped trophies).numberText.text = Std.string(GetNumTrophies()) + "/10";
     }
     
     
@@ -766,26 +766,26 @@ class GameVars
         }
         return null;
     }
-    private static var keeperActions : Array<Dynamic>;
-    private static function InitKeeperActions()
+    public static var keeperActions : Array<Dynamic>;
+    public static function InitKeeperActions()
     {
-        keeperActions = new Array<Dynamic>();
+        keeperActions = [];
         keeperActions.push("stationary");
-        keeperActions.push(new Array<Dynamic>(new Point(0, -1)));
+        keeperActions.push([new Point(0, -1)]);
         
         keeperActions.push("jump1");
-        keeperActions.push(new Array<Dynamic>(new Point(0, 3), new Point(1, 0)));
+        keeperActions.push([new Point(0, 3), new Point(1, 0)]);
         
         keeperActions.push("crouch1");
-        keeperActions.push(new Array<Dynamic>(new Point(0, 3), new Point(2, 0)));
+        keeperActions.push([new Point(0, 3), new Point(2, 0)]);
         
         keeperActions.push("jumpcrouch1");
-        keeperActions.push(new Array<Dynamic>(new Point(0, 3), new Point(1, 0), new Point(2, 0)));
+        keeperActions.push([new Point(0, 3), new Point(1, 0), new Point(2, 0)]);
         
     }
-    private static function InitTeamsOnce()
+    public static function InitTeamsOnce()
     {
-        teams = new Array<TeamDef>();
+        teams = [];
         for (i in 0...9)
         {
             teams.push(new TeamDef());
@@ -854,26 +854,26 @@ class GameVars
         teams[8].kitColorSocks = 15;
         teams[8].kitStyle = 1;
     }
-    public static var kitColors : Array<Dynamic> = new Array<Dynamic>(
-        new Array<Dynamic>(255, 255, 255), 
-        new Array<Dynamic>(10, 10, 10), 
-        new Array<Dynamic>(100, 100, 100), 
-        new Array<Dynamic>(247, 245, 70), 
+    public static var kitColors : Array<Dynamic> = [
+        [255, 255, 255], 
+        [10, 10, 10], 
+        [100, 100, 100], 
+        [247, 245, 70], 
         
-        new Array<Dynamic>(0, 173, 245), 
-        new Array<Dynamic>(72, 117, 246), 
-        new Array<Dynamic>(30, 76, 208), 
-        new Array<Dynamic>(19, 21, 97), 
+        [0, 173, 245], 
+        [72, 117, 246], 
+        [30, 76, 208], 
+        [19, 21, 97], 
         
-        new Array<Dynamic>(237, 28, 36), 
-        new Array<Dynamic>(157, 10, 14), 
-        new Array<Dynamic>(112, 36, 54), 
-        new Array<Dynamic>(77, 3, 3), 
+        [237, 28, 36], 
+        [157, 10, 14], 
+        [112, 36, 54], 
+        [77, 3, 3], 
         
-        new Array<Dynamic>(255, 78, 0), 
-        new Array<Dynamic>(237, 20, 90), 
-        new Array<Dynamic>(28, 185, 104), 
-        new Array<Dynamic>(29, 124, 51));
+        [255, 78, 0], 
+        [237, 20, 90], 
+        [28, 185, 104], 
+        [29, 124, 51]];
 }
 
 

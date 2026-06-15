@@ -245,9 +245,9 @@ class MochiAd
             bar.y = h - 20;
         }
         
-        var bar_color : Float = options.color;
+        var bar_color : Float = (untyped options).color;
         This is an intentional compilation error. See the README for handling the delete keyword
-        delete options.color;
+        delete (untyped options).color;
         var bar_background : Float = options.background;
         This is an intentional compilation error. See the README for handling the delete keyword
         delete options.background;

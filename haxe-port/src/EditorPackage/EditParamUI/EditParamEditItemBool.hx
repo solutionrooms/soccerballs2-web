@@ -32,9 +32,9 @@ class EditParamEditItemBool extends EditParamEditItemBase
         
         mc.editorItem = this;
         
-        mc.displayText.text = op.name;
+        (untyped mc).displayText.text = op.name;
         
-        mc.displayText.mouseEnabled = false;
+        (untyped mc).displayText.mouseEnabled = false;
         
         
         UI.AddBarebonesMCButton(mc.buttonTrue, TruePressed);
@@ -51,28 +51,28 @@ class EditParamEditItemBool extends EditParamEditItemBase
         PostSetup();
     }
     
-    private function UpdateButtons()
+    public function UpdateButtons()
     {
-        mc.buttonTrue.highlight.visible = false;
-        mc.buttonFalse.highlight.visible = false;
+        (untyped mc.buttonTrue).highlight.visible = false;
+        (untyped mc.buttonFalse).highlight.visible = false;
         
         if (op.value == "true")
         {
-            mc.buttonTrue.highlight.visible = true;
+            (untyped mc.buttonTrue).highlight.visible = true;
         }
         else
         {
-            mc.buttonFalse.highlight.visible = true;
+            (untyped mc.buttonFalse).highlight.visible = true;
         }
     }
     
-    private function TruePressed(e : MouseEvent)
+    public function TruePressed(e : MouseEvent)
     {
         op.value = "true";
         EditParams.DoChangedCallback(op);
         UpdateButtons();
     }
-    private function FalsePressed(e : MouseEvent)
+    public function FalsePressed(e : MouseEvent)
     {
         op.value = "false";
         EditParams.DoChangedCallback(op);

@@ -207,14 +207,14 @@ class EditModePlacement extends EditModeBase
     
     
     
-    private function CurrenPiece_AddScale(rv : Float)
+    public function CurrenPiece_AddScale(rv : Float)
     {
         for (ob/* AS3HX WARNING could not determine type for var: ob exp: EField(EIdent(PhysEditor),currentPieceList) type: null */ in PhysEditor.currentPieceList)
         {
             ob.scale += as3hx.Compat.parseFloat(rv);
         }
     }
-    private function CurrenPiece_AddRot(rv : Float)
+    public function CurrenPiece_AddRot(rv : Float)
     {
         for (ob/* AS3HX WARNING could not determine type for var: ob exp: EField(EIdent(PhysEditor),currentPieceList) type: null */ in PhysEditor.currentPieceList)
         {
@@ -222,7 +222,7 @@ class EditModePlacement extends EditModeBase
         }
     }
     
-    private function DecCurrentPiece()
+    public function DecCurrentPiece()
     {
         for (ob/* AS3HX WARNING could not determine type for var: ob exp: EField(EIdent(PhysEditor),currentPieceList) type: null */ in PhysEditor.currentPieceList)
         {
@@ -234,7 +234,7 @@ class EditModePlacement extends EditModeBase
         }
     }
     
-    private function IncCurrentPiece()
+    public function IncCurrentPiece()
     {
         for (ob/* AS3HX WARNING could not determine type for var: ob exp: EField(EIdent(PhysEditor),currentPieceList) type: null */ in PhysEditor.currentPieceList)
         {

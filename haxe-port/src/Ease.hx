@@ -13,7 +13,7 @@ class Ease
     {
     }
     
-    private static function DebugOut(s : String)
+    public static function DebugOut(s : String)
     {
         Utils.print(s);
     }
@@ -76,7 +76,7 @@ class Ease
     }
     
     
-    private static var _2PI : Float = Math.PI * 2;
+    public static var _2PI : Float = Math.PI * 2;
     
     public static function easeIn(t : Float, b : Float, c : Float, d : Float, a : Float = 0, p : Float = 0) : Float
     {

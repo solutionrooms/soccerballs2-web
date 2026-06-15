@@ -17,9 +17,9 @@ import textPackage.TextRenderer;
 	*/
 class EngineDebug
 {
-    private static var timerNames : Array<Dynamic>;
-    private static var timerStartTimes : Array<Dynamic>;
-    private static var timerTimes : Array<Dynamic>;
+    public static var timerNames : Array<Dynamic>;
+    public static var timerStartTimes : Array<Dynamic>;
+    public static var timerTimes : Array<Dynamic>;
     
     public static var debugMode : Int = 0;
     public function new()
@@ -28,9 +28,9 @@ class EngineDebug
     
     public static function InitOnce()
     {
-        timerNames = new Array<Dynamic>();
-        timerStartTimes = new Array<Dynamic>();
-        timerTimes = new Array<Dynamic>();
+        timerNames = [];
+        timerStartTimes = [];
+        timerTimes = [];
     }
     
     public static function IsSet(mask : Int) : Bool
@@ -42,7 +42,7 @@ class EngineDebug
         return true;
     }
     
-    private static var immediateTime : Int;
+    public static var immediateTime : Int;
     public static function StartImmediateTimer()
     {
         immediateTime = Math.round(haxe.Timer.stamp() * 1000);
@@ -55,9 +55,9 @@ class EngineDebug
     
     public static function StartTimers()
     {
-        timerNames = new Array<Dynamic>();
-        timerTimes = new Array<Dynamic>();
-        timerStartTimes = new Array<Dynamic>();
+        timerNames = [];
+        timerTimes = [];
+        timerStartTimes = [];
         StartTimer("total");
     }
     
@@ -87,7 +87,7 @@ class EngineDebug
     }
     public static function CreateGetTimerStrings()
     {
-        timerStrings = new Array<Dynamic>();
+        timerStrings = [];
         for (i in 0...10)
         {
             timerStrings.push("");
@@ -154,7 +154,7 @@ class EngineDebug
     
     
     
-    private static function RenderNape(bd : BitmapData) : Void
+    public static function RenderNape(bd : BitmapData) : Void
     {
         if (IsSet(4) == false)
         {
@@ -206,7 +206,7 @@ class EngineDebug
             }
         }
     }
-    private static function RenderLines(bd : BitmapData) : Void
+    public static function RenderLines(bd : BitmapData) : Void
     {
         if (bd == null)
         {

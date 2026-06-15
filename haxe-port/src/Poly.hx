@@ -16,24 +16,24 @@ class Poly
     public static inline var polytype_FLOOR = 5;
     public static inline var polytype_CEILING = 6;
     
-    private var boundingRectangle : Rectangle;
-    private var active : Bool;
-    private var type : Int;
-    private var name : String;
-    private var lineList : Array<Dynamic>;
-    private var pointList : Array<Dynamic>;
-    private var hitCallback : Dynamic;
-    private var param0 : String;
-    private var param1 : String;
-    private var iparam0 : Int;
-    private var typeName : String;
-    private var subTypeName : String;
-    private var closed : Bool;
+    public var boundingRectangle : Rectangle;
+    public var active : Bool;
+    public var type : Int;
+    public var name : String;
+    public var lineList : Array<Dynamic>;
+    public var pointList : Array<Dynamic>;
+    public var hitCallback : Dynamic;
+    public var param0 : String;
+    public var param1 : String;
+    public var iparam0 : Int;
+    public var typeName : String;
+    public var subTypeName : String;
+    public var closed : Bool;
     
     
     public static function FindAllByType(type : Int, polyList : Array<Dynamic>) : Array<Dynamic>
     {
-        var list : Array<Dynamic> = new Array<Dynamic>();
+        var list : Array<Dynamic> = [];
         for (poly in polyList)
         {
             if (poly.type == type)
@@ -72,14 +72,14 @@ class Poly
     
     public function new(_name : String, _type : Int, x : Float, y : Float)
     {
-        lineList = new Array<Dynamic>();
+        lineList = [];
         active = true;
         type = _type;
         name = _name;
         boundingRectangle = null;
         hitCallback = null;
         closed = false;
-        pointList = new Array<Dynamic>();
+        pointList = [];
         pointList.push(new Point(x, y));
     }
     
@@ -160,10 +160,10 @@ class Poly
         return poly;
     }
     
-    private var catmullRomLength : Float;
+    public var catmullRomLength : Float;
     public function CalculateCatmullRomLength()
     {
-        var l : Array<Dynamic> = new Array<Dynamic>();
+        var l : Array<Dynamic> = [];
         var i : Int;
         
         var np : Int = GetNumPoints();
@@ -196,7 +196,7 @@ class Poly
     }
     
     
-    private function PointOnCurve(t : Float, p0 : Point, p1 : Point, p2 : Point, p3 : Point) : Point
+    public function PointOnCurve(t : Float, p0 : Point, p1 : Point, p2 : Point, p3 : Point) : Point
     {
         var out : Point = new Point();
         var t2 : Float = t * t;

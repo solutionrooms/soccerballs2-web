@@ -5,10 +5,10 @@
 	 */
 class Weapon
 {
-    private var fireRate : Int;
-    private var objName : String;
-    private var name : String;
-    private var isStraight : Bool;
+    public var fireRate : Int;
+    public var objName : String;
+    public var name : String;
+    public var isStraight : Bool;
     
     public function new(_name : String, _objName : String, _fireRate : Float, _isStraight : Bool = false)
     {

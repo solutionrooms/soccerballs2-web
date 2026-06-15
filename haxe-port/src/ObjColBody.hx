@@ -6,15 +6,15 @@ import flash.geom.Point;
 	 */
 class ObjColBody
 {
-    private var type : Int;
-    private var shapes : Array<Dynamic>;
+    public var type : Int;
+    public var shapes : Array<Dynamic>;
     public function new()
     {
-        shapes = new Array<Dynamic>();
+        shapes = [];
     }
     public function AddShape(a : Array<Dynamic>)
     {
-        var b : Array<Dynamic> = new Array<Dynamic>();
+        var b : Array<Dynamic> = [];
         for (p in a)
         {
             b.push(p.clone());

@@ -9,7 +9,7 @@ www.actionsnippet.com
 
 class Triangulate
 {
-    private var EPSILON(default, never) : Float = 0.0000000001;
+    public var EPSILON(default, never) : Float = 0.0000000001;
     public function new()
     {
     }
@@ -137,7 +137,7 @@ t = as3hx.Compat.parseInt(v + 1);
         bCROSScp = bX * cpy - bY * cpx;
         return ((aCROSSbp >= 0.0) && (bCROSScp >= 0.0) && (cCROSSap >= 0.0));
     }
-    private function snip(contour : Array<Dynamic>, u : Int, v : Int, w : Int, n : Int, verts : Array<Dynamic>) : Bool
+    public function snip(contour : Array<Dynamic>, u : Int, v : Int, w : Int, n : Int, verts : Array<Dynamic>) : Bool
     {
         var p : Int;
         var ax : Float;

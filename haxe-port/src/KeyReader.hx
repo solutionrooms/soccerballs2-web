@@ -112,9 +112,9 @@ class KeyReader
     
     public static function Reset()
     {
-        keysDown = new Array<Int>();
-        keysCleared = new Array<Bool>();
-        keysPressed = new Array<Bool>();
+        keysDown = [];
+        keysCleared = [];
+        keysPressed = [];
         var i : Int;
         for (i in 0...256)
         {
@@ -203,7 +203,7 @@ class KeyReader
         keysCleared[keyID] = true;
     }
     
-    private static function keyDownListener(event : KeyboardEvent) : Void
+    public static function keyDownListener(event : KeyboardEvent) : Void
     {
         if (active == false)
         {
@@ -213,7 +213,7 @@ class KeyReader
         keysDown[code]++;
     }
     
-    private static function keyUpListener(event : KeyboardEvent) : Void
+    public static function keyUpListener(event : KeyboardEvent) : Void
     {
         if (active == false)
         {

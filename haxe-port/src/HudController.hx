@@ -15,83 +15,83 @@ import uIPackage.UI;
 class HudController
 {
     
-    private var hudMC : MovieClip;
+    public var hudMC : MovieClip;
     
     public function new()
     {
     }
     
-    private function UpdateScore()
+    public function UpdateScore()
     {
     }
-    private function UpdateCannonPower(frame : Int)
+    public function UpdateCannonPower(frame : Int)
     {
     }
-    private function UpdateMultiplier()
+    public function UpdateMultiplier()
     {
     }
-    private function UpdateTime()
+    public function UpdateTime()
     {
     }
     
-    private function SetupMuteButtons()
+    public function SetupMuteButtons()
     {
-        UI.SetupAnimatedSFXMuteButton(hudMC.mainArea.btn_sfxMuteBtn);
-        UI.SetupAnimatedMusicMuteButton(hudMC.mainArea.btn_musicMute);
-        UI.RemoveAnimatedMCButton(hudMC.mainArea.btn_moregames);
-        Lic.AnimatedMCMoreGamesButton(hudMC.mainArea.btn_moregames, "hud");
+        UI.SetupAnimatedSFXMuteButton((untyped hudMC).mainArea.btn_sfxMuteBtn);
+        UI.SetupAnimatedMusicMuteButton((untyped hudMC.mainArea).btn_musicMute);
+        UI.RemoveAnimatedMCButton((untyped hudMC.mainArea).btn_moregames);
+        Lic.AnimatedMCMoreGamesButton((untyped hudMC.mainArea).btn_moregames, "hud");
     }
-    private function Hide()
+    public function Hide()
     {
         hudMC.visible = false;
     }
-    private function Show()
+    public function Show()
     {
         hudMC.visible = true;
     }
-    private function InitForLevel()
+    public function InitForLevel()
     {
-        UI.RemoveAnimatedMCButton(hudMC.mainArea.btn_walkthrough);
-        Lic.AnimatedMCWalkthroughButton(hudMC.mainArea.btn_walkthrough);
+        UI.RemoveAnimatedMCButton((untyped hudMC.mainArea).btn_walkthrough);
+        Lic.AnimatedMCWalkthroughButton((untyped hudMC.mainArea).btn_walkthrough);
         
-        hudMC.mainArea.LevelNameText.text = as3hx.Compat.parseInt(Levels.currentIndex + 1) + ": " + Levels.GetCurrent().name;
+        (untyped hudMC).mainArea.LevelNameText.text = as3hx.Compat.parseInt(Levels.currentIndex + 1) + ": " + Levels.GetCurrent().name;
         if (Game.usedebug)
         {
-            hudMC.mainArea.LevelNameText.text += " (" + Levels.GetCurrent().creator + ")";
+            (untyped hudMC).mainArea.LevelNameText.text += " (" + Levels.GetCurrent().creator + ")";
         }
     }
     
-    private function InitOnce()
+    public function InitOnce()
     {
         hudMC = new Hud();
         hudMC.visible = true;
         
-        Lic.AnimatedMCMoreGamesButton(hudMC.mainArea.btn_moregames, "hud");
+        Lic.AnimatedMCMoreGamesButton((untyped hudMC.mainArea).btn_moregames, "hud");
         
-        UI.AddAnimatedMCButton(hudMC.mainArea.btn_quit, ButtonPausePressed);
-        UI.AddAnimatedMCButton(hudMC.mainArea.btn_restart, ButtonRestartPressed);
+        UI.AddAnimatedMCButton((untyped hudMC).mainArea.btn_quit, ButtonPausePressed);
+        UI.AddAnimatedMCButton((untyped hudMC).mainArea.btn_restart, ButtonRestartPressed);
         
-        UI.AddAnimatedMCButton(hudMC.debugArea.btn_skipLevel, ButtonDebugSkipPressed);
+        UI.AddAnimatedMCButton((untyped hudMC).debugArea.btn_skipLevel, ButtonDebugSkipPressed);
         
-        Lic.AnimatedMCWalkthroughButton(hudMC.mainArea.btn_walkthrough);
+        Lic.AnimatedMCWalkthroughButton((untyped hudMC.mainArea).btn_walkthrough);
         
-        UI.AddAnimatedSFXMuteButton(hudMC.mainArea.btn_sfxMuteBtn);
-        UI.AddAnimatedMusicMuteButton(hudMC.mainArea.btn_musicMute);
-        UI.AddAnimatedMCButton(hudMC.mainArea.btn_fastforward, buttonFastForwardPressed);
+        UI.AddAnimatedSFXMuteButton((untyped hudMC).mainArea.btn_sfxMuteBtn);
+        UI.AddAnimatedMusicMuteButton((untyped hudMC.mainArea).btn_musicMute);
+        UI.AddAnimatedMCButton((untyped hudMC).mainArea.btn_fastforward, buttonFastForwardPressed);
     }
     
     
     public function ShowFastForward(doit : Bool)
     {
-        hudMC.buttonFastForward.visible = doit;
+        (untyped hudMC).buttonFastForward.visible = doit;
     }
     
-    private function buttonFastForwardPressed(e : MouseEvent)
+    public function buttonFastForwardPressed(e : MouseEvent)
     {
         GameVars.doingFastForward = (GameVars.doingFastForward == false);
         Audio.OneShot("sfx_fastforward");
     }
-    private function ButtonMenuPressed(e : MouseEvent)
+    public function ButtonMenuPressed(e : MouseEvent)
     {
         if (PauseMenu.IsPaused() == false)
         {
@@ -100,17 +100,17 @@ class HudController
     }
     
     
-    private function ButtonDebugSkipPressed(e : MouseEvent)
+    public function ButtonDebugSkipPressed(e : MouseEvent)
     {
         Game.NextLevel();
     }
-    private function ButtonRestartPressed(e : MouseEvent)
+    public function ButtonRestartPressed(e : MouseEvent)
     {
         Game.RestartLevel();
     }
     
     
-    private function UpdateKeyPresses()
+    public function UpdateKeyPresses()
     {
         if (UI.isInTransition)
         {
@@ -133,15 +133,15 @@ class HudController
         }
         if (KeyReader.Pressed(KeyReader.KEY_N))
         {
-            UI.KeypressSFXMuteButton(hudMC.mainArea.btn_sfxMuteBtn);
+            UI.KeypressSFXMuteButton((untyped hudMC).mainArea.btn_sfxMuteBtn);
         }
         if (KeyReader.Pressed(KeyReader.KEY_M))
         {
-            UI.KeypressMusicMuteButton(hudMC.mainArea.btn_musicMute);
+            UI.KeypressMusicMuteButton((untyped hudMC.mainArea).btn_musicMute);
         }
     }
     
-    private var debugMode : Int = 0;
+    public var debugMode : Int = 0;
     public function CycleDebugModes()
     {
         debugMode++;
@@ -150,10 +150,10 @@ class HudController
             debugMode = 0;
         }
     }
-    private function Update()
+    public function Update()
     {
-        hudMC.mainArea.visible = true;
-        hudMC.debugArea.visible = false;
+        (untyped hudMC).mainArea.visible = true;
+        (untyped hudMC).debugArea.visible = false;
         
         
         
@@ -173,18 +173,18 @@ class HudController
             poo = true;
             goldRemainingKicks = 0;
         }
-        hudMC.mainArea.kicksText.text = remainingKicks;
-        hudMC.mainArea.starText.text = goldRemainingKicks;
-        hudMC.mainArea.coinsText.text = GameVars.numLevelCoinsCollected + "/" + GameVars.totalLevelCoins;
-        hudMC.mainArea.goldKicksFail.visible = false;
+        (untyped hudMC).mainArea.kicksText.text = remainingKicks;
+        (untyped hudMC).mainArea.starText.text = goldRemainingKicks;
+        (untyped hudMC).mainArea.coinsText.text = GameVars.numLevelCoinsCollected + "/" + GameVars.totalLevelCoins;
+        (untyped hudMC).mainArea.goldKicksFail.visible = false;
         if (poo)
         {
-            hudMC.mainArea.goldKicksFail.visible = true;
+            (untyped hudMC).mainArea.goldKicksFail.visible = true;
         }
         
         
-        TextStrings.ReplaceTextFieldText(hudMC.mainArea.textScoreName, "score");
-        hudMC.mainArea.textScore.text = Game.currentScore;
+        TextStrings.ReplaceTextFieldText((untyped hudMC).mainArea.textScoreName, "score");
+        (untyped hudMC.mainArea).textScore.text = Game.currentScore;
         
         var ballGO : GameObj = GameVars.footballGO;
         
@@ -192,29 +192,29 @@ class HudController
         {
             if (ballGO.state == 2)
             {
-                hudMC.mainArea.ballTimer.visible = true;
-                hudMC.mainArea.ballTimer.gotoAndStop(as3hx.Compat.parseInt(Utils.ScaleTo(1, hudMC.mainArea.ballTimer.totalFrames, 0, GameVars.ballTimerMax, ballGO.ballTimer)));
+                (untyped hudMC).mainArea.ballTimer.visible = true;
+                (untyped hudMC).mainArea.ballTimer.gotoAndStop(as3hx.Compat.parseInt(Utils.ScaleTo(1, (untyped hudMC).mainArea.ballTimer.totalFrames, 0, GameVars.ballTimerMax, ballGO.ballTimer)));
             }
             else
             {
-                hudMC.mainArea.ballTimer.visible = false;
+                (untyped hudMC).mainArea.ballTimer.visible = false;
             }
         }
         
         return;
     }
     
-    private function helpPressed(e : MouseEvent)
+    public function helpPressed(e : MouseEvent)
     {
         Game.pause = true;
     }
-    private function logoPressed(e : MouseEvent)
+    public function logoPressed(e : MouseEvent)
     {
     }
-    private function walkthroughPressed(e : MouseEvent)
+    public function walkthroughPressed(e : MouseEvent)
     {
     }
-    private function ButtonPausePressed(e : MouseEvent)
+    public function ButtonPausePressed(e : MouseEvent)
     {
         if (PauseMenu.IsPaused() == false)
         {

@@ -7,10 +7,10 @@ package editorPackage;
 	 */
 class EditSubModeData
 {
-    private var name : String;
-    private var displayName : String;
-    private var keyCode : Int;
-    private var setMode : Bool;
+    public var name : String;
+    public var displayName : String;
+    public var keyCode : Int;
+    public var setMode : Bool;
     
     public function new(_name : String, _setMode : Bool, _keyCode : Int, _displayName : String)
     {

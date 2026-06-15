@@ -5,15 +5,15 @@
 	 */
 class GrassItem
 {
-    private var origx : Float;
-    private var origy : Float;
-    private var xpos : Float;
-    private var ypos : Float;
-    private var gf : GrassFrame;
-    private var visible : Bool;
-    private var rot : Float;
-    private var timer : Int;
-    private var frameIndex : Int;
+    public var origx : Float;
+    public var origy : Float;
+    public var xpos : Float;
+    public var ypos : Float;
+    public var gf : GrassFrame;
+    public var visible : Bool;
+    public var rot : Float;
+    public var timer : Int;
+    public var frameIndex : Int;
     
     public function new(_x : Float, _y : Float, _gf : GrassFrame, _frameIndex : Int)
     {

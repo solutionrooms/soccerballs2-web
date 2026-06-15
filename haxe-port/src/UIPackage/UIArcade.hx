@@ -56,10 +56,10 @@ class UIArcade extends UIScreenInstance
         
         Lic.AnimatedMCMoreGamesButton(titleMC.overlay.buttonMoreGames, "minigame");
         
-        titleMC.overlay.textBestScore.text = "Your Best Score: " + MiniGame.highscore;
+        titleMC.overlay.textBestScore.text = "Your Best Score: " + (untyped MiniGame).highscore;
     }
     
-    private function OnEnterFrame(e : Event)
+    public function OnEnterFrame(e : Event)
     {
         MiniGame.Update();
         MiniGame.Render();

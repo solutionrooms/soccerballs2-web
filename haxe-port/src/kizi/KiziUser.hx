@@ -13,7 +13,7 @@ class KiziUser
     
     public static function getCoins() : Int
     {
-        return KiziAPI.api.user.coins;
+        return (untyped KiziAPI.api.user).coins;
     }
     public static function getLevel() : Int
     {
@@ -35,7 +35,7 @@ class KiziUser
     public function new()
     {
     }
-    private static var KiziUser_static_initializer = {
+    public static var KiziUser_static_initializer = {
         {
             inventory = new KiziInventory();
         };

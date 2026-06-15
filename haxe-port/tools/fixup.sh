@@ -43,11 +43,113 @@ perl -i -pe 's/private var active : Bool;/public var active : Bool;/' "$DIR/Part
 
 echo "==> fixup: strip imports of flash/adobe types absent from OpenFL (unused in gameplay)"
 # grows as the compiler surfaces them; all confirmed unused at their import sites.
-STRIP='^import (flash\.(text\.TextRun|display\.ActionScriptVersion)|com\.adobe\.net\.proxies\.RFC2817Socket);'
+STRIP='^import (flash\.(text\.TextRun|display\.ActionScriptVersion)|com\.adobe\.net\.proxies\.RFC2817Socket|org\.flashdevelop\.utils\.TraceLevel);'
 find "$DIR" -name '*.hx' -exec perl -i -ne "print unless /$STRIP/" {} +
 
 echo "==> fixup: E4X access of Haxe-keyword-named attrs/nodes (x.att.default -> x.att.resolve(\"default\"))"
 KW='default|var|function|in|cast|switch|class|override|public|private|static|if|else|for|while|return|true|false|null|new|untyped|inline|using|macro|extern|abstract|typedef|enum|interface|extends|implements|package|import|do|try|catch|throw|continue|break'
 find "$DIR" -name '*.hx' -exec perl -i -pe "s/\\.(att|node|nodes|has|hasNode)\\.($KW)\\b/.\$1.resolve(\"\$2\")/g" {} +
+
+echo "==> fixup: widen more AS3 internal/default fields accessed cross-class"
+perl -i -pe 's/private var (name|type|valueString) : String;/public var $1 : String;/' "$DIR/Var.hx" 2>/dev/null || true
+
+echo "==> fixup: AS3 new Array(...) -> Haxe array literal (Haxe Array ctor takes no args)"
+# count-sized arrays (AS3 new Array(n)) -> empty (they are repopulated by push); must run before the general rule
+perl -i -pe 's/new Array<[^>]*>\(numobjs\)/new Array<Dynamic>()/' "$DIR/GameObjects.hx" 2>/dev/null || true
+perl -i -pe 's/new Array<[^>]*>\(newW \* newH\)/new Array<Dynamic>()/' "$DIR/EditorPackage/EditModeMap.hx" 2>/dev/null || true
+# general: new Array<T>(a,b,...) / new Array<T>(x) -> [a,b,...] / [x] ; new Array<T>() -> []
+find "$DIR" -name '*.hx' -exec perl -0777 -i -pe '1 while s/new Array<[^>]*>(\((?:[^()]++|(?1))*\))/"[" . substr($1,1,-1) . "]"/ge' {} +
+
+echo "==> fixup: faithful E4X hand-ports as3hx mis-converted (child-chains, appendChild, attributes())"
+# ExternalData.GetConstants: xml.constants.constant[.length()/[i]] -> node/nodes form
+perl -i -pe '
+  s/xml\.node\.constants\.innerData\.node\.constant\.innerData\.length\(\)/xml.node.constants.nodes.constant.length()/g;
+  s/xml\.nodes\.constants\.node\.constant\.innerData\[i\]/xml.node.constants.nodes.constant.get(i)/g;
+  s/xml\.node\.gameconstants\.innerData\.node\.constant\.innerData\.length\(\)/xml.node.gameconstants.nodes.constant.length()/g;
+  s/xml\.nodes\.gameconstants\.node\.constant\.innerData\[i\]/xml.node.gameconstants.nodes.constant.get(i)/g;
+  s/levelsXml\.node\.appendChild\.innerData\(xl\)/levelsXml.appendChild(xl.x)/g;
+' "$DIR/ExternalData.hx" 2>/dev/null || true
+# TextString.FromXML: x.attributes() loop -> iterate language labels against the Xml attributes directly
+perl -0777 -i -pe 's/var attrs : FastXMLList = x\.node\.attributes\.innerData\(\);.*?dictionary\[label\] = s;\s*\}\s*\}\s*\}/for (label in TextStrings.languageLabels)\n        {\n            var lbl : String = Std.string(label);\n            if (x.x.exists(lbl))\n            {\n                var s : String = StringTools.replace(x.x.get(lbl), "\xc3\x9f", "ss");\n                dictionary[lbl] = s;\n            }\n        }/s' "$DIR/textPackage/TextString.hx" 2>/dev/null || true
+
+echo "==> fixup: AS3 dynamic-MovieClip property access (OpenFL MovieClip is sealed; works at JS runtime)"
+# Wrap accesses to game-attached custom props in 'untyped' so the typechecker allows them; the
+# Dynamic then propagates down the chain. (?<![.\\w]) ensures we only wrap a real base variable,
+# never a mid-chain field name. List grows as the compiler surfaces more dynamic props.
+DPROPS='buttonAnimation|ButtonContinue|buttonName|ButtonRestart|canClick|clickCallback|helpText|hoverCallback|mainArea|reorderWhenOver|textTitle|useTick|tickState|buttonText|languageID|helpString|toggleIcon|screenA|screenB|debugArea|buttonVisible|buttonSelected|buttonLocked|_overCB|_outCB|_clickCB|editorLayer|displayText|achievement|adBox|awayTeam|btn_back|btn_continue|btn_feature1|btn_feature2|btn_feature3|btn_feature4|btn_head|btn_modify|btn_moregames|btn_musicMute|btn_next|btn_no|btn_pattern|btn_pick0|btn_pick1|btn_playgame|btn_PlayWithHighcores|btn_prequel|btn_sfxMute|btn_shirt|btn_shirtHoops|btn_shirtPlain|btn_shirtStripes|btn_shorts|btn_socks|btn_submit|btn_walkthrough|btn_yes|buttonBack|buttonFastForward|buttonLevelSelect|buttonPlayWithHighcores|ButtonQuit|buttonSkipCPMStarAd|canPress|coinBox|coinpercent|coins|coinsCollected|color|colorIndex|cup|gold|greystar|head|headIndex|highlight|highscore|homeTeam|hoops|info1|info2|info3|info4|inner|itemIndex|kit|levelComplete|levelID|levelName|levelNameText|levelNumber|levelrating|link_longAnimals|link_robotJam|loaderBar|logo_soccerballs|mainLogo|nextPage|numberText|palette|palette0|palette1|palette2|palette3|popup|prevPage|progressBar|scoreText1|scoreText2|screenIndex|selected|shirt|shorts|socks|stripes|teamIndex|textComputer|textDescription|textInfo|textLevelCreator|textLevelName|textName|textNumGold|textPlayer|textQuestion|textScore|textTeamName|textTeamName0|textTeamName1|textTick|tick|title|trophies|turboBtn'
+find "$DIR" -name '*.hx' -exec perl -i -pe "s/(?<![.\\w])([A-Za-z_]\\w*(?:\\.[A-Za-z_]\\w*)*)\\.($DPROPS)\\b/(untyped \$1).\$2/g" {} +
+
+echo "==> fixup: widen ALL private -> public (AS3 internal/default became Haxe private; visibility is"
+echo "        runtime-neutral, and AS3's package-visibility has no Haxe equivalent, so widen uniformly)"
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/\bprivate /public /g' {} +
+
+echo "==> fixup: AS3 String.replace on .text chains -> StringTools.replace"
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/(\b\w+(?:\.\w+)*\.text)\.replace\(/StringTools.replace($1, /g' {} +
+
+echo "==> fixup: untyped uninitialised vars (AS3 'var x;') -> ': Dynamic'"
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/^(\s*(?:public |private |static )*var [A-Za-z_]\w*) ;\s*$/$1 : Dynamic;\n/; s/^(\s*(?:public |private |static )*var [A-Za-z_]\w*);\s*$/$1 : Dynamic;\n/' {} +
+
+echo "==> fixup: Levels.LoadLevel missing local 'level' decl; PhysicsBase flash.Boot no-op + nape debug type"
+perl -i -pe 's/^(\s*)level = list\[l\];/$1var level : Level = list[l];/' "$DIR/Levels.hx" 2>/dev/null || true
+perl -i -ne 'print unless /^\s*var a = new flash\.Boot\(\);/ or /^import flash\.Boot;/' "$DIR/PhysicsBase.hx" 2>/dev/null || true
+perl -i -pe 's/: BitmapDebug;/: Dynamic;/; ' "$DIR/PhysicsBase.hx" 2>/dev/null || true
+perl -i -ne 'print unless /^import nape\.util\.BitmapDebug;/' "$DIR/PhysicsBase.hx" 2>/dev/null || true
+
+echo "==> fixup: AS3 dynamic method dispatch obj[\"fn\"]() -> Reflect; dynamic class instantiation"
+perl -i -pe '
+  s/\bgo\[graphic\.goInitFuntion\]\(\)/Reflect.callMethod(go, Reflect.field(go, graphic.goInitFuntion), [])/g;
+  s/\bgo\[physobj\.initFunctionName\]\(\)/Reflect.callMethod(go, Reflect.field(go, physobj.initFunctionName), [])/g;
+  s/\bthis\[physobj\.wakeFunctionName\]/Reflect.field(this, physobj.wakeFunctionName)/g;
+' "$DIR/Game.hx" "$DIR/GameObjBase.hx" "$DIR/PhysicsBase.hx" 2>/dev/null || true
+# new someVar.TheClass() -> Type.createInstance(someVar.TheClass, [])  (instantiate a stored Class ref)
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/new (\w+)\.TheClass\(\)/Type.createInstance($1.theClass, [])/g' {} +
+
+echo "==> fixup: hoist AS3 function-scoped vars as3hx scoped to a block (jb0/jb1/go0.. used after their if-block)"
+perl -0777 -i -pe '
+  s/(function AddJoint_Nape\(joint : EdJoint\) : Array<Constraint>\s*\{)/$1\n        var jb0 : Body = null; var jb1 : Body = null;\n        var go0 : GameObj = null; var go0a : GameObj = null; var go1 : GameObj = null; var go1a : GameObj = null;/;
+  s/var jb0 : Body = PhysicsBase\.GetNapeSpace\(\)\.world;/jb0 = PhysicsBase.GetNapeSpace().world;/;
+  s/var jb1 : Body = PhysicsBase\.GetNapeSpace\(\)\.world;/jb1 = PhysicsBase.GetNapeSpace().world;/;
+  s/var (go0|go0a|go1|go1a) : GameObj = /$1 = /g;
+' "$DIR/PhysicsBase.hx" 2>/dev/null || true
+
+echo "==> fixup: strip unused nape-internal import (api differs in nape-haxe4; only the public method is used)"
+find "$DIR" -name '*.hx' -exec perl -i -ne 'print unless /^import zpp_nape\.dynamics\.ZPPSensorArbiter;/' {} +
+
+echo "==> fixup: remaining E4X child-chains, button default param, font-size Int, dead s3d.SetVisible"
+# Levels: x.joints.joint child-chain -> node/nodes form (same as3hx mis-conversion as ExternalData)
+perl -i -pe '
+  s/x\.node\.joints\.innerData\.node\.joint\.innerData\.length\(\)/x.node.joints.nodes.joint.length()/g;
+  s/x\.nodes\.joints\.node\.joint\.innerData\[i\]/x.node.joints.nodes.joint.get(i)/g;
+' "$DIR/Levels.hx" 2>/dev/null || true
+# UI button fns: trailing untyped '_hoverCallback)' lost its '= null' default (as3hx) -> restore.
+# Only on declaration lines (contain 'function'); call sites pass _hoverCallback as a bare arg.
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/, _hoverCallback\)/, _hoverCallback : Dynamic = null)/g if /\bfunction\b/' {} +
+# OpenFL TextFormat.size is Null<Int> (AS3 Number); truncate on assign (AS3-faithful)
+perl -i -pe 's/tFormat\.size = size;/tFormat.size = Std.int(size);/' "$DIR/textPackage/TextStrings.hx" 2>/dev/null || true
+# s3d.SetVisible: Stage3D layer toggle, dead with useStage3D=false (lowercase s3d resolves as a package path) -> drop
+find "$DIR" -name '*.hx' -exec perl -i -ne 'print unless /^\s*s3d\.SetVisible\(/' {} +
+
+echo "==> fixup: AS3 Number->int coercions where Haxe wants Int (Std.int = AS3 ToInt32 truncation, faithful)"
+perl -i -pe '
+  s/\.play\(0, 9999999999, st\)/.play(0, Std.int(9999999999), st)/;
+  s/BLOCK_SIZE : read \/ _rate;/BLOCK_SIZE : Std.int(read \/ _rate);/;
+' "$DIR/audioPackage/Audio.hx" "$DIR/audioPackage/PitchControl.hx" 2>/dev/null || true
+perl -i -pe '
+  s/^(\s*)x0 = rect\.left;/$1x0 = Std.int(rect.left);/;
+  s/^(\s*)y0 = rect\.top;/$1y0 = Std.int(rect.top);/;
+  s/new BitmapData\(\(rect\.width\), \(rect\.height\), true, 0\)/new BitmapData(Std.int(rect.width), Std.int(rect.height), true, 0)/;
+  s/new BitmapData\(\(rect\.width \* scl\), \(rect\.height \* scl\), true, 0\)/new BitmapData(Std.int(rect.width * scl), Std.int(rect.height * scl), true, 0)/;
+' "$DIR/DisplayObj.hx" 2>/dev/null || true
+perl -i -pe 's/Utils\.RandSetSeed\(123456789101112\)/Utils.RandSetSeed(Std.int(123456789101112))/; s/g\.beginBitmapFill\(dobj\.GetBitmapData\(frame\)/g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame))/; s/var xx : Int = p\.x;/var xx : Int = Std.int(p.x);/; s/var yy : Int = p\.y;/var yy : Int = Std.int(p.y);/' "$DIR/GameObjBase.hx" 2>/dev/null || true
+perl -i -pe 's/Levels\.GetLevel\(levelID - 1\)/Levels.GetLevel(Std.int(levelID - 1))/' "$DIR/Game.hx" 2>/dev/null || true
+perl -i -pe 's/ballTimerMax : Int = Defs\.fps \* 6;/ballTimerMax : Int = Std.int(Defs.fps * 6);/' "$DIR/GameVars.hx" 2>/dev/null || true
+# editor: cursor coords (Float) into Int params/locals -> Std.int (editor is dev-only; truncation matches AS3)
+perl -i -pe 's/^(\s*)(mx|my) = e\.(stageX|stageY);/$1$2 = Std.int(e.$3);/; s/var (mx|my) : Int = MouseControl\.(x|y);/var $1 : Int = Std.int(MouseControl.$2);/; s/AddInfoText\((.*?), x, y,/AddInfoText($1, Std.int(x), Std.int(y),/g; s/currentModeObject\.RenderHud\(x, y\)/currentModeObject.RenderHud(Std.int(x), Std.int(y))/; s/y \+= AddInfoText\("a", x, y, s\)/y += AddInfoText("a", Std.int(x), Std.int(y), s)/' "$DIR/editorPackage/EditModeBase.hx" "$DIR/editorPackage/PhysEditor.hx" 2>/dev/null || true
+
+echo "==> fixup: AS3 String.match (regex) -> EReg; iterate over PhysObjBody.shapes; field-init this-access"
+perl -i -pe 's/l\.name\.match\("Boss"\)/new EReg("Boss", "").match(l.name)/' "$DIR/Game.hx" 2>/dev/null || true
+perl -i -pe 's/ in body\.shapes\)/ in (body.shapes : Array<Dynamic>))/' "$DIR/PhysicsBase.hx" 2>/dev/null || true
+# EditModeLibrary: field initializer cannot reference sibling field boxNumW/H -> inline their constant values
+perl -i -pe 's#Defs\.displayarea_w / boxNumW;#Defs.displayarea_w / 5;#; s#Defs\.displayarea_h / boxNumH;#Defs.displayarea_h / 4;#' "$DIR/editorPackage/EditModeLibrary.hx" 2>/dev/null || true
 
 echo "==> fixup done in $DIR"

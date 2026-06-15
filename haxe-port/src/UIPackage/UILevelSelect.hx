@@ -17,7 +17,7 @@ import textPackage.TextStrings;
 class UILevelSelect extends UIScreenInstance
 {
     
-    private static var usePrePlacedLevels : Bool = true;
+    public static var usePrePlacedLevels : Bool = true;
     
     public function new()
     {
@@ -45,12 +45,12 @@ class UILevelSelect extends UIScreenInstance
         ScreenSize.ScaleMovieClip(titleMC);
         titleMC.gotoAndStop(1);
         
-        TextStrings.ReplaceTextFieldText(titleMC.textTitle);
+        TextStrings.ReplaceTextFieldText((untyped titleMC).textTitle);
         
-        UI.AddAnimatedMCButton(titleMC.btn_back, buttonBackPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_back, buttonBackPressed);
         
-        UI.AddAnimatedMCButton(titleMC.prevPage, PrevPageClicked);
-        UI.AddAnimatedMCButton(titleMC.nextPage, NextPageClicked);
+        UI.AddAnimatedMCButton((untyped titleMC).prevPage, PrevPageClicked);
+        UI.AddAnimatedMCButton((untyped titleMC).nextPage, NextPageClicked);
         
         UI.AddGeneric(titleMC);
         
@@ -69,19 +69,19 @@ class UILevelSelect extends UIScreenInstance
         
         UpdateChange();
         
-        GameVars.InitTrophiesClip(titleMC.trophies);
-        GameVars.InitCoinBoxClip(titleMC.coinBox);
+        GameVars.InitTrophiesClip((untyped titleMC).trophies);
+        GameVars.InitCoinBoxClip((untyped titleMC).coinBox);
     }
     
-    private var selectedLevel : Int;
+    public var selectedLevel : Int;
     
-    private var numPages : Int;
-    private var numPerPage : Int = 9;
-    private var currentPage : Int;
+    public var numPages : Int;
+    public var numPerPage : Int = 9;
+    public var currentPage : Int;
     
-    private function InitPage()
+    public function InitPage()
     {
-        icons = new Array<Dynamic>();
+        icons = [];
         
         var ox : Int = 145;
         var x : Int = ox;
@@ -106,19 +106,19 @@ class UILevelSelect extends UIScreenInstance
         }
     }
     
-    private var icons : Array<Dynamic>;
+    public var icons : Array<Dynamic>;
     
-    private function PopulatePage()
+    public function PopulatePage()
     {
-        titleMC.prevPage.visible = true;
-        titleMC.nextPage.visible = true;
+        (untyped titleMC).prevPage.visible = true;
+        (untyped titleMC).nextPage.visible = true;
         if (currentPage == 0)
         {
-            titleMC.prevPage.visible = false;
+            (untyped titleMC).prevPage.visible = false;
         }
         if (currentPage == numPages - 1)
         {
-            titleMC.nextPage.visible = false;
+            (untyped titleMC).nextPage.visible = false;
         }
         
         
@@ -136,16 +136,16 @@ class UILevelSelect extends UIScreenInstance
             {
                 mc.visible = true;
                 var l : Level = Levels.GetLevel(i);
-                mc.levelID = i;
-                mc.levelNumber.text = Std.string(as3hx.Compat.parseInt(i + 1));
+                (untyped mc).levelID = i;
+                (untyped mc).levelNumber.text = Std.string(as3hx.Compat.parseInt(i + 1));
                 
                 if (Game.usedebug)
                 {
-                    mc.textLevelCreator.text = l.creator;
+                    (untyped mc).textLevelCreator.text = l.creator;
                 }
                 else
                 {
-                    mc.textLevelCreator.text = "";
+                    (untyped mc).textLevelCreator.text = "";
                 }
                 
                 var lll : Int = Levels.currentIndex;
@@ -159,33 +159,33 @@ class UILevelSelect extends UIScreenInstance
                 var coinPC : Int = as3hx.Compat.parseInt(numC * 100 / totalC);
                 
                 
-                mc.coinpercent.text = coinPC + "%";
+                (untyped mc).coinpercent.text = coinPC + "%";
                 
-                mc.canPress = false;
+                (untyped mc).canPress = false;
                 
-                mc.coins.gotoAndStop(1);
-                mc.gold.gotoAndStop(1);
-                mc.cup.visible = false;
-                mc.cup.gotoAndStop(1);
+                (untyped mc).coins.gotoAndStop(1);
+                (untyped mc).gold.gotoAndStop(1);
+                (untyped mc).cup.visible = false;
+                (untyped mc).cup.gotoAndStop(1);
                 
                 if (l.available)
                 {
-                    mc.canPress = true;
+                    (untyped mc).canPress = true;
                     
-                    mc.levelNumber.visible = true;
+                    (untyped mc).levelNumber.visible = true;
                     mc.filters = [];
                 }
                 else
                 {
-                    mc.levelNumber.visible = true;
+                    (untyped mc).levelNumber.visible = true;
                     mc.filters = [UI.greyFilter];
                 }
                 
                 
-                mc.gold.visible = false;
+                (untyped mc).gold.visible = false;
                 if (l.rating > 0)
                 {
-                    mc.gold.visible = true;
+                    (untyped mc).gold.visible = true;
                 }
                 
                 /*
@@ -206,7 +206,7 @@ class UILevelSelect extends UIScreenInstance
         }
     }
     
-    private function PrevPageClicked(e : MouseEvent)
+    public function PrevPageClicked(e : MouseEvent)
     {
         currentPage--;
         if (currentPage < 0)
@@ -215,7 +215,7 @@ class UILevelSelect extends UIScreenInstance
         }
         PopulatePage();
     }
-    private function NextPageClicked(e : MouseEvent)
+    public function NextPageClicked(e : MouseEvent)
     {
         currentPage++;
         if (currentPage >= numPages)
@@ -225,28 +225,28 @@ class UILevelSelect extends UIScreenInstance
         PopulatePage();
     }
     
-    private function LockedGiftShopClicked(e : MouseEvent)
+    public function LockedGiftShopClicked(e : MouseEvent)
     {
     }
-    private function GiftShopClicked(e : MouseEvent)
+    public function GiftShopClicked(e : MouseEvent)
     {
         UI.StartTransition("giftshopscreen");
     }
-    private function ArcadeClicked(e : MouseEvent)
+    public function ArcadeClicked(e : MouseEvent)
     {
         UI.StartTransition("arcadescreen");
     }
     
-    private function SetLevelProgress()
+    public function SetLevelProgress()
     {
         var progress : Float = GameVars.GetLevelProgress();
         
-        var maxf : Int = titleMC.progressBar.progressBar.totalFrames;
+        var maxf : Int = (untyped titleMC.progressBar).progressBar.totalFrames;
         
         var f : Int = Utils.ScaleTo(1, maxf, 0, 1, progress);
-        titleMC.progressBar.progressBar.gotoAndStop(f);
-        titleMC.progressBar.percent.text = Math.round(progress * 100);
-        titleMC.textNumGold.text = GameVars.GetNumBonusGold();
+        (untyped titleMC.progressBar).progressBar.gotoAndStop(f);
+        (untyped titleMC).progressBar.percent.text = Math.round(progress * 100);
+        (untyped titleMC).textNumGold.text = GameVars.GetNumBonusGold();
     }
     
     public function buttonAchievementsPressed(e : MouseEvent)
@@ -255,7 +255,7 @@ class UILevelSelect extends UIScreenInstance
     }
     
     
-    private function UpdateChange()
+    public function UpdateChange()
     {
         if (selectedLevel == -1)
         {
@@ -263,10 +263,10 @@ class UILevelSelect extends UIScreenInstance
         else
         {
             var level : Level = Levels.GetLevel(selectedLevel);
-            titleMC.textInfo.text = level.displayName;
+            (untyped titleMC).textInfo.text = level.displayName;
         }
     }
-    private function levelOut(e : MouseEvent)
+    public function levelOut(e : MouseEvent)
     {
         selectedLevel = -1;
         
@@ -275,12 +275,12 @@ class UILevelSelect extends UIScreenInstance
     
     
     
-    private function buttonBackPressed(e : MouseEvent)
+    public function buttonBackPressed(e : MouseEvent)
     {
         UI.WaitAndStartTransition(titleMC, "matchselect");
     }
     
-    private function RemoveListeners()
+    public function RemoveListeners()
     {
         if (usePrePlacedLevels)
         {
@@ -294,7 +294,7 @@ class UILevelSelect extends UIScreenInstance
         }
     }
     
-    private function TryBuyLevelCB(yes : Bool)
+    public function TryBuyLevelCB(yes : Bool)
     {
         if (yes)
         {
@@ -305,7 +305,7 @@ class UILevelSelect extends UIScreenInstance
             UI.UpdateGeneric();
         }
     }
-    private function TryBuyLevel()
+    public function TryBuyLevel()
     {
         var l : Level = Levels.GetLevel(selectedLevel);
         if (Game.cash >= l.cost)
@@ -316,30 +316,30 @@ class UILevelSelect extends UIScreenInstance
     }
     
     
-    private function levelOver(e : MouseEvent)
+    public function levelOver(e : MouseEvent)
     {
-        var levelID : Int = e.currentTarget.levelID;
+        var levelID : Int = (untyped e.currentTarget).levelID;
         var l : Level = Levels.GetLevel(levelID);
-        titleMC.levelNameText.text = l.name;
+        (untyped titleMC).levelNameText.text = l.name;
     }
-    private function levelHovered(e : MouseEvent)
+    public function levelHovered(e : MouseEvent)
     {
-        var levelID : Int = e.currentTarget.levelID;
+        var levelID : Int = (untyped e.currentTarget).levelID;
         selectedLevel = levelID;
         var l : Level = Levels.GetLevel(selectedLevel);
-        titleMC.textLevelName.text = l.name;
+        (untyped titleMC).textLevelName.text = l.name;
     }
-    private function levelPressed(e : MouseEvent)
+    public function levelPressed(e : MouseEvent)
     {
         var cando : Bool = false;
         
-        var levelID : Int = e.currentTarget.levelID;
+        var levelID : Int = (untyped e.currentTarget).levelID;
         selectedLevel = levelID;
         
         
         if (Game.usedebug == false)
         {
-            if (e.currentTarget.canPress == false)
+            if ((untyped e.currentTarget).canPress == false)
             {
                 return;
             }

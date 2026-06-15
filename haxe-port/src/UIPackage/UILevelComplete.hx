@@ -28,21 +28,21 @@ class UILevelComplete extends UIScreenInstance
     }
     override public function ExitScreen()
     {
-        GameVars.useFeature1 = UI.GetAnimatedMCTickState(titleMC.btn_feature1);
-        GameVars.useFeature2 = UI.GetAnimatedMCTickState(titleMC.btn_feature2);
-        GameVars.useFeature3 = UI.GetAnimatedMCTickState(titleMC.btn_feature3);
-        GameVars.useFeature4 = UI.GetAnimatedMCTickState(titleMC.btn_feature4);
+        GameVars.useFeature1 = UI.GetAnimatedMCTickState((untyped titleMC).btn_feature1);
+        GameVars.useFeature2 = UI.GetAnimatedMCTickState((untyped titleMC).btn_feature2);
+        GameVars.useFeature3 = UI.GetAnimatedMCTickState((untyped titleMC).btn_feature3);
+        GameVars.useFeature4 = UI.GetAnimatedMCTickState((untyped titleMC).btn_feature4);
         
         UI.RemoveAllButtons();
         UI.RemoveGeneric();
         
         if (AreOtherGamesAdsAllowed())
         {
-            AdHolder.RemoveAd(titleMC.adBox.adloader);
+            AdHolder.RemoveAd((untyped titleMC).adBox.adloader);
         }
     }
     
-    private function AreOtherGamesAdsAllowed() : Bool
+    public function AreOtherGamesAdsAllowed() : Bool
     {
         if (LicDef.GetDomain() == "kaisergames.de")
         {
@@ -54,7 +54,7 @@ class UILevelComplete extends UIScreenInstance
         return LicDef.AreOtherGamesAdsAllowed();
     }
     
-    private var b : Bitmap;
+    public var b : Bitmap;
     
     override public function RenderForTransition(renderBD : BitmapData) : Void
     {
@@ -80,42 +80,42 @@ class UILevelComplete extends UIScreenInstance
         
         if (AreOtherGamesAdsAllowed())
         {
-            titleMC.adBox.adloader.addChild(AdHolder.GetAd());
+            (untyped titleMC).adBox.adloader.addChild(AdHolder.GetAd());
         }
         else
         {
-            titleMC.adBox.visible = false;
+            (untyped titleMC).adBox.visible = false;
         }
         
         
         
         
-        UI.AddAnimatedMCButton(titleMC.buttonLevelSelect, buttonMenuPressed);
-        UI.AddAnimatedMCButton(titleMC.levelComplete.btn_continue, buttonNextPressed);
-        UI.AddAnimatedMCButton(titleMC.levelComplete.btn_tryagain, buttonRetryPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).buttonLevelSelect, buttonMenuPressed);
+        UI.AddAnimatedMCButton((untyped titleMC.levelComplete).btn_continue, buttonNextPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).levelComplete.btn_tryagain, buttonRetryPressed);
         
-        Lic.AnimatedMCWalkthroughButton(titleMC.btn_walkthrough);
+        Lic.AnimatedMCWalkthroughButton((untyped titleMC).btn_walkthrough);
         
-        Lic.PlayWithScoresButton(titleMC.buttonPlayWithHighcores);
+        Lic.PlayWithScoresButton((untyped titleMC).buttonPlayWithHighcores);
         
         if (LicDef.GetLicensor() == LicDef.LICENSOR_MOUSEBREAKER)
         {
-            titleMC.btn_prequel.buttonName.text = "Red Card 1";
+            (untyped titleMC.btn_prequel).buttonName.text = "Red Card 1";
         }
         
-        Lic.AnimatedMCPrequelButton(titleMC.btn_prequel);
+        Lic.AnimatedMCPrequelButton((untyped titleMC).btn_prequel);
         
-        Lic.AnimatedMCMoreGamesButton(titleMC.btn_moregames, "levelcomplete");
+        Lic.AnimatedMCMoreGamesButton((untyped titleMC).btn_moregames, "levelcomplete");
         
-        Lic.SubmitScoreButton(titleMC.highscore.buttonSubmitScore, titleMC.highscore.buttonSubmitScoreName);
+        Lic.SubmitScoreButton((untyped titleMC).highscore.buttonSubmitScore, (untyped titleMC).highscore.buttonSubmitScoreName);
         
         if ((Levels.currentIndex & 1) == 0)
         {
-            titleMC.buttonPlayWithHighcores.visible = false;
+            (untyped titleMC).buttonPlayWithHighcores.visible = false;
         }
         else
         {
-            titleMC.btn_prequel.visible = false;
+            (untyped titleMC).btn_prequel.visible = false;
         }
         
         
@@ -123,79 +123,79 @@ class UILevelComplete extends UIScreenInstance
         
         titleMC.gotoAndStop(1);
         
-        TextStrings.ReplaceTextFieldText(titleMC.levelComplete.title);
-        GameVars.InitTrophiesClip(titleMC.trophies);
-        GameVars.InitCoinBoxClip(titleMC.coinBox);
+        TextStrings.ReplaceTextFieldText((untyped titleMC.levelComplete).title);
+        GameVars.InitTrophiesClip((untyped titleMC).trophies);
+        GameVars.InitCoinBoxClip((untyped titleMC).coinBox);
         
-        titleMC.levelName.textDescription.text = l.name;
-        titleMC.scoreText1.textDescription.text = "";
-        titleMC.scoreText1.textValue.text = "";
-        titleMC.scoreText1.textAll.text = TextStrings.GetLocalisedText("Kicks") + ": " + GameVars.numKicks;
+        (untyped titleMC.levelName).textDescription.text = l.name;
+        (untyped titleMC.scoreText1).textDescription.text = "";
+        (untyped titleMC).scoreText1.textValue.text = "";
+        (untyped titleMC).scoreText1.textAll.text = TextStrings.GetLocalisedText("Kicks") + ": " + GameVars.numKicks;
         
         
         
-        titleMC.scoreText2.textDescription.text = "";
-        titleMC.scoreText2.textValue.text = "";
-        titleMC.scoreText2.textAll.text = TextStrings.GetLocalisedText("Gold") + ": " + GameVars.goldKicks;
+        (untyped titleMC.scoreText2).textDescription.text = "";
+        (untyped titleMC).scoreText2.textValue.text = "";
+        (untyped titleMC).scoreText2.textAll.text = TextStrings.GetLocalisedText("Gold") + ": " + GameVars.goldKicks;
         
-        titleMC.levelrating.title.text = TextStrings.GetLocalisedText("Your Best") + ": " + l.bestShots;
-        titleMC.levelrating.star.visible = false;
+        (untyped titleMC.levelrating).title.text = TextStrings.GetLocalisedText("Your Best") + ": " + l.bestShots;
+        (untyped titleMC).levelrating.star.visible = false;
         if (l.rating != 0)
         {
-            titleMC.levelrating.star.visible = true;
+            (untyped titleMC).levelrating.star.visible = true;
         }
         
         
         
         
-        UI.AddAnimatedMCTickButton(titleMC.btn_feature1, null, "", false, null, GameVars.useFeature1);
-        UI.AddAnimatedMCTickButton(titleMC.btn_feature2, null, "", false, null, GameVars.useFeature2);
-        UI.AddAnimatedMCTickButton(titleMC.btn_feature3, null, "", false, null, GameVars.useFeature3);
-        UI.AddAnimatedMCTickButton(titleMC.btn_feature4, null, "", false, null, GameVars.useFeature4);
+        UI.AddAnimatedMCTickButton((untyped titleMC).btn_feature1, null, "", false, null, GameVars.useFeature1);
+        UI.AddAnimatedMCTickButton((untyped titleMC).btn_feature2, null, "", false, null, GameVars.useFeature2);
+        UI.AddAnimatedMCTickButton((untyped titleMC).btn_feature3, null, "", false, null, GameVars.useFeature3);
+        UI.AddAnimatedMCTickButton((untyped titleMC).btn_feature4, null, "", false, null, GameVars.useFeature4);
         
         
-        UI.AddInfoButton(titleMC.info1, "info1");
-        UI.AddInfoButton(titleMC.info2, "info2");
-        UI.AddInfoButton(titleMC.info3, "info3");
-        UI.AddInfoButton(titleMC.info4, "info4");
+        UI.AddInfoButton((untyped titleMC).info1, "info1");
+        UI.AddInfoButton((untyped titleMC).info2, "info2");
+        UI.AddInfoButton((untyped titleMC).info3, "info3");
+        UI.AddInfoButton((untyped titleMC).info4, "info4");
         
-        UI.AnimatedMCTickButtonSetCanPress(titleMC.btn_feature1, false);
-        UI.AnimatedMCTickButtonSetCanPress(titleMC.btn_feature2, false);
-        UI.AnimatedMCTickButtonSetCanPress(titleMC.btn_feature3, false);
-        UI.AnimatedMCTickButtonSetCanPress(titleMC.btn_feature4, false);
-        titleMC.btn_feature1.filters = [UI.greyFilter];
-        titleMC.btn_feature2.filters = [UI.greyFilter];
-        titleMC.btn_feature3.filters = [UI.greyFilter];
-        titleMC.btn_feature4.filters = [UI.greyFilter];
+        UI.AnimatedMCTickButtonSetCanPress((untyped titleMC).btn_feature1, false);
+        UI.AnimatedMCTickButtonSetCanPress((untyped titleMC).btn_feature2, false);
+        UI.AnimatedMCTickButtonSetCanPress((untyped titleMC).btn_feature3, false);
+        UI.AnimatedMCTickButtonSetCanPress((untyped titleMC).btn_feature4, false);
+        (untyped titleMC).btn_feature1.filters = [UI.greyFilter];
+        (untyped titleMC).btn_feature2.filters = [UI.greyFilter];
+        (untyped titleMC).btn_feature3.filters = [UI.greyFilter];
+        (untyped titleMC).btn_feature4.filters = [UI.greyFilter];
         
         if (GameVars.IsFeatureUnlocked(0))
         {
-            UI.AnimatedMCTickButtonSetCanPress(titleMC.btn_feature1, true);
-            titleMC.btn_feature1.filters = [];
+            UI.AnimatedMCTickButtonSetCanPress((untyped titleMC).btn_feature1, true);
+            (untyped titleMC).btn_feature1.filters = [];
         }
         if (GameVars.IsFeatureUnlocked(1))
         {
-            UI.AnimatedMCTickButtonSetCanPress(titleMC.btn_feature2, true);
-            titleMC.btn_feature2.filters = [];
+            UI.AnimatedMCTickButtonSetCanPress((untyped titleMC).btn_feature2, true);
+            (untyped titleMC).btn_feature2.filters = [];
         }
         if (GameVars.IsFeatureUnlocked(2))
         {
-            UI.AnimatedMCTickButtonSetCanPress(titleMC.btn_feature3, true);
-            titleMC.btn_feature3.filters = [];
+            UI.AnimatedMCTickButtonSetCanPress((untyped titleMC).btn_feature3, true);
+            (untyped titleMC).btn_feature3.filters = [];
         }
         if (GameVars.IsFeatureUnlocked(3))
         {
-            UI.AnimatedMCTickButtonSetCanPress(titleMC.btn_feature4, true);
-            titleMC.btn_feature4.filters = [];
+            UI.AnimatedMCTickButtonSetCanPress((untyped titleMC).btn_feature4, true);
+            (untyped titleMC).btn_feature4.filters = [];
         }
     }
     
     
-    private function buttonSubmitPressed(e : MouseEvent)
+    public function buttonSubmitPressed(e : MouseEvent)
     {
-        titleMC.btn_submit.visible = false;
+        (untyped titleMC).btn_submit.visible = false;
     }
-    private function buttonNextPressed(e : MouseEvent)
+    public function buttonNextPressed(e : MouseEvent)
     {
         var l : Int = as3hx.Compat.parseInt(Levels.currentIndex + 1);
         
@@ -209,16 +209,16 @@ class UILevelComplete extends UIScreenInstance
             UI.WaitAndStartTransition(titleMC, "gamescreen");
         }
     }
-    private function buttonRetryPressed(e : MouseEvent)
+    public function buttonRetryPressed(e : MouseEvent)
     {
         UI.WaitAndStartTransition(titleMC, "gamescreen");
     }
-    private function buttonMenuPressed(e : MouseEvent)
+    public function buttonMenuPressed(e : MouseEvent)
     {
         UI.WaitAndStartTransition(titleMC, "levelselect");
     }
     
-    private function TransitionComplete()
+    public function TransitionComplete()
     {
         titleMC.gotoAndPlay(1);
         

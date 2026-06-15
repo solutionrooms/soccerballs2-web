@@ -44,25 +44,25 @@ class UIMatchSelect extends UIScreenInstance
         ScreenSize.ScaleMovieClip(titleMC);
         titleMC.gotoAndStop(1);
         
-        UI.AddAnimatedMCButton(titleMC.btn_back, buttonBackPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_back, buttonBackPressed);
         
         UI.AddGeneric(titleMC);
         
-        UI.AddAnimatedMCButton(titleMC.btn_pick0, buttonPick0Pressed);
-        UI.AddAnimatedMCButton(titleMC.btn_pick1, buttonPick1Pressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_pick0, buttonPick0Pressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_pick1, buttonPick1Pressed);
         
-        UI.AddAnimatedMCButton(titleMC.btn_playgame, buttonContinuePressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_playgame, buttonContinuePressed);
         
-        TextStrings.ReplaceTextFieldText(titleMC.matchPanel.textTitle);
-        TextStrings.ReplaceTextFieldText(titleMC.textPlayer);
-        TextStrings.ReplaceTextFieldText(titleMC.textComputer);
+        TextStrings.ReplaceTextFieldText((untyped titleMC.matchPanel).textTitle);
+        TextStrings.ReplaceTextFieldText((untyped titleMC).textPlayer);
+        TextStrings.ReplaceTextFieldText((untyped titleMC).textComputer);
         
         team0 = GameVars.GetTeam(GameVars.playerTeam);
         team1 = GameVars.GetTeam(GameVars.opponentTeam);
         
         
-        titleMC.textTeamName0.text = team0.teamName;
-        titleMC.textTeamName1.text = team1.teamName;
+        (untyped titleMC).textTeamName0.text = team0.teamName;
+        (untyped titleMC).textTeamName1.text = team1.teamName;
         
         RenderPlayers();
     }
@@ -73,26 +73,26 @@ class UIMatchSelect extends UIScreenInstance
         UI.WaitAndStartTransition(titleMC, "levelselect");
     }
     
-    private var team0 : TeamDef;
-    private var team1 : TeamDef;
+    public var team0 : TeamDef;
+    public var team1 : TeamDef;
     
-    private function RenderPlayers()
+    public function RenderPlayers()
     {
         var team : TeamDef;
         team = GameVars.GetTeam(GameVars.playerTeam);
-        RenderPlayer(titleMC.homeTeam.player1, team);
-        RenderPlayer(titleMC.homeTeam.player2, team);
-        RenderPlayer(titleMC.homeTeam.player3, team);
-        RenderPlayer(titleMC.homeTeam.player4, team);
-        RenderPlayer(titleMC.homeTeam.player5, team);
+        RenderPlayer((untyped titleMC).homeTeam.player1, team);
+        RenderPlayer((untyped titleMC).homeTeam.player2, team);
+        RenderPlayer((untyped titleMC).homeTeam.player3, team);
+        RenderPlayer((untyped titleMC).homeTeam.player4, team);
+        RenderPlayer((untyped titleMC).homeTeam.player5, team);
         team = GameVars.GetTeam(GameVars.opponentTeam);
-        RenderPlayer(titleMC.awayTeam.player1, team);
-        RenderPlayer(titleMC.awayTeam.player2, team);
-        RenderPlayer(titleMC.awayTeam.player3, team);
-        RenderPlayer(titleMC.awayTeam.player4, team);
+        RenderPlayer((untyped titleMC).awayTeam.player1, team);
+        RenderPlayer((untyped titleMC).awayTeam.player2, team);
+        RenderPlayer((untyped titleMC).awayTeam.player3, team);
+        RenderPlayer((untyped titleMC).awayTeam.player4, team);
     }
     
-    private function RenderPlayer(mc : MovieClip, team : TeamDef)
+    public function RenderPlayer(mc : MovieClip, team : TeamDef)
     {
         var a : Array<Dynamic>;
         a = GameVars.GetKitColorRGBArrayByIndex(team.kitColorShirt);
@@ -106,46 +106,46 @@ class UIMatchSelect extends UIScreenInstance
         
         
         
-        mc.shorts.transform.colorTransform = ct1;
-        mc.socks.transform.colorTransform = ct2;
-        mc.stripes.transform.colorTransform = ct3;
-        if (mc.hoops)
+        (untyped mc).shorts.transform.colorTransform = ct1;
+        (untyped mc).socks.transform.colorTransform = ct2;
+        (untyped mc).stripes.transform.colorTransform = ct3;
+        if ((untyped mc).hoops)
         {
-            mc.hoops.transform.colorTransform = ct3;
+            (untyped mc).hoops.transform.colorTransform = ct3;
         }
-        mc.shirt.transform.colorTransform = ct0;
+        (untyped mc).shirt.transform.colorTransform = ct0;
         
-        mc.stripes.visible = false;
-        if (mc.hoops)
+        (untyped mc).stripes.visible = false;
+        if ((untyped mc).hoops)
         {
-            mc.hoops.visible = false;
+            (untyped mc).hoops.visible = false;
         }
         if (team.kitStyle == 2)
         {
-            mc.stripes.visible = true;
+            (untyped mc).stripes.visible = true;
         }
         if (team.kitStyle == 1)
         {
-            if (mc.hoops)
+            if ((untyped mc).hoops)
             {
-                mc.hoops.visible = true;
+                (untyped mc).hoops.visible = true;
             }
         }
     }
     
     
-    private function buttonPick0Pressed(e : MouseEvent)
+    public function buttonPick0Pressed(e : MouseEvent)
     {
         GameVars.currentPickTeam = 0;
         UI.WaitAndStartTransition(titleMC, "pickateam");
     }
-    private function buttonPick1Pressed(e : MouseEvent)
+    public function buttonPick1Pressed(e : MouseEvent)
     {
         GameVars.currentPickTeam = 1;
         UI.WaitAndStartTransition(titleMC, "pickateam");
     }
     
-    private function buttonBackPressed(e : MouseEvent)
+    public function buttonBackPressed(e : MouseEvent)
     {
         SaveData.Save();
         

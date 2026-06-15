@@ -36,7 +36,7 @@ class CustomCursor
         var dobj : DisplayObj = GraphicObjects.GetDisplayObjByName("Cursor_Pointer");
         cursorData = new MouseCursorData();
         cursorData.hotSpot = new Point(5, 2);
-        var bitmapDatas : Array<BitmapData> = new Array<BitmapData>();
+        var bitmapDatas : Array<BitmapData> = [];
         for (i in 0...dobj.GetNumFrames())
         {
             bitmapDatas[i] = dobj.GetBitmapData(i);
@@ -48,7 +48,7 @@ class CustomCursor
         var dobj : DisplayObj = GraphicObjects.GetDisplayObjByName("Cursor_CanPress");
         cursorData = new MouseCursorData();
         cursorData.hotSpot = new Point(7, 2);
-        var bitmapDatas : Array<BitmapData> = new Array<BitmapData>();
+        var bitmapDatas : Array<BitmapData> = [];
         for (i in 0...dobj.GetNumFrames())
         {
             bitmapDatas[i] = dobj.GetBitmapData(i);
@@ -60,7 +60,7 @@ class CustomCursor
         var dobj : DisplayObj = GraphicObjects.GetDisplayObjByName("Cursor_Pointer_CantPress");
         cursorData = new MouseCursorData();
         cursorData.hotSpot = new Point(5, 2);
-        var bitmapDatas : Array<BitmapData> = new Array<BitmapData>();
+        var bitmapDatas : Array<BitmapData> = [];
         for (i in 0...dobj.GetNumFrames())
         {
             bitmapDatas[i] = dobj.GetBitmapData(i);

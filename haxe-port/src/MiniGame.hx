@@ -58,7 +58,7 @@ class MiniGame
         Restart();
     }
     
-    private static function Restart()
+    public static function Restart()
     {
         Particles.Reset();
         GameObjects.ClearAll();
@@ -89,7 +89,7 @@ class MiniGame
     public static function UpdateHud()
     {
         titleMC.textLives.text = "Lives: " + lives;
-        titleMC.textScore.text = "Score: " + score;
+        (untyped titleMC).textScore.text = "Score: " + score;
     }
     public static function Update()
     {

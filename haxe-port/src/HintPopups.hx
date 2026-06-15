@@ -8,18 +8,18 @@ import uIPackage.UI;
 	 */
 class HintPopups
 {
-    private static var list : Array<HintPopup>;
-    private static var displayQueue : Array<HintPopup>;
-    private static var active : Bool;
+    public static var list : Array<HintPopup>;
+    public static var displayQueue : Array<HintPopup>;
+    public static var active : Bool;
     
     public function new()
     {
     }
     public static function InitOnce()
     {
-        displayQueue = new Array<HintPopup>();
+        displayQueue = [];
         
-        list = new Array<HintPopup>();
+        list = [];
         
         list.push(new HintPopup("Achieve a certain place in the level to unlock the next level"));
         list.push(new HintPopup("Collect NITRO pickups to fill your nitro bar."));
@@ -44,7 +44,7 @@ class HintPopups
     {
         InitOnce();
     }
-    private static function GetNextNotShown() : HintPopup
+    public static function GetNextNotShown() : HintPopup
     {
         for (h in list)
         {
@@ -83,7 +83,7 @@ class HintPopups
         {
             if (popup.mc != null)
             {
-                UI.RemoveAnimatedMCButton(popup.mc.inner.buttonNoMore);
+                UI.RemoveAnimatedMCButton((untyped popup.mc).inner.buttonNoMore);
                 Game.main.removeChild(popup.mc);
                 popup.mc = null;
             }
@@ -91,7 +91,7 @@ class HintPopups
     }
     public static function InitForLevel()
     {
-        displayQueue = new Array<HintPopup>();
+        displayQueue = [];
     }
     public static function IsDisplayQueueActive() : Bool
     {
@@ -123,14 +123,14 @@ class HintPopups
         {
             popup.active = true;
             popup.mc = new MovieClip();
-            UI.AddAnimatedMCButton(popup.mc.inner.buttonNoMore, buttonNoMorePressed);
-            popup.mc.inner.hint_text.text = popup.text;
+            UI.AddAnimatedMCButton((untyped popup.mc).inner.buttonNoMore, buttonNoMorePressed);
+            (untyped popup.mc).inner.hint_text.text = popup.text;
             Game.main.addChild(popup.mc);
             popup.mc.gotoAndPlay("on");
         }
         else
         {
-            popup.mc.inner.hint_text.text = popup.text;
+            (untyped popup.mc).inner.hint_text.text = popup.text;
             popup.timer--;
             if (popup.timer == 0)
             {
@@ -139,7 +139,7 @@ class HintPopups
             else if (popup.timer < -10)
             {
                 popup.active = false;
-                UI.RemoveAnimatedMCButton(popup.mc.inner.buttonNoMore);
+                UI.RemoveAnimatedMCButton((untyped popup.mc).inner.buttonNoMore);
                 Game.main.removeChild(popup.mc);
                 popup.mc = null;
                 popup.active = false;
@@ -154,7 +154,7 @@ class HintPopups
     {
         var o : Dynamic = {};
         o.active = active;
-        o.shown = new Array<Dynamic>();
+        o.shown = [];
         
         for (h in list)
         {

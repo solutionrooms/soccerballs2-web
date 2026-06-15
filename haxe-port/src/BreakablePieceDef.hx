@@ -5,9 +5,9 @@
 	 */
 class BreakablePieceDef
 {
-    private var x : Float;
-    private var y : Float;
-    private var objname : String;
+    public var x : Float;
+    public var y : Float;
+    public var objname : String;
     
     public function new(_x : Float, _y : Float, _objName : String)
     {

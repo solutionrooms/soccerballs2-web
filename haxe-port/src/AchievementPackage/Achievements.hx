@@ -11,24 +11,24 @@ class Achievements
     
     @:meta(Embed(source="../../bin/Achievements.xml",mimeType="application/octet-stream"))
 
-    private static var class_embedded_XML : Class<Dynamic>;
+    public static var class_embedded_XML : Class<Dynamic>;
     
-    private static var xml : FastXML;
+    public static var xml : FastXML;
     
     public static var list : Array<Achievement>;
     public static var unlockedList : Array<Achievement>;
     public static var testFunctions : AchievementTestFunctions;
-    private static var displayQueue : AchievementDisplayQueue;
-    private static var currentAch : Achievement;
+    public static var displayQueue : AchievementDisplayQueue;
+    public static var currentAch : Achievement;
     
     
-    private static function LoadXml()
+    public static function LoadXml()
     {
         var x : FastXML = xml;
-        var numAch = x.nodes.achievement.length();
+        var numAch = (untyped x.nodes).achievement.length();
         for (i in 0...numAch)
         {
-            var ax : FastXML = x.nodes.achievement.get(i);
+            var ax : FastXML = (untyped x.nodes).achievement.get(i);
             var ach : Achievement = new Achievement();
             ach.index = i;
             ach.specificLevelName = XmlHelper.GetAttrString(ax.att.specificlevel, "1-01");
@@ -83,8 +83,8 @@ class Achievements
         testFunctions = new AchievementTestFunctions();
         displayQueue = new AchievementDisplayQueue();
         
-        list = new Array<Achievement>();
-        unlockedList = new Array<Achievement>();
+        list = [];
+        unlockedList = [];
         
         FastXML.ignoreWhitespace = true;
         xml = try cast(new FastXML(Type.createInstance(class_embedded_XML, [])), FastXML) catch(e:Dynamic) null;
@@ -93,18 +93,18 @@ class Achievements
         
         displayQueue.Reset();
     }
-    private function new()
+    public function new()
     {
     }
     
     
     
     
-    private static function GetFullString(s : String, replaceLevel : Bool = true) : String
+    public static function GetFullString(s : String, replaceLevel : Bool = true) : String
     {
         var num : Int;
         var s1 : String;
-        var a : Array<Dynamic> = new Array<Dynamic>();
+        var a : Array<Dynamic> = [];
         a = s.split(" ");
         
         var newstring : String = "";
@@ -201,12 +201,12 @@ class Achievements
     
     public static function TestNone()
     {
-        unlockedList = new Array<Achievement>();
+        unlockedList = [];
     }
     public static function TestAll()
     {
         testFunctions.UpdateFromGameVars();
-        unlockedList = new Array<Achievement>();
+        unlockedList = [];
         
         for (ach in list)
         {
@@ -271,7 +271,7 @@ class Achievements
     public static function GetLevelAchievements(_level : Int) : Array<Dynamic>
     {
         _level++;
-        var newarray : Array<Dynamic> = new Array<Dynamic>();
+        var newarray : Array<Dynamic> = [];
         for (ach in list)
         {
             if (ach.specificLevel == _level)
@@ -294,7 +294,7 @@ class Achievements
     public static function ToSharedObject() : Dynamic
     {
         var o : Dynamic = {};
-        o.completes = new Array<Dynamic>();
+        o.completes = [];
         
         for (ach in list)
         {

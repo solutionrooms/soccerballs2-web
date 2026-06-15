@@ -25,10 +25,10 @@ class Achievements
     public static function LoadXml()
     {
         var x : FastXML = xml;
-        var numAch = (untyped x.nodes).achievement.length();
+        var numAch = x.nodes.achievement.length();
         for (i in 0...numAch)
         {
-            var ax : FastXML = (untyped x.nodes).achievement.get(i);
+            var ax : FastXML = x.nodes.achievement.get(i);
             var ach : Achievement = new Achievement();
             ach.index = i;
             ach.specificLevelName = XmlHelper.GetAttrString(ax.att.specificlevel, "1-01");

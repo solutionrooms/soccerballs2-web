@@ -1,2 +1,4 @@
-// Stub for SWF library clip ScreenCredits. Real graphics/named-children wired with assets later.
-class ScreenCredits extends openfl.display.MovieClip { public function new() { super(); } }
+// AS3 linkage class `ScreenCredits` is the openfl-swf generated library symbol `Screen_credits` (the SWF symbol's
+// library name was snake/lowerCamel; openfl names the class from it, not the AS3 linkage). Alias the
+// two so `new ScreenCredits()` constructs the real clip (with its named child instances), not an empty stub.
+typedef ScreenCredits = Screen_credits;

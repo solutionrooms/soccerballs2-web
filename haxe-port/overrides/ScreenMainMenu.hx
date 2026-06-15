@@ -1,2 +1,4 @@
-// Stub for SWF library clip ScreenMainMenu (real graphics/named-children wired later).
-class ScreenMainMenu extends openfl.display.MovieClip { public function new() { super(); } }
+// AS3 linkage class `ScreenMainMenu` is the openfl-swf generated library symbol `Screen_mainMenu` (the SWF symbol's
+// library name was snake/lowerCamel; openfl names the class from it, not the AS3 linkage). Alias the
+// two so `new ScreenMainMenu()` constructs the real clip (with its named child instances), not an empty stub.
+typedef ScreenMainMenu = Screen_mainMenu;

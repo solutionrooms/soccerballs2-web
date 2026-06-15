@@ -53,6 +53,10 @@ class Main extends MovieClip
     {
         theRoot = this;
         theStage = this.root.stage;
+        // In the original SWF the Preloader (the [Frame(factoryClass="Preloader")] document factory)
+        // set LicDef.stg via InitFromPreloader. OpenFL ignores that metadata and runs Main directly,
+        // so wire the on-stage root here instead — LicDef.GetStage() is used pervasively by the UI.
+        licPackage.LicDef.stg = this;
         SetEverythingUpOnce();
     }
     

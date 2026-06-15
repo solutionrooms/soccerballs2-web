@@ -122,7 +122,7 @@ class Game
     
     public static var currentMC : MovieClip;
     public static var main : Main;
-    public static var currentScore : Int;
+    public static var currentScore : Int = 0; // AS3 defaults int fields to 0; Haxe/JS leaves them null
     public static var levelScore : Int;
     public static var scoreMultiplier : Int;
     
@@ -223,10 +223,15 @@ class Game
         
         GameVars.InitOnce();
         GameVars.InitHierarchies();
-        
-        
+
+        // original: s3d.InitOnce(InitOnceA) — Stage3D init with a completion callback that chains
+        // into InitGame()/StartTitleScreen(). The GPU path is dead (useStage3D=false), so we run the
+        // callback synchronously. (fixup.sh previously stripped this line as dead Stage3D residue,
+        // which silently dropped the entire title-screen kickoff. Called directly because the
+        // lowercase `s3d` stub resolves as a package path, not a type.)
+        InitOnceA();
     }
-    
+
     public static function InitOnceA()
     {
         InitGame();

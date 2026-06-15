@@ -96,7 +96,10 @@ class TextStrings
         {
             return null;
         }
-        var ts : TextString = Reflect.field(dict, str);
+        // as3hx mis-converted AS3 `dict[str]` to Reflect.field here, but `dict` is written via array
+        // access (dict[name]=adt); on a Map-backed Dictionary the two don't interoperate, so this
+        // always returned null and no localised text was ever found. Use consistent array access.
+        var ts : TextString = dict[str.toLowerCase()];
         return ts;
     }
     

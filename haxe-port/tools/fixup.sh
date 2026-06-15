@@ -129,8 +129,12 @@ perl -i -pe '
 find "$DIR" -name '*.hx' -exec perl -i -pe 's/, _hoverCallback\)/, _hoverCallback : Dynamic = null)/g if /\bfunction\b/' {} +
 # OpenFL TextFormat.size is Null<Int> (AS3 Number); truncate on assign (AS3-faithful)
 perl -i -pe 's/tFormat\.size = size;/tFormat.size = Std.int(size);/' "$DIR/textPackage/TextStrings.hx" 2>/dev/null || true
-# s3d.SetVisible: Stage3D layer toggle, dead with useStage3D=false (lowercase s3d resolves as a package path) -> drop
-find "$DIR" -name '*.hx' -exec perl -i -ne 'print unless /^\s*s3d\.(SetVisible|InitOnce)\(/' {} +
+# s3d.InitOnce(cb) is the BOOT TRIGGER, not dead code: its callback chains into InitGame()/StartTitleScreen().
+# Rewrite it to call the callback directly (GPU init is dead with useStage3D=false, so run synchronously).
+# Must rewrite rather than keep the s3d.* call: lowercase `s3d` resolves as a package path, not the stub type.
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/\bs3d\.InitOnce\(\s*(\w+)\s*\)/$1()/g' {} +
+# s3d.SetVisible: Stage3D layer toggle, genuinely dead with useStage3D=false -> drop the line.
+find "$DIR" -name '*.hx' -exec perl -i -ne 'print unless /^\s*s3d\.SetVisible\(/' {} +
 
 echo "==> fixup: AS3 Number->int coercions where Haxe wants Int (Std.int = AS3 ToInt32 truncation, faithful)"
 perl -i -pe '
@@ -188,6 +192,14 @@ echo "==> fixup: remaining individual as3hx artefacts (E4X grandchild chains, wh
 find "$DIR" -name '*.hx' -exec perl -i -pe '
   s/\.node\.(\w+)\.innerData\.node\.(\w+)\.innerData\.length\(\)/.node.$1.nodes.$2.length()/g;
   s/\.nodes\.(\w+)\.node\.(\w+)\.innerData\[i\]/.node.$1.nodes.$2.get(i)/g;
+  # Untyped-wrapped E4X-accessor botch: when an XML node/attribute name (gold, achievement, color,
+  # title, coins, head, selected, ...) also appears in the DPROPS dynamic-MovieClip-property list, the
+  # DPROPS untyped-wrap fires and produces e.g. (untyped x.nodes).achievement or
+  # (untyped x.node.soccerballs.att).gold. The `untyped` makes `.name` a raw field read on the Xml
+  # value instead of invoking FastXML.NodeAccess/NodeListAccess/AttribAccess @:op(a.b), so it returns
+  # undefined. Unwrap whenever the wrapped base ends in an E4X accessor (.node/.nodes/.att).
+  s/\(untyped ([\w.]+?)\.innerData\.att\)\.(\w+)/$1.att.$2/g;
+  s/\(untyped ([\w.]+\.(?:node|nodes|att))\)\.(\w+)/$1.$2/g;
   s/\.node\.(\w+)\.innerData\.att\./.node.$1.att./g;
 ' {} +
 # AS3 while(1) -> while(true). The ((1)); form is a do-while terminator (keep ;, no braces).
@@ -198,8 +210,16 @@ perl -i -pe 's/^(\s*)i = 99999;/$1break;/' "$DIR/Game.hx" 2>/dev/null || true
 perl -i -pe 's/if \(bitmapData != null = null\)/if (bitmapData != null)/' "$DIR/DisplayObjFrame.hx" 2>/dev/null || true
 # DisplayObjFrame: original reads a non-existent "point" attribute (data uses pointX/pointY, all 0) -> point stays (0,0)
 perl -i -pe 's/point\.x = x\.att\.point\.x;/point.x = 0;/; s/point\.y = x\.att\.point\.y;/point.y = 0;/' "$DIR/DisplayObjFrame.hx" 2>/dev/null || true
+# Main.NewInit4: the original SWF set LicDef.stg from the Preloader (its [Frame(factoryClass=...)]
+# document factory). OpenFL runs Main directly and ignores that, so LicDef.stg stays null and the
+# UI's pervasive LicDef.GetStage().stage access crashes. Wire the on-stage root here (theRoot=this).
+perl -i -pe 's/^(\s*)theRoot = this;/$1theRoot = this;\n$1licPackage.LicDef.stg = this;/' "$DIR/Main.hx" 2>/dev/null || true
 # AS3 String.search(literal) -> indexOf
 perl -i -pe 's/type\.search\("pickup_trophy_"\)/type.indexOf("pickup_trophy_")/' "$DIR/Levels.hx" 2>/dev/null || true
+# LoadLevel: AS3 hoists a later bare `var level:Level;` to the top, so it is the SAME var already
+# assigned `list[l]` and does not reset. as3hx re-declared it + null-init fixup added `= null`,
+# clobbering the loaded level (-> null.Calculate()). Drop the shadowing re-declaration.
+perl -0777 -i -pe 's/\n\s*var level : Level = null;[ \t]*\n(\s*\n)?(\s*level\.Calculate\(\);)/\n\n$2/s' "$DIR/Levels.hx" 2>/dev/null || true
 # EdConsole: as3hx double-indexed the splice; splice at the already-computed index
 perl -i -pe 's/activeList\.splice\(Lambda\.indexOf\(activeList, index\), 1\)/activeList.splice(index, 1)/' "$DIR/editorPackage/EdConsole.hx" 2>/dev/null || true
 # LicDef: AS3 truthiness coercions of a URL param / Number

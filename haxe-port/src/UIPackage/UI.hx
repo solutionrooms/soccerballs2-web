@@ -120,7 +120,10 @@ class UI
             return;
         }
         
-        (untyped genericMC).textScore.text = Game.currentScore;
+        // AS3 implicitly coerces an int assigned to TextField.text into a string; the untyped
+        // conversion dropped that coercion, passing the raw Int (null before init) straight to
+        // openfl's set_text, which throws #2007 on null. Coerce explicitly, as AS3 did.
+        (untyped genericMC).textScore.text = Std.string(Game.currentScore);
     }
     public static function AddGeneric(parent : MovieClip, removeStuff : Bool = false)
     {

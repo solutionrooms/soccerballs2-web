@@ -102,7 +102,7 @@ class Levels
     
     public static function LoadGameSpecificLevelData(level : Level, x : FastXML)
     {
-        level.goldKicks = XmlHelper.GetAttrInt((untyped x.node.soccerballs.innerData.att).gold, 1);
+        level.goldKicks = XmlHelper.GetAttrInt(x.node.soccerballs.att.gold, 1);
         level.failKicks = XmlHelper.GetAttrInt(x.node.soccerballs.att.fail, 3);
         
         level.totalCoins = 0;
@@ -154,9 +154,11 @@ class Levels
         
         var x : FastXML = ExternalData.levelsXml;
         x = x.nodes.level.get(l);
-        
-        var level : Level = null;        
-        
+        // NB: the original AS3 had a bare `var level:Level;` here; AS3 hoists it to the top of the
+        // function, so it is the SAME variable already assigned `list[l]` above and does NOT reset.
+        // as3hx re-declared it and the uninitialised-var fixup added `= null`, clobbering the loaded
+        // level (-> null.Calculate()). Drop the shadowing re-declaration to restore AS3 semantics.
+
         level.Calculate();
         
         level.fullyLoaded = true;

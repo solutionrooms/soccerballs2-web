@@ -19,7 +19,7 @@ const URL = process.argv[2] || 'http://localhost:8753/index.html';
   try {
     await page.goto(URL, { waitUntil: 'load', timeout: 30000 });
   } catch (e) { logs.push('[GOTO] ' + e.message); }
-  await new Promise(r => setTimeout(r, 6000)); // let it boot a few frames
+  await new Promise(r => setTimeout(r, Number(process.env.SB2_WAIT || 6000))); // let it boot a few frames
   try { await page.screenshot({ path: '/tmp/sb2render.png' }); } catch (e) {}
   console.log('=== RUNTIME LOG (' + logs.length + ' lines) ===');
   console.log(logs.join('\n') || '(no console output)');

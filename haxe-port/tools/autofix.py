@@ -18,6 +18,10 @@ WRAP = {
     'Float should be Null<Int>': lambda x: 'Std.int(%s)' % x,
     'String should be Float': lambda x: 'as3hx.Compat.parseFloat(%s)' % x,
     'String should be Int': lambda x: 'as3hx.Compat.parseInt(%s)' % x,
+    # AS3 truthiness coercions (if(n) / if(!n) / if(s)): a number is truthy when != 0, a string when non-empty
+    'Float should be Bool': lambda x: '(%s != 0)' % x,
+    'Int should be Bool': lambda x: '(%s != 0)' % x,
+    'String should be Bool': lambda x: '(%s != null && %s != "")' % (x, x),
 }
 ERR = re.compile(r'(src/\S+\.hx):(\d+): characters (\d+)-(\d+) : (' +
                  '|'.join(re.escape(k) for k in WRAP) + r')$')

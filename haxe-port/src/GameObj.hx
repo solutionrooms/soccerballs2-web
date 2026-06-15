@@ -2063,8 +2063,8 @@ class GameObj extends GameObjBase
     {
         var xp : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
-        dobj.origMC.text1.theText.text = textMessage;
-        dobj.origMC.text2.theText.text = textMessage1;
+        (untyped dobj.origMC.text1).theText.text = textMessage;
+        (untyped dobj.origMC.text2).theText.text = textMessage1;
         dobj.RenderAtRotScaled_Vector(Std.int(frame), bd, xp, yp, 1, 0, null, false, xflip);
     }
     public function UpdateScoreText()
@@ -2115,7 +2115,7 @@ class GameObj extends GameObjBase
     {
         if (state == 1)
         {
-            RemoveObject(RemovePhysObj());
+            RemoveObject(RemovePhysObj);
         }
     }
     public function InitBonusPickup()
@@ -3138,7 +3138,7 @@ class GameObj extends GameObjBase
             else
             {
             }
-            RemoveObject(RemovePhysObj());
+            RemoveObject(RemovePhysObj);
             for (def in breakable_piece_def_list)
             {
                 var r : Float = dir;

@@ -314,7 +314,7 @@ class Audio
             
             act.StartPitchControlSound(name, null, volume);
             act.volume = volume;
-            act.sc = new SoundChannel();
+            act.sc = null;
             st.volume = volume;
             st.pan = 0;
             act.sc.soundTransform = st;

@@ -76,7 +76,7 @@ echo "==> fixup: AS3 dynamic-MovieClip property access (OpenFL MovieClip is seal
 # Wrap accesses to game-attached custom props in 'untyped' so the typechecker allows them; the
 # Dynamic then propagates down the chain. (?<![.\\w]) ensures we only wrap a real base variable,
 # never a mid-chain field name. List grows as the compiler surfaces more dynamic props.
-DPROPS='buttonAnimation|ButtonContinue|buttonName|ButtonRestart|canClick|clickCallback|helpText|hoverCallback|mainArea|reorderWhenOver|textTitle|useTick|tickState|buttonText|languageID|helpString|toggleIcon|screenA|screenB|debugArea|buttonVisible|buttonSelected|buttonLocked|_overCB|_outCB|_clickCB|editorLayer|displayText|achievement|adBox|awayTeam|btn_back|btn_continue|btn_feature1|btn_feature2|btn_feature3|btn_feature4|btn_head|btn_modify|btn_moregames|btn_musicMute|btn_next|btn_no|btn_pattern|btn_pick0|btn_pick1|btn_playgame|btn_PlayWithHighcores|btn_prequel|btn_sfxMute|btn_shirt|btn_shirtHoops|btn_shirtPlain|btn_shirtStripes|btn_shorts|btn_socks|btn_submit|btn_walkthrough|btn_yes|buttonBack|buttonFastForward|buttonLevelSelect|buttonPlayWithHighcores|ButtonQuit|buttonSkipCPMStarAd|canPress|coinBox|coinpercent|coins|coinsCollected|color|colorIndex|cup|gold|greystar|head|headIndex|highlight|highscore|homeTeam|hoops|info1|info2|info3|info4|inner|itemIndex|kit|levelComplete|levelID|levelName|levelNameText|levelNumber|levelrating|link_longAnimals|link_robotJam|loaderBar|logo_soccerballs|mainLogo|nextPage|numberText|palette|palette0|palette1|palette2|palette3|popup|prevPage|progressBar|scoreText1|scoreText2|screenIndex|selected|shirt|shorts|socks|stripes|teamIndex|textComputer|textDescription|textInfo|textLevelCreator|textLevelName|textName|textNumGold|textPlayer|textQuestion|textScore|textTeamName|textTeamName0|textTeamName1|textTick|tick|title|trophies|turboBtn|anglePointer|btn_clearSaveGame|btn_credits|btn_download|btn_facebook|btn_language|btn_localMusic|btn_y8|button1|button2|button3|button4|buttonCancel|buttonElipsis|buttonFalse|buttonMinus|buttonNext|buttonPlus|buttonPrevious|buttonTrue|close|closed_function|displayBox|editorItem|extract|helpClip|inputText|linkName|listData|listIndex|nameHolder|nameText|outCallback|overlay|prompt|row|SetParameters'
+DPROPS='buttonAnimation|ButtonContinue|buttonName|ButtonRestart|canClick|clickCallback|helpText|hoverCallback|mainArea|reorderWhenOver|textTitle|useTick|tickState|buttonText|languageID|helpString|toggleIcon|screenA|screenB|debugArea|buttonVisible|buttonSelected|buttonLocked|_overCB|_outCB|_clickCB|editorLayer|displayText|achievement|adBox|awayTeam|btn_back|btn_continue|btn_feature1|btn_feature2|btn_feature3|btn_feature4|btn_head|btn_modify|btn_moregames|btn_musicMute|btn_next|btn_no|btn_pattern|btn_pick0|btn_pick1|btn_playgame|btn_PlayWithHighcores|btn_prequel|btn_sfxMute|btn_shirt|btn_shirtHoops|btn_shirtPlain|btn_shirtStripes|btn_shorts|btn_socks|btn_submit|btn_walkthrough|btn_yes|buttonBack|buttonFastForward|buttonLevelSelect|buttonPlayWithHighcores|ButtonQuit|buttonSkipCPMStarAd|canPress|coinBox|coinpercent|coins|coinsCollected|color|colorIndex|cup|gold|greystar|head|headIndex|highlight|highscore|homeTeam|hoops|info1|info2|info3|info4|inner|itemIndex|kit|levelComplete|levelID|levelName|levelNameText|levelNumber|levelrating|link_longAnimals|link_robotJam|loaderBar|logo_soccerballs|mainLogo|nextPage|numberText|palette|palette0|palette1|palette2|palette3|popup|prevPage|progressBar|scoreText1|scoreText2|screenIndex|selected|shirt|shorts|socks|stripes|teamIndex|textComputer|textDescription|textInfo|textLevelCreator|textLevelName|textName|textNumGold|textPlayer|textQuestion|textScore|textTeamName|textTeamName0|textTeamName1|textTick|tick|title|trophies|turboBtn|anglePointer|btn_clearSaveGame|btn_credits|btn_download|btn_facebook|btn_language|btn_localMusic|btn_y8|button1|button2|button3|button4|buttonCancel|buttonElipsis|buttonFalse|buttonMinus|buttonNext|buttonPlus|buttonPrevious|buttonTrue|close|closed_function|displayBox|editorItem|extract|helpClip|inputText|linkName|listData|listIndex|nameHolder|nameText|outCallback|overlay|prompt|row|SetParameters|textLives|text1|text2|text3|theText'
 find "$DIR" -name '*.hx' -exec perl -i -pe "s/(?<![.\\w])([A-Za-z_]\\w*(?:\\.[A-Za-z_]\\w*)*)\\.($DPROPS)\\b/(untyped \$1).\$2/g" {} +
 
 echo "==> fixup: widen ALL private -> public (AS3 internal/default became Haxe private; visibility is"
@@ -209,11 +209,26 @@ perl -i -pe 's/function SortArea\(x : DisplayObjFrame, y : DisplayObjFrame\) : F
 # AS3 Array.push(a,b,c,...) (rest args) -> Haxe single-arg: append via concat
 find "$DIR" -name '*.hx' -exec perl -0777 -i -pe '1 while s/(\w+)\.push\(((?:[^()]++|(\([^()]*\)))*,(?:[^()]++|(\([^()]*\)))*)\)/$1 = $1.concat([$2])/g' {} +
 
+echo "==> fixup: more individual as3hx artefacts (inherited static const, array concat, fn-ref, etc.)"
+# AS3 lets a subclass name a base static const unqualified; Haxe needs the qualifier
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/(?<![.\w])HIGHLIGHT_HOVER\b/EditableObjectBase.HIGHLIGHT_HOVER/g unless /var HIGHLIGHT_HOVER/' {} +
+# AS3 'array + array' (as3hx artefact) -> concat
+perl -i -pe 's/var a : Array<Dynamic> = \(a0 \+ a1\);/var a : Array<Dynamic> = a0.concat(a1);/' "$DIR/editorPackage/PhysEditor.hx" 2>/dev/null || true
+# openfl TextField.opaqueBackground is a colour (Null<Int>), not Bool
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/\.opaqueBackground = true;/.opaqueBackground = 0xFFFFFF;/g' {} +
+# as3hx dropped 'var' on these cast-assignments (poi/line used right after)
+perl -i -pe 's/^(\s*)poi = try cast\(base, EdObj\)/$1var poi : EdObj = try cast(base, EdObj)/; s/^(\s*)line = try cast\(base, EdLine\)/$1var line : EdLine = try cast(base, EdLine)/' "$DIR/editorPackage/PhysEditor.hx" 2>/dev/null || true
+# RemoveObject takes a function reference; as3hx called it instead
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/RemoveObject\(RemovePhysObj\(\)\)/RemoveObject(RemovePhysObj)/g' {} +
+# openfl SoundChannel isn't directly constructible; init to null (set later from sound.play())
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/= new SoundChannel\(\);/= null;/g' {} +
+
 echo "==> fixup: decouple out-of-scope editor MODE subclasses from gameplay-reachable PhysEditor"
 # Each EditMode* subclass carries many as3hx artefacts and is dev-only. PhysEditor only ever calls
 # EditModeBase methods on currentModeObject, and edit modes never run in play mode, so type the mode
 # fields/instantiations as the (clean) base -> the subclasses become unreachable and stop being compiled.
 MODES='EditModeLibrary|EditModePlacement|EditModeAdjust|EditModeLines|EditModeMap|EditModeJoints|EditModeObjCol|EditModePickPieceForLink|EditModePickLineForLink|EditModeMulti'
-perl -i -pe "s/: ($MODES);/: EditModeBase;/g; s/new ($MODES)\(\)/new EditModeBase()/g" "$DIR/editorPackage/PhysEditor.hx" 2>/dev/null || true
+# fields are Dynamic (gameplay accesses subclass-specific fields on them); instantiate the clean base
+perl -i -pe "s/: ($MODES);/: Dynamic;/g; s/new ($MODES)\(\)/new EditModeBase()/g" "$DIR/editorPackage/PhysEditor.hx" 2>/dev/null || true
 
 echo "==> fixup done in $DIR"

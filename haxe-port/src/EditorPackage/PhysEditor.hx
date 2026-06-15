@@ -95,16 +95,16 @@ class PhysEditor
     public static var undoList : Array<Dynamic>;
     
     public static var currentModeObject : EditModeBase = new EditModeBase();
-    public static var editModeObj_Library : EditModeBase;
-    public static var editModeObj_Placement : EditModeBase;
-    public static var editModeObj_Adjust : EditModeBase;
-    public static var editModeObj_Lines : EditModeBase;
-    public static var editModeObj_Map : EditModeBase;
-    public static var editModeObj_Joints : EditModeBase;
-    public static var editModeObj_ObjCol : EditModeBase;
-    public static var editModeObj_PickPieceForLink : EditModeBase;
-    public static var editModeObj_PickLineForLink : EditModeBase;
-    public static var editModeObj_Multi : EditModeBase;
+    public static var editModeObj_Library : Dynamic;
+    public static var editModeObj_Placement : Dynamic;
+    public static var editModeObj_Adjust : Dynamic;
+    public static var editModeObj_Lines : Dynamic;
+    public static var editModeObj_Map : Dynamic;
+    public static var editModeObj_Joints : Dynamic;
+    public static var editModeObj_ObjCol : Dynamic;
+    public static var editModeObj_PickPieceForLink : Dynamic;
+    public static var editModeObj_PickLineForLink : Dynamic;
+    public static var editModeObj_Multi : Dynamic;
     
     
     public static inline var LM_FILL : Int = 1;
@@ -1008,7 +1008,7 @@ class PhysEditor
         tf.x = xpos;
         tf.y = ypos;
         tf.text = text;
-        tf.opaqueBackground = true;
+        tf.opaqueBackground = 0xFFFFFF;
         tf.background = true;
         tf.backgroundColor = 0xffffff;
         tf.multiline = false;
@@ -1788,12 +1788,12 @@ class PhysEditor
         {
             if (Std.is(base, EdObj))
             {
-                poi = try cast(base, EdObj) catch(e:Dynamic) null;
+                var poi : EdObj = try cast(base, EdObj) catch(e:Dynamic) null;
                 poi.Render();
             }
             if (Std.is(base, EdLine))
             {
-                line = try cast(base, EdLine) catch(e:Dynamic) null;
+                var line : EdLine = try cast(base, EdLine) catch(e:Dynamic) null;
                 line.RenderInner();
             }
         }
@@ -2134,7 +2134,7 @@ class PhysEditor
         var a0 : Array<Dynamic> = GetCurrentLevel().joints;
         var a1 : Array<Dynamic> = GetCurrentLevel().lines;
         var a2 : Array<Dynamic> = GetCurrentLevel().instances;
-        var a : Array<Dynamic> = (a0 + a1);
+        var a : Array<Dynamic> = a0.concat(a1);
         a = (a + a2);
         return a;
     }
@@ -2148,7 +2148,7 @@ class PhysEditor
         var a1 : Array<Dynamic> = editModeObj_Lines.HitTestRectangle(r);
         var a2 : Array<Dynamic> = ObjectsHitTestRectangle(r);
         
-        var a : Array<Dynamic> = (a0 + a1);
+        var a : Array<Dynamic> = a0.concat(a1);
         a = (a + a2);
         
         return a;

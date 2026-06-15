@@ -775,7 +775,7 @@ class EdLine extends EditableObjectBase
         
         var points : Array<Dynamic> = PhysEditor.GetMapPosPoints(points);
         
-        if (highlightType == HIGHLIGHT_HOVER)
+        if (highlightType == EditableObjectBase.HIGHLIGHT_HOVER)
         {
             PhysEditor.FillPoly(points, 0xff0000, 0.5);
         }

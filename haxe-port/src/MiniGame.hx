@@ -88,7 +88,7 @@ class MiniGame
     }
     public static function UpdateHud()
     {
-        titleMC.textLives.text = "Lives: " + lives;
+        (untyped titleMC).textLives.text = "Lives: " + lives;
         (untyped titleMC).textScore.text = "Score: " + score;
     }
     public static function Update()

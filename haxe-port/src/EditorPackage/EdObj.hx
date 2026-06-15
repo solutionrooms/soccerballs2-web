@@ -87,7 +87,7 @@ class EdObj extends EditableObjectBase
         var p : Point = PhysEditor.GetMapPos(Std.int(x), Std.int(y));
         
         
-        if (highlightType == HIGHLIGHT_HOVER)
+        if (highlightType == EditableObjectBase.HIGHLIGHT_HOVER)
         {
             var ct : ColorTransform = new ColorTransform(1, 1, 1, 1, 255, 0, 0, 0);
             PhysObj.RenderAt(po, p.x, p.y, rot, scale * PhysEditor.zoom, PhysEditor.screenBD, PhysEditor.linesScreen.graphics, true, null, null, ct);

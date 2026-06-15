@@ -87,11 +87,11 @@ class Ease
         }if ((t /= d) == 1)
         {
             return b + c;
-        }if (!p)
+        }if (!(p != 0))
         {
             p = d * .3;
         }
-        if (!a || (c > 0 && a < c) || (c < 0 && a < -c))
+        if (!(a != 0) || (c > 0 && a < c) || (c < 0 && a < -c))
         {
             a = c;s = p / 4;
         }
@@ -110,11 +110,11 @@ class Ease
         }if ((t /= d) == 1)
         {
             return b + c;
-        }if (!p)
+        }if (!(p != 0))
         {
             p = d * .3;
         }
-        if (!a || (c > 0 && a < c) || (c < 0 && a < -c))
+        if (!(a != 0) || (c > 0 && a < c) || (c < 0 && a < -c))
         {
             a = c;s = p / 4;
         }
@@ -133,11 +133,11 @@ class Ease
         }if ((t /= d * 0.5) == 2)
         {
             return b + c;
-        }if (!p)
+        }if (!(p != 0))
         {
             p = d * (.3 * 1.5);
         }
-        if (!a || (c > 0 && a < c) || (c < 0 && a < -c))
+        if (!(a != 0) || (c > 0 && a < c) || (c < 0 && a < -c))
         {
             a = c;s = p / 4;
         }

@@ -559,7 +559,7 @@ class EdJoint extends EditableObjectBase
         
         var alpha : Float = 0.1;
         var radAdd : Int = 0;
-        if (highlightType == HIGHLIGHT_HOVER)
+        if (highlightType == EditableObjectBase.HIGHLIGHT_HOVER)
         {
             alpha = 1;
             radAdd = 3;

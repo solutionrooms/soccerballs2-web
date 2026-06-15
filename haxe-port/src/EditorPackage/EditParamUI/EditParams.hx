@@ -375,7 +375,7 @@ class EditParams
         tf.x = xpos;
         tf.y = ypos;
         tf.text = text;
-        tf.opaqueBackground = true;
+        tf.opaqueBackground = 0xFFFFFF;
         tf.background = true;
         tf.backgroundColor = 0xffffff;
         tf.multiline = false;

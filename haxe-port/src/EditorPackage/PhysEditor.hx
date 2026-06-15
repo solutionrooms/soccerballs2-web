@@ -95,16 +95,16 @@ class PhysEditor
     public static var undoList : Array<Dynamic>;
     
     public static var currentModeObject : EditModeBase = new EditModeBase();
-    public static var editModeObj_Library : EditModeLibrary;
-    public static var editModeObj_Placement : EditModePlacement;
-    public static var editModeObj_Adjust : EditModeAdjust;
-    public static var editModeObj_Lines : EditModeLines;
-    public static var editModeObj_Map : EditModeMap;
-    public static var editModeObj_Joints : EditModeJoints;
-    public static var editModeObj_ObjCol : EditModeObjCol;
-    public static var editModeObj_PickPieceForLink : EditModePickPieceForLink;
-    public static var editModeObj_PickLineForLink : EditModePickLineForLink;
-    public static var editModeObj_Multi : EditModeMulti;
+    public static var editModeObj_Library : EditModeBase;
+    public static var editModeObj_Placement : EditModeBase;
+    public static var editModeObj_Adjust : EditModeBase;
+    public static var editModeObj_Lines : EditModeBase;
+    public static var editModeObj_Map : EditModeBase;
+    public static var editModeObj_Joints : EditModeBase;
+    public static var editModeObj_ObjCol : EditModeBase;
+    public static var editModeObj_PickPieceForLink : EditModeBase;
+    public static var editModeObj_PickLineForLink : EditModeBase;
+    public static var editModeObj_Multi : EditModeBase;
     
     
     public static inline var LM_FILL : Int = 1;
@@ -256,25 +256,25 @@ class PhysEditor
         
         EdConsole.InitOnce();
         
-        editModeObj_Library = new EditModeLibrary();
+        editModeObj_Library = new EditModeBase();
         editModeObj_Library.InitOnce();
-        editModeObj_Placement = new EditModePlacement();
+        editModeObj_Placement = new EditModeBase();
         editModeObj_Placement.InitOnce();
-        editModeObj_Adjust = new EditModeAdjust();
+        editModeObj_Adjust = new EditModeBase();
         editModeObj_Adjust.InitOnce();
-        editModeObj_Lines = new EditModeLines();
+        editModeObj_Lines = new EditModeBase();
         editModeObj_Lines.InitOnce();
-        editModeObj_Map = new EditModeMap();
+        editModeObj_Map = new EditModeBase();
         editModeObj_Map.InitOnce();
-        editModeObj_Joints = new EditModeJoints();
+        editModeObj_Joints = new EditModeBase();
         editModeObj_Joints.InitOnce();
-        editModeObj_ObjCol = new EditModeObjCol();
+        editModeObj_ObjCol = new EditModeBase();
         editModeObj_ObjCol.InitOnce();
-        editModeObj_PickPieceForLink = new EditModePickPieceForLink();
+        editModeObj_PickPieceForLink = new EditModeBase();
         editModeObj_PickPieceForLink.InitOnce();
-        editModeObj_PickLineForLink = new EditModePickLineForLink();
+        editModeObj_PickLineForLink = new EditModeBase();
         editModeObj_PickLineForLink.InitOnce();
-        editModeObj_Multi = new EditModeMulti();
+        editModeObj_Multi = new EditModeBase();
         editModeObj_Multi.InitOnce();
         
         
@@ -2196,7 +2196,7 @@ class PhysEditor
     
     public static function HitTestJoint(x : Float, y : Float) : EdJoint
     {
-        var j : EdJoint = editModeObj_Joints.GetJointAtPosition(Std.int(x), Std.int(y));
+        var j : EdJoint = editModeObj_Joints.GetJointAtPosition(x, y);
         return j;
     }
     

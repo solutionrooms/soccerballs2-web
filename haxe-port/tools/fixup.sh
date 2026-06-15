@@ -209,4 +209,11 @@ perl -i -pe 's/function SortArea\(x : DisplayObjFrame, y : DisplayObjFrame\) : F
 # AS3 Array.push(a,b,c,...) (rest args) -> Haxe single-arg: append via concat
 find "$DIR" -name '*.hx' -exec perl -0777 -i -pe '1 while s/(\w+)\.push\(((?:[^()]++|(\([^()]*\)))*,(?:[^()]++|(\([^()]*\)))*)\)/$1 = $1.concat([$2])/g' {} +
 
+echo "==> fixup: decouple out-of-scope editor MODE subclasses from gameplay-reachable PhysEditor"
+# Each EditMode* subclass carries many as3hx artefacts and is dev-only. PhysEditor only ever calls
+# EditModeBase methods on currentModeObject, and edit modes never run in play mode, so type the mode
+# fields/instantiations as the (clean) base -> the subclasses become unreachable and stop being compiled.
+MODES='EditModeLibrary|EditModePlacement|EditModeAdjust|EditModeLines|EditModeMap|EditModeJoints|EditModeObjCol|EditModePickPieceForLink|EditModePickLineForLink|EditModeMulti'
+perl -i -pe "s/: ($MODES);/: EditModeBase;/g; s/new ($MODES)\(\)/new EditModeBase()/g" "$DIR/editorPackage/PhysEditor.hx" 2>/dev/null || true
+
 echo "==> fixup done in $DIR"

@@ -966,8 +966,8 @@ class EditModeObjCol extends EditModeBase
             var points : Array<Dynamic> = line.points;
             if (lineIndex == currentLineIndex && _useCursor)
             {
-                var mx : Int = Std.int(MouseControl.x);
-                var my : Int = Std.int(MouseControl.y);
+                var mx : Int = MouseControl.x;
+                var my : Int = MouseControl.y;
                 points = [];
                 for (p0/* AS3HX WARNING could not determine type for var: p0 exp: EField(EIdent(line),points) type: null */ in line.points)
                 {

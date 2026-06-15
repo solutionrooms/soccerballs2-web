@@ -144,17 +144,17 @@ class PhysLine
             }
             var p0 : Point = points[i];
             var p1 : Point = points[j];
-            var x0 : Int = Std.int(p0.x);
-            var y0 : Int = Std.int(p0.y);
-            var x1 : Int = Std.int(p1.x);
-            var y1 : Int = Std.int(p1.y);
+            var x0 : Int = p0.x;
+            var y0 : Int = p0.y;
+            var x1 : Int = p1.x;
+            var y1 : Int = p1.y;
             
             if (y1 < y0)
             {
-                x0 = Std.int(p1.x);
-                y0 = Std.int(p1.y);
-                x1 = Std.int(p0.x);
-                y1 = Std.int(p0.y);
+                x0 = p1.x;
+                y0 = p1.y;
+                x1 = p0.x;
+                y1 = p0.y;
             }
             
             if (y >= y0 && y <= y1)
@@ -371,10 +371,10 @@ class PhysLine
         
         if (loop)
         {
-            pt0 = Std.int(Utils.AddIntAndLoop(0, np - 1, i, -1));
+            pt0 = Utils.AddIntAndLoop(0, np - 1, i, -1);
             pt1 = i;
-            pt2 = Std.int(Utils.AddIntAndLoop(0, np - 1, i, 1));
-            pt3 = Std.int(Utils.AddIntAndLoop(0, np - 1, i, 2));
+            pt2 = Utils.AddIntAndLoop(0, np - 1, i, 1);
+            pt3 = Utils.AddIntAndLoop(0, np - 1, i, 2);
         }
         else
         {
@@ -426,7 +426,7 @@ class PhysLine
         while (t1 < 1.0)
         {
             var pp : Point = GetPointOnCatmullRom(t1, true);
-            bd.setPixel32(Std.int(pp.x + xoff), Std.int(pp.y + yoff), col);
+            bd.setPixel32(pp.x + xoff, pp.y + yoff, col);
             t1 += 0.001;
         }
     }

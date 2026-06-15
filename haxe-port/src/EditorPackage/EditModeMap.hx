@@ -292,12 +292,12 @@ class EditModeMap extends EditModeBase
     public function Mapper_Fill(cellID : Int)
     {
         var l : Level = GetCurrentLevel();
-        var mx : Int = Std.int(MouseControl.x);
-        var my : Int = Std.int(MouseControl.y);
-        mx = Std.int(mx + PhysEditor.scrollX);
-        my = Std.int(my + PhysEditor.scrollY);
-        mx = Std.int(mx / l.mapCellW);
-        my = Std.int(my / l.mapCellH);
+        var mx : Int = MouseControl.x;
+        var my : Int = MouseControl.y;
+        mx += PhysEditor.scrollX;
+        my += PhysEditor.scrollY;
+        mx /= l.mapCellW;
+        my /= l.mapCellH;
         
         fillList = [];
         
@@ -316,9 +316,9 @@ class EditModeMap extends EditModeBase
             fillList1 = [];
             for (o in fillList)
             {
-                Mapper_PutFillCell(Std.int(o.x - 1), o.y, cellID, fillList1);
+                Mapper_PutFillCell(o.x - 1, o.y, cellID, fillList1);
                 Mapper_PutFillCell(o.x + 1, o.y, cellID, fillList1);
-                Mapper_PutFillCell(o.x, Std.int(o.y - 1), cellID, fillList1);
+                Mapper_PutFillCell(o.x, o.y - 1, cellID, fillList1);
                 Mapper_PutFillCell(o.x, o.y + 1, cellID, fillList1);
             }
             if (fillList1.length != 0)
@@ -405,12 +405,12 @@ class EditModeMap extends EditModeBase
         
         for (p in brush)
         {
-            var mx : Int = Std.int(MouseControl.x);
-            var my : Int = Std.int(MouseControl.y);
-            mx = Std.int(mx + PhysEditor.scrollX);
-            my = Std.int(my + PhysEditor.scrollY);
-            mx = Std.int(mx / l.mapCellW);
-            my = Std.int(my / l.mapCellH);
+            var mx : Int = MouseControl.x;
+            var my : Int = MouseControl.y;
+            mx += PhysEditor.scrollX;
+            my += PhysEditor.scrollY;
+            mx /= l.mapCellW;
+            my /= l.mapCellH;
             
             mx += p.x;
             my += p.y;
@@ -473,21 +473,21 @@ class EditModeMap extends EditModeBase
         
         for (p in brush)
         {
-            var mx : Int = Std.int(MouseControl.x);
-            var my : Int = Std.int(MouseControl.y);
+            var mx : Int = MouseControl.x;
+            var my : Int = MouseControl.y;
             
-            mx = Std.int(mx + PhysEditor.scrollX);
-            my = Std.int(my + PhysEditor.scrollY);
+            mx += PhysEditor.scrollX;
+            my += PhysEditor.scrollY;
             
-            mx = Std.int(mx / l.mapCellW);
-            my = Std.int(my / l.mapCellH);
+            mx /= l.mapCellW;
+            my /= l.mapCellH;
             mx += p.x;
             my += p.y;
             mx *= l.mapCellW;
             my *= l.mapCellH;
             
-            mx = Std.int(mx - PhysEditor.scrollX);
-            my = Std.int(my - PhysEditor.scrollY);
+            mx -= PhysEditor.scrollX;
+            my -= PhysEditor.scrollY;
             
             
             PhysEditor.RenderRectangle(new Rectangle(mx, my, l.mapCellW - 1, l.mapCellH - 1), 0xffff8080, 2);

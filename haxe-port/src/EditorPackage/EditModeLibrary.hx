@@ -95,17 +95,17 @@ class EditModeLibrary extends EditModeBase
         bd.fillRect(Defs.screenRect, 0xff6040c0);
         var x : Int = 0;
         var y : Int = 0;
-        x = Std.int(pickerRectangle.x);
+        x = pickerRectangle.x;
         while (x <= pickerRectangle.right)
         {
             PhysEditor.RenderLine(x, pickerRectangle.y, x, pickerRectangle.bottom, 0xff40c040);
-            x = Std.int(x + boxSizeW);
+            x += boxSizeW;
         }
-        x = Std.int(pickerRectangle.y);
+        x = pickerRectangle.y;
         while (x <= pickerRectangle.bottom)
         {
             PhysEditor.RenderLine(pickerRectangle.x, x, pickerRectangle.right, x, 0xff40c040);
-            x = Std.int(x + boxSizeH);
+            x += boxSizeH;
         }
         
         
@@ -115,8 +115,8 @@ class EditModeLibrary extends EditModeBase
         var max : Int = as3hx.Compat.parseInt(min + (numPerPage - 1));
         
         
-        x = Std.int(pickerRectangle.left);
-        y = Std.int(pickerRectangle.top);
+        x = pickerRectangle.left;
+        y = pickerRectangle.top;
         var num : Int = Game.objectDefs.GetNum();
         var index : Int = 0;
         var xp : Int = 0;
@@ -128,12 +128,12 @@ class EditModeLibrary extends EditModeBase
             {
                 var maxDestRect : Rectangle = new Rectangle(x + 8, y + 8, boxSizeW - 16, boxSizeH - 16);
                 PhysObj.RenderAt(po, x + (boxSizeW / 2), y + (boxSizeH / 2), 0, 1, bd, PhysEditor.linesScreen.graphics, true, null, maxDestRect);
-                x = Std.int(x + boxSizeW);
+                x += boxSizeW;
                 xp++;
                 if (xp >= boxNumW)
                 {
                     x = 0;
-                    y = Std.int(y + boxSizeH);
+                    y += boxSizeH;
                     xp = 0;
                 }
             }
@@ -156,8 +156,8 @@ class EditModeLibrary extends EditModeBase
         var max : Int = as3hx.Compat.parseInt(min + (numPerPage - 1));
         
         
-        x = Std.int(pickerRectangle.left);
-        y = Std.int(pickerRectangle.top);
+        x = pickerRectangle.left;
+        y = pickerRectangle.top;
         var num : Int = Game.objectDefs.GetNum();
         var index : Int = 0;
         var xp : Int = 0;
@@ -168,14 +168,14 @@ class EditModeLibrary extends EditModeBase
             if (index >= min && index <= max)
             {
                 s = po.name;
-                PhysEditor.AddInfoText("a", x + 8, Std.int(y + boxSizeH - 16), s);
+                PhysEditor.AddInfoText("a", x + 8, y + boxSizeH - 16, s);
                 
-                x = Std.int(x + boxSizeW);
+                x += boxSizeW;
                 xp++;
                 if (xp >= boxNumW)
                 {
                     x = 0;
-                    y = Std.int(y + boxSizeH);
+                    y += boxSizeH;
                     xp = 0;
                 }
             }
@@ -196,10 +196,10 @@ class EditModeLibrary extends EditModeBase
     public var library_page : Int = 0;
     public function Library_PickPiece()
     {
-        var mx : Int = Std.int(MouseControl.x);
-        var my : Int = Std.int(MouseControl.y);
-        mx = Std.int(mx - pickerRectangle.left);
-        my = Std.int(my - pickerRectangle.top);
+        var mx : Int = MouseControl.x;
+        var my : Int = MouseControl.y;
+        mx -= pickerRectangle.left;
+        my -= pickerRectangle.top;
         var x : Int = as3hx.Compat.parseInt(mx / boxSizeW);
         var y : Int = as3hx.Compat.parseInt(my / boxSizeH);
         var pos : Int = as3hx.Compat.parseInt(x + (y * boxNumW));
@@ -231,10 +231,10 @@ class EditModeLibrary extends EditModeBase
     public function Library_GetHoverPieceName()
     {
         library_hoverPieceName = "";
-        var mx : Int = Std.int(MouseControl.x);
-        var my : Int = Std.int(MouseControl.y);
-        mx = Std.int(mx - pickerRectangle.left);
-        my = Std.int(my - pickerRectangle.top);
+        var mx : Int = MouseControl.x;
+        var my : Int = MouseControl.y;
+        mx -= pickerRectangle.left;
+        my -= pickerRectangle.top;
         var x : Int = as3hx.Compat.parseInt(mx / boxSizeW);
         var y : Int = as3hx.Compat.parseInt(my / boxSizeH);
         var pos : Int = as3hx.Compat.parseInt(x + (y * boxNumW));

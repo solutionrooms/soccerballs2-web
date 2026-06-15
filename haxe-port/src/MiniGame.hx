@@ -48,13 +48,13 @@ class MiniGame
             highscore = score;
         }
         GameObjects.ClearAll();
-        titleMC.overlay.visible = true;
-        titleMC.overlay.textBestScore.text = "Your Best Score: " + highscore;
+        (untyped titleMC).overlay.visible = true;
+        (untyped titleMC).overlay.textBestScore.text = "Your Best Score: " + highscore;
         Lic.Kongregate_SubmitStat(score, "minigamescore");
     }
     public static function Start()
     {
-        titleMC.overlay.visible = false;
+        (untyped titleMC).overlay.visible = false;
         Restart();
     }
     

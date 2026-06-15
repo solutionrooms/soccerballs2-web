@@ -64,7 +64,7 @@ class LicSku
         mainLogoLinkURL = "";
         allowRemoteAdLoading = false;
         allowOtherGames = false;
-        introFPS = Defs.fps;
+        introFPS = Std.int(Defs.fps);
         skipPreloaderContinueButton = false;
         realSiteLock = false;
         downloadLinkURL = "";

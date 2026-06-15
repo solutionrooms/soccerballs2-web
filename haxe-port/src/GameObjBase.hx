@@ -431,7 +431,7 @@ class GameObjBase
         
         
         
-        dobj.RenderAtRotScaled(frame, bd, xp, yp, scale, dir, shadowCT, true);
+        dobj.RenderAtRotScaled(Std.int(frame), bd, xp, yp, scale, dir, shadowCT, true);
     }
     
     
@@ -507,7 +507,7 @@ class GameObjBase
         {
             return;
         }
-        dobj.RenderAtRotScaled_Vector(frame, bd, xp, yp, sc, dir);
+        dobj.RenderAtRotScaled_Vector(Std.int(frame), bd, xp, yp, sc, dir);
     }
     
     
@@ -528,7 +528,7 @@ class GameObjBase
         {
             return;
         }
-        _dispObj.RenderAtRotScaled_Vector(_frame, bd, xp, yp, _scale, _rot);
+        _dispObj.RenderAtRotScaled_Vector(Std.int(_frame), bd, xp, yp, _scale, _rot);
     }
     
     public function RenderDO_VectorSprite(x : Float, y : Float, _dispObj : DisplayObj, _frame : Float, _ct : ColorTransform, _rot : Float, _scale : Float, _useScroll : Bool = true)
@@ -540,7 +540,7 @@ class GameObjBase
             xp = Math.round(x) - Math.round(Game.camera.x);
             yp = Math.round(y) - Math.round(Game.camera.y);
         }
-        _dispObj.RenderAtRotScaled_VectorSprite(_frame, bd, xp, yp, _scale, _rot);
+        _dispObj.RenderAtRotScaled_VectorSprite(Std.int(_frame), bd, xp, yp, _scale, _rot);
     }
     
     public function RenderDispObjNormallyAlpha()
@@ -566,7 +566,7 @@ class GameObjBase
         
         ct.alphaMultiplier = alpha;
         
-        dobj.RenderAtRotScaled(frame, bd, xp, yp, scale, dir, ct, renderSmooth);
+        dobj.RenderAtRotScaled(Std.int(frame), bd, xp, yp, scale, dir, ct, renderSmooth);
     }
     
     
@@ -873,7 +873,7 @@ class GameObjBase
         {
             if (go.active)
             {
-                if (go.listIndex != this.listIndex)
+                if ((untyped go).listIndex != (untyped this).listIndex)
                 {
                     if (Utils.Dist2BetweenPoints(xpos, ypos, go.xpos, go.ypos) < r2)
                     {

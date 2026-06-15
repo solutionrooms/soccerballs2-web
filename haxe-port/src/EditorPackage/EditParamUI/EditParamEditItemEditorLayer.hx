@@ -30,16 +30,16 @@ class EditParamEditItemEditorLayer extends EditParamEditItemBase
         
         mc = new EditorEditItemEditorLayer();
         
-        mc.editorItem = this;
+        (untyped mc).editorItem = this;
         
         (untyped mc).displayText.text = op.name;
         (untyped mc).displayText.mouseEnabled = false;
         
         
-        UI.AddBarebonesMCButton(mc.button1, Pressed1);
-        UI.AddBarebonesMCButton(mc.button2, Pressed2);
-        UI.AddBarebonesMCButton(mc.button3, Pressed3);
-        UI.AddBarebonesMCButton(mc.button4, Pressed4);
+        UI.AddBarebonesMCButton((untyped mc).button1, Pressed1);
+        UI.AddBarebonesMCButton((untyped mc).button2, Pressed2);
+        UI.AddBarebonesMCButton((untyped mc).button3, Pressed3);
+        UI.AddBarebonesMCButton((untyped mc).button4, Pressed4);
         
         UpdateButtons();
         

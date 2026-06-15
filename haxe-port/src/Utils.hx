@@ -236,7 +236,7 @@ class Utils
         
         if (remainder < 10)
         {
-            secondsString = "0".concat(Std.string(remainder));
+            secondsString = ("0" + Std.string(remainder));
         }
         else
         {
@@ -247,7 +247,7 @@ class Utils
         
         if (ms < 10)
         {
-            miliString = "0".concat(Std.string(ms));
+            miliString = ("0" + Std.string(ms));
         }
         else
         {
@@ -379,14 +379,14 @@ class Utils
         var index : Int = aa.lastIndexOf(".");
         if (index == -1)
         {
-            aa.concat(".00");
+            (aa + ".00");
         }
         else
         {
             var len : Int = aa.length;
             if (index == len - 1)
             {
-                aa.concat("0");
+                (aa + "0");
             }
         }
         return aa;

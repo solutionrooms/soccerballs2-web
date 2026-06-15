@@ -171,6 +171,7 @@ class Grass
                 
                 var segWidth : Int = 100;
                 
+                var x1 : Int = 0;
                 var x0 : Int = as3hx.Compat.parseInt(minX);
                 while (x0 < maxX)
                 {

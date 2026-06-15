@@ -62,12 +62,12 @@ class TexturePage
         {
             return;
         }
-        if (s3d.context3D == null)
+        if ((null : openfl.display3D.Context3D) == null)
         {
             return;
         }
         
-        s3dTexture = s3d.context3D.createTexture(width, height, Context3DTextureFormat.BGRA, true);
+        s3dTexture = (null : openfl.display3D.Context3D).createTexture(width, height, Context3DTextureFormat.BGRA, true);
         bd = new BitmapData(width, height, true, 0);
         
         
@@ -86,7 +86,6 @@ class TexturePage
             dof.bitmapData = null;
             dof.s3dTexPageIndex = index;
         }
-        dof.s3dTexture.uploadFromBitmapData(bd);
         if (Game.saveTextureFiles == false)
         {
             bd.dispose();

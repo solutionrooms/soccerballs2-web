@@ -405,7 +405,7 @@ class Collision
         var removeList : Array<Dynamic> = [];
         for (go1 in switches)
         {
-            for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(go1),switchContactList) type: null */ in go1.switchContactList)
+            for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(go1),switchContactList) type: null */ in (go1.switchContactList : Array<Dynamic>))
             {
                 if (Utils.DistBetweenPoints(go.xpos, go.ypos, go1.xpos, go1.ypos) >= dist)
                 {

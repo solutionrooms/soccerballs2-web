@@ -674,7 +674,7 @@ class PhysEditor
         for (line/* AS3HX WARNING could not determine type for var: line exp: EField(EIdent(l),lines) type: null */ in l.lines)
         {
             var pointIndex : Int = 0;
-            for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EIdent(line),points) type: null */ in line.points)
+            for (p/* AS3HX WARNING could not determine type for var: p exp: EField(EIdent(line),points) type: null */ in (line.points : Array<Dynamic>))
             {
                 if (Utils.DistBetweenPoints(p.x, p.y, x, y) < 3)
                 {
@@ -1626,7 +1626,7 @@ class PhysEditor
                 }
             }
         }
-        list.sortOn("sortZ", Array.NUMERIC | Array.DESCENDING);
+        Sort.numericDesc(list, "sortZ");
         return list;
     }
     
@@ -1711,7 +1711,7 @@ class PhysEditor
         var zp : Point;
         var zp1 : Point;
         
-        zp = GetMapPos(joint.rev_pos.x, joint.rev_pos.y);
+        zp = GetMapPos(Std.int(joint.rev_pos.x), Std.int(joint.rev_pos.y));
         
         Utils.RenderCircle(bd, zp.x, zp.y, 10, 0xffffffff);
         if (joint.obj0Name != "")
@@ -1719,7 +1719,7 @@ class PhysEditor
             var inst : EdObj = PhysEditor.GetInstanceById(joint.obj0Name);
             if (inst != null)
             {
-                zp1 = GetMapPos(inst.x, inst.y);
+                zp1 = GetMapPos(Std.int(inst.x), Std.int(inst.y));
                 
                 Utils.RenderDotLine(bd, zp.x, zp.y, zp1.x, zp1.y, 100, 0xffff0000);
                 Utils.RenderCircle(bd, zp1.x, zp1.y, 5 * zoom, 0xffffffff);
@@ -1730,8 +1730,8 @@ class PhysEditor
             var inst : EdObj = PhysEditor.GetInstanceById(joint.obj1Name);
             if (inst != null)
             {
-                zp1 = GetMapPos(inst.x, inst.y);
-                zp = GetMapPos(joint.rev_pos.x, joint.rev_pos.y);
+                zp1 = GetMapPos(Std.int(inst.x), Std.int(inst.y));
+                zp = GetMapPos(Std.int(joint.rev_pos.x), Std.int(joint.rev_pos.y));
                 
                 Utils.RenderDotLine(bd, zp.x, zp.y, zp1.x, zp1.y, 100, 0xffff8000);
                 Utils.RenderCircle(bd, zp1.x, zp1.y, 5, 0xffffffff);
@@ -1751,8 +1751,8 @@ class PhysEditor
         var zp : Point;
         var zp1 : Point;
         
-        zp = GetMapPos(joint.dist_pos0.x, joint.dist_pos0.y);
-        zp1 = GetMapPos(joint.dist_pos1.x, joint.dist_pos1.y);
+        zp = GetMapPos(Std.int(joint.dist_pos0.x), Std.int(joint.dist_pos0.y));
+        zp1 = GetMapPos(Std.int(joint.dist_pos1.x), Std.int(joint.dist_pos1.y));
         
         
         Utils.RenderDotLine(bd, zp.x, zp.y, zp1.x, zp1.y, 100, 0xff00ffff);
@@ -1782,7 +1782,7 @@ class PhysEditor
             i++;
         }
         
-        sortList.sortOn("sort_zpos", Array.NUMERIC | Array.DESCENDING);
+        Sort.numericDesc(sortList, "sort_zpos");
         
         for (base in sortList)
         {
@@ -2086,7 +2086,7 @@ class PhysEditor
         var len : Int = l.map.length;
         var start : Int = 0;
         var doneit : Bool = false;
-        numPerLine = 600;
+        var numPerLine : Int = 600;
         
         do
         {
@@ -2134,8 +2134,8 @@ class PhysEditor
         var a0 : Array<Dynamic> = GetCurrentLevel().joints;
         var a1 : Array<Dynamic> = GetCurrentLevel().lines;
         var a2 : Array<Dynamic> = GetCurrentLevel().instances;
-        var a : Array<Dynamic> = a0.concat(a1);
-        a = a.concat(a2);
+        var a : Array<Dynamic> = (a0 + a1);
+        a = (a + a2);
         return a;
     }
     
@@ -2148,8 +2148,8 @@ class PhysEditor
         var a1 : Array<Dynamic> = editModeObj_Lines.HitTestRectangle(r);
         var a2 : Array<Dynamic> = ObjectsHitTestRectangle(r);
         
-        var a : Array<Dynamic> = a0.concat(a1);
-        a = a.concat(a2);
+        var a : Array<Dynamic> = (a0 + a1);
+        a = (a + a2);
         
         return a;
     }
@@ -2196,7 +2196,7 @@ class PhysEditor
     
     public static function HitTestJoint(x : Float, y : Float) : EdJoint
     {
-        var j : EdJoint = editModeObj_Joints.GetJointAtPosition(x, y);
+        var j : EdJoint = editModeObj_Joints.GetJointAtPosition(Std.int(x), Std.int(y));
         return j;
     }
     
@@ -2249,11 +2249,11 @@ class PhysEditor
                 var bd : BitmapData = screenBD;
                 bd.fillRect(Defs.screenRect, 0);
                 
-                var p : Point = GetMapPos(poi.x, poi.y);
+                var p : Point = GetMapPos(Std.int(poi.x), Std.int(poi.y));
                 
                 PhysObj.RenderAt(po, p.x, p.y, poi.rot, poi.scale * zoom, bd);
                 
-                var col : Int = bd.getPixel(x, y);
+                var col : Int = bd.getPixel(Std.int(x), Std.int(y));
                 if (col != 0)
                 {
                     return poi;
@@ -2373,10 +2373,10 @@ class PhysEditor
     {
         var r1 : Rectangle = r.clone();
         var p : Point;
-        p = GetMapPos(r.x, r.y);
+        p = GetMapPos(Std.int(r.x), Std.int(r.y));
         r1.x = p.x;
         r1.y = p.y;
-        p = GetPos(r.width, r.height);
+        p = GetPos(Std.int(r.width), Std.int(r.height));
         r1.width = p.x;
         r1.height = p.y;
         return r1;
@@ -2414,8 +2414,8 @@ class PhysEditor
     
     public static function GetMousePositions()
     {
-        mx = MouseControl.x;
-        my = MouseControl.y;
+        mx = Std.int(MouseControl.x);
+        my = Std.int(MouseControl.y);
         
         if (PhysEditor.gridMode_active)
         {
@@ -2482,7 +2482,7 @@ class PhysEditor
 					{
 						GetMousePositions();
 						points = new Array();
-						for each(var p0:Point in line.points)
+						for each(var p0:Point in (line.points : Array<Dynamic>))
 						{
 							points.push(p0.clone());
 						}

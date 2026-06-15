@@ -66,7 +66,7 @@ class EditParamEditItemBase
     }
     public function CopyValueToParameter()
     {
-        op.value = mc.inputText.text;
+        op.value = (untyped mc).inputText.text;
         EditParams.DoChangedCallback(op);
     }
 }

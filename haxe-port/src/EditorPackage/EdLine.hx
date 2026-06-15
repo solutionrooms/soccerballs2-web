@@ -474,10 +474,10 @@ class EdLine extends EditableObjectBase
         
         if (loop)
         {
-            pt0 = Utils.AddIntAndLoop(0, np - 1, i, -1);
+            pt0 = Std.int(Utils.AddIntAndLoop(0, np - 1, i, -1));
             pt1 = i;
-            pt2 = Utils.AddIntAndLoop(0, np - 1, i, 1);
-            pt3 = Utils.AddIntAndLoop(0, np - 1, i, 2);
+            pt2 = Std.int(Utils.AddIntAndLoop(0, np - 1, i, 1));
+            pt3 = Std.int(Utils.AddIntAndLoop(0, np - 1, i, 2));
         }
         else
         {
@@ -545,10 +545,10 @@ class EdLine extends EditableObjectBase
         
         if (loop)
         {
-            pt0 = Utils.AddIntAndLoop(0, np - 1, i, -1);
+            pt0 = Std.int(Utils.AddIntAndLoop(0, np - 1, i, -1));
             pt1 = i;
-            pt2 = Utils.AddIntAndLoop(0, np - 1, i, 1);
-            pt3 = Utils.AddIntAndLoop(0, np - 1, i, 2);
+            pt2 = Std.int(Utils.AddIntAndLoop(0, np - 1, i, 1));
+            pt3 = Std.int(Utils.AddIntAndLoop(0, np - 1, i, 2));
         }
         else
         {
@@ -624,7 +624,7 @@ class EdLine extends EditableObjectBase
         while (t1 < 1.0)
         {
             var pp : Point = GetPointOnCatmullRom(t1, true);
-            bd.setPixel32(pp.x + xoff, pp.y + yoff, col);
+            bd.setPixel32(Std.int(pp.x + xoff), Std.int(pp.y + yoff), col);
             t1 += 0.001;
         }
     }

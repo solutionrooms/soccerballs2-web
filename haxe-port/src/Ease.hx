@@ -178,7 +178,7 @@ class Ease
     public static function Power_In(time : Float, power : Float = 2) : Float
     {
         var v : Float = time;
-        for (i in 0...power - 1)
+        for (i in 0...Std.int(power - 1))
         {
             v *= time;
         }
@@ -189,7 +189,7 @@ class Ease
     {
         var t : Float = 1 - time;
         var v : Float = t;
-        for (i in 0...power - 1)
+        for (i in 0...Std.int(power - 1))
         {
             v *= t;
         }
@@ -217,7 +217,7 @@ class Ease
             var v : Float = fn(t);
             var rx : Float = x + (w * t);
             var ry : Float = (y + h) - (h * v);
-            bd.setPixel32(rx, ry, 0xffffffff);
+            bd.setPixel32(Std.int(rx), Std.int(ry), 0xffffffff);
             t += 0.01;
         }
     }

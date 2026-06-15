@@ -21,7 +21,7 @@ class EditorGameRenderer
     public function RenderHelpText(po : PhysObj, poi : EdObj)
     {
         var bd : BitmapData = PhysEditor.screenBD;
-        var p : Point = PhysEditor.GetMapPos(poi.x, poi.y);
+        var p : Point = PhysEditor.GetMapPos(Std.int(poi.x), Std.int(poi.y));
         PhysObj.RenderAt(po, p.x, p.y, poi.rot, poi.scale * PhysEditor.zoom, bd, PhysEditor.linesScreen.graphics, true);
         
         var s : String = poi.objParameters.GetValueString("helptext_text", "helptxt");
@@ -35,7 +35,7 @@ class EditorGameRenderer
     public function RenderHelpTextWithMarker(po : PhysObj, poi : EdObj)
     {
         var bd : BitmapData = PhysEditor.screenBD;
-        var p : Point = PhysEditor.GetMapPos(poi.x, poi.y);
+        var p : Point = PhysEditor.GetMapPos(Std.int(poi.x), Std.int(poi.y));
         PhysObj.RenderAt(po, p.x, p.y, poi.rot, poi.scale * PhysEditor.zoom, bd, PhysEditor.linesScreen.graphics, true);
         
         var s : String = poi.objParameters.GetValueString("helptext_text", "helptxt");

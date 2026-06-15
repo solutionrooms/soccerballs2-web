@@ -35,18 +35,18 @@ class EditParamEditItemMaterialList extends EditParamEditItemBase
         
         mc = new EditorEditItemMaterialList();
         
-        mc.editorItem = this;
+        (untyped mc).editorItem = this;
         
         (untyped mc).displayText.text = op.name;
-        mc.inputText.text = op.value;
+        (untyped mc).inputText.text = op.value;
         
         (untyped mc).displayText.mouseEnabled = false;
-        mc.inputText.mouseEnabled = false;
+        (untyped mc).inputText.mouseEnabled = false;
         
         
         UpdateEverything();
         
-        UI.AddButton(mc.buttonElipsis, ElipsisPressed);
+        UI.AddButton((untyped mc).buttonElipsis, ElipsisPressed);
         
         
         mc.filters = [];
@@ -60,7 +60,7 @@ class EditParamEditItemMaterialList extends EditParamEditItemBase
     
     public function UpdateEverything()
     {
-        mc.displayBox.visible = false;
+        (untyped mc).displayBox.visible = false;
         
         var polyMaterial : PolyMaterial = PolyMaterials.GetByName(op.value);
         
@@ -71,12 +71,12 @@ class EditParamEditItemMaterialList extends EditParamEditItemBase
             var box : MovieClip = new MovieClip();
             var g : Graphics = box.graphics;
             g.beginBitmapFill(dobj.GetBitmapData(polyMaterial.fillFrame), null, true, true);
-            g.drawRect(0, 0, mc.displayBox.width, mc.displayBox.height);
+            g.drawRect(0, 0, (untyped mc).displayBox.width, (untyped mc).displayBox.height);
             g.endFill();
             
             mc.addChild(box);
-            box.x = mc.displayBox.x;
-            box.y = mc.displayBox.y;
+            box.x = (untyped mc).displayBox.x;
+            box.y = (untyped mc).displayBox.y;
         }
     }
     
@@ -111,12 +111,12 @@ class EditParamEditItemMaterialList extends EditParamEditItemBase
             
             var item : MovieClip = new EditorEditItemListItem();
             (untyped item).displayText.text = itemString;
-            item.listIndex = i;
+            (untyped item).listIndex = i;
             item.buttonMode = true;
             item.useHandCursor = true;
             item.addEventListener(MouseEvent.CLICK, PopupClicked, false, 0, true);
             
-            item.displayBox.visible = false;
+            (untyped item).displayBox.visible = false;
             
             var polyMaterial : PolyMaterial = PolyMaterials.GetByName(itemString);
             
@@ -129,12 +129,12 @@ class EditParamEditItemMaterialList extends EditParamEditItemBase
                     var box : MovieClip = new MovieClip();
                     var g : Graphics = box.graphics;
                     g.beginBitmapFill(dobj.GetBitmapData(polyMaterial.fillFrame), null, true, true);
-                    g.drawRect(0, 0, item.displayBox.width, item.displayBox.height);
+                    g.drawRect(0, 0, (untyped item).displayBox.width, (untyped item).displayBox.height);
                     g.endFill();
                     
                     item.addChild(box);
-                    box.x = item.displayBox.x;
-                    box.y = item.displayBox.y;
+                    box.x = (untyped item).displayBox.x;
+                    box.y = (untyped item).displayBox.y;
                 }
             }
             
@@ -151,7 +151,7 @@ class EditParamEditItemMaterialList extends EditParamEditItemBase
             
             item.x = 10;
             item.y = y;
-            y += item.height;
+            y = Std.int(y + item.height);
         }
         mc.parent.addChild(popup);
     }
@@ -159,10 +159,10 @@ class EditParamEditItemMaterialList extends EditParamEditItemBase
     public function PopupClicked(e : MouseEvent)
     {
         var item : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        Utils.print("pressed " + item.listIndex);
+        Utils.print("pressed " + (untyped item).listIndex);
         CloseListPopup();
         
-        mc.inputText.text = (untyped item).displayText.text;
+        (untyped mc).inputText.text = (untyped item).displayText.text;
         CopyValueToParameter();
         UpdateEverything();
     }

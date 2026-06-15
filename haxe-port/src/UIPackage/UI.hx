@@ -972,7 +972,7 @@ class UI
         
         (untyped btn).clickCallback = clickCallback;
         (untyped btn).hoverCallback = hoverCallback;
-        btn.outCallback = outCallback;
+        (untyped btn).outCallback = outCallback;
         
         btn.addEventListener(MouseEvent.MOUSE_UP, MCButton_Click, false, 0, true);
         AddToButtonList(btn, RemoveMCButton);
@@ -1016,9 +1016,9 @@ class UI
         {
             return;
         }
-        if (e.currentTarget.outCallback != null)
+        if ((untyped e.currentTarget).outCallback != null)
         {
-            e.currentTarget.outCallback(e);
+            (untyped e.currentTarget).outCallback(e);
         }
         e.currentTarget.gotoAndStop(1);
         if ((untyped e.currentTarget).helpText != null)
@@ -1262,9 +1262,9 @@ class UI
         helpOverlayParent = parent;
         helpOverlay = new MovieClip();
         helpOverlayParent.addChild(helpOverlay);
-        AddAnimatedMCButton(helpOverlay.buttonPrevious, Help_PrevPressed);
-        AddAnimatedMCButton(helpOverlay.buttonNext, Help_NextPressed);
-        AddAnimatedMCButton(helpOverlay.buttonCancel, Help_CancelPressed);
+        AddAnimatedMCButton((untyped helpOverlay).buttonPrevious, Help_PrevPressed);
+        AddAnimatedMCButton((untyped helpOverlay).buttonNext, Help_NextPressed);
+        AddAnimatedMCButton((untyped helpOverlay).buttonCancel, Help_CancelPressed);
         numHelpPages = helpOverlay.totalFrames;
         helpPage = 0;
         
@@ -1275,15 +1275,15 @@ class UI
         helpOverlay.gotoAndStop(helpPage + 1);
         
         
-        helpOverlay.buttonPrevious.visible = true;
+        (untyped helpOverlay).buttonPrevious.visible = true;
         if (helpPage == 0)
         {
-            helpOverlay.buttonPrevious.visible = false;
+            (untyped helpOverlay).buttonPrevious.visible = false;
         }
-        helpOverlay.buttonNext.visible = true;
+        (untyped helpOverlay).buttonNext.visible = true;
         if (helpPage == numHelpPages - 1)
         {
-            helpOverlay.buttonNext.visible = false;
+            (untyped helpOverlay).buttonNext.visible = false;
         }
     }
     
@@ -1299,13 +1299,13 @@ class UI
     public static function Help_NextPressed(e : MouseEvent)
     {
         helpPage++;
-        helpPage = Utils.LimitNumber(0, numHelpPages - 1, helpPage);
+        helpPage = Std.int(Utils.LimitNumber(0, numHelpPages - 1, helpPage));
         InitHelp_Update();
     }
     public static function Help_PrevPressed(e : MouseEvent)
     {
         helpPage--;
-        helpPage = Utils.LimitNumber(0, numHelpPages - 1, helpPage);
+        helpPage = Std.int(Utils.LimitNumber(0, numHelpPages - 1, helpPage));
         InitHelp_Update();
     }
     

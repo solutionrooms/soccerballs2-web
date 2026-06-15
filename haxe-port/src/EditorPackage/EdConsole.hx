@@ -42,7 +42,7 @@ class EdConsole
         for (item in removeList)
         {
             var index : Int = Lambda.indexOf(activeList, item);
-            activeList.splice(Lambda.indexOf(activeList, index), 1);
+            activeList.splice(index, 1);
         }
     }
 }

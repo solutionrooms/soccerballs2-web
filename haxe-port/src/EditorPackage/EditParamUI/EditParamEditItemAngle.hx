@@ -32,23 +32,23 @@ class EditParamEditItemAngle extends EditParamEditItemBase
         
         mc = new EditorEditItemAngle();
         
-        mc.editorItem = this;
+        (untyped mc).editorItem = this;
         
         (untyped mc).displayText.text = op.name;
-        mc.inputText.text = op.value;
+        (untyped mc).inputText.text = op.value;
         
         (untyped mc).displayText.mouseEnabled = false;
         
         
-        mc.inputText.addEventListener(TextEvent.TEXT_INPUT, TextInputDone, false, 0, true);
-        mc.inputText.addEventListener(KeyboardEvent.KEY_DOWN, TextInputKeyDown, false, 0, true);
-        mc.inputText.addEventListener(FocusEvent.FOCUS_OUT, TextInputLoseFocus, false, 0, true);
+        (untyped mc).inputText.addEventListener(TextEvent.TEXT_INPUT, TextInputDone, false, 0, true);
+        (untyped mc).inputText.addEventListener(KeyboardEvent.KEY_DOWN, TextInputKeyDown, false, 0, true);
+        (untyped mc).inputText.addEventListener(FocusEvent.FOCUS_OUT, TextInputLoseFocus, false, 0, true);
         
-        UI.AddButton(mc.buttonPlus, PlusPressed);
-        UI.AddButton(mc.buttonMinus, MinusPressed);
+        UI.AddButton((untyped mc).buttonPlus, PlusPressed);
+        UI.AddButton((untyped mc).buttonMinus, MinusPressed);
         
-        mc.anglePointer.addEventListener(MouseEvent.MOUSE_DOWN, AngleDown, false, 0, true);
-        mc.anglePointer.addEventListener(MouseEvent.MOUSE_MOVE, AngleDown, false, 0, true);
+        (untyped mc).anglePointer.addEventListener(MouseEvent.MOUSE_DOWN, AngleDown, false, 0, true);
+        (untyped mc).anglePointer.addEventListener(MouseEvent.MOUSE_MOVE, AngleDown, false, 0, true);
         
         mc.filters = [];
         if (_op.multipleValues)
@@ -62,7 +62,7 @@ class EditParamEditItemAngle extends EditParamEditItemBase
     
     public function SetAngleArrow()
     {
-        mc.anglePointer.pointer.rotation = as3hx.Compat.parseFloat(mc.inputText.text) - (Math.PI / 2);
+        (untyped mc).anglePointer.pointer.rotation = as3hx.Compat.parseFloat((untyped mc).inputText.text) - (Math.PI / 2);
     }
     
     public function AngleDown(e : MouseEvent)
@@ -78,16 +78,16 @@ class EditParamEditItemAngle extends EditParamEditItemBase
         
         var degree : Float = Utils.RadToDeg(ang + (Math.PI / 2));
         degree = Math.round(degree);
-        mc.anglePointer.pointer.rotation = degree;
-        mc.inputText.text = degree;
+        (untyped mc).anglePointer.pointer.rotation = degree;
+        (untyped mc).inputText.text = degree;
         CopyValueToParameter();
     }
     public function PlusPressed(e : MouseEvent)
     {
         var inc : Float = 1;
-        var val : Float = as3hx.Compat.parseFloat(mc.inputText.text);
+        var val : Float = as3hx.Compat.parseFloat((untyped mc).inputText.text);
         val += inc;
-        mc.inputText.text = Std.string(val);
+        (untyped mc).inputText.text = Std.string(val);
         CopyValueToParameter();
         SetAngleArrow();
     }
@@ -95,9 +95,9 @@ class EditParamEditItemAngle extends EditParamEditItemBase
     public function MinusPressed(e : MouseEvent)
     {
         var inc : Float = -1;
-        var val : Float = as3hx.Compat.parseFloat(mc.inputText.text);
+        var val : Float = as3hx.Compat.parseFloat((untyped mc).inputText.text);
         val += inc;
-        mc.inputText.text = Std.string(val);
+        (untyped mc).inputText.text = Std.string(val);
         CopyValueToParameter();
         SetAngleArrow();
     }

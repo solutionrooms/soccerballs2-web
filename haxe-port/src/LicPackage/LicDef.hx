@@ -150,7 +150,7 @@ class LicDef
         InitSkus();
         stg = _stg;
         domain = GetDomain();
-        kongregateEmbedFlag = stg.stage.loaderInfo.parameters.kongregate;
+        kongregateEmbedFlag = stg.stage.loaderInfo.parameters.kongregate != null;
         
         SkuModify();
     }
@@ -164,11 +164,11 @@ class LicDef
     {
         var url : String = stg.loaderInfo.url;
         var urlStart : Float = url.indexOf("://") + 3;
-        var urlEnd : Float = url.indexOf("/", urlStart);
-        var dom : String = url.substring(Std.int(urlStart), urlEnd);
+        var urlEnd : Float = url.indexOf("/", Std.int(urlStart));
+        var dom : String = url.substring(Std.int(urlStart), Std.int(urlEnd));
         var LastDot : Float = dom.lastIndexOf(".") - 1;
-        var domEnd : Float = dom.lastIndexOf(".", LastDot) + 1;
-        dom = dom.substring(domEnd, dom.length);
+        var domEnd : Float = dom.lastIndexOf(".", Std.int(LastDot)) + 1;
+        dom = dom.substring(Std.int(domEnd), dom.length);
         return dom;
     }
     
@@ -213,7 +213,7 @@ class LicDef
                     do
                     {
                     }
-                    while ((1));
+                    while (true);
                 }
             }
         }

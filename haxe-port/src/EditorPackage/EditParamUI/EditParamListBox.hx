@@ -133,7 +133,7 @@ class EditParamListBox extends MovieClip
             item.SetPos(0, y);
             
             items.push(item);
-            y += item.mc.height;
+            y = Std.int(y + item.mc.height);
             i++;
         }
         

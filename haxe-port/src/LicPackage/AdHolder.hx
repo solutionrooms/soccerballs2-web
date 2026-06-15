@@ -10,5 +10,5 @@ class AdHolder {
 	public static function GetAd():MovieClip { return null; }
 	public static function PreAdClicked(e:MouseEvent):Void {}
 	public static function GetPreAdItem():Dynamic { return null; }
-	public static function GetPreAdCustomMC():Dynamic { return null; }
+	public static function GetPreAdCustomMC(?mc:Dynamic):Dynamic { return null; }
 }

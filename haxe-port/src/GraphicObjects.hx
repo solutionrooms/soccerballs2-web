@@ -51,9 +51,9 @@ class GraphicObjects
         
         InitOnce();
         
-        for (i in 0...xml.node.graphicobjects.innerData.node.object.innerData.length())
+        for (i in 0...xml.node.graphicobjects.nodes.object.length())
         {
-            var x : FastXML = xml.nodes.graphicobjects.node.object.innerData[i];
+            var x : FastXML = xml.node.graphicobjects.nodes.object.get(i);
             var dobj : DisplayObj = new DisplayObj(null, 1);
             dobj.Load(x);
             dict[dobj.origName] = dobj;
@@ -88,7 +88,7 @@ class GraphicObjects
                 
                 fs.writeUTFBytes(s);
                 
-                fs.close();
+                (untyped fs).close();
             }
             catch (e : IOErrorEvent)
             {

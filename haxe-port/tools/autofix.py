@@ -15,6 +15,7 @@ os.chdir(ROOT)
 
 WRAP = {
     'Float should be Int': lambda x: 'Std.int(%s)' % x,
+    'Float should be Null<Int>': lambda x: 'Std.int(%s)' % x,
     'String should be Float': lambda x: 'as3hx.Compat.parseFloat(%s)' % x,
     'String should be Int': lambda x: 'as3hx.Compat.parseInt(%s)' % x,
 }

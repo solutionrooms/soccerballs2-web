@@ -606,7 +606,7 @@ class EdJoint extends EditableObjectBase
         var zp : Point;
         var zp1 : Point;
         
-        zp = PhysEditor.GetMapPos(rev_pos.x, rev_pos.y);
+        zp = PhysEditor.GetMapPos(Std.int(rev_pos.x), Std.int(rev_pos.y));
         PhysEditor.FillCircle(zp.x, zp.y, 6 + radAdd, 0xff0000, 1, alpha);
         PhysEditor.RenderCircle(zp.x, zp.y, 6 + radAdd, 0, 2, alpha);
         
@@ -627,7 +627,7 @@ class EdJoint extends EditableObjectBase
             if (inst != null)
             {
                 zp1 = PhysEditor.GetMapPosPoint(inst.GetCentreHandle());
-                zp = PhysEditor.GetMapPos(rev_pos.x, rev_pos.y);
+                zp = PhysEditor.GetMapPos(Std.int(rev_pos.x), Std.int(rev_pos.y));
                 
                 PhysEditor.RenderLine(zp.x, zp.y, zp1.x, zp1.y, 0xff0000, 2 + radAdd, alpha);
                 PhysEditor.FillCircle(zp1.x, zp1.y, 3 + radAdd, 0xffffff, 1, alpha);
@@ -639,8 +639,8 @@ class EdJoint extends EditableObjectBase
     {
         var zp : Point;
         var zp1 : Point;
-        zp = PhysEditor.GetMapPos(prism_pos.x, prism_pos.y);
-        zp1 = PhysEditor.GetMapPos(prism_pos1.x, prism_pos1.y);
+        zp = PhysEditor.GetMapPos(Std.int(prism_pos.x), Std.int(prism_pos.y));
+        zp1 = PhysEditor.GetMapPos(Std.int(prism_pos1.x), Std.int(prism_pos1.y));
         
         PhysEditor.RenderLine(zp.x, zp.y, zp1.x, zp1.y, 0xffffff, 2 + radAdd, alpha);
     }
@@ -649,8 +649,8 @@ class EdJoint extends EditableObjectBase
         var zp : Point;
         var zp1 : Point;
         
-        zp = PhysEditor.GetMapPos(dist_pos0.x, dist_pos0.y);
-        zp1 = PhysEditor.GetMapPos(dist_pos1.x, dist_pos1.y);
+        zp = PhysEditor.GetMapPos(Std.int(dist_pos0.x), Std.int(dist_pos0.y));
+        zp1 = PhysEditor.GetMapPos(Std.int(dist_pos1.x), Std.int(dist_pos1.y));
         
         PhysEditor.RenderLine(zp.x, zp.y, zp1.x, zp1.y, 0x00ffff, 2 + radAdd, alpha);
         PhysEditor.FillCircle(zp.x, zp.y, 5 + radAdd, 0x00cccc, alpha);

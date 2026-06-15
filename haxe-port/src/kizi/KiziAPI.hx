@@ -92,7 +92,7 @@ class KiziAPI
     public static function loadTimedOut(e : TimerEvent) : Void
     {
         KiziLogger.error("API loading has timed out");
-        apiLoader.close();
+        (untyped apiLoader).close();
     }
     
     public static function loadComplete(e : Event) : Void

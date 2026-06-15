@@ -461,13 +461,13 @@ class GameVars
         useFeature4 = o.useFeature4;
         
         TrophiesCollected = [];
-        for (b/* AS3HX WARNING could not determine type for var: b exp: EField(EIdent(o),TrophiesCollected) type: null */ in o.TrophiesCollected)
+        for (b/* AS3HX WARNING could not determine type for var: b exp: EField(EIdent(o),TrophiesCollected) type: null */ in (o.TrophiesCollected : Array<Dynamic>))
         {
             TrophiesCollected.push(b);
         }
         
         coinsTable = [];
-        for (i/* AS3HX WARNING could not determine type for var: i exp: EField(EIdent(o),coinsTable) type: null */ in o.coinsTable)
+        for (i/* AS3HX WARNING could not determine type for var: i exp: EField(EIdent(o),coinsTable) type: null */ in (o.coinsTable : Array<Dynamic>))
         {
             coinsTable.push(i);
         }
@@ -774,13 +774,13 @@ class GameVars
         keeperActions.push([new Point(0, -1)]);
         
         keeperActions.push("jump1");
-        keeperActions.push([new Point(0, 3), new Point(1, 0)]);
+        keeperActions = keeperActions.concat([[new Point(0, 3), new Point(1, 0)]]);
         
         keeperActions.push("crouch1");
-        keeperActions.push([new Point(0, 3), new Point(2, 0)]);
+        keeperActions = keeperActions.concat([[new Point(0, 3), new Point(2, 0)]]);
         
         keeperActions.push("jumpcrouch1");
-        keeperActions.push([new Point(0, 3), new Point(1, 0), new Point(2, 0)]);
+        keeperActions = keeperActions.concat([[new Point(0, 3), new Point(1, 0), new Point(2, 0)]]);
         
     }
     public static function InitTeamsOnce()

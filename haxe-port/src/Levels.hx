@@ -105,7 +105,7 @@ class Levels
     public static function LoadGameSpecificLevelData(level : Level, x : FastXML)
     {
         level.goldKicks = XmlHelper.GetAttrInt((untyped x.node.soccerballs.innerData.att).gold, 1);
-        level.failKicks = XmlHelper.GetAttrInt(x.node.soccerballs.innerData.att.fail, 3);
+        level.failKicks = XmlHelper.GetAttrInt(x.node.soccerballs.att.fail, 3);
         
         level.totalCoins = 0;
         level.hasTrophy = false;
@@ -124,7 +124,7 @@ class Levels
                 {
                     level.totalCoins++;
                 }
-                if (type.search("pickup_trophy_") != -1)
+                if (type.indexOf("pickup_trophy_") != -1)
                 {
                     var s : String = type.substr(14);
                     level.trophyIndex = as3hx.Compat.parseInt(s);

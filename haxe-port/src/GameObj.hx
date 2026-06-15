@@ -48,7 +48,7 @@ class GameObj extends GameObjBase
     
     public function ShowHealthBar()
     {
-        healthBarTimer = Defs.fps * 1;
+        healthBarTimer = Std.int(Defs.fps * 1);
     }
     public function RenderHealthBar(_xoff : Int, _yoff : Int) : Void
     {
@@ -322,7 +322,7 @@ class GameObj extends GameObjBase
         RenderHealthBar(0, -40);
         if (dobj1 != null)
         {
-            RenderDispObjAt(xpos, ypos + 40, dobj1, frame1);
+            RenderDispObjAt(xpos, ypos + 40, dobj1, Std.int(frame1));
         }
     }
     public function InitPhysObj_Path_Boss_Tractor()
@@ -445,7 +445,7 @@ class GameObj extends GameObjBase
         var foundA : Bool = false;
         var foundB : Bool = false;
         
-        var x0 : Int = Game.camera.x;
+        var x0 : Int = Std.int(Game.camera.x);
         var x1 : Int = as3hx.Compat.parseInt(x0 + Defs.displayarea_w);
         
         var firstIndex : Int = 0;
@@ -471,8 +471,8 @@ class GameObj extends GameObjBase
             }
         }
         
-        firstIndex = Utils.LimitNumber(0, len - 1, firstIndex);
-        lastIndex = Utils.LimitNumber(0, len - 1, lastIndex);
+        firstIndex = Std.int(Utils.LimitNumber(0, len - 1, firstIndex));
+        lastIndex = Std.int(Utils.LimitNumber(0, len - 1, lastIndex));
         
         
         
@@ -490,7 +490,7 @@ class GameObj extends GameObjBase
         
         if (true)
         {
-            g.beginBitmapFill(dobj.GetBitmapData(frame), gmat, true);
+            g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame)), gmat, true);
             
             p0 = surfacePointsList0[firstIndex];
             g.moveTo(p0.x - xp, p0.y - yp);
@@ -508,7 +508,7 @@ class GameObj extends GameObjBase
             }
             g.endFill();
             
-            g.beginBitmapFill(dobj.GetBitmapData(frame + 1), gmat, true);
+            g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame + 1)), gmat, true);
             
             p0 = surfacePointsList1[firstIndex];
             g.moveTo(p0.x - xp, p0.y - yp);
@@ -525,7 +525,7 @@ class GameObj extends GameObjBase
         }
         else
         {
-            g.beginBitmapFill(dobj.GetBitmapData(frame), gmat, true);
+            g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame)), gmat, true);
             for (index in firstIndex...lastIndex + 1)
             {
                 p0 = surfacePointsList0[index];
@@ -541,7 +541,7 @@ class GameObj extends GameObjBase
             }
             g.endFill();
             
-            g.beginBitmapFill(dobj.GetBitmapData(frame + 1), gmat, true);
+            g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame + 1)), gmat, true);
             for (index in firstIndex...lastIndex + 1)
             {
                 p0 = surfacePointsList1[index];
@@ -578,7 +578,7 @@ class GameObj extends GameObjBase
         p0 = surfacePointsList0[firstIndex];
         g.moveTo(p0.x - xp, p0.y - yp);
         g.lineStyle(4, 0x0, 1);
-        g.lineBitmapStyle(dobj1.GetBitmapData(frame), null);
+        g.lineBitmapStyle(dobj1.GetBitmapData(Std.int(frame)), null);
         for (index in firstIndex...lastIndex + 1)
         {
             var p0 : Point = surfacePointsList0[index];
@@ -612,7 +612,7 @@ class GameObj extends GameObjBase
         var foundA : Bool = false;
         var foundB : Bool = false;
         
-        var x0 : Int = Game.camera.x;
+        var x0 : Int = Std.int(Game.camera.x);
         var x1 : Int = as3hx.Compat.parseInt(x0 + Defs.displayarea_w * 3);
         
         var firstIndex : Int = 0;
@@ -638,8 +638,8 @@ class GameObj extends GameObjBase
             }
         }
         
-        firstIndex = Utils.LimitNumber(0, len - 1, firstIndex);
-        lastIndex = Utils.LimitNumber(0, len - 1, lastIndex);
+        firstIndex = Std.int(Utils.LimitNumber(0, len - 1, firstIndex));
+        lastIndex = Std.int(Utils.LimitNumber(0, len - 1, lastIndex));
         
         if (lastIndex <= firstIndex)
         {
@@ -744,7 +744,7 @@ class GameObj extends GameObjBase
             
             g.lineStyle(null, null, 0);
             
-            g.beginBitmapFill(dobj.GetBitmapData(frame), null, true);
+            g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame)), null, true);
             var p0 : Point = newpoints[0];
             g.moveTo(p0.x, p0.y);
             for (i in 1...newpoints.length)
@@ -761,7 +761,7 @@ class GameObj extends GameObjBase
             }
             g.endFill();
             
-            g.beginBitmapFill(dobj.GetBitmapData(frame + 1), null, true);
+            g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame + 1)), null, true);
             var p0 : Point = newpoints1[0];
             g.moveTo(p0.x, p0.y);
             for (i in 1...newpoints1.length)
@@ -787,7 +787,7 @@ class GameObj extends GameObjBase
             
             
             g.lineStyle(4, 0x0, 1);
-            g.lineBitmapStyle(dobj1.GetBitmapData(frame), null);
+            g.lineBitmapStyle(dobj1.GetBitmapData(Std.int(frame)), null);
             var p0 : Point = newpoints[0];
             g.moveTo(p0.x, p0.y);
             for (i in 1...newpoints.length)
@@ -852,7 +852,7 @@ class GameObj extends GameObjBase
             
             g.lineStyle(null, null, 0);
             
-            g.beginBitmapFill(dobj.GetBitmapData(frame), null, true);
+            g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame)), null, true);
             var p0 : Point = newpoints[0];
             g.moveTo(p0.x, p0.y);
             for (i in 1...newpoints.length)
@@ -869,7 +869,7 @@ class GameObj extends GameObjBase
             }
             g.endFill();
             
-            g.beginBitmapFill(dobj.GetBitmapData(frame + 1), null, true);
+            g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame + 1)), null, true);
             var p0 : Point = newpoints1[0];
             g.moveTo(p0.x, p0.y);
             for (i in 1...newpoints1.length)
@@ -889,7 +889,7 @@ class GameObj extends GameObjBase
             
             
             g.lineStyle(4, 0x0, 1);
-            g.lineBitmapStyle(dobj1.GetBitmapData(frame), null);
+            g.lineBitmapStyle(dobj1.GetBitmapData(Std.int(frame)), null);
             var p0 : Point = newpoints[0];
             g.moveTo(p0.x, p0.y);
             for (i in 1...newpoints.length)
@@ -941,7 +941,7 @@ class GameObj extends GameObjBase
             
             g.lineStyle(null, null, 0);
             
-            g.beginBitmapFill(dobj.GetBitmapData(frame), null, true);
+            g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame)), null, true);
             var p0 : Point = newpoints[0];
             g.moveTo(p0.x, p0.y);
             for (i in 1...newpoints.length)
@@ -1113,7 +1113,7 @@ class GameObj extends GameObjBase
         var sx : Float = Math.round(Game.camera.x);
         var sy : Float = Math.round(Game.camera.y);
         
-        var z : Int = zpos;
+        var z : Int = Std.int(zpos);
         
         
         var p0 : Point;
@@ -1186,7 +1186,7 @@ class GameObj extends GameObjBase
         
         
         
-        g.beginBitmapFill(dobj.GetBitmapData(frame), gmat, true);
+        g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame)), gmat, true);
         
         if (dobj2 == null)
         {
@@ -1196,7 +1196,7 @@ class GameObj extends GameObjBase
         {
             g.lineStyle(3, 0x404040, 1);
             
-            g.lineBitmapStyle(dobj2.GetBitmapData(frame), gmat, true);
+            g.lineBitmapStyle(dobj2.GetBitmapData(Std.int(frame)), gmat, true);
         }
         
         
@@ -1299,7 +1299,7 @@ class GameObj extends GameObjBase
         var sx : Float = Math.round(Game.camera.x);
         var sy : Float = Math.round(Game.camera.y);
         
-        var z : Int = zpos;
+        var z : Int = Std.int(zpos);
         
         
         var p0 : Point;
@@ -1312,7 +1312,7 @@ class GameObj extends GameObjBase
         
         
         
-        g.beginBitmapFill(dobj.GetBitmapData(frame), gmat, true);
+        g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame)), gmat, true);
         
         if (dobj2 == null)
         {
@@ -1928,11 +1928,11 @@ class GameObj extends GameObjBase
         var xp : Float = as3hx.Compat.parseInt(xpos) - as3hx.Compat.parseInt(Game.camera.x);
         var yp : Float = as3hx.Compat.parseInt(ypos) - as3hx.Compat.parseInt(Game.camera.y);
         var c : Int = 0xffffffff;
-        bd.setPixel32(xp, yp, c);
-        bd.setPixel32(xp + 1, yp, c);
-        bd.setPixel32(xp - 1, yp, c);
-        bd.setPixel32(xp, yp + 1, c);
-        bd.setPixel32(xp, yp - 1, c);
+        bd.setPixel32(Std.int(xp), Std.int(yp), c);
+        bd.setPixel32(Std.int(xp + 1), Std.int(yp), c);
+        bd.setPixel32(Std.int(xp - 1), Std.int(yp), c);
+        bd.setPixel32(Std.int(xp), Std.int(yp + 1), c);
+        bd.setPixel32(Std.int(xp), Std.int(yp - 1), c);
     }
     public function UpdateWindPart()
     {
@@ -2065,7 +2065,7 @@ class GameObj extends GameObjBase
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
         dobj.origMC.text1.theText.text = textMessage;
         dobj.origMC.text2.theText.text = textMessage1;
-        dobj.RenderAtRotScaled_Vector(frame, bd, xp, yp, 1, 0, null, false, xflip);
+        dobj.RenderAtRotScaled_Vector(Std.int(frame), bd, xp, yp, 1, 0, null, false, xflip);
     }
     public function UpdateScoreText()
     {
@@ -2189,7 +2189,7 @@ class GameObj extends GameObjBase
         RenderDispObjNormally();
         if (dobj1 != null)
         {
-            RenderDispObjAt(xpos, ypos, dobj1, frame1);
+            RenderDispObjAt(xpos, ypos, dobj1, Std.int(frame1));
         }
     }
     public function InitPortalIn()
@@ -2215,7 +2215,7 @@ class GameObj extends GameObjBase
         RenderDispObjNormally();
         if (dobj1 != null)
         {
-            RenderDispObjAt(xpos, ypos, dobj1, frame1);
+            RenderDispObjAt(xpos, ypos, dobj1, Std.int(frame1));
         }
     }
     public function PortalOutSetSparks()
@@ -2381,7 +2381,7 @@ class GameObj extends GameObjBase
         }
         
         var f : Float = Utils.DegToRad(snake_swingForce);
-        var tm : Int = timerMax;
+        var tm : Int = Std.int(timerMax);
         
         
         if (GameVars.snakeUpgrade == GameVars.snakeUpgrade_FastSwing && GameVars.snakeUpgradeGO == this)
@@ -2506,7 +2506,7 @@ class GameObj extends GameObjBase
         {
             return;
         }
-        RenderDispObjAt(xpos, ypos, mouseOverDobj, mouseOverFrame);
+        RenderDispObjAt(xpos, ypos, mouseOverDobj, Std.int(mouseOverFrame));
     }
     public function InitSnake(_type : Int, _numBits : Int, _angLimit : Float, _swingTimer : Float, _force : Float = 10, yoffset : Float = 10)
     {
@@ -3385,7 +3385,7 @@ class GameObj extends GameObjBase
         RenderDispObjNormally();
         if (state == 1)
         {
-            RenderDispObjAt(xpos, ypos, dobj1, frame1, null, dir1, scale1);
+            RenderDispObjAt(xpos, ypos, dobj1, Std.int(frame1), null, dir1, scale1);
         }
     }
     
@@ -4187,8 +4187,8 @@ class GameObj extends GameObjBase
         var xp : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
         
-        dobj.origMC.helpClip.help.text = textMessage;
-        dobj.RenderAtRotScaled_Vector(frame, bd, xp, yp, 1, 0, null, false, xflip);
+        (untyped dobj.origMC).helpClip.help.text = textMessage;
+        dobj.RenderAtRotScaled_Vector(Std.int(frame), bd, xp, yp, 1, 0, null, false, xflip);
     }
     
     public function UpdateWalkthroughObject() : Void
@@ -4234,7 +4234,7 @@ class GameObj extends GameObjBase
             var x : Float = Utils.RandBetweenFloat(0, Defs.displayarea_w);
             var y : Float = Utils.RandBetweenFloat(0, Defs.displayarea_h);
             frame = Utils.RandBetweenInt(0, dobj.GetNumFrames() - 1);
-            dobj.RenderAt(frame, bd, x, y);
+            dobj.RenderAt(Std.int(frame), bd, x, y);
         }
     }
     public function UpdateRain()
@@ -4441,7 +4441,7 @@ class GameObj extends GameObjBase
         RenderDispObjAt(xpos, ypos, dobj1, 0, null, 0, 1, true);
         if (dobj2 != null)
         {
-            RenderDispObjAt(xpos, ypos, dobj2, frame2, null, dir, 1, true);
+            RenderDispObjAt(xpos, ypos, dobj2, Std.int(frame2), null, dir, 1, true);
         }
     }
     public function UpdateCannon()
@@ -4881,7 +4881,7 @@ class GameObj extends GameObjBase
             var xp : Float = Math.round(parentObj.xpos) - Math.round(Game.camera.x);
             var yp : Float = Math.round(parentObj.ypos) - Math.round(Game.camera.y);
             var f : Float = Utils.ScaleTo(0, parentObj.dobj1.GetNumFrames() - 1, 0, GameVars.ballTimerMax, parentObj.ballTimer);
-            parentObj.dobj1.RenderAt(f, bd, xp, yp - 20);
+            parentObj.dobj1.RenderAt(Std.int(f), bd, xp, yp - 20);
         }
     }
     public function InitFootballOverlayObject()
@@ -5118,7 +5118,7 @@ class GameObj extends GameObjBase
             var done : Bool = PlayAnimationEx();
             if (player_currentFootball != null)
             {
-                if (dobj.GetLabelAtThisFrame(frame) == "release_ball")
+                if (dobj.GetLabelAtThisFrame(Std.int(frame)) == "release_ball")
                 {
                     var rand : Int = Utils.RandBetweenInt(1, 2);
                     SFX_OneShot("sfx_kick_football" + rand);
@@ -5242,7 +5242,7 @@ class GameObj extends GameObjBase
             if (idleTimer <= 0)
             {
                 SetAnimRangeSingle("idle" + Utils.RandBetweenInt(1, 3));
-                idleTimer = Utils.RandBetweenInt(Defs.fps, Defs.fps * 2);
+                idleTimer = Utils.RandBetweenInt(Std.int(Defs.fps), Std.int(Defs.fps * 2));
                 idleState = 0;
             }
         }
@@ -5297,18 +5297,18 @@ class GameObj extends GameObjBase
         var xp : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
         
-        var oldRot : Float = animHierarchy.Frame_SetPartRot("head", frame, playerHeadAngle);
+        var oldRot : Float = animHierarchy.Frame_SetPartRot("head", Std.int(frame), playerHeadAngle);
         animHierarchy.RenderAt(bd, xp, yp, frame, scale, dir, xflip);
-        animHierarchy.Frame_SetPartRot("head", frame, oldRot);
+        animHierarchy.Frame_SetPartRot("head", Std.int(frame), oldRot);
     }
     public function RenderPlayer()
     {
         var xp : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
         
-        var oldRot : Float = animHierarchy.Frame_SetPartRot("head", frame, playerHeadAngle);
+        var oldRot : Float = animHierarchy.Frame_SetPartRot("head", Std.int(frame), playerHeadAngle);
         animHierarchy.RenderAt(bd, xp, yp, frame, scale, dir, xflip);
-        animHierarchy.Frame_SetPartRot("head", frame, oldRot);
+        animHierarchy.Frame_SetPartRot("head", Std.int(frame), oldRot);
         
         if (GameVars.numKicks == (GameVars.maxKicks - 1) && state == 1)
         {
@@ -5395,13 +5395,13 @@ class GameObj extends GameObjBase
         var xp : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
         
-        var oldRot : Float = animHierarchy.Frame_SetPartRot("head", frame, playerHeadAngle);
+        var oldRot : Float = animHierarchy.Frame_SetPartRot("head", Std.int(frame), playerHeadAngle);
         animHierarchy.RenderAt(bd, xp, yp, frame, scale, dir, xflip);
-        animHierarchy.Frame_SetPartRot("head", frame, oldRot);
+        animHierarchy.Frame_SetPartRot("head", Std.int(frame), oldRot);
         
         if (oppo_canJumpWhenNear)
         {
-            RenderDispObjAt(xpos, ypos - 93, dobj1, frame1);
+            RenderDispObjAt(xpos, ypos - 93, dobj1, Std.int(frame1));
         }
     }
     
@@ -5531,7 +5531,7 @@ class GameObj extends GameObjBase
             {
                 state = 31;
                 SetAnimRangeSingle("conceed_loop");
-                timer = Utils.RandBetweenInt(Defs.fps * 1, Defs.fps * 2);
+                timer = Utils.RandBetweenInt(Std.int(Defs.fps * 1), Std.int(Defs.fps * 2));
             }
         }
         else if (state == 31)
@@ -5744,14 +5744,14 @@ class GameObj extends GameObjBase
         var xp : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var yp : Float = Math.round(ypos) - Math.round(Game.camera.y);
         
-        var oldRot : Float = animHierarchy.Frame_SetPartRot("head", frame, playerHeadAngle);
+        var oldRot : Float = animHierarchy.Frame_SetPartRot("head", Std.int(frame), playerHeadAngle);
         animHierarchy.RenderAt(bd, xp, yp, frame, scale, dir, xflip);
-        animHierarchy.Frame_SetPartRot("head", frame, oldRot);
+        animHierarchy.Frame_SetPartRot("head", Std.int(frame), oldRot);
         
         if (showTimer)
         {
             var f : Float = Utils.ScaleTo(0, dobj1.GetNumFrames() - 1, 0, timerMax, timer);
-            dobj1.RenderAt(f, bd, xp, yp - 60);
+            dobj1.RenderAt(Std.int(f), bd, xp, yp - 60);
         }
     }
     
@@ -5852,7 +5852,7 @@ class GameObj extends GameObjBase
         else if (state == 20)
         {
             PlayAnimationEx();
-            if (dobj.GetLabelAtThisFrame(frame) == "air")
+            if (dobj.GetLabelAtThisFrame(Std.int(frame)) == "air")
             {
                 SFX_OneShot("sfx_jump");
                 
@@ -6329,7 +6329,7 @@ class GameObj extends GameObjBase
             if (idleTimer <= 0)
             {
                 SetAnimRangeSingle("idle" + Utils.RandBetweenInt(1, 3));
-                idleTimer = Utils.RandBetweenInt(Defs.fps, Defs.fps * 2);
+                idleTimer = Utils.RandBetweenInt(Std.int(Defs.fps), Std.int(Defs.fps * 2));
                 idleState = 0;
             }
         }

@@ -36,22 +36,22 @@ class EditParamEditItemLinePicker extends EditParamEditItemBase
         
         mc = new EditorEditItemList();
         
-        mc.editorItem = this;
+        (untyped mc).editorItem = this;
         
         (untyped mc).displayText.text = op.name;
-        mc.inputText.text = op.value;
+        (untyped mc).inputText.text = op.value;
         
         (untyped mc).displayText.mouseEnabled = false;
         
         
-        mc.inputText.addEventListener(TextEvent.TEXT_INPUT, TextInputDone, false, 0, true);
-        mc.inputText.addEventListener(KeyboardEvent.KEY_DOWN, TextInputKeyDown, false, 0, true);
-        mc.inputText.addEventListener(FocusEvent.FOCUS_OUT, TextInputLoseFocus, false, 0, true);
+        (untyped mc).inputText.addEventListener(TextEvent.TEXT_INPUT, TextInputDone, false, 0, true);
+        (untyped mc).inputText.addEventListener(KeyboardEvent.KEY_DOWN, TextInputKeyDown, false, 0, true);
+        (untyped mc).inputText.addEventListener(FocusEvent.FOCUS_OUT, TextInputLoseFocus, false, 0, true);
         
         mc.addEventListener(MouseEvent.ROLL_OVER, OnRollOver, false, 0, true);
         mc.addEventListener(MouseEvent.ROLL_OUT, OnRollOut, false, 0, true);
         
-        UI.AddButton(mc.buttonElipsis, ElipsisPressed);
+        UI.AddButton((untyped mc).buttonElipsis, ElipsisPressed);
         
         mc.filters = [];
         if (_op.multipleValues)
@@ -69,7 +69,7 @@ class EditParamEditItemLinePicker extends EditParamEditItemBase
     }
     public function OnRollOver(e : MouseEvent)
     {
-        var obj : EditableObjectBase = PhysEditor.GetAnyObjectById(mc.inputText.text);
+        var obj : EditableObjectBase = PhysEditor.GetAnyObjectById((untyped mc).inputText.text);
         if (obj != null)
         {
             var x1 : Float = obj.GetCentreHandle().x - PhysEditor.scrollX;
@@ -97,7 +97,7 @@ class EditParamEditItemLinePicker extends EditParamEditItemBase
         {
             id = PhysEditor.GetOrCreateUniqueLineID(_EdLine);
         }
-        mc.inputText.text = id;
+        (untyped mc).inputText.text = id;
         CopyValueToParameter();
         
         PhysEditor.SetEditMode(PhysEditor.oldEditMode, false);

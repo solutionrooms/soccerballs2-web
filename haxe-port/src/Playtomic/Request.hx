@@ -261,7 +261,7 @@ import flash.utils.ByteArray;
         if (!request.handled)
         {
             request.handled = true;
-            request.close();
+            (untyped request).close();
         }
         
         Pool.push(request);

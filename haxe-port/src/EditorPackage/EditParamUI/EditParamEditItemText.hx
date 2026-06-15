@@ -30,16 +30,16 @@ class EditParamEditItemText extends EditParamEditItemBase
         
         mc = new EditorEditItemText();
         
-        mc.editorItem = this;
+        (untyped mc).editorItem = this;
         
         (untyped mc).displayText.text = op.name;
-        mc.inputText.text = op.value;
+        (untyped mc).inputText.text = op.value;
         
         (untyped mc).displayText.mouseEnabled = false;
         
-        mc.inputText.addEventListener(TextEvent.TEXT_INPUT, TextInputDone, false, 0, true);
-        mc.inputText.addEventListener(KeyboardEvent.KEY_DOWN, TextInputKeyDown, false, 0, true);
-        mc.inputText.addEventListener(FocusEvent.FOCUS_OUT, TextInputLoseFocus, false, 0, true);
+        (untyped mc).inputText.addEventListener(TextEvent.TEXT_INPUT, TextInputDone, false, 0, true);
+        (untyped mc).inputText.addEventListener(KeyboardEvent.KEY_DOWN, TextInputKeyDown, false, 0, true);
+        (untyped mc).inputText.addEventListener(FocusEvent.FOCUS_OUT, TextInputLoseFocus, false, 0, true);
         
         
         mc.filters = [];

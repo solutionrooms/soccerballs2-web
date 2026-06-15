@@ -31,20 +31,20 @@ class EditParamEditItemNumber extends EditParamEditItemBase
         
         mc = new EditorEditItemNumber();
         
-        mc.editorItem = this;
+        (untyped mc).editorItem = this;
         
         (untyped mc).displayText.text = op.name;
-        mc.inputText.text = op.value;
+        (untyped mc).inputText.text = op.value;
         
         (untyped mc).displayText.mouseEnabled = false;
         
         
-        mc.inputText.addEventListener(TextEvent.TEXT_INPUT, TextInputDone, false, 0, true);
-        mc.inputText.addEventListener(KeyboardEvent.KEY_DOWN, TextInputKeyDown, false, 0, true);
-        mc.inputText.addEventListener(FocusEvent.FOCUS_OUT, TextInputLoseFocus, false, 0, true);
+        (untyped mc).inputText.addEventListener(TextEvent.TEXT_INPUT, TextInputDone, false, 0, true);
+        (untyped mc).inputText.addEventListener(KeyboardEvent.KEY_DOWN, TextInputKeyDown, false, 0, true);
+        (untyped mc).inputText.addEventListener(FocusEvent.FOCUS_OUT, TextInputLoseFocus, false, 0, true);
         
-        UI.AddButton(mc.buttonPlus, PlusPressed);
-        UI.AddButton(mc.buttonMinus, MinusPressed);
+        UI.AddButton((untyped mc).buttonPlus, PlusPressed);
+        UI.AddButton((untyped mc).buttonMinus, MinusPressed);
         
         mc.filters = [];
         if (_op.multipleValues)
@@ -60,9 +60,9 @@ class EditParamEditItemNumber extends EditParamEditItemBase
     {
         var ob : ObjParam = ObjectParameters.GetObjectParamByName((untyped mc).displayText.text);
         var inc : Float = ob.number_step;
-        var val : Float = as3hx.Compat.parseFloat(mc.inputText.text);
+        var val : Float = as3hx.Compat.parseFloat((untyped mc).inputText.text);
         val += inc;
-        mc.inputText.text = Std.string(val);
+        (untyped mc).inputText.text = Std.string(val);
         
         CheckRange();
         CopyValueToParameter();
@@ -72,9 +72,9 @@ class EditParamEditItemNumber extends EditParamEditItemBase
     {
         var ob : ObjParam = ObjectParameters.GetObjectParamByName((untyped mc).displayText.text);
         var inc : Float = -ob.number_step;
-        var val : Float = as3hx.Compat.parseFloat(mc.inputText.text);
+        var val : Float = as3hx.Compat.parseFloat((untyped mc).inputText.text);
         val += inc;
-        mc.inputText.text = Std.string(val);
+        (untyped mc).inputText.text = Std.string(val);
         
         CheckRange();
         
@@ -83,7 +83,7 @@ class EditParamEditItemNumber extends EditParamEditItemBase
     
     public function CheckRange()
     {
-        var val : Float = as3hx.Compat.parseFloat(mc.inputText.text);
+        var val : Float = as3hx.Compat.parseFloat((untyped mc).inputText.text);
         var ob : ObjParam = ObjectParameters.GetObjectParamByName((untyped mc).displayText.text);
         if (ob.number_useRangeMin)
         {
@@ -99,7 +99,7 @@ class EditParamEditItemNumber extends EditParamEditItemBase
                 val = ob.number_min;
             }
         }
-        mc.inputText.text = Std.string(val);
+        (untyped mc).inputText.text = Std.string(val);
     }
     
     public function TextInputLoseFocus(e : FocusEvent)

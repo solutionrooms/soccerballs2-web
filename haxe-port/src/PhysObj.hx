@@ -271,7 +271,7 @@ class PhysObj
             joint.obj0Name = jx.att.body0;
             joint.obj1Name = jx.att.body1;
             
-            typename = jx.att.type;
+            var typename : String = jx.att.type;
             
             if (typename == "rev")
             {

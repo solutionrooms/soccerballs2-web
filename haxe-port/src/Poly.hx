@@ -276,7 +276,7 @@ class Poly
         while (t1 < 1.0)
         {
             var pp : Point = GetPointOnCatmullRom(t1);
-            bd.setPixel32(pp.x + xoff, pp.y + yoff, col);
+            bd.setPixel32(Std.int(pp.x + xoff), Std.int(pp.y + yoff), col);
             t1 += 0.001;
         }
     }

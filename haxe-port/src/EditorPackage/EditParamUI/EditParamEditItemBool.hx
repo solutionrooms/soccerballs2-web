@@ -30,15 +30,15 @@ class EditParamEditItemBool extends EditParamEditItemBase
         
         mc = new EditorEditItemBool();
         
-        mc.editorItem = this;
+        (untyped mc).editorItem = this;
         
         (untyped mc).displayText.text = op.name;
         
         (untyped mc).displayText.mouseEnabled = false;
         
         
-        UI.AddBarebonesMCButton(mc.buttonTrue, TruePressed);
-        UI.AddBarebonesMCButton(mc.buttonFalse, FalsePressed);
+        UI.AddBarebonesMCButton((untyped mc).buttonTrue, TruePressed);
+        UI.AddBarebonesMCButton((untyped mc).buttonFalse, FalsePressed);
         
         UpdateButtons();
         

@@ -83,11 +83,11 @@ class EditModePlacement extends EditModeBase
             var rotvel = 0;
             if (delta > 0)
             {
-                rotvel = rv;
+                rotvel = Std.int(rv);
             }
             if (delta < 0)
             {
-                rotvel = -rv;
+                rotvel = Std.int(-rv);
             }
             
             PhysEditor.UndoTakeSnapshot();
@@ -99,11 +99,11 @@ class EditModePlacement extends EditModeBase
             var rotvel = 0;
             if (delta > 0)
             {
-                rotvel = rv;
+                rotvel = Std.int(rv);
             }
             if (delta < 0)
             {
-                rotvel = -rv;
+                rotvel = Std.int(-rv);
             }
             
             PhysEditor.UndoTakeSnapshot();

@@ -103,7 +103,7 @@ class TextRenderer
     
     public static function GetStringHeight(str : String) : Int
     {
-        return GetStringDimensions(str).height;
+        return Std.int(GetStringDimensions(str).height);
     }
     public static function GetStringDimensions(str : String) : Rectangle
     {

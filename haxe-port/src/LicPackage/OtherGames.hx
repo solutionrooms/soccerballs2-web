@@ -232,10 +232,10 @@ class OtherGames
                     var ro : Dynamic = Reflect.field(otherGamesList, Std.string(list[i]));
                     
                     var button : MovieClip = try cast(mc.getChildByName("game" + as3hx.Compat.parseInt(i + 1)), MovieClip) catch(e:Dynamic) null;
-                    button.nameText.text = ro.display;
+                    (untyped button).nameText.text = ro.display;
                     button.useHandCursor = true;
                     button.buttonMode = true;
-                    button.linkName = ro.name;
+                    (untyped button).linkName = ro.name;
                     button.addEventListener(MouseEvent.CLICK, OtherGamesPanel_ClickGameText);
                 }
             }
@@ -258,7 +258,7 @@ class OtherGames
                     var buttonMC : MovieClip = mc[ro.button];
                     UI.AddMCButton(buttonMC, OtherGamesPanel_ClickGame, null, OtherGamesPanel_Hover, OtherGamesPanel_Out);
                     
-                    buttonMC.nameHolder.visible = false;
+                    (untyped buttonMC).nameHolder.visible = false;
                 }
             }
             
@@ -270,12 +270,12 @@ class OtherGames
     public static function OtherGamesPanel_Hover(e : MouseEvent)
     {
         var buttonMC : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        buttonMC.nameHolder.visible = true;
+        (untyped buttonMC).nameHolder.visible = true;
     }
     public static function OtherGamesPanel_Out(e : MouseEvent)
     {
         var buttonMC : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        buttonMC.nameHolder.visible = false;
+        (untyped buttonMC).nameHolder.visible = false;
     }
     
     public static function RandBetweenInt(r0 : Int, r1 : Int) : Int
@@ -461,7 +461,7 @@ class OtherGames
     
     public static function OtherGamesPanel_ClickGameText(e : MouseEvent)
     {
-        var name : String = e.currentTarget.linkName;
+        var name : String = (untyped e.currentTarget).linkName;
         DoLinkFromName(name);
     }
     

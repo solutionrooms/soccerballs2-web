@@ -49,8 +49,8 @@ class DisplayObjFrame
         sourceRect.width = as3hx.Compat.parseFloat(x.att.sourceRectW);
         sourceRect.height = as3hx.Compat.parseFloat(x.att.sourceRectH);
         point = new Point();
-        point.x = x.att.point.x;
-        point.y = x.att.point.y;
+        point.x = 0;
+        point.y = 0;
         s3dTexPageIndex = as3hx.Compat.parseInt(x.att.s3dTexPageIndex);
         u0 = as3hx.Compat.parseFloat(x.att.u0);
         v0 = as3hx.Compat.parseFloat(x.att.v0);
@@ -182,7 +182,7 @@ class DisplayObjFrame
     
     public function CreateStandalone(bd : BitmapData, xoff : Float, yoff : Float, reuse : Bool = false)
     {
-        if (bitmapData != null = null)
+        if (bitmapData != null)
         {
             return;
         }

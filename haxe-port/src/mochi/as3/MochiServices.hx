@@ -193,7 +193,7 @@ class MochiServices
             flush(true);
             try
             {
-                _listenChannel.close();
+                (untyped _listenChannel).close();
             }
             catch (error : Error)
             {

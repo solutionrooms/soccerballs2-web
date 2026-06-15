@@ -93,13 +93,13 @@ class EditParams
         ClearParameterListBox();
         
         listBoxContainer = new EditParamListBox();
-        listBoxContainer.closed_function = ListBoxClosed;
+        (untyped listBoxContainer).closed_function = ListBoxClosed;
         
         PhysEditor.editorMC.addChild(listBoxContainer);
         
         listBoxContainer.x = Defs.editor_x;
         
-        listBoxContainer.SetParameters(objParameters);
+        (untyped listBoxContainer).SetParameters(objParameters);
     }
     
     public static function ListBoxClosed()
@@ -132,9 +132,9 @@ class EditParams
             return;
         }
         var cr : CellRenderer = try cast(list.itemToCellRenderer(event.item), CellRenderer) catch(e:Dynamic) null;
-        var listData : ListData = cr.listData;
+        var listData : ListData = (untyped cr).listData;
         
-        currentParamIndex = listData.row;
+        currentParamIndex = (untyped listData).row;
         CurrentAdjustObject_EnterParameter();
     }
     
@@ -310,7 +310,7 @@ class EditParams
         
         comboBox.selectedIndex = selectedIndex;
         
-        comboBox.prompt = text;
+        (untyped comboBox).prompt = text;
         comboBox.addEventListener(Event.CHANGE, AddComboBoxEntry_changeHandler, false, 0, true);
         
         
@@ -321,7 +321,7 @@ class EditParams
         Game.main.stage.focus = null;
         PhysEditor.isEntering = false;
         ComboBox_RemoveHandlers();
-        comboBox.close();
+        (untyped comboBox).close();
         RemoveEntryMC();
     }
     public static function ComboBox_RemoveHandlers()

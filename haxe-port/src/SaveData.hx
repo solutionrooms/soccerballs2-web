@@ -32,11 +32,11 @@ class SaveData
         if (so.size == 0)
         {
             trace("Shared Object: " + id + " size 0");
-            so.close();
+            (untyped so).close();
             return false;
         }
         
-        so.close();
+        (untyped so).close();
         return true;
     }
     
@@ -55,7 +55,7 @@ class SaveData
         if (so.size == 0)
         {
             trace("Shared Object: " + id + " size=0");
-            so.close();
+            (untyped so).close();
             return;
         }
         
@@ -67,7 +67,7 @@ class SaveData
         Game.cash = so.data.cash;
         Game.currentScore = so.data.score;
         
-        so.close();
+        (untyped so).close();
         Utils.print("Loaded data OK");
     }
     
@@ -85,7 +85,7 @@ class SaveData
         }
         var so : SharedObject = SharedObject.getLocal(id);
         so.clear();
-        so.close();
+        (untyped so).close();
         so.flush();
         trace("SaveData Data Cleared");
         trace("len: " + so.size);
@@ -124,7 +124,7 @@ class SaveData
         so.data.score = Game.currentScore;
         
         
-        so.close();
+        (untyped so).close();
     }
 }
 

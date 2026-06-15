@@ -276,7 +276,7 @@ class PhysicsBase
                         {
                             var go : GameObj = GameObjects.AddObj(cx, cy, 0);
                             go.InitPhysicsLineObject_Nape(line, b);
-                            thisud.gameObjectIndex = go.listIndex;
+                            thisud.gameObjectIndex = (untyped go).listIndex;
                             b.userData.data = thisud;
                         }
                         else
@@ -385,7 +385,7 @@ class PhysicsBase
             var bud : PhysObjBodyUserData = new PhysObjBodyUserData();
             bud.type = objName;
             bud.bodyName = body.name;
-            bud.gameObjectIndex = go.listIndex;
+            bud.gameObjectIndex = (untyped go).listIndex;
             if (go.isIndependant == true)
             {
                 bud.gameObjectIndex = -1;

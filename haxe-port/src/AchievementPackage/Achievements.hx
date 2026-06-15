@@ -35,8 +35,8 @@ class Achievements
             ach.name = XmlHelper.GetAttrString(ax.att.name, "undefined");
             ach.description = XmlHelper.GetAttrString(ax.att.desc, "undefined");
             ach.toUnlockText = XmlHelper.GetAttrString(ax.att.tounlock, "undefined");
-            ach.completeFunction = XmlHelper.GetAttrString(ax.node.pass.innerData.att.func, "");
-            ach.completeFunctionParams = XmlHelper.GetAttrString(ax.node.pass.innerData.att.params, "");
+            ach.completeFunction = XmlHelper.GetAttrString(ax.node.pass.att.func, "");
+            ach.completeFunctionParams = XmlHelper.GetAttrString(ax.node.pass.att.params, "");
             
             ach.name = GetFullString(ach.name);
             ach.description = GetFullString(ach.description);
@@ -317,7 +317,7 @@ class Achievements
         
         var index : Int = 0;
         
-        for (b/* AS3HX WARNING could not determine type for var: b exp: EField(EIdent(o),completes) type: null */ in o.completes)
+        for (b/* AS3HX WARNING could not determine type for var: b exp: EField(EIdent(o),completes) type: null */ in (o.completes : Array<Dynamic>))
         {
             list[index].complete = b;
             index++;

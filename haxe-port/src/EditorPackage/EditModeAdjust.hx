@@ -749,7 +749,7 @@ class EditModeAdjust extends EditModeBase
             {
                 var ob : EdPlacementObj = currentPlacementObject;
                 physObj = Game.objectDefs.FindByName(ob.typeName);
-                var p : Point = PhysEditor.GetMapPos(ob.xpos + ob.xoff, ob.ypos + ob.yoff);
+                var p : Point = PhysEditor.GetMapPos(Std.int(ob.xpos + ob.xoff), Std.int(ob.ypos + ob.yoff));
                 PhysObj.RenderAt(physObj, p.x, p.y, ob.rot, ob.scale * PhysEditor.zoom, bd, PhysEditor.linesScreen.graphics, true);
             }
         }

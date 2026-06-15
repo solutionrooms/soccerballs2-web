@@ -174,9 +174,9 @@ class MP3Parser extends EventDispatcher
         switch (actualVersion)
         {
             case 2:
-                sampleRate /= 2;
+                sampleRate = Std.int(sampleRate / 2);
             case 2.5:
-                sampleRate /= 4;
+                sampleRate = Std.int(sampleRate / 4);
         }
     }
     public function getFrameSize(headerBytes : Int) : Int
@@ -195,9 +195,9 @@ class MP3Parser extends EventDispatcher
         switch (actualVersion)
         {
             case 2:
-                sampleRate /= 2;
+                sampleRate = Std.int(sampleRate / 2);
             case 2.5:
-                sampleRate /= 4;
+                sampleRate = Std.int(sampleRate / 4);
         }
         var bitRatesYIndex : Int = as3hx.Compat.parseInt((((actualVersion == 1)) ? 0 : 1) * bitRates.length / 2);
         var actualBitRate : Int = as3hx.Compat.parseInt(bitRates[bitRatesYIndex + bitRate] * 1000);

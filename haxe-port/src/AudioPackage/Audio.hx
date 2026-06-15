@@ -521,7 +521,7 @@ class Audio
         StopAllMusic();
         
         var mp3 : Sound = new Sound();
-        mp3.extract(data, 10000);
+        (untyped mp3).extract(data, 10000);
         mp3.play(0, 999999);
     }
 }

@@ -225,7 +225,6 @@ class Game
         GameVars.InitHierarchies();
         
         
-        s3d.InitOnce(InitOnceA);
     }
     
     public static function InitOnceA()
@@ -2273,7 +2272,7 @@ class Game
                 i++;
             }
         }
-        zorder.sortOn("zpos", Array.NUMERIC | Array.DESCENDING);
+        Sort.numericDesc(zorder, "zpos");
         
         EngineDebug.EndTimer("sort");
         
@@ -2441,7 +2440,7 @@ class Game
         }
         
         
-        go = HitTestPhysObjGraphics(mx, my);
+        var go : GameObj = HitTestPhysObjGraphics(mx, my);
         if (go != null)
         {
             if (go.onClickedFunction != null)
@@ -2477,7 +2476,7 @@ class Game
             buttonClickedThisUpdate = true;
             
             var go : GameObj;
-            go = HitTestPhysObjGraphics(mx, my);
+            var go : GameObj = HitTestPhysObjGraphics(mx, my);
             if (go != null)
             {
                 if (go.onClickedFunction != null)
@@ -2757,15 +2756,15 @@ class Game
             dy += grav;
             if (x < -10)
             {
-                i = 99999;
+                break;
             }
             if (x > Defs.displayarea_w + 10)
             {
-                i = 99999;
+                break;
             }
             if (y > Defs.displayarea_h)
             {
-                i = 99999;
+                break;
             }
         }
         
@@ -2920,15 +2919,15 @@ class Game
             dy += grav;
             if (x < -10)
             {
-                i = 99999;
+                break;
             }
             if (x > Defs.displayarea_w + 10)
             {
-                i = 99999;
+                break;
             }
             if (y > Defs.displayarea_h)
             {
-                i = 99999;
+                break;
             }
         }
         

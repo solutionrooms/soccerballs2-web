@@ -20,7 +20,7 @@ class UIHelpScreen extends UIScreenInstance
     override public function InitScreen()
     {
         UI.AddMCButton(titleMC.buttonPrev, PrevPressed);
-        UI.AddMCButton(titleMC.buttonNext, NextPressed);
+        UI.AddMCButton((untyped titleMC).buttonNext, NextPressed);
         UI.AddMCButton(titleMC.buttonOK, OKPressed);
         
         numHelpPages = titleMC.totalFrames;
@@ -38,10 +38,10 @@ class UIHelpScreen extends UIScreenInstance
         {
             titleMC.buttonPrev.visible = false;
         }
-        titleMC.buttonNext.visible = true;
+        (untyped titleMC).buttonNext.visible = true;
         if (helpPage == numHelpPages - 1)
         {
-            titleMC.buttonNext.visible = false;
+            (untyped titleMC).buttonNext.visible = false;
         }
     }
     

@@ -43,7 +43,7 @@ class UIArcade extends UIScreenInstance
         titleMC.gotoAndStop(1);
         
         UI.AddAnimatedMCButton(titleMC.buttonQuit, buttonBackPressed, null, true);
-        UI.AddAnimatedMCButton(titleMC.overlay.buttonStart, buttonStartPressed, null, true);
+        UI.AddAnimatedMCButton((untyped titleMC).overlay.buttonStart, buttonStartPressed, null, true);
         
         MiniGame.Init(titleMC);
         
@@ -54,9 +54,9 @@ class UIArcade extends UIScreenInstance
         titleMC.addEventListener(Event.ENTER_FRAME, OnEnterFrame);
         
         
-        Lic.AnimatedMCMoreGamesButton(titleMC.overlay.buttonMoreGames, "minigame");
+        Lic.AnimatedMCMoreGamesButton((untyped titleMC).overlay.buttonMoreGames, "minigame");
         
-        titleMC.overlay.textBestScore.text = "Your Best Score: " + (untyped MiniGame).highscore;
+        (untyped titleMC).overlay.textBestScore.text = "Your Best Score: " + (untyped MiniGame).highscore;
     }
     
     public function OnEnterFrame(e : Event)

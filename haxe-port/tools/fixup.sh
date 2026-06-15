@@ -76,7 +76,7 @@ echo "==> fixup: AS3 dynamic-MovieClip property access (OpenFL MovieClip is seal
 # Wrap accesses to game-attached custom props in 'untyped' so the typechecker allows them; the
 # Dynamic then propagates down the chain. (?<![.\\w]) ensures we only wrap a real base variable,
 # never a mid-chain field name. List grows as the compiler surfaces more dynamic props.
-DPROPS='buttonAnimation|ButtonContinue|buttonName|ButtonRestart|canClick|clickCallback|helpText|hoverCallback|mainArea|reorderWhenOver|textTitle|useTick|tickState|buttonText|languageID|helpString|toggleIcon|screenA|screenB|debugArea|buttonVisible|buttonSelected|buttonLocked|_overCB|_outCB|_clickCB|editorLayer|displayText|achievement|adBox|awayTeam|btn_back|btn_continue|btn_feature1|btn_feature2|btn_feature3|btn_feature4|btn_head|btn_modify|btn_moregames|btn_musicMute|btn_next|btn_no|btn_pattern|btn_pick0|btn_pick1|btn_playgame|btn_PlayWithHighcores|btn_prequel|btn_sfxMute|btn_shirt|btn_shirtHoops|btn_shirtPlain|btn_shirtStripes|btn_shorts|btn_socks|btn_submit|btn_walkthrough|btn_yes|buttonBack|buttonFastForward|buttonLevelSelect|buttonPlayWithHighcores|ButtonQuit|buttonSkipCPMStarAd|canPress|coinBox|coinpercent|coins|coinsCollected|color|colorIndex|cup|gold|greystar|head|headIndex|highlight|highscore|homeTeam|hoops|info1|info2|info3|info4|inner|itemIndex|kit|levelComplete|levelID|levelName|levelNameText|levelNumber|levelrating|link_longAnimals|link_robotJam|loaderBar|logo_soccerballs|mainLogo|nextPage|numberText|palette|palette0|palette1|palette2|palette3|popup|prevPage|progressBar|scoreText1|scoreText2|screenIndex|selected|shirt|shorts|socks|stripes|teamIndex|textComputer|textDescription|textInfo|textLevelCreator|textLevelName|textName|textNumGold|textPlayer|textQuestion|textScore|textTeamName|textTeamName0|textTeamName1|textTick|tick|title|trophies|turboBtn'
+DPROPS='buttonAnimation|ButtonContinue|buttonName|ButtonRestart|canClick|clickCallback|helpText|hoverCallback|mainArea|reorderWhenOver|textTitle|useTick|tickState|buttonText|languageID|helpString|toggleIcon|screenA|screenB|debugArea|buttonVisible|buttonSelected|buttonLocked|_overCB|_outCB|_clickCB|editorLayer|displayText|achievement|adBox|awayTeam|btn_back|btn_continue|btn_feature1|btn_feature2|btn_feature3|btn_feature4|btn_head|btn_modify|btn_moregames|btn_musicMute|btn_next|btn_no|btn_pattern|btn_pick0|btn_pick1|btn_playgame|btn_PlayWithHighcores|btn_prequel|btn_sfxMute|btn_shirt|btn_shirtHoops|btn_shirtPlain|btn_shirtStripes|btn_shorts|btn_socks|btn_submit|btn_walkthrough|btn_yes|buttonBack|buttonFastForward|buttonLevelSelect|buttonPlayWithHighcores|ButtonQuit|buttonSkipCPMStarAd|canPress|coinBox|coinpercent|coins|coinsCollected|color|colorIndex|cup|gold|greystar|head|headIndex|highlight|highscore|homeTeam|hoops|info1|info2|info3|info4|inner|itemIndex|kit|levelComplete|levelID|levelName|levelNameText|levelNumber|levelrating|link_longAnimals|link_robotJam|loaderBar|logo_soccerballs|mainLogo|nextPage|numberText|palette|palette0|palette1|palette2|palette3|popup|prevPage|progressBar|scoreText1|scoreText2|screenIndex|selected|shirt|shorts|socks|stripes|teamIndex|textComputer|textDescription|textInfo|textLevelCreator|textLevelName|textName|textNumGold|textPlayer|textQuestion|textScore|textTeamName|textTeamName0|textTeamName1|textTick|tick|title|trophies|turboBtn|anglePointer|btn_clearSaveGame|btn_credits|btn_download|btn_facebook|btn_language|btn_localMusic|btn_y8|button1|button2|button3|button4|buttonCancel|buttonElipsis|buttonFalse|buttonMinus|buttonNext|buttonPlus|buttonPrevious|buttonTrue|close|closed_function|displayBox|editorItem|extract|helpClip|inputText|linkName|listData|listIndex|nameHolder|nameText|outCallback|overlay|prompt|row|SetParameters'
 find "$DIR" -name '*.hx' -exec perl -i -pe "s/(?<![.\\w])([A-Za-z_]\\w*(?:\\.[A-Za-z_]\\w*)*)\\.($DPROPS)\\b/(untyped \$1).\$2/g" {} +
 
 echo "==> fixup: widen ALL private -> public (AS3 internal/default became Haxe private; visibility is"
@@ -130,7 +130,7 @@ find "$DIR" -name '*.hx' -exec perl -i -pe 's/, _hoverCallback\)/, _hoverCallbac
 # OpenFL TextFormat.size is Null<Int> (AS3 Number); truncate on assign (AS3-faithful)
 perl -i -pe 's/tFormat\.size = size;/tFormat.size = Std.int(size);/' "$DIR/textPackage/TextStrings.hx" 2>/dev/null || true
 # s3d.SetVisible: Stage3D layer toggle, dead with useStage3D=false (lowercase s3d resolves as a package path) -> drop
-find "$DIR" -name '*.hx' -exec perl -i -ne 'print unless /^\s*s3d\.SetVisible\(/' {} +
+find "$DIR" -name '*.hx' -exec perl -i -ne 'print unless /^\s*s3d\.(SetVisible|InitOnce)\(/' {} +
 
 echo "==> fixup: AS3 Number->int coercions where Haxe wants Int (Std.int = AS3 ToInt32 truncation, faithful)"
 perl -i -pe '
@@ -154,5 +154,59 @@ perl -i -pe 's/l\.name\.match\("Boss"\)/new EReg("Boss", "").match(l.name)/' "$D
 perl -i -pe 's/ in body\.shapes\)/ in (body.shapes : Array<Dynamic>))/' "$DIR/PhysicsBase.hx" 2>/dev/null || true
 # EditModeLibrary: field initializer cannot reference sibling field boxNumW/H -> inline their constant values
 perl -i -pe 's#Defs\.displayarea_w / boxNumW;#Defs.displayarea_w / 5;#; s#Defs\.displayarea_h / boxNumH;#Defs.displayarea_h / 4;#' "$DIR/editorPackage/EditModeLibrary.hx" 2>/dev/null || true
+
+echo "==> fixup: restore var declarations as3hx dropped (AS3 function-scoping / first-assignment) + dead Stage3D residue"
+perl -i -pe 's/^(\s*)go = HitTestPhysObjGraphics\(mx, my\);/$1var go : GameObj = HitTestPhysObjGraphics(mx, my);/' "$DIR/Game.hx" 2>/dev/null || true
+perl -i -pe 's/^(\s*)gl = layers\[i\];/$1var gl : GameLayer = layers[i];/' "$DIR/editorPackage/GameLayers.hx" 2>/dev/null || true
+perl -i -pe 's/^(\s*)numPerLine = 600;/$1var numPerLine : Int = 600;/' "$DIR/editorPackage/PhysEditor.hx" 2>/dev/null || true
+perl -i -pe 's/^(\s*)tfIndex = 0;/$1var tfIndex : Int = 0;/' "$DIR/TexturePages.hx" 2>/dev/null || true
+# dead Stage3D (useStage3D=false): s3d.context3D is unreachable; lowercase s3d won't resolve -> typed null
+perl -i -pe 's/s3d\.context3D/(null : openfl.display3D.Context3D)/g' "$DIR/TexturePage.hx" "$DIR/TexturePages.hx" 2>/dev/null || true
+# dead Stage3D upload after the (real, blitting) loop, referencing the now-out-of-scope loop var
+find "$DIR" -name '*.hx' -exec perl -i -ne 'print unless /^\s*dof\.s3dTexture\.uploadFromBitmapData\(bd\);/' {} +
+# PhysObj joints loop reuses the (AS3 function-scoped) typename -> give it a local declaration
+perl -i -pe 's/^(\s*)typename = jx\.att\.type;/$1var typename : String = jx.att.type;/' "$DIR/PhysObj.hx" 2>/dev/null || true
+# Grass.PreRenderLines: AS3 hoists x1; it is read in boundingRect one line before its 'var x1' (so =0 on the
+# first pass, carrying the previous segment's value after) -> hoist to fn scope =0, keep it faithful
+perl -i -pe 's/^(\s*)(var x0 : Int = as3hx\.Compat\.parseInt\(minX\);)/$1var x1 : Int = 0;\n$1$2/; s/^(\s*)var x1 : Int = x0 \+ segWidth;/$1x1 = x0 + segWidth;/' "$DIR/Grass.hx" 2>/dev/null || true
+
+echo "==> fixup: AS3 Array.sortOn / String.concat / Mouse cursor / iterate-on-Dynamic"
+# Array.sortOn("field", NUMERIC|DESCENDING) -> faithful numeric-descending z-order sort
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/(\w+)\.sortOn\("(\w+)", Array\.NUMERIC \| Array\.DESCENDING\)/Sort.numericDesc($1, "$2")/g' {} +
+# AS3 String.concat(x) -> Haxe string '+'
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/(\w+|"[^"]*")\.concat(\((?:[^()]++|(?2))*\))/"(" . $1 . " + " . substr($2,1,-1) . ")"/ge' {} +
+# custom hardware cursor (cosmetic) — drop the registerCursor calls; MouseCursorData stays a stub
+find "$DIR" -name '*.hx' -exec perl -i -ne 'print unless /^\s*Mouse\.registerCursor\(/' {} +
+# iterate over Dynamic-typed array fields -> annotate the collection type
+perl -i -pe 's/ in line\.points\)/ in (line.points : Array<Dynamic>))/' "$DIR/editorPackage/PhysEditor.hx" 2>/dev/null || true
+perl -i -pe 's/ in o\.TrophiesCollected\)/ in (o.TrophiesCollected : Array<Dynamic>))/; s/ in o\.coinsTable\)/ in (o.coinsTable : Array<Dynamic>))/' "$DIR/GameVars.hx" 2>/dev/null || true
+perl -i -pe 's/ in o\.completes\)/ in (o.completes : Array<Dynamic>))/' "$DIR/achievementPackage/Achievements.hx" 2>/dev/null || true
+perl -i -pe 's/ in go1\.switchContactList\)/ in (go1.switchContactList : Array<Dynamic>))/' "$DIR/Collision.hx" 2>/dev/null || true
+
+echo "==> fixup: remaining individual as3hx artefacts (E4X grandchild chains, while(1), loop-break, etc.)"
+# E4X grandchild chains a.X.Y -> node/nodes (general; same mis-conversion seen in ExternalData/Levels)
+find "$DIR" -name '*.hx' -exec perl -i -pe '
+  s/\.node\.(\w+)\.innerData\.node\.(\w+)\.innerData\.length\(\)/.node.$1.nodes.$2.length()/g;
+  s/\.nodes\.(\w+)\.node\.(\w+)\.innerData\[i\]/.node.$1.nodes.$2.get(i)/g;
+  s/\.node\.(\w+)\.innerData\.att\./.node.$1.att./g;
+' {} +
+# AS3 while(1) -> while(true). The ((1)); form is a do-while terminator (keep ;, no braces).
+find "$DIR" -name '*.hx' -exec perl -i -pe 's/\bwhile \(\(1\)\);/while (true);/g; s/\bwhile \(1\)\b/while (true)/g' {} +
+# AS3 'i = 99999' loop-exit on an immutable Haxe for-loop var -> break
+perl -i -pe 's/^(\s*)i = 99999;/$1break;/' "$DIR/Game.hx" 2>/dev/null || true
+# as3hx doubled comparison 'x != null = null' -> 'x != null'
+perl -i -pe 's/if \(bitmapData != null = null\)/if (bitmapData != null)/' "$DIR/DisplayObjFrame.hx" 2>/dev/null || true
+# DisplayObjFrame: original reads a non-existent "point" attribute (data uses pointX/pointY, all 0) -> point stays (0,0)
+perl -i -pe 's/point\.x = x\.att\.point\.x;/point.x = 0;/; s/point\.y = x\.att\.point\.y;/point.y = 0;/' "$DIR/DisplayObjFrame.hx" 2>/dev/null || true
+# AS3 String.search(literal) -> indexOf
+perl -i -pe 's/type\.search\("pickup_trophy_"\)/type.indexOf("pickup_trophy_")/' "$DIR/Levels.hx" 2>/dev/null || true
+# EdConsole: as3hx double-indexed the splice; splice at the already-computed index
+perl -i -pe 's/activeList\.splice\(Lambda\.indexOf\(activeList, index\), 1\)/activeList.splice(index, 1)/' "$DIR/editorPackage/EdConsole.hx" 2>/dev/null || true
+# LicDef: AS3 truthiness coercions of a URL param / Number
+perl -i -pe 's/kongregateEmbedFlag = stg\.stage\.loaderInfo\.parameters\.kongregate;/kongregateEmbedFlag = stg.stage.loaderInfo.parameters.kongregate != null;/' "$DIR/licPackage/LicDef.hx" 2>/dev/null || true
+# TexturePages: AS3 Array.sort returns the array & comparator may return Number; Haxe sort is void / needs Int
+perl -i -pe 's/function SortArea\(x : DisplayObjFrame, y : DisplayObjFrame\) : Float/function SortArea(x : DisplayObjFrame, y : DisplayObjFrame) : Int/; s/dobjFrames = dobjFrames\.sort\(SortArea\);/dobjFrames.sort(SortArea);/' "$DIR/TexturePages.hx" 2>/dev/null || true
+# AS3 Array.push(a,b,c,...) (rest args) -> Haxe single-arg: append via concat
+find "$DIR" -name '*.hx' -exec perl -0777 -i -pe '1 while s/(\w+)\.push\(((?:[^()]++|(\([^()]*\)))*,(?:[^()]++|(\([^()]*\)))*)\)/$1 = $1.concat([$2])/g' {} +
 
 echo "==> fixup done in $DIR"

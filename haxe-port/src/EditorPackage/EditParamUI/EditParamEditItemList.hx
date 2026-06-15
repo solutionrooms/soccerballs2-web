@@ -32,15 +32,15 @@ class EditParamEditItemList extends EditParamEditItemBase
         
         mc = new EditorEditItemList();
         
-        mc.editorItem = this;
+        (untyped mc).editorItem = this;
         
         (untyped mc).displayText.text = op.name;
-        mc.inputText.text = op.value;
+        (untyped mc).inputText.text = op.value;
         
         (untyped mc).displayText.mouseEnabled = false;
-        mc.inputText.mouseEnabled = false;
+        (untyped mc).inputText.mouseEnabled = false;
         
-        UI.AddButton(mc.buttonElipsis, ElipsisPressed);
+        UI.AddButton((untyped mc).buttonElipsis, ElipsisPressed);
         
         mc.filters = [];
         if (_op.multipleValues)
@@ -81,12 +81,12 @@ class EditParamEditItemList extends EditParamEditItemBase
             
             var item : MovieClip = new EditorEditItemListItem();
             (untyped item).displayText.text = itemString;
-            item.listIndex = i;
+            (untyped item).listIndex = i;
             item.buttonMode = true;
             item.useHandCursor = true;
             item.addEventListener(MouseEvent.CLICK, PopupClicked, false, 0, true);
             
-            item.displayBox.visible = false;
+            (untyped item).displayBox.visible = false;
             
             (untyped item).displayText.mouseEnabled = false;
             (untyped item).highlight.visible = false;
@@ -100,7 +100,7 @@ class EditParamEditItemList extends EditParamEditItemBase
             
             item.x = 10;
             item.y = y;
-            y += item.height;
+            y = Std.int(y + item.height);
         }
         mc.parent.addChild(popup);
     }
@@ -108,10 +108,10 @@ class EditParamEditItemList extends EditParamEditItemBase
     public function PopupClicked(e : MouseEvent)
     {
         var item : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
-        Utils.print("pressed " + item.listIndex);
+        Utils.print("pressed " + (untyped item).listIndex);
         CloseListPopup();
         
-        mc.inputText.text = (untyped item).displayText.text;
+        (untyped mc).inputText.text = (untyped item).displayText.text;
         CopyValueToParameter();
     }
 }

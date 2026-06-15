@@ -56,7 +56,7 @@ class TexturePages
         }
         return 0;
     }
-    public static function SortArea(x : DisplayObjFrame, y : DisplayObjFrame) : Float
+    public static function SortArea(x : DisplayObjFrame, y : DisplayObjFrame) : Int
     {
         var a0 : Float = x.bitmapData.width * x.bitmapData.height;
         var a1 : Float = y.bitmapData.width * y.bitmapData.height;
@@ -91,7 +91,7 @@ class TexturePages
         if (Game.loadTextureFiles)
         {
             return;
-            tfIndex = 0;
+            var tfIndex : Int = 0;
             var mc : MovieClip = new TexturePagesMC();
             for (i in 1...mc.totalFrames + 1)
             {
@@ -101,7 +101,7 @@ class TexturePages
                 var rect : Rectangle = mc.getBounds(null);
                 var BD : BitmapData = new BitmapData(Std.int((rect.width)), Std.int((rect.height)), true, 0);
                 BD.draw(mc, null, null, null, null, false);
-                currentTP.s3dTexture = s3d.context3D.createTexture(rect.width, rect.height, Context3DTextureFormat.BGRA, true);
+                currentTP.s3dTexture = (null : openfl.display3D.Context3D).createTexture(Std.int(rect.width), Std.int(rect.height), Context3DTextureFormat.BGRA, true);
                 currentTP.s3dTexture.uploadFromBitmapData(BD);
                 BD.dispose();
                 BD = null;
@@ -114,7 +114,7 @@ class TexturePages
         
         
         
-        dobjFrames = dobjFrames.sort(SortArea);
+        dobjFrames.sort(SortArea);
         
         
         

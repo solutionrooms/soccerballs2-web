@@ -49,7 +49,7 @@ class GameLayers
             var s : String = "";
             for (i in 0...layers.length)
             {
-                gl = layers[i];
+                var gl : GameLayer = layers[i];
                 s += gl.name;
                 if (i != layers.length - 1)
                 {

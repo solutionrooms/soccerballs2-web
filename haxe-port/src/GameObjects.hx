@@ -164,7 +164,7 @@ class GameObjects
                 i++;
             }
         }
-        zorder.sortOn("zpos", Array.NUMERIC | Array.DESCENDING);
+        Sort.numericDesc(zorder, "zpos");
         
         EngineDebug.EndTimer("sort");
         
@@ -195,7 +195,7 @@ class GameObjects
                 i++;
             }
         }
-        zorder.sortOn("zpos", Array.NUMERIC | Array.DESCENDING);
+        Sort.numericDesc(zorder, "zpos");
         
         EngineDebug.EndTimer("sort");
         
@@ -230,7 +230,7 @@ class GameObjects
                 i++;
             }
         }
-        zorder.sortOn("zpos", Array.NUMERIC | Array.DESCENDING);
+        Sort.numericDesc(zorder, "zpos");
         
         EngineDebug.EndTimer("sort");
         

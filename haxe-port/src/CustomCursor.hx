@@ -43,7 +43,6 @@ class CustomCursor
         }
         cursorData.data = bitmapDatas;
         cursorData.frameRate = 30;
-        Mouse.registerCursor("pointer", cursorData);
         
         var dobj : DisplayObj = GraphicObjects.GetDisplayObjByName("Cursor_CanPress");
         cursorData = new MouseCursorData();
@@ -55,7 +54,6 @@ class CustomCursor
         }
         cursorData.data = bitmapDatas;
         cursorData.frameRate = 30;
-        Mouse.registerCursor("canpress", cursorData);
         
         var dobj : DisplayObj = GraphicObjects.GetDisplayObjByName("Cursor_Pointer_CantPress");
         cursorData = new MouseCursorData();
@@ -67,7 +65,6 @@ class CustomCursor
         }
         cursorData.data = bitmapDatas;
         cursorData.frameRate = 30;
-        Mouse.registerCursor("cantpress", cursorData);
     }
 }
 

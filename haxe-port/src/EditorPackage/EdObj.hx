@@ -84,7 +84,7 @@ class EdObj extends EditableObjectBase
     override public function RenderHighlighted(highlightType : Int) : Void
     {
         var po : PhysObj = Game.objectDefs.FindByName(typeName);
-        var p : Point = PhysEditor.GetMapPos(x, y);
+        var p : Point = PhysEditor.GetMapPos(Std.int(x), Std.int(y));
         
         
         if (highlightType == HIGHLIGHT_HOVER)
@@ -114,7 +114,7 @@ class EdObj extends EditableObjectBase
                 }
                 else
                 {
-                    var p : Point = PhysEditor.GetMapPos(x, y);
+                    var p : Point = PhysEditor.GetMapPos(Std.int(x), Std.int(y));
                     PhysObj.RenderAt(po, p.x, p.y, rot, scale * PhysEditor.zoom, PhysEditor.screenBD, PhysEditor.linesScreen.graphics, true);
                 }
             }

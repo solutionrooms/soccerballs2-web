@@ -43,9 +43,9 @@ class UITitleScreen extends UIScreenInstance
         titleMC.gotoAndStop(1);
         
         UI.AddAnimatedMCButton((untyped titleMC).btn_playgame, buttonContinuePressed, null, true);
-        UI.AddAnimatedMCButton(titleMC.btn_credits, buttonCreditsPressed, null, true);
-        UI.AddAnimatedMCButton(titleMC.btn_clearSaveGame, buttonClearDataPopupPressed, null, true);
-        UI.AddMCButton(titleMC.btn_language, buttonLanguageSelectPressed);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_credits, buttonCreditsPressed, null, true);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_clearSaveGame, buttonClearDataPopupPressed, null, true);
+        UI.AddMCButton((untyped titleMC).btn_language, buttonLanguageSelectPressed);
         
         
         (untyped titleMC).logo_soccerballs.gotoAndStop(1);
@@ -55,7 +55,7 @@ class UITitleScreen extends UIScreenInstance
             (untyped titleMC.btn_prequel).buttonName.text = "Red Card 1";
         }
         
-        UI.AddAnimatedMCButton(titleMC.btn_clearSaveGame, buttonClearDataPopupPressed, null, true);
+        UI.AddAnimatedMCButton((untyped titleMC).btn_clearSaveGame, buttonClearDataPopupPressed, null, true);
         
         Lic.AnimatedMCPrequelButton((untyped titleMC).btn_prequel);
         
@@ -68,13 +68,13 @@ class UITitleScreen extends UIScreenInstance
         
         if (LicDef.GetLicensor() == LicDef.LICENSOR_KIZI)
         {
-            titleMC.btn_credits.visible = false;
+            (untyped titleMC).btn_credits.visible = false;
             (untyped titleMC).mainLogo.visible = false;
             KiziStuff.AddLogoAt(titleMC, 230, 190, 0.6);
         }
         if (LicDef.GetLicensor() == LicDef.LICENSOR_BEGAMER)
         {
-            titleMC.btn_credits.visible = false;
+            (untyped titleMC).btn_credits.visible = false;
         }
         
         
@@ -82,14 +82,14 @@ class UITitleScreen extends UIScreenInstance
         
         
         
-        Lic.AnimatedMCFacebookButton(titleMC.btn_facebook);
-        Lic.Y8LogoButton(titleMC.btn_y8);
-        Lic.AnimatedMCDownloadForYourSiteButton(titleMC.btn_download);
+        Lic.AnimatedMCFacebookButton((untyped titleMC).btn_facebook);
+        Lic.Y8LogoButton((untyped titleMC).btn_y8);
+        Lic.AnimatedMCDownloadForYourSiteButton((untyped titleMC).btn_download);
         
         
         if (false)
         {
-            UI.AddAnimatedMCButton(titleMC.btn_facebook, MobileTwitterPressed);
+            UI.AddAnimatedMCButton((untyped titleMC).btn_facebook, MobileTwitterPressed);
         }
     }
     
@@ -110,14 +110,14 @@ class UITitleScreen extends UIScreenInstance
     
     public function buttonUseLocalMusic(e : MouseEvent)
     {
-        titleMC.btn_localMusic.visible = false;
+        (untyped titleMC).btn_localMusic.visible = false;
         Utils.print("Play your own MP3 pressed");
         Audio.PlayLocalFile(ButtonPlayLocalMp3_Complete);
     }
     
     public function ButtonPlayLocalMp3_Complete()
     {
-        titleMC.btn_localMusic.visible = true;
+        (untyped titleMC).btn_localMusic.visible = true;
     }
     
     public function buttonUseGameMusic(e : MouseEvent)

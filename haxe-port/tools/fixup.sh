@@ -221,6 +221,10 @@ perl -i -pe 's/point\.x = x\.att\.point\.x;/point.x = 0;/; s/point\.y = x\.att\.
 # document factory). OpenFL runs Main directly and ignores that, so LicDef.stg stays null and the
 # UI's pervasive LicDef.GetStage().stage access crashes. Wire the on-stage root here (theRoot=this).
 perl -i -pe 's/^(\s*)theRoot = this;/$1theRoot = this;\n$1licPackage.LicDef.stg = this;/' "$DIR/Main.hx" 2>/dev/null || true
+# Fixed-timestep gate for the game loop. openfl HTML5 dispatches ENTER_FRAME every requestAnimationFrame
+# and does NOT honour stage.frameRate, so MainLoop (and game speed) would run at the display refresh
+# rate — far too fast on high-refresh / vsync-off machines. Gate it to Defs.fps (the original Flash rate).
+perl -0777 -i -pe 's/(    public function MainLoop\(e : Event\) : Void\n    \{\n)/    public static var __loopStamp : Float = -1;\n$1        var step : Float = 1.0 \/ Defs.fps;\n        var now : Float = haxe.Timer.stamp();\n        if (__loopStamp < 0) __loopStamp = now - step;\n        if ((now - __loopStamp) < step) return;\n        __loopStamp += step;\n        if ((now - __loopStamp) > step) __loopStamp = now;\n/' "$DIR/Main.hx" 2>/dev/null || true
 
 # SaveData.Load: AS3 coerces an undefined SharedObject field to 0 for an int field; Haxe leaves it
 # undefined (HUD shows "null"). Default the loaded int fields to 0.

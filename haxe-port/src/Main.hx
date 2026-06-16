@@ -261,16 +261,39 @@ class Main extends MovieClip
     
     public var useFrameSkip : Bool = true;
     
+    public static var debugLoopCount : Int = 0;
+    @:expose("sb2LoopCount") public static function sb2LoopCount() : Int { return debugLoopCount; }
+
+    // Fixed-timestep gate. openfl HTML5 dispatches ENTER_FRAME on every requestAnimationFrame and does
+    // NOT honour stage.frameRate, so the loop (and thus game speed) would run at the display refresh
+    // rate — far too fast on high-refresh / vsync-off machines. Gate the loop to Defs.fps so one update
+    // = 1/60 s of real time, matching the original Flash frame rate, independent of how fast rAF fires.
+    public static var __loopStamp : Float = -1;
+
     public function MainLoop(e : Event) : Void
     {
+        var step : Float = 1.0 / Defs.fps;
+        var now : Float = haxe.Timer.stamp();
+        if (__loopStamp < 0) __loopStamp = now - step;
+        if ((now - __loopStamp) < step)
+        {
+            return; // too soon since the last update -> cap at Defs.fps
+        }
+        __loopStamp += step;
+        if ((now - __loopStamp) > step)
+        {
+            __loopStamp = now; // fell behind (rAF slower than Defs.fps, or a stall) -> resync, no catch-up spiral
+        }
+
+        debugLoopCount++;
         KeyReader.UpdateOncePerFrame();
         Audio.UpdateOncePerFrame();
-        
+
         GameVars.InitForFrame();
-        
+
         RunLevel();
         GameVars.ExitForFrame();
-        
+
         calcFrameTime();
     }
 }

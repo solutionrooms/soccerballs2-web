@@ -42,3 +42,20 @@ else
 fi
 
 echo "swf haxelib patched at: $SWF_DIR"
+
+# ---- Patch 3: openfl Timeline — play-to-end-and-stop instead of looping --------------------------
+# openfl-swf does not run the SWF's AS3 frame scripts (the stop() at the end of one-shot animations),
+# so any clip gotoAndPlay()'d a slide-in/transition loops it forever (e.g. the level-failed screen
+# re-sliding every ~500ms). This game drives all real looping explicitly, so clamp the timeline at the
+# last frame instead of wrapping to 1.
+OPENFL_DIR="$(haxelib libpath openfl 2>/dev/null | tr -d '\r')"
+TIMELINE2="$OPENFL_DIR/src/openfl/display/Timeline.hx"
+if [ -f "$TIMELINE2" ]; then
+  if grep -q "PATCH (soccerballs2)" "$TIMELINE2"; then
+    echo "openfl Timeline: already patched."
+  else
+    # both wrap sites: "nextFrame = Math.floor((nextFrame - 1) % __totalFrames) + 1;" and "nextFrame = 1;"
+    perl -0777 -i -pe 's/(if \(nextFrame > __totalFrames\) )nextFrame = Math\.floor\(\(nextFrame - 1\) % __totalFrames\) \+ 1;/\/\/ PATCH (soccerballs2): clamp at last frame (no loop) — openfl-swf does not run frame-script stop()s.\n\t\t\t$1nextFrame = __totalFrames;/; s/(\t\t\tnextFrame = __currentFrame \+ 1;\n\t\t\tif \(nextFrame > __totalFrames\) )nextFrame = 1;/$1nextFrame = __totalFrames;/' "$TIMELINE2"
+    grep -q "PATCH (soccerballs2)" "$TIMELINE2" && echo "openfl Timeline: patched." || echo "WARN: openfl Timeline patch did not apply (already non-looping?)"
+  fi
+fi

@@ -348,6 +348,10 @@ class Main extends MovieClip
         Game.doKick = true; // player (state 1, aiming) picks this up next frame -> kick anim -> launch
     }
 
+    @:expose("sb2ForceFail") public static function sb2ForceFail() : Void {
+        GameVars.numKicks = GameVars.maxKicks; // next held-ball frame triggers the out-of-kicks fail
+    }
+
     @:expose("sb2BBox") public static function sb2BBox() : String {
         var r : Dynamic = Game.boundingRectangle;
         if (r == null) return "null";

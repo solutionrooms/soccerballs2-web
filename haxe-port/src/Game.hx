@@ -580,6 +580,7 @@ class Game
     
     public static function InitLevelState(s : Int)
     {
+        trace("[SB2] InitLevelState(" + s + ") successFlag=" + levelSuccessFlag + " gameState=" + gameState + " numKicks=" + GameVars.numKicks + "/" + GameVars.maxKicks);
         levelState = s;
         levelStateTimer = 0;
         if (levelState == levelState_LevelStart)

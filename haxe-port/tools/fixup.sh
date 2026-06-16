@@ -220,7 +220,7 @@ perl -i -pe 's/point\.x = x\.att\.point\.x;/point.x = 0;/; s/point\.y = x\.att\.
 # Main.NewInit4: the original SWF set LicDef.stg from the Preloader (its [Frame(factoryClass=...)]
 # document factory). OpenFL runs Main directly and ignores that, so LicDef.stg stays null and the
 # UI's pervasive LicDef.GetStage().stage access crashes. Wire the on-stage root here (theRoot=this).
-perl -i -pe 's/^(\s*)theRoot = this;/$1theRoot = this;\n$1licPackage.LicDef.stg = this;/' "$DIR/Main.hx" 2>/dev/null || true
+perl -i -pe 's/^(\s*)theRoot = this;/$1theRoot = this;\n$1licPackage.LicDef.stg = this;\n$1licPackage.LicDef.InitSkus();/' "$DIR/Main.hx" 2>/dev/null || true
 # Fixed-timestep gate for the game loop. openfl HTML5 dispatches ENTER_FRAME every requestAnimationFrame
 # and does NOT honour stage.frameRate, so MainLoop (and game speed) would run at the display refresh
 # rate — far too fast on high-refresh / vsync-off machines. Gate it to Defs.fps (the original Flash rate).

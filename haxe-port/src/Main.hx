@@ -66,9 +66,12 @@ class Main extends MovieClip
         theRoot = this;
         theStage = this.root.stage;
         // In the original SWF the Preloader (the [Frame(factoryClass="Preloader")] document factory)
-        // set LicDef.stg via InitFromPreloader. OpenFL ignores that metadata and runs Main directly,
-        // so wire the on-stage root here instead — LicDef.GetStage() is used pervasively by the UI.
+        // set LicDef.stg and called InitSkus() via InitFromPreloader. OpenFL ignores that metadata and
+        // runs Main directly, so do that here: LicDef.GetStage() is used pervasively by the UI, and
+        // InitSkus() populates LicDef.skus (else GetSku/AreOtherGamesAdsAllowed crash on the
+        // level-complete screen). SkuModify() is intentionally skipped (domain/site-lock glue).
         licPackage.LicDef.stg = this;
+        licPackage.LicDef.InitSkus();
         SetEverythingUpOnce();
     }
     
@@ -263,6 +266,93 @@ class Main extends MovieClip
     
     public static var debugLoopCount : Int = 0;
     @:expose("sb2LoopCount") public static function sb2LoopCount() : Int { return debugLoopCount; }
+
+    @:expose("sb2BallY") public static function sb2BallY() : Float {
+        var go : Dynamic = GameVars.footballGO;
+        if (go == null) return -88888;
+        return go.ypos; // synced from physics each frame (GameObjects.UpdateGOsFromPhysics_Nape)
+    }
+
+    @:expose("sb2BallInfo") public static function sb2BallInfo() : String {
+        var go : Dynamic = GameVars.footballGO;
+        if (go == null) return "null";
+        return "x=" + Std.int(go.xpos) + " y=" + Std.int(go.ypos) + " xvel=" + go.xvel + " yvel=" + go.yvel
+            + " mass=" + go.GetBodyMass(0) + " state=" + go.state;
+    }
+
+    @:expose("sb2TestKick") public static function sb2TestKick(speed : Float, angleDeg : Float) : Void {
+        var go : Dynamic = GameVars.footballGO;
+        if (go == null) return;
+        var player : Dynamic = go.football_playerGO;
+        if (player != null) player.player_currentFootball = null; // release the player's hold so the kick sticks
+        var v = new Vec();
+        v.Set(angleDeg * Math.PI / 180.0, speed);
+        go.Football_Launch(v);
+    }
+
+    @:expose("sb2GroundInfo") public static function sb2GroundInfo() : String {
+        var space = PhysicsBase.GetNapeSpace();
+        var total = 0; var dynBodies = 0; var staticBodies = 0; var staticShapes = 0; var sensorShapes = 0;
+        for (b in space.bodies) {
+            total++;
+            if (b.isStatic()) { staticBodies++; staticShapes += b.shapes.length; }
+            else dynBodies++;
+            for (s in b.shapes) if (s.sensorEnabled) sensorShapes++;
+        }
+        return "totalBodies=" + total + " static=" + staticBodies + " dyn=" + dynBodies
+            + " staticShapes=" + staticShapes + " sensorShapes=" + sensorShapes;
+    }
+
+    @:expose("sb2DynShapes") public static function sb2DynShapes() : String {
+        var space = PhysicsBase.GetNapeSpace();
+        var out = "";
+        for (b in space.bodies) {
+            if (!b.isStatic()) {
+                for (sh in b.shapes) {
+                    var f = sh.filter;
+                    out += "[at(" + Std.int(b.position.x) + "," + Std.int(b.position.y) + ") cG=" + f.collisionGroup
+                        + " cM=" + f.collisionMask + " sG=" + f.sensorGroup + " sM=" + f.sensorMask
+                        + " sensorEn=" + sh.sensorEnabled + "] ";
+                }
+            }
+        }
+        return out;
+    }
+
+    @:expose("sb2GroundShape") public static function sb2GroundShape() : String {
+        var space = PhysicsBase.GetNapeSpace();
+        for (b in space.bodies) {
+            if (b.isStatic() && b.shapes.length > 0) {
+                for (sh in b.shapes) {
+                    var f = sh.filter;
+                    return "first static shape: cG=" + f.collisionGroup + " cM=" + f.collisionMask
+                        + " sG=" + f.sensorGroup + " sM=" + f.sensorMask + " sensorEn=" + sh.sensorEnabled;
+                }
+            }
+        }
+        return "no static shapes";
+    }
+
+    @:expose("sb2MakeBallSolid") public static function sb2MakeBallSolid() : Void {
+        var space = PhysicsBase.GetNapeSpace();
+        for (b in space.bodies) {
+            if (!b.isStatic()) {
+                for (sh in b.shapes) if (sh.sensorEnabled && b.position.y < 450) sh.sensorEnabled = false;
+            }
+        }
+    }
+
+    @:expose("sb2RealKick") public static function sb2RealKick(mouseX : Float, mouseY : Float) : Void {
+        Game.mouse_x = mouseX;
+        Game.mouse_y = mouseY;
+        Game.doKick = true; // player (state 1, aiming) picks this up next frame -> kick anim -> launch
+    }
+
+    @:expose("sb2BBox") public static function sb2BBox() : String {
+        var r : Dynamic = Game.boundingRectangle;
+        if (r == null) return "null";
+        return "x=" + r.x + " y=" + r.y + " w=" + r.width + " h=" + r.height + " (right=" + (r.x+r.width) + " bottom=" + (r.y+r.height) + ")";
+    }
 
     // Fixed-timestep gate. openfl HTML5 dispatches ENTER_FRAME on every requestAnimationFrame and does
     // NOT honour stage.frameRate, so the loop (and thus game speed) would run at the display refresh

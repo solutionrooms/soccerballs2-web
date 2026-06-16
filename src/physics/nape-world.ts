@@ -68,7 +68,10 @@ interface NapeGlobal {
   NapeWorld?: new (gravityPxY: number) => NapeNative;
 }
 
-const BASE = import.meta.env.BASE_URL;
+// import.meta.env is Vite-injected in the browser/vitest; under plain tsx (the
+// headless route solver) it's undefined, so fall back to '/'. Only used by the
+// browser script loader below, which Node never calls.
+const BASE = (import.meta as { env?: { BASE_URL?: string } }).env?.BASE_URL ?? '/';
 // Cache-buster for the compiled engine: bump this whenever nape.js is rebuilt
 // so browsers fetch the new physics instead of a stale cached copy (a cached
 // old build was why level-9 felt unreachable under Nape).

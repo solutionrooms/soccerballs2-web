@@ -1,0 +1,155 @@
+package uIPackage;
+
+import achievementPackage.Achievement;
+import achievementPackage.Achievements;
+import audioPackage.Audio;
+import flash.display.Bitmap;
+import flash.display.BitmapData;
+import flash.display.MovieClip;
+import flash.events.MouseEvent;
+import flash.filters.ColorMatrixFilter;
+import flash.geom.ColorTransform;
+import flash.geom.Rectangle;
+import flash.ui.Mouse;
+import licPackage.Lic;
+import licPackage.Tracking;
+import textPackage.TextStrings;
+
+/**
+	 * ...
+	 * @author LongAnimals
+	 */
+class UILanguageSelect extends UIScreenInstance
+{
+    
+    public function new()
+    {
+        super();
+    }
+    
+    override public function ExitScreen()
+    {
+        UI.RemoveAllButtons();
+    }
+    
+    override public function InitScreen()
+    {
+        Audio.PlayMusic("menus_music");
+        
+        UI.StartAddButtons();
+        
+        Mouse.show();
+        
+        titleMC = new ScreenLanguage();
+        ScreenSize.ScaleMovieClip(titleMC);
+        titleMC.gotoAndStop(1);
+        
+        UI.AddAnimatedMCButton((untyped titleMC).btn_back, buttonBackPressed);
+        
+        TextStrings.ReplaceTextFieldText((untyped titleMC).textTitle);
+        
+        AddFlags();
+        UpdateFlags();
+    }
+    
+    public function GetFlagFrameFromName(name : String) : Int
+    {
+        var i : Int = 1;
+        for (s/* AS3HX WARNING could not determine type for var: s exp: EIdent(availableFlags) type: null */ in availableFlags)
+        {
+            if (s == name)
+            {
+                return i;
+            }
+            i++;
+        }
+        return 1;
+    }
+    
+    public var availableFlags : Array<Dynamic> = [
+        "en", 
+        "es", 
+        "de", 
+        "fr", 
+        "nl", 
+        "pt", 
+        "tr", 
+        "se", 
+        "it"];
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    public var flagMCs : Array<Dynamic>;
+    
+    public function UpdateFlags()
+    {
+        for (mc in flagMCs)
+        {
+            if ((untyped mc).languageID == TextStrings.currentLanguage)
+            {
+                (untyped mc).selected.visible = true;
+            }
+            else
+            {
+                (untyped mc).selected.visible = false;
+            }
+        }
+    }
+    public function AddFlags()
+    {
+        flagMCs = [];
+        var supported : Array<Dynamic> = TextStrings.supportedLanguages;
+        
+        var ox : Int = 50;
+        var x : Float = ox;
+        var y : Float = 100;
+        var xp : Int = 0;
+        for (languageID in supported)
+        {
+            var mc : MovieClip = new LanguageFlags();
+            (untyped mc).languageID = languageID;
+            mc.gotoAndStop(GetFlagFrameFromName(TextStrings.languageLabels[languageID]));
+            titleMC.addChild(mc);
+            UI.AddBarebonesMCButton(mc, flagClicked);
+            mc.x = x;
+            mc.y = y;
+            x += 150;
+            xp++;
+            if (xp >= 4)
+            {
+                xp = 0;
+                x = ox;
+                y += 100;
+            }
+            flagMCs.push(mc);
+        }
+    }
+    
+    
+    public function flagClicked(e : MouseEvent)
+    {
+        var mc : MovieClip = try cast(e.currentTarget, MovieClip) catch(e:Dynamic) null;
+        TextStrings.currentLanguage = (untyped mc).languageID;
+        
+        Tracking.Event("language", TextStrings.GetLabelFromIndex((untyped mc).languageID));
+        
+        
+        UpdateFlags();
+        TextStrings.ReplaceTextFieldText((untyped titleMC).textTitle, "languages");
+        SaveData.Save();
+        UI.StartTransition("title");
+    }
+    public function buttonBackPressed(e : MouseEvent)
+    {
+        UI.StartTransition("title");
+    }
+}
+
+
+

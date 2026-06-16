@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<meta title="Soccer Balls 2" package="com.solutionrooms.soccerballs2" version="1.0.0" company="SolutionRooms" />
+	<app main="Main" path="bin" file="SoccerBalls2" />
+	<window width="700" height="525" fps="60" background="#000000" allow-high-dpi="false" />
+
+	<source path="src" />
+	<!-- vendored + Haxe-4-patched as3hx runtime support: as3hx.Compat, FastXML (E4X), FastXMLList -->
+	<source path="vendor" />
+
+	<haxelib name="openfl" />
+	<!-- openfljs: expose openfl display properties (text/x/alpha/currentFrame/…) as native JS
+	     accessors via Object.defineProperties, so the original AS3's pervasive dynamic property
+	     access (untyped mc.buttonName.text, etc.) routes through the real getters/setters instead
+	     of reading raw fields that don't exist. Also enables named-instance assignment in the SWF
+	     timeline (parent.childName), matching Flash. -->
+	<haxedef name="openfljs" />
+	<haxelib name="nape-haxe4" />
+	<!-- original SWF library symbols (UI clips, character rigs, fonts) -->
+	<haxelib name="swf" />
+	<library path="assets/SoccerBalls2.swf" generate="true" preload="true" />
+
+	<!-- original game data + texture pages, embedded like the release SWF -->
+	<assets path="assets" rename="assets" embed="true" />
+</project>

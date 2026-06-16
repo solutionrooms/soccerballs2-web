@@ -168,6 +168,27 @@ interface PlayerData {
 }
 const playerData = new WeakMap<GameObj, PlayerData>();
 
+// PlayerHeadFollowPoint (GameObj.as:5309-5336): tilt the head toward a point
+// (the ball), clamped to +-45 degrees, mirrored when the player faces left. The
+// result is the head part's forced rotation in drawRig.
+function headFollowAngle(player: GameObj, x: number, y: number): number {
+  const dx = x - player.xpos;
+  const dy = y - (player.ypos - 70); // head sits ~70px above the body origin
+  let a = (Math.atan2(dy, dx) * 180) / Math.PI;
+  if (player.xflip) {
+    a = 180 - a;
+    if (a > 180) {
+      if (a < 360 - 45) a = 360 - 45;
+    } else if (a > 45) {
+      a = 45;
+    }
+  } else {
+    if (a < -45) a = -45;
+    else if (a > 45) a = 45;
+  }
+  return a;
+}
+
 export function initPlayer(go: GameObj): void {
   go.name = 'player';
   go.state = 0;
@@ -177,10 +198,13 @@ export function initPlayer(go: GameObj): void {
   go.renderFn = (p, g, ctx) => {
     // combine the team kit (tints + style) with this player's skin frames
     const kit = g.level.playerKit;
+    // head tracks the ball (GameObj.as RenderPlayer -> PlayerHeadFollowPoint)
+    const ball = g.objects.byName('football');
+    const setRot = ball ? new Map([['head', headFollowAngle(p, ball.xpos, ball.ypos)]]) : undefined;
     drawRig(ctx, g.atlas, 'player', p.animFrame, p.xpos, p.ypos, {
       xflip: p.xflip,
       scale: p.scale,
-      override: { tints: kit?.tints, hidden: kit?.hidden, frames: playerData.get(p)?.skin },
+      override: { tints: kit?.tints, hidden: kit?.hidden, frames: playerData.get(p)?.skin, setRot },
     });
   };
   // OnHitPlayer (GameObj.as:4963-4974) — players sense the ball passing

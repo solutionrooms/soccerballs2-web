@@ -51,6 +51,10 @@ export interface RigPartOverride {
   images?: Map<string, CanvasImageSource>;
   /** per clip name: kit ColorTransform color for tint_* overlay parts */
   tints?: Map<string, [number, number, number]>;
+  /** per part name: force the part's rotation (deg) instead of the frame's,
+   *  matching AnimHierarchy.Frame_SetPartRot — used so the head tracks the ball.
+   *  This value is the final part rotation; the rig's flip still mirrors it. */
+  setRot?: Map<string, number>;
 }
 
 /**
@@ -80,8 +84,11 @@ export function drawRig(
     const frameIdx = opts.override?.frames?.get(part.part) ?? 0;
     const px = x + part.x * scale * flip;
     const py = y + part.y * scale;
+    // a forced rotation (head-follow) replaces the frame rotation directly, as in
+    // the AS3 Frame_SetPartRot path; otherwise apply the frame rotation * flip.
+    const forced = opts.override?.setRot?.get(part.part);
     const drawOpts = {
-      rot: part.r * flip,
+      rot: forced !== undefined ? forced : part.r * flip,
       scale: part.sc * scale,
       xflip: opts.xflip,
       alpha: opts.alpha,

@@ -69,6 +69,15 @@ export class SettingsScene implements Scene {
       },
       () => 'unlock every level (debug), then pick from Level Select',
     );
+    mk(
+      'Dev walkthroughs',
+      () => (this.s.devMode ? 'ON' : 'OFF'),
+      (ctx) => {
+        ctx.settings.devMode = !ctx.settings.devMode;
+        ctx.saveSettings();
+      },
+      () => 'show the in-level "Watch" button to replay the recorded route',
+    );
   }
 
   private get s() {

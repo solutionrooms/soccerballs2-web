@@ -26,7 +26,7 @@ MARK="PATCH (soccerballs2)"
 if grep -q "$MARK" "$SPRITE"; then
   echo "AnimateSpriteSymbol: already patched."
 else
-  perl -0777 -i -pe 's/(\t+movieClip\.attachTimeline\(timeline\);\n)/$1\t\t\t\t\/\/ PATCH (soccerballs2): construct frame 1 eagerly so named child instances exist right\n\t\t\t\t\/\/ after `new Symbol()` (Flash semantics). attachTimeline only sets __scope and defers\n\t\t\t\t\/\/ construction to the first render frame; init() builds frame 1 and assigns named fields\n\t\t\t\t\/\/ while keeping timeline state intact for subsequent playback.\n\t\t\t\t\@:privateAccess timeline.init(movieClip);\n/' "$SPRITE"
+  perl -0777 -i -pe 's/(\t+movieClip\.attachTimeline\(timeline\);\n)/$1\t\t\t\t\/\/ PATCH (soccerballs2): construct frame 1 eagerly so named child instances exist right\n\t\t\t\t\/\/ after `new Symbol()` (Flash semantics). attachTimeline only sets __scope and defers\n\t\t\t\t\/\/ construction to the first render frame; init() builds frame 1 and assigns named fields\n\t\t\t\t\/\/ while keeping timeline state intact for subsequent playback.\n\t\t\t\t\@:privateAccess timeline.init(movieClip);\n\t\t\t\t\/\/ PATCH (soccerballs2): stop at frame 1 — openfl-swf does not run AS3 frame scripts (the\n\t\t\t\t\/\/ frame-1 stop() that kept Flash clips static), so clips would auto-play on loop. This game\n\t\t\t\t\/\/ drives all animation explicitly (gotoAndStop\/gotoAndPlay), so default to stopped.\n\t\t\t\tmovieClip.stop();\n/' "$SPRITE"
   grep -q "$MARK" "$SPRITE" && echo "AnimateSpriteSymbol: patched." || { echo "ERROR: AnimateSpriteSymbol patch did not apply" >&2; exit 1; }
 fi
 

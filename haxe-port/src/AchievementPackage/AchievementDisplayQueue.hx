@@ -38,7 +38,7 @@ class AchievementDisplayQueue
             popup.mc = new MovieClip();
             (untyped popup.mc).inner.achievementName.text = (untyped popup).achievement.name;
             (untyped popup.mc).inner.achievement_text.text = (untyped popup).achievement.description;
-            (untyped popup.mc).inner.icon.descendants("gotoAndStop")((untyped popup).achievement.popupFrame);
+            (untyped popup.mc).inner.icon.gotoAndStop((untyped popup).achievement.popupFrame);
             Game.main.addChild(popup.mc);
             popup.mc.gotoAndPlay("on");
         }
@@ -46,7 +46,7 @@ class AchievementDisplayQueue
         {
             (untyped popup.mc).inner.achievementName.text = (untyped popup).achievement.name;
             (untyped popup.mc).inner.achievement_text.text = (untyped popup).achievement.description;
-            (untyped popup.mc).inner.icon.descendants("gotoAndStop")((untyped popup).achievement.popupFrame);
+            (untyped popup.mc).inner.icon.gotoAndStop((untyped popup).achievement.popupFrame);
             popup.timer--;
             if (popup.timer == 0)
             {

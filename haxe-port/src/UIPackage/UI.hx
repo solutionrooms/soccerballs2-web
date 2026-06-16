@@ -904,9 +904,11 @@ class UI
         
         if ((untyped e.currentTarget).hoverCallback != null)
         {
-            e.currentTarget.descendants("hoverCallback")(e);
+            // as3hx mis-converted AS3 `e.currentTarget.hoverCallback(e)` (call the stored callback)
+            // into an E4X `.descendants("hoverCallback")(e)` — call the dynamic property directly.
+            (untyped e.currentTarget).hoverCallback(e);
         }
-        
+
         (untyped e.currentTarget).buttonAnimation.gotoAndPlay("over");
     }
     public static function AnimatedMCButton_Out(e : MouseEvent)

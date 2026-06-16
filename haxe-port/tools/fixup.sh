@@ -222,6 +222,10 @@ perl -i -pe 's/point\.x = x\.att\.point\.x;/point.x = 0;/; s/point\.y = x\.att\.
 # UI's pervasive LicDef.GetStage().stage access crashes. Wire the on-stage root here (theRoot=this).
 perl -i -pe 's/^(\s*)theRoot = this;/$1theRoot = this;\n$1licPackage.LicDef.stg = this;/' "$DIR/Main.hx" 2>/dev/null || true
 
+# SaveData.Load: AS3 coerces an undefined SharedObject field to 0 for an int field; Haxe leaves it
+# undefined (HUD shows "null"). Default the loaded int fields to 0.
+perl -i -pe 's/Game\.cash = so\.data\.cash;/Game.cash = (so.data.cash != null) ? so.data.cash : 0;/; s/Game\.currentScore = so\.data\.score;/Game.currentScore = (so.data.score != null) ? so.data.score : 0;/' "$DIR/SaveData.hx" 2>/dev/null || true
+
 # AS3 defaults int fields to 0; Haxe/JS leaves uninitialised statics/fields as null/undefined, which
 # poisons arithmetic (undefined+1 -> NaN -> "Invalid type for frame", TextField.text #2007, etc.).
 # Initialise every uninitialised `var X : Int;` field to 0 (Number/Float fields are left NaN-defaulted,
@@ -229,6 +233,11 @@ perl -i -pe 's/^(\s*)theRoot = this;/$1theRoot = this;\n$1licPackage.LicDef.stg 
 find "$DIR" -name '*.hx' -exec perl -i -pe 's/\bvar (\w+) : Int;/var $1 : Int = 0;/g' {} +
 
 # --- Dictionary array-access consistency ------------------------------------------------------
+# as3hx mis-converts some dynamic property/method calls `obj.X(args)` into E4X `obj.descendants("X")(args)`
+# (e.g. a stored hoverCallback, or gotoAndStop on a dynamic clip). Rewrite to a direct (untyped) call.
+perl -i -pe 's/e\.currentTarget\.descendants\("hoverCallback"\)\(e\)/(untyped e.currentTarget).hoverCallback(e)/' "$DIR/uIPackage/UI.hx" 2>/dev/null || true
+perl -i -pe 's/\.descendants\("gotoAndStop"\)\(/.gotoAndStop(/g' "$DIR/achievementPackage/AchievementDisplayQueue.hx" 2>/dev/null || true
+
 # flash.utils.Dictionary resolves to openfl.utils.Dictionary (Map-backed). as3hx converted some
 # `dict[key]` to array access and others to Reflect.field/setField; on a Map these don't interoperate,
 # so a dict written via array access and read via Reflect.field (or vice-versa) silently misses every

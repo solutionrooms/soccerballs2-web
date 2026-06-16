@@ -64,8 +64,10 @@ class SaveData
         GameVars.FromSharedObject(so.data.gamevars);
         Achievements.FromSharedObject(so.data.achievements);
         
-        Game.cash = so.data.cash;
-        Game.currentScore = so.data.score;
+        // AS3 coerces an undefined SharedObject field to 0 for an int; Haxe leaves it undefined (-> the
+        // HUD shows "null" on a save that never stored these keys). Default missing values to 0.
+        Game.cash = (so.data.cash != null) ? so.data.cash : 0;
+        Game.currentScore = (so.data.score != null) ? so.data.score : 0;
         
         (untyped so).close();
         Utils.print("Loaded data OK");

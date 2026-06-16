@@ -72,9 +72,71 @@ class Main extends MovieClip
         // level-complete screen). SkuModify() is intentionally skipped (domain/site-lock glue).
         licPackage.LicDef.stg = this;
         licPackage.LicDef.InitSkus();
+        InitPerfOverlay();
         SetEverythingUpOnce();
     }
-    
+
+    // --- Performance overlay (toggle with the backtick/tilde key `; P is the in-game pause key) ------
+    public static var __perfTF : TextField = null;
+    public static var __perfOn : Bool = false;
+    public static var __rafCount : Int = 0;       // every MainLoop call (= one requestAnimationFrame)
+    public static var __updCount : Int = 0;       // every gated game update (target Defs.fps)
+    public static var __perfStamp : Float = -1;
+    public static var __gameFps : Float = 0;
+    public static var __rafFps : Float = 0;
+
+    public function InitPerfOverlay() : Void
+    {
+        if (theStage == null) return;
+        var tf : TextField = new TextField();
+        var fmt : TextFormat = new TextFormat("_typewriter", 12, 0x00FF66);
+        tf.defaultTextFormat = fmt;
+        tf.selectable = false;
+        tf.mouseEnabled = false;
+        tf.autoSize = TextFieldAutoSize.LEFT;
+        tf.background = true;
+        tf.backgroundColor = 0x000000;
+        tf.x = 4;
+        tf.y = 4;
+        tf.visible = false;
+        theStage.addChild(tf);
+        __perfTF = tf;
+        theStage.addEventListener(KeyboardEvent.KEY_DOWN, function(e : KeyboardEvent) : Void {
+            if (e.keyCode == 192) // backtick / tilde
+            {
+                __perfOn = !__perfOn;
+                if (__perfTF != null) __perfTF.visible = __perfOn;
+            }
+        });
+    }
+
+    public function UpdatePerfOverlay() : Void
+    {
+        var now : Float = haxe.Timer.stamp();
+        if (__perfStamp < 0) __perfStamp = now;
+        if ((now - __perfStamp) >= 0.5)
+        {
+            var dt : Float = now - __perfStamp;
+            __gameFps = __updCount / dt;
+            __rafFps = __rafCount / dt;
+            __updCount = 0;
+            __rafCount = 0;
+            __perfStamp = now;
+        }
+        if (__perfOn && __perfTF != null)
+        {
+            var bodies : Int = -1;
+            try { if (PhysicsBase.GetNapeSpace() != null) bodies = PhysicsBase.GetNapeSpace().bodies.length; } catch (e : Dynamic) {}
+            __perfTF.text = "fps " + Std.int(__gameFps + 0.5) + "   raf " + Std.int(__rafFps + 0.5)
+                + "\nframe " + Std.int(timeForFrame) + "ms   update " + Std.int(timeForUpdate) + "ms"
+                + (bodies >= 0 ? "\nnape bodies " + bodies : "")
+                + "\ncap " + Std.int(Defs.fps) + "fps";
+            // keep it pinned on top even as screens are added/removed
+            if (theStage != null && __perfTF.parent == theStage && theStage.getChildIndex(__perfTF) != theStage.numChildren - 1)
+                theStage.setChildIndex(__perfTF, theStage.numChildren - 1);
+        }
+    }
+
     
     public function InitDrawScreen() : Void
     {
@@ -366,11 +428,13 @@ class Main extends MovieClip
 
     public function MainLoop(e : Event) : Void
     {
+        __rafCount++; // counts every ENTER_FRAME / requestAnimationFrame (the raw render rate)
         var step : Float = 1.0 / Defs.fps;
         var now : Float = haxe.Timer.stamp();
         if (__loopStamp < 0) __loopStamp = now - step;
         if ((now - __loopStamp) < step)
         {
+            UpdatePerfOverlay(); // keep the raf counter/fps window live even on skipped frames
             return; // too soon since the last update -> cap at Defs.fps
         }
         __loopStamp += step;
@@ -379,6 +443,7 @@ class Main extends MovieClip
             __loopStamp = now; // fell behind (rAF slower than Defs.fps, or a stall) -> resync, no catch-up spiral
         }
 
+        __updCount++;
         debugLoopCount++;
         KeyReader.UpdateOncePerFrame();
         Audio.UpdateOncePerFrame();
@@ -389,6 +454,7 @@ class Main extends MovieClip
         GameVars.ExitForFrame();
 
         calcFrameTime();
+        UpdatePerfOverlay();
 
         // DEBUG diagnostics (copy [SB2] console lines back). One-time ground-collision geometry dump
         // when a level becomes playable, then the ball's trajectory each time it is in flight.

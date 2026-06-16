@@ -1,5 +1,11 @@
 name: Deploy to GitHub Pages
 
+# Deploys the faithful Haxe/OpenFL port (haxe-port/) to GitHub Pages.
+# The build output is committed pre-built under haxe-port/site/ because building
+# Haxe + OpenFL + nape-haxe4 (plus the in-place haxelib patches) in CI is slow and
+# brittle; rebuild locally with `cd haxe-port && haxelib run lime build html5` after
+# running tools/patch-swf-haxelib.sh, then re-copy bin/html5/bin -> haxe-port/site.
+
 on:
   push:
     branches: [main]
@@ -15,27 +21,15 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm test
-      - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: haxe-port/site
       - id: deployment
         uses: actions/deploy-pages@v4

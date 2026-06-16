@@ -1,0 +1,1025 @@
+<data>
+	
+<constants>
+	<constant name="test" value="0"/>
+</constants>	
+	
+<gameconstants>
+</gameconstants>
+
+
+
+<!-- *******************
+	Collision.
+	1 = floor
+	2 = players
+	4 = ball
+	8 = obejcts
+	
+******************** -->
+
+	<physobj name="Conveyor" inlibrary="true" libclass="machines" hasphysics="true" initfunction="InitConveyor" >
+		<parameter name="conveyor_speed" default="50" />
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "conveyor" frame = "1" pos = "0,0" rot="0" zoffset="-100" />					
+			<shape type="poly" name="" col="1,15" sensor="0,0" vertices="0,0, 200,0, 200,40, 0,40" material="average"/>
+		</body>
+	</physobj>
+
+	<physobj name="MagnetPush" inlibrary="true" libclass="machines" hasphysics="true" initfunction="InitMagnetPush" >
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "spikyball" frame = "1" pos = "0,0" rot="0" zoffset="-100" />					
+			<shape type="circle" pos="0,0" name="" col="0,0" sensor="1,15" radius="60" material="average" />
+		</body>
+	</physobj>
+
+	<physobj name="MagnetPull" inlibrary="true" libclass="machines" hasphysics="true" initfunction="InitMagnetPull" >
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "spikyball" frame = "1" pos = "0,0" rot="0" zoffset="-100" />					
+			<shape type="circle" pos="0,0" name="" col="0,0" sensor="1,15" radius="60" material="average" />
+		</body>
+	</physobj>
+
+
+	<physobj name="spikyball" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitSpikyBall" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="false" sensor="true">
+			<graphic clip = "spikyball" frame = "1" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="4,15" sensor="4,15" radius="12" material="ball_notbouncy" />
+		</body>
+	</physobj>
+
+	<physobj name="pickup_normal" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitPickup" >
+		<parameter name="game_layer" default="Near_Background" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "Pickups" frame = "1" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="0,0" sensor="8,4" radius="12" material="football" />
+		</body>
+	</physobj>
+
+	<physobj name="pickup_trophy_1" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitPickupTrophy1" >
+		<parameter name="game_layer" default="Near_Background" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "Pickups_Trophies" frame = "1" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="8,15" sensor="8,4" radius="12" material="football" />
+		</body>
+	</physobj>
+	<physobj name="pickup_trophy_2" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitPickupTrophy2" >
+		<parameter name="game_layer" default="Near_Background" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "Pickups_Trophies" frame = "2" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="8,15" sensor="8,4" radius="12" material="football" />
+		</body>
+	</physobj>
+	<physobj name="pickup_trophy_3" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitPickupTrophy3" >
+		<parameter name="game_layer" default="Near_Background" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "Pickups_Trophies" frame = "3" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="8,15" sensor="8,4" radius="12" material="football" />
+		</body>
+	</physobj>
+	<physobj name="pickup_trophy_4" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitPickupTrophy4" >
+		<parameter name="game_layer" default="Near_Background" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "Pickups_Trophies" frame = "4" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="8,15" sensor="8,4" radius="12" material="football" />
+		</body>
+	</physobj>
+	<physobj name="pickup_trophy_5" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitPickupTrophy5" >
+		<parameter name="game_layer" default="Near_Background" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "Pickups_Trophies" frame = "5" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="8,15" sensor="8,4" radius="12" material="football" />
+		</body>
+	</physobj>
+	<physobj name="pickup_trophy_6" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitPickupTrophy6" >
+		<parameter name="game_layer" default="Near_Background" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "Pickups_Trophies" frame = "6" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="8,15" sensor="8,4" radius="12" material="football" />
+		</body>
+	</physobj>
+	<physobj name="pickup_trophy_7" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitPickupTrophy7" >
+		<parameter name="game_layer" default="Near_Background" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "Pickups_Trophies" frame = "7" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="8,15" sensor="8,4" radius="12" material="football" />
+		</body>
+	</physobj>
+	<physobj name="pickup_trophy_8" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitPickupTrophy8" >
+		<parameter name="game_layer" default="Near_Background" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "Pickups_Trophies" frame = "8" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="8,15" sensor="8,4" radius="12" material="football" />
+		</body>
+	</physobj>
+	<physobj name="pickup_trophy_9" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitPickupTrophy9" >
+		<parameter name="game_layer" default="Near_Background" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "Pickups_Trophies" frame = "9" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="8,51" sensor="8,4" radius="12" material="football" />
+		</body>
+	</physobj>
+	<physobj name="pickup_trophy_10" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitPickupTrophy10" >
+		<parameter name="game_layer" default="Near_Background" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "Pickups_Trophies" frame = "10" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="8,15" sensor="8,4" radius="12" material="football" />
+		</body>
+	</physobj>
+	
+		<physobj name="wind" inlibrary="true" libclass="scenery" hasphysics="true" initfunction="InitWind">
+			<parameter name="game_layer" default="Centre" />
+			<body name="fix" pos="0,0" fixed="true" sensor="false">
+				<graphic clip = "windblock" frame = "1" pos = "0,0" rot="0" zoffset="2000" />					
+				<shape type="poly" name="" col="0,0" sensor="8,4"  vertices="-20,-20, 20,-20, 20,20, -20,20" material="average"/>
+			</body>
+		</physobj>
+	
+		<physobj name="run_marker" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="InitRunMarker" >
+			<parameter name="game_layer" default="Far_Foreground" />
+			<graphic clip = "editor_patrolMarker" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+		</physobj>
+
+		<physobj name="patrol_marker" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="InitPatrolMarker" >
+			<parameter name="game_layer" default="Far_Foreground" />
+			<graphic clip = "editor_patrolMarker" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+		</physobj>
+		
+		<physobj name="jump_marker" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="InitJumpMarker" >
+			<parameter name="game_layer" default="Far_Foreground" />
+			<graphic clip = "editor_jumpArrow" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+		</physobj>
+
+		<physobj name="cannon" inlibrary="true" libclass="normal" hasphysics="true" initfunction="InitFixedCannon" >
+			<parameter name="game_layer" default="GoalObjects" />
+			<body name="fix" pos="0,0" fixed="true" sensor="false">
+				<graphic clip = "cannon_top" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+				<shape type="circle" pos="0,0" name="" col="0,0" sensor="8,4" radius="20" material="average" />
+			</body>
+		</physobj>
+
+		<physobj name="broken_piece" inlibrary="true" libclass="normal" hasphysics="true" initfunction="InitBreakable_Piece_Physics" >
+			<parameter name="game_layer" default="NormalObjects" />
+			<body name="fix" pos="0,0" fixed="false" sensor="false">
+				<graphic clip = "hinge" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+				<shape type="circle" pos="0,0" name="" col="8,1" sensor="0,0" radius="5" material="average" />
+			</body>
+		</physobj>
+		
+		<physobj name="parrot" inlibrary="true" libclass="" hasphysics="true" initfunction="InitBird" >
+			<parameter name="game_layer" default="NormalObjects_Nearer" />
+			<body name="fix" pos="0,0" fixed="false" sensor="false">
+				<graphic clip = "parrot" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+				<shape type="circle" pos="0,0" name="" col="0,0" sensor="8,4" radius="10" material="average" />
+			</body>
+		</physobj>
+
+		<physobj name="flying_parrot" inlibrary="true" libclass="" hasphysics="true" initfunction="InitFlyingBird" >
+			<parameter name="game_layer" default="NormalObjects_Nearer" />
+			<body name="fix" pos="0,0" fixed="false" sensor="false">
+				<graphic clip = "parrotFly" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+				<shape type="circle" pos="0,0" name="" col="0,0" sensor="8,4" radius="10" material="average" />
+			</body>
+		</physobj>
+		
+
+		<physobj name="cog" inlibrary="true" libclass="normal" hasphysics="true" initfunction="InitCog" >
+			<parameter name="game_layer" default="NormalObjects_Nearer" />
+			<graphic clip = "hinge" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+		</physobj>
+
+		
+		
+		<physobj name="hinge" inlibrary="true" libclass="normal" hasphysics="true" initfunction="" >
+			<parameter name="game_layer" default="NormalObjects_Nearer" />
+			<body name="fix" pos="0,0" fixed="true" sensor="false">
+				<graphic clip = "hinge" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+				<shape type="circle" pos="0,0" name="" col="8,0" sensor="0,0" radius="7" material="average" />
+			</body>
+		</physobj>
+
+		<physobj name="weight" inlibrary="true" libclass="normal" hasphysics="true" initfunction="" >
+			<parameter name="game_layer" default="NormalObjects_Nearer" />
+			<body name="fix" pos="0,0" fixed="true" sensor="false">
+				<graphic clip = "hinge" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+				<shape type="circle" pos="0,0" name="" col="8,15" sensor="0,0" radius="7" material="heavy" />
+			</body>
+		</physobj>
+
+		<physobj name="weight_nocollide" inlibrary="true" libclass="normal" hasphysics="true" initfunction="" >
+			<parameter name="game_layer" default="NormalObjects_Nearer" />
+			<body name="fix" pos="0,0" fixed="true" sensor="false">
+				<graphic clip = "hinge" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+				<shape type="circle" pos="0,0" name="" col="0,0" sensor="0,0" radius="7" material="heavy" />
+			</body>
+		</physobj>
+		
+		
+		<physobj name="switchable_block" inlibrary="true" libclass="normal" hasphysics="true" initfunction="InitSwitchable_Disappear" >
+			<parameter name="game_layer" default="NormalObjects" />
+			<body name="fix" pos="0,0" fixed="true" sensor="false">
+				<graphic clip = "Switchable_Block_Disappear" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+				<shape type="poly" name="" col="8,15" vertices="0,0, 30,0, 30,30, 0,30" material="average"/>
+			</body>
+		</physobj>
+		
+		<physobj name="switch_once" inlibrary="true" libclass="normal" hasphysics="true" initfunction="InitSwitch_Once" >
+			<parameter name="game_layer" default="NormalObjects" />
+			<body name="fix" pos="0,0" fixed="true" sensor="false">
+				<graphic clip = "switch_Once" frame = "1" pos = "0,0" rot="0" zoffset="0"/>					
+				<shape type="poly" name="" col="8,15" vertices="0,0, 25,0, 25,20, 0,20" material="average"/>
+				<shape type="poly" name="" col="8,15" vertices="2,-6, 21,-6, 21,0, 2,0" material="average"/>
+			</body>
+		</physobj>
+
+		<physobj name="switch_2way" inlibrary="true" libclass="normal" hasphysics="true" initfunction="InitSwitch_2Way" >
+			<parameter name="game_layer" default="NormalObjects" />
+			<body name="fix" pos="0,0" fixed="true" sensor="false">
+				<graphic clip = "switch_twoWay" frame = "1" pos = "0,0" rot="0" zoffset="0"/>					
+				<shape type="poly" name="" col="8,15" vertices="2,-6, 21,-6, 21,0, 2,0" material="average"/>
+				<shape type="poly" name="" col="8,15" vertices="0,0, 25,0, 25,20, 0,20" material="average"/>
+			</body>
+		</physobj>
+		
+		<physobj name="switch_StopGo" inlibrary="true" libclass="normal" hasphysics="true" initfunction="InitSwitch_2Way" >
+			<parameter name="game_layer" default="NormalObjects" />
+			<body name="fix" pos="0,0" fixed="true" sensor="false">
+				<graphic clip = "switch_StopGo" frame = "1" pos = "0,0" rot="0" zoffset="0"/>					
+				<shape type="poly" name="" col="8,15" vertices="0,0, 25,0, 25,20, 0,20" material="average"/>
+				<shape type="poly" name="" col="8,15" vertices="2,-6, 21,-6, 21,0, 2,0" material="average"/>
+			</body>
+		</physobj>
+
+		<physobj name="switch_timer" inlibrary="true" libclass="normal" hasphysics="true" initfunction="InitSwitch_Timer" >
+		<parameter name="game_layer" default="NormalObjects" />
+			<parameter name="switch_time" default="1.5" />
+			<body name="fix" pos="0,0" fixed="true" sensor="false">
+				<graphic clip = "switch_Timer" frame = "1" pos = "0,0" rot="0" zoffset="0"/>					
+				<shape type="poly" name="" col="8,15" vertices="0,0, 25,0, 25,20, 0,20" material="average"/>
+				<shape type="poly" name="" col="8,15" vertices="2,-6, 21,-6, 21,0, 2,0" material="average"/>
+			</body>
+		</physobj>
+		
+
+		<physobj name="switch_weight" inlibrary="true" libclass="normal" hasphysics="true" initfunction="InitSwitch_Weight" >
+		<parameter name="game_layer" default="NormalObjects" />
+			<body name="fix" pos="0,0" fixed="true" sensor="false">
+				<graphic clip = "switch_weight" frame = "1" pos = "0,0" rot="0" zoffset="0"/>					
+				<shape type="poly" name="" col="8,15" vertices="0,-6, 50,-6, 50,20, 0,20" material="average"/>
+			</body>
+		</physobj>
+
+
+	<physobj name="player" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitPlayer" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "player" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="2,11" sensor="2,15" vertices="-10,-80, 10,-80, 10,0, -10,0" material="average"/>
+		</body>
+	</physobj>
+
+	<physobj name="ball_normal" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitFootball" >
+		<parameter name="game_layer" default="Balls" />
+		<body name="fix" pos="0,0" fixed="false" sensor="true">
+			<graphic clip = "football" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="circle" pos="0,0" name="" col="4,15" sensor="4,11" radius="12" material="football" />
+		</body>
+	</physobj>
+
+	<physobj name="ballboy" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitBallboy" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "opponent" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="" sensor="8,4" vertices="-10,-80, 10,-80, 10,0, -10,0" material="average"/>
+		</body>
+	</physobj>
+	
+	
+	<physobj name="opponent" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitOpponent" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "opponent" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="2,15" sensor="0,0" vertices="-10,-80, 10,-80, 10,0, -10,0" material="average"/>
+		</body>
+	</physobj>
+
+	<physobj name="opponent_patrol" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitOpponent_Patrol" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="false" sensor="true">
+			<graphic clip = "opponentWalk" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="2,15" sensor="0,0" vertices="-10,-80, 10,-80, 10,0, -10,0" material="average"/>
+		</body>
+	</physobj>
+	
+	<physobj name="opponent_jump_when_near" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitOpponent_JumpWhenNear" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="false" sensor="true">
+			<graphic clip = "opponentWalk" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="2,15" sensor="0,0" vertices="-10,-80, 10,-80, 10,0, -10,0" material="average"/>
+		</body>
+	</physobj>
+	
+	<physobj name="referee" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitRef" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "ref" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="2,15" sensor="0,0" vertices="-10,-80, 10,-80, 10,0, -10,0" material="average"/>
+		</body>
+	</physobj>
+
+	<physobj name="referee_loose" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitRef_Loose" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "ref" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="2,15" sensor="0,0" vertices="-10,-80, 10,-80, 10,0, -10,0" material="average"/>
+		</body>
+	</physobj>
+	
+	
+	<physobj name="referee_patrol" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitRef_Patrol" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "ref" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="2,15" sensor="0,0" vertices="-10,-80, 10,-80, 10,0, -10,0" material="average"/>
+		</body>
+	</physobj>
+	
+	<physobj name="keeper" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitKeeper" >
+		<parameter name="game_layer" default="Centre" />
+		<parameter name="keeper_action" default="stationary" />
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "keeper" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="a" col="2,14" sensor="0,0" vertices="-10,-70, 10,-70, 10,0, -10,0" material="average"/>
+			<shape type="poly" name="b" col="2,14" sensor="0,0" vertices="-10,-40, 10,-40, 10,0, -10,0" material="average"/>
+		</body>
+	</physobj>
+
+	
+	<physobj name="sand_block" inlibrary="true" libclass="normal" hasphysics="true" initfunction="InitSandBlock" >
+		<parameter name="game_layer" default="NormalObjects" />
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "sand_block" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" vertices="0,0, 30,0, 30,30, 0,30" material="average"/>
+		</body>
+	</physobj>
+	
+	<physobj name="crateMetalLarge" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="" >
+		<parameter name="game_layer" default="NormalObjects" />
+		<body name="fix" pos="0,0" fixed="false" sensor="false">
+			<graphic clip = "crate_metalLarge" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" sensor="0,0" vertices="-24,-20, 24,-20, 24,20, -24,20" material="average"/>
+		</body>
+	</physobj>
+	
+	<physobj name="crateMetalSmall" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="" >
+		<parameter name="game_layer" default="NormalObjects" />
+		<body name="fix" pos="0,0" fixed="false" sensor="false">
+			<graphic clip = "crate_metalSmall" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" sensor="0,0" vertices="-12,-10, 12,-10, 12,10, -12,10" material="average"/>
+		</body>
+	</physobj>
+	
+	<physobj name="crate" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitBreakable_WoodenCrate" >
+		<parameter name="game_layer" default="NormalObjects" />
+		<body name="fix" pos="0,0" fixed="false" sensor="false">
+			<graphic clip = "woodenCrate1" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" sensor="0,0" vertices="-24,-20, 24,-20, 24,20, -24,20" material="average"/>
+		</body>
+	</physobj>
+	
+	<physobj name="crateSmall" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitBreakable_WoodenCrate" >
+		<parameter name="game_layer" default="NormalObjects" />
+		<body name="fix" pos="0,0" fixed="false" sensor="false">
+			<graphic clip = "woodenCrate2" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" sensor="0,0" vertices="-12,-10, 12,-10, 12,10, -12,10" material="average"/>
+		</body>
+	</physobj>
+	
+	<physobj name="cornerflag" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="" >
+		<parameter name="game_layer" default="NormalObjects" />
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "cornerFlag" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" sensor="0,0" vertices="-5,0,-5,-50,5,-50,5,0" material="average"/>
+		</body>
+	</physobj>
+
+	<physobj name="goal" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitGoal" >
+		<parameter name="game_layer" default="GoalObjects" />
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "goalposts" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" sensor="0,0" vertices="-23,-4, -6,-85, 19,-86, 18,-80, 0,-79, -16,-3" material="average"/>
+			<shape type="poly" name="" col="0,0" sensor="8,15" vertices="-11,-4, 3,-77, 14,-77, 14,-4" material="average"/>
+		</body>
+	</physobj>
+	
+	<physobj name="goal2" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitGoal" >
+		<parameter name="game_layer" default="GoalObjects" />
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "goalposts" frame = "2" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" sensor="0,0" vertices="-21,-86, 2,-86, 19,-2, 13,-2, -3,-83, -20,-83" material="average"/>
+			<shape type="poly" name="" col="0,0" sensor="8,15" vertices="-21,-81, -4,-82, 13,-2, -20,-2" material="average"/>
+		</body>
+	</physobj>
+	
+
+	<physobj name="ball_beachball" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitFootball_Beachball" >
+		<parameter name="game_layer" default="Balls" />
+		<body name="fix" pos="0,0" fixed="false" sensor="true">
+			<graphic clip = "beachBall" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="circle" pos="0,0" name="" col="4,15" sensor="4,11" radius="12" material="beachball" />
+		</body>
+	</physobj>
+	
+
+	<physobj name="ball_notplayerball" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitBurstableBall" >
+		<parameter name="game_layer" default="Balls" />
+		<body name="fix" pos="0,0" fixed="false" sensor="true">
+			<graphic clip = "football" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="circle" pos="0,0" name="" col="4,15" sensor="4,11" radius="12" material="football" />
+		</body>
+	</physobj>
+	
+	
+	<physobj name="ball_verylarge" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitBurstableBall" >
+		<parameter name="game_layer" default="Balls" />
+		<body name="fix" pos="0,0" fixed="false" sensor="true">
+			<graphic clip = "football_veryLarge" frame = "1" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="4,15" sensor="4,11" radius="64" material="football" />
+		</body>
+	</physobj>
+	
+	<physobj name="ball_large" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitBurstableBall" >
+		<parameter name="game_layer" default="Balls" />
+		<body name="fix" pos="0,0" fixed="false" sensor="true">
+			<graphic clip = "football_large" frame = "1" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="4,15" sensor="4,11" radius="35" material="football" />
+		</body>
+	</physobj>
+
+	<physobj name="ball_tiny" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitBurstableBall" >
+		<parameter name="game_layer" default="Balls" />
+		<body name="fix" pos="0,0" fixed="false" sensor="true">
+			<graphic clip = "football_tiny" frame = "1" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="4,15" sensor="4,11" radius="5" material="football" />
+		</body>
+	</physobj>
+	
+	<physobj name="post_movable" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitAnimatedWhenMoving" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="false" sensor="false">
+			<graphic clip = "post_moveable" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" sensor="0,0" vertices="-6,-28, 6,-28, 6,28, -6,28" material="average"/>
+		</body> 
+	</physobj>
+
+	<physobj name="metalpost_loose" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="false" sensor="false">
+			<graphic clip = "metalPost0" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" sensor="0,0" vertices="-6,-28, 6,-28, 6,28, -6,28" material="average"/>
+		</body> 
+	</physobj>
+
+	<physobj name="metalpost_fixed" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "metalPost0_fixed" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" sensor="0,0" vertices="-6,-28, 6,-28, 6,28, -6,28" material="average"/>
+		</body> 
+	</physobj>
+	
+	<physobj name="woodenpost_loose" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitBreakable_WoodenPost" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="false" sensor="false">
+			<graphic clip = "woodenPost0" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" sensor="0,0" vertices="-6,-28, 6,-28, 6,28, -6,28" material="average"/>
+		</body> 
+	</physobj>
+
+	<physobj name="woodenpost_fixed" inlibrary="true" libclass="soccerballs" hasphysics="true" initfunction="InitBreakable_WoodenPost" >
+		<parameter name="game_layer" default="Centre" />
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "woodenPost0_fixed" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,15" sensor="0,0" vertices="-6,-28, 6,-28, 6,28, -6,28" material="average"/>
+		</body> 
+	</physobj>
+
+	<physobj name="icecreamvan" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="InitIcecreamVan" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<body name="fix" pos="0,0" fixed="true" sensor="false">
+			<graphic clip = "Icecream" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="8,4" sensor="0,0" vertices="-65,-73, 39,-70, 64,0, -68,0" material="average"/>
+		</body> 
+	</physobj>
+	
+	
+	<physobj name="floodlight" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "dressingObjects" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="stadium" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "dressingObjects" frame = "2" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="burgerVan" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "dressingObjects" frame = "3" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="hotdog_van" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "dressingObjects" frame = "4" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="ninja_world" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "dressingObjects" frame = "5" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="grave_stone" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "dressingObjects" frame = "6" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="circus_sign" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "dressingObjects" frame = "7" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="floodlight_small" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "dressingObjects" frame = "8" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="footglue" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "dressingObjects" frame = "9" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	
+	<physobj name="tree_1" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="tree_2" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "2" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="tree_3" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "3" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="tree_4" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "4" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="tree_5" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "5" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="tree_6" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "6" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="tree_7" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "7" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="tree_8" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "8" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="tree_9" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "9" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="tree_10" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "10" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="tree_11" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "11" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="tree_12" inlibrary="true" libclass="furniture" hasphysics="false" snaptofloor="true" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "12" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="tree_13" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "13" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="tree_14" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "trees" frame = "14" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="rock_1" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "rocks" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="rock_2" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "rocks" frame = "2" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="rock_3" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "rocks" frame = "3" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="rock_4" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "rocks" frame = "4" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="rock_5" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "rocks" frame = "5" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="bush_1" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "bushes" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="bush_2" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "bushes" frame = "2" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="bush_3" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "bushes" frame = "3" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="bush_4" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "bushes" frame = "4" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="bush_5" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "bushes" frame = "5" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="bush_6" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "bushes" frame = "6" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="bush_7" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "bushes" frame = "7" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	<physobj name="bush_8" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "bushes" frame = "8" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="soil_rock1" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="Decorations" />
+		<graphic clip = "scenery_rocks" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="soil_rock2" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="Decorations" />
+		<graphic clip = "scenery_rocks" frame = "2" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="soil_rock3" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="Decorations" />
+		<graphic clip = "scenery_rocks" frame = "3" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="soil_rock4" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="Decorations" />
+		<graphic clip = "scenery_rocks" frame = "4" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="soil_rock5" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="Decorations" />
+		<graphic clip = "scenery_rocks" frame = "5" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="soil_cave1" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="Decorations" />
+		<graphic clip = "dressingSoil" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="soil_cave2" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="Decorations" />
+		<graphic clip = "dressingSoil" frame = "2" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="soil_cave3" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="Decorations" />
+		<graphic clip = "dressingSoil" frame = "3" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="soil_cave4" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="Decorations" />
+		<graphic clip = "dressingSoil" frame = "4" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="skulls" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="Decorations" />
+		<graphic clip = "dressingSoil" frame = "5" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="dino_skelton" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="Decorations" />
+		<graphic clip = "dressingSoil" frame = "6" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="cloud" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "clouds" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	<physobj name="parrot" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "parrot" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+
+	<physobj name="starling" inlibrary="true" libclass="furniture" hasphysics="false" initfunction="" >
+		<parameter name="game_layer" default="SceneryObjects" />
+		<graphic clip = "starling" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+	</physobj>
+	
+	
+	<physobj name="spawner" inlibrary="true" libclass="normal" hasphysics="false" initfunction="InitSpawner" >
+		<parameter name="spawner_initialdelay" default="0" />
+		<parameter name="spawner_frequency" default="3" />
+		<parameter name="spawner_spawnobject" default="ball_tiny" />
+		<parameter name="spawner_totalamount" default="10" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "wormhole_large" frame = "1" pos = "0,0" rot="0" zoffset="0"  />					
+			<shape type="circle" pos="0,0" name="" col="0,0" sensor="0,0" radius="10" material="average" />
+		</body>
+	</physobj>
+
+	
+	
+	<physobj name="path_object" inlibrary="true" libclass="platform" hasphysics="true" initfunction="InitPhysObj_Path_Virtual" >
+		<parameter name="path_startmode" default="start" />
+		<parameter name="path_endmode" default="stop" />
+		<parameter name="path_switchmode" default="stop" />
+		<parameter name="path_line" default="" />
+		<parameter name="path_speed" default="30" />
+		<parameter name="path_ease" default="linear" />
+		<parameter name="path_easevalue" default="1" />
+		<parameter name="path_startpos" default="0" />
+		<parameter name="path_rotatetopath" default="false" />
+		<body name="fix" pos="0,0" fixed="true" sensor="true">
+			<graphic clip = "editor_linker" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="0,0" sensor="0,0" vertices="-34,-6, 34,-6, 34,6, -34,6" material="average"/>
+		</body>
+	</physobj>
+	
+	
+	<physobj name="switch_regular" inlibrary="true" libclass="zswitches" hasphysics="true" initfunction="InitDoorSwitch" >
+		<parameter name="doorswitch_openangle" default="90" />
+		<parameter name="doorswitch_2way" default="true" />
+		<parameter name="doorswitch_ccw" default="false" />
+		<parameter name="doorswitch_linkid" default="0" />
+		<parameter name="doorswitch_rotvel" default="6" />
+		<parameter name="doorswitch_link" default="" />		
+		<body name="fix" pos="0,0" fixed="false" sensor="false">
+			<graphic clip = "switch_green" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+			<shape type="poly" name="" col="4,14" sensor="0,0" vertices="-5,-5, 48,-5, 48,5, -5,5" material="switch"/>
+		</body>
+	</physobj>
+
+
+		
+		<physobj name="helptext_text" inlibrary="true" libclass="links" hasphysics="false" initfunction="GameObj_InitHelpText" editorrender="RenderHelpText">
+			<parameter name="game_layer" default="Near_Foreground" />
+			<parameter name="helptext_text" />
+			<parameter name="helptext_initialdelay" />
+			<parameter name="helptext_color" />
+			<graphic clip = "editor_helpText" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+		</physobj>
+
+		<physobj name="helptext_text_foreground" inlibrary="true" libclass="links" hasphysics="false" initfunction="GameObj_InitHelpText" editorrender="RenderHelpText">
+			<parameter name="game_layer" default="Near_Foreground" />
+			<parameter name="helptext_text" />
+			<parameter name="editor_helpText" />
+			<parameter name="helptext_color" />
+			<graphic clip = "Text_Marker" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+		</physobj>
+
+
+		<physobj name="helpobject_arrow1" inlibrary="true" libclass="walkthrough" hasphysics="false" initfunction="GameObj_InitHelpObject">
+			<parameter name="game_layer" default="Near_Foreground" />
+			<parameter name="helptext_initialdelay" />
+			<parameter name="helptext_color" />
+			<graphic clip = "walkthroughArrow" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+		</physobj>
+
+		<physobj name="helpobject_marker" inlibrary="true" libclass="walkthrough" hasphysics="false" initfunction="GameObj_InitHelpObject">
+			<parameter name="game_layer" default="Near_Foreground" />
+			<parameter name="helptext_initialdelay" />
+			<parameter name="helptext_color" />
+			<graphic clip = "walkthroughMarker" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+		</physobj>
+		
+		
+		<physobj name="arrow_1_walkthrough" inlibrary="true" libclass="walkthrough" hasphysics="false" initfunction="InitWalkthroughObject">
+			<parameter name="game_layer" default="Near_Foreground" />
+			<parameter name="helptext_initialdelay" />
+			<parameter name="helptext_color" />
+			<graphic clip = "walkthroughArrow" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+		</physobj>
+		
+		<physobj name="marker_walkthrough" inlibrary="true" libclass="walkthrough" hasphysics="false" initfunction="InitWalkthroughObject">
+			<parameter name="game_layer" default="Near_Foreground" />
+			<parameter name="helptext_initialdelay" />
+			<parameter name="helptext_color" />
+			<graphic clip = "walkthroughMarker" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+		</physobj>
+
+		<physobj name="helptext_text_walkthrough" inlibrary="true" libclass="walkthrough" hasphysics="false" initfunction="GameObj_InitHelpTextW" editorrender="RenderHelpText">
+			<parameter name="game_layer" default="Near_Foreground" />
+			<parameter name="helptext_text" />
+			<parameter name="helptext_initialdelay" />
+			<parameter name="helptext_color" />
+			<graphic clip = "editor_walkthroughText" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+		</physobj>
+			
+		<physobj name="helptext_text_walkthrough_with_marker" inlibrary="true" libclass="walkthrough" hasphysics="false" initfunction="GameObj_InitHelpTextW_WithMarker" editorrender="RenderHelpTextWithMarker">
+			<parameter name="game_layer" default="Near_Foreground" />
+			<parameter name="helptext_text" />
+			<parameter name="helptext_initialdelay" />
+			<parameter name="helptext_color" />
+			<graphic clip = "editor_walkthroughText" frame = "1" pos = "0,0" rot="0" zoffset="0" />					
+		</physobj>
+
+		<polymat name="poly_collide_grass" clip = "Fill" frame = "1" fixed="true" inittype="poly" edtype="poly" col="1,15" sensor="0,0" initfunction="InitGameObjLine_Standard" material="poly_average" gamelayer="Polys_1" />
+		<polymat name="poly_collide_mud" clip = "FillSoil" frame = "1" fixed="true" inittype="poly" edtype="poly" col="1,15" sensor="0,0" initfunction="InitGameObjLine_Mud" material="poly_mud" gamelayer="Polys_2" />
+		<polymat name="poly_decor_grass" clip = "Fill" frame = "1" fixed="true" inittype="nophysics" edtype="poly" col="1,15" sensor="0,0" initfunction="InitGameObjLine_Decor" material="poly_average" gamelayer="Polys_1" />
+		<polymat name="poly_decor_mud" clip = "FillSoil" frame = "1" fixed="true" inittype="nophysics" edtype="poly" col="1,15" sensor="0,0" initfunction="InitGameObjLine_Decor" material="poly_mud" gamelayer="Polys_2" />
+
+
+		<polymat name="poly_path" clip = "" frame = "1" fixed="false" inittype="path" edtype="path" col="0,0" sensor="0,0" initfunction="InitGameObjLine_Path" material="average" gamelayer="Centre"/>
+		<polymat name="poly_death" clip = "Fill" frame = "1" fixed="true" inittype="poly" edtype="poly" col="1,15" sensor="0,0" initfunction="InitGameObjLine_Death" material="smooth" gamelayer="Centre"/>
+		
+		<polymat name="poly_scrollarea" clip = "Fill" frame = "1" fixed="true" inittype="nophysics" edtype="outline" col="0,0" sensor="0,0" initfunction="InitGameObjLine_ScrollArea" material="smooth" gamelayer="Centre"/>
+		<polymat name="poly_switch" clip = "Fill" frame = "1" fixed="true" inittype="poly" edtype="outline" col="0,0" sensor="1,15" initfunction="InitGameObjLine_Switch" material="smooth" gamelayer="Centre"/>
+		<polymat name="poly_linedraw" clip = "Fill" frame = "1" fixed="true" inittype="poly" edtype="poly" col="1,15" sensor="0,0" initfunction="InitGameObjLine_ForShow" material="smooth" gamelayer="Centre"/>
+		<polymat name="poly_clicker_1" clip = "Fill" frame = "1" fixed="false" inittype="poly" edtype="poly" col="1,15" sensor="0,0" initfunction="InitGameObjLine_Clicker" material="smooth" gamelayer="Centre"/>
+			
+			
+		<gamelayer name="Far_Background" zpos="2000" />
+		<gamelayer name="Near_Background" zpos="1000" />
+		<gamelayer name="SceneryObjects" zpos="20" />
+		<gamelayer name="NormalObjects" zpos="10" />
+		<gamelayer name="NormalObjects_Nearer" zpos="5" />
+		<gamelayer name="Centre" zpos="0" />
+		<gamelayer name="Balls" zpos="-1" />
+		<gamelayer name="GoalObjects" zpos="-2" />
+		<gamelayer name="SceneryPolys" zpos="-5" />
+		<gamelayer name="Polys_1" zpos="-20" />
+		<gamelayer name="Polys_2" zpos="-30" />
+		<gamelayer name="Decorations" zpos="-40" />
+		<gamelayer name="Far_Foreground" zpos="-100" />
+		<gamelayer name="Near_Foreground" zpos="-200" />
+                  
+		
+		
+		<material name="guineapig" density="0.5" friction_static="1" elasticity="0.0" friction_rolling="1" friction_dynamic="1" />
+		<material name="switch" density="1" friction_static="0.1" elasticity="0.0" />
+		<material name="average" density="0.5" friction_static="0.1" elasticity="0.2" />
+		<material name="football" density="0.5" friction_static="0.1" elasticity="1" friction_rolling="0.1" friction_dynamic="0.1"/>
+		<material name="beachball" density="0.02" friction_static="0.1" elasticity="1" friction_rolling="0.1" friction_dynamic="0.1"/>
+		<material name="ball_notbouncy" density="0.2" friction_static="0.1" elasticity="0.2" friction_rolling="0.1" friction_dynamic="0.1"/>
+		<material name="snake" density="1" friction_static="0.0" elasticity="0.0" />
+		<material name="hinge" density="1" friction_static="0.5" elasticity="0.0" />
+		<material name="light" density="0.1" friction_static="0.5" elasticity="0.0" />
+		<material name="floaty_bubbble" density="0.05" friction_static="0.5" elasticity="0.0" />
+		<material name="heavy" density="1" friction_static="0.5" elasticity="0.0" />
+		<material name="veryheavy" density="2" friction_static="0.5" elasticity="0.0" />
+		<material name="bouncy" density="0.5" friction_static="0.5" elasticity="1" />
+		<material name="smooth" density="0.5" friction_static="0" elasticity="0.0" />
+		<material name="dense" density="1" friction_static="1" elasticity="0.0" />
+		<material name="massivelydense" density="50" friction_static="1" elasticity="0.0" />
+		<material name="bubblebit_dense" density="50" friction_static="1" elasticity="0.0" />
+		<material name="springboard" density="1" friction_static="1" elasticity="2" />
+		<material name="poly_ice" density="1" friction_static="0.01" elasticity="0" friction_rolling="0.01" friction_dynamic="0.01"/>
+		<material name="poly_average" density="1" friction_static="0.5" elasticity="0.0" />
+		<material name="poly_mud" density="1" friction_static="100" elasticity="0.0" friction_rolling="100" friction_dynamic="100"/>
+
+		
+		<objparam name="general_timer" type="number" default="1"></objparam>
+		<objparam name="general_timer_startoffset" type="number" default="0"></objparam>
+		
+		<objparam name="mathpath_speed" type="number" default="0"></objparam>
+		<objparam name="mathpath_radius" type="number" default="0"></objparam>
+		<objparam name="mathpath_startpos" type="number" default="0"></objparam>
+		<objparam name="mathpath_scalex" type="number" default="1"></objparam>
+		<objparam name="mathpath_scaley" type="number" default="1"></objparam>
+		<objparam name="mathpath_num" type="number" default="1"></objparam>
+		<objparam name="mathpath_wavespeed" type="number" default="0"></objparam>
+		<objparam name="mathpath_waveradius" type="number" default="0"></objparam>
+		<objparam name="mathpath_numpertype" type="number" default="0"></objparam>
+
+		<objparam name="rotator_vel" type="number" default="0"></objparam>
+		<objparam name="rotator_pause" type="number" default="0"></objparam>
+		<objparam name="rotator_anglechange" type="number" default="0"></objparam>
+		
+		
+		<objparam name="cannon_minang" type="number" default="0"></objparam>
+		<objparam name="cannon_maxang" type="number" default="0"></objparam>
+		<objparam name="cannon_mode" type="number" default="0"></objparam>
+		<objparam name="cannon_speed" type="number" default="0"></objparam>
+		
+		<objparam name="pickup_count" type="number" default="3"></objparam>
+		<objparam name="force" type="number" default="100"></objparam>
+
+		<objparam name="obj_on" type="bool" default="true"></objparam>
+		
+		<objparam name="path_startmode" type="list" default="stop" values="stop,start,start_reverse"></objparam>
+		<objparam name="path_endmode" type="list" default="stop" values="stop,bounce,loop,reset"></objparam>
+		<objparam name="path_switchmode" type="list" default="start" values="start,start_doubleswitch,stop,toggle_dir,toggle_movement"></objparam>
+		
+		<objparam name="path_line" type="linelink" default=""></objparam>
+		<objparam name="path_speed" type="number" default="30">	</objparam>		
+		<objparam name="path_loop" type="bool" default="false"></objparam>			
+		<objparam name="path_spline" type="bool" default="true"></objparam>			
+		<objparam name="path_ease" type="list" default="linear" values="linear,power_in,power_out,power_inout,spring_in,spring_out,spring_inout"></objparam>
+		<objparam name="path_easevalue" type="number" default="1"></objparam>			
+		<objparam name="path_endreset" type="bool" default="false"></objparam>			
+		<objparam name="path_startpos" type="number" default="0"></objparam>			
+		<objparam name="path_2way" type="bool" default="false">	</objparam>		
+		<objparam name="path_rotatetopath" type="bool" default="true" ></objparam>			
+		<objparam name="path_startmoving" type="bool" default="true"></objparam>			
+		<objparam name="linkobj_line" type="linelink" default=""></objparam>			
+		<objparam name="linkobj_linka" type="objlink" default=""></objparam>			
+		<objparam name="linkobj_linkb" type="objlink" default=""></objparam>			
+		<objparam name="linkobj_minang" type="number" default="0"></objparam>
+		<objparam name="linkobj_maxang" type="number" default="0"></objparam>
+		<objparam name="linkobj_x0" type="number" default="0"></objparam>
+		<objparam name="linkobj_y0" type="number" default="0"></objparam>
+		<objparam name="linkobj_x1" type="number" default="0"></objparam>
+		<objparam name="linkobj_y1" type="number" default="0"></objparam>
+		
+
+		
+		<objparam name="prismatic_axisangle" type="angle" default="0"></objparam>
+		<objparam name="prismatic_enablelimit" type="bool" default="true"></objparam>
+		<objparam name="prismatic_lowertranslation" type="number" default="0"></objparam>
+		<objparam name="prismatic_uppertranslation" type="number" default="0"></objparam>
+		<objparam name="prismatic_enablemotor" type="bool" default="false"></objparam>
+		<objparam name="prismatic_motorspeed" type="number" default="0"></objparam>
+		<objparam name="prismatic_maxmotorforce" type="number" default="0"></objparam>
+
+		
+		
+		<objparam name="line_type" type="list" default="normal" values="normal,transparent"></objparam>
+		<objparam name="line_thickness" type="number" default="1"></objparam>
+		<objparam name="line_fixed" type="bool" default="true"></objparam>
+		<objparam name="line_physmaterial" type="list" default="average" values="average,bouncy,smooth,dense"></objparam>
+		<objparam name="line_function" type="list" default="InitGameObjLine_Grassy" values="InitGameObjLine_Grassy,InitGameObjLine_Smooth,InitGameObjLine_Death,InitGameObjLine_Bouncy,InitGameObjLine_Icy,InitGameObjLine_ScrollArea,InitGameObjLine_Background,InitGameObjLine_Switch,InitGameObjLine_NonCollision,InitGameObjLine_KnifeEdge,InitGameObjLine_TriggerHitMissile,InitGameObjLine_ForShow"></objparam>
+		<objparam name="line_background_frame" type="int" default="1" ></objparam>
+		
+		<objparam name="editor_layer" type="editorlayer" default="1"></objparam>
+		
+		
+		<objparam name="switch_name" type="text" default=""></objparam>
+		<objparam name="switch_type" type="list" default="once" values="once,timed,2way"></objparam>
+		<objparam name="switch_time" type="number" default="3"></objparam>
+		<objparam name="helptext_text" type="text" default="help text"></objparam>
+		<objparam name="helptext_initialdelay" type="number" default="0"></objparam>
+		<objparam name="helptext_color" type="list" default="ffffff" values="ffffff,ff0000,00ff00,0000ff"></objparam>
+		
+		
+		<objparam name="disk_velocity" type="number" default="20"></objparam>
+		<objparam name="disk_type" type="list" default="constant" values="constant"></objparam>
+		
+		<objparam name="spawner_initialdelay" type="number" default="0" ></objparam>
+		<objparam name="spawner_frequency" type="number" default="3" ></objparam>
+		<objparam name="spawner_spawnobject" type="list" default="once" values="ball_tiny,spikyball"></objparam>
+		<objparam name="spawner_totalamount" type="number" default="10" ></objparam>
+
+		
+		
+		<objparam name="player_ammo" type="number" default="0" ></objparam>
+		<objparam name="doorswitch_openangle" type="angle" default="90" ></objparam>
+		<objparam name="doorswitch_2way" type="bool" default="true"></objparam>
+		<objparam name="doorswitch_ccw" type="bool" default="false"></objparam>
+		<objparam name="doorswitch_linkid" type="number" default="0" ></objparam>
+		<objparam name="doorswitch_rotvel" type="number" default="6" ></objparam>
+		<objparam name="doorswitch_link" type="objlink" default="" ></objparam>
+
+		
+		
+		<objparam name="conveyor_speed" type="number" default="50" ></objparam>
+		<objparam name="keeper_action" type="list" default="stationary" values="stationary,jump1,crouch1,jumpcrouch1"></objparam>
+		
+		
+		
+</data>

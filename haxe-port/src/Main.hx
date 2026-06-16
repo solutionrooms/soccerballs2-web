@@ -101,13 +101,22 @@ class Main extends MovieClip
         tf.visible = false;
         theStage.addChild(tf);
         __perfTF = tf;
+        // Reliable enable regardless of keyboard layout / canvas focus: add ?fps (or ?perf) to the URL.
+        try {
+            var q : String = js.Browser.window.location.search;
+            if (q != null && (q.indexOf("fps") >= 0 || q.indexOf("perf") >= 0)) { __perfOn = true; tf.visible = true; }
+        } catch (err : Dynamic) {}
+        // Toggle key: backtick/tilde (` , keyCode 192). P is the in-game pause key so it can't be used.
+        var toggle = function() : Void { __perfOn = !__perfOn; if (__perfTF != null) __perfTF.visible = __perfOn; };
         theStage.addEventListener(KeyboardEvent.KEY_DOWN, function(e : KeyboardEvent) : Void {
-            if (e.keyCode == 192) // backtick / tilde
-            {
-                __perfOn = !__perfOn;
-                if (__perfTF != null) __perfTF.visible = __perfOn;
-            }
+            if (e.keyCode == 192) toggle();
         });
+        // also listen at the document level (some browsers/focus states don't deliver keys to the canvas)
+        try {
+            js.Browser.document.addEventListener("keydown", function(e) {
+                if ((untyped e).keyCode == 192) toggle();
+            });
+        } catch (err : Dynamic) {}
     }
 
     public function UpdatePerfOverlay() : Void
@@ -420,54 +429,52 @@ class Main extends MovieClip
         return "x=" + r.x + " y=" + r.y + " w=" + r.width + " h=" + r.height + " (right=" + (r.x+r.width) + " bottom=" + (r.y+r.height) + ")";
     }
 
-    // Fixed-timestep gate. openfl HTML5 dispatches ENTER_FRAME on every requestAnimationFrame and does
-    // NOT honour stage.frameRate, so the loop (and thus game speed) would run at the display refresh
-    // rate — far too fast on high-refresh / vsync-off machines. Gate the loop to Defs.fps so one update
-    // = 1/60 s of real time, matching the original Flash frame rate, independent of how fast rAF fires.
+    // Decoupled fixed-timestep loop. openfl HTML5 dispatches ENTER_FRAME every requestAnimationFrame and
+    // ignores stage.frameRate, so the raw rate = display refresh. Run the game logic/physics at a fixed
+    // Defs.fps (1/60 s) WITH CATCH-UP, and render once per frame. This keeps game SPEED correct and
+    // independent of the render rate: too-fast displays don't speed it up, and heavy/render-bound levels
+    // that can't render within 1/60 s still advance the simulation at the right pace (previously they
+    // ran at ~half speed because the physics stepped once per slow render frame).
     public static var __loopStamp : Float = -1;
+    public static var __accum : Float = 0;
 
     public function MainLoop(e : Event) : Void
     {
-        __rafCount++; // counts every ENTER_FRAME / requestAnimationFrame (the raw render rate)
+        __rafCount++; // every ENTER_FRAME / requestAnimationFrame (the raw render rate)
         var step : Float = 1.0 / Defs.fps;
         var now : Float = haxe.Timer.stamp();
-        if (__loopStamp < 0) __loopStamp = now - step;
-        if ((now - __loopStamp) < step)
+        if (__loopStamp < 0) __loopStamp = now;
+        __accum += (now - __loopStamp);
+        __loopStamp = now;
+        if (__accum > step * 5) __accum = step * 5; // anti-spiral clamp after a stall (tab switch / GC)
+
+        var steps : Int = 0;
+        while (__accum >= step)
         {
-            UpdatePerfOverlay(); // keep the raf counter/fps window live even on skipped frames
-            return; // too soon since the last update -> cap at Defs.fps
+            __accum -= step;
+            __updCount++;
+            debugLoopCount++;
+            // one full original "frame" of logic+physics (no render) — run N times to catch up to realtime
+            KeyReader.UpdateOncePerFrame();
+            Audio.UpdateOncePerFrame();
+            GameVars.InitForFrame();
+            if (!Game.doWalkthrough) Game.UpdateGameplay();
+            GameVars.ExitForFrame();
+            steps++;
         }
-        __loopStamp += step;
-        if ((now - __loopStamp) > step)
+        if (steps > 0 && screenBD != null)
         {
-            __loopStamp = now; // fell behind (rAF slower than Defs.fps, or a stall) -> resync, no catch-up spiral
+            Render(screenBD); // render once per displayed frame, after catching the simulation up
+            calcFrameTime();
+            timeForUpdate = (haxe.Timer.stamp() - now) * 1000;
         }
-
-        __updCount++;
-        debugLoopCount++;
-        KeyReader.UpdateOncePerFrame();
-        Audio.UpdateOncePerFrame();
-
-        GameVars.InitForFrame();
-
-        RunLevel();
-        GameVars.ExitForFrame();
-
-        calcFrameTime();
         UpdatePerfOverlay();
 
-        // DEBUG diagnostics (copy [SB2] console lines back). One-time ground-collision geometry dump
-        // when a level becomes playable, then the ball's trajectory each time it is in flight.
+        // one-time terrain-collision geometry dump when a level becomes playable (copy [SB2] lines back)
         try {
             var fb : Dynamic = GameVars.footballGO;
             if (fb != null && !__diagDone) { __diagDone = true; sb2DiagGround(); }
             if (fb == null) __diagDone = false;
-            if (fb != null && fb.state == 2) {
-                if (__ballLogCount % 4 == 0) trace("[SB2] ball x=" + Std.int(fb.xpos) + " y=" + Std.int(fb.ypos) + " (floor where ref rests ~422)");
-                __ballLogCount++;
-            } else {
-                __ballLogCount = 0;
-            }
         } catch (e : Dynamic) {}
     }
 

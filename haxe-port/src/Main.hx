@@ -385,6 +385,51 @@ class Main extends MovieClip
         GameVars.ExitForFrame();
 
         calcFrameTime();
+
+        // DEBUG diagnostics (copy [SB2] console lines back). One-time ground-collision geometry dump
+        // when a level becomes playable, then the ball's trajectory each time it is in flight.
+        try {
+            var fb : Dynamic = GameVars.footballGO;
+            if (fb != null && !__diagDone) { __diagDone = true; sb2DiagGround(); }
+            if (fb == null) __diagDone = false;
+            if (fb != null && fb.state == 2) {
+                if (__ballLogCount % 4 == 0) trace("[SB2] ball x=" + Std.int(fb.xpos) + " y=" + Std.int(fb.ypos) + " (floor where ref rests ~422)");
+                __ballLogCount++;
+            } else {
+                __ballLogCount = 0;
+            }
+        } catch (e : Dynamic) {}
+    }
+
+    static var __diagDone : Bool = false;
+    static var __ballLogCount : Int = 0;
+
+    // Dump the grass collision body's triangles — validity (Nape rejects bad winding/degenerate polys
+    // as non-VALID) and signed-area winding — to test why a kicked ball passes through the top surface.
+    public static function sb2DiagGround() : Void {
+        var space = PhysicsBase.GetNapeSpace();
+        trace("[SB2] === ground diagnostic ===");
+        for (b in space.bodies) {
+            if (!b.isStatic()) continue;
+            var isGround = false;
+            for (sh in b.shapes) { var f = sh.filter; if (f.collisionGroup == 1 && !sh.sensorEnabled) { isGround = true; break; } }
+            if (!isGround) continue;
+            var bx = b.position.x; var by = b.position.y;
+            var tris = 0; var coversBall = 0;
+            var minx = 1e9; var maxx = -1e9; var miny = 1e9; var maxy = -1e9;
+            for (sh in b.shapes) {
+                tris++;
+                var ab = sh.bounds; // world-space AABB — definitive
+                if (ab.x < minx) minx = ab.x; if (ab.x + ab.width > maxx) maxx = ab.x + ab.width;
+                if (ab.y < miny) miny = ab.y; if (ab.y + ab.height > maxy) maxy = ab.y + ab.height;
+                // does this triangle's AABB cover the ball's column (x~319) near floor (y~415-470)?
+                if (ab.x <= 330 && ab.x + ab.width >= 310 && ab.y <= 470 && ab.y + ab.height >= 410) coversBall++;
+            }
+            trace("[SB2] grass body@(" + Std.int(bx) + "," + Std.int(by) + ") shapes=" + tris
+                + " worldBounds=(" + Std.int(minx) + "," + Std.int(miny) + ")..(" + Std.int(maxx) + "," + Std.int(maxy) + ")"
+                + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall);
+        }
+        trace("[SB2] === end ground diagnostic ===");
     }
 }
 

@@ -230,6 +230,13 @@ perl -0777 -i -pe 's/(    public function MainLoop\(e : Event\) : Void\n    \{\n
 # undefined (HUD shows "null"). Default the loaded int fields to 0.
 perl -i -pe 's/Game\.cash = so\.data\.cash;/Game.cash = (so.data.cash != null) ? so.data.cash : 0;/; s/Game\.currentScore = so\.data\.score;/Game.currentScore = (so.data.score != null) ? so.data.score : 0;/' "$DIR/SaveData.hx" 2>/dev/null || true
 
+# PhysicsBase.InitLines terrain centering: as3hx types `nape_points` as Array<Dynamic>, so the
+# `v.x -= cx` centering loop is a raw field write that BYPASSES nape Vec2's x/y property setters —
+# the verts never centre, the body-at-centroid offset double-applies, and the whole terrain collision
+# polygon lands ~(centroid) away from where it's drawn (ball/objects fall through the floor). Type it
+# as Array<Vec2> so the setters run.
+perl -i -pe 's/var nape_points : Array<Dynamic> = \[\];/var nape_points : Array<Vec2> = [];/' "$DIR/PhysicsBase.hx" 2>/dev/null || true
+
 # AS3 defaults int fields to 0; Haxe/JS leaves uninitialised statics/fields as null/undefined, which
 # poisons arithmetic (undefined+1 -> NaN -> "Invalid type for frame", TextField.text #2007, etc.).
 # Initialise every uninitialised `var X : Int;` field to 0 (Number/Float fields are left NaN-defaulted,

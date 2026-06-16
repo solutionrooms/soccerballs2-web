@@ -219,7 +219,12 @@ class PhysicsBase
                     {
                         var cx : Float = 0;
                         var cy : Float = 0;
-                        var nape_points : Array<Dynamic> = [];
+                        // MUST be typed Array<Vec2> (not the as3hx-default Array<Dynamic>): the centering
+                        // loop below does `v.x -= cx`, and on a Dynamic that is a raw field write which
+                        // BYPASSES nape Vec2's x/y property setters — so the verts are never centred, the
+                        // body-at-centroid offset is double-applied, and the whole terrain collision poly
+                        // lands ~(centroid) off from where it's drawn (ball/objects fall through the floor).
+                        var nape_points : Array<Vec2> = [];
                         for (pt in points)
                         {
                             nape_points.push(new Vec2(pt.x, pt.y));
@@ -228,7 +233,7 @@ class PhysicsBase
                         }
                         cx /= points.length;
                         cy /= points.length;
-                        
+
                         for (v in nape_points)
                         {
                             v.x -= cx;

@@ -37,9 +37,10 @@ class TileRenderer
 
     public static function Init(w : Int, h : Int) : Tilemap
     {
+        DEBUG_SHARE_TILESET = Settings.gpuBatchTest; // persisted options toggle
         try {
             var q : String = js.Browser.window.location.search;
-            if (q != null && q.indexOf("batch1") >= 0) DEBUG_SHARE_TILESET = true;
+            if (q != null && q.indexOf("batch1") >= 0) DEBUG_SHARE_TILESET = true; // URL override still works
         } catch (e : Dynamic) {}
         tilemap = new Tilemap(w, h, null, true /* smoothing */);
         tilemap.tileAlphaEnabled = true;

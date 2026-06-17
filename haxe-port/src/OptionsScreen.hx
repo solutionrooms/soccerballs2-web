@@ -26,12 +26,14 @@ class OptionsScreen
     static var rowPerf : Sprite;
     static var rowLevels : Sprite;
     static var rowControl : Sprite;
+    static var rowBatch : Sprite;
     static var lblPerf : TextField;
     static var lblLevels : TextField;
     static var lblControl : TextField;
+    static var lblBatch : TextField;
 
     static inline var BOX_W : Float = 380;
-    static inline var BOX_H : Float = 300;
+    static inline var BOX_H : Float = 348;
 
     public static function Init(stage : Stage) : Void
     {
@@ -113,21 +115,26 @@ class OptionsScreen
 
         box.addChild(MakeText("OPTIONS", 22, 0x00FF66, 0, 18, BOX_W, true));
 
-        rowPerf = MakeRow(70, "Performance HUD");
+        rowPerf = MakeRow(64, "Performance HUD");
         lblPerf = cast rowPerf.getChildByName("val");
         rowPerf.addEventListener(MouseEvent.CLICK, function(_) : Void { TogglePerf(); });
 
-        rowLevels = MakeRow(130, "Open all levels (dev)");
+        rowLevels = MakeRow(116, "Open all levels (dev)");
         lblLevels = cast rowLevels.getChildByName("val");
         rowLevels.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleLevels(); });
 
-        rowControl = MakeRow(190, "Mobile controls");
+        rowControl = MakeRow(168, "Mobile controls");
         lblControl = cast rowControl.getChildByName("val");
         rowControl.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleControl(); });
+
+        rowBatch = MakeRow(220, "GPU batch test (garbled)");
+        lblBatch = cast rowBatch.getChildByName("val");
+        rowBatch.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleBatch(); });
 
         box.addChild(rowPerf);
         box.addChild(rowLevels);
         box.addChild(rowControl);
+        box.addChild(rowBatch);
 
         // CLOSE button
         var closeBtn = new Sprite();
@@ -187,6 +194,7 @@ class OptionsScreen
         if (lblPerf != null) { lblPerf.text = Settings.perfHud ? "ON" : "OFF"; lblPerf.textColor = Settings.perfHud ? 0x00FF66 : 0x999999; }
         if (lblLevels != null) { lblLevels.text = Settings.openAllLevels ? "ON" : "OFF"; lblLevels.textColor = Settings.openAllLevels ? 0x00FF66 : 0x999999; }
         if (lblControl != null) { lblControl.text = (Settings.mobileControlScheme == Settings.SCHEME_B) ? "B" : "A"; }
+        if (lblBatch != null) { lblBatch.text = Settings.gpuBatchTest ? "ON" : "OFF"; lblBatch.textColor = Settings.gpuBatchTest ? 0xFFAA33 : 0x999999; }
     }
 
     // ---- Toggles -----------------------------------------------------------------------------
@@ -210,6 +218,14 @@ class OptionsScreen
     {
         Settings.mobileControlScheme = (Settings.mobileControlScheme == Settings.SCHEME_B) ? Settings.SCHEME_A : Settings.SCHEME_B;
         Settings.Save();
+        RefreshLabels();
+    }
+
+    static function ToggleBatch() : Void
+    {
+        Settings.gpuBatchTest = !Settings.gpuBatchTest;
+        Settings.Save();
+        TileRenderer.DEBUG_SHARE_TILESET = Settings.gpuBatchTest; // applies live (Push reads it each call)
         RefreshLabels();
     }
 

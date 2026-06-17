@@ -57,14 +57,28 @@ class Audio
         }
         
         
+        // HTML5: the Web AudioContext starts SUSPENDED (browser autoplay policy) and only resumes
+        // inside a user-gesture handler. The original startup probe disabled ALL audio when play()
+        // returned null — but pre-gesture that's the normal web state, so it muted the game forever
+        // on Mac and mobile alike. Keep sound enabled; unlock the shared context on the first gesture
+        // (openfl sounds all use lime AudioManager.context.web — see openfl Sound.hx).
         var s : Sound = new SfxClick();
-        var sc : SoundChannel = s.play(0, 0, new SoundTransform(0, 0));
-        if (sc == null)
-        {
-            soundAllowed = false;
-            muteSFX = true;
-            muteMusic = true;
-        }
+        try { s.play(0, 0, new SoundTransform(0, 0)); } catch (e : Dynamic) {}
+
+        #if (js && html5)
+        try {
+            var resumeAudio : Dynamic = null;
+            resumeAudio = function(ev : Dynamic) : Void {
+                try {
+                    var ctx = lime.media.AudioManager.context;
+                    if (ctx != null && ctx.web != null) ctx.web.resume();
+                } catch (err : Dynamic) {}
+            };
+            js.Browser.document.addEventListener("touchend", resumeAudio);
+            js.Browser.document.addEventListener("mousedown", resumeAudio);
+            js.Browser.document.addEventListener("keydown", resumeAudio);
+        } catch (e : Dynamic) {}
+        #end
     }
     
     public static function IsMuteSFX() : Bool

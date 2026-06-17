@@ -18,12 +18,22 @@ This is NOT the hand-reimplemented TS port (that lives on branch `feature/walkth
 ```
 ./tools/patch-swf-haxelib.sh      # in-place haxelib patches (SWF symbols, no-loop timelines)
 ./tools/patch-render-perf.sh      # in-place openfl patch: cache tinted BitmapData.draw (render perf)
+../tools/patch-nape-friction.sh   # in-place nape-haxe4 patch: match 2012 Nape's no-friction-on-bounce
 haxelib run lime build html5      # -> bin/html5/bin/SoccerBalls2.js
 ./tools/check.sh                  # fast typecheck (no JS output)
 ```
-The two `patch-*.sh` scripts edit the installed `swf`/`openfl` haxelibs in place (there is no
-project-level hook for it). Both are idempotent — re-run after any `haxelib` reinstall/upgrade,
-then rebuild. To deploy: re-copy `bin/html5/bin` -> `site/` and push `main` (GitHub Pages).
+The three `patch-*.sh` scripts edit the installed `swf`/`openfl`/`nape-haxe4` haxelibs in place
+(there is no project-level hook for it). All idempotent — re-run after any `haxelib` reinstall/
+upgrade, then rebuild. To deploy: re-copy `bin/html5/bin` -> `site/` and push `main` (GitHub Pages).
+
+The nape patch is a **faithfulness fix**: the shipped game was tuned against the 2012 Nape build,
+which applied **no Coulomb friction to a contact carrying a restitution bounce** (fast wall/terrain
+impacts). nape-haxe4 2.0.22's solver is byte-identical to the 2012 SWC across every friction-relevant
+path (combine, friction solve, bias coefs, bounce setup, normal/jnAcc solve), yet the emergent
+behaviour differs — so the divergence is structural/numerical, not a single changed line. The patch
+gates friction off when `c1.bounce != 0`, reproducing the original exactly: the ball slips off walls
+(full climb, no spin — e.g. level-9 shots reach the receiving player) but still grips/rolls on the
+ground (resting contacts have `bounce == 0`). Validated headless in `tools/nape-ab/`.
 
 ## Conversion pipeline (reproducible)
 ```

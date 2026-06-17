@@ -23,6 +23,20 @@ class Settings
     // (garbled), but isolates draw-call cost from per-sprite cost when measuring perf across devices.
     public static var gpuBatchTest : Bool = false;
 
+    // Diagnostic: neutralise poly_mud's very high friction (100 -> grass-like) when building terrain.
+    // Tests whether sticky-mud walls are what make shots like level 9 fail in the port. Applied at
+    // level load, so toggle then restart the level. Does NOT change the original game data.
+    public static var noMudFriction : Bool = false;
+
+    // FAITHFUL FIX (default ON): the original game's 2012 Nape flew the ball frictionlessly at fast
+    // terrain contacts; nape-haxe4 over-applies the ball's 0.1 friction (halving climbs, e.g. level 9).
+    // Making the ball materials (football/beachball) frictionless reproduces the original exactly.
+    // Toggleable so we can A/B against the wrong (friction-applied) behaviour. Applied at level load.
+    // Superseded by the nape-haxe4 friction patch (tools/patch-nape-friction.sh), which faithfully
+    // skips friction only on bouncing/fast contacts (ball keeps real 0.1 friction + rolls on ground).
+    // Left as an off-by-default fallback; the engine patch is the real fix.
+    public static var ballFrictionless : Bool = false;
+
     public static inline var SCHEME_A : Int = 0;
     public static inline var SCHEME_B : Int = 1;
 
@@ -39,6 +53,8 @@ class Settings
                 if (so.data.openAllLevels != null) openAllLevels = so.data.openAllLevels;
                 if (so.data.mobileControlScheme != null) mobileControlScheme = Std.int(so.data.mobileControlScheme);
                 if (so.data.gpuBatchTest != null) gpuBatchTest = so.data.gpuBatchTest;
+                if (so.data.noMudFriction != null) noMudFriction = so.data.noMudFriction;
+                if (so.data.ballFrictionless != null) ballFrictionless = so.data.ballFrictionless;
                 (untyped so).close();
             }
         }
@@ -54,6 +70,8 @@ class Settings
             so.data.openAllLevels = openAllLevels;
             so.data.mobileControlScheme = mobileControlScheme;
             so.data.gpuBatchTest = gpuBatchTest;
+            so.data.noMudFriction = noMudFriction;
+            so.data.ballFrictionless = ballFrictionless;
             so.flush();
             (untyped so).close();
         }

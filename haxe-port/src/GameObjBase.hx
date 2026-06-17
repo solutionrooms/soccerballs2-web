@@ -16,6 +16,7 @@ import flash.display.BitmapData;
 import nape.callbacks.InteractionCallback;
 import nape.constraint.Constraint;
 import nape.constraint.DistanceJoint;
+import nape.constraint.WeldJoint;
 import nape.dynamics.Contact;
 import nape.geom.Vec2;
 import nape.phys.Body;
@@ -1777,18 +1778,44 @@ class GameObjBase
     {
         var body : Body = nape_bodies[0];
         body.type = BodyType.KINEMATIC;
-        
+
         var dx : Float = _x - body.position.x;
         var dy : Float = _y - body.position.y;
         var da : Float = rot - body.rotation;
-        
+
+        // GENERIC FIX (all movers, all levels): when this kinematic body actually moves, wake the
+        // DYNAMIC bodies welded to it. nape-haxe4 otherwise leaves a welded dynamic body asleep, so a
+        // moving platform / lift / switch-wall can't drag it through the weld and the attached object
+        // is left behind (original AS3 nape kept it following). The move guard means stationary movers
+        // still let their welded bodies sleep normally (no perf cost).
+        if (Math.abs(dx) > 0.001 || Math.abs(dy) > 0.001 || Math.abs(da) > 0.0001)
+        {
+            WakeWeldedBodies(body);
+        }
+
         var ts : Float = PhysicsBase.nape_oneOverTimeStep;
         dx *= ts;
         dy *= ts;
         da *= ts;
-        
+
         body.velocity.setxy(dx, dy);
         body.angularVel = da;
+    }
+
+    static var __wakeImpulse : Vec2 = null;
+    // Wake every DYNAMIC body welded to `body` so the weld constraint can drag it. Welded dynamic
+    // chains (post<->post) then wake each other through nape's normal propagation.
+    function WakeWeldedBodies(body : Body) : Void
+    {
+        if (body == null || body.constraints == null) return;
+        if (__wakeImpulse == null) __wakeImpulse = new Vec2(0, 0);
+        for (c in body.constraints)
+        {
+            var w : WeldJoint = (Std.isOfType(c, WeldJoint)) ? cast(c, WeldJoint) : null;
+            if (w == null) continue;
+            if (w.body1 != null && w.body1 != body && w.body1.type == BodyType.DYNAMIC) w.body1.applyImpulse(__wakeImpulse);
+            if (w.body2 != null && w.body2 != body && w.body2.type == BodyType.DYNAMIC) w.body2.applyImpulse(__wakeImpulse);
+        }
     }
     
     

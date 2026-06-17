@@ -32,9 +32,10 @@ class UIGameScreen extends UIScreenInstance
         
         (untyped Game.main).screenB.bitmapData.fillRect(Defs.screenRect, 0);
         titleMC = new MovieClip();
-        // ?nounderlay diagnostic: skip the software underlay bitmap so its dynamic texture isn't
-        // uploaded to the GPU each frame (isolates the iOS texImage2D stall).
-        if (!TileRenderer.noUnderlay) titleMC.addChild((untyped Game.main).screenB);
+        titleMC.addChild((untyped Game.main).screenB);
+        // 'no underlay' diagnostic: an invisible Bitmap isn't rendered, so its dynamic texture stops
+        // being uploaded to the GPU each frame (isolates the iOS texImage2D stall). Toggleable live.
+        (untyped Game.main).screenB.visible = !TileRenderer.noUnderlay;
         // GPU sprite layer above the software underlay (screenB = background + vector terrain).
         if (TileRenderer.tilemap != null) titleMC.addChild(TileRenderer.tilemap);
 

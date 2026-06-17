@@ -46,6 +46,10 @@ class TileRenderer
     // canvas stall from the tilemap vertex-buffer stall. Renders sprites on a blank background.
     public static var noUnderlay : Bool = false;
 
+    // DIAGNOSTIC (?notiles): emit zero tiles (empty tilemap), to split the cost of the sprite tiles
+    // from the rest of the WebGL stage (underlay texture upload + vector UI tessellation).
+    public static var noTiles : Bool = false;
+
     public static function Init(w : Int, h : Int) : Tilemap
     {
         DEBUG_SHARE_TILESET = Settings.gpuBatchTest; // persisted options toggle
@@ -53,11 +57,19 @@ class TileRenderer
             var q : String = js.Browser.window.location.search;
             if (q != null && q.indexOf("batch1") >= 0) DEBUG_SHARE_TILESET = true; // URL override still works
             if (q != null && q.indexOf("nounderlay") >= 0) noUnderlay = true;
+            if (q != null && q.indexOf("notiles") >= 0) noTiles = true;
         } catch (e : Dynamic) {}
         tilemap = new Tilemap(w, h, null, true /* smoothing */);
         tilemap.tileAlphaEnabled = true;
         tilemap.tileColorTransformEnabled = true;
         tilemap.tileBlendModeEnabled = true;
+        // iOS stall diagnostics: ?noblend disables per-tile blend modes (LAYER/OVERLAY need a
+        // destination-framebuffer read = an iOS stall); ?noct disables per-tile colorTransform.
+        try {
+            var q2 : String = js.Browser.window.location.search;
+            if (q2 != null && q2.indexOf("noblend") >= 0) tilemap.tileBlendModeEnabled = false;
+            if (q2 != null && q2.indexOf("noct") >= 0) tilemap.tileColorTransformEnabled = false;
+        } catch (e : Dynamic) {}
         return tilemap;
     }
 
@@ -83,7 +95,7 @@ class TileRenderer
     // Push one sprite. mat is the same transform the old screenBD.draw used; ct/blend may be null.
     public static function Push(bd : BitmapData, mat : Matrix, ct : ColorTransform = null, blend : BlendMode = null) : Void
     {
-        if (bd == null || tilemap == null) return;
+        if (bd == null || tilemap == null || noTiles) return;
         var ts = tilesetFor(bd);
         if (DEBUG_SHARE_TILESET)
         {

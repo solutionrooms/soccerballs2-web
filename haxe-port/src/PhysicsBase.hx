@@ -12,6 +12,11 @@ import nape.callbacks.CbEvent;
 import nape.callbacks.CbType;
 import nape.callbacks.InteractionListener;
 import nape.callbacks.InteractionType;
+import nape.callbacks.PreListener;
+import nape.callbacks.PreCallback;
+import nape.callbacks.PreFlag;
+import nape.callbacks.CbType;
+import nape.dynamics.CollisionArbiter;
 import nape.constraint.AngleJoint;
 import nape.constraint.Constraint;
 import nape.constraint.DistanceJoint;
@@ -101,7 +106,13 @@ class PhysicsBase
         nape_space0 = new Space(new Vec2(0, nape_Gravity), null);
         nape_space1 = new Space(new Vec2(0, nape_Gravity), null);
         nape_space2 = new Space(new Vec2(0, nape_Gravity), null);
-        
+
+        // NOTE: nape combines elasticity by AVERAGE then clamp [0,1] (with infinity-bias). The original
+        // game relies on exactly this model (e.g. material springboard has elasticity=2 so it clamps to
+        // full elasticity against any ball). An earlier MAX-combine override was removed — it diverged
+        // from the real engine and made plain floors bounce. Bounce fidelity is pursued via matching the
+        // 2012 Nape engine defaults/solver and the original material data, not by overriding the combine.
+
         current_space = nape_space0;
         
         
@@ -122,7 +133,7 @@ class PhysicsBase
         
         InitObjectParameters();
     }
-    
+
     public static function TimeStep()
     {
         GetNapeSpace().step(nape_timeStep, 10, 10);
@@ -192,6 +203,17 @@ class PhysicsBase
                 
                 var polyMaterial : PolyMaterial = PolyMaterials.GetByName(line.objParameters.GetValueString("line_material"));
                 var physMaterial : PhysObjMaterial = Game.GetPhysMaterialByName(polyMaterial.materialName);
+                // DIAGNOSTIC (Settings.noMudFriction): make poly_mud (friction 100) FRICTIONLESS so it
+                // can't arrest the ball at all. Isolates how much of level 9's shortfall is friction vs
+                // kick/arrival. Clone — never mutate the shared material instance. Keeps the name
+                // "poly_mud" so the contact probe still identifies it.
+                if (Settings.noMudFriction && physMaterial != null && physMaterial.name == "poly_mud")
+                {
+                    physMaterial = physMaterial.Clone();
+                    physMaterial.friction_static = 0.0;
+                    physMaterial.friction_dynamic = 0.0;
+                    physMaterial.friction_rolling = 0.0;
+                }
                 var interactionFilter : InteractionFilter = new InteractionFilter(polyMaterial.collisionCategory, polyMaterial.collisionMask, polyMaterial.sensorCategory, polyMaterial.sensorMask);
                 
                 var sensorEnabled : Bool = false;
@@ -481,8 +503,8 @@ class PhysicsBase
                 {
                     var circle_pos : Vec2 = new Vec2(shape.circle_pos.x * scale, shape.circle_pos.y * scale);
                     var nape_circle : Circle = new Circle(shape.circle_radius, circle_pos);
-                    
-                    
+
+
                     nape_circle.material = physMaterial.MakeNapeMaterial();
                     var interactionFilter : InteractionFilter = new InteractionFilter(shape.collisionCategory, shape.collisionMask, shape.sensorCategory, shape.sensorMask);
                     

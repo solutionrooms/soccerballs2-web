@@ -126,11 +126,48 @@ class NapeContacts
     {
         Utils.print("HERE");
     }
+    // ===== TEMP CONTACT PROBE (level-9 friction diagnosis; REMOVE after measuring) =====
+    // For every ball-involved collision arbiter, logs which surface was hit and the combined
+    // restitution/friction the engine actually applied, plus the ball's speed. A wall hit that
+    // produces a mud arbiter logs combined dynF ~3.16; a grass arbiter ~0.22. If a single impact
+    // logs BOTH a mud and a grass line, that confirms the overlapping-collider hypothesis.
+    public static var probeEnabled : Bool = false; // OFF for deploy. Was ON for the trajectory A/B vs the original SWF; fix now lives in the nape-haxe4 friction patch (tools/patch-nape-friction.sh).
+    static var probeOngoingTick : Int = 0;
+
+    static function ProbeLog(arbiterList : ArbiterList, tag : String) : Void
+    {
+        if (!probeEnabled) return;
+        for (i in 0...arbiterList.length)
+        {
+            var arbiter : Arbiter = arbiterList.at(i);
+            if (!arbiter.isCollisionArbiter()) continue;
+            var ca : CollisionArbiter = arbiter.collisionArbiter;
+            var s1 = arbiter.shape1;
+            var s2 = arbiter.shape2;
+            // a ball has material elasticity ~1 (football/beachball); the other shape is the surface
+            var ballShape = (s1.material.elasticity >= 0.99) ? s1 : ((s2.material.elasticity >= 0.99) ? s2 : null);
+            if (ballShape == null || ballShape.body == null) continue;
+            var surfShape = (ballShape == s1) ? s2 : s1;
+            var v = ballShape.body.velocity;
+            var spd = Math.sqrt(v.x * v.x + v.y * v.y);
+            if (spd < 40) continue; // skip resting/jitter contacts
+            var n = ca.normal;
+            var surfName : String = "?";
+            try { surfName = surfShape.userData.data.name; } catch (e : Dynamic) { surfName = "?"; }
+            var r2 = function(f : Float) : Float { return Math.round(f * 100) / 100; };
+            trace("[PROBE " + tag + "] surf=" + surfName + " combF=" + r2(ca.dynamicFriction)
+                + " | vel=(" + Math.round(v.x) + "," + Math.round(v.y) + ") spd=" + Math.round(spd)
+                + " | normal=(" + r2(n.x) + "," + r2(n.y) + ")"
+                + " | spin=" + r2(ballShape.body.angularVel));
+        }
+    }
+
     public static function BeginCollide(cb : InteractionCallback)
     {
         var contact : Contact = null;
-        
+
         var arbiterList : ArbiterList = cb.arbiters;
+        ProbeLog(arbiterList, "BEGIN");
         for (i in 0...arbiterList.length)
         {
             var arbiter : Arbiter = arbiterList.at(i);
@@ -208,8 +245,9 @@ class NapeContacts
     public static function OngoingCollide(cb : InteractionCallback)
     {
         var contact : Contact = null;
-        
+
         var arbiterList : ArbiterList = cb.arbiters;
+        if ((probeOngoingTick++ % 4) == 0) ProbeLog(arbiterList, "ONGOING");
         for (i in 0...arbiterList.length)
         {
             var arbiter : Arbiter = arbiterList.at(i);

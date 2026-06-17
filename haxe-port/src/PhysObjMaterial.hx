@@ -54,6 +54,18 @@ class PhysObjMaterial
         m.rollingFriction = friction_rolling;
         m.staticFriction = friction_static;
         m.elasticity = elasticity;
+        // FAITHFUL FIX (verified by the original-SWF trajectory A/B + headless harness): the original
+        // game's 2012 Nape applied NO friction to the ball at fast terrain contacts — the football flew
+        // frictionlessly (tangential velocity preserved, physics spin 0; the visual roll is render-driven).
+        // nape-haxe4 2.0.22 DOES apply the ball's 0.1 friction at those contacts, halving the climb and
+        // spinning the ball (e.g. level 9 falling short of the receiving player). The game's feel was tuned
+        // to the 2012 engine, so we re-tune the ball materials to frictionless to reproduce it exactly.
+        if (Settings.ballFrictionless && (name == "football" || name == "beachball"))
+        {
+            m.dynamicFriction = 0;
+            m.staticFriction = 0;
+            m.rollingFriction = 0;
+        }
         return m;
     }
 }

@@ -157,6 +157,11 @@ class Main extends MovieClip
                     if (dbg != null) s += " | " + gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL);
                 }
                 else s += " | no-gl-on-canvas";
+                // backbuffer resolution + DPR: reveals if iOS is rendering at high-DPI (fill-rate suspect)
+                try {
+                    var dpr : Dynamic = js.Browser.window.devicePixelRatio;
+                    s += "\nbuf " + c.width + "x" + c.height + " css " + Std.int(c.clientWidth) + "x" + Std.int(c.clientHeight) + " dpr" + dpr;
+                } catch (e2 : Dynamic) {}
             }
         } catch (e : Dynamic) {}
         // only cache once the stage/context is actually up
@@ -164,10 +169,28 @@ class Main extends MovieClip
         return s;
     }
 
+    // Active render-diagnostic flags, so you can confirm a ?param actually took effect.
+    public static function GetDiagFlags() : String
+    {
+        var d : String = "";
+        try {
+            if (TileRenderer.noTiles) d += " notiles";
+            if (TileRenderer.noUnderlay) d += " nounderlay";
+            if (TileRenderer.DEBUG_SHARE_TILESET) d += " batch1";
+            if (TileRenderer.tilemap != null)
+            {
+                if (!TileRenderer.tilemap.tileBlendModeEnabled) d += " noblend";
+                if (!TileRenderer.tilemap.tileColorTransformEnabled) d += " noct";
+            }
+        } catch (e : Dynamic) {}
+        return d == "" ? " none" : d;
+    }
+
     public function UpdatePerfOverlay() : Void
     {
         var now : Float = haxe.Timer.stamp();
         if (__perfStamp < 0) __perfStamp = now;
+        var refresh : Bool = false;
         if ((now - __perfStamp) >= 0.5)
         {
             var dt : Float = now - __perfStamp;
@@ -176,19 +199,28 @@ class Main extends MovieClip
             __updCount = 0;
             __rafCount = 0;
             __perfStamp = now;
+            refresh = true;
         }
         if (__perfOn && __perfTF != null)
         {
-            var bodies : Int = -1;
-            try { if (PhysicsBase.GetNapeSpace() != null) bodies = PhysicsBase.GetNapeSpace().bodies.length; } catch (e : Dynamic) {}
-            __perfTF.text = "fps " + Std.int(__gameFps + 0.5) + "   raf " + Std.int(__rafFps + 0.5)
-                + "\ninterval " + Std.int(timeForFrame) + "ms   ourcode " + Std.int(timeForUpdate) + "ms"
-                + "\nblits " + __blitsPerFrame + "   tiles " + TileRenderer.lastCount
-                + (TileRenderer.stress > 1 ? "   stress x" + TileRenderer.stress : "")
-                + (bodies >= 0 ? "\nnape bodies " + bodies : "")
-                + "\nrender " + GetRenderInfo()
-                + "\ncap " + Std.int(Defs.fps) + "fps";
-            // keep it pinned on top even as screens are added/removed
+            // IMPORTANT: only rebuild the text ~2x/sec, not every frame. On the WebGL stage iOS Safari
+            // re-uploads a changed TextField's texture (texImage2D) every frame it changes — updating
+            // the text 60x/s was itself a per-frame GPU stall that dominated the frame and masked the
+            // real render cost. Rebuilding it on the 0.5s tick keeps the TextField static in between.
+            if (refresh)
+            {
+                var bodies : Int = -1;
+                try { if (PhysicsBase.GetNapeSpace() != null) bodies = PhysicsBase.GetNapeSpace().bodies.length; } catch (e : Dynamic) {}
+                __perfTF.text = "fps " + Std.int(__gameFps + 0.5) + "   raf " + Std.int(__rafFps + 0.5)
+                    + "\ninterval " + Std.int(timeForFrame) + "ms   ourcode " + Std.int(timeForUpdate) + "ms"
+                    + "\nblits " + __blitsPerFrame + "   tiles " + TileRenderer.lastCount
+                    + (TileRenderer.stress > 1 ? "   stress x" + TileRenderer.stress : "")
+                    + "\ndiag:" + GetDiagFlags()
+                    + (bodies >= 0 ? "\nnape bodies " + bodies : "")
+                    + "\nrender " + GetRenderInfo()
+                    + "\ncap " + Std.int(Defs.fps) + "fps";
+            }
+            // keep it pinned on top even as screens are added/removed (cheap; no texture re-upload)
             if (theStage != null && __perfTF.parent == theStage && theStage.getChildIndex(__perfTF) != theStage.numChildren - 1)
                 theStage.setChildIndex(__perfTF, theStage.numChildren - 1);
         }
@@ -510,6 +542,22 @@ class Main extends MovieClip
             MobileControls.UpdateAim(); // scheme B: feed joystick deflection into Game.mouse_x/y before the update
             GameVars.InitForFrame();
             if (!Game.doWalkthrough) Game.UpdateGameplay();
+            // TRAJECTORY PROBE: same format/threshold as the patched original SWF's [ORIG] log, so the
+            // ball's per-frame velocity+spin+pos can be diffed against the original to find where they split.
+            if (NapeContacts.probeEnabled)
+            {
+                var __fb = GameVars.footballGO;
+                if (__fb != null && __fb.nape_bodies != null && __fb.nape_bodies.length > 0)
+                {
+                    var __v = __fb.GetBodyLinearVelocity(0);
+                    if (__v.length > 30)
+                    {
+                        trace("[PORT] vel=(" + Std.int(__v.x) + "," + Std.int(__v.y) + ") spd=" + Std.int(__v.length)
+                            + " spin=" + (Std.int(__fb.nape_bodies[0].angularVel * 100) / 100)
+                            + " pos=(" + Std.int(__fb.xpos) + "," + Std.int(__fb.ypos) + ")");
+                    }
+                }
+            }
             GameVars.ExitForFrame();
             steps++;
         }

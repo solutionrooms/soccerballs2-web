@@ -16,9 +16,14 @@ This is NOT the hand-reimplemented TS port (that lives on branch `feature/walkth
 
 ## Build
 ```
+./tools/patch-swf-haxelib.sh      # in-place haxelib patches (SWF symbols, no-loop timelines)
+./tools/patch-render-perf.sh      # in-place openfl patch: cache tinted BitmapData.draw (render perf)
 haxelib run lime build html5      # -> bin/html5/bin/SoccerBalls2.js
 ./tools/check.sh                  # fast typecheck (no JS output)
 ```
+The two `patch-*.sh` scripts edit the installed `swf`/`openfl` haxelibs in place (there is no
+project-level hook for it). Both are idempotent — re-run after any `haxelib` reinstall/upgrade,
+then rebuild. To deploy: re-copy `bin/html5/bin` -> `site/` and push `main` (GitHub Pages).
 
 ## Conversion pipeline (reproducible)
 ```

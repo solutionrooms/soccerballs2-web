@@ -29,8 +29,18 @@ class TileRenderer
     static var tilesetCache : haxe.ds.ObjectMap<BitmapData, Tileset> = new haxe.ds.ObjectMap();
     static var scratch : Matrix = new Matrix();
 
+    // DEBUG (batching validation, ?batch1): force every sprite onto one shared texture so the whole
+    // layer collapses to ~1 GPU draw call. Renders the WRONG image, but the mobile RAF then tells us
+    // whether texture batching is the fix (before building the real atlas packer). Off by default.
+    public static var DEBUG_SHARE_TILESET : Bool = false;
+    static var sharedTileset : Tileset = null;
+
     public static function Init(w : Int, h : Int) : Tilemap
     {
+        try {
+            var q : String = js.Browser.window.location.search;
+            if (q != null && q.indexOf("batch1") >= 0) DEBUG_SHARE_TILESET = true;
+        } catch (e : Dynamic) {}
         tilemap = new Tilemap(w, h, null, true /* smoothing */);
         tilemap.tileAlphaEnabled = true;
         tilemap.tileColorTransformEnabled = true;
@@ -63,7 +73,13 @@ class TileRenderer
         var t : Tile;
         if (count < pool.length) t = pool[count];
         else { t = new Tile(0); pool.push(t); }
-        t.tileset = tilesetFor(bd);
+        var ts = tilesetFor(bd);
+        if (DEBUG_SHARE_TILESET)
+        {
+            if (sharedTileset == null) sharedTileset = ts;
+            ts = sharedTileset; // all sprites -> one texture -> ~1 draw call (batching test)
+        }
+        t.tileset = ts;
         t.id = 0;
         // Tile stores the Matrix by reference, so each tile needs its own copy.
         t.matrix = mat.clone();

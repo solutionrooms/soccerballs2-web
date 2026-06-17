@@ -41,12 +41,18 @@ class TileRenderer
     public static var stress : Int = 1;
     public static var lastCount : Int = 0;
 
+    // DIAGNOSTIC (?nounderlay): don't display the software underlay bitmap (screenB), so its dynamic
+    // 700x525 texture is never re-uploaded to the GPU each frame. Isolates the iOS texImage2D-from-
+    // canvas stall from the tilemap vertex-buffer stall. Renders sprites on a blank background.
+    public static var noUnderlay : Bool = false;
+
     public static function Init(w : Int, h : Int) : Tilemap
     {
         DEBUG_SHARE_TILESET = Settings.gpuBatchTest; // persisted options toggle
         try {
             var q : String = js.Browser.window.location.search;
             if (q != null && q.indexOf("batch1") >= 0) DEBUG_SHARE_TILESET = true; // URL override still works
+            if (q != null && q.indexOf("nounderlay") >= 0) noUnderlay = true;
         } catch (e : Dynamic) {}
         tilemap = new Tilemap(w, h, null, true /* smoothing */);
         tilemap.tileAlphaEnabled = true;

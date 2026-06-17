@@ -461,10 +461,12 @@ class DisplayObj
         mat.scale(renderScale, renderScale);
         mat.translate(xpos, ypos);
         
-        screenBD.draw(origMC, mat, ct, null, null, _doSmooth);
+        // GPU tile path: push the frame's rasterised bitmap rather than re-drawing the vector MC.
+        var __vbd : BitmapData = frames[_frame].bitmapData;
+        if (__vbd != null) TileRenderer.Push(__vbd, mat, ct);
     }
-    
-    
+
+
     public var sprite : Sprite = new Sprite();
     public function RenderAtRotScaled_VectorSprite(_frame : Int, screenBD : BitmapData, xpos : Float, ypos : Float, renderScale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false, xflip : Bool = false)
     {
@@ -479,13 +481,7 @@ class DisplayObj
         mat.translate(xpos, ypos);
         
         var bd : BitmapData = frames[frame].bitmapData;
-        var g : Graphics = sprite.graphics;
-        g.clear();
-        g.beginBitmapFill(bd);
-        g.drawRect(0, 0, bd.width, bd.height);
-        g.endFill();
-        
-        screenBD.draw(sprite, mat, null, null, null, _doSmooth);
+        if (bd != null) TileRenderer.Push(bd, mat, null);
     }
     
     

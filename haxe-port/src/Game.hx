@@ -2091,48 +2091,33 @@ class Game
         }
         
         var screenBD : BitmapData = _bd;
-        var bd : BitmapData = scrollScreenBD;
-        
-        var gfxid : Int = 0;        var numf : Int = 0;        var px : Float = Math.NaN;        
-        var x : Int = 0;        var y : Int = 0;        
-        
-        
+        // GPU sprite layer for this frame: the converted leaf render methods push sprites/HUD as Tiles.
+        // screenBD remains the SOFTWARE underlay for the background + per-frame vector terrain, composited
+        // beneath the Tilemap. So `bd` (the per-object software target) is now screenBD itself.
+        TileRenderer.Begin();
+        var bd : BitmapData = screenBD;
+
+        var gfxid : Int = 0;        var numf : Int = 0;        var px : Float = Math.NaN;
+        var x : Int = 0;        var y : Int = 0;
+
+
         var level : Level = Levels.GetCurrent();
-        
-        
-        
-        
-        if (false == false)
-        {
-            bd.fillRect(bd.rect, 0);
-        }
-        
+
         EngineDebug.StartTimer("r_back");
-        backDOF.RenderAt(screenBD, 0, 0);
+        // background straight into the software underlay (kept off the GPU layer so it stays behind terrain)
+        if (backBD != null) screenBD.copyPixels(backBD, backBD.rect, Defs.pointZero, null, null, false);
+        else screenBD.fillRect(screenBD.rect, 0);
         EngineDebug.EndTimer("r_back");
-        
-        
-        
+
+
+
         EngineDebug.StartTimer("r_go");
         GameObjects.Render(bd);
         Particles.Render(bd);
         EngineDebug.EndTimer("r_go");
-        
+
         EngineDebug.RenderNape(bd);
-        
-        
-        
-        
-        
-        if (false == false)
-        {
-            screenBD.copyPixels(bd, bd.rect, new Point(0, 0), null, null, true);
-        }
-        
-        
-        
-        
-        
+
         EngineDebug.EndTimer("render");
         EngineDebug.StopTimers();
         RenderPanel(screenBD);
@@ -2143,48 +2128,33 @@ class Game
     public static function RenderWalkthrough(_bd : BitmapData)
     {
         var screenBD : BitmapData = _bd;
-        var bd : BitmapData = scrollScreenBD;
-        
-        var gfxid : Int = 0;        var numf : Int = 0;        var px : Float = Math.NaN;        
-        var x : Int = 0;        var y : Int = 0;        
-        
-        
+        // GPU sprite layer for this frame: the converted leaf render methods push sprites/HUD as Tiles.
+        // screenBD remains the SOFTWARE underlay for the background + per-frame vector terrain, composited
+        // beneath the Tilemap. So `bd` (the per-object software target) is now screenBD itself.
+        TileRenderer.Begin();
+        var bd : BitmapData = screenBD;
+
+        var gfxid : Int = 0;        var numf : Int = 0;        var px : Float = Math.NaN;
+        var x : Int = 0;        var y : Int = 0;
+
+
         var level : Level = Levels.GetCurrent();
-        
-        
-        
-        
-        if (false == false)
-        {
-            bd.fillRect(bd.rect, 0);
-        }
-        
+
         EngineDebug.StartTimer("r_back");
-        backDOF.RenderAt(screenBD, 0, 0);
+        // background straight into the software underlay (kept off the GPU layer so it stays behind terrain)
+        if (backBD != null) screenBD.copyPixels(backBD, backBD.rect, Defs.pointZero, null, null, false);
+        else screenBD.fillRect(screenBD.rect, 0);
         EngineDebug.EndTimer("r_back");
-        
-        
-        
+
+
+
         EngineDebug.StartTimer("r_go");
         GameObjects.Render(bd);
         Particles.Render(bd);
         EngineDebug.EndTimer("r_go");
-        
+
         EngineDebug.RenderNape(bd);
-        
-        
-        
-        
-        
-        if (false == false)
-        {
-            screenBD.copyPixels(bd, bd.rect, new Point(0, 0), null, null, true);
-        }
-        
-        
-        
-        
-        
+
         EngineDebug.EndTimer("render");
         EngineDebug.StopTimers();
         RenderPanel(screenBD);

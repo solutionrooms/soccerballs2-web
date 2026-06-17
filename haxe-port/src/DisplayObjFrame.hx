@@ -202,7 +202,7 @@ class DisplayObjFrame
         
         {
             
-            screenBD.copyPixels(bitmapData, sourceRect, point, null, null, true);
+            TileRenderer.PushAt(bitmapData, point.x, point.y);
         }
     }
     
@@ -218,7 +218,7 @@ class DisplayObjFrame
         {
             if (bitmapData != null)
             {
-                screenBD.draw(bitmapData, mat, null, null, null, true);
+                TileRenderer.Push(bitmapData, mat, null);
             }
         }
     }
@@ -246,7 +246,7 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            screenBD.draw(bitmapData, mat, ct, null, null, _doSmooth);
+            TileRenderer.Push(bitmapData, mat, ct);
         }
     }
     
@@ -264,7 +264,7 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            screenBD.draw(bitmapData, mat, ct, null, null, _doSmooth);
+            TileRenderer.Push(bitmapData, mat, ct);
         }
     }
     
@@ -282,7 +282,7 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            screenBD.draw(bitmapData, mat, ct, null, null, _doSmooth);
+            TileRenderer.Push(bitmapData, mat, ct);
         }
     }
     
@@ -298,7 +298,7 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            screenBD.draw(bitmapData, mat, null, BlendMode.ADD, null, _doSmooth);
+            TileRenderer.Push(bitmapData, mat, null, BlendMode.ADD);
         }
     }
     
@@ -316,7 +316,7 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            screenBD.draw(bitmapData, mat, null, BlendMode.LAYER, null, _doSmooth);
+            TileRenderer.Push(bitmapData, mat, null, BlendMode.LAYER);
         }
     }
     
@@ -332,7 +332,7 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            screenBD.draw(bitmapData, mat, null, BlendMode.OVERLAY, null, _doSmooth);
+            TileRenderer.Push(bitmapData, mat, null, BlendMode.OVERLAY);
         }
     }
     
@@ -351,7 +351,7 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            screenBD.draw(bitmapData, mat, ct, null, sourceRect, _doSmooth);
+            TileRenderer.Push(bitmapData, mat, ct); // (clipRect from the old draw is not reproduced on the GPU tile path)
         }
     }
 }

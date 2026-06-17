@@ -1,0 +1,85 @@
+import openfl.display.Tile;
+import openfl.display.Tileset;
+import openfl.display.Tilemap;
+import openfl.display.BlendMode;
+import flash.display.BitmapData;
+import flash.geom.Matrix;
+import flash.geom.Rectangle;
+import flash.geom.ColorTransform;
+
+/**
+ * GPU sprite batcher for the gameplay layer (web port only).
+ *
+ * Replaces the per-frame software compositing (hundreds of screenBD.draw / copyPixels CPU blits)
+ * with an OpenFL Tilemap: each visible sprite becomes a Tile (matrix + colorTransform + blendMode +
+ * alpha), and OpenFL renders the whole layer in a few GPU batches. The render LAYER calls Push();
+ * the game logic is untouched — Push receives exactly the (bitmap, transform, tint, blend) the old
+ * blits received.
+ *
+ * Each frame's standalone BitmapData becomes a one-rect Tileset (cached by identity). Tints (kit
+ * colours, shadow silhouettes) and ADD/LAYER/OVERLAY blend modes ride per-tile on the GPU, so the
+ * old per-blit getImageData/colorTransform readbacks disappear entirely.
+ */
+class TileRenderer
+{
+    public static var tilemap : Tilemap;
+
+    static var pool : Array<Tile> = [];
+    static var count : Int = 0;
+    static var tilesetCache : haxe.ds.ObjectMap<BitmapData, Tileset> = new haxe.ds.ObjectMap();
+    static var scratch : Matrix = new Matrix();
+
+    public static function Init(w : Int, h : Int) : Tilemap
+    {
+        tilemap = new Tilemap(w, h, null, true /* smoothing */);
+        tilemap.tileAlphaEnabled = true;
+        tilemap.tileColorTransformEnabled = true;
+        tilemap.tileBlendModeEnabled = true;
+        return tilemap;
+    }
+
+    static inline function tilesetFor(bd : BitmapData) : Tileset
+    {
+        var ts = tilesetCache.get(bd);
+        if (ts == null)
+        {
+            ts = new Tileset(bd, [new Rectangle(0, 0, bd.width, bd.height)]);
+            tilesetCache.set(bd, ts);
+        }
+        return ts;
+    }
+
+    // Start a fresh frame: clears tiles but keeps the pool (Tile objects are reused, no GC churn).
+    public static function Begin() : Void
+    {
+        if (tilemap != null) tilemap.removeTiles();
+        count = 0;
+    }
+
+    // Push one sprite. mat is the same transform the old screenBD.draw used; ct/blend may be null.
+    public static function Push(bd : BitmapData, mat : Matrix, ct : ColorTransform = null, blend : BlendMode = null) : Void
+    {
+        if (bd == null || tilemap == null) return;
+        var t : Tile;
+        if (count < pool.length) t = pool[count];
+        else { t = new Tile(0); pool.push(t); }
+        t.tileset = tilesetFor(bd);
+        t.id = 0;
+        // Tile stores the Matrix by reference, so each tile needs its own copy.
+        t.matrix = mat.clone();
+        t.colorTransform = ct;   // null clears any tint from a previous reuse of this pooled tile
+        t.blendMode = blend;     // null = normal
+        t.alpha = 1.0;
+        tilemap.addTile(t);
+        count++;
+    }
+
+    // Simple unrotated blit at (x,y) — the copyPixels case.
+    public static function PushAt(bd : BitmapData, x : Float, y : Float) : Void
+    {
+        scratch.identity();
+        scratch.tx = x;
+        scratch.ty = y;
+        Push(bd, scratch);
+    }
+}

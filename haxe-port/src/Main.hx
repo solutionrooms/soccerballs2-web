@@ -169,6 +169,8 @@ class Main extends MovieClip
         }
         screenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
         screenB = new Bitmap(screenBD);
+        // GPU sprite layer composited above screenB (the software underlay: background + vector terrain).
+        TileRenderer.Init(Defs.displayarea_w, Defs.displayarea_h);
     }
     
     

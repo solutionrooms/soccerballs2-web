@@ -33,7 +33,9 @@ class UIGameScreen extends UIScreenInstance
         (untyped Game.main).screenB.bitmapData.fillRect(Defs.screenRect, 0);
         titleMC = new MovieClip();
         titleMC.addChild((untyped Game.main).screenB);
-        
+        // GPU sprite layer above the software underlay (screenB = background + vector terrain).
+        if (TileRenderer.tilemap != null) titleMC.addChild(TileRenderer.tilemap);
+
         Game.currentMC = titleMC;
         (untyped Game.main).screenB.x = 0;
         (untyped Game.main).screenB.y = 0;

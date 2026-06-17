@@ -1601,6 +1601,7 @@ class Game
     
     public static function MouseClickHandler(event : MouseEvent) : Void
     {
+        if (OptionsScreen.open) return; // options overlay is modal — don't let clicks reach gameplay
         if (true)
         {
             if (event.stageX < 100 && event.stageY < 100)
@@ -1622,8 +1623,9 @@ class Game
         {
             return;
         }
-        if (controlMode == 0)
+        if (controlMode == 0 && Settings.mobileControlScheme != Settings.SCHEME_B)
         {
+            // scheme B routes kicks through MobileControls (tap near the ball), not a raw click
             doKick = true;
         }
         if (controlMode == 1)
@@ -1651,6 +1653,7 @@ class Game
     
     public static function MouseUpHandler(event : MouseEvent) : Void
     {
+        if (OptionsScreen.open) return; // options overlay is modal
         if (controlMode == 0)
         {
         }

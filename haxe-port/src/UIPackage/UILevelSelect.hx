@@ -167,10 +167,10 @@ class UILevelSelect extends UIScreenInstance
                 (untyped mc).cup.visible = false;
                 (untyped mc).cup.gotoAndStop(1);
                 
-                if (l.available)
+                if (l.available || Settings.openAllLevels) // dev: open-all-levels makes every level selectable (non-destructive)
                 {
                     (untyped mc).canPress = true;
-                    
+
                     (untyped mc).levelNumber.visible = true;
                     mc.filters = [];
                 }

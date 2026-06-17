@@ -72,7 +72,11 @@ class Main extends MovieClip
         // level-complete screen). SkuModify() is intentionally skipped (domain/site-lock glue).
         licPackage.LicDef.stg = this;
         licPackage.LicDef.InitSkus();
+        Settings.Load();
         InitPerfOverlay();
+        OptionsScreen.Init(theStage);
+        MobileControls.Init(theStage);
+        if (Settings.perfHud) SetPerfHud(true);
         SetEverythingUpOnce();
     }
 
@@ -84,6 +88,14 @@ class Main extends MovieClip
     public static var __perfStamp : Float = -1;
     public static var __gameFps : Float = 0;
     public static var __rafFps : Float = 0;
+    public static var __blitsPerFrame : Int = 0;  // BitmapData composites in the last rendered frame (hw-independent)
+
+    // Set HUD visibility from anywhere (options screen, boot, key toggle).
+    public static function SetPerfHud(on : Bool) : Void
+    {
+        __perfOn = on;
+        if (__perfTF != null) __perfTF.visible = on;
+    }
 
     public function InitPerfOverlay() : Void
     {
@@ -107,7 +119,8 @@ class Main extends MovieClip
             if (q != null && (q.indexOf("fps") >= 0 || q.indexOf("perf") >= 0)) { __perfOn = true; tf.visible = true; }
         } catch (err : Dynamic) {}
         // Toggle key: backtick/tilde (` , keyCode 192). P is the in-game pause key so it can't be used.
-        var toggle = function() : Void { __perfOn = !__perfOn; if (__perfTF != null) __perfTF.visible = __perfOn; };
+        // Persist so the choice survives reloads (same setting the options screen drives).
+        var toggle = function() : Void { SetPerfHud(!__perfOn); Settings.perfHud = __perfOn; Settings.Save(); };
         theStage.addEventListener(KeyboardEvent.KEY_DOWN, function(e : KeyboardEvent) : Void {
             if (e.keyCode == 192) toggle();
         });
@@ -138,6 +151,7 @@ class Main extends MovieClip
             try { if (PhysicsBase.GetNapeSpace() != null) bodies = PhysicsBase.GetNapeSpace().bodies.length; } catch (e : Dynamic) {}
             __perfTF.text = "fps " + Std.int(__gameFps + 0.5) + "   raf " + Std.int(__rafFps + 0.5)
                 + "\nframe " + Std.int(timeForFrame) + "ms   update " + Std.int(timeForUpdate) + "ms"
+                + "\nblits " + __blitsPerFrame + "/frame"
                 + (bodies >= 0 ? "\nnape bodies " + bodies : "")
                 + "\ncap " + Std.int(Defs.fps) + "fps";
             // keep it pinned on top even as screens are added/removed
@@ -457,6 +471,7 @@ class Main extends MovieClip
             // one full original "frame" of logic+physics (no render) — run N times to catch up to realtime
             KeyReader.UpdateOncePerFrame();
             Audio.UpdateOncePerFrame();
+            MobileControls.UpdateAim(); // scheme B: feed joystick deflection into Game.mouse_x/y before the update
             GameVars.InitForFrame();
             if (!Game.doWalkthrough) Game.UpdateGameplay();
             GameVars.ExitForFrame();
@@ -464,11 +479,15 @@ class Main extends MovieClip
         }
         if (steps > 0 && screenBD != null)
         {
+            BitmapData.__drawCalls = 0; // count BitmapData composites for this displayed frame
             Render(screenBD); // render once per displayed frame, after catching the simulation up
+            __blitsPerFrame = BitmapData.__drawCalls;
             calcFrameTime();
             timeForUpdate = (haxe.Timer.stamp() - now) * 1000;
         }
         UpdatePerfOverlay();
+        OptionsScreen.Tick();
+        MobileControls.Tick();
 
         // one-time terrain-collision geometry dump when a level becomes playable (copy [SB2] lines back)
         try {

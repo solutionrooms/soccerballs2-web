@@ -121,14 +121,17 @@ class Main extends MovieClip
         // Toggle key: backtick/tilde (` , keyCode 192). P is the in-game pause key so it can't be used.
         // Persist so the choice survives reloads (same setting the options screen drives).
         var toggle = function() : Void { SetPerfHud(!__perfOn); Settings.perfHud = __perfOn; Settings.Save(); };
-        theStage.addEventListener(KeyboardEvent.KEY_DOWN, function(e : KeyboardEvent) : Void {
-            if (e.keyCode == 192) toggle();
-        });
+        // Benchmark: number keys 1-6 set the render-stress multiplier (1/2/4/8/16/32) — push every
+        // sprite N times so the render cost scales N×, to reveal headroom on a fast CPU (RAF-capped).
+        var stressLevels = [1, 2, 4, 8, 16, 32];
+        var key = function(kc : Int) : Void {
+            if (kc == 192) toggle();
+            else if (kc >= 49 && kc <= 54) TileRenderer.stress = stressLevels[kc - 49];
+        };
+        theStage.addEventListener(KeyboardEvent.KEY_DOWN, function(e : KeyboardEvent) : Void { key(e.keyCode); });
         // also listen at the document level (some browsers/focus states don't deliver keys to the canvas)
         try {
-            js.Browser.document.addEventListener("keydown", function(e) {
-                if ((untyped e).keyCode == 192) toggle();
-            });
+            js.Browser.document.addEventListener("keydown", function(e) { key((untyped e).keyCode); });
         } catch (err : Dynamic) {}
     }
 
@@ -150,8 +153,9 @@ class Main extends MovieClip
             var bodies : Int = -1;
             try { if (PhysicsBase.GetNapeSpace() != null) bodies = PhysicsBase.GetNapeSpace().bodies.length; } catch (e : Dynamic) {}
             __perfTF.text = "fps " + Std.int(__gameFps + 0.5) + "   raf " + Std.int(__rafFps + 0.5)
-                + "\nframe " + Std.int(timeForFrame) + "ms   update " + Std.int(timeForUpdate) + "ms"
-                + "\nblits " + __blitsPerFrame + "/frame"
+                + "\ninterval " + Std.int(timeForFrame) + "ms   ourcode " + Std.int(timeForUpdate) + "ms"
+                + "\nblits " + __blitsPerFrame + "   tiles " + TileRenderer.lastCount
+                + (TileRenderer.stress > 1 ? "   stress x" + TileRenderer.stress : "")
                 + (bodies >= 0 ? "\nnape bodies " + bodies : "")
                 + "\ncap " + Std.int(Defs.fps) + "fps";
             // keep it pinned on top even as screens are added/removed

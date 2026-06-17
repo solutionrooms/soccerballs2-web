@@ -35,6 +35,12 @@ class TileRenderer
     public static var DEBUG_SHARE_TILESET : Bool = false;
     static var sharedTileset : Tileset = null;
 
+    // Benchmark knob: push every sprite N times so the render cost scales N×. On a fast CPU (RAF
+    // pinned at the display cap) crank this until RAF drops off the cap to reveal the real per-render
+    // cost and headroom. count = GPU tiles emitted this frame (shown in the perf HUD).
+    public static var stress : Int = 1;
+    public static var lastCount : Int = 0;
+
     public static function Init(w : Int, h : Int) : Tilemap
     {
         DEBUG_SHARE_TILESET = Settings.gpuBatchTest; // persisted options toggle
@@ -64,6 +70,7 @@ class TileRenderer
     public static function Begin() : Void
     {
         if (tilemap != null) tilemap.removeTiles();
+        lastCount = count;
         count = 0;
     }
 
@@ -71,24 +78,28 @@ class TileRenderer
     public static function Push(bd : BitmapData, mat : Matrix, ct : ColorTransform = null, blend : BlendMode = null) : Void
     {
         if (bd == null || tilemap == null) return;
-        var t : Tile;
-        if (count < pool.length) t = pool[count];
-        else { t = new Tile(0); pool.push(t); }
         var ts = tilesetFor(bd);
         if (DEBUG_SHARE_TILESET)
         {
             if (sharedTileset == null) sharedTileset = ts;
             ts = sharedTileset; // all sprites -> one texture -> ~1 draw call (batching test)
         }
-        t.tileset = ts;
-        t.id = 0;
-        // Tile stores the Matrix by reference, so each tile needs its own copy.
-        t.matrix = mat.clone();
-        t.colorTransform = ct;   // null clears any tint from a previous reuse of this pooled tile
-        t.blendMode = blend;     // null = normal
-        t.alpha = 1.0;
-        tilemap.addTile(t);
-        count++;
+        var reps = stress < 1 ? 1 : stress;
+        for (r in 0...reps)
+        {
+            var t : Tile;
+            if (count < pool.length) t = pool[count];
+            else { t = new Tile(0); pool.push(t); }
+            t.tileset = ts;
+            t.id = 0;
+            // Tile stores the Matrix by reference, so each tile needs its own copy.
+            t.matrix = mat.clone();
+            t.colorTransform = ct;   // null clears any tint from a previous reuse of this pooled tile
+            t.blendMode = blend;     // null = normal
+            t.alpha = 1.0;
+            tilemap.addTile(t);
+            count++;
+        }
     }
 
     // Simple unrotated blit at (x,y) — the copyPixels case.

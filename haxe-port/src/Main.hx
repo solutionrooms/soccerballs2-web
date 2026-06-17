@@ -135,6 +135,35 @@ class Main extends MovieClip
         } catch (err : Dynamic) {}
     }
 
+    // One-time renderer diagnostic: is the game canvas on hardware WebGL, or has it fallen back to
+    // Canvas/software? (key to the iOS slowdown). Shows the GL renderer string when available.
+    public static var __renderInfo : String = null;
+    public static function GetRenderInfo() : String
+    {
+        if (__renderInfo != null) return __renderInfo;
+        var s : String = "?";
+        try { s = (flash.Lib.current.stage.context3D != null) ? "webgl" : "canvas2d"; } catch (e : Dynamic) {}
+        try {
+            var c : Dynamic = js.Browser.document.querySelector("#openfl-content canvas");
+            if (c == null) c = js.Browser.document.querySelector("canvas");
+            if (c != null)
+            {
+                var gl : Dynamic = c.getContext("webgl2");
+                if (gl == null) gl = c.getContext("webgl");
+                if (gl == null) gl = c.getContext("experimental-webgl");
+                if (gl != null)
+                {
+                    var dbg : Dynamic = gl.getExtension("WEBGL_debug_renderer_info");
+                    if (dbg != null) s += " | " + gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL);
+                }
+                else s += " | no-gl-on-canvas";
+            }
+        } catch (e : Dynamic) {}
+        // only cache once the stage/context is actually up
+        if (s != "?") __renderInfo = s;
+        return s;
+    }
+
     public function UpdatePerfOverlay() : Void
     {
         var now : Float = haxe.Timer.stamp();
@@ -157,6 +186,7 @@ class Main extends MovieClip
                 + "\nblits " + __blitsPerFrame + "   tiles " + TileRenderer.lastCount
                 + (TileRenderer.stress > 1 ? "   stress x" + TileRenderer.stress : "")
                 + (bodies >= 0 ? "\nnape bodies " + bodies : "")
+                + "\nrender " + GetRenderInfo()
                 + "\ncap " + Std.int(Defs.fps) + "fps";
             // keep it pinned on top even as screens are added/removed
             if (theStage != null && __perfTF.parent == theStage && theStage.getChildIndex(__perfTF) != theStage.numChildren - 1)

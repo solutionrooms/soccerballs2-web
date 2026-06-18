@@ -73,6 +73,7 @@ class Main extends MovieClip
         licPackage.LicDef.stg = this;
         licPackage.LicDef.InitSkus();
         Settings.Load();
+        GameFont.Load(); // start loading the Komika Axis webfont; the preparing screen waits on GameFont.ready
         InitPerfOverlay();
         OptionsScreen.Init(theStage);
         MobileControls.Init(theStage);

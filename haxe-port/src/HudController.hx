@@ -59,6 +59,27 @@ class HudController
         {
             (untyped hudMC).mainArea.LevelNameText.text += " (" + Levels.GetCurrent().creator + ")";
         }
+        CentreHudText((untyped hudMC).mainArea.LevelNameText);
+    }
+
+    // openfl-swf renders the HUD's embedded-font dynamic text shifted left, so leading characters end up
+    // hidden under the adjacent panel/icon. Centre the text within the field's box (device-font path via
+    // the Komika Axis FontFace) so it sits in the visible middle instead of overflowing the left edge.
+    // Safe to call every frame (the per-frame counter fields drop their format when .text is reassigned).
+    static function CentreHudText(tf : flash.text.TextField) : Void
+    {
+        #if (js && html5)
+        if (tf == null) return;
+        try
+        {
+            tf.embedFonts = false;
+            var fmt : flash.text.TextFormat = tf.getTextFormat();
+            fmt.font = GameFont.FAMILY;
+            fmt.align = flash.text.TextFormatAlign.CENTER;
+            tf.setTextFormat(fmt);
+        }
+        catch (e : Dynamic) {}
+        #end
     }
     
     public function InitOnce()
@@ -176,6 +197,13 @@ class HudController
         (untyped hudMC).mainArea.kicksText.text = Std.string(remainingKicks);
         (untyped hudMC).mainArea.starText.text = Std.string(goldRemainingKicks);
         (untyped hudMC).mainArea.coinsText.text = GameVars.numLevelCoinsCollected + "/" + GameVars.totalLevelCoins;
+        // setting .text each frame drops the format on these HTML fields, so re-centre after assigning.
+        // NOTE: openfl-swf does not visually centre these narrow embedded-font fields the way it does the
+        // wide score/level-name ones (align IS set, no mask — confirmed); the counters stay slightly
+        // left-clipped. Left in place (correct intent); revisit via bitmap rendering. See ISSUES.md #1.
+        CentreHudText((untyped hudMC).mainArea.kicksText);
+        CentreHudText((untyped hudMC).mainArea.starText);
+        CentreHudText((untyped hudMC).mainArea.coinsText);
         (untyped hudMC).mainArea.goldKicksFail.visible = false;
         if (poo)
         {

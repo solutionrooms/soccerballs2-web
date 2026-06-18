@@ -22,4 +22,10 @@
 
 	<!-- original game data + texture pages, embedded like the release SWF -->
 	<assets path="assets" rename="assets" embed="true" />
+	<!-- converted audio (OGG): external + preloaded so the ~2MB music doesn't bloat the JS bundle;
+	     explicit type="sound" so Assets.getSound() resolves them (see AudioPackage/Audio.AddSound). -->
+	<assets path="assets/audio" rename="assets/audio" embed="false" type="sound" />
+	<!-- game font (Komika Axis): external file so it can be served as a browser webfont via the
+	     FontFace API (GameFont.Load) at the URL assets/fonts/KomikaAxis.ttf. -->
+	<assets path="assets/fonts" rename="assets/fonts" embed="false" />
 </project>

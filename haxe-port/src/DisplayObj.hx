@@ -95,7 +95,9 @@ class DisplayObj
             var t : TextField = new TextField();
             t.textColor = 0xffffffff;
             t.selectable = false;
-            t.embedFonts = true;
+            // device-font path: the game font is a browser FontFace (GameFont / Komika Axis), not an
+            // openfl-registered embedded font, so embedFonts must be false for the family to resolve.
+            t.embedFonts = false;
             t.autoSize = TextFieldAutoSize.LEFT;
             t.x = 0;
             t.y = 0;

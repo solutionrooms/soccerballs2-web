@@ -142,30 +142,51 @@ class Audio
     
     public static function AddSound(_soundName : String) : SoundEffectDef
     {
-        var classRef : Class<Dynamic> = null;        
-        try
+        // Web port: the original game resolved SWF-embedded sound classes by name; we ship the
+        // converted OGGs (assets/audio/{sfx,music}/<name>.ogg) and look them up by the SAME name the
+        // game requests, so all the existing OneShot/PlayMusic/Loop call sites work unchanged.
+        var s : Sound = LoadSoundByName(_soundName);
+
+        // Legacy fallback: a directly-linked Sound class (e.g. the SfxClick stub).
+        if (s == null)
         {
-            classRef = Type.getClass(Type.resolveClass(_soundName));
+            var classRef : Class<Dynamic> = null;
+            try { classRef = Type.getClass(Type.resolveClass(_soundName)); } catch (e : Dynamic) { classRef = null; }
+            if (classRef != null) s = try cast(Type.createInstance(classRef, []), Sound) catch (e : Dynamic) null;
         }
-        catch (e : Dynamic)
+
+        if (s == null) return null;
+
+        var def : SoundEffectDef = new SoundEffectDef();
+        def.name = _soundName;
+        def.looped = false;
+        def.flashSound = s;
+        soundDefs.push(def);
+        return def;
+    }
+
+    // Resolve a game sound name to a converted OGG asset. Tries sfx/ then music/. If the exact name
+    // isn't found, strips a trailing digit so variant requests fall back to the base file (the game
+    // asks for e.g. "sfx_pop1".."sfx_pop3" but only sfx_pop.ogg exists). Missing sounds return null
+    // and play silently, exactly as the original engine tolerated.
+    static function LoadSoundByName(name : String) : Sound
+    {
+        var path : String = FindSoundAsset(name);
+        if (path == null)
         {
-            classRef = null;
+            var stripped : String = (~/[0-9]+$/).replace(name, "");
+            if (stripped != name) path = FindSoundAsset(stripped);
         }
-        
-        if (classRef == null)
+        if (path == null) return null;
+        return try openfl.utils.Assets.getSound(path) catch (e : Dynamic) null;
+    }
+
+    static function FindSoundAsset(name : String) : String
+    {
+        for (folder in ["sfx", "music"])
         {
-            return null;
-        }
-        else
-        {
-            var s : Sound = try cast(Type.createInstance(classRef, []), Sound) catch(e:Dynamic) null;
-            var def : SoundEffectDef = new SoundEffectDef();
-            def.name = _soundName;
-            def.looped = false;
-            def.flashSound = s;
-            
-            soundDefs.push(def);
-            return def;
+            var p : String = "assets/audio/" + folder + "/" + name + ".ogg";
+            if (openfl.utils.Assets.exists(p)) return p;
         }
         return null;
     }

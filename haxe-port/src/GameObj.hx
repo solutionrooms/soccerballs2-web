@@ -1247,7 +1247,25 @@ class GameObj extends GameObjBase
             index++;
         }
     }
-    
+
+    // Per-object scratch bitmap for compositing this terrain object's vector fill into the GPU tile
+    // stream (see RenderFillAsTile). Lazily allocated, re-uploaded each frame (OpenFL getTexture
+    // honours image.version). Each terrain object needs its OWN bitmap so concurrent tiles don't alias.
+    public var lineFillBD : BitmapData = null;
+
+    // Z-ORDER FIX: emit the current Game.fillScreenMC vector terrain as a GPU tile at THIS object's
+    // zpos slot, instead of `bd.draw`-ing it into the software underlay. The old underlay path forced
+    // ALL terrain behind ALL sprites (two fixed depth bands), so things that should hide behind terrain
+    // (trophy behind grass, clouds behind foreground dirt) rendered in front. Pushed here, the terrain
+    // tile lands in TileRenderer's zpos-ordered stream and interleaves with sprites correctly.
+    public function RenderFillAsTile(matrix : Matrix = null, clipRect : Rectangle = null, smoothing : Bool = false) : Void
+    {
+        if (lineFillBD == null) lineFillBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0);
+        lineFillBD.fillRect(lineFillBD.rect, 0);
+        lineFillBD.draw(Game.fillScreenMC, matrix, null, null, clipRect, smoothing);
+        TileRenderer.PushAt(lineFillBD, 0, 0);
+    }
+
     public function RenderPhysicsLineObject_Static()
     {
         if (staticLineRectangle.right < Game.camera.x)
@@ -1312,10 +1330,10 @@ class GameObj extends GameObjBase
         
         
         
-        bd.draw(Game.fillScreenMC, null, null, null, null, false);
+        RenderFillAsTile(null, null, false); // was bd.draw into the underlay; now a tile at this object's zpos
     }
-    
-    
+
+
     public function RenderGrass()
     {
         if (GameVars.renderDebugMode == 1)

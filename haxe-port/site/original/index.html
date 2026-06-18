@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Soccer Balls 2 — ORIGINAL (Ruffle reference, all levels unlocked)</title>
+<title>Soccer Balls 2 — ORIGINAL (Kongregate release, Ruffle reference)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
  html,body{margin:0;background:#1b1b1b;color:#ddd;font-family:system-ui,sans-serif}
@@ -16,9 +16,8 @@
 <body>
 <div id="wrap">
  <div class="bar">
-   <b>Original Soccer Balls 2</b> (the genuine 2014 SWF, run via Ruffle) &mdash;
-   <b>all levels unlocked</b> for reference/comparison against the port.
-   This is the developers' own game; hosted here as a dev reference.
+   <b>Original Soccer Balls 2</b> &mdash; the genuine <b>Kongregate release</b> SWF (all levels unlocked),
+   run via Ruffle, for reference/comparison against the port. This is the developers' own game; hosted here as a dev reference.
  </div>
  <div id="player"></div>
  <div id="status">loading Ruffle&hellip;</div>
@@ -36,9 +35,9 @@
    var c = document.getElementById("player");
    c.appendChild(player);
    player.style.width = "700px"; player.style.height = "525px";
-   st.textContent = "booting original (all levels unlocked) …";
-   player.load({ url: "SoccerBalls2_unlocked.swf", autoplay: "on", letterbox: "on", logLevel: "info" })
-     .then(function(){ st.textContent = "running — pick any level from level-select (traces -> console)"; })
+   st.textContent = "booting original (Kongregate release) …";
+   player.load({ url: "SoccerBalls2_Kong.swf", autoplay: "on", letterbox: "on", logLevel: "info" })
+     .then(function(){ st.textContent = "running — Kongregate release (traces -> console)"; })
      .catch(function(e){ st.textContent = "load error: " + e; });
  });
 </script>

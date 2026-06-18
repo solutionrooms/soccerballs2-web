@@ -49,7 +49,8 @@ class UIPreparingScreen extends UIScreenInstance
     public var preparingGraphicsTimer : Int = 0;
     
     public var preparingGraphicsIndex : Int = 0;
-    
+    public var fontWaitFrames : Int = 0; // frames spent waiting on the Komika Axis webfont (time-boxed)
+
     public function UpdatePreparingScreen(e : Event)
     {
         if (titleMC == null)
@@ -62,9 +63,16 @@ class UIPreparingScreen extends UIScreenInstance
             return;
         }
         PreparingScreenSetBar();
-        
-        
+
+
         var po : PreparingObject = Preparing.GetPreparingList()[preparingGraphicsIndex];
+        // The bitmap font (font1) is rasterized from the Komika Axis browser FontFace; wait until it has
+        // loaded so the glyphs aren't baked with a fallback font. Time-boxed (~2s) so boot never hangs.
+        if (po.type == "font" && !GameFont.ready && fontWaitFrames < 120)
+        {
+            fontWaitFrames++;
+            return;
+        }
         Preparing.DoPreparingObject(po);
         
         PreparingScreenSetBar();

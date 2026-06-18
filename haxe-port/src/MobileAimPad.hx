@@ -266,6 +266,12 @@ class MobileAimPad
         updateThumb();
     }
 
+    // Screen-space (display-area px) position of the virtual aim cursor — the analogue of the desktop
+    // mouse position, so the camera can scroll TOWARD the aim (see further the way you're shooting).
+    // centre + deflection*reach, matching how UpdateAim places the world cursor at ball + defX*reach.
+    public static function ScrollCursorX() : Float { return Defs.displayarea_w2 + defX * reach; }
+    public static function ScrollCursorY() : Float { return Defs.displayarea_h2 + defY * reach; }
+
     public static function Tick() : Void
     {
         #if (js && html5)

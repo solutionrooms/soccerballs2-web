@@ -28,4 +28,10 @@
 	<!-- game font (Komika Axis): external file so it can be served as a browser webfont via the
 	     FontFace API (GameFont.Load) at the URL assets/fonts/KomikaAxis.ttf. -->
 	<assets path="assets/fonts" rename="assets/fonts" embed="false" />
+
+	<!-- Override the html5 shell (templates/html5/template/index.html). MUST come after <haxelib name="openfl">
+	     so our template registers last and wins over OpenFL's own index.html. Pins the game container to the
+	     full visual viewport so lime letterbox-scales the 700x525 stage UP to fill it — landscape was leaving
+	     the canvas at ~native size with large black margins. -->
+	<template path="templates" />
 </project>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8">
+
+	<title>::APP_TITLE::</title>
+
+	<meta id="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+	::if favicons::::foreach (favicons)::
+	<link rel="::__current__.rel::" type="::__current__.type::" href="::__current__.href::">::end::::end::
+
+	::if linkedLibraries::::foreach (linkedLibraries)::
+	<script type="text/javascript" src="::__current__::"></script>::end::::end::
+	<script type="text/javascript" src="./::APP_FILE::.js"></script>
+
+	<script>
+		// Block the iOS rubber-band / page scroll so the canvas owns all touch gestures.
+		window.addEventListener ("touchmove", function (event) { event.preventDefault (); }, { capture: false, passive: false });
+	</script>
+
+	<style>
+		html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background: #000000; }
+		/* Pin the game container to the WHOLE visual viewport so lime letterbox-scales the 700x525 stage
+		   UP to fill it. The default lime shell fixed this box at 700x525px, which left the canvas at
+		   ~native size with big black margins in landscape. */
+		#openfl-content {
+			position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+			width: 100%; height: 100%;
+			background: #000000;
+			overflow: hidden;
+		}
+		#openfl-content canvas { display: block; }
+
+		@font-face {
+			font-family: 'Komika Axis';
+			src: url('assets/fonts/KomikaAxis.ttf') format('truetype');
+			font-weight: normal; font-style: normal;
+		}
+::foreach assets::::if (type == "font")::::if (cssFontFace)::::cssFontFace::::end::::end::::end::
+	</style>
+
+</head>
+<body>
+	<noscript>This webpage makes extensive use of JavaScript. Please enable JavaScript in your web browser to view this page.</noscript>
+
+	::foreach assets::::if (type == "font")::
+	<span style="font-family: ::id::"> </span>::end::::end::
+
+	<div id="openfl-content"></div>
+
+	<script type="text/javascript">
+		lime.embed ("::APP_FILE::", "openfl-content", ::WIN_WIDTH::, ::WIN_HEIGHT::, { parameters: {} });
+
+		// Belt-and-braces: make lime re-measure the (now full-viewport) container after layout settles and
+		// on every orientation/resize, so the canvas always scales to fill rather than sitting at native
+		// size with letterbox margins on first paint.
+		(function () {
+			function refit () { try { window.dispatchEvent (new Event ("resize")); } catch (e) {} }
+			window.addEventListener ("orientationchange", function () { refit (); setTimeout (refit, 250); });
+			window.addEventListener ("load", function () { refit (); setTimeout (refit, 100); setTimeout (refit, 500); });
+			if (window.visualViewport) window.visualViewport.addEventListener ("resize", refit);
+		})();
+	</script>
+
+</body>
+</html>

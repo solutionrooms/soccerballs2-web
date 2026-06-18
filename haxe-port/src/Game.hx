@@ -1755,7 +1755,17 @@ class Game
         {
             var mx : Float = MouseControl.x;
             var my : Float = MouseControl.y;
-            
+            #if (js && html5)
+            // Scheme C (aim pad): the finger is on the dead-space joystick, not panning across the play
+            // field, so MouseControl.x/y don't reflect the aim. Drive the scroll from the latched aim
+            // cursor instead, so the camera looks ahead toward where you're shooting (as on desktop).
+            if (MobileAimPad.IsActive())
+            {
+                mx = MobileAimPad.ScrollCursorX();
+                my = MobileAimPad.ScrollCursorY();
+            }
+            #end
+
             var tox : Float = (((mx - w2) * 0.5) + p.x) - w2;
             var toy : Float = (((my - h2) * 0.5) + p.y) - h2;
             camera.x += (tox - camera.x) * c;

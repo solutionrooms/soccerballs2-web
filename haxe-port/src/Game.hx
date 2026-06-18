@@ -1623,9 +1623,9 @@ class Game
         {
             return;
         }
-        if (controlMode == 0 && Settings.mobileControlScheme != Settings.SCHEME_B)
+        if (controlMode == 0 && Settings.mobileControlScheme != Settings.SCHEME_B && Settings.mobileControlScheme != Settings.SCHEME_C)
         {
-            // scheme B routes kicks through MobileControls (tap near the ball), not a raw click
+            // schemes B/C route kicks through their own handler (tap), not a raw pointer-down click
             doKick = true;
         }
         if (controlMode == 1)

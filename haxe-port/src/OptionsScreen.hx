@@ -27,24 +27,14 @@ class OptionsScreen
     static var rowPerf : Sprite;
     static var rowLevels : Sprite;
     static var rowControl : Sprite;
-    static var rowBatch : Sprite;
-    static var rowNoTiles : Sprite;
-    static var rowNoUnderlay : Sprite;
-    static var rowNoBlend : Sprite;
-    static var rowNoCT : Sprite;
-    static var rowMud : Sprite;
+    static var rowSens : Sprite;
     static var lblPerf : TextField;
     static var lblLevels : TextField;
     static var lblControl : TextField;
-    static var lblBatch : TextField;
-    static var lblNoTiles : TextField;
-    static var lblNoUnderlay : TextField;
-    static var lblNoBlend : TextField;
-    static var lblNoCT : TextField;
-    static var lblMud : TextField;
+    static var lblSens : TextField;
 
     static inline var BOX_W : Float = 380;
-    static inline var BOX_H : Float = 516;
+    static inline var BOX_H : Float = 296;
 
     public static function Init(stage : Stage) : Void
     {
@@ -138,39 +128,14 @@ class OptionsScreen
         lblControl = cast rowControl.getChildByName("val");
         rowControl.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleControl(); });
 
-        rowBatch = MakeRow(184, "Diag: GPU batch (garbled)");
-        lblBatch = cast rowBatch.getChildByName("val");
-        rowBatch.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleBatch(); });
-
-        rowNoTiles = MakeRow(230, "Diag: no tiles");
-        lblNoTiles = cast rowNoTiles.getChildByName("val");
-        rowNoTiles.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleNoTiles(); });
-
-        rowNoUnderlay = MakeRow(276, "Diag: no underlay");
-        lblNoUnderlay = cast rowNoUnderlay.getChildByName("val");
-        rowNoUnderlay.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleNoUnderlay(); });
-
-        rowNoBlend = MakeRow(322, "Diag: no blend");
-        lblNoBlend = cast rowNoBlend.getChildByName("val");
-        rowNoBlend.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleNoBlend(); });
-
-        rowNoCT = MakeRow(368, "Diag: no colorTransform");
-        lblNoCT = cast rowNoCT.getChildByName("val");
-        rowNoCT.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleNoCT(); });
-
-        rowMud = MakeRow(414, "Diag: no mud friction");
-        lblMud = cast rowMud.getChildByName("val");
-        rowMud.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleNoMud(); });
+        rowSens = MakeRow(184, "Aim sensitivity (C)");
+        lblSens = cast rowSens.getChildByName("val");
+        rowSens.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleSens(); });
 
         box.addChild(rowPerf);
         box.addChild(rowLevels);
         box.addChild(rowControl);
-        box.addChild(rowBatch);
-        box.addChild(rowNoTiles);
-        box.addChild(rowNoUnderlay);
-        box.addChild(rowNoBlend);
-        box.addChild(rowNoCT);
-        box.addChild(rowMud);
+        box.addChild(rowSens);
 
         // FULLSCREEN + CLOSE buttons (side by side)
         var fsBtn = MakeButton("FULLSCREEN", 18, 162, function() : Void { ToggleFullscreen(); });
@@ -201,14 +166,29 @@ class OptionsScreen
     // "Add to Home Screen" there for a standalone fullscreen instead).
     static function ToggleFullscreen() : Void
     {
+        #if (js && html5)
+        // Call the browser Fullscreen API directly from this click handler so the user-gesture context
+        // is preserved (openfl's displayState path was being rejected/swallowed). Falls back to webkit.
+        try {
+            var doc : Dynamic = js.Browser.document;
+            var fsEl : Dynamic = (doc.fullscreenElement != null) ? doc.fullscreenElement : doc.webkitFullscreenElement;
+            if (fsEl == null) {
+                var el : Dynamic = doc.documentElement; // whole page -> canvas + letterbox scale up together
+                if (el.requestFullscreen != null) el.requestFullscreen();
+                else if (el.webkitRequestFullscreen != null) el.webkitRequestFullscreen();
+                else if (el.webkitRequestFullScreen != null) el.webkitRequestFullScreen();
+            } else {
+                if (doc.exitFullscreen != null) doc.exitFullscreen();
+                else if (doc.webkitExitFullscreen != null) doc.webkitExitFullscreen();
+            }
+        } catch (e : Dynamic) {}
+        #else
         try {
             var st = Main.theStage;
             if (st == null) return;
-            if (st.displayState == StageDisplayState.NORMAL)
-                st.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
-            else
-                st.displayState = StageDisplayState.NORMAL;
+            st.displayState = (st.displayState == StageDisplayState.NORMAL) ? StageDisplayState.FULL_SCREEN_INTERACTIVE : StageDisplayState.NORMAL;
         } catch (e : Dynamic) {}
+        #end
     }
 
     // a clickable row: label on the left, a value chip on the right (named "val")
@@ -251,21 +231,15 @@ class OptionsScreen
     {
         if (lblPerf != null) { lblPerf.text = Settings.perfHud ? "ON" : "OFF"; lblPerf.textColor = Settings.perfHud ? 0x00FF66 : 0x999999; }
         if (lblLevels != null) { lblLevels.text = Settings.openAllLevels ? "ON" : "OFF"; lblLevels.textColor = Settings.openAllLevels ? 0x00FF66 : 0x999999; }
-        if (lblControl != null) { lblControl.text = (Settings.mobileControlScheme == Settings.SCHEME_B) ? "B" : "A"; }
-        if (lblBatch != null) { lblBatch.text = Settings.gpuBatchTest ? "ON" : "OFF"; lblBatch.textColor = Settings.gpuBatchTest ? 0xFFAA33 : 0x999999; }
-        var tm = TileRenderer.tilemap;
-        DiagLabel(lblNoTiles, TileRenderer.noTiles);
-        DiagLabel(lblNoUnderlay, TileRenderer.noUnderlay);
-        DiagLabel(lblNoBlend, tm != null && !tm.tileBlendModeEnabled);
-        DiagLabel(lblNoCT, tm != null && !tm.tileColorTransformEnabled);
-        DiagLabel(lblMud, Settings.noMudFriction);
+        if (lblControl != null) { lblControl.text = (Settings.mobileControlScheme == Settings.SCHEME_C) ? "C" : (Settings.mobileControlScheme == Settings.SCHEME_B) ? "B" : "A"; }
+        if (lblSens != null) { lblSens.text = switch (Settings.aimSensitivity) { case 0: "LOW"; case 2: "HIGH"; default: "MED"; }; }
     }
 
-    static function DiagLabel(lbl : TextField, on : Bool) : Void
+    static function ToggleSens() : Void
     {
-        if (lbl == null) return;
-        lbl.text = on ? "ON" : "OFF";
-        lbl.textColor = on ? 0xFFAA33 : 0x999999;
+        Settings.aimSensitivity = (Settings.aimSensitivity + 1) % 3;
+        Settings.Save();
+        RefreshLabels();
     }
 
     // ---- Toggles -----------------------------------------------------------------------------
@@ -287,53 +261,8 @@ class OptionsScreen
 
     static function ToggleControl() : Void
     {
-        Settings.mobileControlScheme = (Settings.mobileControlScheme == Settings.SCHEME_B) ? Settings.SCHEME_A : Settings.SCHEME_B;
-        Settings.Save();
-        RefreshLabels();
-    }
-
-    // ---- Diagnostic toggles (live, NOT persisted — a reload always returns to a clean render) -----
-
-    static function ToggleNoTiles() : Void
-    {
-        TileRenderer.noTiles = !TileRenderer.noTiles; // Push reads it each call -> live
-        RefreshLabels();
-    }
-
-    static function ToggleNoUnderlay() : Void
-    {
-        TileRenderer.noUnderlay = !TileRenderer.noUnderlay;
-        // hide/show the underlay bitmap live so its texture stops/starts being uploaded
-        try { (untyped Game.main).screenB.visible = !TileRenderer.noUnderlay; } catch (e : Dynamic) {}
-        RefreshLabels();
-    }
-
-    static function ToggleNoBlend() : Void
-    {
-        var tm = TileRenderer.tilemap;
-        if (tm != null) tm.tileBlendModeEnabled = !tm.tileBlendModeEnabled;
-        RefreshLabels();
-    }
-
-    static function ToggleNoCT() : Void
-    {
-        var tm = TileRenderer.tilemap;
-        if (tm != null) tm.tileColorTransformEnabled = !tm.tileColorTransformEnabled;
-        RefreshLabels();
-    }
-
-    static function ToggleBatch() : Void
-    {
-        Settings.gpuBatchTest = !Settings.gpuBatchTest;
-        Settings.Save();
-        TileRenderer.DEBUG_SHARE_TILESET = Settings.gpuBatchTest; // applies live (Push reads it each call)
-        RefreshLabels();
-    }
-
-    // Applied when terrain is built (level load), so restart the level to see the effect.
-    static function ToggleNoMud() : Void
-    {
-        Settings.noMudFriction = !Settings.noMudFriction;
+        // cycle A -> B (joystick) -> C (aim pad) -> A
+        Settings.mobileControlScheme = (Settings.mobileControlScheme + 1) % 3;
         Settings.Save();
         RefreshLabels();
     }

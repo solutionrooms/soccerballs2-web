@@ -19,6 +19,10 @@ class Settings
     // Mobile control scheme: 0 = A (current: drag/aim with pointer), 1 = B (virtual joystick + tap-near-ball).
     public static var mobileControlScheme : Int = 0;
 
+    // Aim-pad (scheme C) joystick sensitivity: 0 = Low, 1 = Med, 2 = High. Lower = the stick needs more
+    // travel for the same aim change (finer control). Default Med.
+    public static var aimSensitivity : Int = 1;
+
     // Diagnostic: force all sprites onto one shared GPU texture (~1 draw call). Renders the WRONG image
     // (garbled), but isolates draw-call cost from per-sprite cost when measuring perf across devices.
     public static var gpuBatchTest : Bool = false;
@@ -30,6 +34,7 @@ class Settings
 
     public static inline var SCHEME_A : Int = 0;
     public static inline var SCHEME_B : Int = 1;
+    public static inline var SCHEME_C : Int = 2; // "Aim Pad": relative drag-aim + tap-fire + 2-finger fine
 
     static inline var SID : String = "soccerballs2_settings";
 
@@ -43,6 +48,7 @@ class Settings
                 if (so.data.perfHud != null) perfHud = so.data.perfHud;
                 if (so.data.openAllLevels != null) openAllLevels = so.data.openAllLevels;
                 if (so.data.mobileControlScheme != null) mobileControlScheme = Std.int(so.data.mobileControlScheme);
+                if (so.data.aimSensitivity != null) aimSensitivity = Std.int(so.data.aimSensitivity);
                 if (so.data.gpuBatchTest != null) gpuBatchTest = so.data.gpuBatchTest;
                 if (so.data.noMudFriction != null) noMudFriction = so.data.noMudFriction;
                 (untyped so).close();
@@ -59,6 +65,7 @@ class Settings
             so.data.perfHud = perfHud;
             so.data.openAllLevels = openAllLevels;
             so.data.mobileControlScheme = mobileControlScheme;
+            so.data.aimSensitivity = aimSensitivity;
             so.data.gpuBatchTest = gpuBatchTest;
             so.data.noMudFriction = noMudFriction;
             so.flush();

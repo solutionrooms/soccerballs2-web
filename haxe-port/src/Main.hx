@@ -77,7 +77,8 @@ class Main extends MovieClip
         InitPerfOverlay();
         OptionsScreen.Init(theStage);
         MobileControls.Init(theStage);
-        if (Settings.perfHud) SetPerfHud(true);
+        MobileAimPad.Init(theStage); // scheme C: aim-pad touch handlers
+        SetPerfHud(Settings.perfHud); // apply the saved setting authoritatively (on OR off), overriding the ?fps URL default
         SetEverythingUpOnce();
     }
 
@@ -541,6 +542,7 @@ class Main extends MovieClip
             KeyReader.UpdateOncePerFrame();
             Audio.UpdateOncePerFrame();
             MobileControls.UpdateAim(); // scheme B: feed joystick deflection into Game.mouse_x/y before the update
+            MobileAimPad.UpdateAim();   // scheme C: feed aim-pad virtual cursor into Game.mouse_x/y
             GameVars.InitForFrame();
             if (!Game.doWalkthrough) Game.UpdateGameplay();
             // TRAJECTORY PROBE: same format/threshold as the patched original SWF's [ORIG] log, so the
@@ -573,6 +575,7 @@ class Main extends MovieClip
         UpdatePerfOverlay();
         OptionsScreen.Tick();
         MobileControls.Tick();
+            MobileAimPad.Tick();
 
         // one-time terrain-collision geometry dump when a level becomes playable (copy [SB2] lines back)
         try {

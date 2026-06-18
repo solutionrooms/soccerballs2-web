@@ -44,6 +44,10 @@ class MobileAimPad
     static var fineActive : Bool = false;
     static var fineId : Int = -999;
 
+    // total active pointers (joystick + play-field). A fire-tap is only valid when it is the SOLE
+    // pointer down — so a 2nd finger can never fire even if the joystick pointer tracking hiccups.
+    static var activeCount : Int = 0;
+
     // play-field tap (fire)
     static var tapId : Int = -999;
     static var tapX : Float = 0;
@@ -115,6 +119,8 @@ class MobileAimPad
     static function onJoyDown(e : Dynamic) : Void
     {
         if (!IsActive()) return;
+        if (joyId != -999) { try { e.stopPropagation(); } catch (er : Dynamic) {} return; } // ignore extra fingers on the stick
+        activeCount++;
         joyId = e.pointerId;
         // capture the pointer so dragging off the small joystick still tracks (and joyId stays reliable,
         // so a 2nd finger is read as fine, not a fire-tap)
@@ -148,6 +154,7 @@ class MobileAimPad
     static function onJoyUp(e : Dynamic) : Void
     {
         if (e.pointerId != joyId) return;
+        activeCount = (activeCount > 0) ? activeCount - 1 : 0;
         try { base.releasePointerCapture(e.pointerId); } catch (er : Dynamic) {}
         joyId = -999; // latch deflection (do not recentre) so the aim persists for tap-to-fire
         try { e.stopPropagation(); } catch (er : Dynamic) {}
@@ -189,13 +196,16 @@ class MobileAimPad
     static function onTapDown(e : Dynamic) : Void
     {
         if (!IsActive()) return;
+        var hadCompany = activeCount > 0; // something else already down -> this can't be a clean solo tap
+        activeCount++;
         // a finger landing on the play field WHILE the joystick is held = fine modifier (not a fire tap)
         if (joyId != -999 && !fineActive && e.pointerId != joyId)
         {
             fineActive = true; fineId = e.pointerId;
             return;
         }
-        if (tapId != -999) return;
+        // only a SOLE pointer can become a fire-tap candidate
+        if (hadCompany || tapId != -999) return;
         tapId = e.pointerId; tapX = e.clientX; tapY = e.clientY; tapMoved = 0;
         tapStageY = clientToStageY(e.clientY);
     }
@@ -210,6 +220,7 @@ class MobileAimPad
 
     static function onTapUp(e : Dynamic) : Void
     {
+        activeCount = (activeCount > 0) ? activeCount - 1 : 0;
         if (e.pointerId == fineId)
         {
             fineActive = false; fineId = -999;

@@ -27,6 +27,14 @@ class Settings
     // (garbled), but isolates draw-call cost from per-sprite cost when measuring perf across devices.
     public static var gpuBatchTest : Bool = false;
 
+    // PERF FIX (iOS): cache each static terrain object's vector rasterization to a GPU texture ONCE (at
+    // first render) and just re-position the tile each frame, instead of re-rasterizing a full-screen
+    // bitmap and re-uploading it (texImage2D) every frame. The per-frame re-upload of N terrain bitmaps
+    // was the iOS GPU stall (scaled with on-screen terrain → the frame-time variance). CONFIRMED on
+    // device: 15–25fps → solid 60. On by default; the Options toggle stays so it can be turned off to
+    // compare or to rule it out if a level's terrain ever looks wrong.
+    public static var cachedTerrain : Bool = true;
+
     // Diagnostic: neutralise poly_mud's very high friction (100 -> grass-like) when building terrain.
     // Tests whether sticky-mud walls are what make shots like level 9 fail in the port. Applied at
     // level load, so toggle then restart the level. Does NOT change the original game data.
@@ -50,6 +58,7 @@ class Settings
                 if (so.data.mobileControlScheme != null) mobileControlScheme = Std.int(so.data.mobileControlScheme);
                 if (so.data.aimSensitivity != null) aimSensitivity = Std.int(so.data.aimSensitivity);
                 if (so.data.gpuBatchTest != null) gpuBatchTest = so.data.gpuBatchTest;
+                if (so.data.cachedTerrain != null) cachedTerrain = so.data.cachedTerrain;
                 if (so.data.noMudFriction != null) noMudFriction = so.data.noMudFriction;
                 (untyped so).close();
             }
@@ -67,6 +76,7 @@ class Settings
             so.data.mobileControlScheme = mobileControlScheme;
             so.data.aimSensitivity = aimSensitivity;
             so.data.gpuBatchTest = gpuBatchTest;
+            so.data.cachedTerrain = cachedTerrain;
             so.data.noMudFriction = noMudFriction;
             so.flush();
             (untyped so).close();

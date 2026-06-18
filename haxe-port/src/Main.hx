@@ -572,6 +572,10 @@ class Main extends MovieClip
             calcFrameTime();
             timeForUpdate = (haxe.Timer.stamp() - now) * 1000;
         }
+        // Keep the software underlay's visibility in sync with the live diagnostic toggle, so flipping
+        // "Render underlay" in Options takes effect immediately (an invisible Bitmap isn't re-uploaded to
+        // the GPU each frame — that's the whole point of the A/B test).
+        if (screenB != null) screenB.visible = !TileRenderer.noUnderlay;
         UpdatePerfOverlay();
         OptionsScreen.Tick();
         MobileControls.Tick();

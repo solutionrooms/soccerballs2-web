@@ -28,13 +28,15 @@ class OptionsScreen
     static var rowLevels : Sprite;
     static var rowControl : Sprite;
     static var rowSens : Sprite;
+    static var rowCachedTerrain : Sprite;
     static var lblPerf : TextField;
     static var lblLevels : TextField;
     static var lblControl : TextField;
     static var lblSens : TextField;
+    static var lblCachedTerrain : TextField;
 
     static inline var BOX_W : Float = 380;
-    static inline var BOX_H : Float = 296;
+    static inline var BOX_H : Float = 342;
 
     public static function Init(stage : Stage) : Void
     {
@@ -132,10 +134,17 @@ class OptionsScreen
         lblSens = cast rowSens.getChildByName("val");
         rowSens.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleSens(); });
 
+        // The iOS perf fix: cache static terrain to GPU textures (upload once) instead of re-uploading
+        // a full-screen bitmap per terrain object every frame. On by default; toggle off to compare.
+        rowCachedTerrain = MakeRow(230, "Cached terrain (perf)");
+        lblCachedTerrain = cast rowCachedTerrain.getChildByName("val");
+        rowCachedTerrain.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleCachedTerrain(); });
+
         box.addChild(rowPerf);
         box.addChild(rowLevels);
         box.addChild(rowControl);
         box.addChild(rowSens);
+        box.addChild(rowCachedTerrain);
 
         // FULLSCREEN + CLOSE buttons (side by side)
         var fsBtn = MakeButton("FULLSCREEN", 18, 162, function() : Void { ToggleFullscreen(); });
@@ -233,6 +242,7 @@ class OptionsScreen
         if (lblLevels != null) { lblLevels.text = Settings.openAllLevels ? "ON" : "OFF"; lblLevels.textColor = Settings.openAllLevels ? 0x00FF66 : 0x999999; }
         if (lblControl != null) { lblControl.text = (Settings.mobileControlScheme == Settings.SCHEME_C) ? "C" : (Settings.mobileControlScheme == Settings.SCHEME_B) ? "B" : "A"; }
         if (lblSens != null) { lblSens.text = switch (Settings.aimSensitivity) { case 0: "LOW"; case 2: "HIGH"; default: "MED"; }; }
+        if (lblCachedTerrain != null) { lblCachedTerrain.text = Settings.cachedTerrain ? "ON" : "OFF"; lblCachedTerrain.textColor = Settings.cachedTerrain ? 0x00FF66 : 0x999999; }
     }
 
     static function ToggleSens() : Void
@@ -263,6 +273,16 @@ class OptionsScreen
     {
         // cycle A -> B (joystick) -> C (aim pad) -> A
         Settings.mobileControlScheme = (Settings.mobileControlScheme + 1) % 3;
+        Settings.Save();
+        RefreshLabels();
+    }
+
+    // The iOS perf fix: cache each static terrain object's rasterisation to a GPU texture (upload once)
+    // instead of re-uploading a full-screen bitmap per object every frame. Applies live — the per-object
+    // cache builds lazily on the next render.
+    static function ToggleCachedTerrain() : Void
+    {
+        Settings.cachedTerrain = !Settings.cachedTerrain;
         Settings.Save();
         RefreshLabels();
     }

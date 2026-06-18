@@ -1253,6 +1253,16 @@ class GameObj extends GameObjBase
     // honours image.version). Each terrain object needs its OWN bitmap so concurrent tiles don't alias.
     public var lineFillBD : BitmapData = null;
 
+    // PERF (Settings.cachedTerrain): static terrain doesn't change shape — only the camera moves. So
+    // rasterize this object's vector fill ONCE, into a bitmap sized to its world bbox, then each frame
+    // just push that cached bitmap as a tile at (worldOrigin - camera). Because the BitmapData is never
+    // re-drawn, its image.version is stable and OpenFL uploads its GPU texture only once (no per-frame
+    // texImage2D — the iOS stall). cachedTerrainFail = bbox too big to cache → per-frame fallback.
+    public var cachedTerrainBD : BitmapData = null;
+    public var cachedTerrainX : Float = 0;
+    public var cachedTerrainY : Float = 0;
+    public var cachedTerrainFail : Bool = false;
+
     // Z-ORDER FIX: emit the current Game.fillScreenMC vector terrain as a GPU tile at THIS object's
     // zpos slot, instead of `bd.draw`-ing it into the software underlay. The old underlay path forced
     // ALL terrain behind ALL sprites (two fixed depth bands), so things that should hide behind terrain
@@ -1284,10 +1294,25 @@ class GameObj extends GameObjBase
         {
             return;
         }
-        
+
+        // PERF FIX: cache-once path. Rasterise the shape once (camera-independent), then every frame
+        // just re-position the cached tile — no per-frame full-screen bitmap re-upload (the iOS stall).
+        if (Settings.cachedTerrain && !cachedTerrainFail)
+        {
+            if (cachedTerrainBD == null) BuildTerrainCache(); // may set cachedTerrainFail if bbox is huge
+            if (cachedTerrainBD != null)
+            {
+                TileRenderer.PushAt(cachedTerrainBD,
+                    Math.round(cachedTerrainX - Game.camera.x),
+                    Math.round(cachedTerrainY - Game.camera.y));
+                return;
+            }
+            // bbox too big to cache → fall through to the original per-frame render below
+        }
+
         var x : Float = Math.round(xpos) - Math.round(Game.camera.x);
         var y : Float = Math.round(ypos) - Math.round(Game.camera.y);
-        
+
         var g : Graphics = Game.fillScreenMC.graphics;
         g.clear();
         
@@ -1331,6 +1356,62 @@ class GameObj extends GameObjBase
         
         
         RenderFillAsTile(null, null, false); // was bd.draw into the underlay; now a tile at this object's zpos
+    }
+
+    // Build the once-only cached rasterisation used by the Settings.cachedTerrain fast path. Draws the
+    // exact same fill the per-frame path draws, but in LOCAL (bbox-relative) coordinates — the camera and
+    // bbox origin both cancel out of the bitmap-fill texture mapping, so this is pixel-identical to the
+    // per-frame render. The result is uploaded to the GPU once and reused (stable image.version).
+    function BuildTerrainCache() : Void
+    {
+        if (staticLineRectangle == null || staticLinePoints == null || staticLinePoints.length == 0)
+        {
+            cachedTerrainFail = true;
+            return;
+        }
+
+        var bx : Float = Math.floor(staticLineRectangle.left) - 2;
+        var by : Float = Math.floor(staticLineRectangle.top) - 2;
+        var bw : Int = Std.int(Math.ceil(staticLineRectangle.right - bx)) + 2;
+        var bh : Int = Std.int(Math.ceil(staticLineRectangle.bottom - by)) + 2;
+        if (bw < 1) bw = 1;
+        if (bh < 1) bh = 1;
+        if (bw > 4096 || bh > 4096) { cachedTerrainFail = true; return; } // too big to cache — per-frame path
+
+        cachedTerrainX = bx;
+        cachedTerrainY = by;
+        cachedTerrainBD = new BitmapData(bw, bh, true, 0);
+
+        var g : Graphics = Game.fillScreenMC.graphics;
+        g.clear();
+
+        var m : Matrix = new Matrix();
+        m.rotate(dir);
+        m.translate(xpos, ypos);
+        m.translate(-bx, -by);
+
+        g.beginBitmapFill(dobj.GetBitmapData(Std.int(frame)), m, true);
+        if (dobj2 == null)
+        {
+            g.lineStyle(null, null, null);
+        }
+        else
+        {
+            g.lineStyle(3, 0x404040, 1);
+            g.lineBitmapStyle(dobj2.GetBitmapData(0), m, true);
+        }
+
+        var pts : Array<Point> = staticLinePoints;
+        g.moveTo(pts[0].x - bx, pts[0].y - by);
+        for (i in 1...pts.length)
+        {
+            g.lineTo(pts[i].x - bx, pts[i].y - by);
+        }
+        g.lineTo(pts[0].x - bx, pts[0].y - by);
+        g.endFill();
+
+        cachedTerrainBD.draw(Game.fillScreenMC, null, null, null, null, false);
+        g.clear(); // leave the shared scratch MC empty for the next object
     }
 
 

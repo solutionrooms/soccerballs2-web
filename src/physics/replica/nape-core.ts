@@ -1608,10 +1608,17 @@ export class NapeReplica {
   }
 
   private wakeBody(b: Body): void {
-    if (b.type === TYPE_DYNAMIC && b.sleeping) {
-      b.sleeping = false;
-      b.waket = this.stamp;
-    }
+    if (b.type !== TYPE_DYNAMIC) return; // static/kinematic: never wake (static is perma-asleep)
+    // Nape non_inlined_wake refreshes waket on EVERY call (ZPP_Space.as:5347 sets waket
+    // unconditionally, then really_wake only if it was sleeping). The unconditional refresh is
+    // load-bearing: a tiny keep-awake nudge (velocity.y -= 1e-8, below bodyAtRest's 0.2 vel /
+    // disp thresholds) must be able to PREVENT an awake body from sleeping, not just re-wake one
+    // already asleep — otherwise the level-8 weight-switch block sleeps at frame 60, ONGOING
+    // stops (gated to awake arbiters), the nudge (fired only on ONGOING) stops, and it sleeps
+    // forever → switch counts down to red. setVel/setAngVel/applyImpulse route through here, so
+    // a velocity-set counts as activity (Nape Body.velocity/angularVel setters → invalidate_wake).
+    b.waket = this.stamp;
+    b.sleeping = false;
   }
 
   // toggle only shapes whose top reaches above the threshold (keeper duck): the

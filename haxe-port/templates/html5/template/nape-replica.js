@@ -1195,10 +1195,9 @@
       }
     }
     wakeBody(b) {
-      if (b.type === TYPE_DYNAMIC && b.sleeping) {
-        b.sleeping = false;
-        b.waket = this.stamp;
-      }
+      if (b.type !== TYPE_DYNAMIC) return;
+      b.waket = this.stamp;
+      b.sleeping = false;
     }
     // toggle only shapes whose top reaches above the threshold (keeper duck): the
     // tall idle shape toggles, the short crouch shape stays solid.

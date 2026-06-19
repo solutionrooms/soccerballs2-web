@@ -131,6 +131,7 @@ p0pd · p0fl · p0ms · p0sl · p0wk · **p0kn** (kinematic motion + offset-orig
 **p0sm** (per-shape collision-mask — disable one shape of a body, its rider falls, others stay; keeper duck) ·
 **p0rs** (rolling friction on a slope — free wheel rolls + spins up to vx/r; previously-dormant rolling path) ·
 **p0cj** (collide_joined=false — chassis embedded in its revolute-jointed wheel rolls, doesn't lock; lvl-36) ·
+**p0kw** (keep-awake nudge — setVel refreshes waket on an awake body so a sub-threshold nudge prevents sleep; lvl-8) ·
 p0tr-terrain + p0sw-switchmask + p0kn-kinematic + p0rf-runtimefilters + p0wv-setangvel + p0kd-keeperduck (behavioural)
 
 ### Wake-on-removal fix (2026-06-19)
@@ -178,6 +179,18 @@ SHIPPED SWF with a real BEGIN+ONGOING `InteractionListener` harness (`p0og`): BE
 contiguous, body sleeps @77 → ONGOING stops exactly at 77; replica reproduces it step-for-step
 (`p0og.test.ts`). **Restitution heads-up from haxe-port (ball-vs-moving-kinematic) = NOT a bug** — their
 repro confirms combine 0.6 rebound + escape; the level-7 "stick" is pinned-contact geometry, not the engine.
+
+### Keep-awake nudge / waket-refresh (level-8 weight switch) (2026-06-19)
+`wakeBody` guarded everything behind `if (sleeping)`, so on an already-AWAKE body it was a no-op and never
+refreshed `waket`. Nape's `non_inlined_wake` (`ZPP_Space.as:5347`) sets `waket` UNCONDITIONALLY and only
+`really_wake`s when it was sleeping — that unconditional refresh lets a sub-threshold nudge PREVENT sleep. The
+lvl-8 weight switch holds green only while ONGOING fires; the game nudges `velocity.y -= 1e-8` each ONGOING
+frame to keep the block awake. With the old wakeBody the nudge (below bodyAtRest's 0.2 thresholds) never
+refreshed waket → block slept ~frame 60 → ONGOING stopped (awake-gated) → nudge stopped → red. Fix: wakeBody
+refreshes `waket=stamp` + clears sleeping for ANY dynamic body (static/kinematic skipped); setVel/setAngVel/
+applyImpulse route through it = the other half of `invalidate_wake` (the earlier wake-on-velocity fix did only
+the wake-a-sleeper half). Gate `p0kw`; bit-exact wake goldens (p0wv/p0rm/p0sw/p0sl) unchanged (sleeping-case
+path identical, only adds the awake refresh).
 
 ### Level-36 "ref on wheels" — FIXED: collide_joined=false not honoured (2026-06-19)
 **Root cause (after a long hunt — see the rolling-friction note below for the dead ends):** the replica's

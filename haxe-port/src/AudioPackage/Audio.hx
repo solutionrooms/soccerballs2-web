@@ -377,6 +377,11 @@ class Audio
             return;
         }
         
+        // Web Audio (Howler) throws on a non-finite pan/volume ("The provided float value is non-finite"),
+        // unlike Flash which silently tolerated it. A NaN can arrive from SFX_OneShot when the emitter's
+        // xpos (or the camera) is non-finite for a frame. Sanitize so audio can never crash the game.
+        if (!Math.isFinite(pan)) pan = 0;
+        if (!Math.isFinite(volume)) volume = 1;
         var st : SoundTransform = new SoundTransform();
         st.volume = volume;
         st.pan = pan;

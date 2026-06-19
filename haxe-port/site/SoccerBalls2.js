@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "63";
+	app.meta.h["build"] = "64";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -32617,6 +32617,12 @@ audioPackage_Audio.OneShot = function(name,pan,volume) {
 	if(def == null) {
 		return;
 	}
+	if(!isFinite(pan)) {
+		pan = 0;
+	}
+	if(!isFinite(volume)) {
+		volume = 1;
+	}
 	var st = new openfl_media_SoundTransform();
 	st.volume = volume;
 	st.pan = pan;
@@ -60674,7 +60680,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 519450;
+	this.version = 73637;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

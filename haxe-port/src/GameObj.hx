@@ -5044,7 +5044,11 @@ class GameObj extends GameObjBase
                 Game.scrollMode = 1;
             }
             
-            if (false == false)
+            // The raw pointer-down click-kick. Suppress it for mobile schemes B/C — they route kicks
+            // through their own tap handler (MobileControls / MobileAimPad -> Game.doKick on tap-UP), so
+            // without this guard a scheme-C tap fires twice (this raw down-kick + the aim-pad up-kick).
+            // Mirrors the same guard on MouseClickHandler (Game.hx).
+            if (Game.controlMode != 0 || (Settings.mobileControlScheme != Settings.SCHEME_B && Settings.mobileControlScheme != Settings.SCHEME_C))
             {
                 if (MouseControl.buttonPressed)
                 {

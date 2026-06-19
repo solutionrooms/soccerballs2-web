@@ -3135,7 +3135,12 @@ class GameObjBase
         }
         
         
-        goHitter.nape_bodies[0].velocity.y -= 0.00000001;
+        // LOAD-BEARING typed local — do NOT inline back to goHitter.nape_bodies[0].velocity.y -= …
+        // The typed `nape.phys.Body` forces the velocity PROXY setter (-> engine.setVel, which keeps the
+        // body awake); the inlined form takes the Dynamic path and the nudge silently never reaches the
+        // engine, so the block sleeps at the 60-frame threshold and the switch drops green after ~1s.
+        var b : nape.phys.Body = goHitter.nape_bodies[0];
+        b.velocity.y -= 0.00000001;
 
         timer = 4;
         return false;

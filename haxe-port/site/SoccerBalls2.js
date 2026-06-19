@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "62";
+	app.meta.h["build"] = "63";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -14837,7 +14837,8 @@ GameObjBase.prototype = {
 		if(this.state != 2) {
 			return false;
 		}
-		var fh = nape_geom_Vec2.bound(goHitter.nape_bodies[0],1);
+		var b = goHitter.nape_bodies[0];
+		var fh = nape_geom_Vec2.bound(b,1);
 		fh.set_y((fh._body == null ? fh._vy : fh._body.prxGet(fh._kind,1)) - 0.00000001);
 		this.timer = 4;
 		return false;
@@ -18665,10 +18666,12 @@ GameObj.prototype = $extend(GameObjBase.prototype,{
 			if(Game.controlMode == 0) {
 				Game.scrollMode = 1;
 			}
-			if(MouseControl.buttonPressed) {
-				if(MouseControl.y < 487) {
-					Game.doKick = true;
-					MouseControl.buttonPressed = false;
+			if(Game.controlMode != 0 || Settings.mobileControlScheme != 1 && Settings.mobileControlScheme != 2) {
+				if(MouseControl.buttonPressed) {
+					if(MouseControl.y < 487) {
+						Game.doKick = true;
+						MouseControl.buttonPressed = false;
+					}
 				}
 			}
 			var mx = Game.mouse_x + Game.camera.x;
@@ -60671,7 +60674,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 867478;
+	this.version = 519450;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

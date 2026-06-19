@@ -79,6 +79,9 @@ class GameVars
     
     public static function IsFeatureUnlocked(index : Int) : Bool
     {
+        // Dev: the "open all levels" toggle also unlocks all 4 bonus features (big heads etc.) so they
+        // can be ticked on the level-complete screen without grinding coins/trophies/ratings.
+        if (Settings.openAllLevels) return true;
         if (index == 0)
         {
             if (GetTotalCoinsCollected() >= 50)

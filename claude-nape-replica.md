@@ -123,7 +123,42 @@ m5m-motor · m5w-weld-notrig · p0a-vertex · p0cc-circlecircle · p0cc2-dyndyn 
 p0pd · p0fl · p0ms · p0sl · p0wk · **p0kn** (kinematic motion + offset-origin) ·
 **p0sw** (runtime collision-mask change → free-fall) · **p0se** (runtime sensorEnabled toggle → free-fall) ·
 **p0bn** (restitution on a 2-contact terrain seam, via CCD) ·
-p0tr-terrain + p0sw-switchmask + p0kn-kinematic + p0rf-runtimefilters (behavioural)
+**p0rm** (wake-on-body-removal — ball asleep on a block falls when block destroyed) ·
+**p0wv** (wake-on-velocity-mutation — `applyImpulse`/`velocity=` on a sleeping ball wakes+launches it) ·
+**p0om** (offset-COM body reports the placement origin, no auto-align) ·
+p0tr-terrain + p0sw-switchmask + p0kn-kinematic + p0rf-runtimefilters + p0wv-setangvel (behavioural)
+
+### Wake-on-removal fix (2026-06-19)
+`destroyBody` dropped arbiters/constraints referencing the removed body but left the **partner asleep**
+→ a dynamic ball sleeping on a destroyed `sand_block` stayed frozen mid-air. Fix: wake the other body
+in each dropped arbiter/constraint (`wakeBody`). Verified BIT-EXACT against the **shipped** SoccerBalls2
+Nape (`p0rm`, 180 steps) — important because Julian noted Luca had fixed this and worried about Nape
+versions: the oracle runs the actual shipped bytecode, so it confirmed the fix is *present in the 2012
+build* (matches decompiled `removed_shape`→`body.wake()`, `ZPP_Space.as:2353/2388`). General reassurance:
+every gate is captured from the shipped SWF, so a version mismatch can't creep in silently.
+
+### Wake-on-velocity-mutation fix (2026-06-19)
+Same *class* of gap as wake-on-removal, found by auditing the facade for "mutates a body but forgets
+to wake it." `setVel`/`setAngVel`/`applyImpulse` set velocity but never woke the body → a kick/launch
+on a ball that had been at rest >~1s (asleep) was **silently discarded** (the body stayed asleep, skipped
+integration). Nape wakes on all three (`Body.velocity`→`vel_invalidate`→`invalidate_wake`, `ZPP_Body.as:291`;
+`set angularVel` if-changed, `Body.as:1234`; `applyImpulse` guarded DYNAMIC, `Body.as:2467`). Fix: each calls
+`wakeBody(b)` (`setAngVel` keeps Nape's `if(angvel != w)` change-guard). Verified BIT-EXACT vs the shipped
+SWF (`p0wv`, 140 steps: two balls sleep at 368.200, kicked at step 90 → wake/launch/re-settle); `setAngVel`
+shares the path, covered behaviourally.
+
+### Offset-COM / align-removal fix (2026-06-19)
+`finalizeBody` (and `setBodyType`'s dynamic branch) **auto-`align()`ed every dynamic body onto its COM**, so
+`getX/getY` returned the COM not the placement origin → broke offset-shape characters (level-7 `opponent_patrol`
+turn-around `|marker.y − opp.y| < 20`: real 12 ✓, replica 28 ✗). Root cause: `align()` was copied from the
+**defunct Box2D-parity `tools/nape/NapeWorld.hx:201`**; the original 2012 AS3 calls `align()` zero times and
+real Nape never auto-aligns — it keeps `position` at the origin and integrates rotation about `worldCOM`. Fix:
+dropped both `align()` calls (→ `validateMassProps` only, no posx/posy move) and deleted the dead `align()`
+method. **No other math changed** — the replica is already fully origin-referenced (gravity-torque about origin
+`updateVel`=`ZPP_Space.as:1344`; contact arms `c.px−b.posx`; inertia about origin), that offset path was just
+dormant (`align()` zeroed `localCOM`). Verified BIT-EXACT vs the shipped SWF (`p0om`: feet-origin bar at y=416
+reports 416.2778 at step 1, settles 480.06 — never the COM). Centered shapes unaffected (`localCOM==0` ⇒ no-op),
+all prior goldens + the 36-level sim + gold-route tests still green.
 
 ### CCD restitution / lost-bounce fix (2026-06-19)
 A bouncy ball landing on a terrain SEAM (shared vertex of two triangles) lost its bounce. The contact

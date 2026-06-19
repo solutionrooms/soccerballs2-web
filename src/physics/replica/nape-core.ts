@@ -623,7 +623,15 @@ export class NapeReplica {
         b.allowMovement = false;
         b.allowRotation = false;
       } else {
-        this.align(b); // recenter origin on COM (NapeWorld.hx:201 -> Nape align)
+        this.validateMassProps(b); // mass/inertia/localCOM about the placement ORIGIN.
+        // NO align: real Nape (and the live haxe game/shim) never call body.align(), so
+        // position stays at the registration origin and rotation integrates about worldCOM.
+        // All the offset-COM machinery (gravity-torque/arms/inertia about the origin) is
+        // already faithful (copied from ZPP_Space/ZPP_Body); it was just dormant because
+        // align() zeroed localCOM. align() was a vestige of the defunct Box2D-parity
+        // NapeWorld.hx (recenters origin on COM) — it made getX/getY report the COM, which
+        // broke offset-shape characters (level-7 opponent_patrol turn-around). Verified vs
+        // the shipped SWF: an offset bar placed at y=416 reports 416, not the COM 376 (p0om).
         if (b.mass === 0) b.mass = 1; // Box2D-parity fallback (NapeWorld.hx:203)
         if (b.inertia === 0) b.allowRotation = false;
       }
@@ -657,34 +665,12 @@ export class NapeReplica {
     this.live.push(b);
   }
 
-  // align() recenters the body origin on its centre of mass. For a single
-  // centred circle (localCOM == 0) this is inert; multi-shape COM offset is
-  // verified in a later milestone. We validate mass props here either way.
-  private align(b: Body): void {
-    this.validateMassProps(b);
-    // translate origin to COM, keeping the COM's world position fixed
-    const dx = b.axisy * b.localCOMx - b.axisx * b.localCOMy; // ZPP_Body.as:311
-    const dy = b.localCOMx * b.axisx + b.localCOMy * b.axisy; // ZPP_Body.as:312
-    b.posx += dx;
-    b.posy += dy;
-    for (const s of b.shapes) {
-      if (s.kind === 'circle') {
-        s.localx -= b.localCOMx;
-        s.localy -= b.localCOMy;
-      } else {
-        for (let i = 0; i < s.verts.length; i += 2) {
-          s.verts[i] -= b.localCOMx;
-          s.verts[i + 1] -= b.localCOMy;
-        }
-      }
-      s.localCOMx -= b.localCOMx;
-      s.localCOMy -= b.localCOMy;
-    }
-    b.localCOMx = 0;
-    b.localCOMy = 0;
-    // recompute with COM at origin so inertia/area are about the final origin
-    this.validateMassProps(b);
-  }
+  // NB: there is intentionally NO align() here. Nape's body.align() (recenter the
+  // origin onto the COM) is opt-in and the original 2012 game never calls it (grep of
+  // src/*.as: zero hits), so faithful bodies keep their placement origin and rotate about
+  // worldCOM. An earlier port copied align() from the defunct Box2D-parity NapeWorld.hx
+  // and ran it on every dynamic body — that shifted getX/getY onto the COM and broke
+  // offset-shape characters. Removed; see finalizeBody / the p0om golden.
 
   // Per-shape localCOM + area + inertia (about the body origin), matching Nape's
   // operation order exactly. Polygon traversal visits vertices in Nape's order
@@ -796,11 +782,24 @@ export class NapeReplica {
     const i = this.live.indexOf(b);
     if (i >= 0) this.live.splice(i, 1);
     // [facade] drop arbiters/constraints/partner edges referencing this body so a
-    // level reload doesn't solve against a stale handle.
+    // level reload doesn't solve against a stale handle. Removing a body WAKES the
+    // bodies it was interacting with (Nape `removed_shape` → `body.wake()`,
+    // ZPP_Space.as:2353/2388) — otherwise a dynamic body asleep on a removed support
+    // (the sand-block mechanic: ball resting on a destroyed block) stays frozen in
+    // mid-air. wakeBody re-activates the dynamic partner so doForests re-evaluates it.
     for (const [k, arb] of this.arbiters) {
-      if (arb.b1 === b || arb.b2 === b) this.arbiters.delete(k);
+      if (arb.b1 === b || arb.b2 === b) {
+        this.wakeBody(arb.b1 === b ? arb.b2 : arb.b1);
+        this.arbiters.delete(k);
+      }
     }
-    this.constraints = this.constraints.filter((c) => c.b1 !== b && c.b2 !== b);
+    this.constraints = this.constraints.filter((c) => {
+      if (c.b1 === b || c.b2 === b) {
+        this.wakeBody(c.b1 === b ? c.b2 : c.b1);
+        return false;
+      }
+      return true;
+    });
     this.jointPartners.delete(h);
     this.bodies.delete(h);
   }
@@ -1035,24 +1034,36 @@ export class NapeReplica {
   }
 
   // --- body ops [M1] ------------------------------------------------------
+  // Body.velocity setter (Body.as:565) → vel_invalidate (ZPP_Body.as:291) which
+  // assigns velx/vely then calls invalidate_wake() unconditionally → wakes a
+  // sleeping DYNAMIC body so the new velocity actually integrates.
   setVel(h: number, vx: number, vy: number): void {
     const b = this.bodies.get(h);
     if (b != null) {
       b.velx = vx;
       b.vely = vy;
+      this.wakeBody(b);
     }
   }
+  // Body.angularVel setter (Body.as:1229): only assigns + invalidate_wake()
+  // when the value actually changes (`if(angvel != param1)`).
   setAngVel(h: number, w: number): void {
     const b = this.bodies.get(h);
-    if (b != null) b.angvel = w;
+    if (b != null && b.angvel !== w) {
+      b.angvel = w;
+      this.wakeBody(b);
+    }
   }
-  // Body.applyImpulse, central case (Body.as:2406): vel += impulse · imass
+  // Body.applyImpulse, central case (Body.as:2406): vel += impulse · imass, then
+  // invalidate_wake() guarded on `type == DYNAMIC` (Body.as:2467) — wakeBody's
+  // own DYNAMIC guard reproduces that.
   applyImpulse(h: number, jx: number, jy: number): void {
     const b = this.bodies.get(h);
     if (b == null) return;
     const imass = b.imass;
     b.velx = b.velx + jx * imass;
     b.vely = b.vely + jy * imass;
+    this.wakeBody(b);
   }
 
   // [M5] PivotJoint: constrain local anchor (a1) on body hA to coincide with
@@ -1403,7 +1414,8 @@ export class NapeReplica {
     b.type = nt;
     if (nt === TYPE_DYNAMIC) {
       if (b.shapes.length > 0) {
-        this.align(b); // recompute COM/mass like finalizeBody's dynamic path
+        this.validateMassProps(b); // mass/inertia/localCOM about the origin — NO align,
+        // matching finalizeBody and the KINEMATIC branch below (Nape never recenters).
         if (b.mass === 0) b.mass = 1;
         if (b.inertia === 0) b.allowRotation = false;
       } else {

@@ -927,9 +927,11 @@ class Game
     public static function StartLevel(_doingWalkthrough : Bool = false) : Void
     {
         doingWalkthrough = _doingWalkthrough;
-        
+
         StartLevelA();
-        
+
+        FrameStep.OnLevelStart(); // if "step mode" is armed, freeze the level at frame 0 (untouched initial state)
+
         var a : Int = 0;
     }
     public static function StartLevelA() : Void

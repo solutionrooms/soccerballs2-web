@@ -197,7 +197,7 @@
           b.allowMovement = false;
           b.allowRotation = false;
         } else {
-          this.align(b);
+          this.validateMassProps(b);
           if (b.mass === 0) b.mass = 1;
           if (b.inertia === 0) b.allowRotation = false;
         }
@@ -224,32 +224,12 @@
       if (b.type === TYPE_STATIC) b.sleeping = true;
       this.live.push(b);
     }
-    // align() recenters the body origin on its centre of mass. For a single
-    // centred circle (localCOM == 0) this is inert; multi-shape COM offset is
-    // verified in a later milestone. We validate mass props here either way.
-    align(b) {
-      this.validateMassProps(b);
-      const dx = b.axisy * b.localCOMx - b.axisx * b.localCOMy;
-      const dy = b.localCOMx * b.axisx + b.localCOMy * b.axisy;
-      b.posx += dx;
-      b.posy += dy;
-      for (const s of b.shapes) {
-        if (s.kind === "circle") {
-          s.localx -= b.localCOMx;
-          s.localy -= b.localCOMy;
-        } else {
-          for (let i = 0; i < s.verts.length; i += 2) {
-            s.verts[i] -= b.localCOMx;
-            s.verts[i + 1] -= b.localCOMy;
-          }
-        }
-        s.localCOMx -= b.localCOMx;
-        s.localCOMy -= b.localCOMy;
-      }
-      b.localCOMx = 0;
-      b.localCOMy = 0;
-      this.validateMassProps(b);
-    }
+    // NB: there is intentionally NO align() here. Nape's body.align() (recenter the
+    // origin onto the COM) is opt-in and the original 2012 game never calls it (grep of
+    // src/*.as: zero hits), so faithful bodies keep their placement origin and rotate about
+    // worldCOM. An earlier port copied align() from the defunct Box2D-parity NapeWorld.hx
+    // and ran it on every dynamic body — that shifted getX/getY onto the COM and broke
+    // offset-shape characters. Removed; see finalizeBody / the p0om golden.
     // Per-shape localCOM + area + inertia (about the body origin), matching Nape's
     // operation order exactly. Polygon traversal visits vertices in Nape's order
     // (cur = v1, v2, …, v_{n-1}, v0) so the float sums are bit-identical.
@@ -352,9 +332,18 @@
       const i = this.live.indexOf(b);
       if (i >= 0) this.live.splice(i, 1);
       for (const [k, arb] of this.arbiters) {
-        if (arb.b1 === b || arb.b2 === b) this.arbiters.delete(k);
+        if (arb.b1 === b || arb.b2 === b) {
+          this.wakeBody(arb.b1 === b ? arb.b2 : arb.b1);
+          this.arbiters.delete(k);
+        }
       }
-      this.constraints = this.constraints.filter((c) => c.b1 !== b && c.b2 !== b);
+      this.constraints = this.constraints.filter((c) => {
+        if (c.b1 === b || c.b2 === b) {
+          this.wakeBody(c.b1 === b ? c.b2 : c.b1);
+          return false;
+        }
+        return true;
+      });
       this.jointPartners.delete(h);
       this.bodies.delete(h);
     }
@@ -591,24 +580,36 @@
       return b == null ? 0 : b.inertia;
     }
     // --- body ops [M1] ------------------------------------------------------
+    // Body.velocity setter (Body.as:565) → vel_invalidate (ZPP_Body.as:291) which
+    // assigns velx/vely then calls invalidate_wake() unconditionally → wakes a
+    // sleeping DYNAMIC body so the new velocity actually integrates.
     setVel(h, vx, vy) {
       const b = this.bodies.get(h);
       if (b != null) {
         b.velx = vx;
         b.vely = vy;
+        this.wakeBody(b);
       }
     }
+    // Body.angularVel setter (Body.as:1229): only assigns + invalidate_wake()
+    // when the value actually changes (`if(angvel != param1)`).
     setAngVel(h, w) {
       const b = this.bodies.get(h);
-      if (b != null) b.angvel = w;
+      if (b != null && b.angvel !== w) {
+        b.angvel = w;
+        this.wakeBody(b);
+      }
     }
-    // Body.applyImpulse, central case (Body.as:2406): vel += impulse · imass
+    // Body.applyImpulse, central case (Body.as:2406): vel += impulse · imass, then
+    // invalidate_wake() guarded on `type == DYNAMIC` (Body.as:2467) — wakeBody's
+    // own DYNAMIC guard reproduces that.
     applyImpulse(h, jx, jy) {
       const b = this.bodies.get(h);
       if (b == null) return;
       const imass = b.imass;
       b.velx = b.velx + jx * imass;
       b.vely = b.vely + jy * imass;
+      this.wakeBody(b);
     }
     // [M5] PivotJoint: constrain local anchor (a1) on body hA to coincide with
     // local anchor (a2) on body hB. Mirrors `new PivotJoint(b1, b2, a1, a2)`.
@@ -1028,7 +1029,7 @@
       b.type = nt;
       if (nt === TYPE_DYNAMIC) {
         if (b.shapes.length > 0) {
-          this.align(b);
+          this.validateMassProps(b);
           if (b.mass === 0) b.mass = 1;
           if (b.inertia === 0) b.allowRotation = false;
         } else {

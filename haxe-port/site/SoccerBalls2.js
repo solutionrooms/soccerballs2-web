@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "60";
+	app.meta.h["build"] = "61";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -5282,6 +5282,10 @@ Main.sb2LoadLevel = $hx_exports["sb2LoadLevel"] = function(i) {
 	Levels.currentIndex = i;
 	uIPackage_UI.StartTransition("gamescreen",null,"");
 };
+Main.sb2StepFromStart = $hx_exports["sb2StepFromStart"] = function(i) {
+	FrameStep.pauseAtStart = true;
+	Main.sb2LoadLevel(i == null ? Levels.currentIndex : i);
+};
 Main.SetPerfHud = function(on) {
 	Main.__perfOn = on;
 	if(Main.__perfTF != null) {
@@ -5595,6 +5599,53 @@ Main.sb2RefInfo = $hx_exports["sb2RefInfo"] = function() {
 		return out;
 	}
 };
+Main.sb2OppInfo = $hx_exports["sb2OppInfo"] = function() {
+	var out = "";
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null || go.name != "opponent") {
+			continue;
+		}
+		out += "OPP go=(" + (go.xpos | 0) + "," + (go.ypos | 0) + ") state=" + go.state + " vel=(" + (go.xvel * 100 | 0) / 100 + "," + (go.yvel * 100 | 0) / 100 + ") xflip=" + (go.xflip == null ? "null" : "" + go.xflip);
+		var nb = go.nape_bodies;
+		if(nb != null && nb.length > 0 && nb[0] != null) {
+			var b = nb[0];
+			var out1 = b.isStatic() ? "static" : b.isDynamic() ? "dyn" : "kin";
+			var _this = nape_geom_Vec2.bound(b,0);
+			var x = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
+			var _this1 = nape_geom_Vec2.bound(b,0);
+			var x1 = _this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1);
+			var _this2 = nape_geom_Vec2.bound(b,1);
+			var x2 = _this2._body == null ? _this2._vx : _this2._body.prxGet(_this2._kind,0);
+			var _this3 = nape_geom_Vec2.bound(b,1);
+			out += " body[" + out1 + " pos=(" + (x | 0) + "," + (x1 | 0) + ")" + " vel=(" + (x2 | 0) + "," + ((_this3._body == null ? _this3._vy : _this3._body.prxGet(_this3._kind,1)) | 0) + ")]";
+		} else {
+			out += " (no body)";
+		}
+		out += "\n";
+	}
+	if(GameVars.patrolMarkers != null) {
+		out += "patrolMarkers=" + GameVars.patrolMarkers.length;
+		var _g = 0;
+		var _g1 = GameVars.patrolMarkers;
+		while(_g < _g1.length) {
+			var m = _g1[_g];
+			++_g;
+			if(m != null) {
+				out += " (" + (m.xpos | 0) + "," + (m.ypos | 0) + ")";
+			}
+		}
+		out += "\n";
+	}
+	if(out == "") {
+		return "no opponent GO";
+	} else {
+		return out;
+	}
+};
 Main.sb2Switch19Dump = $hx_exports["sb2Switch19Dump"] = function() {
 	var out = "BLOCKS:";
 	var _g = 0;
@@ -5858,9 +5909,33 @@ Main.sb2GeomPolyTest = $hx_exports["sb2GeomPolyTest"] = function() {
 	}
 	return out;
 };
+Main.SimFrame = function() {
+	Main.__updCount++;
+	Main.debugLoopCount++;
+	KeyReader.UpdateOncePerFrame();
+	audioPackage_Audio.UpdateOncePerFrame();
+	MobileControls.UpdateAim();
+	MobileAimPad.UpdateAim();
+	GameVars.InitForFrame();
+	if(!Game.doWalkthrough) {
+		Game.UpdateGameplay();
+	}
+	if(NapeContacts.probeEnabled) {
+		var __fb = GameVars.footballGO;
+		if(__fb != null && __fb.nape_bodies != null && __fb.nape_bodies.length > 0) {
+			var __v = __fb.GetBodyLinearVelocity(0);
+			if(__v.get_length() > 30) {
+				var tmp = "[PORT] vel=(" + ((__v._body == null ? __v._vx : __v._body.prxGet(__v._kind,0)) | 0) + "," + ((__v._body == null ? __v._vy : __v._body.prxGet(__v._kind,1)) | 0) + ") spd=" + (__v.get_length() | 0) + " spin=";
+				var _this = __fb.nape_bodies[0];
+				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 836, className : "Main", methodName : "SimFrame"});
+			}
+		}
+	}
+	GameVars.ExitForFrame();
+};
 Main.sb2DiagGround = function() {
 	var space = PhysicsBase.GetNapeSpace();
-	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 846, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 900, className : "Main", methodName : "sb2DiagGround"});
 	var b = space._bodies.iterator();
 	while(b.hasNext()) {
 		var b1 = b.next();
@@ -5911,9 +5986,9 @@ Main.sb2DiagGround = function() {
 				++coversBall;
 			}
 		}
-		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 863, className : "Main", methodName : "sb2DiagGround"});
+		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 917, className : "Main", methodName : "sb2DiagGround"});
 	}
-	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 867, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 921, className : "Main", methodName : "sb2DiagGround"});
 };
 Main.__super__ = openfl_display_MovieClip;
 Main.prototype = $extend(openfl_display_MovieClip.prototype,{
@@ -5990,6 +6065,16 @@ Main.prototype = $extend(openfl_display_MovieClip.prototype,{
 				BounceDebug.Toggle();
 			} else if(kc == 71) {
 				DebugDraw.Toggle();
+			} else if(kc == 188) {
+				FrameStep.TogglePause();
+			} else if(kc == 190) {
+				FrameStep.Step();
+			} else if(kc == 77) {
+				FrameStep.pauseAtStart = !FrameStep.pauseAtStart;
+				if(FrameStep.pauseAtStart) {
+					Main.sb2LoadLevel(Levels.currentIndex);
+				}
+				FrameStep.UpdateBanner();
 			} else if(kc >= 49 && kc <= 54) {
 				TileRenderer.stress = stressLevels[kc - 49];
 			}
@@ -6138,33 +6223,22 @@ Main.prototype = $extend(openfl_display_MovieClip.prototype,{
 			Main.__accum = step * 5;
 		}
 		var steps = 0;
-		while(Main.__accum >= step) {
-			Main.__accum -= step;
-			Main.__updCount++;
-			Main.debugLoopCount++;
-			KeyReader.UpdateOncePerFrame();
-			audioPackage_Audio.UpdateOncePerFrame();
-			MobileControls.UpdateAim();
-			MobileAimPad.UpdateAim();
-			GameVars.InitForFrame();
-			if(!Game.doWalkthrough) {
-				Game.UpdateGameplay();
+		if(FrameStep.paused) {
+			Main.__accum = 0;
+			while(FrameStep.stepReq > 0) {
+				FrameStep.stepReq--;
+				Main.SimFrame();
+				FrameStep.OnStepped();
+				++steps;
 			}
-			if(NapeContacts.probeEnabled) {
-				var __fb = GameVars.footballGO;
-				if(__fb != null && __fb.nape_bodies != null && __fb.nape_bodies.length > 0) {
-					var __v = __fb.GetBodyLinearVelocity(0);
-					if(__v.get_length() > 30) {
-						var tmp = "[PORT] vel=(" + ((__v._body == null ? __v._vx : __v._body.prxGet(__v._kind,0)) | 0) + "," + ((__v._body == null ? __v._vy : __v._body.prxGet(__v._kind,1)) | 0) + ") spd=" + (__v.get_length() | 0) + " spin=";
-						var _this = __fb.nape_bodies[0];
-						haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 805, className : "Main", methodName : "MainLoop"});
-					}
-				}
+		} else {
+			while(Main.__accum >= step) {
+				Main.__accum -= step;
+				Main.SimFrame();
+				++steps;
 			}
-			GameVars.ExitForFrame();
-			++steps;
 		}
-		if(steps > 0 && this.screenBD != null) {
+		if((steps > 0 || FrameStep.paused) && this.screenBD != null) {
 			openfl_display_BitmapData.__drawCalls = 0;
 			this.Render(this.screenBD);
 			Main.__blitsPerFrame = openfl_display_BitmapData.__drawCalls;
@@ -7559,6 +7633,29 @@ DebugDraw.Draw = function(target) {
 				var c = sh1;
 				var wc = sh1.get_worldCOM();
 				g.drawCircle((wc._body == null ? wc._vx : wc._body.prxGet(wc._kind,0)) - cx,(wc._body == null ? wc._vy : wc._body.prxGet(wc._kind,1)) - cy,c._radius);
+			}
+		}
+		if(!b1.isStatic()) {
+			var _this6 = nape_geom_Vec2.bound(b1,1);
+			var vx = _this6._body == null ? _this6._vx : _this6._body.prxGet(_this6._kind,0);
+			var _this7 = nape_geom_Vec2.bound(b1,1);
+			var vy = _this7._body == null ? _this7._vy : _this7._body.prxGet(_this7._kind,1);
+			var sp = Math.sqrt(vx * vx + vy * vy);
+			if(sp > 1) {
+				var sc = 0.12;
+				var _this8 = nape_geom_Vec2.bound(b1,0);
+				var ax = (_this8._body == null ? _this8._vx : _this8._body.prxGet(_this8._kind,0)) - cx;
+				var _this9 = nape_geom_Vec2.bound(b1,0);
+				var ay = (_this9._body == null ? _this9._vy : _this9._body.prxGet(_this9._kind,1)) - cy - 40;
+				var ex = ax + vx * sc;
+				var ey = ay + vy * sc;
+				g.lineStyle(2,16720486,1.0);
+				g.moveTo(ax,ay);
+				g.lineTo(ex,ey);
+				var ang = Math.atan2(ey - ay,ex - ax);
+				g.lineTo(ex - 7 * Math.cos(ang - 0.4),ey - 7 * Math.sin(ang - 0.4));
+				g.moveTo(ex,ey);
+				g.lineTo(ex - 7 * Math.cos(ang + 0.4),ey - 7 * Math.sin(ang + 0.4));
 			}
 		}
 	}
@@ -10932,6 +11029,72 @@ Football_$veryLarge.__super__ = openfl_display_MovieClip;
 Football_$veryLarge.prototype = $extend(openfl_display_MovieClip.prototype,{
 	__class__: Football_$veryLarge
 });
+var FrameStep = function() { };
+$hxClasses["FrameStep"] = FrameStep;
+FrameStep.__name__ = "FrameStep";
+FrameStep.OnLevelStart = function() {
+	if(FrameStep.pauseAtStart) {
+		FrameStep.paused = true;
+		FrameStep.frameNo = 0;
+		FrameStep.stepReq = 0;
+	} else {
+		FrameStep.paused = false;
+		FrameStep.stepReq = 0;
+	}
+	FrameStep.UpdateBanner();
+};
+FrameStep.TogglePause = function() {
+	FrameStep.paused = !FrameStep.paused;
+	FrameStep.stepReq = 0;
+	if(FrameStep.paused) {
+		FrameStep.frameNo = 0;
+	}
+	FrameStep.UpdateBanner();
+};
+FrameStep.Step = function() {
+	if(!FrameStep.paused) {
+		FrameStep.paused = true;
+		FrameStep.frameNo = 0;
+	}
+	FrameStep.stepReq++;
+	FrameStep.UpdateBanner();
+};
+FrameStep.OnStepped = function() {
+	FrameStep.frameNo++;
+	FrameStep.UpdateBanner();
+};
+FrameStep.UpdateBanner = function() {
+	FrameStep.Ensure();
+	if(FrameStep.tf == null) {
+		return;
+	}
+	FrameStep.tf.set_visible(FrameStep.paused || FrameStep.pauseAtStart);
+	if(FrameStep.paused) {
+		FrameStep.tf.set_text("  PAUSED  (+" + FrameStep.frameNo + " frames)    [ , ] resume    [ . ] step    [ G ] grid+vel  ");
+	} else if(FrameStep.pauseAtStart) {
+		FrameStep.tf.set_text("  STEP-MODE ARMED — levels start frozen at frame 0    [ M ] off  ");
+	}
+};
+FrameStep.Ensure = function() {
+	if(FrameStep.tf != null) {
+		return;
+	}
+	try {
+		FrameStep.tf = new openfl_text_TextField();
+		FrameStep.tf.set_selectable(false);
+		FrameStep.tf.mouseEnabled = false;
+		FrameStep.tf.set_autoSize("left");
+		FrameStep.tf.set_background(true);
+		FrameStep.tf.set_backgroundColor(0);
+		FrameStep.tf.set_textColor(16768307);
+		FrameStep.tf.set_x(4);
+		FrameStep.tf.set_y(4);
+		FrameStep.tf.set_visible(false);
+		Main.theStage.addChild(FrameStep.tf);
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+};
 var Fx_$smoke = function() {
 	var library = swf_exporters_animate_AnimateLibrary.get("wHx6pqoHr8Is0NaVbJeU");
 	var symbol = library.symbols.h[1502];
@@ -11481,6 +11644,7 @@ Game.StartLevel = function(_doingWalkthrough) {
 	}
 	Game.doingWalkthrough = _doingWalkthrough;
 	Game.StartLevelA();
+	FrameStep.OnLevelStart();
 	var a = 0;
 };
 Game.StartLevelA = function() {
@@ -20431,6 +20595,9 @@ var GameVars = function() {
 $hxClasses["GameVars"] = GameVars;
 GameVars.__name__ = "GameVars";
 GameVars.IsFeatureUnlocked = function(index) {
+	if(Settings.openAllLevels) {
+		return true;
+	}
 	if(index == 0) {
 		if(GameVars.GetTotalCoinsCollected() >= 50) {
 			return true;
@@ -60496,7 +60663,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 527820;
+	this.version = 968488;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -121232,6 +121399,10 @@ FastXML.ignoreWhitespace = false;
 FileMode.WRITE = "write";
 openfl_text_Font.__fontByName = new haxe_ds_StringMap();
 openfl_text_Font.__registeredFonts = [];
+FrameStep.paused = false;
+FrameStep.stepReq = 0;
+FrameStep.frameNo = 0;
+FrameStep.pauseAtStart = false;
 Game.saveTextureFiles = false;
 Game.loadTextureFiles = false;
 Game.doWalkthrough = false;

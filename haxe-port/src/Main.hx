@@ -45,6 +45,15 @@ class Main extends MovieClip
         UI.StartTransition("gamescreen", null, "");
     }
 
+    // Arm step-mode and reload the current level FROZEN at frame 0, so you can step ('.') from the
+    // untouched initial state. Same as pressing 'M'. Pass a level index to jump there frozen.
+    @:expose("sb2StepFromStart")
+    public static function sb2StepFromStart(?i : Int) : Void
+    {
+        FrameStep.pauseAtStart = true;
+        sb2LoadLevel(i == null ? Levels.currentIndex : i);
+    }
+
     public function new()
     {
         super();
@@ -138,6 +147,13 @@ class Main extends MovieClip
             if (kc == 192) toggle();
             else if (kc == 66) BounceDebug.Toggle(); // 'B' = bounce/kick capture overlay
             else if (kc == 71) DebugDraw.Toggle();   // 'G' = physics debug-draw (grid view of collision shapes)
+            else if (kc == 188) FrameStep.TogglePause(); // ',' = frame-advance: pause/resume the sim
+            else if (kc == 190) FrameStep.Step();        // '.' = frame-advance: single-step one sim frame
+            else if (kc == 77) {                         // 'M' = arm step-mode + reload this level FROZEN at frame 0
+                FrameStep.pauseAtStart = !FrameStep.pauseAtStart;
+                if (FrameStep.pauseAtStart) sb2LoadLevel(Levels.currentIndex); // restart current level, frozen at frame 0
+                FrameStep.UpdateBanner();
+            }
             else if (kc >= 49 && kc <= 54) TileRenderer.stress = stressLevels[kc - 49];
         };
         theStage.addEventListener(KeyboardEvent.KEY_DOWN, function(e : KeyboardEvent) : Void { key(e.keyCode); });
@@ -588,6 +604,32 @@ class Main extends MovieClip
         return out == "" ? "no ref GO" : out;
     }
 
+    // Patrol-opponent diagnostic (level 7 "going up-right" bug). Dumps each opponent GO's game-state
+    // (xpos/ypos/state/xvel/yvel/xflip) + its nape body type/pos/vel, plus the patrol-marker bounds and
+    // each marker's |ypos - opp.ypos| (reversal needs that < 20). Call repeatedly while frame-stepping.
+    @:expose("sb2OppInfo") public static function sb2OppInfo() : String {
+        var out = "";
+        for (go in GameObjects.objs) {
+            if (go == null || go.name != "opponent") continue;
+            out += "OPP go=(" + Std.int(go.xpos) + "," + Std.int(go.ypos) + ") state=" + go.state
+                + " vel=(" + (Std.int(go.xvel * 100) / 100) + "," + (Std.int(go.yvel * 100) / 100) + ") xflip=" + go.xflip;
+            var nb : Array<Dynamic> = go.nape_bodies;
+            if (nb != null && nb.length > 0 && nb[0] != null) {
+                var b : nape.phys.Body = nb[0]; // typed so .position/.velocity hit the getters
+                out += " body[" + (b.isStatic() ? "static" : (b.isDynamic() ? "dyn" : "kin"))
+                    + " pos=(" + Std.int(b.position.x) + "," + Std.int(b.position.y) + ")"
+                    + " vel=(" + Std.int(b.velocity.x) + "," + Std.int(b.velocity.y) + ")]";
+            } else out += " (no body)";
+            out += "\n";
+        }
+        if (GameVars.patrolMarkers != null) {
+            out += "patrolMarkers=" + GameVars.patrolMarkers.length;
+            for (m in GameVars.patrolMarkers) if (m != null) out += " (" + Std.int(m.xpos) + "," + Std.int(m.ypos) + ")";
+            out += "\n";
+        }
+        return out == "" ? "no opponent GO" : out;
+    }
+
     // Level-19 switch/switchable-block diagnostic. Blocks are GOs with a logic link (logicLink0 = the
     // switch). "Disappear" sets the block's shape collisionMask to 0 via SetBodyCollisionMask — this
     // dump shows the shim-side colMask plus all dynamic body positions, so we can see whether the mask
@@ -769,6 +811,37 @@ class Main extends MovieClip
     public static var __loopStamp : Float = -1;
     public static var __accum : Float = 0;
 
+    // One full original "frame" of logic+physics (no render). Extracted from MainLoop so the
+    // frame-advance debug mode (FrameStep) can run exactly one on demand while the clock is frozen.
+    static function SimFrame() : Void
+    {
+        __updCount++;
+        debugLoopCount++;
+        KeyReader.UpdateOncePerFrame();
+        Audio.UpdateOncePerFrame();
+        MobileControls.UpdateAim(); // scheme B: feed joystick deflection into Game.mouse_x/y before the update
+        MobileAimPad.UpdateAim();   // scheme C: feed aim-pad virtual cursor into Game.mouse_x/y
+        GameVars.InitForFrame();
+        if (!Game.doWalkthrough) Game.UpdateGameplay();
+        // TRAJECTORY PROBE: same format/threshold as the patched original SWF's [ORIG] log, so the
+        // ball's per-frame velocity+spin+pos can be diffed against the original to find where they split.
+        if (NapeContacts.probeEnabled)
+        {
+            var __fb = GameVars.footballGO;
+            if (__fb != null && __fb.nape_bodies != null && __fb.nape_bodies.length > 0)
+            {
+                var __v = __fb.GetBodyLinearVelocity(0);
+                if (__v.length > 30)
+                {
+                    trace("[PORT] vel=(" + Std.int(__v.x) + "," + Std.int(__v.y) + ") spd=" + Std.int(__v.length)
+                        + " spin=" + (Std.int(__fb.nape_bodies[0].angularVel * 100) / 100)
+                        + " pos=(" + Std.int(__fb.xpos) + "," + Std.int(__fb.ypos) + ")");
+                }
+            }
+        }
+        GameVars.ExitForFrame();
+    }
+
     public function MainLoop(e : Event) : Void
     {
         __rafCount++; // every ENTER_FRAME / requestAnimationFrame (the raw render rate)
@@ -780,38 +853,19 @@ class Main extends MovieClip
         if (__accum > step * 5) __accum = step * 5; // anti-spiral clamp after a stall (tab switch / GC)
 
         var steps : Int = 0;
-        while (__accum >= step)
+        if (FrameStep.paused)
         {
-            __accum -= step;
-            __updCount++;
-            debugLoopCount++;
-            // one full original "frame" of logic+physics (no render) — run N times to catch up to realtime
-            KeyReader.UpdateOncePerFrame();
-            Audio.UpdateOncePerFrame();
-            MobileControls.UpdateAim(); // scheme B: feed joystick deflection into Game.mouse_x/y before the update
-            MobileAimPad.UpdateAim();   // scheme C: feed aim-pad virtual cursor into Game.mouse_x/y
-            GameVars.InitForFrame();
-            if (!Game.doWalkthrough) Game.UpdateGameplay();
-            // TRAJECTORY PROBE: same format/threshold as the patched original SWF's [ORIG] log, so the
-            // ball's per-frame velocity+spin+pos can be diffed against the original to find where they split.
-            if (NapeContacts.probeEnabled)
-            {
-                var __fb = GameVars.footballGO;
-                if (__fb != null && __fb.nape_bodies != null && __fb.nape_bodies.length > 0)
-                {
-                    var __v = __fb.GetBodyLinearVelocity(0);
-                    if (__v.length > 30)
-                    {
-                        trace("[PORT] vel=(" + Std.int(__v.x) + "," + Std.int(__v.y) + ") spd=" + Std.int(__v.length)
-                            + " spin=" + (Std.int(__fb.nape_bodies[0].angularVel * 100) / 100)
-                            + " pos=(" + Std.int(__fb.xpos) + "," + Std.int(__fb.ypos) + ")");
-                    }
-                }
-            }
-            GameVars.ExitForFrame();
-            steps++;
+            // Frame-advance: the realtime clock is frozen (drop any backlog so resuming doesn't
+            // catch-up-spiral). Advance only the sim frames explicitly queued by the '.' key.
+            __accum = 0;
+            while (FrameStep.stepReq > 0) { FrameStep.stepReq--; SimFrame(); FrameStep.OnStepped(); steps++; }
         }
-        if (steps > 0 && screenBD != null)
+        else
+        {
+            while (__accum >= step) { __accum -= step; SimFrame(); steps++; }
+        }
+        // Render every rAF while paused too, so the frozen frame + overlays (grid view, banner) keep drawing.
+        if ((steps > 0 || FrameStep.paused) && screenBD != null)
         {
             BitmapData.__drawCalls = 0; // count BitmapData composites for this displayed frame
             Render(screenBD); // render once per displayed frame, after catching the simulation up

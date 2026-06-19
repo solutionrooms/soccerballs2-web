@@ -48,6 +48,29 @@ class DebugDraw
                     g.drawCircle(wc.x - cx, wc.y - cy, c.radius);
                 }
             }
+            // Velocity ("force") arrow for moving bodies — length ∝ speed. In frame-advance mode you
+            // can single-step ('.') and watch the arrow grow/turn the instant a body starts drifting.
+            if (!b.isStatic())
+            {
+                var vx = b.velocity.x;
+                var vy = b.velocity.y;
+                var sp = Math.sqrt(vx * vx + vy * vy);
+                if (sp > 1)
+                {
+                    var sc = 0.12; // px drawn per (px/s)
+                    var ax = b.position.x - cx;
+                    var ay = b.position.y - cy - 40; // lift to ~chest height so it clears the foot origin
+                    var ex = ax + vx * sc;
+                    var ey = ay + vy * sc;
+                    g.lineStyle(2, 0xff2266, 1.0);
+                    g.moveTo(ax, ay);
+                    g.lineTo(ex, ey);
+                    var ang = Math.atan2(ey - ay, ex - ax);
+                    g.lineTo(ex - 7 * Math.cos(ang - 0.4), ey - 7 * Math.sin(ang - 0.4));
+                    g.moveTo(ex, ey);
+                    g.lineTo(ex - 7 * Math.cos(ang + 0.4), ey - 7 * Math.sin(ang + 0.4));
+                }
+            }
         }
         target.draw(dmc, null, null, null, null, false);
     }

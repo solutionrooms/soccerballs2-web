@@ -3136,7 +3136,7 @@ class GameObjBase
         
         
         goHitter.nape_bodies[0].velocity.y -= 0.00000001;
-        
+
         timer = 4;
         return false;
     }

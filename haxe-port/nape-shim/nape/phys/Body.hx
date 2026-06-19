@@ -170,6 +170,14 @@ class Body {
 			engine.setBodyCollisionMask(handle, mask);
 	}
 
+	// Live sensor-mask change from a shape's filter (e.g. SetBodySensorMask(-1,0) so the returning
+	// ball stops tripping the goal sensor). Events-only on the replica side; guarded for older bundles.
+	@:allow(nape.dynamics.InteractionFilter)
+	function runtimeSetSensorMask(mask:Int):Void {
+		if (handle >= 0 && engine != null && (untyped engine.setBodySensorMask) != null)
+			engine.setBodySensorMask(handle, mask);
+	}
+
 	public var mass(get, never):Float;
 	inline function get_mass():Float
 		return handle < 0 ? 0 : engine.getMass(handle);

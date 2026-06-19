@@ -126,7 +126,9 @@ p0pd · p0fl · p0ms · p0sl · p0wk · **p0kn** (kinematic motion + offset-orig
 **p0rm** (wake-on-body-removal — ball asleep on a block falls when block destroyed) ·
 **p0wv** (wake-on-velocity-mutation — `applyImpulse`/`velocity=` on a sleeping ball wakes+launches it) ·
 **p0om** (offset-COM body reports the placement origin, no auto-align) ·
-p0tr-terrain + p0sw-switchmask + p0kn-kinematic + p0rf-runtimefilters + p0wv-setangvel (behavioural)
+**p0og** (ONGOING contact events — fires every awake step a pair persists, stops on sleep; step-for-step vs SWF) ·
+**p0kr** (kinematic-vs-resting-dynamic restitution — moving kinematic wall bounces a resting ball ahead, no stick) ·
+p0tr-terrain + p0sw-switchmask + p0kn-kinematic + p0rf-runtimefilters + p0wv-setangvel + p0kd-keeperduck (behavioural)
 
 ### Wake-on-removal fix (2026-06-19)
 `destroyBody` dropped arbiters/constraints referencing the removed body but left the **partner asleep**
@@ -159,6 +161,37 @@ method. **No other math changed** — the replica is already fully origin-refere
 dormant (`align()` zeroed `localCOM`). Verified BIT-EXACT vs the shipped SWF (`p0om`: feet-origin bar at y=416
 reports 416.2778 at step 1, settles 480.06 — never the COM). Centered shapes unaffected (`localCOM==0` ⇒ no-op),
 all prior goldens + the 36-level sim + gold-route tests still green.
+
+### ONGOING contact/sensor events (added 2026-06-19)
+The engine emitted BEGIN-only (`takeContacts`), so the game's `onHitPersistFunction` never fired →
+level-8 `switch_weight` flashed green-then-red (the persist handler resets its timer each step; without
+ONGOING the timer expired in 4 frames) and wind (`OnHit_Wind`) was dead. Added `takeOngoing(): number[]`
+(`[hA,hB,sensorFlag,…]`, same shape as `takeContacts`; flag 0 solid / 1 sensor) — emits EVERY pair
+persisting this step **while awake** (begin step included), gated by "not both bodies asleep" (static =
+permanently asleep ⇒ a dynamic-vs-static pair is gated by the dynamic body). Faithful to Nape's dispatch
+(`ZPP_Space.as:1903-1919`: ONGOING skipped once all of an interaction's arbiters sleep — which is why the
+game's `velocity.y -= 1e-8` nudge keeps a resting block awake so ONGOING keeps firing). Verified vs the
+SHIPPED SWF with a real BEGIN+ONGOING `InteractionListener` harness (`p0og`): BEGIN@15, ONGOING 15..76
+contiguous, body sleeps @77 → ONGOING stops exactly at 77; replica reproduces it step-for-step
+(`p0og.test.ts`). **Restitution heads-up from haxe-port (ball-vs-moving-kinematic) = NOT a bug** — their
+repro confirms combine 0.6 rebound + escape; the level-7 "stick" is pinned-contact geometry, not the engine.
+
+### Kinematic-vs-resting-dynamic restitution / CCD dynamicSweep (2026-06-19)
+The "ball sticks to the level-7 opponent" bug. A moving KINEMATIC body (e.g. the patrol character, +120)
+striking a slow/resting DYNAMIC ball (e=1) → the ball locked to the kinematic's velocity (+120) and was
+carried, never bouncing. Shipped Nape bounces it to **+192** (combine 0.6) and it pulls ahead (`p0kr`).
+**Root cause was NOT the discrete bounce** (instrumented: the first prestep correctly gives bounce −72 and
+the ball reaches 192). It was the **CCD re-solve**: the replica always used `staticSweep`, but Nape routes
+**kinematic-involved** sweeps through **`dynamicSweep`** (`continuousEvent`, `ZPP_Space.as:10593-10614`).
+With `staticSweep` the obstacle is treated as fixed, so after `updatePos` advanced the wall into the ball's
+old cell the bounced ball looked like it was penetrating a static wall (`toi=0`) → re-solve → the 2nd
+prestep recomputes the bounce off already-separated velocities (`w=+72→clamped 0`) → bounce clawed back,
+ball stuck at +120. Fix: added `dynamicSweep` (rewinds BOTH bodies, approach = relative velocity) and route
+kinematic obstacles to it; a separating pair yields `toi<0` and is left alone. Finish loop also restores a
+rewound kinematic obstacle to dt. Static CCD (p0ms/p0ppr/p0cc) byte-unchanged. **NB `kinvel` was a red
+herring** — a kinematic body's translation is in `velocity` (velx), already in the contact relative
+velocity; Nape's separate `kinvel` is a surface/conveyor velocity the game never uses. Bit-exact `p0kr` (90
+steps vs SHIPPED SWF).
 
 ### CCD restitution / lost-bounce fix (2026-06-19)
 A bouncy ball landing on a terrain SEAM (shared vertex of two triangles) lost its bounce. The contact

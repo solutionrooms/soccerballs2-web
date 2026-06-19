@@ -23,11 +23,11 @@ typedef ImpactRec = {j:Float, nx:Float, ny:Float};
 /**
  * nape.space.Space shim. Wraps one replica engine instance. `bodies.add` /
  * `constraints.add` finalize bodies/joints into the engine; `step` advances the
- * engine then drains its per-step BEGIN contact/sensor/impact events and
- * dispatches them to the registered InteractionListeners (the four the game adds:
- * BEGIN/ONGOING × COLLISION/SENSOR). NOTE: the replica emits BEGIN events only, so
- * ONGOING listeners (onHitPersistFunction: wind, weight-switch) do not currently
- * fire — see the integration plan; revisit if a target level needs them.
+ * engine then drains its per-step contact/sensor/impact events and dispatches them
+ * to the registered InteractionListeners (the four the game adds: BEGIN/ONGOING ×
+ * COLLISION/SENSOR). BEGIN comes from engine.takeContacts(); ONGOING from
+ * engine.takeOngoing() (pairs persisting this step while awake — drives
+ * onHitPersistFunction: wind, weight-switch).
  */
 class Space {
 	@:allow(nape.phys.Body)
@@ -160,16 +160,23 @@ class Space {
 			i += 5;
 		}
 
-		var cs = engine.takeContacts(); // [hA,hB,sensorFlag, ...]
+		// Drain BOTH buffers every step (even with no listeners) so they don't accumulate.
+		var cs = engine.takeContacts(); // BEGIN  [hA,hB,sensorFlag, ...]
+		var og = engine.takeOngoing();  // ONGOING (pairs persisting this step while awake)
 		if (_listeners.length == 0) return;
 		var j = 0;
 		while (j + 2 < cs.length) {
-			dispatchPair(cs[j], cs[j + 1], cs[j + 2] == 1);
+			dispatchPair(cs[j], cs[j + 1], cs[j + 2] == 1, CbEvent.BEGIN);
+			j += 3;
+		}
+		j = 0;
+		while (j + 2 < og.length) {
+			dispatchPair(og[j], og[j + 1], og[j + 2] == 1, CbEvent.ONGOING); // drives onHitPersistFunction (weight-switch, wind)
 			j += 3;
 		}
 	}
 
-	function dispatchPair(ha:Int, hb:Int, sensor:Bool):Void {
+	function dispatchPair(ha:Int, hb:Int, sensor:Bool, event:CbEvent):Void {
 		var ba = _byHandle.get(ha);
 		var bb = _byHandle.get(hb);
 		if (ba == null || bb == null) return;
@@ -191,7 +198,7 @@ class Space {
 		var cb = new InteractionCallback(ba, bb, arbs);
 
 		for (l in _listeners) {
-			if (l.event != CbEvent.BEGIN) continue; // ONGOING not emitted by the replica
+			if (l.event != event) continue; // dispatch only listeners for this event (BEGIN / ONGOING)
 			var wantSensor = (l.interactionType == InteractionType.SENSOR);
 			if (wantSensor == sensor) l.handler(cb);
 		}

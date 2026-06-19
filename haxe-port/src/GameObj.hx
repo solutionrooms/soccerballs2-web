@@ -1263,6 +1263,15 @@ class GameObj extends GameObjBase
     public var cachedTerrainY : Float = 0;
     public var cachedTerrainFail : Bool = false;
 
+    // GameObj instances are POOLED and recycled across levels (GameObjects.AddObj). The terrain
+    // rasterisation cache lives on the instance, so it MUST be dropped on recycle — otherwise a
+    // reused object renders the PREVIOUS level's terrain (background artifacts bleed between levels).
+    public function ResetTerrainCache() : Void
+    {
+        if (cachedTerrainBD != null) { cachedTerrainBD.dispose(); cachedTerrainBD = null; }
+        cachedTerrainFail = false;
+    }
+
     // Z-ORDER FIX: emit the current Game.fillScreenMC vector terrain as a GPU tile at THIS object's
     // zpos slot, instead of `bd.draw`-ing it into the software underlay. The old underlay path forced
     // ALL terrain behind ALL sprites (two fixed depth bands), so things that should hide behind terrain

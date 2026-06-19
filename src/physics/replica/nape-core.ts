@@ -466,7 +466,8 @@ export class NapeReplica {
   // joint-partner graph (wake welded riders), and the per-step BEGIN-event buffers.
   private worldBody: Body;
   private jointPartners = new Map<number, number[]>();
-  private contactsBuf: number[] = []; // [hA,hB,sensorFlag, ...]
+  private contactsBuf: number[] = []; // [hA,hB,sensorFlag, ...] BEGIN events
+  private ongoingBuf: number[] = []; // [hA,hB,sensorFlag, ...] ONGOING (every awake step a pair persists)
   private impactsBuf: number[] = []; // [hA,hB,|normalImpulse|,nx,ny, ...]
   private activeColPairs = new Set<string>();
   private activeSenPairs = new Set<string>();
@@ -1243,18 +1244,24 @@ export class NapeReplica {
   }
 
   // --- contact/sensor/impact events (NapeWorld.hx onCollision/onSensor) -----
-  // Run once at the end of step(); buffers BEGIN events for take*(). Reads solver
-  // output only — no state mutation.
+  // Run once at the end of step(); buffers BEGIN + ONGOING events for take*(). Reads
+  // solver output only — no state mutation.
   private collectEvents(): void {
     // collisions: an arbiter active this step (stamp == this.stamp) that was NOT
     // active last step is a BEGIN. Impulse = Σ contacts' accumulated jnAcc.
+    // ONGOING fires for EVERY active arbiter each step (including the BEGIN step) as
+    // long as it is AWAKE — i.e. NOT both bodies asleep (static counts as asleep).
+    // Nape skips ONGOING dispatch when all of an interaction's arbiters sleep
+    // (ZPP_Space.as:1903-1919); verified vs the shipped SWF (p0og): BEGIN@15, ONGOING
+    // 15..76 contiguous, body sleeps @77 → ONGOING stops exactly at the sleep step.
     const nowCol = new Set<string>();
     for (const arb of this.arbiters.values()) {
       if (arb.stamp !== this.stamp) continue;
       nowCol.add(arb.key);
-      if (this.activeColPairs.has(arb.key)) continue;
       const ha = arb.b1.handle;
       const hb = arb.b2.handle;
+      if (!(arb.b1.sleeping && arb.b2.sleeping)) this.ongoingBuf.push(ha, hb, 0);
+      if (this.activeColPairs.has(arb.key)) continue;
       this.contactsBuf.push(ha, hb, 0);
       const jn = (arb.c1 ? arb.c1.jnAcc : 0) + (arb.c2 ? arb.c2.jnAcc : 0);
       this.impactsBuf.push(ha, hb, Math.abs(jn), arb.nx, arb.ny);
@@ -1275,6 +1282,10 @@ export class NapeReplica {
             if (this.distanceQuery(A, sa, B, sb).d > 0) continue; // not overlapping
             const key = sa.sid < sb.sid ? `${sa.sid}-${sb.sid}` : `${sb.sid}-${sa.sid}`;
             nowSen.add(key);
+            // ONGOING sensor overlap each awake step (same sleep gate as solids: a sensor
+            // pair's arbiter sleeps when both bodies do, and a static sensor is permanently
+            // asleep → gated by the dynamic body staying awake, e.g. the wind nudge).
+            if (!(A.sleeping && B.sleeping)) this.ongoingBuf.push(A.handle, B.handle, 1);
             if (this.activeSenPairs.has(key)) continue;
             this.contactsBuf.push(A.handle, B.handle, 1);
           }
@@ -1287,6 +1298,17 @@ export class NapeReplica {
   takeContacts(): number[] {
     const c = this.contactsBuf;
     this.contactsBuf = [];
+    return c;
+  }
+
+  // ONGOING contact/sensor pairs persisting THIS step while awake (drives the game's
+  // `onHitPersistFunction`: level-8 switch_weight timer reset, wind `OnHit_Wind`).
+  // Same `[hA,hB,sensorFlag, ...]` shape as takeContacts; a pair appears every step from
+  // its BEGIN until it separates or both its bodies sleep (the game keeps a resting body
+  // awake with a per-step velocity nudge so ONGOING keeps firing).
+  takeOngoing(): number[] {
+    const c = this.ongoingBuf;
+    this.ongoingBuf = [];
     return c;
   }
 
@@ -1571,6 +1593,12 @@ export class NapeReplica {
       if (s.isSensor) s.senMask = enabled ? s.origSenMask : 0;
       else s.colMask = enabled ? s.origColMask : 0;
     }
+    // Same wake-on-filter-change rule as setBodyCollision / setBodyCollisionMask: when the
+    // duck DISABLES a tall shape, drop its now-non-colliding arbiters and wake the resting
+    // partner — otherwise a body asleep on the keeper's head stays frozen mid-air (the
+    // destroyBody / sand-block class of bug). No-op on the re-enable case (shouldCollide
+    // becomes true again, so nothing is dropped; narrowphase re-forms the contact next step).
+    this.dropStaleArbiters(b);
   }
 
   // [M2] world-space AABB [minx,miny,maxx,maxy] of shape i. Circle: worldCOM ±
@@ -2278,6 +2306,63 @@ export class NapeReplica {
     ev.toi = t;
   }
 
+  // [M4-CCD] dynamicSweep — conservative advancement of a moving body against a MOVING
+  // (kinematic) obstacle, in the relative frame (ZPP_SweepDistance.dynamicSweep:24).
+  // Same structure as staticSweep, but BOTH bodies advance each iteration and the approach
+  // rate uses the RELATIVE velocity (mv − obstacle). For a separating pair (a ball that just
+  // bounced off and is pulling ahead of the obstacle) this correctly yields toi<0 — no false
+  // penetration, no re-solve, restitution preserved. The rewound kinematic obstacle is
+  // restored to the full step by the finish loop in continuousCollisions.
+  private dynamicSweep(ev: ToiEvent, dt: number): void {
+    const b1 = ev.mv;
+    const b2 = ev.stat; // kinematic obstacle — moves during the step
+    let sa1 = b1.sweep_angvel;
+    if (sa1 < 0) sa1 = -sa1;
+    let sa2 = b2.sweep_angvel;
+    if (sa2 < 0) sa2 = -sa2;
+    const angBound = ev.ms.sweepCoef * sa1 + ev.ss.sweepCoef * sa2;
+    let t = 0;
+    let iter = 0;
+    for (;;) {
+      this.advanceSweep(b1, t * dt);
+      this.advanceSweep(b2, t * dt);
+      const dr = this.distanceQuery(b1, ev.ms, ev.stat, ev.ss);
+      ev.c1x = dr.p3x;
+      ev.c1y = dr.p3y;
+      ev.axisx = dr.p5x;
+      ev.axisy = dr.p5y;
+      const loc18 = dr.d + 0.5; // + margin (param4)
+      // relative closing rate: −((mv.vel − obstacle.vel) · axis)
+      const negvx = -(b1.velx - b2.velx);
+      const negvy = -(b1.vely - b2.vely);
+      const approach = negvx * ev.axisx + negvy * ev.axisy;
+      if (loc18 < 0.05) {
+        const armx = ev.c1x - b1.posx;
+        const army = ev.c1y - b1.posy;
+        const sep = approach - b1.sweep_angvel * (ev.axisy * armx - ev.axisx * army);
+        if (sep > 0) ev.slipped = true;
+        if (sep <= 0 || loc18 < 0.025) break;
+      }
+      const denom = (angBound - approach) * dt;
+      if (denom <= 0) {
+        t = -1;
+        break;
+      }
+      let step = loc18 / denom;
+      if (step < 0.000001) step = 0.000001;
+      t += step;
+      if (t >= 1) {
+        t = -1;
+        break;
+      }
+      if (++iter >= 40) {
+        if (loc18 > 0.5) ev.failed = true;
+        break;
+      }
+    }
+    ev.toi = t;
+  }
+
   // [M4-CCD] continuousCollisions — between updatePos and iteratePos, arrest fast
   // (non-frozen) dynamic bodies at their first impact with static geometry so they
   // don't tunnel (ZPP_Space.as:10633). Currently the ball-vs-static-polygon path
@@ -2310,7 +2395,14 @@ export class NapeReplica {
               mv, ms, stat, ss,
               c1x: 0, c1y: 0, axisx: 0, axisy: 0, toi: 0, slipped: false, failed: false,
             };
-            this.staticSweep(ev, dt);
+            // Nape routes kinematic-involved pairs to dynamicSweep (relative-frame, both
+            // bodies move) and static-only pairs to staticSweep (ZPP_Space.continuousEvent
+            // :10593-10614). A static obstacle has zero velocity so the two coincide; a
+            // KINEMATIC obstacle moves, and treating it as static makes a bounced/separating
+            // body look like it's penetrating a fixed wall → false TOI → restitution clawed
+            // back (the level-7 "ball sticks to the moving opponent" bug).
+            if (stat.type === TYPE_KINEMATIC) this.dynamicSweep(ev, dt);
+            else this.staticSweep(ev, dt);
             if (ev.toi >= 0 && !ev.failed) events.push(ev);
           }
         }
@@ -2358,9 +2450,14 @@ export class NapeReplica {
         }
       }
     }
-    // finish: advance any still-moving body to the full step, then reset sweepTime
+    // finish: advance any still-moving body to the full step, then reset sweepTime.
+    // KINEMATIC obstacles that a dynamicSweep rewound must also be carried back to dt here
+    // (the sweep left them at an intermediate sweepTime; advanceSweep is a no-op for any
+    // body still at dt), otherwise the obstacle would be left short of its end-of-step pose.
     for (const b of arr) {
-      if (b.type === TYPE_DYNAMIC && !b.sweepFrozen) this.advanceSweep(b, dt);
+      if ((b.type === TYPE_DYNAMIC && !b.sweepFrozen) || b.type === TYPE_KINEMATIC) {
+        this.advanceSweep(b, dt);
+      }
       b.sweepTime = 0;
     }
   }

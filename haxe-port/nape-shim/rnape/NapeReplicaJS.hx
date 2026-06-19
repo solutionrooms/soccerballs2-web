@@ -30,6 +30,7 @@ extern class NapeReplicaJS {
 	// pairs that no longer collide and wake the affected bodies. (May be absent on older bundles — the
 	// shim guards the call.)
 	public function setBodyCollisionMask(h:Int, mask:Int):Void;
+	public function setBodySensorMask(h:Int, mask:Int):Void;
 
 	// --- step ---
 	public function step(dt:Float, velIters:Int, posIters:Int):Void;
@@ -69,6 +70,7 @@ extern class NapeReplicaJS {
 	public function jointDist(hA:Int, hB:Int, x0:Float, y0:Float, x1:Float, y1:Float, distLimit:Float, soft:Bool, freq:Float):Void;
 
 	// --- events (drained per step) ---
-	public function takeContacts():Array<Int>; // [hA,hB,sensorFlag, ...]
+	public function takeContacts():Array<Int>; // [hA,hB,sensorFlag, ...] — BEGIN (newly-touching) pairs
+	public function takeOngoing():Array<Int>;  // [hA,hB,sensorFlag, ...] — pairs persisting this step while AWAKE (ONGOING)
 	public function takeImpacts():Array<Float>; // [hA,hB,|normalImpulse|,nx,ny, ...]
 }

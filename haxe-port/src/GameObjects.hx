@@ -96,6 +96,7 @@ class GameObjects
             if (objs[i].active == false)
             {
                 var go : GameObj = objs[i];
+                go.ResetTerrainCache(); // pooled instance reused for a new object — drop any stale terrain rasterisation
                 go.active = true;
                 go.zpos = _zpos;
                 go.xpos = _xpos;

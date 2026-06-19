@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "61";
+	app.meta.h["build"] = "62";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -5438,7 +5438,7 @@ Main.sb2DynShapes = $hx_exports["sb2DynShapes"] = function() {
 				var _this = nape_geom_Vec2.bound(b1,0);
 				var x = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
 				var _this1 = nape_geom_Vec2.bound(b1,0);
-				out += "[at(" + (x | 0) + "," + ((_this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1)) | 0) + ") cG=" + f.collisionGroup + " cM=" + f._collisionMask + " sG=" + f.sensorGroup + " sM=" + f.sensorMask + " sensorEn=" + (sh1.sensorEnabled == null ? "null" : "" + sh1.sensorEnabled) + "] ";
+				out += "[at(" + (x | 0) + "," + ((_this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1)) | 0) + ") cG=" + f.collisionGroup + " cM=" + f._collisionMask + " sG=" + f.sensorGroup + " sM=" + f._sensorMask + " sensorEn=" + (sh1.sensorEnabled == null ? "null" : "" + sh1.sensorEnabled) + "] ";
 			}
 		}
 	}
@@ -5454,7 +5454,7 @@ Main.sb2GroundShape = $hx_exports["sb2GroundShape"] = function() {
 			while(sh.hasNext()) {
 				var sh1 = sh.next();
 				var f = sh1.filter;
-				return "first static shape: cG=" + f.collisionGroup + " cM=" + f._collisionMask + " sG=" + f.sensorGroup + " sM=" + f.sensorMask + " sensorEn=" + (sh1.sensorEnabled == null ? "null" : "" + sh1.sensorEnabled);
+				return "first static shape: cG=" + f.collisionGroup + " cM=" + f._collisionMask + " sG=" + f.sensorGroup + " sM=" + f._sensorMask + " sensorEn=" + (sh1.sensorEnabled == null ? "null" : "" + sh1.sensorEnabled);
 			}
 		}
 	}
@@ -14005,7 +14005,7 @@ GameObjBase.prototype = {
 		while(_g < _g1) {
 			var s = _g++;
 			shape = body._shapes.at(s);
-			return shape.filter.sensorMask;
+			return shape.filter._sensorMask;
 		}
 		return 0;
 	}
@@ -14075,7 +14075,7 @@ GameObjBase.prototype = {
 			while(_g < _g1) {
 				var s = _g++;
 				shape = body._shapes.at(s);
-				shape.filter.sensorMask = _mask;
+				shape.filter.set_sensorMask(_mask);
 			}
 		}
 	}
@@ -16008,6 +16008,13 @@ GameObj.prototype = $extend(GameObjBase.prototype,{
 			}
 			++index;
 		}
+	}
+	,ResetTerrainCache: function() {
+		if(this.cachedTerrainBD != null) {
+			this.cachedTerrainBD.dispose();
+			this.cachedTerrainBD = null;
+		}
+		this.cachedTerrainFail = false;
 	}
 	,RenderFillAsTile: function(matrix,clipRect,smoothing) {
 		if(smoothing == null) {
@@ -20184,6 +20191,7 @@ GameObjects.AddObj = function(_xpos,_ypos,_zpos) {
 		var i = _g++;
 		if(GameObjects.objs[i].active == false) {
 			var go = GameObjects.objs[i];
+			go.ResetTerrainCache();
 			go.active = true;
 			go.zpos = _zpos;
 			go.xpos = _xpos;
@@ -20196,7 +20204,7 @@ GameObjects.AddObj = function(_xpos,_ypos,_zpos) {
 			return GameObjects.objs[i];
 		}
 	}
-	haxe_Log.trace("ERROR! NO FREE OBJECTS",{ fileName : "src/GameObjects.hx", lineNumber : 112, className : "GameObjects", methodName : "AddObj"});
+	haxe_Log.trace("ERROR! NO FREE OBJECTS",{ fileName : "src/GameObjects.hx", lineNumber : 113, className : "GameObjects", methodName : "AddObj"});
 	GameObjects.lastGenIndex = -1;
 	return null;
 };
@@ -60663,7 +60671,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 968488;
+	this.version = 867478;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -63548,7 +63556,7 @@ var nape_dynamics_InteractionFilter = function(collisionGroup,collisionMask,sens
 	this.collisionGroup = collisionGroup;
 	this._collisionMask = collisionMask;
 	this.sensorGroup = sensorGroup;
-	this.sensorMask = sensorMask;
+	this._sensorMask = sensorMask;
 	this.fluidGroup = fluidGroup;
 	this.fluidMask = fluidMask;
 };
@@ -63565,11 +63573,21 @@ nape_dynamics_InteractionFilter.prototype = {
 		}
 		return v;
 	}
+	,get_sensorMask: function() {
+		return this._sensorMask;
+	}
+	,set_sensorMask: function(v) {
+		this._sensorMask = v;
+		if(this._body != null) {
+			this._body.runtimeSetSensorMask(v);
+		}
+		return v;
+	}
 	,copy: function() {
-		return new nape_dynamics_InteractionFilter(this.collisionGroup,this._collisionMask,this.sensorGroup,this.sensorMask,this.fluidGroup,this.fluidMask);
+		return new nape_dynamics_InteractionFilter(this.collisionGroup,this._collisionMask,this.sensorGroup,this._sensorMask,this.fluidGroup,this.fluidMask);
 	}
 	,__class__: nape_dynamics_InteractionFilter
-	,__properties__: {set_collisionMask:"set_collisionMask",get_collisionMask:"get_collisionMask"}
+	,__properties__: {set_sensorMask:"set_sensorMask",get_sensorMask:"get_sensorMask",set_collisionMask:"set_collisionMask",get_collisionMask:"get_collisionMask"}
 };
 var nape_geom_AABB = function(x,y,width,height) {
 	if(height == null) {
@@ -64311,6 +64329,11 @@ nape_phys_Body.prototype = {
 			this.engine.setBodyCollisionMask(this.handle,mask);
 		}
 	}
+	,runtimeSetSensorMask: function(mask) {
+		if(this.handle >= 0 && this.engine != null && this.engine.setBodySensorMask != null) {
+			this.engine.setBodySensorMask(this.handle,mask);
+		}
+	}
 	,get_mass: function() {
 		if(this.handle < 0) {
 			return 0;
@@ -64569,8 +64592,8 @@ nape_shape_Shape.prototype = {
 		if(this.filter.collisionGroup != 0 && this.filter._collisionMask != 0) {
 			this.add(engine,handle,m.density,m.dynamicFriction,m.rollingFriction,m.elasticity,this.filter.collisionGroup,this.filter._collisionMask,false);
 		}
-		if(this.filter.sensorGroup != 0 && this.filter.sensorMask != 0) {
-			this.add(engine,handle,0,m.dynamicFriction,m.rollingFriction,m.elasticity,this.filter.sensorGroup,this.filter.sensorMask,true);
+		if(this.filter.sensorGroup != 0 && this.filter._sensorMask != 0) {
+			this.add(engine,handle,0,m.dynamicFriction,m.rollingFriction,m.elasticity,this.filter.sensorGroup,this.filter._sensorMask,true);
 		}
 	}
 	,add: function(engine,handle,density,f,roll,e,cat,mask,sensor) {
@@ -64950,16 +64973,22 @@ nape_space_Space.prototype = {
 			i += 5;
 		}
 		var cs = this.engine.takeContacts();
+		var og = this.engine.takeOngoing();
 		if(this._listeners._a.length == 0) {
 			return;
 		}
 		var j = 0;
 		while(j + 2 < cs.length) {
-			this.dispatchPair(cs[j],cs[j + 1],cs[j + 2] == 1);
+			this.dispatchPair(cs[j],cs[j + 1],cs[j + 2] == 1,nape_callbacks_CbEvent.get_BEGIN());
+			j += 3;
+		}
+		j = 0;
+		while(j + 2 < og.length) {
+			this.dispatchPair(og[j],og[j + 1],og[j + 2] == 1,nape_callbacks_CbEvent.get_ONGOING());
 			j += 3;
 		}
 	}
-	,dispatchPair: function(ha,hb,sensor) {
+	,dispatchPair: function(ha,hb,sensor,event) {
 		var ba = this._byHandle.h[ha];
 		var bb = this._byHandle.h[hb];
 		if(ba == null || bb == null) {
@@ -64986,7 +65015,7 @@ nape_space_Space.prototype = {
 		var l = this._listeners.iterator();
 		while(l.hasNext()) {
 			var l1 = l.next();
-			if(l1.event != nape_callbacks_CbEvent.get_BEGIN()) {
+			if(l1.event != event) {
 				continue;
 			}
 			var wantSensor = l1.interactionType == nape_callbacks_InteractionType.get_SENSOR();

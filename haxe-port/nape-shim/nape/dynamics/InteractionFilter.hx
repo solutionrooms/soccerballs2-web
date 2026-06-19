@@ -29,7 +29,21 @@ class InteractionFilter {
 	}
 
 	public var sensorGroup:Int;
-	public var sensorMask:Int;
+
+	// sensorMask is ALSO a live property: the game disables a body's sensor at runtime
+	// (e.g. SetBodySensorMask(-1,0) so the returning ball doesn't trip the goal/ref sensors on its
+	// way back to the player; the flying bird toggles its hit sensor). Without propagation the
+	// replica keeps emitting sensor-overlap events → spurious goals (ball "times out" behind the goal).
+	var _sensorMask:Int;
+	public var sensorMask(get, set):Int;
+	inline function get_sensorMask():Int
+		return _sensorMask;
+	function set_sensorMask(v:Int):Int {
+		_sensorMask = v;
+		if (_body != null) _body.runtimeSetSensorMask(v); // propagate live sensor-filter change to the replica
+		return v;
+	}
+
 	public var fluidGroup:Int;
 	public var fluidMask:Int;
 
@@ -37,11 +51,11 @@ class InteractionFilter {
 		this.collisionGroup = collisionGroup;
 		this._collisionMask = collisionMask; // bypass the setter at construction (no body yet)
 		this.sensorGroup = sensorGroup;
-		this.sensorMask = sensorMask;
+		this._sensorMask = sensorMask; // bypass the setter at construction (no body yet)
 		this.fluidGroup = fluidGroup;
 		this.fluidMask = fluidMask;
 	}
 
 	public function copy():InteractionFilter
-		return new InteractionFilter(collisionGroup, _collisionMask, sensorGroup, sensorMask, fluidGroup, fluidMask);
+		return new InteractionFilter(collisionGroup, _collisionMask, sensorGroup, _sensorMask, fluidGroup, fluidMask);
 }

@@ -77,7 +77,9 @@
       __publicField(this, "worldBody");
       __publicField(this, "jointPartners", /* @__PURE__ */ new Map());
       __publicField(this, "contactsBuf", []);
-      // [hA,hB,sensorFlag, ...]
+      // [hA,hB,sensorFlag, ...] BEGIN events
+      __publicField(this, "ongoingBuf", []);
+      // [hA,hB,sensorFlag, ...] ONGOING (every awake step a pair persists)
       __publicField(this, "impactsBuf", []);
       // [hA,hB,|normalImpulse|,nx,ny, ...]
       __publicField(this, "activeColPairs", /* @__PURE__ */ new Set());
@@ -869,16 +871,17 @@
       this.addDistanceJoint(hA, hB, a1.x, a1.y, a2.x, a2.y, minLen, maxLen);
     }
     // --- contact/sensor/impact events (NapeWorld.hx onCollision/onSensor) -----
-    // Run once at the end of step(); buffers BEGIN events for take*(). Reads solver
-    // output only — no state mutation.
+    // Run once at the end of step(); buffers BEGIN + ONGOING events for take*(). Reads
+    // solver output only — no state mutation.
     collectEvents() {
       const nowCol = /* @__PURE__ */ new Set();
       for (const arb of this.arbiters.values()) {
         if (arb.stamp !== this.stamp) continue;
         nowCol.add(arb.key);
-        if (this.activeColPairs.has(arb.key)) continue;
         const ha = arb.b1.handle;
         const hb = arb.b2.handle;
+        if (!(arb.b1.sleeping && arb.b2.sleeping)) this.ongoingBuf.push(ha, hb, 0);
+        if (this.activeColPairs.has(arb.key)) continue;
         this.contactsBuf.push(ha, hb, 0);
         const jn = (arb.c1 ? arb.c1.jnAcc : 0) + (arb.c2 ? arb.c2.jnAcc : 0);
         this.impactsBuf.push(ha, hb, Math.abs(jn), arb.nx, arb.ny);
@@ -897,6 +900,7 @@
               if (this.distanceQuery(A, sa, B, sb).d > 0) continue;
               const key = sa.sid < sb.sid ? `${sa.sid}-${sb.sid}` : `${sb.sid}-${sa.sid}`;
               nowSen.add(key);
+              if (!(A.sleeping && B.sleeping)) this.ongoingBuf.push(A.handle, B.handle, 1);
               if (this.activeSenPairs.has(key)) continue;
               this.contactsBuf.push(A.handle, B.handle, 1);
             }
@@ -908,6 +912,16 @@
     takeContacts() {
       const c = this.contactsBuf;
       this.contactsBuf = [];
+      return c;
+    }
+    // ONGOING contact/sensor pairs persisting THIS step while awake (drives the game's
+    // `onHitPersistFunction`: level-8 switch_weight timer reset, wind `OnHit_Wind`).
+    // Same `[hA,hB,sensorFlag, ...]` shape as takeContacts; a pair appears every step from
+    // its BEGIN until it separates or both its bodies sleep (the game keeps a resting body
+    // awake with a per-step velocity nudge so ONGOING keeps firing).
+    takeOngoing() {
+      const c = this.ongoingBuf;
+      this.ongoingBuf = [];
       return c;
     }
     takeImpacts() {
@@ -1167,6 +1181,7 @@
         if (s.isSensor) s.senMask = enabled ? s.origSenMask : 0;
         else s.colMask = enabled ? s.origColMask : 0;
       }
+      this.dropStaleArbiters(b);
     }
     // [M2] world-space AABB [minx,miny,maxx,maxy] of shape i. Circle: worldCOM ±
     // radius (ZPP_Shape.as:658); polygon: min/max of world-transformed verts
@@ -1872,6 +1887,61 @@
       }
       ev.toi = t;
     }
+    // [M4-CCD] dynamicSweep — conservative advancement of a moving body against a MOVING
+    // (kinematic) obstacle, in the relative frame (ZPP_SweepDistance.dynamicSweep:24).
+    // Same structure as staticSweep, but BOTH bodies advance each iteration and the approach
+    // rate uses the RELATIVE velocity (mv − obstacle). For a separating pair (a ball that just
+    // bounced off and is pulling ahead of the obstacle) this correctly yields toi<0 — no false
+    // penetration, no re-solve, restitution preserved. The rewound kinematic obstacle is
+    // restored to the full step by the finish loop in continuousCollisions.
+    dynamicSweep(ev, dt) {
+      const b1 = ev.mv;
+      const b2 = ev.stat;
+      let sa1 = b1.sweep_angvel;
+      if (sa1 < 0) sa1 = -sa1;
+      let sa2 = b2.sweep_angvel;
+      if (sa2 < 0) sa2 = -sa2;
+      const angBound = ev.ms.sweepCoef * sa1 + ev.ss.sweepCoef * sa2;
+      let t = 0;
+      let iter = 0;
+      for (; ; ) {
+        this.advanceSweep(b1, t * dt);
+        this.advanceSweep(b2, t * dt);
+        const dr = this.distanceQuery(b1, ev.ms, ev.stat, ev.ss);
+        ev.c1x = dr.p3x;
+        ev.c1y = dr.p3y;
+        ev.axisx = dr.p5x;
+        ev.axisy = dr.p5y;
+        const loc18 = dr.d + 0.5;
+        const negvx = -(b1.velx - b2.velx);
+        const negvy = -(b1.vely - b2.vely);
+        const approach = negvx * ev.axisx + negvy * ev.axisy;
+        if (loc18 < 0.05) {
+          const armx = ev.c1x - b1.posx;
+          const army = ev.c1y - b1.posy;
+          const sep = approach - b1.sweep_angvel * (ev.axisy * armx - ev.axisx * army);
+          if (sep > 0) ev.slipped = true;
+          if (sep <= 0 || loc18 < 0.025) break;
+        }
+        const denom = (angBound - approach) * dt;
+        if (denom <= 0) {
+          t = -1;
+          break;
+        }
+        let step = loc18 / denom;
+        if (step < 1e-6) step = 1e-6;
+        t += step;
+        if (t >= 1) {
+          t = -1;
+          break;
+        }
+        if (++iter >= 40) {
+          if (loc18 > 0.5) ev.failed = true;
+          break;
+        }
+      }
+      ev.toi = t;
+    }
     // [M4-CCD] continuousCollisions — between updatePos and iteratePos, arrest fast
     // (non-frozen) dynamic bodies at their first impact with static geometry so they
     // don't tunnel (ZPP_Space.as:10633). Currently the ball-vs-static-polygon path
@@ -1910,7 +1980,8 @@
                 slipped: false,
                 failed: false
               };
-              this.staticSweep(ev, dt);
+              if (stat.type === TYPE_KINEMATIC) this.dynamicSweep(ev, dt);
+              else this.staticSweep(ev, dt);
               if (ev.toi >= 0 && !ev.failed) events.push(ev);
             }
           }
@@ -1948,7 +2019,9 @@
         }
       }
       for (const b of arr) {
-        if (b.type === TYPE_DYNAMIC && !b.sweepFrozen) this.advanceSweep(b, dt);
+        if (b.type === TYPE_DYNAMIC && !b.sweepFrozen || b.type === TYPE_KINEMATIC) {
+          this.advanceSweep(b, dt);
+        }
         b.sweepTime = 0;
       }
     }

@@ -128,6 +128,7 @@ p0pd · p0fl · p0ms · p0sl · p0wk · **p0kn** (kinematic motion + offset-orig
 **p0om** (offset-COM body reports the placement origin, no auto-align) ·
 **p0og** (ONGOING contact events — fires every awake step a pair persists, stops on sleep; step-for-step vs SWF) ·
 **p0kr** (kinematic-vs-resting-dynamic restitution — moving kinematic wall bounces a resting ball ahead, no stick) ·
+**p0sm** (per-shape collision-mask — disable one shape of a body, its rider falls, others stay; keeper duck) ·
 p0tr-terrain + p0sw-switchmask + p0kn-kinematic + p0rf-runtimefilters + p0wv-setangvel + p0kd-keeperduck (behavioural)
 
 ### Wake-on-removal fix (2026-06-19)
@@ -175,6 +176,20 @@ SHIPPED SWF with a real BEGIN+ONGOING `InteractionListener` harness (`p0og`): BE
 contiguous, body sleeps @77 → ONGOING stops exactly at 77; replica reproduces it step-for-step
 (`p0og.test.ts`). **Restitution heads-up from haxe-port (ball-vs-moving-kinematic) = NOT a bug** — their
 repro confirms combine 0.6 rebound + escape; the level-7 "stick" is pinned-contact geometry, not the engine.
+
+### Per-shape collision-mask setter (2026-06-19)
+`setShapeCollisionMask(h, shapeIdx, mask)` — sets one shape's `colMask` + `dropStaleArbiters` (game
+`SetBodyShapeCollisionMask` = `body.shapes.at(i).filter.collisionMask`, `GameObj_Base.as:1739`). Level-11
+keeper ducks by zeroing only the upper-body shapes (2,3) so a ball clears the top while the legs (0,1) stay
+solid; the body-wide `setBodyCollisionMask` wrongly disabled all four → ball passed through. Bit-exact `p0sm`
+vs the SHIPPED SWF (awake rider). **⚠ SHAPE-ORDER REVERSAL: Nape `body.shapes.add` PREPENDS, so `shapes.at(0)`
+= last-added; the replica's `b.shapes[]` is add-order (append). `replica[i] === nape.at(n−1−i)`.** The shim
+maps indices (its `Shape.emit` tracks the engine index) — flagged to use the replica add-order index, not
+Nape's `at()` index. **Caveat:** the gate uses a settled-but-AWAKE rider (the game's case = a flying ball
+clearing the duck). A filter change on a body asleep *on* the disabled shape has a one-step Nape wake-deferral
+(stale arbiter holds it one extra step) that the replica's immediate `dropStaleArbiters` doesn't model → a
+sleeping rider falls one frame early. Same class as the kinematic rider-carry sub-frame approximation; model
+it only if a level needs frame-exact sleeping-rider filter toggles.
 
 ### Kinematic-vs-resting-dynamic restitution / CCD dynamicSweep (2026-06-19)
 The "ball sticks to the level-7 opponent" bug. A moving KINEMATIC body (e.g. the patrol character, +120)

@@ -29,15 +29,33 @@ class Shape {
 		body = null;
 	}
 
-	// Called by Body.finalize once a handle exists.
+	// Called by Body.finalize once a handle exists. `startIdx` is the engine add-order index this shape's
+	// primitives start at; we record the solid primitive's index on the filter so a per-shape collisionMask
+	// change (SetBodyShapeCollisionMask) targets the right engine shape. Returns the number of engine shapes
+	// emitted (1 solid, +1 if it also splits into a sensor), so Body.finalize can advance the running index.
 	@:allow(nape.phys.Body)
-	function emit(engine:NapeReplicaJS, handle:Int):Void {
+	function emit(engine:NapeReplicaJS, handle:Int, startIdx:Int):Int {
 		var m = material;
 		filter._body = body; // bind the filter to this body so a later collisionMask change reaches the replica
-		if (filter.collisionGroup != 0 && filter.collisionMask != 0)
+		filter._shapeIndex = startIdx; // engine index of the solid primitive (the collisionMask target)
+		var count = 0;
+		var hasSolid = (filter.collisionGroup != 0 && filter.collisionMask != 0);
+		var hasSensor = (filter.sensorGroup != 0 && filter.sensorMask != 0);
+		if (hasSolid) {
 			add(engine, handle, m.density, m.dynamicFriction, m.rollingFriction, m.elasticity, filter.collisionGroup, filter.collisionMask, false);
-		if (filter.sensorGroup != 0 && filter.sensorMask != 0)
-			add(engine, handle, 0, m.dynamicFriction, m.rollingFriction, m.elasticity, filter.sensorGroup, filter.sensorMask, true);
+			count++;
+		}
+		if (hasSensor) {
+			// In real Nape a shape contributes mass (density × area) ONCE, regardless of sensorEnabled.
+			// We split one nape shape into up to two replica primitives for filtering, so the mass must be
+			// carried exactly once: by the solid primitive when there is one, otherwise by the sensor
+			// primitive. A SENSOR-ONLY shape (col=0,0 sensor=N,N — e.g. the level-12 cannon welded into a
+			// contraption) MUST still give its body mass; emitting it density-0 left the body massless →
+			// fallback inertia=0 → welding it produced a NaN in the solver (caves levels rendered empty).
+			add(engine, handle, hasSolid ? 0 : m.density, m.dynamicFriction, m.rollingFriction, m.elasticity, filter.sensorGroup, filter.sensorMask, true);
+			count++;
+		}
+		return count;
 	}
 
 	// overridden by Circle / Polygon

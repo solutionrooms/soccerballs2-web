@@ -1509,6 +1509,23 @@ export class NapeReplica {
     this.dropStaleArbiters(b);
   }
 
+  // [facade] Runtime PER-SHAPE collision-mask change — game `SetBodyShapeCollisionMask`
+  // (`GameObj_Base.as:1739`: `body.shapes.at(i).filter.collisionMask = mask`). The level-11
+  // keeper ducks by zeroing ONLY its upper-body shapes (2,3) so the ball clears the top
+  // while the legs (0,1) stay solid; the body-wide setBodyCollisionMask would wrongly
+  // disable every shape and the ball would pass straight through. Sets just shape
+  // `shapeIdx`'s colMask, then drops that shape's now-non-colliding arbiter + wakes the
+  // resting partner (a ball asleep on the disabled shape falls; bodies on other shapes are
+  // untouched). `shapeIdx` is the engine `b.shapes` order (the shim maps to it).
+  setShapeCollisionMask(h: number, shapeIdx: number, mask: number): void {
+    const b = this.bodies.get(h);
+    if (b == null) return;
+    const s = b.shapes[shapeIdx];
+    if (s == null) return;
+    s.colMask = mask;
+    this.dropStaleArbiters(b);
+  }
+
   // [facade] Runtime collision-GROUP change (symmetric to setBodyCollisionMask). The game
   // only changes the mask at runtime today (level-19 switches) — this covers a group change
   // too. Sets colGroup on every non-sensor shape, then drops now-non-colliding arbiters +

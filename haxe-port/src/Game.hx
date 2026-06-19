@@ -1419,8 +1419,11 @@ class Game
             PhysicsBase.SetGravity(gravity);
             
             EngineDebug.StartTimer("nape");
+            FrameStep.NaNTrip("0-framestart");
             GameObjects.PreUpdateGOsBeforePhysics();
+            FrameStep.NaNTrip("A-preupdate");
             PhysicsBase.TimeStep();
+            FrameStep.NaNTrip("B-afterstep");
             GameObjects.UpdateGOsFromPhysics_Nape();
             BounceDebug.Tick(); // sample ball velocity each physics step (bounce capture)
             EngineDebug.EndTimer("nape");
@@ -1430,6 +1433,7 @@ class Game
                 EngineDebug.StartTimer("update GOs");
                 GameObjects.ClearAddList();
                 GameObjects.Update();
+                FrameStep.NaNTrip("C-afterupdate"); // post-physics game logic (path mover SetBodyXForm runs here)
                 GameObjects.KillObjects();
                 GameObjects.DoAddList();
                 Particles.Update();

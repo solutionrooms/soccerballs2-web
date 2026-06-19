@@ -1725,14 +1725,18 @@ class GameObjBase
     
     public function ApplyImpulse(_x : Float, _y : Float) : Void
     {
+        if (nape_bodies == null) return; // AS3 `for each(b in null)` is a silent no-op; Haxe iterating an
+        // unset Vector crashes on `.length`. DoExplosion impulses EVERY object in radius, including
+        // non-physics GOs (scenery/switch graphic/helptext) whose nape_bodies was never initialised.
         for (b in nape_bodies)
         {
             b.applyImpulse(new Vec2(_x, _y));
         }
     }
-    
+
     public function ApplyForce(_x : Float, _y : Float) : Void
     {
+        if (nape_bodies == null) return; // same AS3 null-iteration-is-noop guard as ApplyImpulse
         for (b in nape_bodies)
         {
             b.velocity.addeq(new Vec2(_x, _y));
@@ -1779,6 +1783,7 @@ class GameObjBase
         var body : Body = nape_bodies[0];
         body.type = BodyType.KINEMATIC;
 
+        FrameStep.XFormCheck(name, _x, _y, rot, body.position.x, body.position.y);
         var dx : Float = _x - body.position.x;
         var dy : Float = _y - body.position.y;
         var da : Float = rot - body.rotation;
@@ -3480,8 +3485,9 @@ function Init$(SelText)()
         var line : EdLine = Levels.GetCurrent().lines[lineIndex];
         
         lineSpline = line.IsSpline();
-        
+
         dir = GetBodyAngle(0);
+        FrameStep.PathInit(name, nape_bodies[0].rotation, dir, nape_bodies[0].position.x, nape_bodies[0].position.y);
         
         lineSpeed = 1 / (Utils.GetParamNumber("path_speed") * Defs.fps);
         

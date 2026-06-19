@@ -30,6 +30,7 @@ extern class NapeReplicaJS {
 	// pairs that no longer collide and wake the affected bodies. (May be absent on older bundles — the
 	// shim guards the call.)
 	public function setBodyCollisionMask(h:Int, mask:Int):Void;
+	public function setShapeCollisionMask(h:Int, shapeIdx:Int, mask:Int):Void; // per-shape (keeper duck)
 	public function setBodySensorMask(h:Int, mask:Int):Void;
 
 	// --- step ---

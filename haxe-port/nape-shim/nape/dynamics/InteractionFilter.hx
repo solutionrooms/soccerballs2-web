@@ -15,16 +15,20 @@ package nape.dynamics;
 class InteractionFilter {
 	public var collisionGroup:Int;
 
-	// backing storage + the body this filter was emitted onto (null until the shape is finalized).
+	// backing storage + the body this filter was emitted onto (null until the shape is finalized) + this
+	// shape's engine add-order index (set in Shape.emit), so a live mask change targets only THIS shape.
 	var _collisionMask:Int;
 	@:allow(nape.shape.Shape) var _body:nape.phys.Body;
+	@:allow(nape.shape.Shape) var _shapeIndex:Int = 0;
 
 	public var collisionMask(get, set):Int;
 	inline function get_collisionMask():Int
 		return _collisionMask;
 	function set_collisionMask(v:Int):Int {
 		_collisionMask = v;
-		if (_body != null) _body.runtimeSetCollisionMask(v); // propagate live filter change to the replica
+		// nape's filter is PER-SHAPE — propagate to just this shape (the keeper duck disables only its upper
+		// shapes; SetBodyCollisionMask drives every shape, which is just this applied N times).
+		if (_body != null) _body.runtimeSetShapeCollisionMask(_shapeIndex, v);
 		return v;
 	}
 

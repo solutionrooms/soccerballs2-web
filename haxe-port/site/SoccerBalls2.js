@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "64";
+	app.meta.h["build"] = "65";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -5646,6 +5646,118 @@ Main.sb2OppInfo = $hx_exports["sb2OppInfo"] = function() {
 		return out;
 	}
 };
+Main.sb2FindNaN = $hx_exports["sb2FindNaN"] = function() {
+	var out = "";
+	var total = 0;
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null || !go.active) {
+			continue;
+		}
+		var nb = go.nape_bodies;
+		if(nb == null) {
+			continue;
+		}
+		var _g2 = 0;
+		var _g3 = nb.length;
+		while(_g2 < _g3) {
+			var i = _g2++;
+			if(nb[i] == null) {
+				continue;
+			}
+			var b = nb[i];
+			var _this = nape_geom_Vec2.bound(b,0);
+			var px = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
+			var _this1 = nape_geom_Vec2.bound(b,0);
+			var py = _this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1);
+			var _this2 = nape_geom_Vec2.bound(b,1);
+			var vx = _this2._body == null ? _this2._vx : _this2._body.prxGet(_this2._kind,0);
+			var _this3 = nape_geom_Vec2.bound(b,1);
+			var vy = _this3._body == null ? _this3._vy : _this3._body.prxGet(_this3._kind,1);
+			var rr = b.handle < 0 ? b._rot : b.engine.getRotRad(b.handle);
+			if(!isFinite(px) || !isFinite(py) || !isFinite(vx) || !isFinite(vy) || !isFinite(rr)) {
+				++total;
+				var ty;
+				try {
+					ty = go.physobj.name;
+				} catch( _g4 ) {
+					haxe_NativeStackTrace.lastError = _g4;
+					ty = "?";
+				}
+				out += "NaN: name=" + go.name + " type=" + ty + " body#" + i + " pos=(" + px + "," + py + ") vel=(" + vx + "," + vy + ") rot=" + rr + " goXY=(" + go.xpos + "," + go.ypos + ")\n";
+			}
+		}
+	}
+	if(total == 0) {
+		return "no NaN bodies (camera=" + (Game.camera.x | 0) + "," + (Game.camera.y | 0) + ")";
+	} else {
+		return total + " NaN bodies:\n" + out;
+	}
+};
+Main.sb2TripLog = $hx_exports["sb2TripLog"] = function() {
+	if(FrameStep.tripLog == "") {
+		return "no NaN tripped yet (step a few more frames)";
+	} else {
+		return FrameStep.tripLog;
+	}
+};
+Main.sb2PathInit = $hx_exports["sb2PathInit"] = function() {
+	if(FrameStep.pathInitLog == "") {
+		return "no path_object init captured";
+	} else {
+		return FrameStep.pathInitLog;
+	}
+};
+Main.sb2Dump = $hx_exports["sb2Dump"] = function() {
+	var out = "";
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null || !go.active) {
+			continue;
+		}
+		var ty;
+		try {
+			ty = go.physobj.name;
+		} catch( _g2 ) {
+			haxe_NativeStackTrace.lastError = _g2;
+			ty = "?";
+		}
+		if(ty != "post_movable" && ty != "cannon" && ty != "path_object") {
+			continue;
+		}
+		var nb = go.nape_bodies;
+		if(nb == null) {
+			continue;
+		}
+		var _g3 = 0;
+		var _g4 = nb.length;
+		while(_g3 < _g4) {
+			var i = _g3++;
+			if(nb[i] == null) {
+				continue;
+			}
+			var b = nb[i];
+			var out1 = ty + " bodies=" + nb.length + " #" + i + " type=" + Std.string(b._type) + " mass=";
+			var out2 = b.handle < 0 ? 0 : b.engine.getMass(b.handle);
+			var out3 = b.handle < 0 ? 0 : b.engine.getInertia(b.handle);
+			var _this = nape_geom_Vec2.bound(b,0);
+			var x = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
+			var _this1 = nape_geom_Vec2.bound(b,0);
+			out += out1 + out2 + " inertia=" + out3 + " pos=(" + (x | 0) + "," + ((_this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1)) | 0) + ") rot=" + (b.handle < 0 ? b._rot : b.engine.getRotRad(b.handle)) + " shapes=" + b._shapes._a.length + " nConstraints=" + b._constraintList._a.length + "\n";
+		}
+	}
+	if(out == "") {
+		return "no contraption bodies";
+	} else {
+		return out;
+	}
+};
 Main.sb2Switch19Dump = $hx_exports["sb2Switch19Dump"] = function() {
 	var out = "BLOCKS:";
 	var _g = 0;
@@ -5927,7 +6039,7 @@ Main.SimFrame = function() {
 			if(__v.get_length() > 30) {
 				var tmp = "[PORT] vel=(" + ((__v._body == null ? __v._vx : __v._body.prxGet(__v._kind,0)) | 0) + "," + ((__v._body == null ? __v._vy : __v._body.prxGet(__v._kind,1)) | 0) + ") spd=" + (__v.get_length() | 0) + " spin=";
 				var _this = __fb.nape_bodies[0];
-				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 836, className : "Main", methodName : "SimFrame"});
+				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 897, className : "Main", methodName : "SimFrame"});
 			}
 		}
 	}
@@ -5935,7 +6047,7 @@ Main.SimFrame = function() {
 };
 Main.sb2DiagGround = function() {
 	var space = PhysicsBase.GetNapeSpace();
-	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 900, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 961, className : "Main", methodName : "sb2DiagGround"});
 	var b = space._bodies.iterator();
 	while(b.hasNext()) {
 		var b1 = b.next();
@@ -5986,9 +6098,9 @@ Main.sb2DiagGround = function() {
 				++coversBall;
 			}
 		}
-		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 917, className : "Main", methodName : "sb2DiagGround"});
+		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 978, className : "Main", methodName : "sb2DiagGround"});
 	}
-	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 921, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 982, className : "Main", methodName : "sb2DiagGround"});
 };
 Main.__super__ = openfl_display_MovieClip;
 Main.prototype = $extend(openfl_display_MovieClip.prototype,{
@@ -11041,7 +11153,67 @@ FrameStep.OnLevelStart = function() {
 		FrameStep.paused = false;
 		FrameStep.stepReq = 0;
 	}
+	FrameStep.tripped = false;
+	FrameStep.xformTripped = false;
+	FrameStep.tripLog = "";
 	FrameStep.UpdateBanner();
+};
+FrameStep.PathInit = function(name,bodyRot,dir,px,py) {
+	FrameStep.pathInitLog = "[PATHINIT] go=" + name + " bodyRot=" + bodyRot + " dir=" + dir + " pos=(" + px + "," + py + ")";
+};
+FrameStep.NaNTrip = function(stage) {
+	if(FrameStep.tripped) {
+		return;
+	}
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null || !go.active) {
+			continue;
+		}
+		var nb = go.nape_bodies;
+		if(nb == null) {
+			continue;
+		}
+		var _g2 = 0;
+		var _g3 = nb.length;
+		while(_g2 < _g3) {
+			var i = _g2++;
+			if(nb[i] == null) {
+				continue;
+			}
+			var b = nb[i];
+			var _this = nape_geom_Vec2.bound(b,0);
+			var px = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
+			var _this1 = nape_geom_Vec2.bound(b,0);
+			var py = _this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1);
+			var _this2 = nape_geom_Vec2.bound(b,1);
+			var vx = _this2._body == null ? _this2._vx : _this2._body.prxGet(_this2._kind,0);
+			var _this3 = nape_geom_Vec2.bound(b,1);
+			var vy = _this3._body == null ? _this3._vy : _this3._body.prxGet(_this3._kind,1);
+			if(!isFinite(px) || !isFinite(py) || !isFinite(vx) || !isFinite(vy)) {
+				FrameStep.tripped = true;
+				var msg = "[NANTRIP] stage=" + stage + " frame=" + FrameStep.frameNo + " go=" + go.name + " body#" + i + " type=" + Std.string(b._type) + " pos=(" + px + "," + py + ") vel=(" + vx + "," + vy + ")";
+				FrameStep.tripLog += msg + "\n";
+				haxe_Log.trace(msg,{ fileName : "src/FrameStep.hx", lineNumber : 64, className : "FrameStep", methodName : "NaNTrip"});
+				return;
+			}
+		}
+	}
+};
+FrameStep.XFormCheck = function(name,x,y,rot,curX,curY) {
+	if(FrameStep.xformTripped) {
+		return;
+	}
+	if(isFinite(x) && isFinite(y) && isFinite(rot) && isFinite(curX) && isFinite(curY)) {
+		return;
+	}
+	FrameStep.xformTripped = true;
+	var msg = "[XFORM-NAN] go=" + name + " in=(" + x + "," + y + "," + rot + ") bodyPosBefore=(" + curX + "," + curY + ")";
+	FrameStep.tripLog += msg + "\n";
+	haxe_Log.trace(msg,{ fileName : "src/FrameStep.hx", lineNumber : 81, className : "FrameStep", methodName : "XFormCheck"});
 };
 FrameStep.TogglePause = function() {
 	FrameStep.paused = !FrameStep.paused;
@@ -11895,8 +12067,11 @@ Game.UpdateGameplay = function() {
 		var gravity = Vars.GetVarAsNumber("gravity");
 		PhysicsBase.SetGravity(gravity);
 		EngineDebug.StartTimer("nape");
+		FrameStep.NaNTrip("0-framestart");
 		GameObjects.PreUpdateGOsBeforePhysics();
+		FrameStep.NaNTrip("A-preupdate");
 		PhysicsBase.TimeStep();
+		FrameStep.NaNTrip("B-afterstep");
 		GameObjects.UpdateGOsFromPhysics_Nape();
 		BounceDebug.Tick();
 		EngineDebug.EndTimer("nape");
@@ -11904,6 +12079,7 @@ Game.UpdateGameplay = function() {
 			EngineDebug.StartTimer("update GOs");
 			GameObjects.ClearAddList();
 			GameObjects.Update();
+			FrameStep.NaNTrip("C-afterupdate");
 			GameObjects.KillObjects();
 			GameObjects.DoAddList();
 			Particles.Update();
@@ -13897,6 +14073,9 @@ GameObjBase.prototype = {
 		}
 	}
 	,ApplyImpulse: function(_x,_y) {
+		if(this.nape_bodies == null) {
+			return;
+		}
 		var _g = 0;
 		var _g1 = this.nape_bodies;
 		while(_g < _g1.length) {
@@ -13906,6 +14085,9 @@ GameObjBase.prototype = {
 		}
 	}
 	,ApplyForce: function(_x,_y) {
+		if(this.nape_bodies == null) {
+			return;
+		}
 		var _g = 0;
 		var _g1 = this.nape_bodies;
 		while(_g < _g1.length) {
@@ -13946,6 +14128,11 @@ GameObjBase.prototype = {
 	,SetBodyXForm: function(_index,_x,_y,rot) {
 		var body = this.nape_bodies[0];
 		body.set_type(nape_phys_BodyType.get_KINEMATIC());
+		var tmp = this.name;
+		var _this = nape_geom_Vec2.bound(body,0);
+		var tmp1 = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
+		var _this = nape_geom_Vec2.bound(body,0);
+		FrameStep.XFormCheck(tmp,_x,_y,rot,tmp1,_this._body == null ? _this._vy : _this._body.prxGet(_this._kind,1));
 		var _this = nape_geom_Vec2.bound(body,0);
 		var dx = _x - (_this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0));
 		var _this = nape_geom_Vec2.bound(body,0);
@@ -15048,6 +15235,14 @@ GameObjBase.prototype = {
 		var line = Levels.GetCurrent().lines[this.lineIndex];
 		this.lineSpline = line.IsSpline();
 		this.dir = this.GetBodyAngle(0);
+		var tmp = this.name;
+		var _this = this.nape_bodies[0];
+		var tmp1 = _this.handle < 0 ? _this._rot : _this.engine.getRotRad(_this.handle);
+		var tmp2 = this.dir;
+		var _this = nape_geom_Vec2.bound(this.nape_bodies[0],0);
+		var tmp3 = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
+		var _this = nape_geom_Vec2.bound(this.nape_bodies[0],0);
+		FrameStep.PathInit(tmp,tmp1,tmp2,tmp3,_this._body == null ? _this._vy : _this._body.prxGet(_this._kind,1));
 		this.lineSpeed = 1 / (Utils.GetParamNumber("path_speed") * Defs.fps);
 		this.switchName = Game.GetSwitchJointName(this.id);
 		this.lineRotateToPath = Utils.GetParamBool("path_rotatetopath",false);
@@ -60680,7 +60875,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 73637;
+	this.version = 643411;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -63562,6 +63757,7 @@ var nape_dynamics_InteractionFilter = function(collisionGroup,collisionMask,sens
 	if(collisionGroup == null) {
 		collisionGroup = 1;
 	}
+	this._shapeIndex = 0;
 	this.collisionGroup = collisionGroup;
 	this._collisionMask = collisionMask;
 	this.sensorGroup = sensorGroup;
@@ -63578,7 +63774,7 @@ nape_dynamics_InteractionFilter.prototype = {
 	,set_collisionMask: function(v) {
 		this._collisionMask = v;
 		if(this._body != null) {
-			this._body.runtimeSetCollisionMask(v);
+			this._body.runtimeSetShapeCollisionMask(this._shapeIndex,v);
 		}
 		return v;
 	}
@@ -64212,11 +64408,12 @@ nape_phys_Body.prototype = {
 		this.engine = sp.engine;
 		var isStatic = this._type == nape_phys_BodyType.get_STATIC();
 		this.handle = this.engine.createBody(isStatic,this._px,this._py,this._rot * 180 / Math.PI,0,0);
+		var engShapeIdx = 0;
 		var sh = this._shapes.iterator();
 		while(sh.hasNext()) {
 			var sh1 = sh.next();
 			sh1.body = this;
-			sh1.emit(this.engine,this.handle);
+			engShapeIdx += sh1.emit(this.engine,this.handle,engShapeIdx);
 		}
 		this.engine.finalizeBody(this.handle,false);
 		if(this._type == nape_phys_BodyType.get_KINEMATIC()) {
@@ -64341,6 +64538,16 @@ nape_phys_Body.prototype = {
 	,runtimeSetSensorMask: function(mask) {
 		if(this.handle >= 0 && this.engine != null && this.engine.setBodySensorMask != null) {
 			this.engine.setBodySensorMask(this.handle,mask);
+		}
+	}
+	,runtimeSetShapeCollisionMask: function(shapeIdx,mask) {
+		if(this.handle < 0 || this.engine == null) {
+			return;
+		}
+		if(this.engine.setShapeCollisionMask != null) {
+			this.engine.setShapeCollisionMask(this.handle,shapeIdx,mask);
+		} else if(this.engine.setBodyCollisionMask != null) {
+			this.engine.setBodyCollisionMask(this.handle,mask);
 		}
 	}
 	,get_mass: function() {
@@ -64595,15 +64802,22 @@ var nape_shape_Shape = function() {
 $hxClasses["nape.shape.Shape"] = nape_shape_Shape;
 nape_shape_Shape.__name__ = "nape.shape.Shape";
 nape_shape_Shape.prototype = {
-	emit: function(engine,handle) {
+	emit: function(engine,handle,startIdx) {
 		var m = this.material;
 		this.filter._body = this.body;
-		if(this.filter.collisionGroup != 0 && this.filter._collisionMask != 0) {
+		this.filter._shapeIndex = startIdx;
+		var count = 0;
+		var hasSolid = this.filter.collisionGroup != 0 && this.filter._collisionMask != 0;
+		var hasSensor = this.filter.sensorGroup != 0 && this.filter._sensorMask != 0;
+		if(hasSolid) {
 			this.add(engine,handle,m.density,m.dynamicFriction,m.rollingFriction,m.elasticity,this.filter.collisionGroup,this.filter._collisionMask,false);
+			++count;
 		}
-		if(this.filter.sensorGroup != 0 && this.filter._sensorMask != 0) {
-			this.add(engine,handle,0,m.dynamicFriction,m.rollingFriction,m.elasticity,this.filter.sensorGroup,this.filter._sensorMask,true);
+		if(hasSensor) {
+			this.add(engine,handle,hasSolid ? 0 : m.density,m.dynamicFriction,m.rollingFriction,m.elasticity,this.filter.sensorGroup,this.filter._sensorMask,true);
+			++count;
 		}
+		return count;
 	}
 	,add: function(engine,handle,density,f,roll,e,cat,mask,sensor) {
 	}
@@ -64846,11 +65060,11 @@ nape_shape_ShapeList.prototype = {
 		return this._a[i];
 	}
 	,add: function(s) {
-		this._a.push(s);
+		this._a.unshift(s);
 		return true;
 	}
 	,push: function(s) {
-		this._a.push(s);
+		this._a.unshift(s);
 		return true;
 	}
 	,pop: function() {
@@ -121441,6 +121655,10 @@ FrameStep.paused = false;
 FrameStep.stepReq = 0;
 FrameStep.frameNo = 0;
 FrameStep.pauseAtStart = false;
+FrameStep.tripped = false;
+FrameStep.tripLog = "";
+FrameStep.pathInitLog = "";
+FrameStep.xformTripped = false;
 Game.saveTextureFiles = false;
 Game.loadTextureFiles = false;
 Game.doWalkthrough = false;

@@ -630,6 +630,67 @@ class Main extends MovieClip
         return out == "" ? "no opponent GO" : out;
     }
 
+    // NaN-finder: scans every active GameObj's nape body for a non-finite position/velocity (the empty-
+    // playfield bug — a NaN body makes the camera NaN so the whole world renders off-screen). Reports the
+    // object's name + type + pos/vel. Frame-step ('M' then '.') and call after each step: the FIRST step that
+    // lists NaN bodies shows the source island (the non-ball types point at the culprit — a joint/path object).
+    @:expose("sb2FindNaN") public static function sb2FindNaN() : String {
+        var out = "";
+        var total = 0;
+        for (go in GameObjects.objs) {
+            if (go == null || !go.active) continue;
+            var nb : Array<Dynamic> = go.nape_bodies;
+            if (nb == null) continue;
+            for (i in 0...nb.length) {
+                if (nb[i] == null) continue;
+                var b : nape.phys.Body = nb[i];
+                var px = b.position.x; var py = b.position.y; var vx = b.velocity.x; var vy = b.velocity.y; var rr = b.rotation;
+                if (!Math.isFinite(px) || !Math.isFinite(py) || !Math.isFinite(vx) || !Math.isFinite(vy) || !Math.isFinite(rr)) {
+                    total++;
+                    var ty = try (cast go.physobj : Dynamic).name catch (e:Dynamic) "?";
+                    out += "NaN: name=" + go.name + " type=" + ty + " body#" + i
+                        + " pos=(" + px + "," + py + ") vel=(" + vx + "," + vy + ") rot=" + rr + " goXY=(" + go.xpos + "," + go.ypos + ")\n";
+                }
+            }
+        }
+        return total == 0 ? ("no NaN bodies (camera=" + Std.int(Game.camera.x) + "," + Std.int(Game.camera.y) + ")") : (total + " NaN bodies:\n" + out);
+    }
+
+    // Returns the captured NaN-tripwire log (which frame STAGE the first NaN appeared at, and which
+    // SetBodyXForm fed a bad value). Re-armed on each level load. Stages: 0-framestart / A-preupdate /
+    // B-afterstep / C-afterupdate. Call after frame-stepping the broken level a few times.
+    @:expose("sb2TripLog") public static function sb2TripLog() : String {
+        return FrameStep.tripLog == "" ? "no NaN tripped yet (step a few more frames)" : FrameStep.tripLog;
+    }
+
+    // Captured dir/rotation of the last-loaded path_object at the moment InitPhysObj_Path reads
+    // dir = GetBodyAngle(0). Reveals whether the path body's rotation is already NaN at LOAD.
+    @:expose("sb2PathInit") public static function sb2PathInit() : String {
+        return FrameStep.pathInitLog == "" ? "no path_object init captured" : FrameStep.pathInitLog;
+    }
+
+    // Dump body setup (mass/inertia/type/pos/rot/shape-count) for the caves contraption types, to
+    // compare the LIVE shim setup against the headless repro and find the configuration difference.
+    @:expose("sb2Dump") public static function sb2Dump() : String {
+        var out = "";
+        for (go in GameObjects.objs) {
+            if (go == null || !go.active) continue;
+            var ty = try (cast go.physobj : Dynamic).name catch (e:Dynamic) "?";
+            if (ty != "post_movable" && ty != "cannon" && ty != "path_object") continue;
+            var nb : Array<Dynamic> = go.nape_bodies;
+            if (nb == null) continue;
+            for (i in 0...nb.length) {
+                if (nb[i] == null) continue;
+                var b : nape.phys.Body = nb[i];
+                out += ty + " bodies=" + nb.length + " #" + i + " type=" + b.type
+                    + " mass=" + b.mass + " inertia=" + b.inertia
+                    + " pos=(" + Std.int(b.position.x) + "," + Std.int(b.position.y) + ") rot=" + b.rotation
+                    + " shapes=" + b.shapes.length + " nConstraints=" + b.constraints.length + "\n";
+            }
+        }
+        return out == "" ? "no contraption bodies" : out;
+    }
+
     // Level-19 switch/switchable-block diagnostic. Blocks are GOs with a logic link (logicLink0 = the
     // switch). "Disappear" sets the block's shape collisionMask to 0 via SetBodyCollisionMask — this
     // dump shows the shim-side colMask plus all dynamic body positions, so we can see whether the mask

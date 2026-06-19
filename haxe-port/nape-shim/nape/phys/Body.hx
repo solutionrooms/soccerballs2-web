@@ -74,9 +74,10 @@ class Body {
 		engine = sp.engine;
 		var isStatic = (_type == BodyType.STATIC);
 		handle = engine.createBody(isStatic, _px, _py, _rot * 180 / Math.PI, 0, 0);
+		var engShapeIdx = 0; // running engine add-order index, so each shape records its own
 		for (sh in _shapes) {
 			sh.body = this;
-			sh.emit(engine, handle);
+			engShapeIdx += sh.emit(engine, handle, engShapeIdx);
 		}
 		engine.finalizeBody(handle, false); // game never sets isBullet → no CCD flag
 		if (_type == BodyType.KINEMATIC) engine.setBodyType(handle, 2);
@@ -176,6 +177,19 @@ class Body {
 	function runtimeSetSensorMask(mask:Int):Void {
 		if (handle >= 0 && engine != null && (untyped engine.setBodySensorMask) != null)
 			engine.setBodySensorMask(handle, mask);
+	}
+
+	// Live PER-SHAPE collision-mask change (SetBodyShapeCollisionMask — keeper duck disables only its upper
+	// shapes). `shapeIdx` is the engine add-order index recorded in Shape.emit. Falls back to the body-wide
+	// setter on older bundles (so an all-shapes SetBodyCollisionMask still propagates); when every shape is
+	// set to the same mask that fallback is equivalent.
+	@:allow(nape.dynamics.InteractionFilter)
+	function runtimeSetShapeCollisionMask(shapeIdx:Int, mask:Int):Void {
+		if (handle < 0 || engine == null) return;
+		if ((untyped engine.setShapeCollisionMask) != null)
+			engine.setShapeCollisionMask(handle, shapeIdx, mask);
+		else if ((untyped engine.setBodyCollisionMask) != null)
+			engine.setBodyCollisionMask(handle, mask);
 	}
 
 	public var mass(get, never):Float;

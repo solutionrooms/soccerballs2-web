@@ -466,6 +466,13 @@ export class NapeReplica {
   // joint-partner graph (wake welded riders), and the per-step BEGIN-event buffers.
   private worldBody: Body;
   private jointPartners = new Map<number, number[]>();
+  // [joints] body pairs whose collision is suppressed because they're connected by a joint
+  // built with collide_joined=false. The shipped game uses collide_joined=false on ALL 98
+  // joints (PhysicsBase.as:142 default + every level), and sets joint.ignore=true — so jointed
+  // bodies must NOT collide. Without this, a body overlapping its joint partner (e.g. the
+  // metalpost chassis sits INSIDE the wheel it's revolute-jointed to) generates an internal
+  // contact that fights the joint and locks the assembly (level-36 "ref on wheels" never rolls).
+  private ignoredPairs = new Set<string>();
   private contactsBuf: number[] = []; // [hA,hB,sensorFlag, ...] BEGIN events
   private ongoingBuf: number[] = []; // [hA,hB,sensorFlag, ...] ONGOING (every awake step a pair persists)
   private impactsBuf: number[] = []; // [hA,hB,|normalImpulse|,nx,ny, ...]
@@ -1198,6 +1205,12 @@ export class NapeReplica {
     lb.push(hA);
   }
 
+  // suppress collision between two jointed bodies (Nape joint.ignore, collide_joined=false).
+  private ignorePair(hA: number, hB: number): void {
+    if (hA === 0 || hB === 0) return;
+    this.ignoredPairs.add(pairKey(hA, hB));
+  }
+
   // --- level joints (NapeWorld.hx jointRev/jointWeld/jointDist) -------------
   jointRev(hA: number, hB: number, ax: number, ay: number, enableMotor: boolean,
     motorSpeed: number, _maxTorque: number, enableLimit: boolean, lowerRad: number, upperRad: number): void {
@@ -1205,6 +1218,7 @@ export class NapeReplica {
     const b2 = this.bodies.get(hB);
     if (b1 == null || b2 == null || b1 === b2) return;
     this.addPartner(hA, hB);
+    this.ignorePair(hA, hB); // collide_joined=false (universal in the shipped game)
     const a1 = this.worldPointToLocal(b1, ax, ay);
     const a2 = this.worldPointToLocal(b2, ax, ay);
     this.addPivotJoint(hA, hB, a1.x, a1.y, a2.x, a2.y);
@@ -1220,6 +1234,7 @@ export class NapeReplica {
     if (b1 == null || b2 == null || b1 === b2) return;
     if (b1.type !== TYPE_DYNAMIC && b2.type !== TYPE_DYNAMIC) return; // weld of two statics = no-op
     this.addPartner(hA, hB);
+    this.ignorePair(hA, hB); // collide_joined=false (universal in the shipped game)
     const phase = b2.rot - b1.rot;
     const a1 = this.worldPointToLocal(b1, b2.posx, b2.posy); // anchor = bodyB origin; a2 == (0,0)
     this.addWeldJoint(hA, hB, a1.x, a1.y, 0, 0, phase);
@@ -1232,6 +1247,7 @@ export class NapeReplica {
     const b2 = this.bodies.get(hB);
     if (b1 == null || b2 == null || b1 === b2) return;
     this.addPartner(hA, hB);
+    this.ignorePair(hA, hB); // collide_joined=false (universal in the shipped game)
     const dx = x1 - x0;
     const dy = y1 - y0;
     const dist = Math.sqrt(dx * dx + dy * dy);
@@ -1276,6 +1292,7 @@ export class NapeReplica {
         const A = arr[i];
         const B = arr[j];
         if (A.type !== TYPE_DYNAMIC && B.type !== TYPE_DYNAMIC) continue;
+        if (this.ignoredPairs.size > 0 && this.ignoredPairs.has(pairKey(A.handle, B.handle))) continue; // joint collide_joined=false
         for (const sa of A.shapes) {
           for (const sb of B.shapes) {
             if ((sa.senGroup & sb.senMask) === 0 || (sb.senGroup & sa.senMask) === 0) continue;
@@ -2403,6 +2420,7 @@ export class NapeReplica {
         } else {
           continue;
         }
+        if (this.ignoredPairs.size > 0 && this.ignoredPairs.has(pairKey(mv.handle, stat.handle))) continue; // joint collide_joined=false
         // [E2] every shape pair (a fast ball can hit any shape of a multi-shape
         // static body). moving circle OR polygon vs static circle/polygon.
         for (const ms of mv.shapes) {
@@ -2497,6 +2515,7 @@ export class NapeReplica {
         const A = arr[i];
         const B = arr[j];
         if (A.type !== TYPE_DYNAMIC && B.type !== TYPE_DYNAMIC) continue;
+        if (this.ignoredPairs.size > 0 && this.ignoredPairs.has(pairKey(A.handle, B.handle))) continue; // joint collide_joined=false
         // [E2] every shape pair, not just shapes[0] (multi-shape bodies: goals,
         // switches, keeper). Each pair persists its own arbiter (keyed by shape id).
         for (const sa of A.shapes) {

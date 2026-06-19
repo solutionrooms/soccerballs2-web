@@ -676,16 +676,21 @@ class Main extends MovieClip
         for (go in GameObjects.objs) {
             if (go == null || !go.active) continue;
             var ty = try (cast go.physobj : Dynamic).name catch (e:Dynamic) "?";
-            if (ty != "post_movable" && ty != "cannon" && ty != "path_object") continue;
+            if (ty != "post_movable" && ty != "cannon" && ty != "path_object"
+                && ty != "ball_large" && ty != "metalpost_loose" && ty != "referee_loose"
+                && ty != "switchable_block") continue;
             var nb : Array<Dynamic> = go.nape_bodies;
             if (nb == null) continue;
             for (i in 0...nb.length) {
                 if (nb[i] == null) continue;
                 var b : nape.phys.Body = nb[i];
-                out += ty + " bodies=" + nb.length + " #" + i + " type=" + b.type
-                    + " mass=" + b.mass + " inertia=" + b.inertia
-                    + " pos=(" + Std.int(b.position.x) + "," + Std.int(b.position.y) + ") rot=" + b.rotation
-                    + " shapes=" + b.shapes.length + " nConstraints=" + b.constraints.length + "\n";
+                var sp = Math.round(Math.sqrt(b.velocity.x*b.velocity.x + b.velocity.y*b.velocity.y)*10)/10;
+                out += ty + " #" + i + " type=" + b.type
+                    + " mass=" + (Math.round(b.mass*100)/100) + " inertia=" + Std.int(b.inertia)
+                    + " pos=(" + Std.int(b.position.x) + "," + Std.int(b.position.y) + ")"
+                    + " vel=(" + (Math.round(b.velocity.x*10)/10) + "," + (Math.round(b.velocity.y*10)/10) + ") spd=" + sp
+                    + " angVel=" + (Math.round(b.angularVel*100)/100)
+                    + " shapes=" + b.shapes.length + " nCon=" + b.constraints.length + "\n";
             }
         }
         return out == "" ? "no contraption bodies" : out;

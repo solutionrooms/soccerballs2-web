@@ -76,6 +76,13 @@
       // joint-partner graph (wake welded riders), and the per-step BEGIN-event buffers.
       __publicField(this, "worldBody");
       __publicField(this, "jointPartners", /* @__PURE__ */ new Map());
+      // [joints] body pairs whose collision is suppressed because they're connected by a joint
+      // built with collide_joined=false. The shipped game uses collide_joined=false on ALL 98
+      // joints (PhysicsBase.as:142 default + every level), and sets joint.ignore=true — so jointed
+      // bodies must NOT collide. Without this, a body overlapping its joint partner (e.g. the
+      // metalpost chassis sits INSIDE the wheel it's revolute-jointed to) generates an internal
+      // contact that fights the joint and locks the assembly (level-36 "ref on wheels" never rolls).
+      __publicField(this, "ignoredPairs", /* @__PURE__ */ new Set());
       __publicField(this, "contactsBuf", []);
       // [hA,hB,sensorFlag, ...] BEGIN events
       __publicField(this, "ongoingBuf", []);
@@ -834,12 +841,18 @@
       }
       lb.push(hA);
     }
+    // suppress collision between two jointed bodies (Nape joint.ignore, collide_joined=false).
+    ignorePair(hA, hB) {
+      if (hA === 0 || hB === 0) return;
+      this.ignoredPairs.add(pairKey(hA, hB));
+    }
     // --- level joints (NapeWorld.hx jointRev/jointWeld/jointDist) -------------
     jointRev(hA, hB, ax, ay, enableMotor, motorSpeed, _maxTorque, enableLimit, lowerRad, upperRad) {
       const b1 = this.bodies.get(hA);
       const b2 = this.bodies.get(hB);
       if (b1 == null || b2 == null || b1 === b2) return;
       this.addPartner(hA, hB);
+      this.ignorePair(hA, hB);
       const a1 = this.worldPointToLocal(b1, ax, ay);
       const a2 = this.worldPointToLocal(b2, ax, ay);
       this.addPivotJoint(hA, hB, a1.x, a1.y, a2.x, a2.y);
@@ -852,6 +865,7 @@
       if (b1 == null || b2 == null || b1 === b2) return;
       if (b1.type !== TYPE_DYNAMIC && b2.type !== TYPE_DYNAMIC) return;
       this.addPartner(hA, hB);
+      this.ignorePair(hA, hB);
       const phase = b2.rot - b1.rot;
       const a1 = this.worldPointToLocal(b1, b2.posx, b2.posy);
       this.addWeldJoint(hA, hB, a1.x, a1.y, 0, 0, phase);
@@ -861,6 +875,7 @@
       const b2 = this.bodies.get(hB);
       if (b1 == null || b2 == null || b1 === b2) return;
       this.addPartner(hA, hB);
+      this.ignorePair(hA, hB);
       const dx = x1 - x0;
       const dy = y1 - y0;
       const dist = Math.sqrt(dx * dx + dy * dy);
@@ -894,6 +909,7 @@
           const A = arr[i];
           const B = arr[j];
           if (A.type !== TYPE_DYNAMIC && B.type !== TYPE_DYNAMIC) continue;
+          if (this.ignoredPairs.size > 0 && this.ignoredPairs.has(pairKey(A.handle, B.handle))) continue;
           for (const sa of A.shapes) {
             for (const sb of B.shapes) {
               if ((sa.senGroup & sb.senMask) === 0 || (sb.senGroup & sa.senMask) === 0) continue;
@@ -1980,6 +1996,7 @@
           } else {
             continue;
           }
+          if (this.ignoredPairs.size > 0 && this.ignoredPairs.has(pairKey(mv.handle, stat.handle))) continue;
           for (const ms of mv.shapes) {
             for (const ss of stat.shapes) {
               if (!shouldCollide(ms, ss)) continue;
@@ -2058,6 +2075,7 @@
           const A = arr[i];
           const B = arr[j];
           if (A.type !== TYPE_DYNAMIC && B.type !== TYPE_DYNAMIC) continue;
+          if (this.ignoredPairs.size > 0 && this.ignoredPairs.has(pairKey(A.handle, B.handle))) continue;
           for (const sa of A.shapes) {
             for (const sb of B.shapes) {
               if (!shouldCollide(sa, sb)) continue;

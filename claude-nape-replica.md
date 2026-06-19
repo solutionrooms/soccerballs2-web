@@ -129,6 +129,8 @@ p0pd · p0fl · p0ms · p0sl · p0wk · **p0kn** (kinematic motion + offset-orig
 **p0og** (ONGOING contact events — fires every awake step a pair persists, stops on sleep; step-for-step vs SWF) ·
 **p0kr** (kinematic-vs-resting-dynamic restitution — moving kinematic wall bounces a resting ball ahead, no stick) ·
 **p0sm** (per-shape collision-mask — disable one shape of a body, its rider falls, others stay; keeper duck) ·
+**p0rs** (rolling friction on a slope — free wheel rolls + spins up to vx/r; previously-dormant rolling path) ·
+**p0cj** (collide_joined=false — chassis embedded in its revolute-jointed wheel rolls, doesn't lock; lvl-36) ·
 p0tr-terrain + p0sw-switchmask + p0kn-kinematic + p0rf-runtimefilters + p0wv-setangvel + p0kd-keeperduck (behavioural)
 
 ### Wake-on-removal fix (2026-06-19)
@@ -176,6 +178,39 @@ SHIPPED SWF with a real BEGIN+ONGOING `InteractionListener` harness (`p0og`): BE
 contiguous, body sleeps @77 → ONGOING stops exactly at 77; replica reproduces it step-for-step
 (`p0og.test.ts`). **Restitution heads-up from haxe-port (ball-vs-moving-kinematic) = NOT a bug** — their
 repro confirms combine 0.6 rebound + escape; the level-7 "stick" is pinned-contact geometry, not the engine.
+
+### Level-36 "ref on wheels" — FIXED: collide_joined=false not honoured (2026-06-19)
+**Root cause (after a long hunt — see the rolling-friction note below for the dead ends):** the replica's
+`jointRev`/`jointWeld`/`jointDist` built the joint but never set Nape's `ignore`, so jointed bodies still
+collided. The `metalpost` chassis sits FULLY EMBEDDED inside the wheel it's revolute-jointed to → that internal
+chassis↔wheel contact fights the joint and **locks the assembly** (rolls down fine when already moving, but a
+settled vehicle can't initiate a roll; the non-monotonic slope band = the contact tripping on/off at the
+static-friction edge). Proof: identical wheel+chassis — internal collision ON → STUCK (slid 72px, angVel→0);
+OFF → ROLLS (1096px, angVel 8.7). The shipped game sets `collide_joined=false` on **ALL 98 joints**
+(`PhysicsBase.as:142` default + every level → `joint.ignore=true`). **Fix:** `jointRev/jointWeld/jointDist`
+register the pair in `ignoredPairs`; narrowphase + CCD + sensor-event loops skip ignored pairs (`pairKey`).
+No shim change needed (facade methods already used; game is universally collide_joined=false). Gate `p0cj`;
+the dev's `zz-vehicle2` now rolls unassisted (871px, was −0.4px STUCK). M5 joint goldens use `addPivotJoint`
+directly so are unaffected. **If a `collide_joined=true` joint ever appears, add a flag (none in any level today).**
+
+### Rolling friction on a slope — faithful; level-36 "ref on wheels" diagnosis (2026-06-19)
+haxe-port: lvl-36 vehicle (2 revolute-jointed wheels + welded referee on a chassis) SETTLES instead of rolling
+down a ~4.7° slope after a switch removes its chock. **Rolling friction + sleep threshold EXONERATED:** a free
+`football` wheel (el=1, fric=0.1, roll=0.1, r35) released on a 4.7° slope (modeled as flat floor + tilted
+gravity 1000@4.7°=(81.935,996.638)) ROLLS in 2012 Nape (spins up to angVel=vx/r, accelerates) and the replica
+matches **bit-exact 150 steps** (`p0rs`). Closes a dormant path — vertical-settle goldens never exercised
+rolling (no tangential motion). NB a centered circle has localCOM=0 ⇒ contact dynamics independent of the
+accumulating rotation angle ⇒ NO trig feedback ⇒ bit-exact despite continuous spin. Rebuilt the vehicle in the
+replica (1 pivot wheel+chassis, 2 pivot wheels, +welded referee, +20px drop) — **every variant rolls**, so the
+settle is NOT rolling friction / sleep / pivot / weld / drop in isolation. **ROOT CAUSE FOUND (shim, not
+engine):** pulled the exact lvl-36 "Ref mobile" data from `bin/SoccerBalls2_*_Data.xml` — the welded
+`referee_loose` is being built **KINEMATIC**, and a WeldJoint to an infinite-mass/zero-velocity kinematic body
+**pins the dynamic chassis** → vehicle frozen (angVel≡0, exactly the symptom). Referee **DYNAMIC** → exact
+structure ROLLS (correct). The 2012 game builds it dynamic: `referee_loose` body-template has `fixed="true"` but
+the lvl-36 **instance overrides `params="…,fixed=false"`** → `PhysicsBase.as:515-522` → `BodyType.DYNAMIC`. Shim
+is (almost certainly) leaking its lvl-7 referee→KINEMATIC floating-fix onto this welded ref. **Fix is shim-side:
+honour the instance `fixed` param (dynamic for the vehicle ref); engine unchanged** (weld-to-kinematic correctly
+pins — the ref just must not be kinematic). RESOLVED engine-side; shim fix handed to haxe-port.
 
 ### Per-shape collision-mask setter (2026-06-19)
 `setShapeCollisionMask(h, shapeIdx, mask)` — sets one shape's `colMask` + `dropStaleArbiters` (game

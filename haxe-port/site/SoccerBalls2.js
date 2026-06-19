@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "65";
+	app.meta.h["build"] = "66";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -5728,7 +5728,7 @@ Main.sb2Dump = $hx_exports["sb2Dump"] = function() {
 			haxe_NativeStackTrace.lastError = _g2;
 			ty = "?";
 		}
-		if(ty != "post_movable" && ty != "cannon" && ty != "path_object") {
+		if(ty != "post_movable" && ty != "cannon" && ty != "path_object" && ty != "ball_large" && ty != "metalpost_loose" && ty != "referee_loose" && ty != "switchable_block") {
 			continue;
 		}
 		var nb = go.nape_bodies;
@@ -5743,13 +5743,24 @@ Main.sb2Dump = $hx_exports["sb2Dump"] = function() {
 				continue;
 			}
 			var b = nb[i];
-			var out1 = ty + " bodies=" + nb.length + " #" + i + " type=" + Std.string(b._type) + " mass=";
-			var out2 = b.handle < 0 ? 0 : b.engine.getMass(b.handle);
-			var out3 = b.handle < 0 ? 0 : b.engine.getInertia(b.handle);
-			var _this = nape_geom_Vec2.bound(b,0);
-			var x = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
-			var _this1 = nape_geom_Vec2.bound(b,0);
-			out += out1 + out2 + " inertia=" + out3 + " pos=(" + (x | 0) + "," + ((_this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1)) | 0) + ") rot=" + (b.handle < 0 ? b._rot : b.engine.getRotRad(b.handle)) + " shapes=" + b._shapes._a.length + " nConstraints=" + b._constraintList._a.length + "\n";
+			var _this = nape_geom_Vec2.bound(b,1);
+			var sp = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
+			var _this1 = nape_geom_Vec2.bound(b,1);
+			var sp1 = _this1._body == null ? _this1._vx : _this1._body.prxGet(_this1._kind,0);
+			var _this2 = nape_geom_Vec2.bound(b,1);
+			var sp2 = _this2._body == null ? _this2._vy : _this2._body.prxGet(_this2._kind,1);
+			var _this3 = nape_geom_Vec2.bound(b,1);
+			var sp3 = Math.round(Math.sqrt(sp * sp1 + sp2 * (_this3._body == null ? _this3._vy : _this3._body.prxGet(_this3._kind,1))) * 10) / 10;
+			var out1 = ty + " #" + i + " type=" + Std.string(b._type) + " mass=" + Math.round((b.handle < 0 ? 0 : b.engine.getMass(b.handle)) * 100) / 100 + " inertia=";
+			var x = b.handle < 0 ? 0 : b.engine.getInertia(b.handle);
+			var _this4 = nape_geom_Vec2.bound(b,0);
+			var x1 = _this4._body == null ? _this4._vx : _this4._body.prxGet(_this4._kind,0);
+			var _this5 = nape_geom_Vec2.bound(b,0);
+			var x2 = _this5._body == null ? _this5._vy : _this5._body.prxGet(_this5._kind,1);
+			var _this6 = nape_geom_Vec2.bound(b,1);
+			var out2 = out1 + (x | 0) + " pos=(" + (x1 | 0) + "," + (x2 | 0) + ")" + " vel=(" + Math.round((_this6._body == null ? _this6._vx : _this6._body.prxGet(_this6._kind,0)) * 10) / 10 + ",";
+			var _this7 = nape_geom_Vec2.bound(b,1);
+			out += out2 + Math.round((_this7._body == null ? _this7._vy : _this7._body.prxGet(_this7._kind,1)) * 10) / 10 + ") spd=" + sp3 + " angVel=" + Math.round((b.handle < 0 ? b._angVel : b.engine.getAngVel(b.handle)) * 100) / 100 + " shapes=" + b._shapes._a.length + " nCon=" + b._constraintList._a.length + "\n";
 		}
 	}
 	if(out == "") {
@@ -6039,7 +6050,7 @@ Main.SimFrame = function() {
 			if(__v.get_length() > 30) {
 				var tmp = "[PORT] vel=(" + ((__v._body == null ? __v._vx : __v._body.prxGet(__v._kind,0)) | 0) + "," + ((__v._body == null ? __v._vy : __v._body.prxGet(__v._kind,1)) | 0) + ") spd=" + (__v.get_length() | 0) + " spin=";
 				var _this = __fb.nape_bodies[0];
-				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 897, className : "Main", methodName : "SimFrame"});
+				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 902, className : "Main", methodName : "SimFrame"});
 			}
 		}
 	}
@@ -6047,7 +6058,7 @@ Main.SimFrame = function() {
 };
 Main.sb2DiagGround = function() {
 	var space = PhysicsBase.GetNapeSpace();
-	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 961, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 966, className : "Main", methodName : "sb2DiagGround"});
 	var b = space._bodies.iterator();
 	while(b.hasNext()) {
 		var b1 = b.next();
@@ -6098,9 +6109,9 @@ Main.sb2DiagGround = function() {
 				++coversBall;
 			}
 		}
-		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 978, className : "Main", methodName : "sb2DiagGround"});
+		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 983, className : "Main", methodName : "sb2DiagGround"});
 	}
-	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 982, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 987, className : "Main", methodName : "sb2DiagGround"});
 };
 Main.__super__ = openfl_display_MovieClip;
 Main.prototype = $extend(openfl_display_MovieClip.prototype,{
@@ -60875,7 +60886,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 643411;
+	this.version = 307619;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

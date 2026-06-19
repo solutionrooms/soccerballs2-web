@@ -79,10 +79,55 @@ class UILevelSelect extends UIScreenInstance
     public var numPerPage : Int = 9;
     public var currentPage : Int = 0;
     
+    // openfl-swf won't re-render an imported SWF TextField when its .text changes (same bug the HUD
+    // counters hit, HudController.hx). So the cell's `levelNumber` shows a stale number on page change.
+    // Fix: hide the SWF field and draw our own overlay TextField (which DOES re-render), matching the
+    // original's colour/size with a black outline.
+    static function MakeNumOverlay(src : Dynamic) : flash.text.TextField
+    {
+        var tf = new flash.text.TextField();
+        tf.selectable = false;
+        tf.mouseEnabled = false;
+        tf.embedFonts = false;
+        tf.multiline = false;
+        tf.wordWrap = false;
+        tf.autoSize = flash.text.TextFieldAutoSize.NONE;
+        tf.x = src.x;
+        tf.y = src.y;
+        tf.width = src.width;
+        tf.height = src.height;
+        var color : Int = 0xF7941E; // game orange (fallback)
+        var size : Int = 16;
+        try {
+            var sf : flash.text.TextFormat = src.getTextFormat();
+            if (sf != null) {
+                if (sf.color != null) color = sf.color;
+                if (sf.size != null) size = Std.int(as3hx.Compat.parseFloat(sf.size));
+            }
+        } catch (e : Dynamic) {}
+        var fmt = new flash.text.TextFormat(GameFont.FAMILY, size, color, true);
+        fmt.align = flash.text.TextFormatAlign.CENTER;
+        tf.defaultTextFormat = fmt;
+        tf.filters = [new flash.filters.GlowFilter(0x000000, 1, 3, 3, 5, 1)]; // black outline like the original
+        return tf;
+    }
+
+    static function SetNumOverlay(tf : flash.text.TextField, s : String) : Void
+    {
+        if (tf == null) return;
+        try {
+            tf.text = s;
+            var fmt = tf.getTextFormat();
+            fmt.font = GameFont.FAMILY;
+            fmt.align = flash.text.TextFormatAlign.CENTER;
+            tf.setTextFormat(fmt);
+        } catch (e : Dynamic) {}
+    }
+
     public function InitPage()
     {
         icons = [];
-        
+
         var ox : Int = 145;
         var x : Int = ox;
         var y : Int = 90;
@@ -95,7 +140,18 @@ class UILevelSelect extends UIScreenInstance
             mc.scaleX = 1.6;
             mc.scaleY = 1.6;
             UI.AddAnimatedMCButton(mc, levelPressed, null, false, levelHovered);
-            
+
+            // live overlay for the level number (the imported SWF field won't re-render on .text change)
+            var lnum : Dynamic = (untyped mc).levelNumber;
+            if (lnum != null) {
+                try {
+                    var ov = MakeNumOverlay(lnum);
+                    (untyped lnum.parent).addChild(ov);
+                    lnum.visible = false; // hide the stale SWF original; the overlay replaces it
+                    (untyped mc).numOverlay = ov;
+                } catch (e : Dynamic) {}
+            }
+
             x += 150;
             if (x > Defs.displayarea_w - 200)
             {
@@ -136,7 +192,8 @@ class UILevelSelect extends UIScreenInstance
                 mc.visible = true;
                 var l : Level = Levels.GetLevel(i);
                 (untyped mc).levelID = i;
-                (untyped mc).levelNumber.text = Std.string(as3hx.Compat.parseInt(i + 1));
+                if ((untyped mc).numOverlay != null) SetNumOverlay((untyped mc).numOverlay, Std.string(as3hx.Compat.parseInt(i + 1)));
+                else (untyped mc).levelNumber.text = Std.string(as3hx.Compat.parseInt(i + 1));
                 
                 if (Game.usedebug)
                 {
@@ -171,12 +228,12 @@ class UILevelSelect extends UIScreenInstance
                 {
                     (untyped mc).canPress = true;
 
-                    (untyped mc).levelNumber.visible = true;
+                    if ((untyped mc).numOverlay != null) (untyped mc).numOverlay.visible = true; else (untyped mc).levelNumber.visible = true;
                     mc.filters = [];
                 }
                 else
                 {
-                    (untyped mc).levelNumber.visible = true;
+                    if ((untyped mc).numOverlay != null) (untyped mc).numOverlay.visible = true; else (untyped mc).levelNumber.visible = true;
                     mc.filters = [UI.greyFilter];
                 }
                 

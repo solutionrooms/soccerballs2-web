@@ -146,6 +146,8 @@ class Game
     public static var scrollScreenBD : BitmapData;
     public static var scrollScreenTempBD : BitmapData;
     public static var foregroundScreenBD : BitmapData;
+    public static var foregroundB : Bitmap;          // overlay layer composited ABOVE the tilemap (aim line)
+    public static var foregroundActive : Bool = false; // did the aim line draw to the foreground this frame
     public static var flattenedScreenBD : BitmapData;
     public static var particleScreenBD : BitmapData;
     public static var layerScreenBD : BitmapData;
@@ -1418,6 +1420,7 @@ class Game
             GameObjects.PreUpdateGOsBeforePhysics();
             PhysicsBase.TimeStep();
             GameObjects.UpdateGOsFromPhysics_Nape();
+            BounceDebug.Tick(); // sample ball velocity each physics step (bounce capture)
             EngineDebug.EndTimer("nape");
             
             if (levelState == levelState_Play || levelState == levelState_LevelStart || levelState == levelState_Complete || levelState == levelState_BonusSection || levelState == levelState_BonusSectionStart)
@@ -2107,6 +2110,12 @@ class Game
         TileRenderer.Begin();
         var bd : BitmapData = screenBD;
 
+        // Foreground overlay (aim line): clear last frame's content + reset the per-frame draw flag. The
+        // aim line composites here (above the tilemap) during GameObjects.Render; visibility is set after,
+        // so the layer is only uploaded to the GPU on frames that actually draw (idle = zero cost).
+        if (foregroundScreenBD != null && foregroundActive) foregroundScreenBD.fillRect(foregroundScreenBD.rect, 0);
+        foregroundActive = false;
+
         var gfxid : Int = 0;        var numf : Int = 0;        var px : Float = Math.NaN;
         var x : Int = 0;        var y : Int = 0;
 
@@ -2125,6 +2134,11 @@ class Game
         GameObjects.Render(bd);
         Particles.Render(bd);
         EngineDebug.EndTimer("r_go");
+
+        // physics debug-draw (grid view) shares the foreground layer with the aim line
+        if (DebugDraw.on && foregroundScreenBD != null) { DebugDraw.Draw(foregroundScreenBD); foregroundActive = true; }
+        // show the foreground layer only when the aim line / debug-draw actually drew this frame (else off-GPU)
+        if (foregroundB != null) foregroundB.visible = foregroundActive;
 
         EngineDebug.RenderNape(bd);
 
@@ -2144,6 +2158,12 @@ class Game
         TileRenderer.Begin();
         var bd : BitmapData = screenBD;
 
+        // Foreground overlay (aim line): clear last frame's content + reset the per-frame draw flag. The
+        // aim line composites here (above the tilemap) during GameObjects.Render; visibility is set after,
+        // so the layer is only uploaded to the GPU on frames that actually draw (idle = zero cost).
+        if (foregroundScreenBD != null && foregroundActive) foregroundScreenBD.fillRect(foregroundScreenBD.rect, 0);
+        foregroundActive = false;
+
         var gfxid : Int = 0;        var numf : Int = 0;        var px : Float = Math.NaN;
         var x : Int = 0;        var y : Int = 0;
 
@@ -2162,6 +2182,11 @@ class Game
         GameObjects.Render(bd);
         Particles.Render(bd);
         EngineDebug.EndTimer("r_go");
+
+        // physics debug-draw (grid view) shares the foreground layer with the aim line
+        if (DebugDraw.on && foregroundScreenBD != null) { DebugDraw.Draw(foregroundScreenBD); foregroundActive = true; }
+        // show the foreground layer only when the aim line / debug-draw actually drew this frame (else off-GPU)
+        if (foregroundB != null) foregroundB.visible = foregroundActive;
 
         EngineDebug.RenderNape(bd);
 
@@ -2785,9 +2810,16 @@ class Game
             g.moveTo(p.x, p.y);
             g.lineTo(p1.x, p1.y);
         }
-        
-        
-        bd.draw(fillScreenMC, null, null, null, null, false);
+
+
+        // Composite onto the FOREGROUND layer (above the tilemap) so the aim line draws over all sprites
+        // (trees/scenery), instead of the software underlay where it was hidden behind them.
+        if (foregroundScreenBD != null) {
+            foregroundScreenBD.draw(fillScreenMC, null, null, null, null, false);
+            foregroundActive = true;
+        } else {
+            bd.draw(fillScreenMC, null, null, null, null, false);
+        }
     }
     
     public static function RenderBallPathOld(bd : BitmapData, _x : Float, _y : Float, _dx : Float, _dy : Float)

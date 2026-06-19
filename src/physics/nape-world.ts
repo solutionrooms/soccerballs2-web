@@ -8,6 +8,7 @@
 // which is exactly why it matches the original feel more closely than planck.
 import { VARS } from '../game/defs';
 import { triangulate } from './geometry';
+import { NapeReplica } from './replica/nape-core';
 import {
   PhysicsWorld,
   type PhysWorld,
@@ -78,13 +79,32 @@ const BASE = (import.meta as { env?: { BASE_URL?: string } }).env?.BASE_URL ?? '
 const NAPE_BUILD = '20260613e';
 let napeLoadPromise: Promise<void> | null = null;
 
-/** true once nape.js has been loaded and window.NapeWorld is constructible */
-export function napeLoaded(): boolean {
-  return typeof (globalThis as unknown as NapeGlobal).NapeWorld === 'function';
+// A/B engine flag: when on, NapePhysWorld is backed by the hand-ported bit-exact
+// NapeReplica (./replica/nape-core) instead of the compiled nape.js. The replica
+// matches the ORIGINAL game's Nape, so behaviour intentionally differs from
+// nape.js (which is the wrong, newer build). Default OFF; enable with the URL
+// param ?physics=replica, or call setReplicaEngine(true) from a settings toggle.
+let replicaEngine = false;
+try {
+  if (typeof location !== 'undefined' && /[?&]physics=replica\b/.test(location.search)) replicaEngine = true;
+} catch {
+  /* no location (headless/tsx) */
+}
+export function useReplicaEngine(): boolean {
+  return replicaEngine;
+}
+export function setReplicaEngine(on: boolean): void {
+  replicaEngine = on;
 }
 
-/** Inject nape.js once; resolves when window.NapeWorld is available. */
+/** true once the engine is constructible (replica needs no load; nape.js needs window.NapeWorld) */
+export function napeLoaded(): boolean {
+  return replicaEngine || typeof (globalThis as unknown as NapeGlobal).NapeWorld === 'function';
+}
+
+/** Inject nape.js once; resolves when window.NapeWorld is available (no-op for the replica). */
 export function ensureNapeLoaded(): Promise<void> {
+  if (replicaEngine) return Promise.resolve();
   if (napeLoaded()) return Promise.resolve();
   if (napeLoadPromise) return napeLoadPromise;
   napeLoadPromise = new Promise<void>((resolve, reject) => {
@@ -105,10 +125,15 @@ export class NapePhysWorld implements PhysWorld {
   private impactCbs: ImpactCb[] = [];
 
   constructor(materials: Record<string, MaterialDef>) {
-    const Ctor = (globalThis as unknown as NapeGlobal).NapeWorld;
-    if (!Ctor) throw new Error('NapeWorld not loaded — call ensureNapeLoaded() first');
     this.materials = materials;
-    this.nape = new Ctor(VARS.gravity); // px/s^2 (Nape runs in pixels)
+    if (replicaEngine) {
+      // bit-exact hand-port of the ORIGINAL game's Nape (A/B vs nape.js)
+      this.nape = new NapeReplica(VARS.gravity);
+    } else {
+      const Ctor = (globalThis as unknown as NapeGlobal).NapeWorld;
+      if (!Ctor) throw new Error('NapeWorld not loaded — call ensureNapeLoaded() first');
+      this.nape = new Ctor(VARS.gravity); // px/s^2 (Nape runs in pixels)
+    }
     PhysicsWorld.active = this;
   }
 

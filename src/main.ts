@@ -94,7 +94,8 @@ function frame(now: number): void {
 
   // debug overlay: engine + level number on every screen
   const level = current instanceof GameScene ? current.levelNumber : null;
-  renderer.withStageTransform((g) => drawEngineBadge(g, 'nape', level));
+  const engineLabel = settings.replicaPhysics ? 'nape-replica' : 'nape';
+  renderer.withStageTransform((g) => drawEngineBadge(g, engineLabel, level));
 
   if (pending) {
     const next = pending;
@@ -105,8 +106,11 @@ function frame(now: number): void {
 }
 
 async function boot(): Promise<void> {
-  // Nape is the only physics engine — load it before any gameplay
-  const { ensureNapeLoaded } = await import('./physics/world');
+  // Physics engine: nape.js (default) or the bit-exact replica (Settings toggle).
+  // Apply the saved choice before any gameplay world is constructed; nape.js is
+  // still loaded so the engine can be A/B-switched live without a reload.
+  const { ensureNapeLoaded, setReplicaEngine } = await import('./physics/world');
+  setReplicaEngine(settings.replicaPhysics);
   await ensureNapeLoaded();
   await atlas.load(`${base}assets/pages/`);
   // ?debug=1 opens the asset viewer; default boots straight into gameplay

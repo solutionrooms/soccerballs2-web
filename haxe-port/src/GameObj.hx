@@ -4674,6 +4674,9 @@ class GameObj extends GameObjBase
         stillTimer = 0;
         ballTimer = 0;
         footballHitSomthing = false;
+        // capture the kick (ball pos + resulting launch velocity) for the bounce debugger / replay
+        if (nape_bodies != null && nape_bodies.length > 0 && nape_bodies[0] != null)
+            BounceDebug.RecordKick(nape_bodies[0].position.x, nape_bodies[0].position.y, nape_bodies[0].velocity.x, nape_bodies[0].velocity.y);
     }
     public var football_lastPlayerToHaveBall : GameObj;
     public var football_playerGO : GameObj;

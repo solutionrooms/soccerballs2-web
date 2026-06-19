@@ -16,6 +16,8 @@
 
 	::if linkedLibraries::::foreach (linkedLibraries)::
 	<script type="text/javascript" src="::__current__::"></script>::end::::end::
+	::if (SET_REPLICA)::<!-- bit-exact original-Nape replica (bundled from src/physics/replica); only the -D replica build loads + uses it. SET_REPLICA is lime's template flag for the command-line `-Dreplica` define. -->
+	<script type="text/javascript" src="./nape-replica.js"></script>::end::
 	<script type="text/javascript" src="./::APP_FILE::.js"></script>
 
 	<script>

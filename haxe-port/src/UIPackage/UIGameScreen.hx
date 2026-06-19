@@ -38,6 +38,8 @@ class UIGameScreen extends UIScreenInstance
         (untyped Game.main).screenB.visible = !TileRenderer.noUnderlay;
         // GPU sprite layer above the software underlay (screenB = background + vector terrain).
         if (TileRenderer.tilemap != null) titleMC.addChild(TileRenderer.tilemap);
+        // foreground overlay ABOVE the tilemap: the aim line must render over all sprites (trees/scenery).
+        if (Game.foregroundB != null) titleMC.addChild(Game.foregroundB);
 
         Game.currentMC = titleMC;
         (untyped Game.main).screenB.x = 0;

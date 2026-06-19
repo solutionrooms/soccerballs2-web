@@ -5,11 +5,11 @@ import { uiFont } from './ui-screen';
 
 export function drawEngineBadge(
   g: CanvasRenderingContext2D,
-  engine: 'nape',
+  engine: 'nape' | 'nape-replica',
   level: number | null,
 ): void {
-  const isNape = engine === 'nape';
-  const label = isNape ? 'NAPE' : 'BOX2D';
+  const isReplica = engine === 'nape-replica';
+  const label = isReplica ? 'NAPE·R' : 'NAPE';
   const text = level != null ? `${label}  ·  Lv ${level}` : label;
 
   g.save();
@@ -20,7 +20,7 @@ export function drawEngineBadge(
   const x = STAGE_W - w - 6;
   const y = STAGE_H - h - 6;
   // engine-specific colour so the active engine reads at a glance
-  g.fillStyle = isNape ? 'rgba(214,84,28,0.88)' : 'rgba(28,96,206,0.88)';
+  g.fillStyle = isReplica ? 'rgba(28,96,206,0.88)' : 'rgba(214,84,28,0.88)';
   g.beginPath();
   g.roundRect(x, y, w, h, 6);
   g.fill();

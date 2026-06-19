@@ -119,6 +119,7 @@ class Main extends MovieClip
         try {
             var q : String = js.Browser.window.location.search;
             if (q != null && (q.indexOf("fps") >= 0 || q.indexOf("perf") >= 0)) { __perfOn = true; tf.visible = true; }
+            if (q != null && q.indexOf("bounce") >= 0) BounceDebug.SetOn(true);
         } catch (err : Dynamic) {}
         // Toggle key: backtick/tilde (` , keyCode 192). P is the in-game pause key so it can't be used.
         // Persist so the choice survives reloads (same setting the options screen drives).
@@ -126,8 +127,17 @@ class Main extends MovieClip
         // Benchmark: number keys 1-6 set the render-stress multiplier (1/2/4/8/16/32) — push every
         // sprite N times so the render cost scales N×, to reveal headroom on a fast CPU (RAF-capped).
         var stressLevels = [1, 2, 4, 8, 16, 32];
+        var dbK = [-1];   // boxed last keyCode + time so the two listeners below share a debounce
+        var dbT = [0.0];
         var key = function(kc : Int) : Void {
+            // OpenFL's stage KEY_DOWN and the document keydown fallback BOTH fire one physical press, so
+            // a toggle would flip twice (net no change → "B does nothing"). Debounce duplicate codes.
+            var now = haxe.Timer.stamp();
+            if (kc == dbK[0] && (now - dbT[0]) < 0.08) return;
+            dbK[0] = kc; dbT[0] = now;
             if (kc == 192) toggle();
+            else if (kc == 66) BounceDebug.Toggle(); // 'B' = bounce/kick capture overlay
+            else if (kc == 71) DebugDraw.Toggle();   // 'G' = physics debug-draw (grid view of collision shapes)
             else if (kc >= 49 && kc <= 54) TileRenderer.stress = stressLevels[kc - 49];
         };
         theStage.addEventListener(KeyboardEvent.KEY_DOWN, function(e : KeyboardEvent) : Void { key(e.keyCode); });
@@ -239,9 +249,13 @@ class Main extends MovieClip
         screenB = new Bitmap(screenBD);
         // GPU sprite layer composited above screenB (the software underlay: background + vector terrain).
         TileRenderer.Init(Defs.displayarea_w, Defs.displayarea_h);
+        // foreground overlay composited ABOVE the tilemap (the aim line, which must sit over all sprites).
+        Game.foregroundScreenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
+        Game.foregroundB = new Bitmap(Game.foregroundScreenBD);
+        Game.foregroundB.visible = false;
     }
-    
-    
+
+
     public function SetEverythingUpOnce() : Void
     {
         SetEverythingUpOnce2();
@@ -511,6 +525,239 @@ class Main extends MovieClip
         var r : Dynamic = Game.boundingRectangle;
         if (r == null) return "null";
         return "x=" + r.x + " y=" + r.y + " w=" + r.width + " h=" + r.height + " (right=" + (r.x+r.width) + " bottom=" + (r.y+r.height) + ")";
+    }
+
+    // DIAGNOSTIC for the -Dreplica terrain fall-through: dump, per static polygon (terrain) body,
+    // the polygon-shape count and the first few triangles' LOCAL verts (exactly as handed to the
+    // engine's addPolygon) WITH signed shoelace area. Answers the nape-replica session's three asks:
+    //   (i) shape count actually added · (ii) triangle verts · (iii) isDynamic==false (+winding via sign).
+    // Portable across the default (nape-haxe4) and -Dreplica (shim) builds.
+    @:expose("sb2TerrainDump") public static function sb2TerrainDump() : String {
+        var space = PhysicsBase.GetNapeSpace();
+        var out = "";
+        var bodyN = 0;
+        for (b in space.bodies) {
+            if (!b.isStatic()) continue;
+            var tris = 0;
+            for (sh in b.shapes) if (sh.isPolygon()) tris++;
+            if (tris == 0) continue;
+            bodyN++;
+            out += "\nBODY#" + bodyN + " static=" + b.isStatic() + " dyn=" + b.isDynamic()
+                + " pos=(" + Std.int(b.position.x) + "," + Std.int(b.position.y) + ") polyShapes=" + tris;
+            var shown = 0;
+            for (sh in b.shapes) {
+                if (!sh.isPolygon()) continue;
+                if (shown >= 3) break;
+                shown++;
+                var poly : nape.shape.Polygon = cast sh;
+                var lv = poly.localVerts;
+                var m = lv.length;
+                var area = 0.0;
+                for (i in 0...m) {
+                    var a = lv.at(i);
+                    var q = lv.at((i + 1) % m);
+                    area += a.x * q.y - q.x * a.y;
+                }
+                area *= 0.5;
+                out += "\n  tri#" + shown + " n=" + m + " signedArea=" + area + " local=";
+                for (i in 0...m) out += "(" + lv.at(i).x + "," + lv.at(i).y + ")";
+            }
+            if (bodyN >= 5) break;
+        }
+        if (bodyN == 0) out = "NO static polygon bodies";
+        return "staticPolyBodies(first " + bodyN + "):" + out;
+    }
+
+    // Dump every referee GO + its physics body: render pos vs body pos vs body type/rotation.
+    // Level 9's ref is fixed=true (static), placed by level data — so body.pos should equal the
+    // placement and match between builds. If body.pos != placement, the shim/replica shifted it.
+    @:expose("sb2RefInfo") public static function sb2RefInfo() : String {
+        var out = "";
+        for (go in GameObjects.objs) {
+            if (go == null || go.name != "ref") continue;
+            out += "REF go=(" + Std.int(go.xpos) + "," + Std.int(go.ypos) + ") dir=" + go.dir
+                + " updFromPhys=" + (go.updateFromPhysicsFunction != null);
+            var nb : Array<Dynamic> = go.nape_bodies;
+            if (nb != null && nb.length > 0 && nb[0] != null) {
+                var b : nape.phys.Body = nb[0]; // typed so .position calls the getter (Dynamic .position bypasses it)
+                out += " body[static=" + b.isStatic() + " dyn=" + b.isDynamic()
+                    + " pos=(" + Std.int(b.position.x) + "," + Std.int(b.position.y) + ") rot=" + b.rotation + "]";
+            } else out += " (no nape body)";
+            out += "\n";
+        }
+        return out == "" ? "no ref GO" : out;
+    }
+
+    // Level-19 switch/switchable-block diagnostic. Blocks are GOs with a logic link (logicLink0 = the
+    // switch). "Disappear" sets the block's shape collisionMask to 0 via SetBodyCollisionMask — this
+    // dump shows the shim-side colMask plus all dynamic body positions, so we can see whether the mask
+    // change actually drops the ball through (propagation to the replica) or leaves it stuck (gap).
+    @:expose("sb2Switch19Dump") public static function sb2Switch19Dump() : String {
+        var out = "BLOCKS:";
+        for (go in GameObjects.objs) {
+            if (go == null || go.logicLink0 == null) continue;
+            var m = -1;
+            var nb : Array<Dynamic> = go.nape_bodies;
+            if (nb != null && nb.length > 0 && nb[0] != null) {
+                var b : nape.phys.Body = nb[0];
+                if (b.shapes.length > 0) m = b.shapes.at(0).filter.collisionMask;
+            }
+            out += "\n  block id=" + go.id + " pos=(" + Std.int(go.xpos) + "," + Std.int(go.ypos)
+                + ") state=" + go.state + " colMask=" + m;
+        }
+        out += "\nDYN bodies:";
+        var space = PhysicsBase.GetNapeSpace();
+        for (b in space.bodies) {
+            if (!b.isDynamic()) continue;
+            out += " (" + Std.int(b.position.x) + "," + Std.int(b.position.y) + ")";
+        }
+        return out;
+    }
+
+    // Force-fire every switchable block's switchFunction (as if its switch was hit), bypassing collision
+    // detection. Lets us test the disappear→drop path in isolation. Returns how many it fired.
+    @:expose("sb2FireAllSwitches") public static function sb2FireAllSwitches() : Int {
+        var n = 0;
+        for (go in GameObjects.objs) {
+            if (go == null) continue;
+            if (go.logicLink0 != null && go.switchFunction != null) { go.switchFunction(); n++; }
+        }
+        return n;
+    }
+
+    // BOUNCE DEBUGGER harness. sb2ReplayKick replays a captured kick deterministically (teleport the
+    // ball to (x,y), set launch velocity (vx,vy)) so a "lost bounce" can be reproduced exactly.
+    @:expose("sb2ReplayKick") public static function sb2ReplayKick(x : Float, y : Float, vx : Float, vy : Float) : Void {
+        var go : Dynamic = GameVars.footballGO;
+        if (go == null) return;
+        var b : nape.phys.Body = go.nape_bodies[0]; // typed so .position/.velocity use the getters
+        // only teleport if meaningfully off the current spot — teleporting onto nearby geometry (e.g. a
+        // post by the kick origin) embeds the ball and the launch fails.
+        if (Math.abs(x - b.position.x) > 25 || Math.abs(y - b.position.y) > 25) b.position.setxy(x, y);
+        var player : Dynamic = go.football_playerGO;
+        if (player != null) player.player_currentFootball = null; // release the player's hold (real-kick flow)
+        // Use the REAL launch path: Football_Launch sets state=2, makes the ball movable, and clears the
+        // flags (stillTimer/ballTimer/footballHitSomthing) so the ball actually flies and doesn't bounce
+        // straight back into the player's hands. Then override the impulse-velocity with the exact one.
+        var v = new Vec();
+        v.Set(Math.atan2(vy, vx), Math.sqrt(vx * vx + vy * vy));
+        go.Football_Launch(v);
+        go.SetBodyAngularVelocity(0, 0);
+        go.SetBodyLinearVelocity(0, vx, vy);
+        BounceDebug.RecordKick(x, y, vx, vy);
+    }
+
+    @:expose("sb2LastKick") public static function sb2LastKick() : String {
+        if (!BounceDebug.hasKick) return "no kick recorded";
+        var s = "kick @(" + Std.int(BounceDebug.kickX) + "," + Std.int(BounceDebug.kickY) + ") v=("
+            + Std.int(BounceDebug.kickVX) + "," + Std.int(BounceDebug.kickVY) + ")  " + BounceDebug.ReproStr();
+        if (BounceDebug.hasLand)
+            s += "  || land#" + BounceDebug.landN + " @(" + Std.int(BounceDebug.landX) + "," + Std.int(BounceDebug.landY)
+                + ") vy " + Std.int(BounceDebug.vyIn) + "->" + Std.int(BounceDebug.vyOut)
+                + (BounceDebug.bounced ? " BOUNCED" : " NO-BOUNCE");
+        return s;
+    }
+
+    @:expose("sb2BounceDebug") public static function sb2BounceDebug(on : Bool) : Void {
+        BounceDebug.SetOn(on);
+    }
+
+    // Full capture of the last shot: trajectory (x,y,vy per step) + each impact with the terrain it hit.
+    @:expose("sb2BouncePath") public static function sb2BouncePath() : String {
+        return BounceDebug.PathStr();
+    }
+
+    // UI navigation hooks (debug/verification): jump to a screen + page the level select.
+    @:expose("sb2Goto") public static function sb2Goto(screen : String) : Void {
+        uIPackage.UI.StartTransition(screen);
+    }
+    @:expose("sb2LSNextPage") public static function sb2LSNextPage() : Void {
+        var s : Dynamic = uIPackage.UI.currentScreen;
+        if (s != null) try { s.NextPageClicked(null); } catch (e : Dynamic) {}
+    }
+
+    // Dump the terrain triangles (world verts + elasticity) near an arbitrary point — used to compare a
+    // "bounce" landing spot vs a "no-bounce" one and see the seam geometry difference.
+    @:expose("sb2TerrainAt") public static function sb2TerrainAt(px : Float, py : Float) : String {
+        var out = "terrain near (" + Std.int(px) + "," + Std.int(py) + "):";
+        var space = PhysicsBase.GetNapeSpace();
+        var n = 0;
+        for (sb in space.bodies) {
+            if (!sb.isStatic()) continue;
+            for (sh in sb.shapes) {
+                if (!sh.isPolygon()) continue;
+                var p : nape.shape.Polygon = cast sh;
+                var lv = p.worldVerts;
+                var near = false;
+                for (i in 0...lv.length) { var v = lv.at(i); if (Math.abs(v.x - px) < 40 && Math.abs(v.y - py) < 40) { near = true; break; } }
+                if (near) {
+                    out += "\n  e=" + sh.material.elasticity + " verts=";
+                    for (i in 0...lv.length) out += "(" + Std.int(lv.at(i).x) + "," + Std.int(lv.at(i).y) + ")";
+                    n++;
+                    if (n >= 8) return out;
+                }
+            }
+        }
+        return out + (n == 0 ? " (none)" : "");
+    }
+
+    // Bounce-bug probe: dump the ball's shape elasticities + the terrain triangles around the ball
+    // (world verts + elasticity), so a no-bounce landing can be reconstructed as a minimal replica test.
+    @:expose("sb2BounceProbe") public static function sb2BounceProbe() : String {
+        var go : Dynamic = GameVars.footballGO;
+        if (go == null) return "no ball";
+        var b : nape.phys.Body = go.nape_bodies[0];
+        var bx = b.position.x; var by = b.position.y;
+        var out = "ball@(" + Std.int(bx) + "," + Std.int(by) + ") shapeE=[";
+        for (sh in b.shapes) out += sh.material.elasticity + (sh.sensorEnabled ? "(sensor) " : " ");
+        out += "]\nterrain tris near ball:";
+        var space = PhysicsBase.GetNapeSpace();
+        var n = 0;
+        for (sb in space.bodies) {
+            if (!sb.isStatic()) continue;
+            for (sh in sb.shapes) {
+                if (!sh.isPolygon()) continue;
+                var p : nape.shape.Polygon = cast sh;
+                var lv = p.worldVerts;
+                var near = false;
+                for (i in 0...lv.length) { var v = lv.at(i); if (Math.abs(v.x - bx) < 45 && Math.abs(v.y - by) < 45) { near = true; break; } }
+                if (near) {
+                    out += "\n  tri e=" + sh.material.elasticity + " verts=";
+                    for (i in 0...lv.length) out += "(" + Std.int(lv.at(i).x) + "," + Std.int(lv.at(i).y) + ")";
+                    n++;
+                    if (n >= 6) return out;
+                }
+            }
+        }
+        return out;
+    }
+
+    // ISOLATION test for the zero-vert terrain bug: pure shim, no game data. Build a GeomPoly from a
+    // known square, triangularDecomposition() it, and report each triangle's verts. If THIS returns
+    // zeros, the fault is in the shim GeomPoly/Vec2 path; if it returns the real square corners, the
+    // fault is in how the game's terrain points reach GeomPoly.
+    @:expose("sb2GeomPolyTest") public static function sb2GeomPolyTest() : String {
+        var pts : Array<nape.geom.Vec2> = [
+            new nape.geom.Vec2(-50, -50),
+            new nape.geom.Vec2( 50, -50),
+            new nape.geom.Vec2( 50,  50),
+            new nape.geom.Vec2(-50,  50)
+        ];
+        var out = "input=";
+        for (p in pts) out += "(" + p.x + "," + p.y + ")";
+        var gp = new nape.geom.GeomPoly(pts);
+        // wrap source GeomPoly in a Polygon to read its verts via public API (same path the game uses)
+        var srcLv = new nape.shape.Polygon(gp).localVerts;
+        out += " | gp.size=" + gp.size() + " gpVerts=";
+        for (i in 0...srcLv.length) out += "(" + srcLv.at(i).x + "," + srcLv.at(i).y + ")";
+        var gpl = gp.triangularDecomposition();
+        out += " | tris=" + gpl.length;
+        for (ti in 0...gpl.length) {
+            var tlv = new nape.shape.Polygon(gpl.at(ti)).localVerts;
+            out += " tri" + ti + "=";
+            for (i in 0...tlv.length) out += "(" + tlv.at(i).x + "," + tlv.at(i).y + ")";
+        }
+        return out;
     }
 
     // Decoupled fixed-timestep loop. openfl HTML5 dispatches ENTER_FRAME every requestAnimationFrame and

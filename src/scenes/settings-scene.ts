@@ -4,6 +4,7 @@
 import type { Scene, SceneContext } from './scene';
 import { STAGE_W } from '../game/defs';
 import { uiFont, fillTextSafe } from '../render/ui-screen';
+import { setReplicaEngine } from '../physics/world';
 
 interface Row {
   y: number;
@@ -20,9 +21,9 @@ const ROW_X = PANEL_X + 24;
 const ROW_W = PANEL_W - 48;
 const PANEL_Y = 44;
 const PANEL_H = 470;
-const ROW_Y0 = 120;
+const ROW_Y0 = 100;
 const ROW_STEP = 72;
-const BACK_Y = 452;
+const BACK_Y = 460;
 
 export class SettingsScene implements Scene {
   private rows: Row[] = [];
@@ -77,6 +78,16 @@ export class SettingsScene implements Scene {
         ctx.saveSettings();
       },
       () => 'show the in-level "Watch" button to replay the recorded route',
+    );
+    mk(
+      'Physics engine',
+      () => (this.s.replicaPhysics ? 'Replica' : 'Nape.js'),
+      (ctx) => {
+        ctx.settings.replicaPhysics = !ctx.settings.replicaPhysics;
+        setReplicaEngine(ctx.settings.replicaPhysics);
+        ctx.saveSettings();
+      },
+      () => 'Replica = bit-exact port of the original engine — applies on level restart / next level',
     );
   }
 

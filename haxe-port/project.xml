@@ -15,7 +15,13 @@
 	     of reading raw fields that don't exist. Also enables named-instance assignment in the SWF
 	     timeline (parent.childName), matching Flash. -->
 	<haxedef name="openfljs" />
-	<haxelib name="nape-haxe4" />
+	<!-- Physics engine swap. DEFAULT build → nape-haxe4 2.0.22 (newer Nape, wrong feel).
+	     `-Dreplica` build → the bit-exact 2012-Nape replica via a Haxe `nape.*` shim package
+	     (nape-shim/) that re-presents the same nape-haxe4 API the game already calls and routes
+	     to the bundled TS engine (nape-replica.js, global `NapeReplica`). Zero game-code edits:
+	     the game's `import nape.*` bind to the shim instead of the haxelib. -->
+	<haxelib name="nape-haxe4" unless="replica" />
+	<source path="nape-shim" if="replica" />
 	<!-- original SWF library symbols (UI clips, character rigs, fonts) -->
 	<haxelib name="swf" />
 	<library path="assets/SoccerBalls2.swf" generate="true" preload="true" />

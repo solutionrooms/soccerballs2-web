@@ -27,27 +27,27 @@ class UIPreparingScreen extends UIScreenInstance
         
         titleMC = new ScreenPreparing();
         ScreenSize.ScaleMovieClip(titleMC);
-        
+        // The prep now completes in a single frame (~0.4s of real work, no per-frame fill animation),
+        // so the "preparing artwork" graphic would only flash. Keep the MC (it drives ENTER_FRAME) but
+        // hide it — the user goes from the loader straight to the title with no visible prep screen.
+        titleMC.visible = false;
+
         Preparing.Modify();
-        
+
         titleMC.addEventListener(Event.ENTER_FRAME, UpdatePreparingScreen, false, 0, true);
-        
+
         Lic.PlayWithScoresButton((untyped titleMC).btn_PlayWithHighcores);
-        
+
         if (Game.doWalkthrough)
         {
             (untyped titleMC).btn_PlayWithHighcores.visible = false;
         }
-        
-        
-        
-        preparingGraphicsTimer = 0;
+
         preparingGraphicsIndex = 0;
         PreparingScreenSetBar();
     }
     public var preparingScreenDone : Bool = false;
-    public var preparingGraphicsTimer : Int = 0;
-    
+
     public var preparingGraphicsIndex : Int = 0;
     public var fontWaitFrames : Int = 0; // frames spent waiting on the Komika Axis webfont (time-boxed)
 
@@ -57,43 +57,40 @@ class UIPreparingScreen extends UIScreenInstance
         {
             return;
         }
-        preparingGraphicsTimer--;
-        if (preparingGraphicsTimer > 0)
-        {
-            return;
-        }
-        PreparingScreenSetBar();
 
-
-        var po : PreparingObject = Preparing.GetPreparingList()[preparingGraphicsIndex];
-        // The bitmap font (font1) is rasterized from the Komika Axis browser FontFace; wait until it has
-        // loaded so the glyphs aren't baked with a fallback font. Time-boxed (~2s) so boot never hangs.
-        if (po.type == "font" && !GameFont.ready && fontWaitFrames < 120)
+        // Process the ENTIRE remaining prep list this frame. The real work is only ~0.5s total; the
+        // old one-item-per-frame pacing just animated the fill bar for ~2-5s of pure wait. The single
+        // async gate is the Komika Axis webfont — hold before the font item so the bitmap glyphs aren't
+        // baked with a fallback. Time-boxed (~120 frames) so boot never hangs.
+        var list : Array<Dynamic> = Preparing.GetPreparingList();
+        while (preparingGraphicsIndex < list.length)
         {
-            fontWaitFrames++;
-            return;
+            var po : PreparingObject = list[preparingGraphicsIndex];
+            if (po.type == "font" && !GameFont.ready && fontWaitFrames < 120)
+            {
+                fontWaitFrames++;
+                PreparingScreenSetBar();
+                return; // wait one frame for the font, then resume the loop next frame
+            }
+            Preparing.DoPreparingObject(po);
+            preparingGraphicsIndex++;
         }
-        Preparing.DoPreparingObject(po);
-        
+
         PreparingScreenSetBar();
-        preparingGraphicsIndex++;
-        if (preparingGraphicsIndex >= Preparing.GetPreparingList().length)
+        preparingScreenDone = true;
+        titleMC.removeEventListener(Event.ENTER_FRAME, UpdatePreparingScreen);
+
+        var mem2 : Int = as3hx.Compat.parseInt(System.totalMemory / 1024);
+        var memused : Int = as3hx.Compat.parseInt(mem2 - mem1);
+        Utils.print("memory used for gfx: " + memused + "k");
+
+        if (Game.doWalkthrough)
         {
-            preparingScreenDone = true;
-            titleMC.removeEventListener(Event.ENTER_FRAME, UpdatePreparingScreen);
-            
-            var mem2 : Int = as3hx.Compat.parseInt(System.totalMemory / 1024);
-            var memused : Int = as3hx.Compat.parseInt(mem2 - mem1);
-            Utils.print("memory used for gfx: " + memused + "k");
-            
-            if (Game.doWalkthrough)
-            {
-                UI.StartTransition("walkthrough");
-            }
-            else
-            {
-                UI.StartTransition("title");
-            }
+            UI.StartTransition("walkthrough");
+        }
+        else
+        {
+            UI.StartTransition("title");
         }
     }
     public function PreparingScreenSetBar()

@@ -13,4 +13,11 @@ export {
   type JointSpec,
 } from './phys-world';
 export { triangulate } from './geometry';
-export { NapePhysWorld, ensureNapeLoaded, napeLoaded, NAPE_LINEAR_DRAG } from './nape-world';
+export {
+  NapePhysWorld,
+  ensureNapeLoaded,
+  napeLoaded,
+  NAPE_LINEAR_DRAG,
+  useReplicaEngine,
+  setReplicaEngine,
+} from './nape-world';

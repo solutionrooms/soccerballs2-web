@@ -2281,19 +2281,22 @@
       const d34 = p0x * ref.gnx + p0y * ref.gny - ref.gproj;
       const d35 = p1x * ref.gnx + p1y * ref.gny - ref.gproj;
       if (d34 > 0 && d35 > 0) return null;
-      const rev = sign === -1;
-      const arb = this.getArbiter(bA, bB, sA, sB);
-      arb.nx = nx;
-      arb.ny = ny;
-      arb.ptype = rev ? 1 : 0;
-      arb.rev = rev;
+      const swap = bA.handle < bB.handle;
+      const refBody = loc8 === 1 ? bA : bB;
+      const b1 = swap ? bB : bA;
+      const b2 = swap ? bA : bB;
+      const arb = this.getArbiter(b1, b2, swap ? sB : sA, swap ? sA : sB);
+      arb.nx = swap ? -nx : nx;
+      arb.ny = swap ? -ny : ny;
+      arb.ptype = refBody === b1 ? 0 : 1;
+      arb.rev = arb.ptype === 1;
       arb.lnormx = ref.lnx;
       arb.lnormy = ref.lny;
       arb.lproj = ref.lproj;
       arb.radius = 0;
       arb.stamp = this.stamp;
-      this.polyPolyContact(arb, rev ? 1 : 0, p0x, p0y, d34, ref, incBody);
-      this.polyPolyContact(arb, rev ? 0 : 1, p1x, p1y, d35, ref, incBody);
+      this.polyPolyContact(arb, arb.rev ? 1 : 0, p0x, p0y, d34, ref, incBody);
+      this.polyPolyContact(arb, arb.rev ? 0 : 1, p1x, p1y, d35, ref, incBody);
       return arb;
     }
     // Persist/refresh one poly-poly contact (ZPP_Collide.as:374-491). px/py is the
@@ -2329,7 +2332,7 @@
           posOnly: false
         };
         arb.jrAcc = 0;
-        arb.contacts.push(c);
+        arb.contacts.unshift(c);
       } else {
         c.fresh = false;
       }

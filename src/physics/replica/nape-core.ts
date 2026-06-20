@@ -2722,20 +2722,35 @@ export class NapeReplica {
     const d34 = p0x * ref.gnx + p0y * ref.gny - ref.gproj;
     const d35 = p1x * ref.gnx + p1y * ref.gny - ref.gproj;
     if (d34 > 0 && d35 > 0) return null;
-    const rev = sign === -1; // param4 != (sign == -1), param4 = false
-    const arb = this.getArbiter(bA, bB, sA, sB);
-    arb.nx = nx;
-    arb.ny = ny;
-    arb.ptype = rev ? 1 : 0;
-    arb.rev = rev;
+    // Nape labels the arbiter b1 = the HIGHER-id body (its broadphase pairs the
+    // later-added shape first — every level-9 arbiter has b1.id > b2.id). `live` is
+    // creation order so here bA.handle < bB.handle. Relabel b1/b2 to match WITHOUT
+    // touching the manifold: the contacts are world/incident-frame and `lnorm` is in
+    // the reference body's frame, all label-independent. We only swap b1↔b2, negate
+    // the normal (it points b1→b2), and recompute ptype from which physical body is
+    // the reference (the position solver reads each contact's `lr1` from the incident
+    // body's frame, identified by ptype). Bit-INVARIANT for symmetric / dynamic↔static
+    // pairs (why the crate-stack & box-on-floor gates already passed with either
+    // label) but it gives an ASYMMETRIC dynamic↔dynamic contact — a tilted post on a
+    // crate (unequal masses AND unequal contact depths) — the exact b1/b2 Nape uses,
+    // killing the last-bit block-solve drift that accumulated up the level-9 tower.
+    const swap = bA.handle < bB.handle;
+    const refBody = loc8 === 1 ? bA : bB;
+    const b1 = swap ? bB : bA;
+    const b2 = swap ? bA : bB;
+    const arb = this.getArbiter(b1, b2, swap ? sB : sA, swap ? sA : sB);
+    arb.nx = swap ? -nx : nx;
+    arb.ny = swap ? -ny : ny;
+    arb.ptype = refBody === b1 ? 0 : 1;
+    arb.rev = arb.ptype === 1;
     arb.lnormx = ref.lnx;
     arb.lnormy = ref.lny;
     arb.lproj = ref.lproj;
     arb.radius = 0;
     arb.stamp = this.stamp;
-    // two contacts: hash rev?1:0 (clipped p0) then rev?0:1 (clipped p1)
-    this.polyPolyContact(arb, rev ? 1 : 0, p0x, p0y, d34, ref, incBody);
-    this.polyPolyContact(arb, rev ? 0 : 1, p1x, p1y, d35, ref, incBody);
+    // two contacts: hash arb.rev?1:0 (clipped p0) then arb.rev?0:1 (clipped p1)
+    this.polyPolyContact(arb, arb.rev ? 1 : 0, p0x, p0y, d34, ref, incBody);
+    this.polyPolyContact(arb, arb.rev ? 0 : 1, p1x, p1y, d35, ref, incBody);
     return arb;
   }
 
@@ -2757,7 +2772,17 @@ export class NapeReplica {
         jnAcc: 0, jtAcc: 0, stamp: this.stamp, active: false, fresh: true, posOnly: false,
       };
       arb.jrAcc = 0;
-      arb.contacts.push(c);
+      // HEAD-insert, matching Nape's ZPP_Collide poly-poly contact insertion
+      // (`head.next = new`, ZPP_Collide.as:406-410/465-469): the two contacts are
+      // emitted p0 then p1 but each is prepended, so the list (and thus oc1/oc2 =
+      // first/second active in prestep) is [p1, p0]. The replica previously appended
+      // → [p0, p1], i.e. c1/c2 reversed vs Nape. Harmless for symmetric contacts
+      // (equal depth → same sort key, symmetric block solve) but for an UNEQUAL-depth
+      // 2-contact poly-poly (a tilted bar resting on a box) it made `c1.dist` the
+      // wrong contact's penetration, mis-ordering the both-dynamic arbiter sort
+      // (sortcontacts by oc1.dist) → a different Gauss-Seidel order → last-bit drift
+      // that accumulates up a tall tower (level-9). See p0fs-tower.
+      arb.contacts.unshift(c);
     } else {
       c.fresh = false;
     }

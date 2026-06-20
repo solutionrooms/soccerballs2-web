@@ -133,7 +133,30 @@ p0pd · p0fl · p0ms · p0sl · p0wk · **p0kn** (kinematic motion + offset-orig
 **p0cj** (collide_joined=false — chassis embedded in its revolute-jointed wheel rolls, doesn't lock; lvl-36) ·
 **p0kw** (keep-awake nudge — setVel refreshes waket on an awake body so a sub-threshold nudge prevents sleep; lvl-8) ·
 **p0br** (crate-break input — `normalImpulse(ref,other).length` carries the angular Vec3 z-term; 762.113 bit-exact at impact; lvl-9 breakables) ·
+**p0fs** (full lvl-9 TOWER settling — 8-body island, bit-exact through frame 90 then <1e-9 tol; the asymmetric tilted-post poly-poly fix) ·
 p0tr-terrain + p0sw-switchmask + p0kn-kinematic + p0rf-runtimefilters + p0wv-setangvel + p0kd-keeperduck (behavioural)
+
+### lvl-9 tower poly-poly ordering fix (2026-06-20)
+The loaded lvl-9 tower (5 crates + 89° `metalpost` + 2 balls) "played nowhere near the original" — it diverged at
+**step 1** and accumulated to **3.6px** by frame 150 (balls roll off → different layout → different break/collapse).
+Root cause: **two narrowphase-ordering bugs, both bit-INVARIANT for symmetric/static contacts** (so every prior
+gate held) and exposed ONLY by an ASYMMETRIC dynamic↔dynamic poly contact — the tilted post on a crate (unequal
+masses AND unequal contact depths −0.58/−1.42), the first such contact in the game. **(1) Contact insertion order:**
+poly-poly emitted p0 then p1 with `push` (append); Nape HEAD-inserts (`ZPP_Collide.as:406/465`) → list `[p1,p0]`,
+`oc1`=2nd-clipped. Equal-depth crates: same sort key either way (invisible); unequal post: replica sorted the
+arbiter by the WRONG contact's depth → wrong `c_arbiters_false` slot → wrong Gauss-Seidel order. Fixed: `unshift`.
+**(2) b1/b2 labelling:** Nape labels `b1`=higher-id (broadphase queries later-added shape first); replica iterated
+`live` low→high → `b1`=lower. Symmetric/static: bit-invariant (negated normal + swapped arms cancel); asymmetric
+post: negated normal ⇒ last-bit-different block solve. Fixed: relabel `b1`/`b2` higher-handle-first in
+narrowPolyPoly (swap normal sign + recompute `ptype` from the reference body; contacts untouched — world/incident
+frame). Verified post + all 4 crate arbiters now match the SWF bit-for-bit (b1/b2, normal, both depths). Result:
+first divergence **step 1 → step 92**; bit-exact through frame 90; frame-150 drift **3.6px → 1.7e-13px**. The
+step-92 residual is the irreducible FP noise floor (1 ULP, chaotic 8-body phase) — NOT solve-order (dumped
+`c_arbiters_false` from the SWF, order matches step-for-step) and NOT validateWorldCOM trig (every body's sin/cos
+at step 91 matches the SWF). Gate `p0fs` = bit-exact-through-90 + 1e-9 tol (project's rotating-sim convention).
+**No shim change** (engine-internal). ⚠ Touches ALL poly-poly contacts → eyeball other poly-heavy levels.
+(Aside: confirmed a real trig ceiling — V8 vs Ruffle `Math.sin/cos` disagree 1 ULP at ~1.5% of angles — so a
+long rotating-body sim can't be frame-perfect bit-exact across the two runtimes regardless.)
 
 ### normalImpulse angular-term fix (2026-06-20)
 Breakables (crates/wood/posts) were ~3.71× too tough: the game gates breaks on

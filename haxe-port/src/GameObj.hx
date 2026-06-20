@@ -3266,9 +3266,19 @@ class GameObj extends GameObjBase
             var l : Float = v1.length;
             
             l /= hitterGO.GetBodyMass(0);
-            
+
+            // [BREAK-PROBE] always-on diagnostic: shows exactly why a crate does or
+            // doesn't break. l is the ball's NORMAL velocity-change at the contact
+            // (must be >=150). A mostly-tangential (sliding) hit gives a small l even
+            // for a fast ball. Compare ball v=(vx,vy): if |vy|>>|vx| the ball is
+            // sliding down the face, not hitting it head-on.
+            var hb = hitterGO.nape_bodies[0];
+            js.Browser.console.log("[BREAK] crate@(" + Std.int(xpos) + "," + Std.int(ypos) + ") l=" + Math.round(l)
+                + (l < 150 ? " <150 NO-BREAK" : " >=150 BREAK")
+                + "  ball v=(" + Math.round(hb.velocity.x) + "," + Math.round(hb.velocity.y) + ")"
+                + "  imp=(" + Math.round(v0.x) + "," + Math.round(v0.y) + ", z" + Math.round(v0.z) + ")");
             Utils.print("hit speed " + l);
-            
+
             if (l < 150)
             {
                 return;

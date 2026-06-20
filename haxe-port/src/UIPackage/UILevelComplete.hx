@@ -144,6 +144,12 @@ class UILevelComplete extends UIScreenInstance
         {
             (untyped titleMC).levelrating.star.visible = true;
         }
+        // Our font metrics differ from the original Flash font, so the star's fixed
+        // symbol x no longer sits snug after "YOUR BEST: n" (it floats off to the
+        // right). Anchor it to the rendered text width instead. The title field is
+        // left-aligned with the standard ~2px TextField gutter.
+        (untyped titleMC).levelrating.star.x =
+            (untyped titleMC).levelrating.title.x + (untyped titleMC).levelrating.title.textWidth + 8;
         
         
         

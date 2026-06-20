@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "68";
+	app.meta.h["build"] = "69";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -17585,6 +17585,13 @@ GameObj.prototype = $extend(GameObjBase.prototype,{
 			var v1 = new nape_geom_Vec2(v0.x,v0.y);
 			var l = v1.get_length();
 			l /= hitterGO.GetBodyMass(0);
+			var hb = hitterGO.nape_bodies[0];
+			var tmp = $global.console;
+			var tmp1 = "[BREAK] crate@(" + (this.xpos | 0) + "," + (this.ypos | 0) + ") l=" + Math.round(l) + (l < 150 ? " <150 NO-BREAK" : " >=150 BREAK") + "  ball v=(";
+			var _this = nape_geom_Vec2.bound(hb,1);
+			var tmp2 = tmp1 + Math.round(_this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0)) + ",";
+			var _this = nape_geom_Vec2.bound(hb,1);
+			tmp.log(tmp2 + Math.round(_this._body == null ? _this._vy : _this._body.prxGet(_this._kind,1)) + ")" + "  imp=(" + Math.round(v0.x) + "," + Math.round(v0.y) + ", z" + Math.round(v0.z) + ")");
 			Utils.print("hit speed " + l);
 			if(l < 150) {
 				return;
@@ -60886,7 +60893,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 709499;
+	this.version = 699294;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -119567,9 +119574,15 @@ uIPackage_UIKitSelect.__name__ = "uIPackage.UIKitSelect";
 uIPackage_UIKitSelect.__super__ = uIPackage_UIScreenInstance;
 uIPackage_UIKitSelect.prototype = $extend(uIPackage_UIScreenInstance.prototype,{
 	ExitScreen: function() {
+		if(this.teamNameField != null && this.teamNameOnChange != null) {
+			this.teamNameField.removeEventListener("change",this.teamNameOnChange);
+			this.teamNameField = null;
+			this.teamNameOnChange = null;
+		}
 		uIPackage_UI.RemoveAllButtons();
 	}
 	,InitScreen: function() {
+		var _gthis = this;
 		audioPackage_Audio.PlayMusic("menus_music");
 		uIPackage_UI.StartAddButtons();
 		openfl_ui_Mouse.show();
@@ -119597,6 +119610,16 @@ uIPackage_UIKitSelect.prototype = $extend(uIPackage_UIScreenInstance.prototype,{
 		this.UpdateKit();
 		this.UpdateColorButtons(this.titleMC.palette,this.team.kitColorShirt);
 		this.titleMC.textTeamName.text = Std.string(this.team.teamName);
+		this.teamNameField = this.titleMC.textTeamName;
+		this.teamNameField.set_type("input");
+		this.teamNameOnChange = function(_) {
+			try {
+				_gthis.teamNameField.setTextFormat(_gthis.teamNameField.getTextFormat());
+			} catch( _g ) {
+				haxe_NativeStackTrace.lastError = _g;
+			}
+		};
+		this.teamNameField.addEventListener("change",this.teamNameOnChange);
 	}
 	,buttonKitPressed: function(e) {
 		this.currentKitPart = openfl_utils_Object.toInt(openfl_utils_Object.__get(e.currentTarget,"kit_part"));
@@ -120051,6 +120074,7 @@ uIPackage_UILevelComplete.prototype = $extend(uIPackage_UIScreenInstance.prototy
 		if(l.rating != 0) {
 			this.titleMC.levelrating.star.visible = true;
 		}
+		this.titleMC.levelrating.star.x = this.titleMC.levelrating.title.x + this.titleMC.levelrating.title.textWidth + 8;
 		uIPackage_UI.AddAnimatedMCTickButton(this.titleMC.btn_feature1,null,"",false,null,GameVars.useFeature1);
 		uIPackage_UI.AddAnimatedMCTickButton(this.titleMC.btn_feature2,null,"",false,null,GameVars.useFeature2);
 		uIPackage_UI.AddAnimatedMCTickButton(this.titleMC.btn_feature3,null,"",false,null,GameVars.useFeature3);
@@ -122001,7 +122025,7 @@ SaveData.id = "soccerballs2_9988";
 SeededRandom.seed = 1;
 Settings.perfHud = false;
 Settings.openAllLevels = false;
-Settings.mobileControlScheme = 0;
+Settings.mobileControlScheme = 2;
 Settings.aimSensitivity = 1;
 Settings.gpuBatchTest = false;
 Settings.cachedTerrain = true;

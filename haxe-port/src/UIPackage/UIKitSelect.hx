@@ -25,9 +25,19 @@ class UIKitSelect extends UIScreenInstance
     {
         super();
     }
-    
+
+    // Team-name input field + its CHANGE listener (see InitScreen).
+    var teamNameField : flash.text.TextField;
+    var teamNameOnChange : flash.events.Event -> Void;
+
     override public function ExitScreen()
     {
+        if (teamNameField != null && teamNameOnChange != null)
+        {
+            teamNameField.removeEventListener(flash.events.Event.CHANGE, teamNameOnChange);
+            teamNameField = null;
+            teamNameOnChange = null;
+        }
         UI.RemoveAllButtons();
     }
     
@@ -80,6 +90,17 @@ class UIKitSelect extends UIScreenInstance
         UpdateColorButtons((untyped titleMC).palette, team.kitColorShirt);
         
         (untyped titleMC).textTeamName.text = Std.string(team.teamName);
+        // OpenFL HTML5 native input captures keystrokes into the field's .text (it
+        // reads back correctly on Back) but doesn't flag the field dirty as you type,
+        // so the canvas isn't repainted and the entered text looks like it vanished.
+        // Force a repaint on every CHANGE (setTextFormat marks it dirty without
+        // altering the text).
+        teamNameField = cast (untyped titleMC).textTeamName;
+        teamNameField.type = flash.text.TextFieldType.INPUT;
+        teamNameOnChange = function(_) {
+            try { teamNameField.setTextFormat(teamNameField.getTextFormat()); } catch (err:Dynamic) {}
+        };
+        teamNameField.addEventListener(flash.events.Event.CHANGE, teamNameOnChange);
     }
     
     public var team : TeamDef;

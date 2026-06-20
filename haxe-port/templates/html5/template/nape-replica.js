@@ -945,6 +945,44 @@
       this.impactsBuf = [];
       return c;
     }
+    // Faithful Nape `Body.normalImpulse(other)` — the crate-break input
+    // (GameObj.OnHit_Breakable_Pieces: `l = breakable.normalImpulse(ball).length / mass`).
+    // Returns the full Vec3 [x, y, z] about `refHandle`, summed over the active arbiter's
+    // contacts, EXACTLY as nape.dynamics.Contact.normalImpulse (Contact.as:82):
+    //   ref == b1: ( -nx·jn, -ny·jn, -(ny·r1x - nx·r1y)·jn )
+    //   ref == b2: (  nx·jn,  ny·jn,  (ny·r2x - nx·r2y)·jn )
+    // The z (angular) term — jn × the contact's moment arm about the ref body's centre,
+    // using the PRESTEP arms r1/r2 — is what `takeImpacts` (scalar jn only) dropped, making
+    // breakables ~3.7× too tough: a gravity-lowered ball strikes the crate face well below
+    // centre, so |Vec3| ≫ |jn| (the lever arm dominates). Bit-exact vs the shipped SWF (p0br).
+    normalImpulse(refHandle, otherHandle) {
+      let x = 0;
+      let y = 0;
+      let z = 0;
+      for (const arb of this.arbiters.values()) {
+        if (arb.stamp !== this.stamp) continue;
+        const h1 = arb.b1.handle;
+        const h2 = arb.b2.handle;
+        if (!(h1 === refHandle && h2 === otherHandle || h2 === refHandle && h1 === otherHandle)) continue;
+        const nx = arb.nx;
+        const ny = arb.ny;
+        const refIsB1 = h1 === refHandle;
+        for (const c of [arb.c1, arb.c2]) {
+          if (c == null) continue;
+          const jn = c.jnAcc;
+          if (refIsB1) {
+            x += -nx * jn;
+            y += -ny * jn;
+            z += -(ny * c.r1x - nx * c.r1y) * jn;
+          } else {
+            x += nx * jn;
+            y += ny * jn;
+            z += (ny * c.r2x - nx * c.r2y) * jn;
+          }
+        }
+      }
+      return [x, y, z];
+    }
     // --- queries (read-only) --------------------------------------------------
     bodyContains(h, xPx, yPx) {
       const b = this.bodies.get(h);

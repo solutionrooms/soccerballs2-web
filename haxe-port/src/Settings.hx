@@ -16,8 +16,9 @@ class Settings
     // Non-destructive — does not alter saved scores/stars.
     public static var openAllLevels : Bool = false;
 
-    // Mobile control scheme: 0 = A (current: drag/aim with pointer), 1 = B (virtual joystick + tap-near-ball).
-    public static var mobileControlScheme : Int = 0;
+    // Mobile control scheme: 0 = A (drag/aim with pointer), 1 = B (virtual joystick + tap-near-ball),
+    // 2 = C ("Aim Pad": relative drag-aim + tap-fire). Default = C; overridden by the saved setting on load.
+    public static var mobileControlScheme : Int = 2;
 
     // Aim-pad (scheme C) joystick sensitivity: 0 = Low, 1 = Med, 2 = High. Lower = the stick needs more
     // travel for the same aim change (finer control). Default Med.

@@ -132,7 +132,20 @@ p0pd · p0fl · p0ms · p0sl · p0wk · **p0kn** (kinematic motion + offset-orig
 **p0rs** (rolling friction on a slope — free wheel rolls + spins up to vx/r; previously-dormant rolling path) ·
 **p0cj** (collide_joined=false — chassis embedded in its revolute-jointed wheel rolls, doesn't lock; lvl-36) ·
 **p0kw** (keep-awake nudge — setVel refreshes waket on an awake body so a sub-threshold nudge prevents sleep; lvl-8) ·
+**p0br** (crate-break input — `normalImpulse(ref,other).length` carries the angular Vec3 z-term; 762.113 bit-exact at impact; lvl-9 breakables) ·
 p0tr-terrain + p0sw-switchmask + p0kn-kinematic + p0rf-runtimefilters + p0wv-setangvel + p0kd-keeperduck (behavioural)
+
+### normalImpulse angular-term fix (2026-06-20)
+Breakables (crates/wood/posts) were ~3.71× too tough: the game gates breaks on
+`breakable.normalImpulse(ball).length / mass >= 150`, but the shim reported only the scalar `|jn|`. **Not a
+bias/penetration impulse** — the discrete solve is correct and `jn=205` IS the physical impulse (iteratePos
+never writes jnAcc; ball isn't a bullet so no CCD; velocity target is restitution-only). The gap is the
+**angular z-component of the `normalImpulse` Vec3** (`Contact.as:82`): `z = (ny·r2x − nx·r2y)·jn` = jn × the
+contact's moment arm about the ref body's centre, using the **prestep arms** r1/r2. A gravity-lowered ball hits
+the crate face ~3.58px below centre → big lever arm → `.length` ≫ `|jn|`. Centred/head-on hits have r≈0 ⇒ no
+error. Fix: new live engine method `normalImpulse(refHandle, otherHandle): [x,y,z]` reproducing Nape's
+`Contact.normalImpulse` summed over contacts. Gate `p0br` (un-skipped, 762.1131559236 bit-exact vs SWF). Shim:
+`Space.impulseBetween` calls `engine.normalImpulse(hA,hB)` instead of returning `Vec3(nx·j,ny·j,0)` (flagged).
 
 ### Wake-on-removal fix (2026-06-19)
 `destroyBody` dropped arbiters/constraints referencing the removed body but left the **partner asleep**

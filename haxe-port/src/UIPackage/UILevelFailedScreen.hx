@@ -184,6 +184,16 @@ class UILevelFailedScreen extends UIScreenInstance
             UI.AnimatedMCTickButtonSetCanPress((untyped titleMC).btn_feature4, true);
             (untyped titleMC).btn_feature4.filters = [];
         }
+
+        // Strip the promo / highscore / extra UI (matches the level-complete screen).
+        UI.Hide((untyped titleMC).btn_submit);
+        UI.Hide((untyped titleMC).buttonPlayWithHighcores);
+        UI.Hide((untyped titleMC).highscore);
+        UI.Hide((untyped titleMC).buttonLevelSelect);
+        UI.Hide((untyped titleMC).btn_walkthrough);
+        UI.Hide((untyped titleMC).btn_moregames);
+        UI.Hide((untyped titleMC).btn_prequel);
+        UI.Hide((untyped titleMC).adBox);
     }
     
     

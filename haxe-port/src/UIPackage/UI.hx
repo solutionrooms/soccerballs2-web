@@ -378,7 +378,11 @@ class UI
             globalMC_transition.visible = true;
             Game.main.addChild(globalMC_transition);
             globalMC_transition.addEventListener(Event.ENTER_FRAME, TransitionEnterFrame, false, 0, true);
-            globalMC_transition.gotoAndPlay(1);
+            // Drive the wipe by wall-clock time (see TransitionEnterFrame) instead of letting the SWF clip
+            // auto-advance one frame per stage tick — on an uncapped / high-refresh display the whole
+            // 17-frame wipe was blowing past in ~70ms. gotoAndStop + time-mapping pins it to ui_fps speed.
+            transStartStamp = haxe.Timer.stamp();
+            globalMC_transition.gotoAndStop(1);
             globalMC_transition.cacheAsBitmap = true;
             
             (untyped globalMC_transition).screenA.addChild(transScreenA_B);
@@ -386,12 +390,26 @@ class UI
         }
     }
     
+    public static var transStartStamp : Float = 0;
+
     public static function TransitionEnterFrame(e : Event)
     {
         if (globalMC_transition == null)
         {
             return;
         }
+        // Map elapsed wall-clock time onto the wipe's frames so the animation always lasts
+        // ~(totalFrames-1)/ui_fps seconds (~0.53s), no matter how fast the stage actually ticks.
+        var tf : Int = globalMC_transition.totalFrames;
+        var dur : Float = (tf > 1) ? (tf - 1) / Defs.ui_fps : 0.5;
+        var frame : Int = 1 + Math.floor(((haxe.Timer.stamp() - transStartStamp) / dur) * (tf - 1));
+        if (frame < 1) frame = 1;
+        if (frame < tf)
+        {
+            globalMC_transition.gotoAndStop(frame);
+            return;
+        }
+        globalMC_transition.gotoAndStop(tf);
         if (globalMC_transition.currentFrame == globalMC_transition.totalFrames)
         {
             e.stopImmediatePropagation();
@@ -789,6 +807,28 @@ class UI
         (untyped btn).tick.visible = (untyped btn).tickState;
     }
     
+    /**
+     * openfl-swf does NOT execute the SWF's AS3 timeline frame scripts. Every `buttonAnimation` symbol
+     * baked in `addFrameScript(0,frame1, 6,frame7, 13,frame14, 16,frame17)` — a stop() at the end of the
+     * idle / over / out / clicked segments (frames 1, 7, 14, 17). All 8 buttonAnimation* variants are
+     * identical. Without those stops, AnimatedMCButton_Over's `gotoAndPlay("over")` free-runs past its
+     * segment into the clip's blank tail frames, so the button VANISHES while hovered. Re-install the
+     * exact stops at runtime to match Flash. Guarded by totalFrames so a short clip can't throw.
+     */
+    public static function InstallButtonAnimStops(anim : MovieClip) : Void
+    {
+        if (anim == null)
+        {
+            return;
+        }
+        var n : Int = anim.totalFrames;
+        var stopHere = function() anim.stop();
+        if (n >= 1)  anim.addFrameScript(0,  stopHere);  // frame 1  — idle "stopped"
+        if (n >= 7)  anim.addFrameScript(6,  stopHere);  // frame 7  — end of "over"
+        if (n >= 14) anim.addFrameScript(13, stopHere);  // frame 14 — end of "out"
+        if (n >= 17) anim.addFrameScript(16, stopHere);  // frame 17 — end of "clicked"
+    }
+
     public static function AddAnimatedMCButton(btn : MovieClip, clickCallback : Function, text : String = null, reorderWhenOver : Bool = false, _hoverCallback : Dynamic = null)
     {
         if (false)
@@ -831,8 +871,9 @@ class UI
         (untyped btn).clickCallback = clickCallback;
         (untyped btn).hoverCallback = _hoverCallback;
         
+        InstallButtonAnimStops(cast (untyped btn).buttonAnimation);
         (untyped btn).buttonAnimation.gotoAndStop(1);
-        
+
         if ((untyped btn).buttonName != null)
         {
             TextStrings.ReplaceTextFieldText((untyped btn).buttonName);
@@ -928,6 +969,12 @@ class UI
     
     
     
+    // Hide a (possibly-null / possibly-absent) named SWF element — used to strip promo/extra UI.
+    public static function Hide(o : Dynamic) : Void
+    {
+        try { if (o != null) o.visible = false; } catch (e : Dynamic) {}
+    }
+
     public static function EnableMCButton(mc : MovieClip)
     {
         mc.filters = [];

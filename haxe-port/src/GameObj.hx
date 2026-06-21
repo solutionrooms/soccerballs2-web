@@ -5134,8 +5134,9 @@ class GameObj extends GameObjBase
                 
                 var dx : Float = Math.NaN;                var dy : Float = Math.NaN;                if (Game.controlMode == 0)
                 {
-                    dx = (mx) - ballGO.xpos;
-                    dy = (my) - ballGO.ypos;
+                    Game.UpdateAimFine();   // arrow-key fine-tune offset (1px/tap, hold to accelerate)
+                    dx = (mx + Game.aimFineX) - ballGO.xpos;
+                    dy = (my + Game.aimFineY) - ballGO.ypos;
                 }
                 else
                 {

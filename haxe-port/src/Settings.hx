@@ -40,10 +40,12 @@ class Settings
     // Tests whether sticky-mud walls are what make shots like level 9 fail in the port. Applied at
     // level load, so toggle then restart the level. Does NOT change the original game data.
     public static var noMudFriction : Bool = false;
+    public static var debugKeys : Bool = false; // dev debug keys (B/G/,/./M/1-6) only work when ON
 
     public static inline var SCHEME_A : Int = 0;
     public static inline var SCHEME_B : Int = 1;
     public static inline var SCHEME_C : Int = 2; // "Aim Pad": relative drag-aim + tap-fire + 2-finger fine
+    public static inline var SCHEME_D : Int = 3; // "Aim Pad + Arrows": scheme C + on-screen arrow fine-tune buttons
 
     static inline var SID : String = "soccerballs2_settings";
 
@@ -61,6 +63,7 @@ class Settings
                 if (so.data.gpuBatchTest != null) gpuBatchTest = so.data.gpuBatchTest;
                 if (so.data.cachedTerrain != null) cachedTerrain = so.data.cachedTerrain;
                 if (so.data.noMudFriction != null) noMudFriction = so.data.noMudFriction;
+                if (so.data.debugKeys != null) debugKeys = so.data.debugKeys;
                 (untyped so).close();
             }
         }
@@ -79,6 +82,7 @@ class Settings
             so.data.gpuBatchTest = gpuBatchTest;
             so.data.cachedTerrain = cachedTerrain;
             so.data.noMudFriction = noMudFriction;
+            so.data.debugKeys = debugKeys;
             so.flush();
             (untyped so).close();
         }

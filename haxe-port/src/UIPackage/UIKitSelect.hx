@@ -27,17 +27,16 @@ class UIKitSelect extends UIScreenInstance
     }
 
     // Team-name input field + its CHANGE listener (see InitScreen).
-    var teamNameField : flash.text.TextField;
-    var teamNameOnChange : flash.events.Event -> Void;
+    var teamNameField : flash.text.TextField; // fresh openfl INPUT overlay (replaces the SWF field)
 
     override public function ExitScreen()
     {
-        if (teamNameField != null && teamNameOnChange != null)
+        if (teamNameField != null)
         {
-            teamNameField.removeEventListener(flash.events.Event.CHANGE, teamNameOnChange);
+            try { if (teamNameField.parent != null) teamNameField.parent.removeChild(teamNameField); } catch (e : Dynamic) {}
             teamNameField = null;
-            teamNameOnChange = null;
         }
+        KeyReader.Enable(); // safety: re-enable game keys in case we left while the name field was focused
         UI.RemoveAllButtons();
     }
     
@@ -89,18 +88,36 @@ class UIKitSelect extends UIScreenInstance
         
         UpdateColorButtons((untyped titleMC).palette, team.kitColorShirt);
         
-        (untyped titleMC).textTeamName.text = Std.string(team.teamName);
-        // OpenFL HTML5 native input captures keystrokes into the field's .text (it
-        // reads back correctly on Back) but doesn't flag the field dirty as you type,
-        // so the canvas isn't repainted and the entered text looks like it vanished.
-        // Force a repaint on every CHANGE (setTextFormat marks it dirty without
-        // altering the text).
-        teamNameField = cast (untyped titleMC).textTeamName;
-        teamNameField.type = flash.text.TextFieldType.INPUT;
-        teamNameOnChange = function(_) {
-            try { teamNameField.setTextFormat(teamNameField.getTextFormat()); } catch (err:Dynamic) {}
-        };
-        teamNameField.addEventListener(flash.events.Event.CHANGE, teamNameOnChange);
+        // openfl-swf's INPUT rendering draws newly-typed EMBEDDED-font glyphs wrong (dark, only
+        // recolouring on a sparse ~20s refresh) and ignores runtime embedFonts/format changes. Replace
+        // the SWF field with a fresh openfl INPUT TextField overlay (device font) we fully control — it
+        // renders typed characters live and correctly. The SWF field stays hidden as a positional
+        // template; the overlay is the real input + the source of truth on Back (see buttonBackPressed).
+        var _swfName : Dynamic = (untyped titleMC).textTeamName;
+        var _ovName : flash.text.TextField = new flash.text.TextField();
+        _ovName.type = flash.text.TextFieldType.INPUT;
+        _ovName.multiline = false;
+        _ovName.wordWrap = false;
+        _ovName.border = false;
+        _ovName.background = false;
+        _ovName.embedFonts = false;
+        try { _ovName.maxChars = _swfName.maxChars; } catch (e : Dynamic) {}
+        var _nf : flash.text.TextFormat = null;
+        try { _nf = _swfName.getTextFormat(); } catch (e : Dynamic) {}
+        if (_nf == null) _nf = new flash.text.TextFormat();
+        _nf.font = GameFont.FAMILY;
+        _ovName.defaultTextFormat = _nf;
+        try { _ovName.width = _swfName.width; _ovName.height = _swfName.height; _ovName.x = _swfName.x; _ovName.y = _swfName.y; } catch (e : Dynamic) {}
+        _ovName.text = Std.string(team.teamName);
+        _ovName.setTextFormat(_nf);
+        try { _swfName.visible = false; } catch (e : Dynamic) {}
+        try { (untyped _swfName.parent).addChild(_ovName); } catch (e : Dynamic) { try { titleMC.addChild(_ovName); } catch (e2 : Dynamic) {} }
+        teamNameField = _ovName;
+        // While the field is focused, letters are TEXT — not game shortcuts. KeyReader (the game's key
+        // tracker) otherwise still sees them on the stage, so typing 'b'/'m' fired debug actions (ball
+        // box / restart). Suppress game keys for the duration of text entry.
+        teamNameField.addEventListener(flash.events.FocusEvent.FOCUS_IN,  function(_) { KeyReader.Disable(); }, false, 0, true);
+        teamNameField.addEventListener(flash.events.FocusEvent.FOCUS_OUT, function(_) { KeyReader.Enable();  }, false, 0, true);
     }
     
     public var team : TeamDef;
@@ -323,7 +340,7 @@ class UIKitSelect extends UIScreenInstance
     
     public function buttonBackPressed(e : MouseEvent)
     {
-        team.teamName = (untyped titleMC).textTeamName.text;
+        team.teamName = (teamNameField != null) ? teamNameField.text : (untyped titleMC).textTeamName.text;
         SaveData.Save();
         
         

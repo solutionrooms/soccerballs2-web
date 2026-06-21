@@ -129,9 +129,12 @@ class Space {
 	// total normal impulse between two bodies from the latest step (crate break)
 	@:allow(nape.phys.Body)
 	function impulseBetween(hA:Int, hB:Int):Vec3 {
-		var imp = _impulse.get(pairKey(hA, hB));
-		if (imp == null) return new Vec3(0, 0, 0);
-		return new Vec3(imp.nx * imp.j, imp.ny * imp.j, 0);
+		// Crate-break input: breakable.normalImpulse(ball).length. Query the engine directly — it SUMS over
+		// every arbiter/contact of the body-pair (a lvl-9 crate has 2 shapes → 2 arbiters) and carries the
+		// angular z, exactly like nape-haxe4 / the original. The buffered `_impulse` map is keyed by body-pair
+		// and OVERWRITES, so it dropped all but one arbiter (one ≈0) → crates above the bottom never broke.
+		var v = engine.normalImpulse(hA, hB);
+		return new Vec3(v[0], v[1], v[2]);
 	}
 
 	public function step(deltaTime:Float, velocityIterations:Int = 10, positionIterations:Int = 10):Void {

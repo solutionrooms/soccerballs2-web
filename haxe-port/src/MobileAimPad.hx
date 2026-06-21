@@ -96,7 +96,8 @@ class MobileAimPad
 
     public static function IsActive() : Bool
     {
-        if (Settings.mobileControlScheme != Settings.SCHEME_C) return false;
+        // scheme C = aim pad; scheme D = aim pad + arrow fine-tune buttons (the pad behaves identically)
+        if (Settings.mobileControlScheme != Settings.SCHEME_C && Settings.mobileControlScheme != Settings.SCHEME_D) return false;
         if (OptionsScreen.open) return false;
         try
         {

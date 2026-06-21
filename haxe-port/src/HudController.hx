@@ -40,6 +40,7 @@ class HudController
         UI.SetupAnimatedMusicMuteButton((untyped hudMC.mainArea).btn_musicMute);
         UI.RemoveAnimatedMCButton((untyped hudMC.mainArea).btn_moregames);
         Lic.AnimatedMCMoreGamesButton((untyped hudMC.mainArea).btn_moregames, "hud");
+        UI.Hide((untyped hudMC.mainArea).btn_moregames); // in-level MORE GAMES — hidden
     }
     public function Hide()
     {
@@ -53,15 +54,28 @@ class HudController
     {
         UI.RemoveAnimatedMCButton((untyped hudMC.mainArea).btn_walkthrough);
         Lic.AnimatedMCWalkthroughButton((untyped hudMC.mainArea).btn_walkthrough);
-        
+        UI.Hide((untyped hudMC.mainArea).btn_walkthrough); // in-level WALKTHROUGH — hidden
+
         (untyped hudMC).mainArea.LevelNameText.text = as3hx.Compat.parseInt(Levels.currentIndex + 1) + ": " + Levels.GetCurrent().name;
         if (Game.usedebug)
         {
             (untyped hudMC).mainArea.LevelNameText.text += " (" + Levels.GetCurrent().creator + ")";
         }
         CentreHudText((untyped hudMC).mainArea.LevelNameText);
+        // Nudge the level-number/description text right a touch — openfl-swf renders our embedded
+        // font slightly left of the original, leaving it off-centre in the HUD panel. Capture the
+        // design x once so repeated InitForLevel calls don't accumulate the offset.
+        {
+            var _lnt : Dynamic = (untyped hudMC).mainArea.LevelNameText;
+            if (__levelNameBaseX > 1e8) __levelNameBaseX = _lnt.x;
+            _lnt.x = __levelNameBaseX + LEVELNAME_NUDGE_X;
+        }
         __hudDumped = false; // re-dump the HUD geometry once for the new level (diagnostic)
     }
+
+    // px to shift the in-level "N: Level name" text right (see InitForLevel). Tunable.
+    public static inline var LEVELNAME_NUDGE_X : Float = 12;
+    static var __levelNameBaseX : Float = 1e9;
 
     // openfl-swf renders the HUD's embedded-font dynamic text shifted left, so leading characters end up
     // hidden under the adjacent panel/icon. Centre the text within the field's box (device-font path via

@@ -91,6 +91,15 @@ class UITitleScreen extends UIScreenInstance
         {
             UI.AddAnimatedMCButton((untyped titleMC).btn_facebook, MobileTwitterPressed);
         }
+
+        // Strip the promo / external links (keep: logo, PLAY GAME, language, CREDITS, clear-save, author).
+        UI.Hide((untyped titleMC).btn_prequel);     // "Soccer Balls 1" prequel link
+        UI.Hide((untyped titleMC).btn_moregames);   // MORE GAMES cross-promo
+        UI.Hide((untyped titleMC).btn_download);    // DOWNLOAD for-your-site
+        UI.Hide((untyped titleMC).btn_facebook);    // Facebook
+        UI.Hide((untyped titleMC).btn_y8);          // Y8 logo
+        UI.Hide((untyped titleMC).mainLogo);        // portal/licensor logo
+        UI.Hide((untyped titleMC).btn_localMusic);  // "Play your own MP3"
     }
     
     public var endMovieAvailable : Bool;

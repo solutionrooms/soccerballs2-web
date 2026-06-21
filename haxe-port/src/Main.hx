@@ -87,6 +87,7 @@ class Main extends MovieClip
         OptionsScreen.Init(theStage);
         MobileControls.Init(theStage);
         MobileAimPad.Init(theStage); // scheme C: aim-pad touch handlers
+        MobileFineButtons.Init(theStage); // scheme D: on-screen arrow fine-tune buttons
         SetPerfHud(Settings.perfHud); // apply the saved setting authoritatively (on OR off), overriding the ?fps URL default
         SetEverythingUpOnce();
     }
@@ -144,8 +145,12 @@ class Main extends MovieClip
             var now = haxe.Timer.stamp();
             if (kc == dbK[0] && (now - dbT[0]) < 0.08) return;
             dbK[0] = kc; dbT[0] = now;
-            if (kc == 192) toggle();
-            else if (kc == 66) BounceDebug.Toggle(); // 'B' = bounce/kick capture overlay
+            if (kc == 192) { toggle(); return; } // backtick = perf HUD (mirrors the Settings toggle)
+            // Dev debug keys — disruptive (frame-pause, reload, capture overlays), and they fire even
+            // while typing in a text field. Gate them behind the (hidden) Settings "Debug keys" toggle
+            // so a stray 'b'/','/'m' does nothing unless the user has explicitly turned debug keys on.
+            if (!Settings.debugKeys) return;
+            if (kc == 66) BounceDebug.Toggle(); // 'B' = bounce/kick capture overlay
             else if (kc == 71) DebugDraw.Toggle();   // 'G' = physics debug-draw (grid view of collision shapes)
             else if (kc == 188) FrameStep.TogglePause(); // ',' = frame-advance: pause/resume the sim
             else if (kc == 190) FrameStep.Step();        // '.' = frame-advance: single-step one sim frame
@@ -779,6 +784,37 @@ class Main extends MovieClip
     @:expose("sb2Goto") public static function sb2Goto(screen : String) : Void {
         uIPackage.UI.StartTransition(screen);
     }
+    @:expose("sb2SetScheme") public static function sb2SetScheme(n : Int) : String {
+        Settings.mobileControlScheme = n;
+        return "mobileControlScheme=" + Settings.mobileControlScheme;
+    }
+    @:expose("sb2HudNudge") public static function sb2HudNudge(dx : Float) : String {
+        var hc : Dynamic = Game.hudController;
+        if (hc == null || hc.hudMC == null) return "no hud";
+        var tf : Dynamic = (untyped hc.hudMC).mainArea.LevelNameText;
+        tf.x = tf.x + dx;
+        return "LevelNameText.x=" + tf.x + " y=" + tf.y + " w=" + tf.width + " text='" + tf.text + "'";
+    }
+    @:expose("sb2StarInfo") public static function sb2StarInfo() : String {
+        var s : Dynamic = uIPackage.UI.currentScreen;
+        if (s == null || s.titleMC == null) return "no screen";
+        var lr : Dynamic = null;
+        try { lr = (untyped s.titleMC).levelrating; } catch (e : Dynamic) {}
+        if (lr == null) return "no levelrating (current screen is not level-complete)";
+        try { lr.star.visible = true; } catch (e : Dynamic) {}
+        var t : Dynamic = lr.title;
+        var lm : Dynamic = t.getLineMetrics(0);
+        return "star=(" + Std.int(lr.star.x) + "," + Std.int(lr.star.y) + ") title.x=" + Std.int(t.x)
+            + " title.w=" + Std.int(t.width) + " textW=" + Std.int(t.textWidth)
+            + " lm.x=" + Std.int(lm.x) + " lm.w=" + Std.int(lm.width) + " text='" + t.text + "'";
+    }
+    @:expose("sb2TransInfo") public static function sb2TransInfo() : String {
+        var t : Dynamic = uIPackage.UI.globalMC_transition;
+        var head : String = "inT=" + uIPackage.UI.isInTransition + " full=" + uIPackage.UI.useFullTransition;
+        if (t == null) return head + " clip=null";
+        return head + " tf=" + t.totalFrames + " cf=" + t.currentFrame + " vis=" + t.visible
+            + " nc=" + t.numChildren + " playing=" + t.isPlaying;
+    }
     @:expose("sb2LSNextPage") public static function sb2LSNextPage() : Void {
         var s : Dynamic = uIPackage.UI.currentScreen;
         if (s != null) try { s.NextPageClicked(null); } catch (e : Dynamic) {}
@@ -947,6 +983,7 @@ class Main extends MovieClip
         OptionsScreen.Tick();
         MobileControls.Tick();
             MobileAimPad.Tick();
+        MobileFineButtons.Tick();
 
         // one-time terrain-collision geometry dump when a level becomes playable (copy [SB2] lines back)
         try {

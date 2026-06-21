@@ -29,14 +29,17 @@ class OptionsScreen
     static var rowControl : Sprite;
     static var rowSens : Sprite;
     static var rowCachedTerrain : Sprite;
+    static var rowDebug : Sprite;
     static var lblPerf : TextField;
     static var lblLevels : TextField;
     static var lblControl : TextField;
     static var lblSens : TextField;
     static var lblCachedTerrain : TextField;
+    static var lblDebug : TextField;
 
     static inline var BOX_W : Float = 380;
-    static inline var BOX_H : Float = 342;
+    static inline var BOX_H : Float = 388;
+    static inline var GEAR_HIT : Float = 80; // size of the hidden bottom-left settings hotspot
 
     public static function Init(stage : Stage) : Void
     {
@@ -58,14 +61,14 @@ class OptionsScreen
     static function BuildGear() : Void
     {
         gearBtn = new Sprite();
-        gearBtn.buttonMode = true;
+        gearBtn.buttonMode = false;       // hidden hotspot: no hand cursor, no visible mark
         gearBtn.mouseChildren = false;
+        // Settings access is a SECRET invisible hotspot (bottom-left, pause only) — completely hidden
+        // from view. A 0-alpha fill still hit-tests in openfl, so it's clickable but draws nothing.
         var g = gearBtn.graphics;
-        // rounded backing so the cog is visible on any background
-        g.beginFill(0x000000, 0.45);
-        g.drawRoundRect(0, 0, 40, 40, 10, 10);
+        g.beginFill(0x000000, 0.0);
+        g.drawRect(0, 0, GEAR_HIT, GEAR_HIT);
         g.endFill();
-        DrawCog(gearBtn, 20, 20, 12, 6.5, 8, 0xDDDDDD);
         gearBtn.visible = false;
         gearBtn.addEventListener(MouseEvent.CLICK, function(_) : Void { Show(); });
     }
@@ -140,11 +143,16 @@ class OptionsScreen
         lblCachedTerrain = cast rowCachedTerrain.getChildByName("val");
         rowCachedTerrain.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleCachedTerrain(); });
 
+        rowDebug = MakeRow(276, "Debug keys (b , . m)");
+        lblDebug = cast rowDebug.getChildByName("val");
+        rowDebug.addEventListener(MouseEvent.CLICK, function(_) : Void { ToggleDebugKeys(); });
+
         box.addChild(rowPerf);
         box.addChild(rowLevels);
         box.addChild(rowControl);
         box.addChild(rowSens);
         box.addChild(rowCachedTerrain);
+        box.addChild(rowDebug);
 
         // FULLSCREEN + CLOSE buttons (side by side)
         var fsBtn = MakeButton("FULLSCREEN", 18, 162, function() : Void { ToggleFullscreen(); });
@@ -240,9 +248,10 @@ class OptionsScreen
     {
         if (lblPerf != null) { lblPerf.text = Settings.perfHud ? "ON" : "OFF"; lblPerf.textColor = Settings.perfHud ? 0x00FF66 : 0x999999; }
         if (lblLevels != null) { lblLevels.text = Settings.openAllLevels ? "ON" : "OFF"; lblLevels.textColor = Settings.openAllLevels ? 0x00FF66 : 0x999999; }
-        if (lblControl != null) { lblControl.text = (Settings.mobileControlScheme == Settings.SCHEME_C) ? "C" : (Settings.mobileControlScheme == Settings.SCHEME_B) ? "B" : "A"; }
+        if (lblControl != null) { lblControl.text = switch (Settings.mobileControlScheme) { case Settings.SCHEME_D: "D"; case Settings.SCHEME_C: "C"; case Settings.SCHEME_B: "B"; default: "A"; }; }
         if (lblSens != null) { lblSens.text = switch (Settings.aimSensitivity) { case 0: "LOW"; case 2: "HIGH"; default: "MED"; }; }
         if (lblCachedTerrain != null) { lblCachedTerrain.text = Settings.cachedTerrain ? "ON" : "OFF"; lblCachedTerrain.textColor = Settings.cachedTerrain ? 0x00FF66 : 0x999999; }
+        if (lblDebug != null) { lblDebug.text = Settings.debugKeys ? "ON" : "OFF"; lblDebug.textColor = Settings.debugKeys ? 0x00FF66 : 0x999999; }
     }
 
     static function ToggleSens() : Void
@@ -271,8 +280,8 @@ class OptionsScreen
 
     static function ToggleControl() : Void
     {
-        // cycle A -> B (joystick) -> C (aim pad) -> A
-        Settings.mobileControlScheme = (Settings.mobileControlScheme + 1) % 3;
+        // cycle A -> B (joystick) -> C (aim pad) -> D (aim pad + arrow fine-tune buttons) -> A
+        Settings.mobileControlScheme = (Settings.mobileControlScheme + 1) % 4;
         Settings.Save();
         RefreshLabels();
     }
@@ -283,6 +292,14 @@ class OptionsScreen
     static function ToggleCachedTerrain() : Void
     {
         Settings.cachedTerrain = !Settings.cachedTerrain;
+        Settings.Save();
+        RefreshLabels();
+    }
+
+    // Dev debug keys (B/G/,/./M/1-6). OFF by default so a stray key never disrupts play.
+    static function ToggleDebugKeys() : Void
+    {
+        Settings.debugKeys = !Settings.debugKeys;
         Settings.Save();
         RefreshLabels();
     }
@@ -314,8 +331,9 @@ class OptionsScreen
     {
         if (gearBtn == null) return;
         var showGear : Bool = false;
-        try { showGear = (Game.gameState == Game.gameState_UI) || PauseMenu.IsPaused(); } catch (e : Dynamic) {}
-        // never show the bare gear while the panel itself is open
+        // Settings are reachable ONLY from the pause menu now (removed from the title / level-complete /
+        // all menus), via the hidden bottom-left hotspot. So the hotspot is live only while paused.
+        try { showGear = PauseMenu.IsPaused(); } catch (e : Dynamic) {}
         gearBtn.visible = showGear && !open;
         if (open) PinTop();
     }
@@ -338,7 +356,7 @@ class OptionsScreen
         if (sw <= 0) sw = 700;
         if (sh <= 0) sh = 525;
 
-        if (gearBtn != null) { gearBtn.x = sw - 48; gearBtn.y = 8; }
+        if (gearBtn != null) { gearBtn.x = 0; gearBtn.y = sh - GEAR_HIT; } // hidden hotspot, bottom-left corner
 
         if (panel != null)
         {

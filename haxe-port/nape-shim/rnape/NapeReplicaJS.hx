@@ -74,4 +74,8 @@ extern class NapeReplicaJS {
 	public function takeContacts():Array<Int>; // [hA,hB,sensorFlag, ...] — BEGIN (newly-touching) pairs
 	public function takeOngoing():Array<Int>;  // [hA,hB,sensorFlag, ...] — pairs persisting this step while AWAKE (ONGOING)
 	public function takeImpacts():Array<Float>; // [hA,hB,|normalImpulse|,nx,ny, ...]
+	// Faithful Nape Body.normalImpulse(other) about `ref`: [x,y,z], SUMMED over every arbiter/contact of
+	// the ref↔other body-pair (multi-shape bodies make >1 arbiter). The crate-break query MUST use this,
+	// not the per-pair _impulse map (which overwrites and drops all but one arbiter — lvl-9 break bug).
+	public function normalImpulse(ref:Int, other:Int):Array<Float>;
 }

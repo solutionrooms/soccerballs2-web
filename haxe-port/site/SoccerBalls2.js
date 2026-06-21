@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "69";
+	app.meta.h["build"] = "71";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -5868,6 +5868,50 @@ Main.sb2BouncePath = $hx_exports["sb2BouncePath"] = function() {
 Main.sb2Goto = $hx_exports["sb2Goto"] = function(screen) {
 	uIPackage_UI.StartTransition(screen);
 };
+Main.sb2SetScheme = $hx_exports["sb2SetScheme"] = function(n) {
+	Settings.mobileControlScheme = n;
+	return "mobileControlScheme=" + Settings.mobileControlScheme;
+};
+Main.sb2HudNudge = $hx_exports["sb2HudNudge"] = function(dx) {
+	var hc = Game.hudController;
+	if(hc == null || hc.hudMC == null) {
+		return "no hud";
+	}
+	var tf = hc.hudMC.mainArea.LevelNameText;
+	tf.x += dx;
+	return "LevelNameText.x=" + Std.string(tf.x) + " y=" + Std.string(tf.y) + " w=" + Std.string(tf.width) + " text='" + Std.string(tf.text) + "'";
+};
+Main.sb2StarInfo = $hx_exports["sb2StarInfo"] = function() {
+	var s = uIPackage_UI.currentScreen;
+	if(s == null || s.titleMC == null) {
+		return "no screen";
+	}
+	var lr = null;
+	try {
+		lr = s.titleMC.levelrating;
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+	if(lr == null) {
+		return "no levelrating (current screen is not level-complete)";
+	}
+	try {
+		lr.star.visible = true;
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+	var t = lr.title;
+	var lm = t.getLineMetrics(0);
+	return "star=(" + (lr.star.x | 0) + "," + (lr.star.y | 0) + ") title.x=" + (t.x | 0) + " title.w=" + (t.width | 0) + " textW=" + (t.textWidth | 0) + " lm.x=" + (lm.x | 0) + " lm.w=" + (lm.width | 0) + " text='" + Std.string(t.text) + "'";
+};
+Main.sb2TransInfo = $hx_exports["sb2TransInfo"] = function() {
+	var t = uIPackage_UI.globalMC_transition;
+	var head = "inT=" + Std.string(uIPackage_UI.isInTransition) + " full=" + Std.string(uIPackage_UI.useFullTransition);
+	if(t == null) {
+		return head + " clip=null";
+	}
+	return head + " tf=" + Std.string(t.totalFrames) + " cf=" + Std.string(t.currentFrame) + " vis=" + Std.string(t.visible) + " nc=" + Std.string(t.numChildren) + " playing=" + Std.string(t.isPlaying);
+};
 Main.sb2LSNextPage = $hx_exports["sb2LSNextPage"] = function() {
 	var s = uIPackage_UI.currentScreen;
 	if(s != null) {
@@ -6050,7 +6094,7 @@ Main.SimFrame = function() {
 			if(__v.get_length() > 30) {
 				var tmp = "[PORT] vel=(" + ((__v._body == null ? __v._vx : __v._body.prxGet(__v._kind,0)) | 0) + "," + ((__v._body == null ? __v._vy : __v._body.prxGet(__v._kind,1)) | 0) + ") spd=" + (__v.get_length() | 0) + " spin=";
 				var _this = __fb.nape_bodies[0];
-				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 902, className : "Main", methodName : "SimFrame"});
+				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 938, className : "Main", methodName : "SimFrame"});
 			}
 		}
 	}
@@ -6058,7 +6102,7 @@ Main.SimFrame = function() {
 };
 Main.sb2DiagGround = function() {
 	var space = PhysicsBase.GetNapeSpace();
-	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 966, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1003, className : "Main", methodName : "sb2DiagGround"});
 	var b = space._bodies.iterator();
 	while(b.hasNext()) {
 		var b1 = b.next();
@@ -6109,9 +6153,9 @@ Main.sb2DiagGround = function() {
 				++coversBall;
 			}
 		}
-		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 983, className : "Main", methodName : "sb2DiagGround"});
+		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 1020, className : "Main", methodName : "sb2DiagGround"});
 	}
-	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 987, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1024, className : "Main", methodName : "sb2DiagGround"});
 };
 Main.__super__ = openfl_display_MovieClip;
 Main.prototype = $extend(openfl_display_MovieClip.prototype,{
@@ -6135,6 +6179,7 @@ Main.prototype = $extend(openfl_display_MovieClip.prototype,{
 		OptionsScreen.Init(Main.theStage);
 		MobileControls.Init(Main.theStage);
 		MobileAimPad.Init(Main.theStage);
+		MobileFineButtons.Init(Main.theStage);
 		Main.SetPerfHud(Settings.perfHud);
 		this.SetEverythingUpOnce();
 	}
@@ -6184,7 +6229,12 @@ Main.prototype = $extend(openfl_display_MovieClip.prototype,{
 			dbT_0 = now;
 			if(kc == 192) {
 				toggle();
-			} else if(kc == 66) {
+				return;
+			}
+			if(!Settings.debugKeys) {
+				return;
+			}
+			if(kc == 66) {
 				BounceDebug.Toggle();
 			} else if(kc == 71) {
 				DebugDraw.Toggle();
@@ -6375,6 +6425,7 @@ Main.prototype = $extend(openfl_display_MovieClip.prototype,{
 		OptionsScreen.Tick();
 		MobileControls.Tick();
 		MobileAimPad.Tick();
+		MobileFineButtons.Tick();
 		try {
 			var fb = GameVars.footballGO;
 			if(fb != null && !Main.__diagDone) {
@@ -12153,6 +12204,43 @@ Game.UpdateScroll_Garage = function() {
 	}
 	Game.camera.x = go.xpos - 350.;
 	Game.camera.y = go.ypos - 350.;
+};
+Game.AimFineStep = function(hold) {
+	if(hold <= 0) {
+		return 0;
+	}
+	if(hold == 1) {
+		return 1;
+	}
+	if(hold < 14) {
+		return 0;
+	}
+	var s = 1 + ((hold - 14) / 10 | 0);
+	if(s > 3) {
+		return 3;
+	} else {
+		return s;
+	}
+};
+Game.UpdateAimFine = function() {
+	if(Game.mouse_x != Game.aimFineLastMX || Game.mouse_y != Game.aimFineLastMY) {
+		Game.aimFineX = 0;
+		Game.aimFineY = 0;
+		Game.aimFineHoldL = Game.aimFineHoldR = Game.aimFineHoldU = Game.aimFineHoldD = 0;
+	}
+	Game.aimFineLastMX = Game.mouse_x;
+	Game.aimFineLastMY = Game.mouse_y;
+	Game.aimFineHoldL = KeyReader.Down(37) || MobileFineButtons.LeftDown() ? Game.aimFineHoldL + 1 : 0;
+	Game.aimFineHoldR = KeyReader.Down(39) || MobileFineButtons.RightDown() ? Game.aimFineHoldR + 1 : 0;
+	Game.aimFineHoldU = KeyReader.Down(38) || MobileFineButtons.UpDown() ? Game.aimFineHoldU + 1 : 0;
+	Game.aimFineHoldD = KeyReader.Down(40) || MobileFineButtons.DownDown() ? Game.aimFineHoldD + 1 : 0;
+	Game.aimFineX -= Game.AimFineStep(Game.aimFineHoldL);
+	Game.aimFineX += Game.AimFineStep(Game.aimFineHoldR);
+	Game.aimFineY -= Game.AimFineStep(Game.aimFineHoldU);
+	Game.aimFineY += Game.AimFineStep(Game.aimFineHoldD);
+	if(KeyReader.Pressed(32)) {
+		Game.doKick = true;
+	}
 };
 Game.MouseMoveHandler = function(event) {
 	var go = GameVars.footballGO;
@@ -18924,8 +19012,9 @@ GameObj.prototype = $extend(GameObjBase.prototype,{
 				var dx = NaN;
 				var dy = NaN;
 				if(Game.controlMode == 0) {
-					dx = mx - ballGO.xpos;
-					dy = my - ballGO.ypos;
+					Game.UpdateAimFine();
+					dx = mx + Game.aimFineX - ballGO.xpos;
+					dy = my + Game.aimFineY - ballGO.ypos;
 				} else {
 					var cx = 350.;
 					var cy = 262.5;
@@ -22263,6 +22352,7 @@ HudController.prototype = {
 		uIPackage_UI.SetupAnimatedMusicMuteButton(this.hudMC.mainArea.btn_musicMute);
 		uIPackage_UI.RemoveAnimatedMCButton(this.hudMC.mainArea.btn_moregames);
 		licPackage_Lic.AnimatedMCMoreGamesButton(this.hudMC.mainArea.btn_moregames,"hud");
+		uIPackage_UI.Hide(this.hudMC.mainArea.btn_moregames);
 	}
 	,Hide: function() {
 		this.hudMC.set_visible(false);
@@ -22273,11 +22363,17 @@ HudController.prototype = {
 	,InitForLevel: function() {
 		uIPackage_UI.RemoveAnimatedMCButton(this.hudMC.mainArea.btn_walkthrough);
 		licPackage_Lic.AnimatedMCWalkthroughButton(this.hudMC.mainArea.btn_walkthrough);
+		uIPackage_UI.Hide(this.hudMC.mainArea.btn_walkthrough);
 		this.hudMC.mainArea.LevelNameText.text = Std.parseInt(Std.string(Levels.currentIndex + 1)) + ": " + Levels.GetCurrent().name;
 		if(Game.usedebug) {
 			this.hudMC.mainArea.LevelNameText.text += " (" + Levels.GetCurrent().creator + ")";
 		}
 		HudController.CentreHudText(this.hudMC.mainArea.LevelNameText);
+		var _lnt = this.hudMC.mainArea.LevelNameText;
+		if(HudController.__levelNameBaseX > 1e8) {
+			HudController.__levelNameBaseX = _lnt.x;
+		}
+		_lnt.x = HudController.__levelNameBaseX + 12;
 		HudController.__hudDumped = false;
 	}
 	,CreateCounterOverlays: function() {
@@ -25329,7 +25425,7 @@ MobileAimPad.styleEl = function(el,css) {
 	}
 };
 MobileAimPad.IsActive = function() {
-	if(Settings.mobileControlScheme != 2) {
+	if(Settings.mobileControlScheme != 2 && Settings.mobileControlScheme != 3) {
 		return false;
 	}
 	if(OptionsScreen.open) {
@@ -25768,6 +25864,145 @@ MobileControls.Reposition = function() {
 	} else {
 		MobileControls.baseX = 620.;
 		MobileControls.baseY = 262.5;
+	}
+};
+var MobileFineButtons = function() { };
+$hxClasses["MobileFineButtons"] = MobileFineButtons;
+MobileFineButtons.__name__ = "MobileFineButtons";
+MobileFineButtons.LeftDown = function() {
+	return MobileFineButtons.downL;
+};
+MobileFineButtons.RightDown = function() {
+	return MobileFineButtons.downR;
+};
+MobileFineButtons.UpDown = function() {
+	return MobileFineButtons.downU;
+};
+MobileFineButtons.DownDown = function() {
+	return MobileFineButtons.downD;
+};
+MobileFineButtons.IsActive = function() {
+	if(Settings.mobileControlScheme != 3) {
+		return false;
+	}
+	if(OptionsScreen.open) {
+		return false;
+	}
+	try {
+		if(Game.gameState != 1) {
+			return false;
+		}
+		if(PauseMenu.IsPaused()) {
+			return false;
+		}
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+		return false;
+	}
+	return true;
+};
+MobileFineButtons.Init = function(stage) {
+	if(stage == null) {
+		return;
+	}
+	MobileFineButtons.stageRef = stage;
+	try {
+		var doc = window.document;
+		var span = 198.;
+		MobileFineButtons.wrap = doc.createElement("div");
+		MobileFineButtons.styleEl(MobileFineButtons.wrap,"position:fixed; z-index:99999; display:none; touch-action:none;" + " width:" + span + "px; height:" + span + "px;");
+		MobileFineButtons.mkBtn(doc,"▲",68.,0,function(v) {
+			MobileFineButtons.downU = v;
+		});
+		MobileFineButtons.mkBtn(doc,"▼",68.,136.,function(v) {
+			MobileFineButtons.downD = v;
+		});
+		MobileFineButtons.mkBtn(doc,"◀",0,68.,function(v) {
+			MobileFineButtons.downL = v;
+		});
+		MobileFineButtons.mkBtn(doc,"▶",136.,68.,function(v) {
+			MobileFineButtons.downR = v;
+		});
+		doc.body.appendChild(MobileFineButtons.wrap);
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+};
+MobileFineButtons.mkBtn = function(doc,glyph,x,y,set) {
+	var b = doc.createElement("div");
+	MobileFineButtons.styleEl(b,"position:absolute; left:" + x + "px; top:" + y + "px; width:" + 62 + "px; height:" + 62 + "px;" + " border-radius:14px; background:rgba(255,255,255,0.12); border:3px solid rgba(255,255,255,0.5);" + " box-sizing:border-box; touch-action:none; display:flex; align-items:center; justify-content:center;" + " color:rgba(255,255,255,0.85); font-size:30px; line-height:1; user-select:none; -webkit-user-select:none;");
+	b.innerHTML = glyph;
+	var down = function(e) {
+		set(true);
+		MobileFineButtons.hi(b,true);
+		try {
+			e.preventDefault();
+			e.stopPropagation();
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+		}
+	};
+	var up = function(e) {
+		set(false);
+		MobileFineButtons.hi(b,false);
+		try {
+			e.stopPropagation();
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+		}
+	};
+	b.addEventListener("pointerdown",down,{ passive : false});
+	b.addEventListener("pointerup",up);
+	b.addEventListener("pointercancel",up);
+	b.addEventListener("pointerleave",up);
+	MobileFineButtons.wrap.appendChild(b);
+};
+MobileFineButtons.hi = function(b,on) {
+	try {
+		b.style.background = on ? "rgba(255,255,255,0.30)" : "rgba(255,255,255,0.12)";
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+};
+MobileFineButtons.styleEl = function(el,css) {
+	try {
+		el.setAttribute("style",css);
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+};
+MobileFineButtons.Tick = function() {
+	if(MobileFineButtons.wrap == null) {
+		return;
+	}
+	var on = MobileFineButtons.IsActive();
+	MobileFineButtons.wrap.style.display = on ? "block" : "none";
+	if(!on) {
+		MobileFineButtons.downU = MobileFineButtons.downD = MobileFineButtons.downL = MobileFineButtons.downR = false;
+		return;
+	}
+	MobileFineButtons.position();
+};
+MobileFineButtons.position = function() {
+	try {
+		var win = window;
+		var c = window.document.querySelector("canvas");
+		if(c == null) {
+			return;
+		}
+		var r = c.getBoundingClientRect();
+		var bottomGap = win.innerHeight - r.bottom;
+		var rightGap = win.innerWidth - r.right;
+		var span = 198.;
+		if(bottomGap >= rightGap && bottomGap > 70) {
+			MobileFineButtons.wrap.style.left = win.innerWidth / 2 - span / 2 + "px";
+			MobileFineButtons.wrap.style.top = Math.max(2,(r.top - span) / 2) + "px";
+		} else {
+			MobileFineButtons.wrap.style.left = Math.max(2,(r.left - span) / 2) + "px";
+			MobileFineButtons.wrap.style.top = win.innerHeight / 2 - span / 2 + "px";
+		}
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
 	}
 };
 var MobileSpecific = function() { };
@@ -26247,13 +26482,12 @@ OptionsScreen.Init = function(stage) {
 };
 OptionsScreen.BuildGear = function() {
 	OptionsScreen.gearBtn = new openfl_display_Sprite();
-	OptionsScreen.gearBtn.set_buttonMode(true);
+	OptionsScreen.gearBtn.set_buttonMode(false);
 	OptionsScreen.gearBtn.mouseChildren = false;
 	var g = OptionsScreen.gearBtn.get_graphics();
-	g.beginFill(0,0.45);
-	g.drawRoundRect(0,0,40,40,10,10);
+	g.beginFill(0,0.0);
+	g.drawRect(0,0,80,80);
 	g.endFill();
-	OptionsScreen.DrawCog(OptionsScreen.gearBtn,20,20,12,6.5,8,14540253);
 	OptionsScreen.gearBtn.set_visible(false);
 	OptionsScreen.gearBtn.addEventListener("click",function(_) {
 		OptionsScreen.Show();
@@ -26296,10 +26530,10 @@ OptionsScreen.BuildPanel = function() {
 	OptionsScreen.box = new openfl_display_Sprite();
 	var bg = OptionsScreen.box.get_graphics();
 	bg.beginFill(1579036,0.98);
-	bg.drawRoundRect(0,0,380,342,16,16);
+	bg.drawRoundRect(0,0,380,388,16,16);
 	bg.endFill();
 	bg.lineStyle(2,65382,0.9);
-	bg.drawRoundRect(1,1,378.,340.,16,16);
+	bg.drawRoundRect(1,1,378.,386.,16,16);
 	OptionsScreen.panel.addChild(OptionsScreen.box);
 	OptionsScreen.box.addChild(OptionsScreen.MakeText("OPTIONS",20,65382,0,12,380,true));
 	OptionsScreen.rowPerf = OptionsScreen.MakeRow(46,"Performance HUD");
@@ -26327,20 +26561,26 @@ OptionsScreen.BuildPanel = function() {
 	OptionsScreen.rowCachedTerrain.addEventListener("click",function(_) {
 		OptionsScreen.ToggleCachedTerrain();
 	});
+	OptionsScreen.rowDebug = OptionsScreen.MakeRow(276,"Debug keys (b , . m)");
+	OptionsScreen.lblDebug = OptionsScreen.rowDebug.getChildByName("val");
+	OptionsScreen.rowDebug.addEventListener("click",function(_) {
+		OptionsScreen.ToggleDebugKeys();
+	});
 	OptionsScreen.box.addChild(OptionsScreen.rowPerf);
 	OptionsScreen.box.addChild(OptionsScreen.rowLevels);
 	OptionsScreen.box.addChild(OptionsScreen.rowControl);
 	OptionsScreen.box.addChild(OptionsScreen.rowSens);
 	OptionsScreen.box.addChild(OptionsScreen.rowCachedTerrain);
+	OptionsScreen.box.addChild(OptionsScreen.rowDebug);
 	var fsBtn = OptionsScreen.MakeButton("FULLSCREEN",18,162,function() {
 		OptionsScreen.ToggleFullscreen();
 	});
-	fsBtn.set_y(294.);
+	fsBtn.set_y(340.);
 	OptionsScreen.box.addChild(fsBtn);
 	var closeBtn = OptionsScreen.MakeButton("CLOSE",200.,162,function() {
 		OptionsScreen.Hide();
 	});
-	closeBtn.set_y(294.);
+	closeBtn.set_y(340.);
 	OptionsScreen.box.addChild(closeBtn);
 	OptionsScreen.RefreshLabels();
 };
@@ -26422,7 +26662,21 @@ OptionsScreen.RefreshLabels = function() {
 		OptionsScreen.lblLevels.set_textColor(Settings.openAllLevels ? 65382 : 10066329);
 	}
 	if(OptionsScreen.lblControl != null) {
-		OptionsScreen.lblControl.set_text(Settings.mobileControlScheme == 2 ? "C" : Settings.mobileControlScheme == 1 ? "B" : "A");
+		var tmp;
+		switch(Settings.mobileControlScheme) {
+		case 1:
+			tmp = "B";
+			break;
+		case 2:
+			tmp = "C";
+			break;
+		case 3:
+			tmp = "D";
+			break;
+		default:
+			tmp = "A";
+		}
+		OptionsScreen.lblControl.set_text(tmp);
 	}
 	if(OptionsScreen.lblSens != null) {
 		var tmp;
@@ -26442,6 +26696,10 @@ OptionsScreen.RefreshLabels = function() {
 		OptionsScreen.lblCachedTerrain.set_text(Settings.cachedTerrain ? "ON" : "OFF");
 		OptionsScreen.lblCachedTerrain.set_textColor(Settings.cachedTerrain ? 65382 : 10066329);
 	}
+	if(OptionsScreen.lblDebug != null) {
+		OptionsScreen.lblDebug.set_text(Settings.debugKeys ? "ON" : "OFF");
+		OptionsScreen.lblDebug.set_textColor(Settings.debugKeys ? 65382 : 10066329);
+	}
 };
 OptionsScreen.ToggleSens = function() {
 	Settings.aimSensitivity = (Settings.aimSensitivity + 1) % 3;
@@ -26460,12 +26718,17 @@ OptionsScreen.ToggleLevels = function() {
 	OptionsScreen.RefreshLabels();
 };
 OptionsScreen.ToggleControl = function() {
-	Settings.mobileControlScheme = (Settings.mobileControlScheme + 1) % 3;
+	Settings.mobileControlScheme = (Settings.mobileControlScheme + 1) % 4;
 	Settings.Save();
 	OptionsScreen.RefreshLabels();
 };
 OptionsScreen.ToggleCachedTerrain = function() {
 	Settings.cachedTerrain = !Settings.cachedTerrain;
+	Settings.Save();
+	OptionsScreen.RefreshLabels();
+};
+OptionsScreen.ToggleDebugKeys = function() {
+	Settings.debugKeys = !Settings.debugKeys;
 	Settings.Save();
 	OptionsScreen.RefreshLabels();
 };
@@ -26492,7 +26755,7 @@ OptionsScreen.Tick = function() {
 	}
 	var showGear = false;
 	try {
-		showGear = Game.gameState == 0 || PauseMenu.IsPaused();
+		showGear = PauseMenu.IsPaused();
 	} catch( _g ) {
 		haxe_NativeStackTrace.lastError = _g;
 	}
@@ -26526,8 +26789,8 @@ OptionsScreen.Reposition = function() {
 		sh = 525;
 	}
 	if(OptionsScreen.gearBtn != null) {
-		OptionsScreen.gearBtn.set_x(sw - 48);
-		OptionsScreen.gearBtn.set_y(8);
+		OptionsScreen.gearBtn.set_x(0);
+		OptionsScreen.gearBtn.set_y(sh - 80);
 	}
 	if(OptionsScreen.panel != null) {
 		var dim = OptionsScreen.panel.getChildByName("dim");
@@ -26538,7 +26801,7 @@ OptionsScreen.Reposition = function() {
 		}
 		if(OptionsScreen.box != null) {
 			OptionsScreen.box.set_x((sw - 380) / 2);
-			OptionsScreen.box.set_y((sh - 342) / 2);
+			OptionsScreen.box.set_y((sh - 388) / 2);
 		}
 	}
 };
@@ -29114,7 +29377,7 @@ SaveData.Save = function() {
 	so.data.achievements = achievementPackage_Achievements.ToSharedObject();
 	so.data.cash = Game.cash;
 	so.data.score = Game.currentScore;
-	so.close();
+	so.flush();
 };
 SaveData.prototype = {
 	__class__: SaveData
@@ -29204,6 +29467,9 @@ Settings.Load = function() {
 			if(so.data.noMudFriction != null) {
 				Settings.noMudFriction = so.data.noMudFriction;
 			}
+			if(so.data.debugKeys != null) {
+				Settings.debugKeys = so.data.debugKeys;
+			}
 			so.close();
 		}
 	} catch( _g ) {
@@ -29220,6 +29486,7 @@ Settings.Save = function() {
 		so.data.gpuBatchTest = Settings.gpuBatchTest;
 		so.data.cachedTerrain = Settings.cachedTerrain;
 		so.data.noMudFriction = Settings.noMudFriction;
+		so.data.debugKeys = Settings.debugKeys;
 		so.flush();
 		so.close();
 	} catch( _g ) {
@@ -60893,7 +61160,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 699294;
+	this.version = 250437;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -65175,11 +65442,8 @@ nape_space_Space.prototype = {
 		this._byHandle.remove(h);
 	}
 	,impulseBetween: function(hA,hB) {
-		var imp = this._impulse.h[hA < hB ? hA + "_" + hB : hB + "_" + hA];
-		if(imp == null) {
-			return new nape_geom_Vec3(0,0,0);
-		}
-		return new nape_geom_Vec3(imp.nx * imp.j,imp.ny * imp.j,0);
+		var v = this.engine.normalImpulse(hA,hB);
+		return new nape_geom_Vec3(v[0],v[1],v[2]);
 	}
 	,step: function(deltaTime,velocityIterations,positionIterations) {
 		if(positionIterations == null) {
@@ -118656,7 +118920,8 @@ uIPackage_UI.StartTransition = function(_toScreen,_completeFunction,_returnScree
 		uIPackage_UI.globalMC_transition.set_visible(true);
 		Game.main.addChild(uIPackage_UI.globalMC_transition);
 		uIPackage_UI.globalMC_transition.addEventListener("enterFrame",uIPackage_UI.TransitionEnterFrame,false,0,true);
-		uIPackage_UI.globalMC_transition.gotoAndPlay(1);
+		uIPackage_UI.transStartStamp = new Date().getTime() / 1000;
+		uIPackage_UI.globalMC_transition.gotoAndStop(1);
 		uIPackage_UI.globalMC_transition.set_cacheAsBitmap(true);
 		uIPackage_UI.globalMC_transition.screenA.addChild(uIPackage_UI.transScreenA_B);
 		uIPackage_UI.globalMC_transition.screenB.addChild(uIPackage_UI.transScreenB_B);
@@ -118666,6 +118931,17 @@ uIPackage_UI.TransitionEnterFrame = function(e) {
 	if(uIPackage_UI.globalMC_transition == null) {
 		return;
 	}
+	var tf = uIPackage_UI.globalMC_transition.get_totalFrames();
+	var dur = tf > 1 ? (tf - 1) / 30 : 0.5;
+	var frame = 1 + Math.floor((new Date().getTime() / 1000 - uIPackage_UI.transStartStamp) / dur * (tf - 1));
+	if(frame < 1) {
+		frame = 1;
+	}
+	if(frame < tf) {
+		uIPackage_UI.globalMC_transition.gotoAndStop(frame);
+		return;
+	}
+	uIPackage_UI.globalMC_transition.gotoAndStop(tf);
 	if(uIPackage_UI.globalMC_transition.get_currentFrame() == uIPackage_UI.globalMC_transition.get_totalFrames()) {
 		e.stopImmediatePropagation();
 		e.stopPropagation();
@@ -118925,6 +119201,27 @@ uIPackage_UI.AddAnimatedMCTickButton = function(btn,clickCallback,text,reorderWh
 	btn.tickState = _initialTickState;
 	btn.tick.visible = btn.tickState;
 };
+uIPackage_UI.InstallButtonAnimStops = function(anim) {
+	if(anim == null) {
+		return;
+	}
+	var n = anim.get_totalFrames();
+	var stopHere = function() {
+		anim.stop();
+	};
+	if(n >= 1) {
+		anim.addFrameScript(0,stopHere);
+	}
+	if(n >= 7) {
+		anim.addFrameScript(6,stopHere);
+	}
+	if(n >= 14) {
+		anim.addFrameScript(13,stopHere);
+	}
+	if(n >= 17) {
+		anim.addFrameScript(16,stopHere);
+	}
+};
 uIPackage_UI.AddAnimatedMCButton = function(btn,clickCallback,text,reorderWhenOver,_hoverCallback) {
 	if(reorderWhenOver == null) {
 		reorderWhenOver = false;
@@ -118951,6 +119248,7 @@ uIPackage_UI.AddAnimatedMCButton = function(btn,clickCallback,text,reorderWhenOv
 	}
 	btn.clickCallback = clickCallback;
 	btn.hoverCallback = _hoverCallback;
+	uIPackage_UI.InstallButtonAnimStops(btn.buttonAnimation);
 	btn.buttonAnimation.gotoAndStop(1);
 	if(btn.buttonName != null) {
 		textPackage_TextStrings.ReplaceTextFieldText(btn.buttonName);
@@ -119018,6 +119316,15 @@ uIPackage_UI.AnimatedMCButton_Out = function(e) {
 	}
 	e.currentTarget.buttonAnimation.gotoAndPlay("out");
 	var tmp = e.currentTarget.helpText != null;
+};
+uIPackage_UI.Hide = function(o) {
+	try {
+		if(o != null) {
+			o.visible = false;
+		}
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
 };
 uIPackage_UI.EnableMCButton = function(mc) {
 	mc.set_filters([]);
@@ -119574,15 +119881,20 @@ uIPackage_UIKitSelect.__name__ = "uIPackage.UIKitSelect";
 uIPackage_UIKitSelect.__super__ = uIPackage_UIScreenInstance;
 uIPackage_UIKitSelect.prototype = $extend(uIPackage_UIScreenInstance.prototype,{
 	ExitScreen: function() {
-		if(this.teamNameField != null && this.teamNameOnChange != null) {
-			this.teamNameField.removeEventListener("change",this.teamNameOnChange);
+		if(this.teamNameField != null) {
+			try {
+				if(this.teamNameField.parent != null) {
+					this.teamNameField.parent.removeChild(this.teamNameField);
+				}
+			} catch( _g ) {
+				haxe_NativeStackTrace.lastError = _g;
+			}
 			this.teamNameField = null;
-			this.teamNameOnChange = null;
 		}
+		KeyReader.Enable();
 		uIPackage_UI.RemoveAllButtons();
 	}
 	,InitScreen: function() {
-		var _gthis = this;
 		audioPackage_Audio.PlayMusic("menus_music");
 		uIPackage_UI.StartAddButtons();
 		openfl_ui_Mouse.show();
@@ -119609,17 +119921,61 @@ uIPackage_UIKitSelect.prototype = $extend(uIPackage_UIScreenInstance.prototype,{
 		this.team = GameVars.GetTeam(GameVars.currentEditTeamIndex);
 		this.UpdateKit();
 		this.UpdateColorButtons(this.titleMC.palette,this.team.kitColorShirt);
-		this.titleMC.textTeamName.text = Std.string(this.team.teamName);
-		this.teamNameField = this.titleMC.textTeamName;
-		this.teamNameField.set_type("input");
-		this.teamNameOnChange = function(_) {
+		var _swfName = this.titleMC.textTeamName;
+		var _ovName = new openfl_text_TextField();
+		_ovName.set_type("input");
+		_ovName.set_multiline(false);
+		_ovName.set_wordWrap(false);
+		_ovName.set_border(false);
+		_ovName.set_background(false);
+		_ovName.set_embedFonts(false);
+		try {
+			_ovName.set_maxChars(_swfName.maxChars);
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+		}
+		var _nf = null;
+		try {
+			_nf = _swfName.getTextFormat();
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+		}
+		if(_nf == null) {
+			_nf = new openfl_text_TextFormat();
+		}
+		_nf.set_font("KomikaAxis");
+		_ovName.set_defaultTextFormat(_nf);
+		try {
+			_ovName.set_width(_swfName.width);
+			_ovName.set_height(_swfName.height);
+			_ovName.set_x(_swfName.x);
+			_ovName.set_y(_swfName.y);
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+		}
+		_ovName.set_text(Std.string(this.team.teamName));
+		_ovName.setTextFormat(_nf);
+		try {
+			_swfName.visible = false;
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+		}
+		try {
+			_swfName.parent.addChild(_ovName);
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
 			try {
-				_gthis.teamNameField.setTextFormat(_gthis.teamNameField.getTextFormat());
-			} catch( _g ) {
-				haxe_NativeStackTrace.lastError = _g;
+				this.titleMC.addChild(_ovName);
+			} catch( _g1 ) {
 			}
-		};
-		this.teamNameField.addEventListener("change",this.teamNameOnChange);
+		}
+		this.teamNameField = _ovName;
+		this.teamNameField.addEventListener("focusIn",function(_) {
+			KeyReader.Disable();
+		},false,0,true);
+		this.teamNameField.addEventListener("focusOut",function(_) {
+			KeyReader.Enable();
+		},false,0,true);
 	}
 	,buttonKitPressed: function(e) {
 		this.currentKitPart = openfl_utils_Object.toInt(openfl_utils_Object.__get(e.currentTarget,"kit_part"));
@@ -119850,7 +120206,8 @@ uIPackage_UIKitSelect.prototype = $extend(uIPackage_UIScreenInstance.prototype,{
 		this.UpdateKit();
 	}
 	,buttonBackPressed: function(e) {
-		this.team.teamName = this.titleMC.textTeamName.text;
+		var tmp = this.teamNameField != null ? this.teamNameField.get_text() : this.titleMC.textTeamName.text;
+		this.team.teamName = tmp;
 		SaveData.Save();
 		uIPackage_UI.StartTransition("matchselect");
 	}
@@ -120074,7 +120431,41 @@ uIPackage_UILevelComplete.prototype = $extend(uIPackage_UIScreenInstance.prototy
 		if(l.rating != 0) {
 			this.titleMC.levelrating.star.visible = true;
 		}
-		this.titleMC.levelrating.star.x = this.titleMC.levelrating.title.x + this.titleMC.levelrating.title.textWidth + 8;
+		var _lr = this.titleMC.levelrating;
+		var _swf = _lr.title;
+		var _ov = new openfl_text_TextField();
+		_ov.set_selectable(false);
+		_ov.mouseEnabled = false;
+		_ov.set_embedFonts(false);
+		_ov.set_autoSize("left");
+		var _fmt = null;
+		try {
+			_fmt = _swf.getTextFormat();
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+		}
+		if(_fmt == null) {
+			_fmt = new openfl_text_TextFormat();
+		}
+		_fmt.set_font("KomikaAxis");
+		_fmt.align = "left";
+		_ov.set_defaultTextFormat(_fmt);
+		_ov.set_text(textPackage_TextStrings.GetLocalisedText("Your Best") + ": " + l.bestShots);
+		_ov.setTextFormat(_fmt);
+		try {
+			_ov.set_x(_swf.x);
+			_ov.set_y(_swf.y);
+			_swf.visible = false;
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+		}
+		try {
+			_lr.addChild(_ov);
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+		}
+		var tmp = _ov.get_x() + _ov.get_width();
+		_lr.star.x = tmp + 8;
 		uIPackage_UI.AddAnimatedMCTickButton(this.titleMC.btn_feature1,null,"",false,null,GameVars.useFeature1);
 		uIPackage_UI.AddAnimatedMCTickButton(this.titleMC.btn_feature2,null,"",false,null,GameVars.useFeature2);
 		uIPackage_UI.AddAnimatedMCTickButton(this.titleMC.btn_feature3,null,"",false,null,GameVars.useFeature3);
@@ -120107,6 +120498,14 @@ uIPackage_UILevelComplete.prototype = $extend(uIPackage_UIScreenInstance.prototy
 			uIPackage_UI.AnimatedMCTickButtonSetCanPress(this.titleMC.btn_feature4,true);
 			this.titleMC.btn_feature4.filters = [];
 		}
+		uIPackage_UI.Hide(this.titleMC.btn_submit);
+		uIPackage_UI.Hide(this.titleMC.buttonPlayWithHighcores);
+		uIPackage_UI.Hide(this.titleMC.highscore);
+		uIPackage_UI.Hide(this.titleMC.buttonLevelSelect);
+		uIPackage_UI.Hide(this.titleMC.btn_walkthrough);
+		uIPackage_UI.Hide(this.titleMC.btn_moregames);
+		uIPackage_UI.Hide(this.titleMC.btn_prequel);
+		uIPackage_UI.Hide(this.titleMC.adBox);
 	}
 	,buttonSubmitPressed: function(e) {
 		this.titleMC.btn_submit.visible = false;
@@ -120247,6 +120646,14 @@ uIPackage_UILevelFailedScreen.prototype = $extend(uIPackage_UIScreenInstance.pro
 			uIPackage_UI.AnimatedMCTickButtonSetCanPress(this.titleMC.btn_feature4,true);
 			this.titleMC.btn_feature4.filters = [];
 		}
+		uIPackage_UI.Hide(this.titleMC.btn_submit);
+		uIPackage_UI.Hide(this.titleMC.buttonPlayWithHighcores);
+		uIPackage_UI.Hide(this.titleMC.highscore);
+		uIPackage_UI.Hide(this.titleMC.buttonLevelSelect);
+		uIPackage_UI.Hide(this.titleMC.btn_walkthrough);
+		uIPackage_UI.Hide(this.titleMC.btn_moregames);
+		uIPackage_UI.Hide(this.titleMC.btn_prequel);
+		uIPackage_UI.Hide(this.titleMC.adBox);
 	}
 	,buttonSubmitPressed: function(e) {
 		this.titleMC.btn_submit.visible = false;
@@ -121032,6 +121439,13 @@ uIPackage_UITitleScreen.prototype = $extend(uIPackage_UIScreenInstance.prototype
 		licPackage_Lic.AnimatedMCFacebookButton(this.titleMC.btn_facebook);
 		licPackage_Lic.Y8LogoButton(this.titleMC.btn_y8);
 		licPackage_Lic.AnimatedMCDownloadForYourSiteButton(this.titleMC.btn_download);
+		uIPackage_UI.Hide(this.titleMC.btn_prequel);
+		uIPackage_UI.Hide(this.titleMC.btn_moregames);
+		uIPackage_UI.Hide(this.titleMC.btn_download);
+		uIPackage_UI.Hide(this.titleMC.btn_facebook);
+		uIPackage_UI.Hide(this.titleMC.btn_y8);
+		uIPackage_UI.Hide(this.titleMC.mainLogo);
+		uIPackage_UI.Hide(this.titleMC.btn_localMusic);
 	}
 	,buttonDownloadGamePressed: function(e) {
 		var url = "http://www.guineapop.com/Downloads/TokyoGuineaPop.zip";
@@ -121756,6 +122170,14 @@ Game.testTextureFrame = 0;
 Game.createdForegroundBitmaps = false;
 Game.scrollMode = 0;
 Game.doKick = false;
+Game.aimFineX = 0;
+Game.aimFineY = 0;
+Game.aimFineHoldL = 0;
+Game.aimFineHoldR = 0;
+Game.aimFineHoldU = 0;
+Game.aimFineHoldD = 0;
+Game.aimFineLastMX = 1e9;
+Game.aimFineLastMY = 1e9;
 Game.mouse_ox = 0;
 Game.mouse_oy = 0;
 Game.mouse_x = 0;
@@ -121853,6 +122275,8 @@ GameVars.oppo_kick_table = [new OppoKick(67,14,-6),new OppoKick(68,23,-13),new O
 GameVars.totalGameCoins = 935;
 GameVars.kitColors = [[255,255,255],[10,10,10],[100,100,100],[247,245,70],[0,173,245],[72,117,246],[30,76,208],[19,21,97],[237,28,36],[157,10,14],[112,36,54],[77,3,3],[255,78,0],[237,20,90],[28,185,104],[29,124,51]];
 GraphicObjects.class_vars = EmbedGraphicObjects;
+HudController.LEVELNAME_NUDGE_X = 12;
+HudController.__levelNameBaseX = 1e9;
 HudController.ovCreated = false;
 HudController.OV_DY = 5;
 HudController.__hudDumped = false;
@@ -121978,6 +122402,12 @@ MobileControls.downX = 0;
 MobileControls.downY = 0;
 MobileControls.downT = 0;
 MobileControls.downWasTap = false;
+MobileFineButtons.BTN = 62;
+MobileFineButtons.GAP = 6;
+MobileFineButtons.downU = false;
+MobileFineButtons.downD = false;
+MobileFineButtons.downL = false;
+MobileFineButtons.downR = false;
 MouseControl.ox = 0;
 MouseControl.oy = 0;
 MouseControl.x = 0;
@@ -121993,7 +122423,8 @@ NapeContacts.probeEnabled = false;
 NapeContacts.probeOngoingTick = 0;
 OptionsScreen.open = false;
 OptionsScreen.BOX_W = 380;
-OptionsScreen.BOX_H = 342;
+OptionsScreen.BOX_H = 388;
+OptionsScreen.GEAR_HIT = 80;
 Particles.type_dust = 0;
 Particles.max = 0;
 Particles.nextIndex = 0;
@@ -122030,9 +122461,11 @@ Settings.aimSensitivity = 1;
 Settings.gpuBatchTest = false;
 Settings.cachedTerrain = true;
 Settings.noMudFriction = false;
+Settings.debugKeys = false;
 Settings.SCHEME_A = 0;
 Settings.SCHEME_B = 1;
 Settings.SCHEME_C = 2;
+Settings.SCHEME_D = 3;
 Settings.SID = "soccerballs2_settings";
 TexturePages.txSize = 2048;
 TexturePages.doBestFit = true;
@@ -124359,6 +124792,7 @@ uIPackage_UI.returnScreenName = "";
 uIPackage_UI.isInTransition = false;
 uIPackage_UI.exitScreenTimer = 0;
 uIPackage_UI.exitScreenLocation = "";
+uIPackage_UI.transStartStamp = 0;
 uIPackage_UI.greyFilter = new openfl_filters_ColorMatrixFilter([0.3086,0.6094,0.0820,0,0,0.3086,0.6094,0.0820,0,0,0.3086,0.6094,0.0820,0,0,0,0,0,1,0]);
 uIPackage_UI.blackFilter = new openfl_filters_ColorMatrixFilter([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0]);
 uIPackage_UI.debugSkipMovies = false;

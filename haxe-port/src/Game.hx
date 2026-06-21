@@ -1549,6 +1549,57 @@ class Game
     public static var scrollDragX : Float;
     public static var scrollDragY : Float;
     public static var doKick : Bool = false;
+
+    // --- Arrow-key kick-aim fine-tune (desktop, controlMode 0). The mouse sets the coarse aim;
+    // arrow keys nudge it 1 point at a time, hold to go a bit faster. Any real mouse movement
+    // re-captures the aim and clears the fine offset. Consumed in GameObj's football aim. ---
+    public static var aimFineX : Float = 0;
+    public static var aimFineY : Float = 0;
+    static var aimFineHoldL : Int = 0;
+    static var aimFineHoldR : Int = 0;
+    static var aimFineHoldU : Int = 0;
+    static var aimFineHoldD : Int = 0;
+    static var aimFineLastMX : Float = 1e9;
+    static var aimFineLastMY : Float = 1e9;
+
+    static function AimFineStep(hold : Int) : Float
+    {
+        if (hold <= 0) return 0;
+        if (hold == 1) return 1;                       // a tap = exactly 1 point
+        if (hold < 14) return 0;                       // brief delay before auto-repeat kicks in
+        var s : Int = 1 + Std.int((hold - 14) / 10);   // then accelerate: 1, 2, 3 px/frame
+        return (s > 3) ? 3 : s;                        // "a bit faster", capped
+    }
+
+    public static function UpdateAimFine() : Void
+    {
+        // a real mouse move re-takes the aim and clears the accumulated fine offset
+        if (mouse_x != aimFineLastMX || mouse_y != aimFineLastMY)
+        {
+            aimFineX = 0; aimFineY = 0;
+            aimFineHoldL = aimFineHoldR = aimFineHoldU = aimFineHoldD = 0;
+        }
+        aimFineLastMX = mouse_x;
+        aimFineLastMY = mouse_y;
+
+        // physical arrow keys (desktop) OR the on-screen arrow buttons (mobile scheme D) feed the same nudge
+        aimFineHoldL = (KeyReader.Down(KeyReader.KEY_LEFT)  || MobileFineButtons.LeftDown())  ? aimFineHoldL + 1 : 0;
+        aimFineHoldR = (KeyReader.Down(KeyReader.KEY_RIGHT) || MobileFineButtons.RightDown()) ? aimFineHoldR + 1 : 0;
+        aimFineHoldU = (KeyReader.Down(KeyReader.KEY_UP)    || MobileFineButtons.UpDown())    ? aimFineHoldU + 1 : 0;
+        aimFineHoldD = (KeyReader.Down(KeyReader.KEY_DOWN)  || MobileFineButtons.DownDown())  ? aimFineHoldD + 1 : 0;
+
+        aimFineX -= AimFineStep(aimFineHoldL);
+        aimFineX += AimFineStep(aimFineHoldR);
+        aimFineY -= AimFineStep(aimFineHoldU);
+        aimFineY += AimFineStep(aimFineHoldD);
+
+        // Space bar fires the kick WITHOUT moving the mouse, so the fine-tuned aim is preserved
+        // (clicking the mouse would jog the cursor and reset the offset). General desktop shoot key.
+        if (KeyReader.Pressed(KeyReader.KEY_SPACE))
+        {
+            doKick = true;
+        }
+    }
     
     public static var mouse_ox : Float = 0;
     public static var mouse_oy : Float = 0;

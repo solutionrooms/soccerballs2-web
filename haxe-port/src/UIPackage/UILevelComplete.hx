@@ -144,12 +144,31 @@ class UILevelComplete extends UIScreenInstance
         {
             (untyped titleMC).levelrating.star.visible = true;
         }
-        // Our font metrics differ from the original Flash font, so the star's fixed
-        // symbol x no longer sits snug after "YOUR BEST: n" (it floats off to the
-        // right). Anchor it to the rendered text width instead. The title field is
-        // left-aligned with the standard ~2px TextField gutter.
-        (untyped titleMC).levelrating.star.x =
-            (untyped titleMC).levelrating.title.x + (untyped titleMC).levelrating.title.textWidth + 8;
+        // openfl-swf does NOT reliably apply runtime alignment/autoSize to the embedded SWF text field,
+        // so the "Your Best: n" value clipped and the star landed ON the number (getLineMetrics reported
+        // a left-aligned layout while the field actually rendered right-aligned). Replace the SWF field
+        // with a fresh openfl TextField overlay (device font, LEFT autoSize — metrics we can trust) and
+        // anchor the star to the overlay's true right edge. Mirrors the HUD / level-select overlay fix.
+        {
+            var _lr : Dynamic = (untyped titleMC).levelrating;
+            var _swf : Dynamic = _lr.title;
+            var _ov : flash.text.TextField = new flash.text.TextField();
+            _ov.selectable = false;
+            _ov.mouseEnabled = false;
+            _ov.embedFonts = false;
+            _ov.autoSize = flash.text.TextFieldAutoSize.LEFT;
+            var _fmt : flash.text.TextFormat = null;
+            try { _fmt = _swf.getTextFormat(); } catch (e : Dynamic) {}
+            if (_fmt == null) _fmt = new flash.text.TextFormat();
+            _fmt.font = GameFont.FAMILY;
+            _fmt.align = flash.text.TextFormatAlign.LEFT;
+            _ov.defaultTextFormat = _fmt;
+            _ov.text = TextStrings.GetLocalisedText("Your Best") + ": " + l.bestShots;
+            _ov.setTextFormat(_fmt);
+            try { _ov.x = _swf.x; _ov.y = _swf.y; _swf.visible = false; } catch (e : Dynamic) {}
+            try { _lr.addChild(_ov); } catch (e : Dynamic) {}
+            (untyped _lr).star.x = _ov.x + _ov.width + 8; // star just after the rendered text
+        }
         
         
         
@@ -194,6 +213,17 @@ class UILevelComplete extends UIScreenInstance
             UI.AnimatedMCTickButtonSetCanPress((untyped titleMC).btn_feature4, true);
             (untyped titleMC).btn_feature4.filters = [];
         }
+
+        // Strip the promo / highscore / extra UI (keep: title, level name, kicks/gold, your-best+star,
+        // retry, next, feature toggles + info, trophies, coin box).
+        UI.Hide((untyped titleMC).btn_submit);              // SUBMIT SCORE
+        UI.Hide((untyped titleMC).buttonPlayWithHighcores); // Play with Highscores
+        UI.Hide((untyped titleMC).highscore);               // highscore display
+        UI.Hide((untyped titleMC).buttonLevelSelect);       // Level Select  (see note: removes menu link)
+        UI.Hide((untyped titleMC).btn_walkthrough);         // WALKTHROUGH
+        UI.Hide((untyped titleMC).btn_moregames);           // MORE GAMES
+        UI.Hide((untyped titleMC).btn_prequel);             // prequel link
+        UI.Hide((untyped titleMC).adBox);                   // ad box
     }
     
     

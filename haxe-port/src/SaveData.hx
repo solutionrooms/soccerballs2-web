@@ -123,9 +123,12 @@ class SaveData
         
         so.data.cash = Game.cash;
         so.data.score = Game.currentScore;
-        
-        
-        (untyped so).close();
+
+
+        // Flash auto-persisted a SharedObject on close(); openfl-html5's close() is a NO-OP, so the
+        // save was never written to localStorage and every stat (coins/trophies/levels/achievements)
+        // was lost on refresh. flush() is what actually writes to localStorage.
+        so.flush();
     }
 }
 

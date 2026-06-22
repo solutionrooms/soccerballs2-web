@@ -78,4 +78,9 @@ extern class NapeReplicaJS {
 	// the ref↔other body-pair (multi-shape bodies make >1 arbiter). The crate-break query MUST use this,
 	// not the per-pair _impulse map (which overwrites and drops all but one arbiter — lvl-9 break bug).
 	public function normalImpulse(ref:Int, other:Int):Array<Float>;
+
+	// Faithful 2012-nape terrain triangulation (monotone decompose + ZPP_Triangular), bundled as a
+	// static on the global. flat = [x0,y0,x1,y1,…] outline; returns [[ax,ay,bx,by,cx,cy], …]. Replaces
+	// the shim's ear-clipping (which produced different pit-edge tris → lvl-19 crate flipped OUT).
+	public static function triangulate(flat:Array<Float>):Array<Array<Float>>;
 }

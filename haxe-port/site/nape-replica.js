@@ -3831,6 +3831,302 @@
     }
   };
 
+  // src/physics/replica/geom-triangulate.ts
+  var PV = class {
+    constructor(x, y) {
+      __publicField(this, "x");
+      __publicField(this, "y");
+      __publicField(this, "prev");
+      __publicField(this, "next");
+      __publicField(this, "helper", null);
+      __publicField(this, "type", 0);
+      // 0 START, 1 END, 2 MERGE, 3 SPLIT, 4 REGULAR
+      __publicField(this, "diagonals", []);
+      this.x = x;
+      this.y = y;
+    }
+  };
+  function below(a, b) {
+    if (a.y < b.y) return true;
+    if (a.y > b.y) return false;
+    return a.x < b.x;
+  }
+  function rightdistance(p, q) {
+    const flip = p.next.y > p.y;
+    const ax = p.next.x - p.x, ay = p.next.y - p.y;
+    const bx = q.x - p.x, by = q.y - p.y;
+    return (flip ? -1 : 1) * (by * ax - bx * ay);
+  }
+  function vert_lt(p, q) {
+    if (q === p || q === p.next) return true;
+    if (p.y === p.next.y) {
+      const lo = Math.min(p.x, p.next.x);
+      return lo <= q.x;
+    }
+    return rightdistance(p, q) <= 0;
+  }
+  function edge_lt(p, q) {
+    if (p === q && p.next === q.next) return false;
+    if (p === q.next) return !vert_lt(p, q);
+    if (q === p.next) return vert_lt(q, p);
+    if (p.y === p.next.y) {
+      if (q.y === q.next.y) return Math.max(p.x, p.next.x) > Math.max(q.x, q.next.x);
+      return rightdistance(q, p) > 0;
+    }
+    const d = rightdistance(p, q);
+    const lp = d < 0;
+    const lq = rightdistance(p, q.next) < 0;
+    if (lp === lq) return lp;
+    if (q.y === q.next.y) return d > 0;
+    return rightdistance(q, p) >= 0;
+  }
+  function left_vertex(v) {
+    const p = v.prev;
+    return p.y > v.y || p.y === v.y && v.next.y < v.y;
+  }
+  function buildRing(flat) {
+    const n = flat.length >> 1;
+    if (n < 3) return null;
+    let area2 = 0;
+    for (let i = 0; i < n; i++) {
+      const px = flat[(i - 1 + n) % n * 2 + 1];
+      const ny = flat[(i + 1) % n * 2 + 1];
+      area2 += flat[i * 2] * (ny - px);
+    }
+    const order = [];
+    for (let i = 0; i < n; i++) order.push(i);
+    if (area2 <= 0) order.reverse();
+    const verts = order.map((i) => new PV(flat[i * 2], flat[i * 2 + 1]));
+    for (let i = 0; i < verts.length; i++) {
+      verts[i].next = verts[(i + 1) % verts.length];
+      verts[i].prev = verts[(i - 1 + verts.length) % verts.length];
+    }
+    let head = verts[0];
+    const eq = (a, b) => {
+      const dx = a.x - b.x, dy = a.y - b.y;
+      return dx * dx + dy * dy < 1e-8;
+    };
+    let v = head;
+    let first = true;
+    let count = verts.length;
+    while ((first || v !== head) && count > 3) {
+      first = false;
+      if (eq(v, v.next)) {
+        if (v === head) head = v.next;
+        v.prev.next = v.next;
+        v.next.prev = v.prev;
+        count--;
+        v = v.next;
+        continue;
+      }
+      let p = v.prev;
+      while (eq(v, p)) p = p.prev;
+      const ax = v.x - p.x, ay = v.y - p.y;
+      const bx = v.next.x - v.x, by = v.next.y - v.y;
+      if (by * ax - bx * ay !== 0) {
+        v = v.next;
+      } else {
+        if (v === head) head = v.next;
+        v.prev.next = v.next;
+        v.next.prev = v.prev;
+        count--;
+        v = v.next;
+      }
+    }
+    return head;
+  }
+  function ringToArray(head) {
+    const out = [];
+    let v = head;
+    do {
+      out.push(v);
+      v = v.next;
+    } while (v !== head);
+    return out;
+  }
+  function addDiagonal(a, b) {
+    a.diagonals.push(b);
+    b.diagonals.push(a);
+  }
+  function decompose(head) {
+    const verts = ringToArray(head);
+    for (const v of verts) {
+      const ax = v.next.x - v.x, ay = v.next.y - v.y;
+      const bx = v.prev.x - v.x, by = v.prev.y - v.y;
+      const convex = by * ax - bx * ay > 0;
+      v.type = below(v.prev, v) ? below(v.next, v) ? convex ? 0 : 3 : 4 : below(v, v.next) ? convex ? 1 : 2 : 4;
+    }
+    const order = verts.slice().sort((a, b) => a.y !== b.y ? b.y - a.y : b.x - a.x);
+    const status = [];
+    const insert = (e) => {
+      let i = 0;
+      while (i < status.length && edge_lt(status[i], e)) i++;
+      status.splice(i, 0, e);
+    };
+    const removeEdge = (e) => {
+      const i = status.indexOf(e);
+      if (i >= 0) status.splice(i, 1);
+    };
+    const leftEdge = (v) => {
+      for (const e of status) if (!vert_lt(e, v)) return e;
+      return null;
+    };
+    for (const v of order) {
+      switch (v.type) {
+        case 0:
+          v.helper = v;
+          insert(v);
+          break;
+        case 1: {
+          const e = v.prev;
+          if (e.helper && e.helper.type === 2) addDiagonal(v, e.helper);
+          removeEdge(e);
+          break;
+        }
+        case 2: {
+          const e = v.prev;
+          if (e.helper && e.helper.type === 2) addDiagonal(v, e.helper);
+          removeEdge(e);
+          const ej = leftEdge(v);
+          if (ej) {
+            if (ej.helper && ej.helper.type === 2) addDiagonal(v, ej.helper);
+            ej.helper = v;
+          }
+          break;
+        }
+        case 3: {
+          const ej = leftEdge(v);
+          if (ej) {
+            if (ej.helper) addDiagonal(v, ej.helper);
+            ej.helper = v;
+          }
+          insert(v);
+          v.helper = v;
+          break;
+        }
+        case 4: {
+          if (left_vertex(v)) {
+            const e = v.prev;
+            if (e.helper && e.helper.type === 2) addDiagonal(v, e.helper);
+            removeEdge(e);
+            insert(v);
+            v.helper = v;
+          } else {
+            const ej = leftEdge(v);
+            if (ej) {
+              if (ej.helper && ej.helper.type === 2) addDiagonal(v, ej.helper);
+              ej.helper = v;
+            }
+          }
+          break;
+        }
+      }
+    }
+  }
+  function shoelace(face) {
+    let a = 0;
+    const n = face.length;
+    for (let i = 0; i < n; i++) {
+      const p = face[i], q = face[(i + 1) % n];
+      a += p.x * q.y - q.x * p.y;
+    }
+    return a;
+  }
+  function extractFaces(head) {
+    const verts = ringToArray(head);
+    const idx = /* @__PURE__ */ new Map();
+    verts.forEach((v, i) => idx.set(v, i));
+    const adj = /* @__PURE__ */ new Map();
+    for (const v of verts) {
+      const nb = [.../* @__PURE__ */ new Set([v.next, v.prev, ...v.diagonals])];
+      nb.sort((p, q) => Math.atan2(p.y - v.y, p.x - v.x) - Math.atan2(q.y - v.y, q.x - v.x));
+      adj.set(v, nb);
+    }
+    const ringArea = shoelace(verts);
+    const ringSign = ringArea > 0 ? 1 : -1;
+    const key = (a, b) => idx.get(a) + ">" + idx.get(b);
+    const visited = /* @__PURE__ */ new Set();
+    const faces = [];
+    for (const sv of verts) {
+      for (const sw of adj.get(sv)) {
+        if (visited.has(key(sv, sw))) continue;
+        const face = [];
+        let u = sv, v = sw;
+        let guard = verts.length * 6 + 12;
+        while (guard-- > 0) {
+          visited.add(key(u, v));
+          face.push(u);
+          const ring = adj.get(v);
+          const j = ring.indexOf(u);
+          const w = ring[(j - 1 + ring.length) % ring.length];
+          u = v;
+          v = w;
+          if (u === sv && v === sw) break;
+        }
+        if (face.length >= 3 && (shoelace(face) > 0 ? 1 : -1) === ringSign) faces.push(face);
+      }
+    }
+    return faces;
+  }
+  function triangulateMonotone(face) {
+    const n = face.length;
+    if (n < 3) return [];
+    if (n === 3) return [[face[0].x, face[0].y, face[1].x, face[1].y, face[2].x, face[2].y]];
+    const sorted = face.slice().sort((a, b) => below(a, b) ? -1 : below(b, a) ? 1 : 0);
+    const top = sorted[0], bot = sorted[n - 1];
+    const idx = /* @__PURE__ */ new Map();
+    face.forEach((v, i) => idx.set(v, i));
+    const fnext = (v) => face[(idx.get(v) + 1) % n];
+    const fprev = (v) => face[(idx.get(v) - 1 + n) % n];
+    const side = /* @__PURE__ */ new Map();
+    for (let v = fnext(top); v !== bot; v = fnext(v)) side.set(v, 0);
+    for (let v = fprev(top); v !== bot; v = fprev(v)) side.set(v, 1);
+    const tris = [];
+    const emit = (a, b, c) => tris.push([a.x, a.y, b.x, b.y, c.x, c.y]);
+    const stack = [sorted[0], sorted[1]];
+    for (let j = 2; j < n - 1; j++) {
+      const u2 = sorted[j];
+      const su = side.get(u2), st = side.get(stack[stack.length - 1]);
+      if (su !== st) {
+        while (stack.length > 1) {
+          const a = stack.pop();
+          emit(u2, a, stack[stack.length - 1]);
+        }
+        stack.pop();
+        stack.push(sorted[j - 1]);
+        stack.push(u2);
+      } else {
+        let last = stack.pop();
+        while (stack.length > 0) {
+          const w = stack[stack.length - 1];
+          const cross = (last.x - u2.x) * (w.y - u2.y) - (last.y - u2.y) * (w.x - u2.x);
+          const convex = su === 1 ? cross > 0 : cross < 0;
+          if (!convex) break;
+          emit(u2, last, w);
+          last = stack.pop();
+        }
+        stack.push(last);
+        stack.push(u2);
+      }
+    }
+    const u = bot;
+    while (stack.length > 1) {
+      const a = stack.pop();
+      emit(u, a, stack[stack.length - 1]);
+    }
+    return tris;
+  }
+  function triangulate(flat) {
+    const head = buildRing(flat);
+    if (head === null) return [];
+    decompose(head);
+    const pieces = extractFaces(head);
+    const tris = [];
+    for (const piece of pieces) tris.push(...triangulateMonotone(piece));
+    return tris;
+  }
+
   // src/physics/replica/bundle-entry.ts
+  NapeReplica.triangulate = triangulate;
   globalThis.NapeReplica = NapeReplica;
 })();

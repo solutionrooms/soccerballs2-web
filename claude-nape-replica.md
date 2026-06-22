@@ -134,7 +134,23 @@ p0pd · p0fl · p0ms · p0sl · p0wk · **p0kn** (kinematic motion + offset-orig
 **p0kw** (keep-awake nudge — setVel refreshes waket on an awake body so a sub-threshold nudge prevents sleep; lvl-8) ·
 **p0br** (crate-break input — `normalImpulse(ref,other).length` carries the angular Vec3 z-term; 762.113 bit-exact at impact; lvl-9 breakables) ·
 **p0fs** (full lvl-9 TOWER settling — 8-body island, bit-exact through frame 90 then <1e-9 tol; the asymmetric tilted-post poly-poly fix) ·
+**p0sr** (lvl-19 sandy-rebound f65 — el=1 ball grazes the real grass terrain slope [rebuilt via the game's own `InitLines` → `GeomPoly.triangularDecomposition` → 65 tris, `poly_average`], rebounds to vx −191.296 bit-exact f65→f72 — PROVES the replica is faithful to 2012 and nape-haxe4 2.0.22 is the outlier that over-rebounds it) ·
 p0tr-terrain + p0sw-switchmask + p0kn-kinematic + p0rf-runtimefilters + p0wv-setangvel + p0kd-keeperduck (behavioural)
+
+### lvl-19 sandy-rebound FULL-SCENE 2012 oracle (2026-06-21) — engine exonerated
+Jon: lvl-19 completes on the genuine 2012 SWF but NOT on the replica build → flagged a real aggregate divergence
+(p0sr proved only ONE contact). Built a full-scene 2012 oracle (`tools/nape-oracle/harness-p0sf.as` → golden
+`original-goldens/p0sf-fullscene.json`): the WHOLE level in REAL 2012 nape, every body via the game's own paths
+(terrain `InitLines`/`GeomPoly.triangularDecomposition`; objects the game's `Triangulate.process` — crate=2 tris,
+`triangulatePoly=true` is hardcoded in `PhysicsBase`). Deterministic spec agreed with haxe-port + their shim
+inventory cross-checked = scene parity. **Faithful: roller bit-for-bit through f65** (oracle f44 = haxe-port f64 =
+`(713.018,305.262) v(-143.294,221.546)`; f45 = `-191.297` = p0sr in-scene; frame offset oracle fN = port f(N+20)).
+**Outcome for the release-only/no-kick scenario: 2012 crate→(347.1,463.7) r-1.552, roller→(361.2,405.1), NO ball
+reaches goal@193 — MATCHES the replica (352,463.7, r-1.549, no goal) within the trig ceiling (5px, rotating crate).**
+⇒ **2012 == replica; the level is NOT completable via release-only on EITHER build; the engine is faithful.** The
+winning solve REQUIRES the player KICK (omitted by the repro) — release-only was the wrong test. Next: capture Jon's
+real kick (ball + x,y,vx,vy; ULP-sensitive, needs a live dump) and run both builds. Not a bit-exact gate (rotating
+crate is trig-limited); the decisive p0sr contact IS gated.
 
 ### lvl-9 tower poly-poly ordering fix (2026-06-20)
 The loaded lvl-9 tower (5 crates + 89° `metalpost` + 2 balls) "played nowhere near the original" — it diverged at

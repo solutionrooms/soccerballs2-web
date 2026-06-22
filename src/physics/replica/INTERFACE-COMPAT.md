@@ -15,7 +15,8 @@ Legend: ✅ implemented & bit-exact · 🟡 solver done, thin adapter still need
 | `setGravity(g)` | ✅ | |
 | `createBody(isStatic,x,y,rotDeg,linDamp,angDamp)` | ✅ | |
 | `addCircle(h,…,colCat,colMask,isSensor)` | ✅ | colCat/colMask/isSensor stored; filtering ⬜ |
-| `addPolygon(h,verts,…,colCat,colMask,isSensor)` | ✅ | convex pieces (decomposition out of the bit-exact loop) |
+| `addPolygon(h,verts,…,colCat,colMask,isSensor)` | ✅ | convex pieces; the shim triangulates terrain via `NapeReplica.triangulate` (below) |
+| `NapeReplica.triangulate(flat)` *(static)* | ✅ | faithful 2012 `GeomPoly.triangularDecomposition` (monotone, NOT ear-clip). `flat=[x0,y0,…]` → `[[ax,ay,bx,by,cx,cy],…]`. Triangle SET bit-exact vs nape (`geom-triangulate.test.ts`); output ORDER may differ (nape's `pull_partitions`/sort ordering deferred). Shim's `GeomPoly.hx.triangularDecomposition` delegates here — fixed lvl-19 (ear-clipping produced a different tri set → crate caught a phantom pit-edge notch → tipped OUT). `src/physics/replica/geom-triangulate.ts`. |
 | `finalizeBody(h,bullet)` | ✅ | bullet flag accepted; auto-sweep already arrests fast bodies |
 | `step(dt,velIters,posIters)` | ✅ | full pipeline incl. continuous collision |
 | `destroyBody(h)` | ✅ | |

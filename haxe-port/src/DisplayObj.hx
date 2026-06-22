@@ -118,8 +118,9 @@ class DisplayObj
             
             BD = new BitmapData(Std.int(rect.width), Std.int(rect.height), true, 0);
             BD.draw(t, mat, null, null, null, true);
-            
-            BD.applyFilter(BD, BD.rect, Defs.pointZero, new DropShadowFilter(3, 45, 0, 1, 2, 2, 3, 3));
+
+            // In-game text shadow removed: the baked heavy black DropShadow (strength 3) rendered as a
+            // blurry halo that made the help/HUD text hard to read. Glyphs draw crisp now.
             dof.bitmapData = BD;
             
             dof.sourceRect = new Rectangle(0, 0, BD.width, BD.height);

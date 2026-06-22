@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "72";
+	app.meta.h["build"] = "73";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -5871,6 +5871,105 @@ Main.sb2Impact = $hx_exports["sb2Impact"] = function() {
 	}
 	return out;
 };
+Main.sb2FullScene = $hx_exports["sb2FullScene"] = function() {
+	var space;
+	try {
+		space = PhysicsBase.GetNapeSpace();
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+		space = null;
+	}
+	if(space == null) {
+		return "no space";
+	}
+	var out = "";
+	var b = space._bodies.iterator();
+	while(b.hasNext()) {
+		var b1 = b.next();
+		var dyn = !b1.isStatic();
+		var near = dyn;
+		if(!dyn) {
+			var sh = b1._shapes.iterator();
+			while(sh.hasNext()) {
+				var sh1 = sh.next();
+				if(!sh1.isPolygon()) {
+					continue;
+				}
+				var p = sh1;
+				var lv = p.get_worldVerts();
+				var _g = 0;
+				var _g1 = lv._a.length;
+				while(_g < _g1) {
+					var i = _g++;
+					var v = lv.at(i);
+					if((v._body == null ? v._vx : v._body.prxGet(v._kind,0)) > 280 && (v._body == null ? v._vx : v._body.prxGet(v._kind,0)) < 420 && (v._body == null ? v._vy : v._body.prxGet(v._kind,1)) > 370 && (v._body == null ? v._vy : v._body.prxGet(v._kind,1)) < 520) {
+						near = true;
+						break;
+					}
+				}
+				if(near) {
+					break;
+				}
+			}
+		}
+		if(!near) {
+			continue;
+		}
+		var ts = b1.isStatic() ? "S" : b1.isKinematic() ? "K" : "D";
+		var com;
+		try {
+			com = b1.get_worldCOM();
+		} catch( _g2 ) {
+			haxe_NativeStackTrace.lastError = _g2;
+			com = null;
+		}
+		var _this = nape_geom_Vec2.bound(b1,0);
+		var out1 = ts + " pos=(" + Math.round((_this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0)) * 1000) / 1000 + ",";
+		var _this1 = nape_geom_Vec2.bound(b1,0);
+		out += out1 + Math.round((_this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1)) * 1000) / 1000 + ") rot=" + Math.round((b1.handle < 0 ? b1._rot : b1.engine.getRotRad(b1.handle)) * 100000) / 100000 + " worldCOM=(" + (com != null ? Math.round((com._body == null ? com._vx : com._body.prxGet(com._kind,0)) * 1000) / 1000 + "," + Math.round((com._body == null ? com._vy : com._body.prxGet(com._kind,1)) * 1000) / 1000 : "?") + ")" + " m=" + Math.round((b1.handle < 0 ? 0 : b1.engine.getMass(b1.handle)) * 1000) / 1000 + " I=" + Math.round((b1.handle < 0 ? 0 : b1.engine.getInertia(b1.handle)) * 100) / 100 + " n=" + b1._shapes._a.length;
+		var _g3 = 0;
+		var _g4 = b1._shapes._a.length;
+		while(_g3 < _g4) {
+			var s = _g3++;
+			var sh2 = b1._shapes.at(s);
+			out += " {";
+			if(sh2.isPolygon()) {
+				var p1 = sh2;
+				var lv1 = p1.get_localVerts();
+				out += "poly";
+				var _g5 = 0;
+				var _g6 = lv1._a.length;
+				while(_g5 < _g6) {
+					var i1 = _g5++;
+					var _this2 = lv1.at(i1);
+					var out2 = "(" + Math.round((_this2._body == null ? _this2._vx : _this2._body.prxGet(_this2._kind,0)) * 100) / 100 + ",";
+					var _this3 = lv1.at(i1);
+					out += out2 + Math.round((_this3._body == null ? _this3._vy : _this3._body.prxGet(_this3._kind,1)) * 100) / 100 + ")";
+				}
+			} else if(sh2.isCircle()) {
+				var c = sh2;
+				out += "circ r=" + Math.round(c._radius * 100) / 100;
+			}
+			out += " df=" + Main.matf(sh2,"dynamicFriction") + " sf=" + Main.matf(sh2,"staticFriction") + " el=" + Main.matf(sh2,"elasticity") + " rf=" + Main.matf(sh2,"rollingFriction") + " den=" + Main.matf(sh2,"density") + " cG=" + sh2.filter.collisionGroup + " cM=" + sh2.filter._collisionMask + " sen=" + (sh2.sensorEnabled == null ? "null" : "" + sh2.sensorEnabled) + "}";
+		}
+		out += "\n";
+	}
+	return out;
+};
+Main.r3 = function(v) {
+	return Math.round(v * 1000) / 1000;
+};
+Main.r2 = function(v) {
+	return Math.round(v * 100) / 100;
+};
+Main.matf = function(sh,field) {
+	try {
+		return Std.string(Math.round(Reflect.field(sh.material,field) * 1000) / 1000);
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+		return "?";
+	}
+};
 Main.sb2AllBodies = $hx_exports["sb2AllBodies"] = function() {
 	var out = "";
 	var _g = 0;
@@ -6533,7 +6632,7 @@ Main.SimFrame = function() {
 			if(__v.get_length() > 30) {
 				var tmp = "[PORT] vel=(" + ((__v._body == null ? __v._vx : __v._body.prxGet(__v._kind,0)) | 0) + "," + ((__v._body == null ? __v._vy : __v._body.prxGet(__v._kind,1)) | 0) + ") spd=" + (__v.get_length() | 0) + " spin=";
 				var _this = __fb.nape_bodies[0];
-				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 1149, className : "Main", methodName : "SimFrame"});
+				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 1201, className : "Main", methodName : "SimFrame"});
 			}
 		}
 	}
@@ -6541,7 +6640,7 @@ Main.SimFrame = function() {
 };
 Main.sb2DiagGround = function() {
 	var space = PhysicsBase.GetNapeSpace();
-	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1214, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1266, className : "Main", methodName : "sb2DiagGround"});
 	var b = space._bodies.iterator();
 	while(b.hasNext()) {
 		var b1 = b.next();
@@ -6592,9 +6691,9 @@ Main.sb2DiagGround = function() {
 				++coversBall;
 			}
 		}
-		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 1231, className : "Main", methodName : "sb2DiagGround"});
+		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 1283, className : "Main", methodName : "sb2DiagGround"});
 	}
-	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1235, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1287, className : "Main", methodName : "sb2DiagGround"});
 };
 Main.__super__ = openfl_display_MovieClip;
 Main.prototype = $extend(openfl_display_MovieClip.prototype,{
@@ -8704,7 +8803,6 @@ DisplayObj.prototype = {
 			dof.yoffset = 0;
 			BD = new openfl_display_BitmapData(rect.width | 0,rect.height | 0,true,0);
 			BD.draw(t,mat,null,null,null,true);
-			BD.applyFilter(BD,BD.rect,Defs.pointZero,new openfl_filters_DropShadowFilter(3,45,0,1,2,2,3,3));
 			dof.bitmapData = BD;
 			dof.sourceRect = new openfl_geom_Rectangle(0,0,BD.width,BD.height);
 			dof.point = new openfl_geom_Point(0,0);
@@ -61846,7 +61944,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 119519;
+	this.version = 150978;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -64955,72 +65053,25 @@ nape_geom_GeomPoly.prototype = {
 		if(output == null) {
 			output = new nape_geom_GeomPolyList();
 		}
-		var verts = this._verts.slice();
-		var n = verts.length;
-		if(n < 3) {
-			return output;
+		var flat = [];
+		var _g = 0;
+		var _g1 = this._verts;
+		while(_g < _g1.length) {
+			var v = _g1[_g];
+			++_g;
+			flat.push(v._body == null ? v._vx : v._body.prxGet(v._kind,0));
+			flat.push(v._body == null ? v._vy : v._body.prxGet(v._kind,1));
 		}
-		var _g = [];
-		var _g1 = 0;
-		var _g2 = n;
-		while(_g1 < _g2) {
-			var i = _g1++;
-			_g.push(i);
-		}
-		var V = _g;
-		if(nape_geom_GeomPoly.signedArea(verts) < 0) {
-			V.reverse();
-		}
-		var nv = n;
-		var guard = 3 * nv;
-		var v = nv - 1;
-		while(nv > 2) {
-			if(guard-- <= 0) {
-				break;
-			}
-			var u = v;
-			if(nv <= u) {
-				u = 0;
-			}
-			v = u + 1;
-			if(nv <= v) {
-				v = 0;
-			}
-			var w = v + 1;
-			if(nv <= w) {
-				w = 0;
-			}
-			if(nape_geom_GeomPoly.snip(verts,u,v,w,nv,V)) {
-				var a = V[u];
-				var b = V[v];
-				var c = V[w];
-				var tri = new nape_geom_GeomPoly();
-				var tri1 = tri._verts;
-				var _this = verts[a];
-				var tmp = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
-				var _this1 = verts[a];
-				tri1.push(new nape_geom_Vec2(tmp,_this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1)));
-				var tri2 = tri._verts;
-				var _this2 = verts[b];
-				var tmp1 = _this2._body == null ? _this2._vx : _this2._body.prxGet(_this2._kind,0);
-				var _this3 = verts[b];
-				tri2.push(new nape_geom_Vec2(tmp1,_this3._body == null ? _this3._vy : _this3._body.prxGet(_this3._kind,1)));
-				var tri3 = tri._verts;
-				var _this4 = verts[c];
-				var tmp2 = _this4._body == null ? _this4._vx : _this4._body.prxGet(_this4._kind,0);
-				var _this5 = verts[c];
-				tri3.push(new nape_geom_Vec2(tmp2,_this5._body == null ? _this5._vy : _this5._body.prxGet(_this5._kind,1)));
-				output.push(tri);
-				var s = v;
-				var t = v + 1;
-				while(t < nv) {
-					V[s] = V[t];
-					++s;
-					++t;
-				}
-				--nv;
-				guard = 3 * nv;
-			}
+		var _g = 0;
+		var _g1 = NapeReplica.triangulate(flat);
+		while(_g < _g1.length) {
+			var t = _g1[_g];
+			++_g;
+			var g = new nape_geom_GeomPoly();
+			g._verts.push(new nape_geom_Vec2(t[0],t[1]));
+			g._verts.push(new nape_geom_Vec2(t[2],t[3]));
+			g._verts.push(new nape_geom_Vec2(t[4],t[5]));
+			output.push(g);
 		}
 		return output;
 	}
@@ -119952,6 +120003,7 @@ uIPackage_UI.AddAnimatedMCButton = function(btn,clickCallback,text,reorderWhenOv
 	if(btn.buttonName != null) {
 		btn.buttonName.mouseEnabled = false;
 	}
+	uIPackage_UI.StripShadowFilters(btn);
 	btn.addEventListener("rollOver",uIPackage_UI.AnimatedMCButton_Over,false,0,true);
 	btn.addEventListener("rollOut",uIPackage_UI.AnimatedMCButton_Out,false,0,true);
 	btn.useHandCursor = true;
@@ -119995,44 +120047,38 @@ uIPackage_UI.AnimatedMCButton_Over = function(e) {
 		e.currentTarget.hoverCallback(e);
 	}
 	e.currentTarget.buttonAnimation.gotoAndPlay("over");
-	uIPackage_UI.SuppressHoverShadow(e.currentTarget,true);
+	uIPackage_UI.StripShadowFilters(e.currentTarget);
 };
 uIPackage_UI.AnimatedMCButton_Out = function(e) {
 	if(e.currentTarget == null) {
 		return;
 	}
 	e.currentTarget.buttonAnimation.gotoAndPlay("out");
-	uIPackage_UI.SuppressHoverShadow(e.currentTarget,false);
+	uIPackage_UI.StripShadowFilters(e.currentTarget);
 	var tmp = e.currentTarget.helpText != null;
 };
-uIPackage_UI.SuppressHoverShadow = function(o,suppress) {
+uIPackage_UI.StripShadowFilters = function(o) {
 	if(o == null) {
 		return;
 	}
 	try {
-		if(suppress) {
-			var fs = o.filters;
-			if(fs != null && fs.length > 0) {
-				var kept = [];
-				var changed = false;
-				var _g = 0;
-				while(_g < fs.length) {
-					var f = fs[_g];
-					++_g;
-					if(((f) instanceof openfl_filters_DropShadowFilter) || ((f) instanceof openfl_filters_GlowFilter)) {
-						changed = true;
-					} else {
-						kept.push(f);
-					}
-				}
-				if(changed) {
-					o.__savedFilters = fs;
-					o.filters = kept;
+		var fs = o.filters;
+		if(fs != null && fs.length > 0) {
+			var kept = [];
+			var changed = false;
+			var _g = 0;
+			while(_g < fs.length) {
+				var f = fs[_g];
+				++_g;
+				if(((f) instanceof openfl_filters_DropShadowFilter) || ((f) instanceof openfl_filters_GlowFilter)) {
+					changed = true;
+				} else {
+					kept.push(f);
 				}
 			}
-		} else if(o.__savedFilters != null) {
-			o.filters = o.__savedFilters;
-			o.__savedFilters = null;
+			if(changed) {
+				o.filters = kept;
+			}
 		}
 	} catch( _g ) {
 		haxe_NativeStackTrace.lastError = _g;
@@ -120043,7 +120089,7 @@ uIPackage_UI.SuppressHoverShadow = function(o,suppress) {
 		var _g1 = nc;
 		while(_g < _g1) {
 			var i = _g++;
-			uIPackage_UI.SuppressHoverShadow(o.getChildAt(i),suppress);
+			uIPackage_UI.StripShadowFilters(o.getChildAt(i));
 		}
 	} catch( _g ) {
 		haxe_NativeStackTrace.lastError = _g;

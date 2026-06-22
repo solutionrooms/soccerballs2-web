@@ -759,6 +759,58 @@ class Main extends MovieClip
         return out;
     }
 
+    // FULL-SCENE dump for nape-replica to run our exact lvl-19 scene in NapeReplica: every dynamic body
+    // + every static body NEAR the pit edge (x 280-420, y 370-520), with COM, mass, inertia, rot, and
+    // per-shape kind+LOCAL verts + material (friction/elasticity/rolling/density) + filter. The fork:
+    // engine+our-scene → crate OUT = scene-build bug (diff bodies); → IN = live game-loop quirk.
+    @:expose("sb2FullScene") public static function sb2FullScene() : String {
+        var space = try PhysicsBase.GetNapeSpace() catch (e : Dynamic) null;
+        if (space == null) return "no space";
+        var out = "";
+        for (b in space.bodies) {
+            var dyn = !b.isStatic();
+            var near = dyn;
+            if (!dyn) {
+                for (sh in b.shapes) {
+                    if (!sh.isPolygon()) continue;
+                    var p : nape.shape.Polygon = cast sh;
+                    var lv = p.worldVerts;
+                    for (i in 0...lv.length) { var v = lv.at(i); if (v.x > 280 && v.x < 420 && v.y > 370 && v.y < 520) { near = true; break; } }
+                    if (near) break;
+                }
+            }
+            if (!near) continue;
+            var ts = b.isStatic() ? "S" : (b.isKinematic() ? "K" : "D");
+            var com = try b.worldCOM catch (e : Dynamic) null;
+            out += ts + " pos=(" + r3(b.position.x) + "," + r3(b.position.y) + ") rot=" + (Math.round(b.rotation * 100000) / 100000)
+                + " worldCOM=(" + (com != null ? r3(com.x) + "," + r3(com.y) : "?") + ")"
+                + " m=" + r3(b.mass) + " I=" + (Math.round(b.inertia * 100) / 100) + " n=" + b.shapes.length;
+            for (s in 0...b.shapes.length) {
+                var sh = b.shapes.at(s);
+                out += " {";
+                if (sh.isPolygon()) {
+                    var p : nape.shape.Polygon = cast sh;
+                    var lv = p.localVerts;
+                    out += "poly";
+                    for (i in 0...lv.length) out += "(" + r2(lv.at(i).x) + "," + r2(lv.at(i).y) + ")";
+                } else if (sh.isCircle()) {
+                    var c : nape.shape.Circle = cast sh;
+                    out += "circ r=" + r2(c.radius);
+                }
+                out += " df=" + matf(sh, "dynamicFriction") + " sf=" + matf(sh, "staticFriction")
+                    + " el=" + matf(sh, "elasticity") + " rf=" + matf(sh, "rollingFriction") + " den=" + matf(sh, "density")
+                    + " cG=" + sh.filter.collisionGroup + " cM=" + sh.filter.collisionMask + " sen=" + sh.sensorEnabled + "}";
+            }
+            out += "\n";
+        }
+        return out;
+    }
+    static inline function r3(v : Float) : Float return Math.round(v * 1000) / 1000;
+    static inline function r2(v : Float) : Float return Math.round(v * 100) / 100;
+    static function matf(sh : Dynamic, field : String) : String {
+        return try Std.string(Math.round(Reflect.field(sh.material, field) * 1000) / 1000) catch (e : Dynamic) "?";
+    }
+
     // Full body inventory for a level — every GameObject's nape body: type (S/K/D), pos, mass, and
     // per-shape material elasticity + collision/sensor filter + sensor flag. For cross-checking the
     // shim-built scene against nape-replica's XML inventory (a body/material/filter mismatch = candidate bug).

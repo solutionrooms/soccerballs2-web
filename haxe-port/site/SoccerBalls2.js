@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "73";
+	app.meta.h["build"] = "74";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -28328,6 +28328,7 @@ PauseMenu.Pause = function() {
 };
 PauseMenu.pressed_buttonQuit = function(event) {
 	PauseMenu.Unpause();
+	SaveData.Save();
 	uIPackage_UI.StartTransition("levelselect");
 };
 PauseMenu.pressed_buttonRestartLevel = function(event) {
@@ -61944,7 +61945,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 150978;
+	this.version = 163602;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -65053,25 +65054,72 @@ nape_geom_GeomPoly.prototype = {
 		if(output == null) {
 			output = new nape_geom_GeomPolyList();
 		}
-		var flat = [];
-		var _g = 0;
-		var _g1 = this._verts;
-		while(_g < _g1.length) {
-			var v = _g1[_g];
-			++_g;
-			flat.push(v._body == null ? v._vx : v._body.prxGet(v._kind,0));
-			flat.push(v._body == null ? v._vy : v._body.prxGet(v._kind,1));
+		var verts = this._verts.slice();
+		var n = verts.length;
+		if(n < 3) {
+			return output;
 		}
-		var _g = 0;
-		var _g1 = NapeReplica.triangulate(flat);
-		while(_g < _g1.length) {
-			var t = _g1[_g];
-			++_g;
-			var g = new nape_geom_GeomPoly();
-			g._verts.push(new nape_geom_Vec2(t[0],t[1]));
-			g._verts.push(new nape_geom_Vec2(t[2],t[3]));
-			g._verts.push(new nape_geom_Vec2(t[4],t[5]));
-			output.push(g);
+		var _g = [];
+		var _g1 = 0;
+		var _g2 = n;
+		while(_g1 < _g2) {
+			var i = _g1++;
+			_g.push(i);
+		}
+		var V = _g;
+		if(nape_geom_GeomPoly.signedArea(verts) < 0) {
+			V.reverse();
+		}
+		var nv = n;
+		var guard = 3 * nv;
+		var v = nv - 1;
+		while(nv > 2) {
+			if(guard-- <= 0) {
+				break;
+			}
+			var u = v;
+			if(nv <= u) {
+				u = 0;
+			}
+			v = u + 1;
+			if(nv <= v) {
+				v = 0;
+			}
+			var w = v + 1;
+			if(nv <= w) {
+				w = 0;
+			}
+			if(nape_geom_GeomPoly.snip(verts,u,v,w,nv,V)) {
+				var a = V[u];
+				var b = V[v];
+				var c = V[w];
+				var tri = new nape_geom_GeomPoly();
+				var tri1 = tri._verts;
+				var _this = verts[a];
+				var tmp = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
+				var _this1 = verts[a];
+				tri1.push(new nape_geom_Vec2(tmp,_this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1)));
+				var tri2 = tri._verts;
+				var _this2 = verts[b];
+				var tmp1 = _this2._body == null ? _this2._vx : _this2._body.prxGet(_this2._kind,0);
+				var _this3 = verts[b];
+				tri2.push(new nape_geom_Vec2(tmp1,_this3._body == null ? _this3._vy : _this3._body.prxGet(_this3._kind,1)));
+				var tri3 = tri._verts;
+				var _this4 = verts[c];
+				var tmp2 = _this4._body == null ? _this4._vx : _this4._body.prxGet(_this4._kind,0);
+				var _this5 = verts[c];
+				tri3.push(new nape_geom_Vec2(tmp2,_this5._body == null ? _this5._vy : _this5._body.prxGet(_this5._kind,1)));
+				output.push(tri);
+				var s = v;
+				var t = v + 1;
+				while(t < nv) {
+					V[s] = V[t];
+					++s;
+					++t;
+				}
+				--nv;
+				guard = 3 * nv;
+			}
 		}
 		return output;
 	}

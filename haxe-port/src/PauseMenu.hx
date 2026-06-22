@@ -61,6 +61,8 @@ class PauseMenu
     public static function pressed_buttonQuit(event : MouseEvent)
     {
         Unpause();
+        SaveData.Save(); // persist coins/trophies/progress collected this level before leaving (the
+                         // original only saved on level-end, so quitting mid-level lost session progress)
         UI.StartTransition("levelselect");
     }
     public static function pressed_buttonRestartLevel(event : MouseEvent)

@@ -78,20 +78,53 @@ class GeomPoly {
 		return true;
 	}
 
-	// Faithful 2012-nape terrain triangulation. We used to ear-clip here, but terrain triangles are
-	// SEPARATE collision shapes, so the cover choice changes which edge a body hits — ear-clipping put an
-	// extra notch at the lvl-19 pit edge and flipped the crate OUT. Delegate to the engine's bundled
-	// monotone triangulation (ZPP_Monotone + ZPP_Triangular, gated bit-exact vs the 2012 SWF golden).
+	// REVERTED 2026-06-22 to classic ear-clipping. We briefly delegated to the engine's faithful monotone
+	// triangulation to fix the lvl-19 pit (crate tipped IN), but terrain triangles are SEPARATE collision
+	// shapes, so swapping the cover changed which edges bodies hit GAME-WIDE — that regressed other levels.
+	// Restored ear-clip to un-break those; the lvl-19 re-fix is deferred to a non-global approach. The
+	// engine's `NapeReplica.triangulate()` + its gates stay in place (faithful, bit-exact) but are no
+	// longer called from here. (Exact pre-bba993c body, helpers snip/pointInTri/signedArea below.)
 	public function triangularDecomposition(?output:GeomPolyList):GeomPolyList {
 		if (output == null) output = new GeomPolyList();
-		var flat:Array<Float> = [];
-		for (v in _verts) { flat.push(v.x); flat.push(v.y); }
-		for (t in rnape.NapeReplicaJS.triangulate(flat)) {
-			var g = new GeomPoly();
-			g._verts.push(new Vec2(t[0], t[1]));
-			g._verts.push(new Vec2(t[2], t[3]));
-			g._verts.push(new Vec2(t[4], t[5]));
-			output.push(g);
+		var verts = _verts.copy();
+		var n = verts.length;
+		if (n < 3) return output;
+
+		// index ring, forced CCW so ear-clip convexity tests have a fixed sign
+		var V = [for (i in 0...n) i];
+		if (signedArea(verts) < 0) V.reverse();
+
+		var nv = n;
+		var guard = 3 * nv; // bail on degenerate/self-touching input
+		var v = nv - 1;
+		while (nv > 2) {
+			if (guard-- <= 0) break;
+			var u = v;
+			if (nv <= u) u = 0;
+			v = u + 1;
+			if (nv <= v) v = 0;
+			var w = v + 1;
+			if (nv <= w) w = 0;
+			if (snip(verts, u, v, w, nv, V)) {
+				var a = V[u];
+				var b = V[v];
+				var c = V[w];
+				var tri = new GeomPoly();
+				tri._verts.push(new Vec2(verts[a].x, verts[a].y));
+				tri._verts.push(new Vec2(verts[b].x, verts[b].y));
+				tri._verts.push(new Vec2(verts[c].x, verts[c].y));
+				output.push(tri);
+				// remove vertex v from the working ring
+				var s = v;
+				var t = v + 1;
+				while (t < nv) {
+					V[s] = V[t];
+					s++;
+					t++;
+				}
+				nv--;
+				guard = 3 * nv;
+			}
 		}
 		return output;
 	}

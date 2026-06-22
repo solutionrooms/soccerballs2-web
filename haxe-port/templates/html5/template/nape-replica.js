@@ -140,7 +140,19 @@
         sweepRadius: 0,
         sweep_angvel: 0,
         sweepFrozen: false,
-        waket: 0,
+        // Faithful to Nape's wake (ZPP_Body.as:821): a newly-added/woken body gets
+        // waket = stamp + (midstep ? 0 : 1). The game adds bodies OUTSIDE step (not
+        // midstep) → stamp+1. Using 0 was a latent bug: harmless at level-start
+        // (stamp 0) but FATAL for a runtime spawn — a body created when stamp ≫ 60
+        // has waket+60 < stamp on its very first doForests, so it's judged "at rest
+        // since before it existed" and sleeps BEFORE gravity (updateVel runs later
+        // in the step) ever acts → frozen at the spawn point forever. This is why
+        // the spikyball generators (lvls 28/29) produced balls that never fell out.
+        // Golden-safe: every settling body moves (gravity) before it can sleep, and
+        // atRest then overwrites waket = stamp on each moving frame, so the initial
+        // value only matters for a body born exactly at rest AND never moved — which
+        // is precisely the frozen-spawn case, not any captured golden.
+        waket: this.stamp + 1,
         sleeping: false,
         shapes: [],
         userData: {}

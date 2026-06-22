@@ -63,8 +63,7 @@ class PauseMenu
         // NB: deliberately does NOT SaveData.Save() here. Saving on every quit added a frequent new
         // Save() trigger, and Save() does a destructive clear-then-rewrite-everything — a save fired at
         // a transient moment wiped the WHOLE on-disk save (testers lost all progress). Reverted to the
-        // original (saves happen at level-end / menus). SaveData.Save() also now guards against
-        // overwriting a good save with empty data, but we keep this off the quit path to be safe.
+        // original behavior: saves happen at level-end / menu screens only.
         Unpause();
         UI.StartTransition("levelselect");
     }

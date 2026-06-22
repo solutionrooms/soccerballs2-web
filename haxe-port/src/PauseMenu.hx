@@ -33,6 +33,10 @@ class PauseMenu
     
     public static function Pause() : Void
     {
+        // Persist progress when the game is paused. Unlike the old save-on-QUIT, this is a safe point:
+        // the game state is valid mid-level and we are NOT navigating away (quit did Save()+immediate
+        // screen transition). It is the same SaveData.Save() the game already runs at level-end.
+        SaveData.Save();
         pauseMC = AddMovieClip(0, 0, new ScreenPaused());
         ScreenSize.ScaleMovieClip(pauseMC);
         Game.main.addChild(pauseMC);

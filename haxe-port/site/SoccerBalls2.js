@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "76";
+	app.meta.h["build"] = "77";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -28317,6 +28317,7 @@ PauseMenu.InitOnce = function() {
 	PauseMenu.active = false;
 };
 PauseMenu.Pause = function() {
+	SaveData.Save();
 	PauseMenu.pauseMC = PauseMenu.AddMovieClip(0,0,new Screen_$paused());
 	ScreenSize.ScaleMovieClip(PauseMenu.pauseMC);
 	Game.main.addChild(PauseMenu.pauseMC);
@@ -61944,7 +61945,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 404711;
+	this.version = 753678;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

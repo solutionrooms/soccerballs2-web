@@ -159,6 +159,7 @@ class Main extends MovieClip
                 if (FrameStep.pauseAtStart) sb2LoadLevel(Levels.currentIndex); // restart current level, frozen at frame 0
                 FrameStep.UpdateBanner();
             }
+            else if (kc == 83) MapView.Toggle();         // 'S' = zoomed-out map overview (all star/trophy locations)
             else if (kc >= 49 && kc <= 54) TileRenderer.stress = stressLevels[kc - 49];
         };
         theStage.addEventListener(KeyboardEvent.KEY_DOWN, function(e : KeyboardEvent) : Void { key(e.keyCode); });
@@ -683,7 +684,7 @@ class Main extends MovieClip
             var ty = try (cast go.physobj : Dynamic).name catch (e:Dynamic) "?";
             if (ty != "post_movable" && ty != "cannon" && ty != "path_object"
                 && ty != "ball_large" && ty != "metalpost_loose" && ty != "referee_loose"
-                && ty != "switchable_block") continue;
+                && ty != "switchable_block" && ty != "crateMetalLarge") continue;
             var nb : Array<Dynamic> = go.nape_bodies;
             if (nb == null) continue;
             for (i in 0...nb.length) {
@@ -699,6 +700,99 @@ class Main extends MovieClip
             }
         }
         return out == "" ? "no contraption bodies" : out;
+    }
+
+    // A/B trajectory probe for "sandy rebound" (lvl 19): the big ball that rolls into the metal crate
+    // and the crate it knocks toward the hole. Machine-parseable pos/vel/rot, for diffing the replica
+    // build against the nape-haxe4 build frame-by-frame. Pairs with sb2StepDump() for deterministic
+    // per-frame capture (so the SAME sim frame is sampled in both builds).
+    @:expose("sb2SandyTraj") public static function sb2SandyTraj() : String {
+        var out = "";
+        for (go in GameObjects.objs) {
+            if (go == null || !go.active) continue;
+            var ty = try (cast go.physobj : Dynamic).name catch (e:Dynamic) "?";
+            if (ty != "ball_large" && ty != "crateMetalLarge") continue;
+            var nb : Array<Dynamic> = go.nape_bodies;
+            if (nb == null || nb.length == 0 || nb[0] == null) continue;
+            var b : nape.phys.Body = nb[0];
+            out += ty + "#" + go.id
+                + " pos=(" + (Math.round(b.position.x*1000)/1000) + "," + (Math.round(b.position.y*1000)/1000) + ")"
+                + " vel=(" + (Math.round(b.velocity.x*1000)/1000) + "," + (Math.round(b.velocity.y*1000)/1000) + ")"
+                + " rot=" + (Math.round(b.rotation*10000)/10000) + " | ";
+        }
+        return out == "" ? "none" : out;
+    }
+
+    // lvl-19 impact diagnostic: roller + crate full state (pos/vel/ANGVEL/rot/mass/inertia) + the crate's
+    // per-shape LOCAL vertex lists (to compare triangulation/vertex-order vs nape-replica's [CTRI]
+    // engine-direct reference). Dumped around the roller→crate impact (f108-116) to find why our roller
+    // dumps all its momentum into the crate.
+    @:expose("sb2Impact") public static function sb2Impact() : String {
+        var out = "";
+        for (go in GameObjects.objs) {
+            if (go == null || !go.active) continue;
+            var ty = try (cast go.physobj : Dynamic).name catch (e : Dynamic) "?";
+            if (ty != "crateMetalLarge" && ty != "ball_large") continue;
+            var nb : Array<Dynamic> = go.nape_bodies;
+            if (nb == null || nb.length == 0 || nb[0] == null) continue;
+            var b : nape.phys.Body = nb[0];
+            out += ty + "#" + go.id
+                + " pos=(" + (Math.round(b.position.x * 1000) / 1000) + "," + (Math.round(b.position.y * 1000) / 1000) + ")"
+                + " vel=(" + (Math.round(b.velocity.x * 1000) / 1000) + "," + (Math.round(b.velocity.y * 1000) / 1000) + ")"
+                + " angVel=" + (Math.round(b.angularVel * 10000) / 10000)
+                + " rot=" + (Math.round(b.rotation * 10000) / 10000)
+                + " mass=" + (Math.round(b.mass * 1000) / 1000) + " I=" + Std.int(b.inertia) + " sh=" + b.shapes.length;
+            if (ty == "crateMetalLarge") {
+                for (s in 0...b.shapes.length) {
+                    var sh = b.shapes.at(s);
+                    if (sh.isPolygon()) {
+                        var p : nape.shape.Polygon = cast sh;
+                        var lv = p.localVerts;
+                        out += " [t" + s + ":";
+                        for (i in 0...lv.length) out += "(" + (Math.round(lv.at(i).x * 100) / 100) + "," + (Math.round(lv.at(i).y * 100) / 100) + ")";
+                        out += "]";
+                    }
+                }
+            }
+            out += "\n";
+        }
+        return out;
+    }
+
+    // Full body inventory for a level — every GameObject's nape body: type (S/K/D), pos, mass, and
+    // per-shape material elasticity + collision/sensor filter + sensor flag. For cross-checking the
+    // shim-built scene against nape-replica's XML inventory (a body/material/filter mismatch = candidate bug).
+    @:expose("sb2AllBodies") public static function sb2AllBodies() : String {
+        var out = "";
+        for (go in GameObjects.objs) {
+            if (go == null || !go.active) continue;
+            var ty = try (cast go.physobj : Dynamic).name catch (e:Dynamic) "?";
+            var nb : Array<Dynamic> = go.nape_bodies;
+            if (nb == null) continue;
+            for (i in 0...nb.length) {
+                if (nb[i] == null) continue;
+                var b : nape.phys.Body = nb[i];
+                var ts = b.isStatic() ? "S" : (b.isKinematic() ? "K" : "D");
+                out += ty + " " + ts + " pos=(" + Std.int(b.position.x) + "," + Std.int(b.position.y) + ")"
+                    + " mass=" + (Math.round(b.mass * 1000) / 1000) + " sh=" + b.shapes.length;
+                for (s in 0...b.shapes.length) {
+                    var sh = b.shapes.at(s);
+                    out += " [el=" + sh.material.elasticity + " cG=" + sh.filter.collisionGroup + " cM=" + sh.filter.collisionMask
+                        + " sG=" + sh.filter.sensorGroup + " sM=" + sh.filter.sensorMask + " sen=" + sh.sensorEnabled + "]";
+                }
+                out += "\n";
+            }
+        }
+        return out == "" ? "none" : out;
+    }
+
+    // Advance EXACTLY n simulation frames synchronously (each = one SimFrame, the same fixed-timestep
+    // step the MainLoop runs), then return the sandy-rebound trajectory. Calling this off the rAF clock
+    // makes the per-frame capture deterministic and identical across builds (no wall-clock sampling
+    // jitter). Used for the lvl-19 replica-vs-nape-haxe4 A/B.
+    @:expose("sb2StepDump") public static function sb2StepDump(n : Int) : String {
+        for (k in 0...n) SimFrame();
+        return sb2SandyTraj();
     }
 
     // Level-19 switch/switchable-block diagnostic. Blocks are GOs with a logic link (logicLink0 = the
@@ -736,6 +830,103 @@ class Main extends MovieClip
             if (go.logicLink0 != null && go.switchFunction != null) { go.switchFunction(); n++; }
         }
         return n;
+    }
+
+    // Fire ONLY the switchable block nearest (px,py) — for a FAITHFUL single-switch repro (e.g. lvl-19
+    // "sandy rebound": the real solve releases just the right ball @747,275, not all 3 blocks). Returns
+    // the fired block's id, or "none".
+    @:expose("sb2FireSwitchAt") public static function sb2FireSwitchAt(px : Float, py : Float) : String {
+        var best : Dynamic = null; var bestD = 1e18;
+        for (go in GameObjects.objs) {
+            if (go == null) continue;
+            if (go.logicLink0 == null || go.switchFunction == null) continue;
+            var dx = go.xpos - px; var dy = go.ypos - py; var d = dx * dx + dy * dy;
+            if (d < bestD) { bestD = d; best = go; }
+        }
+        if (best == null) return "none";
+        best.switchFunction();
+        return "fired id=" + best.id + " pos=(" + Std.int(best.xpos) + "," + Std.int(best.ypos) + ")";
+    }
+
+    // Remove the player's kicked ball from play (teleport it far off-screen + zero its velocity, so it
+    // can't influence anything) WITHOUT destroying the GameObject (avoids dangling refs). Diagnostic for
+    // lvl 19: trigger the switch (sb2FireSwitchAt) + remove the ball, and see whether the crate still
+    // gets shoved out of the pit — i.e. whether the kicked ball is the cause or not.
+    @:expose("sb2RemoveBall") public static function sb2RemoveBall() : String {
+        var go : Dynamic = GameVars.footballGO;
+        if (go == null) return "no footballGO";
+        var x = go.xpos; var y = go.ypos;
+        var ct = try go.collisionType catch (e : Dynamic) "?";
+        try { go.SetBodyLinearVelocity(0, 0, 0); } catch (e : Dynamic) {}
+        try { go.SetBodyXForm_Immediate(0, -99999, -99999, 0); } catch (e : Dynamic) {}
+        return "removed footballGO (" + ct + ") from (" + Std.int(x) + "," + Std.int(y) + ")";
+    }
+
+    // Snap the player ball to the player nearest (px,py) — i.e. "bring the ball to the player" so it's
+    // HELD (state 1, pinned to that player's foot + colliding), reproducing Jon's lvl-19 experiment #2
+    // headlessly. Lets us measure the roller's velocity before/after it hits the pinned ball.
+    @:expose("sb2BallToPlayer") public static function sb2BallToPlayer(px : Float, py : Float) : String {
+        var go : Dynamic = GameVars.footballGO;
+        if (go == null) return "no footballGO";
+        var best : Dynamic = null; var bestD = 1e18;
+        for (p in GameObjects.objs) {
+            if (p == null || !p.active) continue;
+            var ty = try (cast p.physobj : Dynamic).name catch (e : Dynamic) "?";
+            if (ty != "player") continue;
+            var dx = p.xpos - px; var dy = p.ypos - py; var d = dx * dx + dy * dy;
+            if (d < bestD) { bestD = d; best = p; }
+        }
+        if (best == null) return "no player";
+        try { go.Football_SnapToPlayer(best); } catch (e : Dynamic) { return "snap failed: " + e; }
+        return "ball -> player@(" + Std.int(best.xpos) + "," + Std.int(best.ypos) + ") held@(" + Std.int(go.xpos) + "," + Std.int(go.ypos) + ")";
+    }
+
+    // Trigger a named title-screen button's hover animation (over/out) deterministically, so we can
+    // render idle-vs-hover headlessly to diagnose the extra text-shadow on hover (task: title buttons
+    // show a shadow on hover that the original does not). Lists the children if name not found.
+    @:expose("sb2HoverTitleButton") public static function sb2HoverTitleButton(name : String, on : Bool) : String {
+        var s : Dynamic = uIPackage.UI.currentScreen;
+        if (s == null) return "no currentScreen";
+        var mc : Dynamic = null;
+        try { mc = s.titleMC; } catch (e : Dynamic) {}
+        if (mc == null) return "no titleMC";
+        var btn : Dynamic = Reflect.field(mc, name);
+        if (btn == null) return "no button '" + name + "'";
+        // Dispatch the REAL ROLL_OVER/ROLL_OUT so it routes through AnimatedMCButton_Over/_Out (which is
+        // where the hover-shadow suppression lives) — not a bare gotoAndPlay that would bypass it.
+        try { btn.dispatchEvent(new flash.events.MouseEvent(on ? flash.events.MouseEvent.ROLL_OVER : flash.events.MouseEvent.ROLL_OUT)); }
+        catch (e : Dynamic) { return "err: " + e; }
+        return "hover " + name + " -> " + (on ? "over" : "out");
+    }
+
+    // Toggle the zoomed-out map overview (same as the 'S' debug key) — for headless verification.
+    @:expose("sb2MapView") public static function sb2MapView(on : Bool) : String { MapView.on = on; return "mapview=" + on; }
+
+    // Walk a title button's display tree, reporting each child's name + #filters + visible + frame, so
+    // we can find what draws the extra hover shadow (a DropShadow/Glow filter vs a baked shadow layer).
+    @:expose("sb2DumpButton") public static function sb2DumpButton(name : String) : String {
+        var s : Dynamic = uIPackage.UI.currentScreen;
+        if (s == null) return "no screen";
+        var mc : Dynamic = null; try { mc = s.titleMC; } catch (e : Dynamic) {}
+        if (mc == null) return "no titleMC";
+        var btn : Dynamic = Reflect.field(mc, name);
+        if (btn == null) return "no btn '" + name + "'";
+        var buf = new StringBuf();
+        function walk(o : Dynamic, depth : Int) : Void {
+            if (o == null || depth > 6) return;
+            var nm = try o.name catch (e : Dynamic) "?";
+            var nf = 0; try { if (o.filters != null) nf = o.filters.length; } catch (e : Dynamic) {}
+            var ftypes = "";
+            try { if (o.filters != null) for (f in (o.filters : Array<Dynamic>)) ftypes += Type.getClassName(Type.getClass(f)).split(".").pop() + " "; } catch (e : Dynamic) {}
+            var vis = try o.visible catch (e : Dynamic) true;
+            var cf = try o.currentFrame catch (e : Dynamic) -1;
+            for (i in 0...depth) buf.add("  ");
+            buf.add(nm + " filters=" + nf + (ftypes != "" ? "[" + ftypes + "]" : "") + " vis=" + vis + (cf >= 0 ? " frame=" + cf : "") + "\n");
+            var nc = 0; try { nc = o.numChildren; } catch (e : Dynamic) { nc = 0; }
+            for (i in 0...nc) { try { walk(o.getChildAt(i), depth + 1); } catch (e : Dynamic) {} }
+        }
+        walk(btn, 0);
+        return buf.toString();
     }
 
     // BOUNCE DEBUGGER harness. sb2ReplayKick replays a captured kick deterministically (teleport the
@@ -783,6 +974,26 @@ class Main extends MovieClip
     // UI navigation hooks (debug/verification): jump to a screen + page the level select.
     @:expose("sb2Goto") public static function sb2Goto(screen : String) : Void {
         uIPackage.UI.StartTransition(screen);
+    }
+    @:expose("sb2PatrolDebug") public static function sb2PatrolDebug() : String {
+        var jm : Dynamic = GameVars.jumpMarkers;
+        var pm : Dynamic = GameVars.patrolMarkers;
+        var s : String = "jumpMarkers=" + ((jm != null) ? Std.string(jm.length) : "null")
+            + " patrolMarkers=" + ((pm != null) ? Std.string(pm.length) : "null");
+        for (nm in ["ref", "opponent"]) {
+            var ops : Dynamic = null;
+            try { ops = GameObjects.GetGameObjVectorByName(nm); } catch (e : Dynamic) {}
+            if (ops != null) {
+                var n : Int = ops.length;
+                for (i in 0...n) {
+                    var o : Dynamic = ops[i];
+                    var uf : String = "?"; try { uf = (untyped o.updateFunction != null) ? (untyped o.updateFunction.name) : "null"; } catch (e2 : Dynamic) {}
+                    s += " | " + nm + i + " state=" + o.state + " x=" + Std.int(o.xpos) + " y=" + Std.int(o.ypos)
+                        + " yv=" + (Math.round(o.yvel * 100) / 100) + " uf=" + uf;
+                }
+            }
+        }
+        return s;
     }
     @:expose("sb2SetScheme") public static function sb2SetScheme(n : Int) : String {
         Settings.mobileControlScheme = n;

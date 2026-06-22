@@ -327,13 +327,10 @@ class LicAds
         {
             return;
         }
-        var sku : LicSku = GetCurrentSku();
-        if (sku.allowAuthorLink == false)
-        {
-            mc.visible = false;
-            return;
-        }
-        mc.addEventListener(MouseEvent.CLICK, AuthorLinkPressed, false, 0, true);
+        // External link removed: the TurboNuke author logo (turboBtn on the title screen, startup intro
+        // splash, and walkthrough screen) opened turbonuke.com. Hide it everywhere and wire no click
+        // handler, so there is no outbound navigation from the logo.
+        mc.visible = false;
     }
     public static function AuthorLinkPressed(e : MouseEvent) : Void
     {

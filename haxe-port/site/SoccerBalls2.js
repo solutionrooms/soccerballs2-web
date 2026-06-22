@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "71";
+	app.meta.h["build"] = "72";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -5728,7 +5728,7 @@ Main.sb2Dump = $hx_exports["sb2Dump"] = function() {
 			haxe_NativeStackTrace.lastError = _g2;
 			ty = "?";
 		}
-		if(ty != "post_movable" && ty != "cannon" && ty != "path_object" && ty != "ball_large" && ty != "metalpost_loose" && ty != "referee_loose" && ty != "switchable_block") {
+		if(ty != "post_movable" && ty != "cannon" && ty != "path_object" && ty != "ball_large" && ty != "metalpost_loose" && ty != "referee_loose" && ty != "switchable_block" && ty != "crateMetalLarge") {
 			continue;
 		}
 		var nb = go.nape_bodies;
@@ -5768,6 +5768,167 @@ Main.sb2Dump = $hx_exports["sb2Dump"] = function() {
 	} else {
 		return out;
 	}
+};
+Main.sb2SandyTraj = $hx_exports["sb2SandyTraj"] = function() {
+	var out = "";
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null || !go.active) {
+			continue;
+		}
+		var ty;
+		try {
+			ty = go.physobj.name;
+		} catch( _g2 ) {
+			haxe_NativeStackTrace.lastError = _g2;
+			ty = "?";
+		}
+		if(ty != "ball_large" && ty != "crateMetalLarge") {
+			continue;
+		}
+		var nb = go.nape_bodies;
+		if(nb == null || nb.length == 0 || nb[0] == null) {
+			continue;
+		}
+		var b = nb[0];
+		var out1 = ty + "#" + go.id + " pos=(";
+		var _this = nape_geom_Vec2.bound(b,0);
+		var out2 = out1 + Math.round((_this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0)) * 1000) / 1000 + ",";
+		var _this1 = nape_geom_Vec2.bound(b,0);
+		var out3 = out2 + Math.round((_this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1)) * 1000) / 1000 + ")" + " vel=(";
+		var _this2 = nape_geom_Vec2.bound(b,1);
+		var out4 = out3 + Math.round((_this2._body == null ? _this2._vx : _this2._body.prxGet(_this2._kind,0)) * 1000) / 1000 + ",";
+		var _this3 = nape_geom_Vec2.bound(b,1);
+		out += out4 + Math.round((_this3._body == null ? _this3._vy : _this3._body.prxGet(_this3._kind,1)) * 1000) / 1000 + ")" + " rot=" + Math.round((b.handle < 0 ? b._rot : b.engine.getRotRad(b.handle)) * 10000) / 10000 + " | ";
+	}
+	if(out == "") {
+		return "none";
+	} else {
+		return out;
+	}
+};
+Main.sb2Impact = $hx_exports["sb2Impact"] = function() {
+	var out = "";
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null || !go.active) {
+			continue;
+		}
+		var ty;
+		try {
+			ty = go.physobj.name;
+		} catch( _g2 ) {
+			haxe_NativeStackTrace.lastError = _g2;
+			ty = "?";
+		}
+		if(ty != "crateMetalLarge" && ty != "ball_large") {
+			continue;
+		}
+		var nb = go.nape_bodies;
+		if(nb == null || nb.length == 0 || nb[0] == null) {
+			continue;
+		}
+		var b = nb[0];
+		var out1 = ty + "#" + go.id + " pos=(";
+		var _this = nape_geom_Vec2.bound(b,0);
+		var out2 = out1 + Math.round((_this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0)) * 1000) / 1000 + ",";
+		var _this1 = nape_geom_Vec2.bound(b,0);
+		var out3 = out2 + Math.round((_this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1)) * 1000) / 1000 + ")" + " vel=(";
+		var _this2 = nape_geom_Vec2.bound(b,1);
+		var out4 = out3 + Math.round((_this2._body == null ? _this2._vx : _this2._body.prxGet(_this2._kind,0)) * 1000) / 1000 + ",";
+		var _this3 = nape_geom_Vec2.bound(b,1);
+		out += out4 + Math.round((_this3._body == null ? _this3._vy : _this3._body.prxGet(_this3._kind,1)) * 1000) / 1000 + ")" + " angVel=" + Math.round((b.handle < 0 ? b._angVel : b.engine.getAngVel(b.handle)) * 10000) / 10000 + " rot=" + Math.round((b.handle < 0 ? b._rot : b.engine.getRotRad(b.handle)) * 10000) / 10000 + " mass=" + Math.round((b.handle < 0 ? 0 : b.engine.getMass(b.handle)) * 1000) / 1000 + " I=" + ((b.handle < 0 ? 0 : b.engine.getInertia(b.handle)) | 0) + " sh=" + b._shapes._a.length;
+		if(ty == "crateMetalLarge") {
+			var _g3 = 0;
+			var _g4 = b._shapes._a.length;
+			while(_g3 < _g4) {
+				var s = _g3++;
+				var sh = b._shapes.at(s);
+				if(sh.isPolygon()) {
+					var p = sh;
+					var lv = p.get_localVerts();
+					out += " [t" + s + ":";
+					var _g5 = 0;
+					var _g6 = lv._a.length;
+					while(_g5 < _g6) {
+						var i = _g5++;
+						var _this4 = lv.at(i);
+						var out5 = "(" + Math.round((_this4._body == null ? _this4._vx : _this4._body.prxGet(_this4._kind,0)) * 100) / 100 + ",";
+						var _this5 = lv.at(i);
+						out += out5 + Math.round((_this5._body == null ? _this5._vy : _this5._body.prxGet(_this5._kind,1)) * 100) / 100 + ")";
+					}
+					out += "]";
+				}
+			}
+		}
+		out += "\n";
+	}
+	return out;
+};
+Main.sb2AllBodies = $hx_exports["sb2AllBodies"] = function() {
+	var out = "";
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null || !go.active) {
+			continue;
+		}
+		var ty;
+		try {
+			ty = go.physobj.name;
+		} catch( _g2 ) {
+			haxe_NativeStackTrace.lastError = _g2;
+			ty = "?";
+		}
+		var nb = go.nape_bodies;
+		if(nb == null) {
+			continue;
+		}
+		var _g3 = 0;
+		var _g4 = nb.length;
+		while(_g3 < _g4) {
+			var i = _g3++;
+			if(nb[i] == null) {
+				continue;
+			}
+			var b = nb[i];
+			var ts = b.isStatic() ? "S" : b.isKinematic() ? "K" : "D";
+			var _this = nape_geom_Vec2.bound(b,0);
+			var x = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
+			var _this1 = nape_geom_Vec2.bound(b,0);
+			out += ty + " " + ts + " pos=(" + (x | 0) + "," + ((_this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1)) | 0) + ")" + " mass=" + Math.round((b.handle < 0 ? 0 : b.engine.getMass(b.handle)) * 1000) / 1000 + " sh=" + b._shapes._a.length;
+			var _g5 = 0;
+			var _g6 = b._shapes._a.length;
+			while(_g5 < _g6) {
+				var s = _g5++;
+				var sh = b._shapes.at(s);
+				out += " [el=" + sh.material.elasticity + " cG=" + sh.filter.collisionGroup + " cM=" + sh.filter._collisionMask + " sG=" + sh.filter.sensorGroup + " sM=" + sh.filter._sensorMask + " sen=" + (sh.sensorEnabled == null ? "null" : "" + sh.sensorEnabled) + "]";
+			}
+			out += "\n";
+		}
+	}
+	if(out == "") {
+		return "none";
+	} else {
+		return out;
+	}
+};
+Main.sb2StepDump = $hx_exports["sb2StepDump"] = function(n) {
+	var _g = 0;
+	var _g1 = n;
+	while(_g < _g1) {
+		var k = _g++;
+		Main.SimFrame();
+	}
+	return Main.sb2SandyTraj();
 };
 Main.sb2Switch19Dump = $hx_exports["sb2Switch19Dump"] = function() {
 	var out = "BLOCKS:";
@@ -5821,6 +5982,232 @@ Main.sb2FireAllSwitches = $hx_exports["sb2FireAllSwitches"] = function() {
 	}
 	return n;
 };
+Main.sb2FireSwitchAt = $hx_exports["sb2FireSwitchAt"] = function(px,py) {
+	var best = null;
+	var bestD = 1e18;
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null) {
+			continue;
+		}
+		if(go.logicLink0 == null || go.switchFunction == null) {
+			continue;
+		}
+		var dx = go.xpos - px;
+		var dy = go.ypos - py;
+		var d = dx * dx + dy * dy;
+		if(d < bestD) {
+			bestD = d;
+			best = go;
+		}
+	}
+	if(best == null) {
+		return "none";
+	}
+	best.switchFunction();
+	return "fired id=" + Std.string(best.id) + " pos=(" + (best.xpos | 0) + "," + (best.ypos | 0) + ")";
+};
+Main.sb2RemoveBall = $hx_exports["sb2RemoveBall"] = function() {
+	var go = GameVars.footballGO;
+	if(go == null) {
+		return "no footballGO";
+	}
+	var x = go.xpos;
+	var y = go.ypos;
+	var ct;
+	try {
+		ct = go.collisionType;
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+		ct = "?";
+	}
+	try {
+		go.SetBodyLinearVelocity(0,0,0);
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+	try {
+		go.SetBodyXForm_Immediate(0,-99999,-99999,0);
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+	return "removed footballGO (" + ct + ") from (" + (x | 0) + "," + (y | 0) + ")";
+};
+Main.sb2BallToPlayer = $hx_exports["sb2BallToPlayer"] = function(px,py) {
+	var go = GameVars.footballGO;
+	if(go == null) {
+		return "no footballGO";
+	}
+	var best = null;
+	var bestD = 1e18;
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var p = _g1[_g];
+		++_g;
+		if(p == null || !p.active) {
+			continue;
+		}
+		var ty;
+		try {
+			ty = p.physobj.name;
+		} catch( _g2 ) {
+			haxe_NativeStackTrace.lastError = _g2;
+			ty = "?";
+		}
+		if(ty != "player") {
+			continue;
+		}
+		var dx = p.xpos - px;
+		var dy = p.ypos - py;
+		var d = dx * dx + dy * dy;
+		if(d < bestD) {
+			bestD = d;
+			best = p;
+		}
+	}
+	if(best == null) {
+		return "no player";
+	}
+	try {
+		go.Football_SnapToPlayer(best);
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+		var e = haxe_Exception.caught(_g).unwrap();
+		return "snap failed: " + Std.string(e);
+	}
+	return "ball -> player@(" + (best.xpos | 0) + "," + (best.ypos | 0) + ") held@(" + (go.xpos | 0) + "," + (go.ypos | 0) + ")";
+};
+Main.sb2HoverTitleButton = $hx_exports["sb2HoverTitleButton"] = function(name,on) {
+	var s = uIPackage_UI.currentScreen;
+	if(s == null) {
+		return "no currentScreen";
+	}
+	var mc = null;
+	try {
+		mc = s.titleMC;
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+	if(mc == null) {
+		return "no titleMC";
+	}
+	var btn = Reflect.field(mc,name);
+	if(btn == null) {
+		return "no button '" + name + "'";
+	}
+	try {
+		btn.dispatchEvent(new openfl_events_MouseEvent(on ? "rollOver" : "rollOut"));
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+		var e = haxe_Exception.caught(_g).unwrap();
+		return "err: " + Std.string(e);
+	}
+	return "hover " + name + " -> " + (on ? "over" : "out");
+};
+Main.sb2MapView = $hx_exports["sb2MapView"] = function(on) {
+	MapView.on = on;
+	return "mapview=" + (on == null ? "null" : "" + on);
+};
+Main.sb2DumpButton = $hx_exports["sb2DumpButton"] = function(name) {
+	var s = uIPackage_UI.currentScreen;
+	if(s == null) {
+		return "no screen";
+	}
+	var mc = null;
+	try {
+		mc = s.titleMC;
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+	if(mc == null) {
+		return "no titleMC";
+	}
+	var btn = Reflect.field(mc,name);
+	if(btn == null) {
+		return "no btn '" + name + "'";
+	}
+	var buf_b = "";
+	var walk = null;
+	walk = function(o,depth) {
+		if(o == null || depth > 6) {
+			return;
+		}
+		var nm;
+		try {
+			nm = o.name;
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+			nm = "?";
+		}
+		var nf = 0;
+		try {
+			if(o.filters != null) {
+				nf = o.filters.length;
+			}
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+		}
+		var ftypes = "";
+		try {
+			if(o.filters != null) {
+				var _g = 0;
+				var _g1 = o.filters;
+				while(_g < _g1.length) {
+					var f = _g1[_g];
+					++_g;
+					var c = js_Boot.getClass(f);
+					ftypes += c.__name__.split(".").pop() + " ";
+				}
+			}
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+		}
+		var vis;
+		try {
+			vis = o.visible;
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+			vis = true;
+		}
+		var cf;
+		try {
+			cf = o.currentFrame;
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+			cf = -1;
+		}
+		var _g = 0;
+		var _g1 = depth;
+		while(_g < _g1) {
+			var i = _g++;
+			buf_b += "  ";
+		}
+		buf_b += Std.string(nm + " filters=" + nf + (ftypes != "" ? "[" + ftypes + "]" : "") + " vis=" + (vis == null ? "null" : "" + vis) + (cf >= 0 ? " frame=" + cf : "") + "\n");
+		var nc = 0;
+		try {
+			nc = o.numChildren;
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+			nc = 0;
+		}
+		var _g = 0;
+		var _g1 = nc;
+		while(_g < _g1) {
+			var i = _g++;
+			try {
+				walk(o.getChildAt(i),depth + 1);
+			} catch( _g2 ) {
+				haxe_NativeStackTrace.lastError = _g2;
+			}
+		}
+	};
+	walk(btn,0);
+	return buf_b;
+};
 Main.sb2ReplayKick = $hx_exports["sb2ReplayKick"] = function(x,y,vx,vy) {
 	var go = GameVars.footballGO;
 	if(go == null) {
@@ -5867,6 +6254,58 @@ Main.sb2BouncePath = $hx_exports["sb2BouncePath"] = function() {
 };
 Main.sb2Goto = $hx_exports["sb2Goto"] = function(screen) {
 	uIPackage_UI.StartTransition(screen);
+};
+Main.sb2PatrolDebug = $hx_exports["sb2PatrolDebug"] = function() {
+	var jm = GameVars.jumpMarkers;
+	var pm = GameVars.patrolMarkers;
+	var s = "jumpMarkers=" + (jm != null ? Std.string(jm.length) : "null") + " patrolMarkers=" + (pm != null ? Std.string(pm.length) : "null");
+	var nm = "ref";
+	var ops = null;
+	try {
+		ops = GameObjects.GetGameObjVectorByName(nm);
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+	if(ops != null) {
+		var n = ops.length;
+		var _g = 0;
+		var _g1 = n;
+		while(_g < _g1) {
+			var i = _g++;
+			var o = ops[i];
+			var uf = "?";
+			try {
+				uf = o.updateFunction != null ? o.updateFunction.name : "null";
+			} catch( _g2 ) {
+				haxe_NativeStackTrace.lastError = _g2;
+			}
+			s += " | " + nm + i + " state=" + Std.string(o.state) + " x=" + (o.xpos | 0) + " y=" + (o.ypos | 0) + " yv=" + Math.round(o.yvel * 100) / 100 + " uf=" + uf;
+		}
+	}
+	var nm = "opponent";
+	var ops = null;
+	try {
+		ops = GameObjects.GetGameObjVectorByName(nm);
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+	if(ops != null) {
+		var n = ops.length;
+		var _g = 0;
+		var _g1 = n;
+		while(_g < _g1) {
+			var i = _g++;
+			var o = ops[i];
+			var uf = "?";
+			try {
+				uf = o.updateFunction != null ? o.updateFunction.name : "null";
+			} catch( _g2 ) {
+				haxe_NativeStackTrace.lastError = _g2;
+			}
+			s += " | " + nm + i + " state=" + Std.string(o.state) + " x=" + (o.xpos | 0) + " y=" + (o.ypos | 0) + " yv=" + Math.round(o.yvel * 100) / 100 + " uf=" + uf;
+		}
+	}
+	return s;
 };
 Main.sb2SetScheme = $hx_exports["sb2SetScheme"] = function(n) {
 	Settings.mobileControlScheme = n;
@@ -6094,7 +6533,7 @@ Main.SimFrame = function() {
 			if(__v.get_length() > 30) {
 				var tmp = "[PORT] vel=(" + ((__v._body == null ? __v._vx : __v._body.prxGet(__v._kind,0)) | 0) + "," + ((__v._body == null ? __v._vy : __v._body.prxGet(__v._kind,1)) | 0) + ") spd=" + (__v.get_length() | 0) + " spin=";
 				var _this = __fb.nape_bodies[0];
-				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 938, className : "Main", methodName : "SimFrame"});
+				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 1149, className : "Main", methodName : "SimFrame"});
 			}
 		}
 	}
@@ -6102,7 +6541,7 @@ Main.SimFrame = function() {
 };
 Main.sb2DiagGround = function() {
 	var space = PhysicsBase.GetNapeSpace();
-	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1003, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1214, className : "Main", methodName : "sb2DiagGround"});
 	var b = space._bodies.iterator();
 	while(b.hasNext()) {
 		var b1 = b.next();
@@ -6153,9 +6592,9 @@ Main.sb2DiagGround = function() {
 				++coversBall;
 			}
 		}
-		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 1020, className : "Main", methodName : "sb2DiagGround"});
+		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 1231, className : "Main", methodName : "sb2DiagGround"});
 	}
-	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1024, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1235, className : "Main", methodName : "sb2DiagGround"});
 };
 Main.__super__ = openfl_display_MovieClip;
 Main.prototype = $extend(openfl_display_MovieClip.prototype,{
@@ -6248,6 +6687,8 @@ Main.prototype = $extend(openfl_display_MovieClip.prototype,{
 					Main.sb2LoadLevel(Levels.currentIndex);
 				}
 				FrameStep.UpdateBanner();
+			} else if(kc == 83) {
+				MapView.Toggle();
 			} else if(kc >= 49 && kc <= 54) {
 				TileRenderer.stress = stressLevels[kc - 49];
 			}
@@ -12295,7 +12736,7 @@ Game.MouseClickHandler = function(event) {
 	if(go == null) {
 		return;
 	}
-	if(Game.controlMode == 0 && Settings.mobileControlScheme != 1 && Settings.mobileControlScheme != 2) {
+	if(Game.controlMode == 0 && Settings.mobileControlScheme != 1 && Settings.mobileControlScheme != 2 && Settings.mobileControlScheme != 3) {
 		Game.doKick = true;
 	}
 	if(Game.controlMode == 1) {
@@ -12530,6 +12971,10 @@ Game.Render = function(_bd) {
 		DebugDraw.Draw(Game.foregroundScreenBD);
 		Game.foregroundActive = true;
 	}
+	if(MapView.on && Game.foregroundScreenBD != null) {
+		MapView.Draw(Game.foregroundScreenBD);
+		Game.foregroundActive = true;
+	}
 	if(Game.foregroundB != null) {
 		Game.foregroundB.set_visible(Game.foregroundActive);
 	}
@@ -12567,6 +13012,10 @@ Game.RenderWalkthrough = function(_bd) {
 	EngineDebug.EndTimer("r_go");
 	if(DebugDraw.on && Game.foregroundScreenBD != null) {
 		DebugDraw.Draw(Game.foregroundScreenBD);
+		Game.foregroundActive = true;
+	}
+	if(MapView.on && Game.foregroundScreenBD != null) {
+		MapView.Draw(Game.foregroundScreenBD);
 		Game.foregroundActive = true;
 	}
 	if(Game.foregroundB != null) {
@@ -15463,6 +15912,7 @@ var GameObj = function() {
 	this.kitStyle = 0;
 	this.player_Head = 0;
 	this.player_Race = 0;
+	this.refPatrolY = -1;
 	this.keeperActionIndex = 0;
 	this.idleState = 0;
 	this.idleTimer = 0;
@@ -18967,7 +19417,7 @@ GameObj.prototype = $extend(GameObjBase.prototype,{
 			if(Game.controlMode == 0) {
 				Game.scrollMode = 1;
 			}
-			if(Game.controlMode != 0 || Settings.mobileControlScheme != 1 && Settings.mobileControlScheme != 2) {
+			if(Game.controlMode != 0 || Settings.mobileControlScheme != 1 && Settings.mobileControlScheme != 2 && Settings.mobileControlScheme != 3) {
 				if(MouseControl.buttonPressed) {
 					if(MouseControl.y < 487) {
 						Game.doKick = true;
@@ -19808,6 +20258,12 @@ GameObj.prototype = $extend(GameObjBase.prototype,{
 			this.CycleAnimationEx();
 		}
 		if(this.state == 100) {
+			if(this.yvel == 0 && (this.refPatrolY < 0 || Math.abs(this.ypos - this.refPatrolY) < 25)) {
+				this.refPatrolY = this.ypos;
+			} else if(this.refPatrolY >= 0 && this.ypos < this.refPatrolY - 25) {
+				this.ypos = this.refPatrolY;
+				this.yvel = 0;
+			}
 			var _g = 0;
 			var _g1 = GameVars.jumpMarkers;
 			while(_g < _g1.length) {
@@ -25320,6 +25776,211 @@ _$_$ASSET_$_$OPENFL_$_$assets_$fonts_$komikaaxis_$ttf1.__super__ = openfl_text_F
 _$_$ASSET_$_$OPENFL_$_$assets_$fonts_$komikaaxis_$ttf1.prototype = $extend(openfl_text_Font.prototype,{
 	__class__: _$_$ASSET_$_$OPENFL_$_$assets_$fonts_$komikaaxis_$ttf1
 });
+var MapView = function() { };
+$hxClasses["MapView"] = MapView;
+MapView.__name__ = "MapView";
+MapView.Toggle = function() {
+	MapView.on = !MapView.on;
+};
+MapView.tmpl = function(go) {
+	try {
+		return go.physobj.name;
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+		return null;
+	}
+};
+MapView.star = function(g,cx,cy,r,col,a) {
+	g.lineStyle();
+	g.beginFill(col,a);
+	var _g = 0;
+	while(_g < 10) {
+		var i = _g++;
+		var rad = i % 2 == 0 ? r : r * 0.45;
+		var ang = -Math.PI / 2 + i * Math.PI / 5;
+		var x = cx + Math.cos(ang) * rad;
+		var y = cy + Math.sin(ang) * rad;
+		if(i == 0) {
+			g.moveTo(x,y);
+		} else {
+			g.lineTo(x,y);
+		}
+	}
+	g.endFill();
+};
+MapView.Draw = function(target) {
+	if(!MapView.on || target == null || Game.boundingRectangle == null || GameObjects.objs == null) {
+		return;
+	}
+	if(MapView.dmc == null) {
+		MapView.dmc = new openfl_display_MovieClip();
+	}
+	var g = MapView.dmc.get_graphics();
+	g.clear();
+	var br = Game.boundingRectangle;
+	var minX = br.x;
+	var minY = br.y;
+	var maxX = br.get_right();
+	var maxY = br.get_bottom();
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null || !go.active) {
+			continue;
+		}
+		var tn = MapView.tmpl(go);
+		if(tn == null || HxOverrides.substr(tn,0,6) != "pickup") {
+			continue;
+		}
+		if(go.xpos < minX) {
+			minX = go.xpos;
+		}
+		if(go.xpos > maxX) {
+			maxX = go.xpos;
+		}
+		if(go.ypos < minY) {
+			minY = go.ypos;
+		}
+		if(go.ypos > maxY) {
+			maxY = go.ypos;
+		}
+	}
+	var bw = maxX - minX;
+	var bh = maxY - minY;
+	if(bw <= 0 || bh <= 0) {
+		return;
+	}
+	var margin = 28.0;
+	var sw = 700 - margin * 2;
+	var sh = 525 - margin * 2;
+	var scale = Math.min(sw / bw,sh / bh);
+	var ox = margin + (sw - bw * scale) / 2;
+	var oy = margin + (sh - bh * scale) / 2;
+	var mx = function(wx) {
+		return ox + (wx - minX) * scale;
+	};
+	var my = function(wy) {
+		return oy + (wy - minY) * scale;
+	};
+	g.lineStyle();
+	g.beginFill(660512,0.98);
+	g.drawRect(0,0,700,525);
+	g.endFill();
+	g.lineStyle(1,3824250,0.8);
+	g.drawRect(ox,oy,bw * scale,bh * scale);
+	var space;
+	try {
+		space = PhysicsBase.GetNapeSpace();
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+		space = null;
+	}
+	if(space != null) {
+		var b = space._bodies.iterator();
+		while(b.hasNext()) {
+			var b1 = b.next();
+			if(!b1.isStatic()) {
+				continue;
+			}
+			var s2 = b1._shapes.iterator();
+			while(s2.hasNext()) {
+				var s21 = s2.next();
+				if(s21.sensorEnabled || !s21.isPolygon()) {
+					continue;
+				}
+				var p = s21;
+				var lv = p.get_worldVerts();
+				if(lv._a.length < 3) {
+					continue;
+				}
+				g.lineStyle(1,6064714,0.35);
+				g.beginFill(3825212,0.95);
+				var _this = lv.at(0);
+				var tmp = mx(_this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0));
+				var _this1 = lv.at(0);
+				g.moveTo(tmp,my(_this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1)));
+				var _g = 1;
+				var _g1 = lv._a.length;
+				while(_g < _g1) {
+					var i = _g++;
+					var _this2 = lv.at(i);
+					var tmp1 = mx(_this2._body == null ? _this2._vx : _this2._body.prxGet(_this2._kind,0));
+					var _this3 = lv.at(i);
+					g.lineTo(tmp1,my(_this3._body == null ? _this3._vy : _this3._body.prxGet(_this3._kind,1)));
+				}
+				var _this4 = lv.at(0);
+				var tmp2 = mx(_this4._body == null ? _this4._vx : _this4._body.prxGet(_this4._kind,0));
+				var _this5 = lv.at(0);
+				g.lineTo(tmp2,my(_this5._body == null ? _this5._vy : _this5._body.prxGet(_this5._kind,1)));
+				g.endFill();
+			}
+		}
+	}
+	g.lineStyle(1.5,16777215,0.9);
+	g.drawRect(mx(Game.camera.x),my(Game.camera.y),700 * scale,525 * scale);
+	var nStar = 0;
+	var nGot = 0;
+	var nTroph = 0;
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null || !go.active) {
+			continue;
+		}
+		var tn = MapView.tmpl(go);
+		if(tn == null) {
+			continue;
+		}
+		var px = mx(go.xpos);
+		var py = my(go.ypos);
+		if(tn == "pickup_normal") {
+			var got = false;
+			try {
+				got = go.onHitFunction == null;
+			} catch( _g2 ) {
+				haxe_NativeStackTrace.lastError = _g2;
+			}
+			++nStar;
+			if(got) {
+				++nGot;
+			}
+			MapView.star(g,px,py,6,got ? 6710852 : 16769610,got ? 0.55 : 1.0);
+		} else if(HxOverrides.substr(tn,0,13) == "pickup_trophy") {
+			++nTroph;
+			MapView.star(g,px,py,8,16755200,1.0);
+			g.lineStyle(2,16767082,0.95);
+			g.drawCircle(px,py,11);
+		} else if(tn == "goal") {
+			g.lineStyle(2,4513279,0.9);
+			g.drawRect(px - 6,py - 10,12,20);
+		}
+	}
+	var fb = GameVars.footballGO;
+	if(fb != null) {
+		var bx = mx(fb.xpos);
+		var by = my(fb.ypos);
+		g.lineStyle(1,0,1);
+		g.beginFill(16777215,1);
+		g.drawCircle(bx,by,5);
+		g.endFill();
+	}
+	if(MapView.tf == null) {
+		MapView.tf = new openfl_text_TextField();
+		MapView.tf.set_selectable(false);
+		MapView.tf.mouseEnabled = false;
+		MapView.tf.set_width(684);
+		MapView.tf.set_x(10);
+		MapView.tf.set_y(5);
+		MapView.dmc.addChild(MapView.tf);
+	}
+	MapView.tf.set_defaultTextFormat(new openfl_text_TextFormat("_sans",14,16777215,true));
+	MapView.tf.set_text("MAP [S]   stars " + nGot + "/" + nStar + " collected   trophies " + nTroph + "   (yellow=star  gold=trophy  white box=view  white dot=ball)");
+	target.draw(MapView.dmc,null,null,null,null,false);
+};
 var MiniGame = function() {
 };
 $hxClasses["MiniGame"] = MiniGame;
@@ -25908,19 +26569,20 @@ MobileFineButtons.Init = function(stage) {
 	MobileFineButtons.stageRef = stage;
 	try {
 		var doc = window.document;
-		var span = 198.;
+		var span = 160.;
+		var step = 54.;
 		MobileFineButtons.wrap = doc.createElement("div");
-		MobileFineButtons.styleEl(MobileFineButtons.wrap,"position:fixed; z-index:99999; display:none; touch-action:none;" + " width:" + span + "px; height:" + span + "px;");
-		MobileFineButtons.mkBtn(doc,"▲",68.,0,function(v) {
+		MobileFineButtons.styleEl(MobileFineButtons.wrap,"position:fixed; z-index:99999; display:none; touch-action:none;" + " -webkit-touch-callout:none; -webkit-user-select:none; user-select:none;" + " width:" + span + "px; height:" + span + "px;");
+		MobileFineButtons.mkBtn(doc,"▲",step,0,function(v) {
 			MobileFineButtons.downU = v;
 		});
-		MobileFineButtons.mkBtn(doc,"▼",68.,136.,function(v) {
+		MobileFineButtons.mkBtn(doc,"▼",step,step * 2,function(v) {
 			MobileFineButtons.downD = v;
 		});
-		MobileFineButtons.mkBtn(doc,"◀",0,68.,function(v) {
+		MobileFineButtons.mkBtn(doc,"◀",0,step,function(v) {
 			MobileFineButtons.downL = v;
 		});
-		MobileFineButtons.mkBtn(doc,"▶",136.,68.,function(v) {
+		MobileFineButtons.mkBtn(doc,"▶",step * 2,step,function(v) {
 			MobileFineButtons.downR = v;
 		});
 		doc.body.appendChild(MobileFineButtons.wrap);
@@ -25930,7 +26592,7 @@ MobileFineButtons.Init = function(stage) {
 };
 MobileFineButtons.mkBtn = function(doc,glyph,x,y,set) {
 	var b = doc.createElement("div");
-	MobileFineButtons.styleEl(b,"position:absolute; left:" + x + "px; top:" + y + "px; width:" + 62 + "px; height:" + 62 + "px;" + " border-radius:14px; background:rgba(255,255,255,0.12); border:3px solid rgba(255,255,255,0.5);" + " box-sizing:border-box; touch-action:none; display:flex; align-items:center; justify-content:center;" + " color:rgba(255,255,255,0.85); font-size:30px; line-height:1; user-select:none; -webkit-user-select:none;");
+	MobileFineButtons.styleEl(b,"position:absolute; left:" + x + "px; top:" + y + "px; width:" + 52 + "px; height:" + 52 + "px;" + " border-radius:12px; background:rgba(255,255,255,0.12); border:3px solid rgba(255,255,255,0.5);" + " box-sizing:border-box; touch-action:none; display:flex; align-items:center; justify-content:center;" + " color:rgba(255,255,255,0.85); font-size:26px; line-height:1;" + " user-select:none; -webkit-user-select:none; -webkit-touch-callout:none; -webkit-user-drag:none;");
 	b.innerHTML = glyph;
 	var down = function(e) {
 		set(true);
@@ -25951,15 +26613,26 @@ MobileFineButtons.mkBtn = function(doc,glyph,x,y,set) {
 			haxe_NativeStackTrace.lastError = _g;
 		}
 	};
+	var block = function(e) {
+		try {
+			e.preventDefault();
+		} catch( _g ) {
+			haxe_NativeStackTrace.lastError = _g;
+		}
+	};
 	b.addEventListener("pointerdown",down,{ passive : false});
 	b.addEventListener("pointerup",up);
 	b.addEventListener("pointercancel",up);
 	b.addEventListener("pointerleave",up);
+	b.addEventListener("contextmenu",block);
+	b.addEventListener("dragstart",block);
+	b.addEventListener("selectstart",block);
+	b.addEventListener("touchstart",block,{ passive : false});
 	MobileFineButtons.wrap.appendChild(b);
 };
 MobileFineButtons.hi = function(b,on) {
 	try {
-		b.style.background = on ? "rgba(255,255,255,0.30)" : "rgba(255,255,255,0.12)";
+		b.style.background = on ? "rgba(255,255,255,0.32)" : "rgba(255,255,255,0.12)";
 	} catch( _g ) {
 		haxe_NativeStackTrace.lastError = _g;
 	}
@@ -25991,16 +26664,34 @@ MobileFineButtons.position = function() {
 			return;
 		}
 		var r = c.getBoundingClientRect();
-		var bottomGap = win.innerHeight - r.bottom;
-		var rightGap = win.innerWidth - r.right;
-		var span = 198.;
-		if(bottomGap >= rightGap && bottomGap > 70) {
-			MobileFineButtons.wrap.style.left = win.innerWidth / 2 - span / 2 + "px";
-			MobileFineButtons.wrap.style.top = Math.max(2,(r.top - span) / 2) + "px";
+		var iw = win.innerWidth;
+		var ih = win.innerHeight;
+		var span = 160.;
+		var left;
+		var top;
+		if(iw >= ih) {
+			var leftMargin = r.left;
+			left = leftMargin >= span + 12 ? (leftMargin - span) / 2 : 8;
+			top = ih / 2 - span / 2;
 		} else {
-			MobileFineButtons.wrap.style.left = Math.max(2,(r.left - span) / 2) + "px";
-			MobileFineButtons.wrap.style.top = win.innerHeight / 2 - span / 2 + "px";
+			var topMargin = r.top;
+			top = topMargin >= span + 12 ? (topMargin - span) / 2 : 8;
+			left = iw / 2 - span / 2;
 		}
+		if(left < 6) {
+			left = 6;
+		}
+		if(left + span > iw - 6) {
+			left = iw - span - 6;
+		}
+		if(top < 6) {
+			top = 6;
+		}
+		if(top + span > ih - 6) {
+			top = ih - span - 6;
+		}
+		MobileFineButtons.wrap.style.left = left + "px";
+		MobileFineButtons.wrap.style.top = top + "px";
 	} catch( _g ) {
 		haxe_NativeStackTrace.lastError = _g;
 	}
@@ -43205,12 +43896,7 @@ licPackage_LicAds.AuthorButton = function(mc) {
 	if(mc == null) {
 		return;
 	}
-	var sku = licPackage_LicAds.GetCurrentSku();
-	if(sku.allowAuthorLink == false) {
-		mc.set_visible(false);
-		return;
-	}
-	mc.addEventListener("click",licPackage_LicAds.AuthorLinkPressed,false,0,true);
+	mc.set_visible(false);
 };
 licPackage_LicAds.AuthorLinkPressed = function(e) {
 	if(licPackage_LicDef.authorLinks.length == 0) {
@@ -43253,9 +43939,9 @@ licPackage_LicAds.ShowEpicGameAd = function() {
 	licPackage_LicAds.oEpicUserInfo = { publisherCode : licPackage_LicAds.myEpicGameAdsPublisherCode, gameId : licPackage_LicAds.myEpicGameAdsGameID, refURL : sEpicRefURL, bgSolid : licPackage_LicAds.myEpicGameAdsBgSolid, bgColor : licPackage_LicAds.myEpicGameAdsBgColor, fadeIN : licPackage_LicAds.myEpicGameAdsFadeIn, fadeFrames : licPackage_LicAds.myEpicGameAdsFadeFrames};
 	openfl_system_Security.allowDomain("http://www.epicgameads.com","http://epicgameads.com");
 	if(openfl_system_Security.sandboxType != "remote") {
-		haxe_Log.trace("Notice:Running EpicGameAds InGameAd in local security sandbox (domain)",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 535, className : "licPackage.LicAds", methodName : "ShowEpicGameAd"});
-		haxe_Log.trace("Ads may not be visible when in local sandbox",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 536, className : "licPackage.LicAds", methodName : "ShowEpicGameAd"});
-		haxe_Log.trace("Publish the SWF and run it in a REMOTE security sandbox (from a internet URL)",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 537, className : "licPackage.LicAds", methodName : "ShowEpicGameAd"});
+		haxe_Log.trace("Notice:Running EpicGameAds InGameAd in local security sandbox (domain)",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 532, className : "licPackage.LicAds", methodName : "ShowEpicGameAd"});
+		haxe_Log.trace("Ads may not be visible when in local sandbox",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 533, className : "licPackage.LicAds", methodName : "ShowEpicGameAd"});
+		haxe_Log.trace("Publish the SWF and run it in a REMOTE security sandbox (from a internet URL)",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 534, className : "licPackage.LicAds", methodName : "ShowEpicGameAd"});
 	}
 	var swfUrl = "http://www.epicgameads.com/epicgameads-as3-v2.swf";
 	var request = new openfl_net_URLRequest(swfUrl);
@@ -43276,7 +43962,7 @@ licPackage_LicAds.unloadEpicGameAds = function() {
 	licPackage_LicAds.epicGameAds.unloadAndStop();
 };
 licPackage_LicAds.onEpicConIOError = function(e) {
-	haxe_Log.trace(e.text,{ fileName : "src/licPackage/LicAds.hx", lineNumber : 566, className : "licPackage.LicAds", methodName : "onEpicConIOError"});
+	haxe_Log.trace(e.text,{ fileName : "src/licPackage/LicAds.hx", lineNumber : 563, className : "licPackage.LicAds", methodName : "onEpicConIOError"});
 };
 licPackage_LicAds.epicLoadProgress = function(e) {
 	var percentLoaded = e.bytesLoaded / e.bytesTotal;
@@ -43370,7 +44056,7 @@ licPackage_LicAds.RemoveMainLogoButton = function(mc) {
 		if(logo != null) {
 			logo.set_visible(false);
 		} else {
-			haxe_Log.trace("Lic: MainLogo Error. Null child found. (not a button?)",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 706, className : "licPackage.LicAds", methodName : "RemoveMainLogoButton"});
+			haxe_Log.trace("Lic: MainLogo Error. Null child found. (not a button?)",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 703, className : "licPackage.LicAds", methodName : "RemoveMainLogoButton"});
 		}
 	}
 };
@@ -43394,7 +44080,7 @@ licPackage_LicAds.MainLogoButton = function(mc) {
 		if(logo != null) {
 			logo.set_visible(false);
 		} else {
-			haxe_Log.trace("Lic: MainLogo Error. Null child found. (not a button?)",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 728, className : "licPackage.LicAds", methodName : "MainLogoButton"});
+			haxe_Log.trace("Lic: MainLogo Error. Null child found. (not a button?)",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 725, className : "licPackage.LicAds", methodName : "MainLogoButton"});
 		}
 	}
 	if(sku.mainLogoName != "") {
@@ -43416,7 +44102,7 @@ licPackage_LicAds.MainLogoButton = function(mc) {
 				logo.useHandCursor = false;
 			}
 		} else {
-			haxe_Log.trace("Lic: MainLogo Error. Can't find logo: " + sku.mainLogoName,{ fileName : "src/licPackage/LicAds.hx", lineNumber : 755, className : "licPackage.LicAds", methodName : "MainLogoButton"});
+			haxe_Log.trace("Lic: MainLogo Error. Can't find logo: " + sku.mainLogoName,{ fileName : "src/licPackage/LicAds.hx", lineNumber : 752, className : "licPackage.LicAds", methodName : "MainLogoButton"});
 		}
 	}
 };
@@ -43440,10 +44126,10 @@ licPackage_LicAds.Link_TurboNuke = function(e,buttonString) {
 };
 licPackage_LicAds.AddButton = function(btn,clickCallback) {
 	if(btn == null) {
-		haxe_Log.trace("add button button = null",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 787, className : "licPackage.LicAds", methodName : "AddButton"});
+		haxe_Log.trace("add button button = null",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 784, className : "licPackage.LicAds", methodName : "AddButton"});
 	}
 	if(clickCallback == null) {
-		haxe_Log.trace("add button clickCallback = null",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 791, className : "licPackage.LicAds", methodName : "AddButton"});
+		haxe_Log.trace("add button clickCallback = null",{ fileName : "src/licPackage/LicAds.hx", lineNumber : 788, className : "licPackage.LicAds", methodName : "AddButton"});
 	}
 	btn.addEventListener("click",clickCallback,false,0,true);
 };
@@ -61160,7 +61846,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 250437;
+	this.version = 119519;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -119309,13 +119995,59 @@ uIPackage_UI.AnimatedMCButton_Over = function(e) {
 		e.currentTarget.hoverCallback(e);
 	}
 	e.currentTarget.buttonAnimation.gotoAndPlay("over");
+	uIPackage_UI.SuppressHoverShadow(e.currentTarget,true);
 };
 uIPackage_UI.AnimatedMCButton_Out = function(e) {
 	if(e.currentTarget == null) {
 		return;
 	}
 	e.currentTarget.buttonAnimation.gotoAndPlay("out");
+	uIPackage_UI.SuppressHoverShadow(e.currentTarget,false);
 	var tmp = e.currentTarget.helpText != null;
+};
+uIPackage_UI.SuppressHoverShadow = function(o,suppress) {
+	if(o == null) {
+		return;
+	}
+	try {
+		if(suppress) {
+			var fs = o.filters;
+			if(fs != null && fs.length > 0) {
+				var kept = [];
+				var changed = false;
+				var _g = 0;
+				while(_g < fs.length) {
+					var f = fs[_g];
+					++_g;
+					if(((f) instanceof openfl_filters_DropShadowFilter) || ((f) instanceof openfl_filters_GlowFilter)) {
+						changed = true;
+					} else {
+						kept.push(f);
+					}
+				}
+				if(changed) {
+					o.__savedFilters = fs;
+					o.filters = kept;
+				}
+			}
+		} else if(o.__savedFilters != null) {
+			o.filters = o.__savedFilters;
+			o.__savedFilters = null;
+		}
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
+	try {
+		var nc = o.numChildren;
+		var _g = 0;
+		var _g1 = nc;
+		while(_g < _g1) {
+			var i = _g++;
+			uIPackage_UI.SuppressHoverShadow(o.getChildAt(i),suppress);
+		}
+	} catch( _g ) {
+		haxe_NativeStackTrace.lastError = _g;
+	}
 };
 uIPackage_UI.Hide = function(o) {
 	try {
@@ -119789,8 +120521,6 @@ uIPackage_UICredits.prototype = $extend(uIPackage_UIScreenInstance.prototype,{
 		ScreenSize.ScaleMovieClip(this.titleMC);
 		this.titleMC.gotoAndPlay(1);
 		uIPackage_UI.AddAnimatedMCButton(this.titleMC.btn_back,$bind(this,this.buttonBackPressed));
-		uIPackage_UI.AddBarebonesMCButton(this.titleMC.link_longAnimals,$bind(this,this.link_longAnimalsPressed));
-		uIPackage_UI.AddBarebonesMCButton(this.titleMC.link_robotJam,$bind(this,this.link_robotJamPressed));
 	}
 	,link_snakeEnginePressed: function(e) {
 		openfl_Lib.getURL(new openfl_net_URLRequest("http://www.longanimalsgames.com/SnakeEngine.php?gamereferral=soccerballs2"),"_blank");
@@ -122369,6 +123099,7 @@ KeyReader.KEY_TOPLEFT = 223;
 KeyReader.KEY_COMMA = 188;
 KeyReader.KEY_PERIOD = 190;
 Levels.currentIndex = 0;
+MapView.on = false;
 MiniGame.highscore = 0;
 MiniGame.score = 0;
 MiniGame.lives = 0;
@@ -122402,8 +123133,8 @@ MobileControls.downX = 0;
 MobileControls.downY = 0;
 MobileControls.downT = 0;
 MobileControls.downWasTap = false;
-MobileFineButtons.BTN = 62;
-MobileFineButtons.GAP = 6;
+MobileFineButtons.BTN = 52;
+MobileFineButtons.GAP = 2;
 MobileFineButtons.downU = false;
 MobileFineButtons.downD = false;
 MobileFineButtons.downL = false;

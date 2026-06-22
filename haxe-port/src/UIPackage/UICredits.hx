@@ -30,9 +30,10 @@ class UICredits extends UIScreenInstance
         titleMC.gotoAndPlay(1);
         
         UI.AddAnimatedMCButton((untyped titleMC).btn_back, buttonBackPressed);
-        
-        UI.AddBarebonesMCButton((untyped titleMC).link_longAnimals, link_longAnimalsPressed);
-        UI.AddBarebonesMCButton((untyped titleMC).link_robotJam, link_robotJamPressed);
+
+        // External links removed: the LongAnimals (longanimalsgames.com) and RobotJam (robotjam.com)
+        // logos used to be clickable and open those sites. The credits screen + logos stay visible, but
+        // they are no longer wired as buttons, so clicking them does nothing (no outbound navigation).
     }
     
     

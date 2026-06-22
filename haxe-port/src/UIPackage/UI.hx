@@ -10,6 +10,8 @@ import flash.display.StageQuality;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.filters.ColorMatrixFilter;
+import flash.filters.DropShadowFilter;
+import flash.filters.GlowFilter;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 import flash.net.URLRequest;
@@ -951,6 +953,7 @@ class UI
         }
 
         (untyped e.currentTarget).buttonAnimation.gotoAndPlay("over");
+        SuppressHoverShadow(e.currentTarget, true);
     }
     public static function AnimatedMCButton_Out(e : MouseEvent)
     {
@@ -959,9 +962,47 @@ class UI
             return;
         }
         (untyped e.currentTarget).buttonAnimation.gotoAndPlay("out");
+        SuppressHoverShadow(e.currentTarget, false);
         if ((untyped e.currentTarget).helpText != null)
         {
         }
+    }
+
+    // openfl-swf renders the buttons' baked DropShadow/Glow filters heavily on the "over" frame, giving
+    // the text a black halo + ghosted shadow on hover that the original 2012 game never showed (idle is
+    // clean). Recurse the whole button subtree and strip every DropShadowFilter/GlowFilter while hovered
+    // (saving per-object originals), restoring them on roll-out. Other filters (e.g. the green button's
+    // colour-tint highlight) are left untouched.
+    static function SuppressHoverShadow(o : Dynamic, suppress : Bool) : Void
+    {
+        if (o == null) return;
+        try
+        {
+            if (suppress)
+            {
+                var fs : Array<Dynamic> = o.filters;
+                if (fs != null && fs.length > 0)
+                {
+                    var kept : Array<Dynamic> = [];
+                    var changed = false;
+                    for (f in fs) { if (Std.isOfType(f, DropShadowFilter) || Std.isOfType(f, GlowFilter)) changed = true; else kept.push(f); }
+                    if (changed) { (untyped o).__savedFilters = fs; o.filters = kept; }
+                }
+            }
+            else if ((untyped o).__savedFilters != null)
+            {
+                o.filters = (untyped o).__savedFilters;
+                (untyped o).__savedFilters = null;
+            }
+        }
+        catch (e : Dynamic) {}
+        // recurse into children (the shadow lives on the nested buttonAnimation.buttonText.buttonName)
+        try
+        {
+            var nc : Int = o.numChildren;
+            for (i in 0...nc) SuppressHoverShadow(o.getChildAt(i), suppress);
+        }
+        catch (e : Dynamic) {}
     }
     
     

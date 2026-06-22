@@ -1683,9 +1683,9 @@ class Game
         {
             return;
         }
-        if (controlMode == 0 && Settings.mobileControlScheme != Settings.SCHEME_B && Settings.mobileControlScheme != Settings.SCHEME_C)
+        if (controlMode == 0 && Settings.mobileControlScheme != Settings.SCHEME_B && Settings.mobileControlScheme != Settings.SCHEME_C && Settings.mobileControlScheme != Settings.SCHEME_D)
         {
-            // schemes B/C route kicks through their own handler (tap), not a raw pointer-down click
+            // schemes B/C/D route kicks through their own handler (aim-pad tap), not a raw pointer-down click
             doKick = true;
         }
         if (controlMode == 1)
@@ -2194,6 +2194,7 @@ class Game
 
         // physics debug-draw (grid view) shares the foreground layer with the aim line
         if (DebugDraw.on && foregroundScreenBD != null) { DebugDraw.Draw(foregroundScreenBD); foregroundActive = true; }
+        if (MapView.on && foregroundScreenBD != null) { MapView.Draw(foregroundScreenBD); foregroundActive = true; }
         // show the foreground layer only when the aim line / debug-draw actually drew this frame (else off-GPU)
         if (foregroundB != null) foregroundB.visible = foregroundActive;
 
@@ -2242,6 +2243,7 @@ class Game
 
         // physics debug-draw (grid view) shares the foreground layer with the aim line
         if (DebugDraw.on && foregroundScreenBD != null) { DebugDraw.Draw(foregroundScreenBD); foregroundActive = true; }
+        if (MapView.on && foregroundScreenBD != null) { MapView.Draw(foregroundScreenBD); foregroundActive = true; }
         // show the foreground layer only when the aim line / debug-draw actually drew this frame (else off-GPU)
         if (foregroundB != null) foregroundB.visible = foregroundActive;
 

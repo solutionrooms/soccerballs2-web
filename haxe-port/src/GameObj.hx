@@ -5054,11 +5054,11 @@ class GameObj extends GameObjBase
                 Game.scrollMode = 1;
             }
             
-            // The raw pointer-down click-kick. Suppress it for mobile schemes B/C — they route kicks
+            // The raw pointer-down click-kick. Suppress it for mobile schemes B/C/D — they route kicks
             // through their own tap handler (MobileControls / MobileAimPad -> Game.doKick on tap-UP), so
-            // without this guard a scheme-C tap fires twice (this raw down-kick + the aim-pad up-kick).
+            // without this guard a scheme-C/D tap fires twice (this raw down-kick + the aim-pad up-kick).
             // Mirrors the same guard on MouseClickHandler (Game.hx).
-            if (Game.controlMode != 0 || (Settings.mobileControlScheme != Settings.SCHEME_B && Settings.mobileControlScheme != Settings.SCHEME_C))
+            if (Game.controlMode != 0 || (Settings.mobileControlScheme != Settings.SCHEME_B && Settings.mobileControlScheme != Settings.SCHEME_C && Settings.mobileControlScheme != Settings.SCHEME_D))
             {
                 if (MouseControl.buttonPressed)
                 {
@@ -6019,7 +6019,8 @@ class GameObj extends GameObjBase
     
     public var patrol_x0 : Float;
     public var patrol_x1 : Float;
-    
+    public var refPatrolY : Float = -1; // self-calibrated walking level; pins the patrol ref to the floor
+
     public function RaycastBelow(snap : Bool) : Bool
     {
         var highestY : Float = 99999;
@@ -6253,7 +6254,7 @@ class GameObj extends GameObjBase
     public function UpdateRef()
     {
         var ballGO : GameObj = GameVars.footballGO;
-        
+
         if (state == 0)
         {
             PlayerFaceToBall();
@@ -6297,10 +6298,24 @@ class GameObj extends GameObjBase
             }
             CycleAnimationEx();
         }
-        
-        
+
+
         if (state == 100)
         {
+            // PRAGMATIC GUARD (lvl-17 "Windy" patrol ref): something launches the kinematic patrol ref
+            // ~90px up at the island's left edge (root not yet pinned — it writes ypos outside UpdateRef).
+            // The ref walks at a constant y in state 100, so self-calibrate that level when it's stable and
+            // snap ypos back if it has been launched far above it — keeps the ref on the floor.
+            if (yvel == 0 && (refPatrolY < 0 || Math.abs(ypos - refPatrolY) < 25))
+            {
+                refPatrolY = ypos;
+            }
+            else if (refPatrolY >= 0 && ypos < refPatrolY - 25)
+            {
+                ypos = refPatrolY;
+                yvel = 0;
+            }
+
             for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameVars),jumpMarkers) type: null */ in GameVars.jumpMarkers)
             {
                 if (Utils.DistBetweenPoints(xpos, ypos, go.xpos, go.ypos) < 20)
@@ -6397,8 +6412,8 @@ class GameObj extends GameObjBase
         
         playerHeadAngle = playerHeadToAngle;
     }
-    
-    
+
+
     public function RefStartIdleAnim()
     {
         idleTimer = 0;

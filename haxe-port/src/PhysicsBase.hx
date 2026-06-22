@@ -318,7 +318,7 @@ class PhysicsBase
     
     public static function AddPhysObjAt(objName : String, _x : Float, _y : Float, _rotDeg : Float, scale : Float, instanceName : String = "", initParams : String = "", _id : String = "", independantGO : Bool = false) : GameObj
     {
-        var go : GameObj = null;        
+        var go : GameObj = null;
         if (independantGO == false)
         {
             go = GameObjects.AddObj(_x, _y, 0);

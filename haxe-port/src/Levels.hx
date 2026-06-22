@@ -502,6 +502,18 @@ class Levels
         }
     }
     
+    // Data-loss guard helper (used by SaveData.Save): does the in-memory progress hold anything worth
+    // keeping? Any completed level counts. If this is false AND there is already a non-empty save on
+    // disk, Save() refuses to overwrite it (a reset/transient in-memory state must not wipe real progress).
+    public static function HasAnyProgress() : Bool
+    {
+        for (l in list)
+        {
+            if (l.complete == true) return true;
+        }
+        return false;
+    }
+
     public static function ToSharedObject() : Dynamic
     {
         var o : Dynamic = {};

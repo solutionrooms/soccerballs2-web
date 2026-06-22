@@ -2653,7 +2653,7 @@
 		<obj id="" type="player" x="545" y="432" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,fixed=true" />
 		<obj id="" type="goal" x="193" y="431" rot="0" scale="1" params="game_layer=GoalObjects,editor_layer=1,fixed=true" />
 		<obj id="" type="crateMetalLarge" x="398" y="416" rot="0" scale="1" params="game_layer=NormalObjects,editor_layer=1,fixed=false" />
-		<obj id="uid_315038" type="ball_large" x="762" y="237" rot="0" scale="1" params="game_layer=Balls,editor_layer=1,fixed=false" />
+		<obj id="uid_315038" type="ball_large" x="747" y="240" rot="0" scale="1" params="game_layer=Balls,editor_layer=1,fixed=false" />
 		<obj id="" type="player" x="120" y="86" rot="0" scale="1" params="game_layer=Centre,editor_layer=1,fixed=true" />
 		<obj id="" type="ball_large" x="338" y="88" rot="0" scale="1" params="game_layer=Balls,editor_layer=1,fixed=false" />
 		<obj id="" type="metalpost_fixed" x="393" y="68" rot="-67" scale="1" params="game_layer=Centre,editor_layer=1,fixed=true" />

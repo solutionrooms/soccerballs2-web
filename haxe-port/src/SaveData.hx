@@ -97,7 +97,7 @@ class SaveData
     {
     }
     
-    public static function Save() : Void
+    public static function Save(allowEmpty : Bool = false) : Void
     {
         if (Game.doWalkthrough)
         {
@@ -109,11 +109,22 @@ class SaveData
             trace("SO null");
             return;
         }
+        // DATA-LOSS GUARD: Save() clears the SharedObject and rewrites it from the in-memory tables, so a
+        // Save() fired while progress is reset/transient would wipe EVERYTHING on disk. If the disk already
+        // holds a save but the in-memory state shows no progress at all (no completed level + no cash),
+        // refuse the write and keep the existing save. Worst case this skips one save; it can never lose
+        // data. Only the explicit "clear data" flow passes allowEmpty=true to bypass this.
+        if (!allowEmpty && so.size > 0 && !Levels.HasAnyProgress() && Game.cash == 0)
+        {
+            trace("SaveData.Save SKIPPED — refusing to overwrite a non-empty save with empty progress");
+            (untyped so).close();
+            return;
+        }
         if (so.size == 0)
         {
             trace("SO size 0");
         }
-        
+
         so.clear();
         
         so.data.hintpopups = HintPopups.ToSharedObject();

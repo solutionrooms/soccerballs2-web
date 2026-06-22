@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "74";
+	app.meta.h["build"] = "75";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -25663,6 +25663,18 @@ Levels.ClearAll = function() {
 		}
 	}
 };
+Levels.HasAnyProgress = function() {
+	var _g = 0;
+	var _g1 = Levels.list;
+	while(_g < _g1.length) {
+		var l = _g1[_g];
+		++_g;
+		if(l.complete == true) {
+			return true;
+		}
+	}
+	return false;
+};
 Levels.ToSharedObject = function() {
 	var o = { };
 	var a = [];
@@ -28328,7 +28340,6 @@ PauseMenu.Pause = function() {
 };
 PauseMenu.pressed_buttonQuit = function(event) {
 	PauseMenu.Unpause();
-	SaveData.Save();
 	uIPackage_UI.StartTransition("levelselect");
 };
 PauseMenu.pressed_buttonRestartLevel = function(event) {
@@ -30147,7 +30158,10 @@ SaveData.Clear = function() {
 };
 SaveData.DontSave = function() {
 };
-SaveData.Save = function() {
+SaveData.Save = function(allowEmpty) {
+	if(allowEmpty == null) {
+		allowEmpty = false;
+	}
 	if(Game.doWalkthrough) {
 		return;
 	}
@@ -30157,8 +30171,13 @@ SaveData.Save = function() {
 		haxe_Log.trace("SO null",{ fileName : "src/SaveData.hx", lineNumber : 109, className : "SaveData", methodName : "Save"});
 		return;
 	}
+	if(!allowEmpty && so.get_size() > 0 && !Levels.HasAnyProgress() && Game.cash == 0) {
+		haxe_Log.trace("SaveData.Save SKIPPED — refusing to overwrite a non-empty save with empty progress",{ fileName : "src/SaveData.hx", lineNumber : 119, className : "SaveData", methodName : "Save"});
+		so.close();
+		return;
+	}
 	if(so.get_size() == 0) {
-		haxe_Log.trace("SO size 0",{ fileName : "src/SaveData.hx", lineNumber : 114, className : "SaveData", methodName : "Save"});
+		haxe_Log.trace("SO size 0",{ fileName : "src/SaveData.hx", lineNumber : 125, className : "SaveData", methodName : "Save"});
 	}
 	so.clear();
 	so.data.hintpopups = HintPopups.ToSharedObject();
@@ -61945,7 +61964,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 163602;
+	this.version = 17235;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -120590,7 +120609,7 @@ uIPackage_UIAreYouSureClearData.prototype = $extend(uIPackage_UIScreenInstance.p
 	}
 	,buttonOKPressed: function(e) {
 		Game.ResetEverything();
-		SaveData.Save();
+		SaveData.Save(true);
 		uIPackage_UI.StartTransition("title");
 	}
 	,buttonCancelPressed: function(e) {

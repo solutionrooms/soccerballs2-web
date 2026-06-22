@@ -31,7 +31,8 @@ class UIAreYouSureClearData extends UIScreenInstance
     public function buttonOKPressed(e : MouseEvent)
     {
         Game.ResetEverything();
-        SaveData.Save();
+        SaveData.Save(true); // allowEmpty: this is the intentional "clear data" wipe — bypass the
+                             // empty-overwrite guard so it actually persists the cleared state.
         UI.StartTransition("title");
     }
     public function buttonCancelPressed(e : MouseEvent)

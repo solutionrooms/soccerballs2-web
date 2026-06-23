@@ -1462,6 +1462,14 @@ export class NapeReplica {
           const axisy = Math.cos(b.rot);
           const v = s.verts;
           const n = v.length / 2;
+          // inner=false (the game always raycasts with inner=false): a downward ray reports only the
+          // surface it ENTERS from outside — the TOPMOST (smallest-y) crossing of this convex shape — and
+          // only when the origin is above it. Counting every edge crossing also returned the UNDERSIDE of
+          // overhanging terrain the ray origin sits inside (e.g. a floating island above a patrolling
+          // character), snapping it up onto the overhang for one frame. A convex shape's entry is < fromYPx
+          // exactly when the origin is inside/below it, so requiring entry >= fromYPx drops those (the
+          // circle branch above already does this by only taking its upper intersection).
+          let entry = Infinity;
           for (let k = 0; k < n; k++) {
             const k2 = (k + 1) % n;
             const ex = b.posx + (axisy * v[2 * k] - axisx * v[2 * k + 1]);
@@ -1472,8 +1480,9 @@ export class NapeReplica {
             if (ex === fx) continue; // vertical edge — no single crossing
             const t = (xPx - ex) / (fx - ex);
             const y = ey + t * (fy - ey);
-            if (y >= fromYPx && y <= maxY && y < bestY) bestY = y;
+            if (y < entry) entry = y; // topmost crossing of this shape = its entry surface
           }
+          if (entry >= fromYPx && entry <= maxY && entry < bestY) bestY = entry;
         }
       }
     }

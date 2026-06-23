@@ -1070,6 +1070,7 @@
             const axisy = Math.cos(b.rot);
             const v = s.verts;
             const n = v.length / 2;
+            let entry = Infinity;
             for (let k = 0; k < n; k++) {
               const k2 = (k + 1) % n;
               const ex = b.posx + (axisy * v[2 * k] - axisx * v[2 * k + 1]);
@@ -1080,8 +1081,9 @@
               if (ex === fx) continue;
               const t = (xPx - ex) / (fx - ex);
               const y = ey + t * (fy - ey);
-              if (y >= fromYPx && y <= maxY && y < bestY) bestY = y;
+              if (y < entry) entry = y;
             }
+            if (entry >= fromYPx && entry <= maxY && entry < bestY) bestY = entry;
           }
         }
       }

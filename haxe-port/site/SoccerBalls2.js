@@ -4271,7 +4271,7 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "77";
+	app.meta.h["build"] = "79";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
@@ -6351,6 +6351,127 @@ Main.sb2BounceDebug = $hx_exports["sb2BounceDebug"] = function(on) {
 Main.sb2BouncePath = $hx_exports["sb2BouncePath"] = function() {
 	return BounceDebug.PathStr();
 };
+Main.sb2Refs = $hx_exports["sb2Refs"] = function() {
+	var out = "";
+	var i = 0;
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null || !go.active) {
+			continue;
+		}
+		var nm;
+		try {
+			nm = go.physobj.name;
+		} catch( _g2 ) {
+			haxe_NativeStackTrace.lastError = _g2;
+			nm = "?";
+		}
+		if(nm.indexOf("referee") < 0 && nm.indexOf("opponent") < 0) {
+			continue;
+		}
+		var walking = go.state == 100 || go.state == 101;
+		out += "#" + i + " " + nm + " (" + (go.xpos | 0) + "," + (go.ypos | 0) + ") state=" + go.state + " xvel=" + go.xvel + (walking ? "  [walking]" : "") + "\n";
+		++i;
+	}
+	if(out == "") {
+		return "no refs/opponents on this level";
+	} else {
+		return out + "→ sb2RefDetail(N) for the off-path one";
+	}
+};
+Main.sb2RefDetail = $hx_exports["sb2RefDetail"] = function(idx) {
+	var i = 0;
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null || !go.active) {
+			continue;
+		}
+		var nm;
+		try {
+			nm = go.physobj.name;
+		} catch( _g2 ) {
+			haxe_NativeStackTrace.lastError = _g2;
+			nm = "?";
+		}
+		if(nm.indexOf("referee") < 0 && nm.indexOf("opponent") < 0) {
+			continue;
+		}
+		if(i == idx) {
+			var out = "#" + idx + " " + nm + " GO=(" + (go.xpos | 0) + "," + (go.ypos | 0) + ")" + " state=" + go.state + " xvel=" + go.xvel + " xflip=" + (go.xflip == null ? "null" : "" + go.xflip) + "\n";
+			var nb = go.nape_bodies;
+			if(nb != null && nb.length > 0 && nb[0] != null) {
+				var b = nb[0];
+				var _this = nape_geom_Vec2.bound(b,0);
+				var x = _this._body == null ? _this._vx : _this._body.prxGet(_this._kind,0);
+				var _this1 = nape_geom_Vec2.bound(b,0);
+				out += "body=(" + (x | 0) + "," + ((_this1._body == null ? _this1._vy : _this1._body.prxGet(_this1._kind,1)) | 0) + ") type=" + (b.isStatic() ? "static" : b.isKinematic() ? "kinematic" : "dynamic") + "\n";
+			}
+			out += "patrol markers (ACTIVE = within |Δy|<20, can turn the walker here):\n";
+			var _g3 = 0;
+			var _g4 = GameVars.patrolMarkers;
+			while(_g3 < _g4.length) {
+				var m = _g4[_g3];
+				++_g3;
+				if(m == null) {
+					continue;
+				}
+				var dy = Math.abs(m.ypos - go.ypos);
+				out += "   (" + (m.xpos | 0) + "," + (m.ypos | 0) + ") Δy=" + (dy | 0) + (dy < 20 ? "  [ACTIVE]" : "") + "\n";
+			}
+			return out;
+		}
+		++i;
+	}
+	return "no ref #" + idx;
+};
+Main.sb2FreeCam = $hx_exports["sb2FreeCam"] = function(on) {
+	Game.freeCam = on;
+	Game.camFollowGO = null;
+	if(on) {
+		return "free-cam ON — ARROW KEYS pan (hold ] = faster), gameplay frozen. sb2FreeCam(false) to resume.";
+	} else {
+		return "free-cam OFF — gameplay resumes.";
+	}
+};
+Main.sb2Follow = $hx_exports["sb2Follow"] = function(idx) {
+	Game.freeCam = false;
+	if(idx < 0) {
+		Game.camFollowGO = null;
+		return "stopped following — camera back to the player.";
+	}
+	var i = 0;
+	var _g = 0;
+	var _g1 = GameObjects.objs;
+	while(_g < _g1.length) {
+		var go = _g1[_g];
+		++_g;
+		if(go == null || !go.active) {
+			continue;
+		}
+		var nm;
+		try {
+			nm = go.physobj.name;
+		} catch( _g2 ) {
+			haxe_NativeStackTrace.lastError = _g2;
+			nm = "?";
+		}
+		if(nm.indexOf("referee") < 0 && nm.indexOf("opponent") < 0) {
+			continue;
+		}
+		if(i == idx) {
+			Game.camFollowGO = go;
+			return "camera now follows #" + idx + " " + nm + " — sb2Follow(-1) to stop.";
+		}
+		++i;
+	}
+	return "no ref #" + idx;
+};
 Main.sb2Goto = $hx_exports["sb2Goto"] = function(screen) {
 	uIPackage_UI.StartTransition(screen);
 };
@@ -6632,7 +6753,7 @@ Main.SimFrame = function() {
 			if(__v.get_length() > 30) {
 				var tmp = "[PORT] vel=(" + ((__v._body == null ? __v._vx : __v._body.prxGet(__v._kind,0)) | 0) + "," + ((__v._body == null ? __v._vy : __v._body.prxGet(__v._kind,1)) | 0) + ") spd=" + (__v.get_length() | 0) + " spin=";
 				var _this = __fb.nape_bodies[0];
-				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 1201, className : "Main", methodName : "SimFrame"});
+				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 1273, className : "Main", methodName : "SimFrame"});
 			}
 		}
 	}
@@ -6640,7 +6761,7 @@ Main.SimFrame = function() {
 };
 Main.sb2DiagGround = function() {
 	var space = PhysicsBase.GetNapeSpace();
-	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1266, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1338, className : "Main", methodName : "sb2DiagGround"});
 	var b = space._bodies.iterator();
 	while(b.hasNext()) {
 		var b1 = b.next();
@@ -6691,9 +6812,9 @@ Main.sb2DiagGround = function() {
 				++coversBall;
 			}
 		}
-		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 1283, className : "Main", methodName : "sb2DiagGround"});
+		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 1355, className : "Main", methodName : "sb2DiagGround"});
 	}
-	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1287, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1359, className : "Main", methodName : "sb2DiagGround"});
 };
 Main.__super__ = openfl_display_MovieClip;
 Main.prototype = $extend(openfl_display_MovieClip.prototype,{
@@ -12199,7 +12320,7 @@ Game.scoreOverlay_EnterFrame = function(e) {
 Game.UpdateLevel = function() {
 };
 Game.InitLevelState = function(s) {
-	haxe_Log.trace("[SB2] InitLevelState(" + s + ") successFlag=" + Std.string(Game.levelSuccessFlag) + " gameState=" + Game.gameState + " numKicks=" + GameVars.numKicks + "/" + GameVars.maxKicks,{ fileName : "src/Game.hx", lineNumber : 585, className : "Game", methodName : "InitLevelState"});
+	haxe_Log.trace("[SB2] InitLevelState(" + s + ") successFlag=" + Std.string(Game.levelSuccessFlag) + " gameState=" + Game.gameState + " numKicks=" + GameVars.numKicks + "/" + GameVars.maxKicks,{ fileName : "src/Game.hx", lineNumber : 589, className : "Game", methodName : "InitLevelState"});
 	Game.levelState = s;
 	Game.levelStateTimer = 0;
 	if(Game.levelState == 0) {
@@ -12576,6 +12697,22 @@ Game.UpdateGameplay = function() {
 				Vars.ReloadXML();
 				Vars.TraceAll();
 			}
+		}
+		if(Game.freeCam) {
+			var sp = KeyReader.Down(221) ? 48 : 16;
+			if(KeyReader.Down(37)) {
+				Game.camera.x -= sp;
+			}
+			if(KeyReader.Down(39)) {
+				Game.camera.x += sp;
+			}
+			if(KeyReader.Down(38)) {
+				Game.camera.y -= sp;
+			}
+			if(KeyReader.Down(40)) {
+				Game.camera.y += sp;
+			}
+			return;
 		}
 		if(PauseMenu.IsPaused()) {
 			return;
@@ -13040,6 +13177,10 @@ Game.Render = function(_bd) {
 	}
 	if(Game.levelState == 3) {
 		return;
+	}
+	if(Game.camFollowGO != null && Game.camFollowGO.active) {
+		Game.camera.x = Game.camFollowGO.xpos - 320;
+		Game.camera.y = Game.camFollowGO.ypos - 240;
 	}
 	var screenBD = _bd;
 	TileRenderer.Begin();
@@ -20356,12 +20497,6 @@ GameObj.prototype = $extend(GameObjBase.prototype,{
 			this.CycleAnimationEx();
 		}
 		if(this.state == 100) {
-			if(this.yvel == 0 && (this.refPatrolY < 0 || Math.abs(this.ypos - this.refPatrolY) < 25)) {
-				this.refPatrolY = this.ypos;
-			} else if(this.refPatrolY >= 0 && this.ypos < this.refPatrolY - 25) {
-				this.ypos = this.refPatrolY;
-				this.yvel = 0;
-			}
 			var _g = 0;
 			var _g1 = GameVars.jumpMarkers;
 			while(_g < _g1.length) {
@@ -61945,7 +62080,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 753678;
+	this.version = 861922;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";
@@ -122977,6 +123112,7 @@ Game.numLives = 0;
 Game.cash = 0;
 Game.levelTimer = 0;
 Game.foregroundActive = false;
+Game.freeCam = false;
 Game.levelState = 0;
 Game.gameState = 0;
 Game.levelStateTimer = 0;

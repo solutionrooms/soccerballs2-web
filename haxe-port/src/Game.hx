@@ -156,6 +156,10 @@ class Game
     public static var fillScreenMC1 : MovieClip;
     
     public static var camera : Camera;
+    // DEBUG camera tools (driven by sb2FreeCam / sb2Follow): freeCam freezes gameplay + lets the arrow
+    // keys pan the view; camFollowGO makes the camera track a GameObject while the game keeps running.
+    public static var freeCam : Bool = false;
+    public static var camFollowGO : GameObj = null;
     public static var boundingRectangle : Rectangle;
     
     public static var levelState : Int = 0;
@@ -1270,6 +1274,19 @@ class Game
                 }
             }
             
+            // DEBUG free-fly camera: gameplay frozen, arrow keys pan the view (hold ] to pan faster).
+            // Returns before the gameplay update so nothing moves, but Render still draws (it only bails
+            // on PauseMenu, not freeCam), so panning re-renders. Toggle via sb2FreeCam(true/false).
+            if (freeCam)
+            {
+                var sp : Float = KeyReader.Down(KeyReader.KEY_RIGHTSQUAREBRACKET) ? 48 : 16;
+                if (KeyReader.Down(KeyReader.KEY_LEFT))  camera.x -= sp;
+                if (KeyReader.Down(KeyReader.KEY_RIGHT)) camera.x += sp;
+                if (KeyReader.Down(KeyReader.KEY_UP))    camera.y -= sp;
+                if (KeyReader.Down(KeyReader.KEY_DOWN))  camera.y += sp;
+                return;
+            }
+
             if (PauseMenu.IsPaused())
             {
                 return;
@@ -2159,7 +2176,15 @@ class Game
         {
             return;
         }
-        
+
+        // DEBUG: while sb2Follow(idx) is active, lock the camera onto that GameObject each frame (the
+        // normal player-follow already ran in UpdateGameplay; this overrides it) so it can be watched move.
+        if (camFollowGO != null && camFollowGO.active)
+        {
+            camera.x = camFollowGO.xpos - 320;
+            camera.y = camFollowGO.ypos - 240;
+        }
+
         var screenBD : BitmapData = _bd;
         // GPU sprite layer for this frame: the converted leaf render methods push sprites/HUD as Tiles.
         // screenBD remains the SOFTWARE underlay for the background + per-frame vector terrain, composited

@@ -6302,19 +6302,9 @@ class GameObj extends GameObjBase
 
         if (state == 100)
         {
-            // PRAGMATIC GUARD (lvl-17 "Windy" patrol ref): something launches the kinematic patrol ref
-            // ~90px up at the island's left edge (root not yet pinned — it writes ypos outside UpdateRef).
-            // The ref walks at a constant y in state 100, so self-calibrate that level when it's stable and
-            // snap ypos back if it has been launched far above it — keeps the ref on the floor.
-            if (yvel == 0 && (refPatrolY < 0 || Math.abs(ypos - refPatrolY) < 25))
-            {
-                refPatrolY = ypos;
-            }
-            else if (refPatrolY >= 0 && ypos < refPatrolY - 25)
-            {
-                ypos = refPatrolY;
-                yvel = 0;
-            }
+            // (Removed an our-only "PRAGMATIC GUARD" refPatrolY snap-back that was a band-aid for the lvl-17
+            // patrol ref being launched up at the island — that's now fixed at the root in the engine's
+            // raycastDown inner=false. The original AS3 has no such guard; restoring its patrol logic.)
 
             for (go/* AS3HX WARNING could not determine type for var: go exp: EField(EIdent(GameVars),jumpMarkers) type: null */ in GameVars.jumpMarkers)
             {

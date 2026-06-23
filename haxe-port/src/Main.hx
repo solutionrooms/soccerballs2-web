@@ -1023,6 +1023,78 @@ class Main extends MovieClip
         return BounceDebug.PathStr();
     }
 
+    // List every referee/opponent with a STABLE index + position, so an off-path one can be identified.
+    // Pause the game when it's visibly off, run sb2Refs(), then sb2RefDetail(N) on that index.
+    @:expose("sb2Refs") public static function sb2Refs() : String {
+        var out = ""; var i = 0;
+        for (go in GameObjects.objs) {
+            if (go == null || !go.active) continue;
+            var nm = try (cast go.physobj : Dynamic).name catch (e : Dynamic) "?";
+            if (nm.indexOf("referee") < 0 && nm.indexOf("opponent") < 0) continue;
+            var walking = (go.state == 100 || go.state == 101);
+            out += "#" + i + " " + nm + " (" + Std.int(go.xpos) + "," + Std.int(go.ypos) + ") state=" + go.state
+                + " xvel=" + go.xvel + (walking ? "  [walking]" : "") + "\n";
+            i++;
+        }
+        return out == "" ? "no refs/opponents on this level" : out + "→ sb2RefDetail(N) for the off-path one";
+    }
+
+    // Full patrol state of one ref/opponent: position, body, and every patrol marker with whether it's
+    // an ACTIVE turn point (|marker.ypos - ypos| < 20). An off-path walker usually has NO active marker.
+    @:expose("sb2RefDetail") public static function sb2RefDetail(idx : Int) : String {
+        var i = 0;
+        for (go in GameObjects.objs) {
+            if (go == null || !go.active) continue;
+            var nm = try (cast go.physobj : Dynamic).name catch (e : Dynamic) "?";
+            if (nm.indexOf("referee") < 0 && nm.indexOf("opponent") < 0) continue;
+            if (i == idx) {
+                var out = "#" + idx + " " + nm + " GO=(" + Std.int(go.xpos) + "," + Std.int(go.ypos) + ")"
+                    + " state=" + go.state + " xvel=" + go.xvel + " xflip=" + go.xflip + "\n";
+                var nb : Array<Dynamic> = go.nape_bodies;
+                if (nb != null && nb.length > 0 && nb[0] != null) {
+                    var b : nape.phys.Body = nb[0];
+                    out += "body=(" + Std.int(b.position.x) + "," + Std.int(b.position.y) + ") type="
+                        + (b.isStatic() ? "static" : (b.isKinematic() ? "kinematic" : "dynamic")) + "\n";
+                }
+                out += "patrol markers (ACTIVE = within |Δy|<20, can turn the walker here):\n";
+                for (m in GameVars.patrolMarkers) {
+                    if (m == null) continue;
+                    var dy = Math.abs(m.ypos - go.ypos);
+                    out += "   (" + Std.int(m.xpos) + "," + Std.int(m.ypos) + ") Δy=" + Std.int(dy)
+                        + (dy < 20 ? "  [ACTIVE]" : "") + "\n";
+                }
+                return out;
+            }
+            i++;
+        }
+        return "no ref #" + idx;
+    }
+
+    // DEBUG free-fly camera: freezes gameplay and lets the ARROW KEYS pan the view (hold ] to go faster).
+    // Tip: sb2StepFromStart(N) to load a level frozen at its start, then sb2FreeCam(true) and pan around.
+    @:expose("sb2FreeCam") public static function sb2FreeCam(on : Bool) : String {
+        Game.freeCam = on;
+        Game.camFollowGO = null;
+        return on ? "free-cam ON — ARROW KEYS pan (hold ] = faster), gameplay frozen. sb2FreeCam(false) to resume."
+                  : "free-cam OFF — gameplay resumes.";
+    }
+
+    // DEBUG: lock the camera onto ref/opponent #idx (same numbering as sb2Refs) while the game KEEPS RUNNING,
+    // so you can watch it move/jump/wander. sb2Follow(-1) returns the camera to the player.
+    @:expose("sb2Follow") public static function sb2Follow(idx : Int) : String {
+        Game.freeCam = false;
+        if (idx < 0) { Game.camFollowGO = null; return "stopped following — camera back to the player."; }
+        var i = 0;
+        for (go in GameObjects.objs) {
+            if (go == null || !go.active) continue;
+            var nm = try (cast go.physobj : Dynamic).name catch (e : Dynamic) "?";
+            if (nm.indexOf("referee") < 0 && nm.indexOf("opponent") < 0) continue;
+            if (i == idx) { Game.camFollowGO = go; return "camera now follows #" + idx + " " + nm + " — sb2Follow(-1) to stop."; }
+            i++;
+        }
+        return "no ref #" + idx;
+    }
+
     // UI navigation hooks (debug/verification): jump to a screen + page the level select.
     @:expose("sb2Goto") public static function sb2Goto(screen : String) : Void {
         uIPackage.UI.StartTransition(screen);

@@ -1097,10 +1097,17 @@ class Game
             }
             
             
-            backBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, false, 0x0);
+            backBD = new BitmapData(Std.int(Defs.displayarea_w * HD.SCALE), Std.int(Defs.displayarea_h * HD.SCALE), false, 0x0);
             backBD.fillRect(backBD.rect, 0);
             backgroundsMC.gotoAndStop(currentBackground + 1);
+            #if hd
+            // HD: rasterize the vector background straight into the 2x backBD (re-sampled at full res, not upscaled)
+            var hdBackMat = new Matrix();
+            hdBackMat.scale(HD.SCALE, HD.SCALE);
+            backBD.draw(backgroundsMC, hdBackMat);
+            #else
             backBD.draw(backgroundsMC);
+            #end
             
             
             

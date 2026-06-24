@@ -2445,7 +2445,15 @@ class GameObjBase
         {
             return;
         }
-        
+
+        // HD: the terrain fill is drawn into the 2x screenBD; this scales the (logical-coord) fillScreenMC
+        // up to match. null in the live build (HD.SCALE=1) → bd.draw(..., null, ...) === original behaviour.
+        var hdDrawMat : Matrix = null;
+        #if hd
+        hdDrawMat = new Matrix();
+        hdDrawMat.scale(HD.SCALE, HD.SCALE);
+        #end
+
         var x : Float = Math.round(xpos);
         var y : Float = Math.round(ypos);
         x -= Math.round(Game.camera.x);
@@ -2558,7 +2566,7 @@ class GameObjBase
                 p0 = newpoints[i];
                 g.lineTo(p0.x, p0.y);
             }
-            bd.draw(Game.fillScreenMC, null, null, null, null, false);
+            bd.draw(Game.fillScreenMC, hdDrawMat, null, null, null, false);
             return;
         }
         
@@ -2596,7 +2604,7 @@ class GameObjBase
                 }
             }
         }
-        bd.draw(Game.fillScreenMC, null, null, null, null, false);
+        bd.draw(Game.fillScreenMC, hdDrawMat, null, null, null, false);
         
         if (name == "death")
         {

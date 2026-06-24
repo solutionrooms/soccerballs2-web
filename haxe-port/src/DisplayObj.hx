@@ -201,11 +201,18 @@ class DisplayObj
             {
                 if (Game.use_texturepages == false || flags == "separatetexturepage")
                 {
-                    BD = new BitmapData(Std.int(rect.width), Std.int(rect.height), true, 0);
-                    BD.draw(mc, mat, null, null, null, false);
-                    
+                    // HD: rasterize the vector frame at HD.SCALE x for a crisp 2x texture. mat already
+                    // carries the per-dobj `scale`; clone + add HD.SCALE only for the bitmap rasterization.
+                    // sourceRect/xoffset stay logical; the tile render matrices pre-scale by 1/textureScale,
+                    // and GetBitmapData() hands raw consumers a 1x downscale so fills keep native pattern size.
+                    var hdmat : Matrix = mat.clone();
+                    hdmat.scale(HD.SCALE, HD.SCALE);
+                    BD = new BitmapData(Std.int(rect.width * HD.SCALE), Std.int(rect.height * HD.SCALE), true, 0);
+                    BD.draw(mc, hdmat, null, null, null, false);
+
                     dof.bitmapData = BD;
                     dof.sourceRect = new Rectangle(0, 0, rect.width, rect.height);
+                    dof.textureScale = HD.SCALE;
                 }
                 else
                 {
@@ -376,6 +383,28 @@ class DisplayObj
     public function GetBitmapData(_frame : Int) : BitmapData
     {
         var dof : DisplayObjFrame = frames[_frame];
+        #if hd
+        // HD: dof.bitmapData is the 2x texture used by the GPU tile path. Raw consumers (beginBitmapFill
+        // terrain/poly fills, hitTest) read pixel dimensions directly, so they need a LOGICAL-size bitmap or
+        // their patterns render at 2x size. Hand back a cached 1x downscale, built lazily (only the few
+        // fill-material frames ever allocate it). Pattern keeps native size; resolution matches the original.
+        if (dof.textureScale != 1.0 && dof.bitmapData != null)
+        {
+            if (dof.bitmapDataLogical == null)
+            {
+                var lw : Int = Std.int(dof.sourceRect.width);
+                var lh : Int = Std.int(dof.sourceRect.height);
+                if (lw < 1) lw = 1;
+                if (lh < 1) lh = 1;
+                var lo : BitmapData = new BitmapData(lw, lh, true, 0);
+                var dm : Matrix = new Matrix();
+                dm.scale(1 / dof.textureScale, 1 / dof.textureScale);
+                lo.draw(dof.bitmapData, dm, null, null, null, true);
+                dof.bitmapDataLogical = lo;
+            }
+            return dof.bitmapDataLogical;
+        }
+        #end
         return dof.bitmapData;
     }
     public function GetSourceRect(_frame : Int) : Rectangle
@@ -456,6 +485,8 @@ class DisplayObj
     {
         origMC.gotoAndStop(_frame + 1);
         mat.identity();
+        var __ts : Float = frames[_frame].textureScale; // HD: bitmap is T x; map its pixels back to logical first
+        if (__ts != 1.0) mat.scale(1 / __ts, 1 / __ts);
         if (xflip)
         {
             mat.scale(-1, 1);
@@ -463,7 +494,7 @@ class DisplayObj
         mat.rotate(rot);
         mat.scale(renderScale, renderScale);
         mat.translate(xpos, ypos);
-        
+
         // GPU tile path: push the frame's rasterised bitmap rather than re-drawing the vector MC.
         var __vbd : BitmapData = frames[_frame].bitmapData;
         if (__vbd != null) TileRenderer.Push(__vbd, mat, ct);
@@ -475,6 +506,8 @@ class DisplayObj
     {
         origMC.gotoAndStop(_frame + 1);
         mat.identity();
+        var __ts : Float = frames[frame].textureScale; // HD: bitmap is T x; map its pixels back to logical first
+        if (__ts != 1.0) mat.scale(1 / __ts, 1 / __ts);
         if (xflip)
         {
             mat.scale(-1, 1);
@@ -482,7 +515,7 @@ class DisplayObj
         mat.rotate(rot);
         mat.scale(renderScale, renderScale);
         mat.translate(xpos, ypos);
-        
+
         var bd : BitmapData = frames[frame].bitmapData;
         if (bd != null) TileRenderer.Push(bd, mat, null);
     }

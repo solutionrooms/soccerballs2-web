@@ -3,6 +3,8 @@
 	<meta title="Soccer Balls 2" package="com.solutionrooms.soccerballs2" version="1.0.0" company="SolutionRooms" />
 	<app main="Main" path="bin" file="SoccerBalls2" />
 	<window width="700" height="525" fps="60" background="#000000" allow-high-dpi="false" />
+	<!-- HD build (-Dhd): render into a 2x-backed canvas so the 2x software buffers resolve crisply -->
+	<window allow-high-dpi="true" if="hd" />
 
 	<source path="src" />
 	<!-- vendored + Haxe-4-patched as3hx runtime support: as3hx.Compat, FastXML (E4X), FastXMLList -->

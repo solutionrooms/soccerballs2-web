@@ -270,8 +270,12 @@ class Main extends MovieClip
         {
             return;
         }
-        screenBD = new BitmapData(Defs.displayarea_w, Defs.displayarea_h, true, 0x0);
+        // HD: the software underlay is rasterized at HD.SCALE x internal resolution, then shown at the
+        // native logical size (screenB scaled 1/HD.SCALE) so it occupies 700x525 on stage but carries
+        // 2x source pixels — which resolve crisply into the 2x-backed (allow-high-dpi) canvas. SCALE=1 live.
+        screenBD = new BitmapData(Std.int(Defs.displayarea_w * HD.SCALE), Std.int(Defs.displayarea_h * HD.SCALE), true, 0x0);
         screenB = new Bitmap(screenBD);
+        screenB.scaleX = screenB.scaleY = 1 / HD.SCALE;
         // GPU sprite layer composited above screenB (the software underlay: background + vector terrain).
         TileRenderer.Init(Defs.displayarea_w, Defs.displayarea_h);
         // foreground overlay composited ABOVE the tilemap (the aim line, which must sit over all sprites).

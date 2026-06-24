@@ -14,9 +14,16 @@ import flash.display.Loader;
 class DisplayObjFrame
 {
     
-    public var bitmapData : BitmapData;
+    public var bitmapData : BitmapData; // HD: rasterized at textureScale x (2x); GPU tile path draws it pre-scaled.
+    // HD: cached 1x downscale of bitmapData for RAW consumers (beginBitmapFill terrain/poly fills, hitTest)
+    // which read the bitmap's pixel dimensions directly. Built lazily by DisplayObj.GetBitmapData, so only
+    // the few fill-material frames ever allocate it. Keeps fill patterns at their native (logical) size.
+    public var bitmapDataLogical : BitmapData = null;
     public var xoffset : Float;
     public var yoffset : Float;
+    // HD: bitmapData is rasterized at this multiple of the logical size (HD.SCALE in -Dhd; 1.0 otherwise).
+    // The tile render matrices pre-scale by 1/textureScale so the 2x bitmap still draws at the native size.
+    public var textureScale : Float = 1.0;
     public static var mat : Matrix = new Matrix();
     public static var colTrans : ColorTransform = new ColorTransform();
     public var sourceRect : Rectangle;
@@ -199,10 +206,18 @@ class DisplayObjFrame
     {
         point.x = xpos + xoffset;
         point.y = ypos + yoffset;
-        
+
+        if (textureScale == 1.0)
         {
-            
             TileRenderer.PushAt(bitmapData, point.x, point.y);
+        }
+        else if (bitmapData != null)
+        {
+            // HD: T x texture, draw at logical size — scale the bitmap pixels down by 1/T, then place.
+            mat.identity();
+            mat.scale(1 / textureScale, 1 / textureScale);
+            mat.translate(point.x, point.y);
+            TileRenderer.Push(bitmapData,mat, null);
         }
     }
     
@@ -218,7 +233,7 @@ class DisplayObjFrame
         {
             if (bitmapData != null)
             {
-                TileRenderer.Push(bitmapData, mat, null);
+                TileRenderer.Push(bitmapData,mat, null);
             }
         }
     }
@@ -234,6 +249,7 @@ class DisplayObjFrame
     public function RenderAtRotScaledWithOffset(screenBD : BitmapData, xpos : Float, ypos : Float, scale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false, offsetX : Float = 0, offsetY : Float = 0) : Void
     {
         mat.identity();
+        mat.scale(1 / textureScale, 1 / textureScale); // HD: T x texture -> logical units (no-op when textureScale==1)
         mat.translate(xoffset, yoffset);
         mat.rotate(rot);
         mat.translate(-xoffset, -yoffset);
@@ -246,7 +262,7 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            TileRenderer.Push(bitmapData, mat, ct);
+            TileRenderer.Push(bitmapData,mat, ct);
         }
     }
     
@@ -255,6 +271,7 @@ class DisplayObjFrame
     public function RenderAtRotScaled(screenBD : BitmapData, xpos : Float, ypos : Float, scale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false) : Void
     {
         mat.identity();
+        mat.scale(1 / textureScale, 1 / textureScale); // HD: T x texture -> logical units (no-op when textureScale==1)
         mat.translate(xoffset, yoffset);
         mat.rotate(rot);
         mat.translate(-xoffset, -yoffset);
@@ -264,13 +281,14 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            TileRenderer.Push(bitmapData, mat, ct);
+            TileRenderer.Push(bitmapData,mat, ct);
         }
     }
     
     public function RenderAtRotScaled_Xflip(screenBD : BitmapData, xpos : Float, ypos : Float, scale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false) : Void
     {
         mat.identity();
+        mat.scale(1 / textureScale, 1 / textureScale); // HD: T x texture -> logical units (no-op when textureScale==1)
         mat.translate(xoffset, yoffset);
         mat.rotate(rot);
         mat.translate(-xoffset, -yoffset);
@@ -282,13 +300,14 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            TileRenderer.Push(bitmapData, mat, ct);
+            TileRenderer.Push(bitmapData,mat, ct);
         }
     }
     
     public function RenderAtRotScaledAdditive(screenBD : BitmapData, xpos : Float, ypos : Float, scale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false) : Void
     {
         mat.identity();
+        mat.scale(1 / textureScale, 1 / textureScale); // HD: T x texture -> logical units (no-op when textureScale==1)
         mat.translate(xoffset, yoffset);
         mat.rotate(rot);
         mat.translate(-xoffset, -yoffset);
@@ -298,7 +317,7 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            TileRenderer.Push(bitmapData, mat, null, BlendMode.ADD);
+            TileRenderer.Push(bitmapData,mat, null, BlendMode.ADD);
         }
     }
     
@@ -307,6 +326,7 @@ class DisplayObjFrame
     public function RenderAtRotScaledLayer(screenBD : BitmapData, xpos : Float, ypos : Float, scale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false) : Void
     {
         mat.identity();
+        mat.scale(1 / textureScale, 1 / textureScale); // HD: T x texture -> logical units (no-op when textureScale==1)
         mat.translate(xoffset, yoffset);
         mat.rotate(rot);
         mat.translate(-xoffset, -yoffset);
@@ -316,13 +336,14 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            TileRenderer.Push(bitmapData, mat, null, BlendMode.LAYER);
+            TileRenderer.Push(bitmapData,mat, null, BlendMode.LAYER);
         }
     }
     
     public function RenderAtRotScaledOverlay(screenBD : BitmapData, xpos : Float, ypos : Float, scale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false) : Void
     {
         mat.identity();
+        mat.scale(1 / textureScale, 1 / textureScale); // HD: T x texture -> logical units (no-op when textureScale==1)
         mat.translate(xoffset, yoffset);
         mat.rotate(rot);
         mat.translate(-xoffset, -yoffset);
@@ -332,13 +353,14 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            TileRenderer.Push(bitmapData, mat, null, BlendMode.OVERLAY);
+            TileRenderer.Push(bitmapData,mat, null, BlendMode.OVERLAY);
         }
     }
     
     public function RenderAtRotScaled_SourceRect(screenBD : BitmapData, xpos : Float, ypos : Float, scale : Float = 1.0, rot : Float = 0.0, ct : ColorTransform = null, _doSmooth : Bool = false, sourceRect : Rectangle = null, xo : Int = 0, yo : Int = 0) : Void
     {
         mat.identity();
+        mat.scale(1 / textureScale, 1 / textureScale); // HD: T x texture -> logical units (no-op when textureScale==1)
         mat.translate(xoffset, yoffset);
         mat.rotate(rot);
         mat.translate(-xoffset, -yoffset);
@@ -351,7 +373,7 @@ class DisplayObjFrame
         
         if (bitmapData != null)
         {
-            TileRenderer.Push(bitmapData, mat, ct); // (clipRect from the old draw is not reproduced on the GPU tile path)
+            TileRenderer.Push(bitmapData,mat, ct); // (clipRect from the old draw is not reproduced on the GPU tile path)
         }
     }
 }

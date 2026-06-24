@@ -233,8 +233,9 @@ class UILevelComplete extends UIScreenInstance
     }
     public function buttonNextPressed(e : MouseEvent)
     {
+        GD.ShowAd(); // mid-roll on the level-complete "next" button (SDK throttles real frequency)
         var l : Int = as3hx.Compat.parseInt(Levels.currentIndex + 1);
-        
+
         if (l == 36)
         {
             UI.WaitAndStartTransition(titleMC, "gamecomplete");
@@ -247,6 +248,7 @@ class UILevelComplete extends UIScreenInstance
     }
     public function buttonRetryPressed(e : MouseEvent)
     {
+        GD.ShowAd(); // mid-roll on the level-complete "replay" button
         UI.WaitAndStartTransition(titleMC, "gamescreen");
     }
     public function buttonMenuPressed(e : MouseEvent)

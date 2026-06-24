@@ -3267,7 +3267,8 @@ class GameObj extends GameObjBase
             
             l /= hitterGO.GetBodyMass(0);
 
-            // [BREAK-PROBE] always-on diagnostic: shows exactly why a crate does or
+            #if !release
+            // [BREAK-PROBE] diagnostic (dev builds only): shows exactly why a crate does or
             // doesn't break. l is the ball's NORMAL velocity-change at the contact
             // (must be >=150). A mostly-tangential (sliding) hit gives a small l even
             // for a fast ball. Compare ball v=(vx,vy): if |vy|>>|vx| the ball is
@@ -3277,6 +3278,7 @@ class GameObj extends GameObjBase
                 + (l < 150 ? " <150 NO-BREAK" : " >=150 BREAK")
                 + "  ball v=(" + Math.round(hb.velocity.x) + "," + Math.round(hb.velocity.y) + ")"
                 + "  imp=(" + Math.round(v0.x) + "," + Math.round(v0.y) + ", z" + Math.round(v0.z) + ")");
+            #end
             Utils.print("hit speed " + l);
 
             if (l < 150)

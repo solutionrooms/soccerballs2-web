@@ -586,7 +586,9 @@ class Game
     
     public static function InitLevelState(s : Int)
     {
+        #if !release
         trace("[SB2] InitLevelState(" + s + ") successFlag=" + levelSuccessFlag + " gameState=" + gameState + " numKicks=" + GameVars.numKicks + "/" + GameVars.maxKicks);
+        #end
         levelState = s;
         levelStateTimer = 0;
         if (levelState == levelState_LevelStart)
@@ -1686,7 +1688,9 @@ class Game
     public static function MouseClickHandler(event : MouseEvent) : Void
     {
         if (OptionsScreen.open) return; // options overlay is modal — don't let clicks reach gameplay
-        if (true)
+        #if !release
+        // Dev-only: clicking the top-left corner cycles EngineDebug overlays; bottom-left cycles the
+        // render-debug mode. Stripped from the public build so a player can't trigger them by tapping a corner.
         {
             if (event.stageX < 100 && event.stageY < 100)
             {
@@ -1701,7 +1705,8 @@ class Game
                 }
             }
         }
-        
+        #end
+
         var go : GameObj = GameVars.footballGO;
         if (go == null)
         {

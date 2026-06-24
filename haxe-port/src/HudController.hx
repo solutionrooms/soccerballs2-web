@@ -183,12 +183,15 @@ class HudController
     static inline function rnd(v : Float) : Float { return Math.round(v * 10) / 10; }
     static inline function clog(s : String) : Void { #if (js && html5) js.Browser.console.log(s); #end }
 
+    #if !release
     @:expose("sb2DumpHud") public static function sb2DumpHud() : Void
     {
         if (Game.hudController != null) Game.hudController.ForceDumpHud();
     }
     public function ForceDumpHud() : Void { __hudDumped = false; DumpHud(); }
+    #end
 
+    #if !release // HUD geometry diagnostic ([HUD3] logs) — dev builds only
     function dumpField(label : String, tf : Dynamic) : Void
     {
         #if (js && html5)
@@ -247,7 +250,8 @@ class HudController
         catch (e : Dynamic) { clog("[HUD3] dump err " + e); }
         #end
     }
-    
+    #end // !release — HUD geometry diagnostic
+
     public function InitOnce()
     {
         hudMC = new Hud();
@@ -258,7 +262,9 @@ class HudController
         UI.AddAnimatedMCButton((untyped hudMC).mainArea.btn_quit, ButtonPausePressed);
         UI.AddAnimatedMCButton((untyped hudMC).mainArea.btn_restart, ButtonRestartPressed);
         
+        #if !release
         UI.AddAnimatedMCButton((untyped hudMC).debugArea.btn_skipLevel, ButtonDebugSkipPressed);
+        #end
         
         Lic.AnimatedMCWalkthroughButton((untyped hudMC.mainArea).btn_walkthrough);
         
@@ -393,7 +399,9 @@ class HudController
             }
         }
 
+        #if !release
         DumpHud(); // one-shot HUD geometry diagnostic (self-gates via __hudDumped); see [HUD3] logs
+        #end
 
         return;
     }

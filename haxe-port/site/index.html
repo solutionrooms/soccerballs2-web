@@ -11,6 +11,35 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
+	<!-- GameDistribution HTML5 SDK — release build only (-Dgdsdk, set by `npm run replica:release`). Loaded once,
+	     before the game starts. GD_OPTIONS.onEvent bridges ad start/stop to the game: SDK_GAME_PAUSE →
+	     window.sb2GdPause (freeze + mute), SDK_GAME_START → window.sb2GdResume (resume + restore audio). -->
+	<script>
+		window["GD_OPTIONS"] = {
+			"gameId": "8339bd11fe664f56a33f81c0c8d04ca7",
+			"onEvent": function (event) {
+				switch (event.name) {
+					case "SDK_GAME_START":
+						if (window.sb2GdResume) { window.sb2GdResume(); }
+						break;
+					case "SDK_GAME_PAUSE":
+						if (window.sb2GdPause) { window.sb2GdPause(); }
+						break;
+					case "SDK_GDPR_TRACKING": break;
+					case "SDK_GDPR_TARGETING": break;
+					case "SDK_REWARDED_WATCH_COMPLETE": break;
+				}
+			}
+		};
+		(function (d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) { return; }
+			js = d.createElement(s); js.id = id;
+			js.src = "https://html5.api.gamedistribution.com/main.min.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, "script", "gamedistribution-jssdk"));
+	</script>
+
 	
 	<link rel="shortcut icon" type="image/png" href="./favicon.png">
 

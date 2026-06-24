@@ -12,6 +12,7 @@
     "test": "vitest run",
     "replica:bundle": "esbuild src/physics/replica/bundle-entry.ts --bundle --format=iife --target=es2017 --legal-comments=none --outfile=haxe-port/templates/html5/template/nape-replica.js && cp haxe-port/templates/html5/template/nape-replica.js haxe-port/bin/html5/bin/nape-replica.js",
     "replica:build": "npm run replica:bundle && cd haxe-port && haxelib run lime build html5 -Dreplica",
+    "replica:release": "npm run replica:bundle && cd haxe-port && haxelib run lime build html5 -Dreplica -Drelease -Dgdsdk",
     "hd:build": "npm run replica:bundle && cd haxe-port && haxelib run lime build html5 -Dreplica -Dhd && cd .. && rm -rf haxe-port/site/hd && mkdir -p haxe-port/site/hd && cp -R haxe-port/bin/html5/bin/. haxe-port/site/hd/",
     "replica:serve": "node scripts/serve-replica.cjs"
   },

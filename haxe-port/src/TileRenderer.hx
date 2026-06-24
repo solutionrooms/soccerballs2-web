@@ -53,23 +53,26 @@ class TileRenderer
     public static function Init(w : Int, h : Int) : Tilemap
     {
         DEBUG_SHARE_TILESET = Settings.gpuBatchTest; // persisted options toggle
+        #if !release // dev render-diagnostic URL knobs (?batch1/?nounderlay/?notiles) — stripped from the public build
         try {
             var q : String = js.Browser.window.location.search;
             if (q != null && q.indexOf("batch1") >= 0) DEBUG_SHARE_TILESET = true; // URL override still works
             if (q != null && q.indexOf("nounderlay") >= 0) noUnderlay = true;
             if (q != null && q.indexOf("notiles") >= 0) noTiles = true;
         } catch (e : Dynamic) {}
+        #end
         tilemap = new Tilemap(w, h, null, true /* smoothing */);
         tilemap.tileAlphaEnabled = true;
         tilemap.tileColorTransformEnabled = true;
         tilemap.tileBlendModeEnabled = true;
-        // iOS stall diagnostics: ?noblend disables per-tile blend modes (LAYER/OVERLAY need a
+        #if !release // iOS stall diagnostics: ?noblend disables per-tile blend modes (LAYER/OVERLAY need a
         // destination-framebuffer read = an iOS stall); ?noct disables per-tile colorTransform.
         try {
             var q2 : String = js.Browser.window.location.search;
             if (q2 != null && q2.indexOf("noblend") >= 0) tilemap.tileBlendModeEnabled = false;
             if (q2 != null && q2.indexOf("noct") >= 0) tilemap.tileColorTransformEnabled = false;
         } catch (e : Dynamic) {}
+        #end
         return tilemap;
     }
 

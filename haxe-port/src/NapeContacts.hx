@@ -124,7 +124,6 @@ class NapeContacts
     }
     public static function BeginPre(cb : InteractionCallback)
     {
-        Utils.print("HERE");
     }
     // ===== TEMP CONTACT PROBE (level-9 friction diagnosis; REMOVE after measuring) =====
     // For every ball-involved collision arbiter, logs which surface was hit and the combined

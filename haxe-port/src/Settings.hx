@@ -17,8 +17,9 @@ class Settings
     public static var openAllLevels : Bool = false;
 
     // Mobile control scheme: 0 = A (drag/aim with pointer), 1 = B (virtual joystick + tap-near-ball),
-    // 2 = C ("Aim Pad": relative drag-aim + tap-fire). Default = C; overridden by the saved setting on load.
-    public static var mobileControlScheme : Int = 2;
+    // 2 = C ("Aim Pad": relative drag-aim + tap-fire). The first-run default is platform-dependent —
+    // desktop → A, touch (mobile/tablet) → C — and is assigned in Load() (overridden by any saved value).
+    public static var mobileControlScheme : Int = 0;
 
     // Aim-pad (scheme C) joystick sensitivity: 0 = Low, 1 = Med, 2 = High. Lower = the stick needs more
     // travel for the same aim change (finer control). Default Med.
@@ -49,21 +50,59 @@ class Settings
 
     static inline var SID : String = "soccerballs2_settings";
 
+    // Touch device (phone/tablet) vs desktop — used ONLY to pick the first-run control-scheme default.
+    // "(hover: none) and (pointer: coarse)" is true for finger-primary devices (phones/tablets) and
+    // false for desktops, including touch-screen laptops (which still have a fine pointer / hover).
+    // Falls back to a user-agent sniff for older browsers without matchMedia.
+    public static function IsTouchDevice() : Bool
+    {
+        #if (js && html5)
+        try
+        {
+            var w : Dynamic = js.Browser.window;
+            if (w != null && (untyped w.matchMedia) != null)
+            {
+                var mq : Dynamic = w.matchMedia("(hover: none) and (pointer: coarse)");
+                if (mq != null && mq.matches == true) return true;
+                // If matchMedia is present and clearly reports a desktop pointer, trust it (no UA sniff).
+                var mqFine : Dynamic = w.matchMedia("(pointer: fine)");
+                if (mqFine != null && mqFine.matches == true) return false;
+            }
+            var nav : Dynamic = js.Browser.navigator;
+            var ua : String = (nav != null && nav.userAgent != null) ? Std.string(nav.userAgent) : "";
+            var re = ~/Android|iPhone|iPad|iPod|Mobile|Tablet|Silk|Kindle|BlackBerry|Opera Mini|IEMobile/i;
+            if (re.match(ua)) return true;
+        }
+        catch (e : Dynamic) {}
+        #end
+        return false;
+    }
+
     public static function Load() : Void
     {
+        // Platform-appropriate first-run default (overridden below by any saved value):
+        //   desktop               → scheme A (pointer drag-aim)
+        //   touch (mobile/tablet) → scheme C ("Aim Pad") + medium sensitivity
+        if (IsTouchDevice()) { mobileControlScheme = SCHEME_C; aimSensitivity = 1; }
+        else                 { mobileControlScheme = SCHEME_A; }
+
         try
         {
             var so : SharedObject = SharedObject.getLocal(SID);
             if (so != null && so.data != null)
             {
-                if (so.data.perfHud != null) perfHud = so.data.perfHud;
-                if (so.data.openAllLevels != null) openAllLevels = so.data.openAllLevels;
                 if (so.data.mobileControlScheme != null) mobileControlScheme = Std.int(so.data.mobileControlScheme);
                 if (so.data.aimSensitivity != null) aimSensitivity = Std.int(so.data.aimSensitivity);
-                if (so.data.gpuBatchTest != null) gpuBatchTest = so.data.gpuBatchTest;
                 if (so.data.cachedTerrain != null) cachedTerrain = so.data.cachedTerrain;
+                #if !release
+                // Dev-only flags: never honoured in the public release build, so a developer's stale
+                // local prefs (e.g. perfHud / openAllLevels left ON) can't leak into a release test.
+                if (so.data.perfHud != null) perfHud = so.data.perfHud;
+                if (so.data.openAllLevels != null) openAllLevels = so.data.openAllLevels;
+                if (so.data.gpuBatchTest != null) gpuBatchTest = so.data.gpuBatchTest;
                 if (so.data.noMudFriction != null) noMudFriction = so.data.noMudFriction;
                 if (so.data.debugKeys != null) debugKeys = so.data.debugKeys;
+                #end
                 (untyped so).close();
             }
         }

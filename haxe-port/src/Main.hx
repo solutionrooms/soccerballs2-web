@@ -38,6 +38,7 @@ class Main extends MovieClip
 
     // DEBUG hook (exposed to JS as window.sb2LoadLevel) so a level can be started without clicking
     // through the menu — used to reproduce/diagnose the gamescreen transition headlessly.
+    #if !release
     @:expose("sb2LoadLevel")
     public static function sb2LoadLevel(i : Int) : Void
     {
@@ -53,6 +54,7 @@ class Main extends MovieClip
         FrameStep.pauseAtStart = true;
         sb2LoadLevel(i == null ? Levels.currentIndex : i);
     }
+    #end // !release
 
     public function new()
     {
@@ -87,7 +89,6 @@ class Main extends MovieClip
         Settings.Load();
         GameFont.Load(); // start loading the Komika Axis webfont; the preparing screen waits on GameFont.ready
         InitPerfOverlay();
-        OptionsScreen.Init(theStage);
         MobileControls.Init(theStage);
         MobileAimPad.Init(theStage); // scheme C: aim-pad touch handlers
         MobileFineButtons.Init(theStage); // scheme D: on-screen arrow fine-tune buttons
@@ -115,6 +116,7 @@ class Main extends MovieClip
     public function InitPerfOverlay() : Void
     {
         if (theStage == null) return;
+        #if !release // perf HUD + dev URL knobs (?fps/?perf/?bounce) + debug keys (B/G/,/./M/S/1-6) — dev builds only
         var tf : TextField = new TextField();
         var fmt : TextFormat = new TextFormat("_typewriter", 12, 0x00FF66);
         tf.defaultTextFormat = fmt;
@@ -170,6 +172,7 @@ class Main extends MovieClip
         try {
             js.Browser.document.addEventListener("keydown", function(e) { key((untyped e).keyCode); });
         } catch (err : Dynamic) {}
+        #end // !release — perf HUD + dev knobs
     }
 
     // One-time renderer diagnostic: is the game canvas on hardware WebGL, or has it fallen back to
@@ -463,6 +466,9 @@ class Main extends MovieClip
     public var useFrameSkip : Bool = true;
     
     public static var debugLoopCount : Int = 0;
+    // ---- Debug-only JS console hooks (window.sb2*): diagnostics/cheats used in dev + the nape oracle
+    // workflow + headless screenshot harness. Entire block is compiled OUT of the public release build. ----
+    #if !release
     @:expose("sb2LoopCount") public static function sb2LoopCount() : Int { return debugLoopCount; }
 
     @:expose("sb2BallY") public static function sb2BallY() : Float {
@@ -1245,6 +1251,7 @@ class Main extends MovieClip
         }
         return out;
     }
+    #end // !release — end debug-only JS console hooks (sb2*)
 
     // Decoupled fixed-timestep loop. openfl HTML5 dispatches ENTER_FRAME every requestAnimationFrame and
     // ignores stage.frameRate, so the raw rate = display refresh. Run the game logic/physics at a fixed
@@ -1267,6 +1274,7 @@ class Main extends MovieClip
         MobileAimPad.UpdateAim();   // scheme C: feed aim-pad virtual cursor into Game.mouse_x/y
         GameVars.InitForFrame();
         if (!Game.doWalkthrough) Game.UpdateGameplay();
+        #if !release
         // TRAJECTORY PROBE: same format/threshold as the patched original SWF's [ORIG] log, so the
         // ball's per-frame velocity+spin+pos can be diffed against the original to find where they split.
         if (NapeContacts.probeEnabled)
@@ -1283,6 +1291,7 @@ class Main extends MovieClip
                 }
             }
         }
+        #end // !release — trajectory probe
         GameVars.ExitForFrame();
     }
 
@@ -1304,6 +1313,12 @@ class Main extends MovieClip
             __accum = 0;
             while (FrameStep.stepReq > 0) { FrameStep.stepReq--; SimFrame(); FrameStep.OnStepped(); steps++; }
         }
+        else if (GD.adPaused)
+        {
+            // A GameDistribution video ad is playing — freeze the simulation (and drop any backlog so
+            // resuming doesn't catch-up-spiral). The ad overlay covers the canvas; no render needed.
+            __accum = 0;
+        }
         else
         {
             while (__accum >= step) { __accum -= step; SimFrame(); steps++; }
@@ -1322,22 +1337,24 @@ class Main extends MovieClip
         // the GPU each frame — that's the whole point of the A/B test).
         if (screenB != null) screenB.visible = !TileRenderer.noUnderlay;
         UpdatePerfOverlay();
-        OptionsScreen.Tick();
         MobileControls.Tick();
             MobileAimPad.Tick();
         MobileFineButtons.Tick();
 
+        #if !release
         // one-time terrain-collision geometry dump when a level becomes playable (copy [SB2] lines back)
         try {
             var fb : Dynamic = GameVars.footballGO;
             if (fb != null && !__diagDone) { __diagDone = true; sb2DiagGround(); }
             if (fb == null) __diagDone = false;
         } catch (e : Dynamic) {}
+        #end // !release — terrain diagnostic
     }
 
     static var __diagDone : Bool = false;
     static var __ballLogCount : Int = 0;
 
+    #if !release
     // Dump the grass collision body's triangles — validity (Nape rejects bad winding/degenerate polys
     // as non-VALID) and signed-area winding — to test why a kicked ball passes through the top surface.
     public static function sb2DiagGround() : Void {
@@ -1365,5 +1382,6 @@ class Main extends MovieClip
         }
         trace("[SB2] === end ground diagnostic ===");
     }
+    #end // !release — sb2DiagGround
 }
 

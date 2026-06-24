@@ -142,8 +142,33 @@ class UILevelFailedScreen extends UIScreenInstance
         {
             (untyped titleMC).levelrating.star.visible = true;
         }
-        
-        
+        // openfl-swf does NOT reliably apply runtime alignment/autoSize to the embedded SWF text field,
+        // so the "Your Best: n" value clipped and the star landed ON the number (getLineMetrics reported
+        // a left-aligned layout while the field actually rendered right-aligned). Replace the SWF field
+        // with a fresh openfl TextField overlay (device font, LEFT autoSize — metrics we can trust) and
+        // anchor the star to the overlay's true right edge. Mirrors the level-complete screen fix.
+        {
+            var _lr : Dynamic = (untyped titleMC).levelrating;
+            var _swf : Dynamic = _lr.title;
+            var _ov : flash.text.TextField = new flash.text.TextField();
+            _ov.selectable = false;
+            _ov.mouseEnabled = false;
+            _ov.embedFonts = false;
+            _ov.autoSize = flash.text.TextFieldAutoSize.LEFT;
+            var _fmt : flash.text.TextFormat = null;
+            try { _fmt = _swf.getTextFormat(); } catch (e : Dynamic) {}
+            if (_fmt == null) _fmt = new flash.text.TextFormat();
+            _fmt.font = GameFont.FAMILY;
+            _fmt.align = flash.text.TextFormatAlign.LEFT;
+            _ov.defaultTextFormat = _fmt;
+            _ov.text = TextStrings.GetLocalisedText("Your Best") + ": " + l.bestShots;
+            _ov.setTextFormat(_fmt);
+            try { _ov.x = _swf.x; _ov.y = _swf.y; _swf.visible = false; } catch (e : Dynamic) {}
+            try { _lr.addChild(_ov); } catch (e : Dynamic) {}
+            (untyped _lr).star.x = _ov.x + _ov.width + 8; // star just after the rendered text
+        }
+
+
         UI.AddAnimatedMCTickButton((untyped titleMC).btn_feature1, null, "", false, null, GameVars.useFeature1);
         UI.AddAnimatedMCTickButton((untyped titleMC).btn_feature2, null, "", false, null, GameVars.useFeature2);
         UI.AddAnimatedMCTickButton((untyped titleMC).btn_feature3, null, "", false, null, GameVars.useFeature3);
@@ -203,8 +228,9 @@ class UILevelFailedScreen extends UIScreenInstance
     }
     public function buttonNextPressed(e : MouseEvent)
     {
+        GD.ShowAd(); // mid-roll on the level-failed "next" button (SDK throttles real frequency)
         var l : Int = as3hx.Compat.parseInt(Levels.currentIndex + 1);
-        
+
         if (l == 50)
         {
             UI.StartTransition("gamecomplete");
@@ -221,6 +247,7 @@ class UILevelFailedScreen extends UIScreenInstance
     }
     public function buttonRetryPressed(e : MouseEvent)
     {
+        GD.ShowAd(); // mid-roll on the level-failed "retry" button
         UI.StartTransition("gamescreen");
     }
     public function buttonMenuPressed(e : MouseEvent)

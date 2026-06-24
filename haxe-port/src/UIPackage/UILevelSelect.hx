@@ -405,9 +405,11 @@ class UILevelSelect extends UIScreenInstance
         
         
         l.newlyAvailable = false;
-        
+
         Levels.currentIndex = levelID;
-        
+
+        GD.ShowAd(); // pre-roll: fired as the player starts a level (the SDK shows the first ad here,
+                     // then throttles; this click is the required user gesture for the ad call)
         UI.WaitAndStartTransition(titleMC, "gamescreen");
     }
 }

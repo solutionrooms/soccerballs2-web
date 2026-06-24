@@ -15,6 +15,9 @@
 	     before the game starts. GD_OPTIONS.onEvent bridges ad start/stop to the game: SDK_GAME_PAUSE →
 	     window.sb2GdPause (freeze + mute), SDK_GAME_START → window.sb2GdResume (resume + restore audio). -->
 	<script>
+		// Append ?nogd to the URL to skip the GameDistribution SDK entirely — no ads and, crucially,
+		// no GD anti-piracy redirect on non-allowlisted domains (e.g. our own GitHub Pages site).
+		if ((window.location.search || "").indexOf("nogd") < 0) {
 		window["GD_OPTIONS"] = {
 			"gameId": "8339bd11fe664f56a33f81c0c8d04ca7",
 			"onEvent": function (event) {
@@ -38,6 +41,7 @@
 			js.src = "https://html5.api.gamedistribution.com/main.min.js";
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, "script", "gamedistribution-jssdk"));
+		}
 	</script>::end::
 
 	::if favicons::::foreach (favicons)::

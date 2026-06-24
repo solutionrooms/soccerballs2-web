@@ -4271,13 +4271,13 @@ ApplicationMain.main = function() {
 ApplicationMain.create = function(config) {
 	var app = new openfl_display_Application();
 	ManifestResources.init(config);
-	app.meta.h["build"] = "81";
+	app.meta.h["build"] = "84";
 	app.meta.h["company"] = "SolutionRooms";
 	app.meta.h["file"] = "SoccerBalls2";
 	app.meta.h["name"] = "Soccer Balls 2";
 	app.meta.h["packageName"] = "com.solutionrooms.soccerballs2";
 	app.meta.h["version"] = "1.0.0";
-	var attributes = { allowHighDPI : false, alwaysOnTop : false, borderless : false, element : null, frameRate : 60, height : 525, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, title : "Soccer Balls 2", width : 700, x : null, y : null};
+	var attributes = { allowHighDPI : true, alwaysOnTop : false, borderless : false, element : null, frameRate : 60, height : 525, hidden : false, maximized : false, minimized : false, parameters : { }, resizable : true, title : "Soccer Balls 2", width : 700, x : null, y : null};
 	attributes.context = { antialiasing : 0, background : 0, colorDepth : 32, depth : true, hardware : true, stencil : true, type : null, vsync : false};
 	if(app.__window == null) {
 		if(config != null) {
@@ -6753,7 +6753,7 @@ Main.SimFrame = function() {
 			if(__v.get_length() > 30) {
 				var tmp = "[PORT] vel=(" + ((__v._body == null ? __v._vx : __v._body.prxGet(__v._kind,0)) | 0) + "," + ((__v._body == null ? __v._vy : __v._body.prxGet(__v._kind,1)) | 0) + ") spd=" + (__v.get_length() | 0) + " spin=";
 				var _this = __fb.nape_bodies[0];
-				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 1276, className : "Main", methodName : "SimFrame"});
+				haxe_Log.trace(tmp + ((_this.handle < 0 ? _this._angVel : _this.engine.getAngVel(_this.handle)) * 100 | 0) / 100 + " pos=(" + (__fb.xpos | 0) + "," + (__fb.ypos | 0) + ")",{ fileName : "src/Main.hx", lineNumber : 1280, className : "Main", methodName : "SimFrame"});
 			}
 		}
 	}
@@ -6761,7 +6761,7 @@ Main.SimFrame = function() {
 };
 Main.sb2DiagGround = function() {
 	var space = PhysicsBase.GetNapeSpace();
-	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1341, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1345, className : "Main", methodName : "sb2DiagGround"});
 	var b = space._bodies.iterator();
 	while(b.hasNext()) {
 		var b1 = b.next();
@@ -6812,9 +6812,9 @@ Main.sb2DiagGround = function() {
 				++coversBall;
 			}
 		}
-		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 1358, className : "Main", methodName : "sb2DiagGround"});
+		haxe_Log.trace("[SB2] grass body@(" + (bx | 0) + "," + (by | 0) + ") shapes=" + tris + " worldBounds=(" + (minx | 0) + "," + (miny | 0) + ")..(" + (maxx | 0) + "," + (maxy | 0) + ")" + " | trianglesCoveringBallColumn(x310-330,y410-470)=" + coversBall,{ fileName : "src/Main.hx", lineNumber : 1362, className : "Main", methodName : "sb2DiagGround"});
 	}
-	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1362, className : "Main", methodName : "sb2DiagGround"});
+	haxe_Log.trace("[SB2] === end ground diagnostic ===",{ fileName : "src/Main.hx", lineNumber : 1366, className : "Main", methodName : "sb2DiagGround"});
 };
 Main.__super__ = openfl_display_MovieClip;
 Main.prototype = $extend(openfl_display_MovieClip.prototype,{
@@ -6958,8 +6958,9 @@ Main.prototype = $extend(openfl_display_MovieClip.prototype,{
 		}
 	}
 	,InitDrawScreen: function() {
-		this.screenBD = new openfl_display_BitmapData(700,525,true,0);
+		this.screenBD = new openfl_display_BitmapData(1400,1050,true,0);
 		this.screenB = new openfl_display_Bitmap(this.screenBD);
+		this.screenB.set_scaleX(this.screenB.set_scaleY(0.5));
 		TileRenderer.Init(700,525);
 		Game.foregroundScreenBD = new openfl_display_BitmapData(700,525,true,0);
 		Game.foregroundB = new openfl_display_Bitmap(Game.foregroundScreenBD);
@@ -8987,10 +8988,13 @@ DisplayObj.prototype = {
 			dof.yoffset = parseFloat((y0 == null ? "null" : "" + y0));
 			if(mc.get_width() != 0 && mc.get_height() != 0) {
 				if(Game.use_texturepages == false || flags == "separatetexturepage") {
-					BD = new openfl_display_BitmapData(rect.width | 0,rect.height | 0,true,0);
-					BD.draw(mc,mat,null,null,null,false);
+					var hdmat = mat.clone();
+					hdmat.scale(2.0,2.0);
+					BD = new openfl_display_BitmapData(rect.width * 2.0 | 0,rect.height * 2.0 | 0,true,0);
+					BD.draw(mc,hdmat,null,null,null,false);
 					dof.bitmapData = BD;
 					dof.sourceRect = new openfl_geom_Rectangle(0,0,rect.width,rect.height);
+					dof.textureScale = 2.0;
 				} else {
 					mat.scale(scl,scl);
 					BD = new openfl_display_BitmapData(rect.width * scl | 0,rect.height * scl | 0,true,0);
@@ -9167,6 +9171,24 @@ DisplayObj.prototype = {
 	}
 	,GetBitmapData: function(_frame) {
 		var dof = this.frames[_frame];
+		if(dof.textureScale != 1.0 && dof.bitmapData != null) {
+			if(dof.bitmapDataLogical == null) {
+				var lw = dof.sourceRect.width | 0;
+				var lh = dof.sourceRect.height | 0;
+				if(lw < 1) {
+					lw = 1;
+				}
+				if(lh < 1) {
+					lh = 1;
+				}
+				var lo = new openfl_display_BitmapData(lw,lh,true,0);
+				var dm = new openfl_geom_Matrix();
+				dm.scale(1 / dof.textureScale,1 / dof.textureScale);
+				lo.draw(dof.bitmapData,dm,null,null,null,true);
+				dof.bitmapDataLogical = lo;
+			}
+			return dof.bitmapDataLogical;
+		}
 		return dof.bitmapData;
 	}
 	,GetSourceRect: function(_frame) {
@@ -9247,6 +9269,10 @@ DisplayObj.prototype = {
 		}
 		this.origMC.gotoAndStop(_frame + 1);
 		this.mat.identity();
+		var __ts = this.frames[_frame].textureScale;
+		if(__ts != 1.0) {
+			this.mat.scale(1 / __ts,1 / __ts);
+		}
 		if(xflip) {
 			this.mat.scale(-1,1);
 		}
@@ -9273,6 +9299,10 @@ DisplayObj.prototype = {
 		}
 		this.origMC.gotoAndStop(_frame + 1);
 		this.mat.identity();
+		var __ts = this.frames[this.frame].textureScale;
+		if(__ts != 1.0) {
+			this.mat.scale(1 / __ts,1 / __ts);
+		}
 		if(xflip) {
 			this.mat.scale(-1,1);
 		}
@@ -9736,6 +9766,8 @@ openfl_geom_Vector3D.prototype = {
 var DisplayObjFrame = function() {
 	this.m3d = new openfl_geom_Matrix3D();
 	this.s3dTexPageIndex = 0;
+	this.textureScale = 1.0;
+	this.bitmapDataLogical = null;
 	this.s3dTexture = null;
 	this.flags = "";
 };
@@ -9913,7 +9945,14 @@ DisplayObjFrame.prototype = {
 	,RenderAt: function(screenBD,xpos,ypos) {
 		this.point.x = xpos + this.xoffset;
 		this.point.y = ypos + this.yoffset;
-		TileRenderer.PushAt(this.bitmapData,this.point.x,this.point.y);
+		if(this.textureScale == 1.0) {
+			TileRenderer.PushAt(this.bitmapData,this.point.x,this.point.y);
+		} else if(this.bitmapData != null) {
+			DisplayObjFrame.mat.identity();
+			DisplayObjFrame.mat.scale(1 / this.textureScale,1 / this.textureScale);
+			DisplayObjFrame.mat.translate(this.point.x,this.point.y);
+			TileRenderer.Push(this.bitmapData,DisplayObjFrame.mat,null);
+		}
 	}
 	,RenderAtXFlip: function(screenBD,xpos,ypos) {
 		DisplayObjFrame.mat.identity();
@@ -9953,6 +9992,7 @@ DisplayObjFrame.prototype = {
 			scale = 1.0;
 		}
 		DisplayObjFrame.mat.identity();
+		DisplayObjFrame.mat.scale(1 / this.textureScale,1 / this.textureScale);
 		DisplayObjFrame.mat.translate(this.xoffset,this.yoffset);
 		DisplayObjFrame.mat.rotate(rot);
 		DisplayObjFrame.mat.translate(-this.xoffset,-this.yoffset);
@@ -9975,6 +10015,7 @@ DisplayObjFrame.prototype = {
 			scale = 1.0;
 		}
 		DisplayObjFrame.mat.identity();
+		DisplayObjFrame.mat.scale(1 / this.textureScale,1 / this.textureScale);
 		DisplayObjFrame.mat.translate(this.xoffset,this.yoffset);
 		DisplayObjFrame.mat.rotate(rot);
 		DisplayObjFrame.mat.translate(-this.xoffset,-this.yoffset);
@@ -9995,6 +10036,7 @@ DisplayObjFrame.prototype = {
 			scale = 1.0;
 		}
 		DisplayObjFrame.mat.identity();
+		DisplayObjFrame.mat.scale(1 / this.textureScale,1 / this.textureScale);
 		DisplayObjFrame.mat.translate(this.xoffset,this.yoffset);
 		DisplayObjFrame.mat.rotate(rot);
 		DisplayObjFrame.mat.translate(-this.xoffset,-this.yoffset);
@@ -10017,6 +10059,7 @@ DisplayObjFrame.prototype = {
 			scale = 1.0;
 		}
 		DisplayObjFrame.mat.identity();
+		DisplayObjFrame.mat.scale(1 / this.textureScale,1 / this.textureScale);
 		DisplayObjFrame.mat.translate(this.xoffset,this.yoffset);
 		DisplayObjFrame.mat.rotate(rot);
 		DisplayObjFrame.mat.translate(-this.xoffset,-this.yoffset);
@@ -10037,6 +10080,7 @@ DisplayObjFrame.prototype = {
 			scale = 1.0;
 		}
 		DisplayObjFrame.mat.identity();
+		DisplayObjFrame.mat.scale(1 / this.textureScale,1 / this.textureScale);
 		DisplayObjFrame.mat.translate(this.xoffset,this.yoffset);
 		DisplayObjFrame.mat.rotate(rot);
 		DisplayObjFrame.mat.translate(-this.xoffset,-this.yoffset);
@@ -10057,6 +10101,7 @@ DisplayObjFrame.prototype = {
 			scale = 1.0;
 		}
 		DisplayObjFrame.mat.identity();
+		DisplayObjFrame.mat.scale(1 / this.textureScale,1 / this.textureScale);
 		DisplayObjFrame.mat.translate(this.xoffset,this.yoffset);
 		DisplayObjFrame.mat.rotate(rot);
 		DisplayObjFrame.mat.translate(-this.xoffset,-this.yoffset);
@@ -10083,6 +10128,7 @@ DisplayObjFrame.prototype = {
 			scale = 1.0;
 		}
 		DisplayObjFrame.mat.identity();
+		DisplayObjFrame.mat.scale(1 / this.textureScale,1 / this.textureScale);
 		DisplayObjFrame.mat.translate(this.xoffset,this.yoffset);
 		DisplayObjFrame.mat.rotate(rot);
 		DisplayObjFrame.mat.translate(-this.xoffset,-this.yoffset);
@@ -12600,10 +12646,12 @@ Game.StartLevelA = function() {
 	if(Game.backgroundsMC == null) {
 		Game.backgroundsMC = new Backgrounds();
 	}
-	Game.backBD = new openfl_display_BitmapData(700,525,false,0);
+	Game.backBD = new openfl_display_BitmapData(1400,1050,false,0);
 	Game.backBD.fillRect(Game.backBD.rect,0);
 	Game.backgroundsMC.gotoAndStop(Game.currentBackground + 1);
-	Game.backBD.draw(Game.backgroundsMC);
+	var hdBackMat = new openfl_geom_Matrix();
+	hdBackMat.scale(2.0,2.0);
+	Game.backBD.draw(Game.backgroundsMC,hdBackMat);
 	Game.backDOF.CreateStandalone(Game.backBD,0,0);
 	Game.backDOF.ReUploadBitmap(Game.backBD);
 	Game.InitClouds();
@@ -15428,6 +15476,9 @@ GameObjBase.prototype = {
 		if(Game.gameState == 0) {
 			return;
 		}
+		var hdDrawMat = null;
+		hdDrawMat = new openfl_geom_Matrix();
+		hdDrawMat.scale(2.0,2.0);
 		var x = Math.round(this.xpos);
 		var y = Math.round(this.ypos);
 		x -= Math.round(Game.camera.x);
@@ -15503,7 +15554,7 @@ GameObjBase.prototype = {
 				p0 = newpoints[i];
 				g.lineTo(p0.x,p0.y);
 			}
-			this.bd.draw(Game.fillScreenMC,null,null,null,null,false);
+			this.bd.draw(Game.fillScreenMC,hdDrawMat,null,null,null,false);
 			return;
 		}
 		p1 = newpoints[0].clone();
@@ -15517,7 +15568,7 @@ GameObjBase.prototype = {
 		}
 		g.lineTo(p1.x,p1.y);
 		g.endFill();
-		this.bd.draw(Game.fillScreenMC,null,null,null,null,false);
+		this.bd.draw(Game.fillScreenMC,hdDrawMat,null,null,null,false);
 		if(this.name == "death") {
 			var dob = GraphicObjects.GetDisplayObjByName("terrainSpikes");
 			var numf = Std.parseInt(Std.string(dob.GetNumFrames() - 1));
@@ -62084,7 +62135,7 @@ var lime_utils_AssetCache = function() {
 	this.audio = new haxe_ds_StringMap();
 	this.font = new haxe_ds_StringMap();
 	this.image = new haxe_ds_StringMap();
-	this.version = 32276;
+	this.version = 102269;
 };
 $hxClasses["lime.utils.AssetCache"] = lime_utils_AssetCache;
 lime_utils_AssetCache.__name__ = "lime.utils.AssetCache";

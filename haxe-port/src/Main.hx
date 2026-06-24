@@ -74,6 +74,9 @@ class Main extends MovieClip
         if (KeepSymbols.symbols == null) return;
         theRoot = this;
         theStage = this.root.stage;
+        #if hd
+        js.Browser.console.log("[HD] HD build active — render SCALE=" + HD.SCALE + " (native logic still 700x525)");
+        #end
         // In the original SWF the Preloader (the [Frame(factoryClass="Preloader")] document factory)
         // set LicDef.stg and called InitSkus() via InitFromPreloader. OpenFL ignores that metadata and
         // runs Main directly, so do that here: LicDef.GetStage() is used pervasively by the UI, and
